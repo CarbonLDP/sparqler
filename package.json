@@ -1,0 +1,22 @@
+{
+  "name": "sparqler",
+  "version": "0.1.0",
+  "description": "SPARQL query buildER for JavaScript",
+  "main": "sparqler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarbonLDP/sparqler.git"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/CarbonLDP/sparqler/issues"
+  },
+  "homepage": "https://github.com/CarbonLDP/sparqler#readme",
+  "contributors": [
+    "Rodolfo Aguirre <rodolfo.aguirre@base22.com>",
+    "Miguel Aragon <miguel.aragon@base22.com>"
+  ]
+}
