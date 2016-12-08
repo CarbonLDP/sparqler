@@ -1,9 +1,7 @@
 import {
 	GraphPattern,
-	Variable,
 	TriplesPatternBuilder,
 	NotTriplesPatternBuilder,
-	Resource,
 	TriplesSameSubject,
 	TriplesPattern,
 	TriplesNodePattern,
@@ -12,7 +10,8 @@ import {
 	supportedNativeTypes,
 	NotTriplesPattern,
 	ValuesPattern,
-	MultipleValuesPattern
+	MultipleValuesPattern,
+	IRIResolver
 } from "./Patterns";
 import {
 	RDFLiteral,
@@ -20,6 +19,8 @@ import {
 	BooleanLiteral,
 	Literal
 } from "./Patterns/Literals";
+import { Resource } from "./Patterns/Resource";
+import { Variable } from "./Patterns/Variable";
 
 export type Undefined = "UNDEF";
 export class PatternBuilder implements TriplesPatternBuilder,
@@ -27,21 +28,34 @@ export class PatternBuilder implements TriplesPatternBuilder,
 
 	public undefined:Undefined = "UNDEF";
 
-	constructor( private vocab?:string ) {
+	private resolver:IRIResolver;
+
+	constructor( resolver:IRIResolver ) {
+		this.resolver = resolver;
 	}
 
 	resource( iri:string ):Resource & TriplesSameSubject<TriplesPattern> {
-		return undefined;
+		return new Resource( this.resolver, iri );
 	}
 
 	var( name:string ):Variable & TriplesSameSubject<TriplesPattern> {
-		return undefined;
+		return new Variable( this.resolver, name );
 	}
 
 	literal( value:string ):RDFLiteral;
 	literal( value:number ):NumericLiteral;
 	literal( value:boolean ):BooleanLiteral;
 	literal( value ):any {
+		if( typeof value === "string" || value instanceof String )
+			return new RDFLiteral( this.resolver, value as string );
+
+		if( typeof value === "number" || value instanceof Number )
+			return new NumericLiteral( this.resolver, value as number );
+
+		if( typeof value === "boolean" || value instanceof Boolean )
+			return new BooleanLiteral( this.resolver, value as boolean );
+
+		throw new Error( "InvalidArgumentError: No valid value of a literal was provided." );
 	}
 
 	collection( ...values:(supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ):Collection & TriplesSameSubject<TriplesNodePattern> {

@@ -5,6 +5,13 @@ import {
 	NumericLiteral,
 	BooleanLiteral
 } from "./Patterns/Literals";
+import { Resource } from "./Patterns/Resource";
+import { Variable } from "./Patterns/Variable";
+
+export interface IRIResolver {
+	_resolveIRI( iri:string, vocab?:boolean ):string;
+}
+
 export interface GraphPattern {
 	getPattern():string;
 }
@@ -135,11 +142,4 @@ export interface BlankNode extends TriplesNodePattern {
 
 // Internal interface
 export interface Collection extends TriplesNodePattern {
-}
-
-// Internal interface
-export interface Resource {}
-
-// Internal interface
-export interface Variable {
 }

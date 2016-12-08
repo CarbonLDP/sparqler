@@ -14,10 +14,11 @@ import {
 } from "./Clauses";
 import {
 	GraphPattern,
-	Variable,
+	IRIResolver,
 } from "./Patterns";
 import * as IRI from "./Utils/IRI";
 import { PatternBuilder } from "./PatternBuilder";
+import { Variable } from "./Patterns/Variable";
 
 interface PrefixInfo {
 	iri:string;
@@ -32,7 +33,8 @@ export class QueryBuilder implements QueryClause,
                                      HavingClause,
                                      OrderClause,
                                      LimitOffsetClause,
-                                     FinishClause {
+                                     FinishClause,
+                                     IRIResolver {
 
 	private _base:string;
 	private _vocab:string;
@@ -100,19 +102,19 @@ export class QueryBuilder implements QueryClause,
 	}
 
 	from( iri:string ):WhereClause {
-		this._from = `FROM ${ this.evalIRI( iri ) }\n`;
+		this._from = `FROM ${ this._resolveIRI( iri ) }\n`;
 		return this.interfaces.whereClause;
 	}
 
 	fromNamed( iri:string ):WhereClause {
-		this._from = `FROM NAMED ${ this.evalIRI( iri ) }\n`;
+		this._from = `FROM NAMED ${ this._resolveIRI( iri ) }\n`;
 		return this.interfaces.whereClause;
 	}
 
 	where( patternFunction:( builder:PatternBuilder ) => GraphPattern ):SolutionModifier & FinishClause;
 	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[ ] ):SolutionModifier & FinishClause;
 	where( patternFunction ):SolutionModifier & FinishClause {
-		let result:GraphPattern | GraphPattern[] = patternFunction( new PatternBuilder( this._vocab ) );
+		let result:GraphPattern | GraphPattern[] = patternFunction( new PatternBuilder( this ) );
 		let patterns:GraphPattern[] = Array.isArray( result ) ? <GraphPattern[]> result : [ result ];
 
 		this._where = `WHERE {\n${ patterns.map( pattern => pattern.getPattern() ).join( " .\n" )}\n}\n`;
@@ -167,7 +169,7 @@ export class QueryBuilder implements QueryClause,
 	limit( limit:number ):OffsetClause < FinishClause > & FinishClause {
 		this._limit = `LIMIT ${ limit }\n`;
 
-		if ( this._offset )
+		if( this._offset )
 			return <any> this.interfaces.finishClause;
 		return Object.assign( {}, this.interfaces.offsetClause, this.interfaces.finishClause );
 	}
@@ -175,7 +177,7 @@ export class QueryBuilder implements QueryClause,
 	offset( offset:number ):LimitClause < FinishClause > & FinishClause {
 		this._offset = `OFFSET ${ offset }\n`;
 
-		if ( this._limit )
+		if( this._limit )
 			return <any> this.interfaces.finishClause;
 		return Object.assign( {}, this.interfaces.limitClause, this.interfaces.finishClause );
 	}
@@ -263,7 +265,7 @@ export class QueryBuilder implements QueryClause,
 		};
 	}
 
-	private evalIRI( iri:string ):string {
+	_resolveIRI( iri:string, vocab:boolean = false ):string {
 		if( IRI.isPrefixed( iri ) ) {
 			let parts:string[] = IRI.getPrefixedParts( iri );
 			if( parts === null ) return;
@@ -274,7 +276,7 @@ export class QueryBuilder implements QueryClause,
 			iri = `${ parts[ 0 ] }:${ parts[ 1 ] }`;
 			prefixInfo.used = true;
 		} else {
-			iri = IRI.resolve( iri );
+			iri = IRI.resolve( iri, vocab ? this._vocab : void 0 );
 		}
 
 		return iri;
