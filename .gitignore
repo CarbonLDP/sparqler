@@ -1,10 +1,9 @@
 # Include your project-specific ignores in this section
 # ----- Project ignores
 
-# IntelliJ
-.idea/workspace.xml
-# *.iml
-# *.iws
+# Source files
+src/**/*.js
+src/**/*.map
 
 # NPM
 **/node_modules/
@@ -55,6 +54,12 @@ $RECYCLE.BIN/
 
 
 #  ----- IDEs and editors
+
+# IntelliJ
+.idea/workspace.xml
+# *.iml
+# *.iws
+
 # VIM
 # https://github.com/github/gitignore/blob/master/Global/vim.gitignore
 [._]*.s[a-w][a-z]

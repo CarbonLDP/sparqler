@@ -18,5 +18,8 @@
   "contributors": [
     "Rodolfo Aguirre <rodolfo.aguirre@base22.com>",
     "Miguel Aragon <miguel.aragon@base22.com>"
-  ]
+  ],
+  "devDependencies": {
+    "typescript": "^2.1.4"
+  }
 }
