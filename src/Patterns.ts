@@ -45,7 +45,6 @@ export interface NotTriplesPatternBuilder {
 
 // Internal interface
 export interface NotTriplesPattern extends GraphPattern {
-	getPattern():string;
 }
 
 export interface ValuesPattern {
@@ -71,9 +70,9 @@ export interface MultipleValuesPatternMore {
 export type supportedNativeTypes = boolean | number | string | Date;
 
 export interface TriplesPatternBuilder {
-	resource( iri:string ):Resource & TriplesSameSubject<TriplesPattern>;
+	resource( iri:string ):Resource;
 
-	var( name:string ):Variable & TriplesSameSubject<TriplesPattern>;
+	var( name:string ):Variable;
 
 	literal( value:string ):RDFLiteral;
 	literal( value:number ):NumericLiteral;
@@ -128,12 +127,9 @@ export interface TriplesSameSubjectMore<T> {
 }
 
 // Internal interface
-export interface TriplesPattern extends GraphPattern {
-	getPattern():string;
-}
 
 // Internal interface
-export interface TriplesNodePattern extends TriplesPattern {
+export interface TriplesNodePattern extends GraphPattern {
 }
 
 // Internal interface

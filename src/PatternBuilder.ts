@@ -3,7 +3,6 @@ import {
 	TriplesPatternBuilder,
 	NotTriplesPatternBuilder,
 	TriplesSameSubject,
-	TriplesPattern,
 	TriplesNodePattern,
 	Collection,
 	BlankNode,
@@ -34,11 +33,11 @@ export class PatternBuilder implements TriplesPatternBuilder,
 		this.resolver = resolver;
 	}
 
-	resource( iri:string ):Resource & TriplesSameSubject<TriplesPattern> {
+	resource( iri:string ):Resource {
 		return new Resource( this.resolver, iri );
 	}
 
-	var( name:string ):Variable & TriplesSameSubject<TriplesPattern> {
+	var( name:string ):Variable {
 		return new Variable( this.resolver, name );
 	}
 

@@ -3,21 +3,22 @@ import {
 	TriplesSameSubjectMore,
 	supportedNativeTypes,
 	TriplesNodePattern,
-	IRIResolver
+	IRIResolver,
+	GraphPattern
 } from "../Patterns";
 import { Literal } from "./Literals";
 import { Resource } from "./Resource";
 import * as PatternObject from "../Utils/PatternObject";
 import { Variable } from "./Variable";
 
-export abstract class Pattern<T> implements TriplesSameSubject<T> {
+export abstract class TriplesPattern<T extends GraphPattern> implements TriplesSameSubject<T> {
 
 	protected abstract _subject:string;
 	protected _triplesData:string[];
 
 	protected interfaces:{
 		addPattern:TriplesSameSubjectMore<T>;
-		pattern?:T
+		graphPattern?:T
 	};
 
 	private resolver:IRIResolver;
@@ -51,7 +52,7 @@ export abstract class Pattern<T> implements TriplesSameSubject<T> {
 
 		this._triplesData.push( `${ property } ${ objects.map( PatternObject.serialize ).join( ", " ) }` );
 
-		return Object.assign( {}, this.interfaces.addPattern, this.interfaces.pattern );
+		return Object.assign( {}, this.interfaces.addPattern, this.interfaces.graphPattern );
 	}
 
 	toString():string {
@@ -67,4 +68,4 @@ export abstract class Pattern<T> implements TriplesSameSubject<T> {
 	};
 }
 
-export default Pattern;
+export default TriplesPattern;

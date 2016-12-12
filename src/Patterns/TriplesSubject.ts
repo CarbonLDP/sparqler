@@ -1,6 +1,6 @@
-import { Pattern } from "./Pattern";
+import { TriplesPattern } from "./TriplesPattern";
 import {
-	TriplesPattern,
+	GraphPattern,
 	IRIResolver
 } from "../Patterns";
 
@@ -8,11 +8,11 @@ function getPattern():string {
 	return `${ this } ${ this._triplesData.join( ";\n\t" ) }`;
 }
 
-export abstract class TriplesSubject extends Pattern<TriplesPattern> {
+export abstract class TriplesSubject extends TriplesPattern<GraphPattern> {
 
 	constructor( resolver:IRIResolver ) {
 		super( resolver );
-		this.interfaces.pattern = {
+		this.interfaces.graphPattern = {
 			getPattern: getPattern.bind( this ),
 		};
 	}
