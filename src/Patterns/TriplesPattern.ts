@@ -4,17 +4,23 @@ import {
 	supportedNativeTypes,
 	TriplesNodePattern,
 	IRIResolver,
-	GraphPattern
+	GraphPattern,
+	ElementPattern
 } from "../Patterns";
 import { Literal } from "./Literals";
 import { Resource } from "./Resource";
 import * as PatternObject from "../Utils/PatternObject";
 import { Variable } from "./Variable";
+import { Token } from "../Tokens/Token";
+import {
+	END_SAME_SUBJECT,
+	END_SAME_PROPERTY
+} from "../Tokens";
 
-export abstract class TriplesPattern<T extends GraphPattern> implements TriplesSameSubject<T> {
+export abstract class TriplesPattern<T extends GraphPattern> implements TriplesSameSubject<T>, ElementPattern {
 
-	protected abstract _subject:string;
-	protected _triplesData:string[];
+	protected abstract elementTokens:Token[];
+	protected patternTokens:Token[];
 
 	protected interfaces:{
 		addPattern:TriplesSameSubjectMore<T>;
@@ -25,7 +31,7 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 
 	constructor( resolver:IRIResolver ) {
 		this.resolver = resolver;
-		this._triplesData = [];
+		this.patternTokens = [];
 		this.init();
 	}
 
@@ -41,22 +47,28 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 	has( propertyVariable:Variable, literal:Literal ):TriplesSameSubjectMore<T> & T;
 	has( propertyVariable:Variable, node:TriplesNodePattern ):TriplesSameSubjectMore<T> & T;
 	has( propertyVariable:Variable, values:( supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):TriplesSameSubjectMore<T> & T;
-	has( propertyIRIOrVariable:string | Variable , valueOrValues ):TriplesSameSubjectMore<T> & T {
-		let property:string = ( typeof propertyIRIOrVariable === "string" || propertyIRIOrVariable instanceof String )
+	has( propertyIRIOrVariable:string | Variable, valueOrValues ):TriplesSameSubjectMore<T> & T {
+		let property:Token[] = ( typeof propertyIRIOrVariable === "string" || propertyIRIOrVariable instanceof String )
 			? this.resolver._resolveIRI( propertyIRIOrVariable as string, true )
-			: propertyIRIOrVariable + "";
+			: propertyIRIOrVariable.getSelfTokens();
 
-		let objects:string[] = Array.isArray( valueOrValues )
-			? valueOrValues
-			: [ valueOrValues ];
+		valueOrValues = Array.isArray( valueOrValues ) ? valueOrValues : [ valueOrValues ];
 
-		this._triplesData.push( `${ property } ${ objects.map( PatternObject.serialize ).join( ", " ) }` );
+		if( this.patternTokens.length > 0 )
+			property.unshift( END_SAME_SUBJECT );
+		this.patternTokens.push( ...property );
+
+		valueOrValues.forEach( ( value, index ) => {
+			this.patternTokens.push( ...PatternObject.serialize( value ) );
+			if( index < valueOrValues.length - 1 ) this.patternTokens.push( END_SAME_PROPERTY );
+		} );
+
 
 		return Object.assign( {}, this.interfaces.addPattern, this.interfaces.graphPattern );
 	}
 
-	toString():string {
-		return this._subject;
+	getSelfTokens():Token[] {
+		return this.elementTokens;
 	}
 
 	private init():void {

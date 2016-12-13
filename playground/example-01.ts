@@ -11,6 +11,7 @@ builder
 	.prefix( "ldp", "http://www.w3.org/ns/ldp#" )
 
 	.select( "s", "color" )
+	// .selectAll()
 
 	.from( "" )
 
@@ -27,4 +28,6 @@ builder
 
 	.limit( 2 );
 
-console.log( builder.toQueryString() );
+console.log( builder.getPrettySparqlQuery() );
+console.log( "\n\n" );
+console.log( builder.getCompactSparqlQuery() );

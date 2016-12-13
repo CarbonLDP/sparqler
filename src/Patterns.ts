@@ -7,13 +7,18 @@ import {
 } from "./Patterns/Literals";
 import { Resource } from "./Patterns/Resource";
 import { Variable } from "./Patterns/Variable";
+import { Token } from "./Tokens/Token";
 
 export interface IRIResolver {
-	_resolveIRI( iri:string, vocab?:boolean ):string;
+	_resolveIRI( iri:string, vocab?:boolean ):Token[];
+}
+
+export interface ElementPattern {
+	getSelfTokens():Token[];
 }
 
 export interface GraphPattern {
-	getPattern():string;
+	getPattern():Token[];
 }
 
 export interface NotTriplesPatternBuilder {

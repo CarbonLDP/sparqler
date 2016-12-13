@@ -24,5 +24,8 @@
 			"name": "Miguel Aragón",
 			"email": "miguel.aragon@base22.com"
 		}
-	]
+	],
+	"devDependencies": {
+		"typescript": "^2.1.4"
+	}
 }

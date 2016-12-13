@@ -1,13 +1,14 @@
 import { TriplesSubject } from "./TriplesSubject";
 import { IRIResolver } from "../Patterns";
+import { Token } from "../Tokens/Token";
 
 export class Resource extends TriplesSubject {
 
-	protected _subject:string;
+	protected elementTokens:Token[];
 
 	constructor( resolver:IRIResolver, iri:string ){
 		super( resolver );
-		this._subject = resolver._resolveIRI( iri );
+		this.elementTokens = resolver._resolveIRI( iri );
 	}
 
 }

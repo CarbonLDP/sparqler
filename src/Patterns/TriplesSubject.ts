@@ -3,9 +3,10 @@ import {
 	GraphPattern,
 	IRIResolver
 } from "../Patterns";
+import { Token } from "../Tokens/Token";
 
-function getPattern():string {
-	return `${ this } ${ this._triplesData.join( ";\n\t" ) }`;
+function getPattern():Token[] {
+	return this.getSelfTokens().concat( this.patternTokens );
 }
 
 export abstract class TriplesSubject extends TriplesPattern<GraphPattern> {
@@ -13,7 +14,7 @@ export abstract class TriplesSubject extends TriplesPattern<GraphPattern> {
 	constructor( resolver:IRIResolver ) {
 		super( resolver );
 		this.interfaces.graphPattern = {
-			getPattern: getPattern.bind( this ),
+			getPattern: getPattern.bind( this ) as typeof getPattern,
 		};
 	}
 
