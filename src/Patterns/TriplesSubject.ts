@@ -1,20 +1,17 @@
 import { TriplesPattern } from "./TriplesPattern";
 import {
-	GraphPattern,
-	IRIResolver
+	GraphPattern
 } from "../Patterns";
 import { Token } from "../Tokens/Token";
 
-function getPattern():Token[] {
-	return this.getSelfTokens().concat( this.patternTokens );
-}
-
 export abstract class TriplesSubject extends TriplesPattern<GraphPattern> {
 
-	constructor( resolver:IRIResolver ) {
-		super( resolver );
+	protected init():void {
+		super.init();
 		this.interfaces.graphPattern = {
-			getPattern: getPattern.bind( this ) as typeof getPattern,
+			getPattern: ():Token[] => {
+				return this.getSelfTokens().concat( this.patternTokens );
+			},
 		};
 	}
 

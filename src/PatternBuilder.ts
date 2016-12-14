@@ -3,14 +3,13 @@ import {
 	TriplesPatternBuilder,
 	NotTriplesPatternBuilder,
 	TriplesSameSubject,
-	TriplesNodePattern,
 	Collection,
-	BlankNode,
 	supportedNativeTypes,
 	NotTriplesPattern,
 	ValuesPattern,
 	MultipleValuesPattern,
-	IRIResolver
+	IRIResolver,
+	TriplesNodePattern
 } from "./Patterns";
 import {
 	RDFLiteral,
@@ -20,6 +19,7 @@ import {
 } from "./Patterns/Literals";
 import { Resource } from "./Patterns/Resource";
 import { Variable } from "./Patterns/Variable";
+import { BlankNode } from "./Patterns/BlankNode";
 
 export type Undefined = "UNDEF";
 export class PatternBuilder implements TriplesPatternBuilder,
@@ -61,8 +61,8 @@ export class PatternBuilder implements TriplesPatternBuilder,
 		return undefined;
 	}
 
-	blankNode():BlankNode &  TriplesSameSubject<TriplesNodePattern> {
-		return undefined;
+	blankNode():BlankNode {
+		return new BlankNode( this.resolver );
 	}
 
 	graph( iri:string, pattern:GraphPattern ):NotTriplesPattern;

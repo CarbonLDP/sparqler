@@ -22,7 +22,12 @@ builder
 			_.var( "s" )
 				.has( "color", _.literal( "#222" ).ofType( "string" ) ),
 			_.literal( "#222" ).withLanguage( "es" )
-				.has( "some", "more" )
+				.has( "some", "more" ),
+			_.blankNode()
+				.has( "other", _.blankNode().has( "mmm", "ok..." ).and( "ok", "no" ) )
+				.and( "color", _.resource( "#asdf" ) ),
+			_.resource( "son/" )
+				.has( "name", "Rodo" ),
 		]
 	} )
 

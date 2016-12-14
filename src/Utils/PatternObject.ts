@@ -18,7 +18,7 @@ export function serialize( object:ElementPattern ):Token[];
 export function serialize( object ):Token[] {
 
 	if( typeof object === "string" || object instanceof String )
-		return [ OPEN_IRI, new StringLiteral( object as string ), CLOSE_IRI ];
+		return [ OPEN_QUOTE, new StringLiteral( object as string ), CLOSE_QUOTE ];
 
 	if( typeof object === "number" || object instanceof Number ) {
 		if( Number.isInteger( object.valueOf() ) )

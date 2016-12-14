@@ -14,10 +14,14 @@ export const CLOSE_IRI:RightSymbol = new RightSymbol( ">" );
 export const OPEN_QUOTE:LeftSymbol = new LeftSymbol( "\"" );
 export const CLOSE_QUOTE:RightSymbol = new RightSymbol( "\"" );
 
-export const END_LIST_TRIPLE:NewLineSymbol = new NewLineSymbol( "" );
 export const END_TRIPLE:NewLineSymbol = new NewLineSymbol( "." );
 export const END_SAME_SUBJECT:NewLineSymbol = new NewLineSymbol( ";" );
 export const END_SAME_PROPERTY:NewLineSymbol = new NewLineSymbol( "," );
 
 export const OPEN_BLOCK:NewLineSymbol = new NewLineSymbol( "{" );
 export const CLOSE_BLOCK:NewLineSymbol = new NewLineSymbol( "}" );
+
+export const OPEN_MULTI_BN:NewLineSymbol = new NewLineSymbol( "[" );
+export const CLOSE_MULTI_BN:NewLineSymbol = new NewLineSymbol( "]" );
+export const OPEN_SINGLE_BN:RightSymbol = new RightSymbol( "[" );
+export const CLOSE_SINGLE_BN:RightSymbol = new RightSymbol( "]" );

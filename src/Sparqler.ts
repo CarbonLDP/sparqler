@@ -20,12 +20,13 @@ import * as IRI from "./Utils/IRI";
 import { PatternBuilder } from "./PatternBuilder";
 import {
 	Token,
-	TokenFormat
+	TokenFormat,
+	addIndentation,
+	removeIndentation
 } from "./Tokens/Token";
 import { Identifier } from "./Tokens/Identifier";
 import { StringLiteral } from "./Tokens/StringLiteral";
 import { RightSymbol } from "./Tokens/RightSymbol";
-import { Operator } from "./Tokens/Operator";
 import { NumberLiteral } from "./Tokens/NumberLiteral";
 import {
 	OPEN_IRI,
@@ -33,9 +34,10 @@ import {
 	END_TRIPLE,
 	OPEN_BLOCK,
 	CLOSE_BLOCK,
-	END_LIST_TRIPLE,
 	VAR_SYMBOL,
-	PREFIX_SYMBOL
+	PREFIX_SYMBOL,
+	OPEN_MULTI_BN,
+	CLOSE_MULTI_BN
 } from "./Tokens";
 
 interface PrefixInfo {
@@ -139,7 +141,6 @@ export class QueryBuilder implements QueryClause,
 		patterns.forEach( ( pattern, index ) => {
 			this._where.push( ...pattern.getPattern() );
 			if( index < patterns.length - 1 ) this._where.push( END_TRIPLE );
-			else this._where.push( END_LIST_TRIPLE );
 		} );
 		this._where.push( CLOSE_BLOCK );
 
@@ -247,7 +248,8 @@ export class QueryBuilder implements QueryClause,
 
 		// Transform the tokens to a string
 		return tokens.reduce( ( res, token, index ) => {
-			return res + token.getTokenValue( format, tokens[ index + 1 ] );
+			let nextToken:Token = tokens[ index + 1 ];
+			return res + token.getTokenValue( format, nextToken );
 		}, "" );
 	}
 

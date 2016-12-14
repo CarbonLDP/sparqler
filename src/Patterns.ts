@@ -8,6 +8,7 @@ import {
 import { Resource } from "./Patterns/Resource";
 import { Variable } from "./Patterns/Variable";
 import { Token } from "./Tokens/Token";
+import { BlankNode } from "./Patterns/BlankNode";
 
 export interface IRIResolver {
 	_resolveIRI( iri:string, vocab?:boolean ):Token[];
@@ -83,7 +84,7 @@ export interface TriplesPatternBuilder {
 	literal( value:number ):NumericLiteral;
 	literal( value:boolean ):BooleanLiteral;
 
-	collection( ...values:( supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):Collection & TriplesSameSubject<TriplesNodePattern>;
+	collection( ...values:( supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):Collection;
 
 	/**
 	 * With this form, there is no current way to form the pattern:
@@ -94,7 +95,7 @@ export interface TriplesPatternBuilder {
 	 *      .asTripleSubject()
 	 *      .has( "ex:prop-2", ":anotherone" )
 	 *  */
-	blankNode():BlankNode & TriplesSameSubject<TriplesNodePattern>;
+	blankNode():BlankNode;
 }
 
 // TODO: Create and accept PATHs as property
@@ -131,15 +132,8 @@ export interface TriplesSameSubjectMore<T> {
 	and( propertyVariable:Variable, values:( supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):TriplesSameSubjectMore<T> & T;
 }
 
-// Internal interface
-
-// Internal interface
-export interface TriplesNodePattern extends GraphPattern {
-}
-
-// Internal interface
-export interface BlankNode extends TriplesNodePattern {
-}
+export interface TriplesNodePattern extends GraphPattern, ElementPattern {
+};
 
 // Internal interface
 export interface Collection extends TriplesNodePattern {

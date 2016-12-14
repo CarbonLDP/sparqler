@@ -2,10 +2,10 @@ import {
 	TriplesSameSubject,
 	TriplesSameSubjectMore,
 	supportedNativeTypes,
-	TriplesNodePattern,
 	IRIResolver,
 	GraphPattern,
-	ElementPattern
+	ElementPattern,
+	TriplesNodePattern
 } from "../Patterns";
 import { Literal } from "./Literals";
 import { Resource } from "./Resource";
@@ -71,7 +71,7 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 		return this.elementTokens;
 	}
 
-	private init():void {
+	protected init():void {
 		this.interfaces = {
 			addPattern: {
 				and: this.has.bind( this ),
