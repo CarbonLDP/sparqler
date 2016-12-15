@@ -13,8 +13,8 @@ import * as PatternObject from "../Utils/PatternObject";
 import { Variable } from "./Variable";
 import { Token } from "../Tokens/Token";
 import {
-	END_SAME_SUBJECT,
-	END_SAME_PROPERTY
+	SAME_SUBJECT_SEPARATOR,
+	SAME_PROPERTY_SEPARATOR
 } from "../Tokens";
 
 export abstract class TriplesPattern<T extends GraphPattern> implements TriplesSameSubject<T>, ElementPattern {
@@ -55,12 +55,12 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 		valueOrValues = Array.isArray( valueOrValues ) ? valueOrValues : [ valueOrValues ];
 
 		if( this.patternTokens.length > 0 )
-			property.unshift( END_SAME_SUBJECT );
+			property.unshift( SAME_SUBJECT_SEPARATOR );
 		this.patternTokens.push( ...property );
 
 		valueOrValues.forEach( ( value, index ) => {
 			this.patternTokens.push( ...PatternObject.serialize( value ) );
-			if( index < valueOrValues.length - 1 ) this.patternTokens.push( END_SAME_PROPERTY );
+			if( index < valueOrValues.length - 1 ) this.patternTokens.push( SAME_PROPERTY_SEPARATOR );
 		} );
 
 

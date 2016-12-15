@@ -31,13 +31,14 @@ import { NumberLiteral } from "./Tokens/NumberLiteral";
 import {
 	OPEN_IRI,
 	CLOSE_IRI,
-	END_TRIPLE,
+	TRIPLE_SEPARATOR,
 	OPEN_BLOCK,
 	CLOSE_BLOCK,
 	VAR_SYMBOL,
 	PREFIX_SYMBOL,
 	OPEN_MULTI_BN,
-	CLOSE_MULTI_BN
+	CLOSE_MULTI_BN,
+	EMPTY_SEPARATOR
 } from "./Tokens";
 
 interface PrefixInfo {
@@ -140,7 +141,7 @@ export class QueryBuilder implements QueryClause,
 		this._where = [ new Identifier( "WHERE" ), OPEN_BLOCK ];
 		patterns.forEach( ( pattern, index ) => {
 			this._where.push( ...pattern.getPattern() );
-			if( index < patterns.length - 1 ) this._where.push( END_TRIPLE );
+			if( index < patterns.length - 1 ) this._where.push( TRIPLE_SEPARATOR );
 		} );
 		this._where.push( CLOSE_BLOCK );
 
@@ -212,7 +213,6 @@ export class QueryBuilder implements QueryClause,
 	 * @returns {string}
 	 */
 	private constructQuery( format:TokenFormat ):string {
-		let indentation:number = 0;
 		let tokens:Token[] = [];
 
 		// Add base
@@ -220,7 +220,7 @@ export class QueryBuilder implements QueryClause,
 
 		// Add used prefixes
 		this._prefixes.forEach( ( prefixInfo:PrefixInfo, prefix:string ) => {
-			if( prefixInfo.used )
+			if( prefixInfo.used || format === TokenFormat.PRETTY )
 				tokens.push( new Identifier( "PREFIX" ), new StringLiteral( prefix + ":" ), OPEN_IRI, new StringLiteral( prefixInfo.iri ), CLOSE_IRI );
 		} );
 
@@ -249,6 +249,12 @@ export class QueryBuilder implements QueryClause,
 		// Transform the tokens to a string
 		return tokens.reduce( ( res, token, index ) => {
 			let nextToken:Token = tokens[ index + 1 ];
+
+			if( format === TokenFormat.COMPACT ) {
+				if( nextToken === EMPTY_SEPARATOR )
+					nextToken = tokens[ index + 2 ];
+			}
+
 			return res + token.getTokenValue( format, nextToken );
 		}, "" );
 	}

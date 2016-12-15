@@ -3,7 +3,6 @@ import {
 	TriplesPatternBuilder,
 	NotTriplesPatternBuilder,
 	TriplesSameSubject,
-	Collection,
 	supportedNativeTypes,
 	NotTriplesPattern,
 	ValuesPattern,
@@ -20,6 +19,7 @@ import {
 import { Resource } from "./Patterns/Resource";
 import { Variable } from "./Patterns/Variable";
 import { BlankNode } from "./Patterns/BlankNode";
+import { Collection } from "./Patterns/Collection";
 
 export type Undefined = "UNDEF";
 export class PatternBuilder implements TriplesPatternBuilder,
@@ -57,8 +57,9 @@ export class PatternBuilder implements TriplesPatternBuilder,
 		throw new Error( "InvalidArgumentError: No valid value of a literal was provided." );
 	}
 
-	collection( ...values:(supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ):Collection & TriplesSameSubject<TriplesNodePattern> {
-		return undefined;
+	collection( ...values:(supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ):Collection {
+		if( values.length === 0 ) throw Error( "InvalidArgumentError: The collection needs at least one value." );
+		return new Collection( this.resolver, values );
 	}
 
 	blankNode():BlankNode {

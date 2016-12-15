@@ -9,6 +9,7 @@ import { Resource } from "./Patterns/Resource";
 import { Variable } from "./Patterns/Variable";
 import { Token } from "./Tokens/Token";
 import { BlankNode } from "./Patterns/BlankNode";
+import { Collection } from "./Patterns/Collection";
 
 export interface IRIResolver {
 	_resolveIRI( iri:string, vocab?:boolean ):Token[];
@@ -91,9 +92,9 @@ export interface TriplesPatternBuilder {
 	 *  [ ?var1 "ex:some-1" "Object" ] "ex:some-2" ?object.
 	 *
 	 * Should add method for this cases??
-	 *    blankNode().has( "ex:prop-1", ":someone" )
+	 *    blankNode().has( "ex:prop-1", "someone" )
 	 *      .asTripleSubject()
-	 *      .has( "ex:prop-2", ":anotherone" )
+	 *      .has( "ex:prop-2", "another-one" )
 	 *  */
 	blankNode():BlankNode;
 }
@@ -132,9 +133,4 @@ export interface TriplesSameSubjectMore<T> {
 	and( propertyVariable:Variable, values:( supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):TriplesSameSubjectMore<T> & T;
 }
 
-export interface TriplesNodePattern extends GraphPattern, ElementPattern {
-};
-
-// Internal interface
-export interface Collection extends TriplesNodePattern {
-}
+export interface TriplesNodePattern extends GraphPattern, ElementPattern {}
