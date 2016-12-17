@@ -8,11 +8,12 @@ import {
 import { Identifier } from "./Identifier";
 import { Operator } from "./Operator";
 import { NewLineSymbol } from "./NewLineSymbol";
+import { LeftSymbol } from "./LeftSymbol";
 
 export class RightSymbol extends Token {
 
 	protected getPrettySeparator( nextToken:Token ):string {
-		if( nextToken instanceof Identifier )
+		if( nextToken instanceof Identifier && nextToken[ "value" ] !== "UNDEF" )
 			return NEW_LINE_SEPARATOR;
 
 		if( nextToken instanceof NewLineSymbol ) {
@@ -20,6 +21,11 @@ export class RightSymbol extends Token {
 				removeIndentation();
 				return NEW_LINE_SEPARATOR;
 			}
+		}
+
+		if( nextToken instanceof LeftSymbol ) {
+			if( nextToken[ "value" ] === "(" )
+				return NEW_LINE_SEPARATOR;
 		}
 
 		if( nextToken instanceof Operator )

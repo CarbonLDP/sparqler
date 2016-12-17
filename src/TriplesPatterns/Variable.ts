@@ -2,7 +2,7 @@ import { TriplesSubject } from "./TriplesSubject";
 import { IRIResolver } from "../Patterns";
 import { Token } from "../Tokens/Token";
 import { StringLiteral } from "../Tokens/StringLiteral";
-import { VAR_SYMBOL } from "../Tokens";
+import { VAR_SYMBOL } from "../Patterns/Tokens";
 
 export class Variable extends TriplesSubject {
 

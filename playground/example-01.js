@@ -25,6 +25,33 @@ builder
         _.collection("some", "mmm..", _.resource(":some"), _.resource(":some"), _.literal(100.2), _.blankNode().has("color", _.resource("#asdf")).and("color", _.resource("#asdf"))),
         _.resource("son/")
             .has("name", _.collection("My name", _.blankNode().has("address", "My address"))),
+        _.graph("some", _.resource("some").has("yes", "no")),
+        _.graph(_.var("g"), _.resource("some").has("ex:yes", "no")),
+        _.resource("")
+            .has("ldp:contains", _.resource("posts/")),
+        _.resource("")
+            .has("ldp:contains", _.resource("posts/")),
+        _.graph(_.var("g"), [
+            _.resource("some").has("ex:yes", "no"),
+            _.resource("some").has("ex:yes", "no"),
+            _.optional([
+                _.resource("some").has("ex:yes", "no"),
+            ]),
+        ]),
+        _.optional([
+            _.resource("some").has("ex:yes", "no").and("ex:yes", "maybe"),
+            _.resource("some").has("ex:yes", ["yes", "maybe"])
+        ]),
+        _.union([
+            _.resource("some").has("ex:yes", ["yes", "maybe"]),
+        ], [
+            _.resource("some").has("ex:yes", ["yes", "maybe"]),
+        ]),
+        _.minus(_.resource("some").has("ex:yes", ["yes", "maybe"])),
+        _.minus(_.resource("some").has("ex:yes", "yes"), _.resource("some").has("ex:yes", "maybe")),
+        _.values(_.var("v")).has(1),
+        _.values(_.var("v")).has(1).and(1.1).and("some").and(_.undefined),
+        _.values(_.var("v1"), _.var("v2")).has(1, 2).and(_.undefined, _.literal("nope")).and(true, false),
     ];
 })
     .limit(2);

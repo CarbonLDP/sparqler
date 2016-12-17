@@ -10,15 +10,19 @@ import {
 	CLOSE_QUOTE,
 	CLOSE_IRI,
 	OPEN_IRI,
-	OFF_TYPE
-} from "../Tokens";
+	OFF_TYPE,
+	UNDEF
+} from "../Patterns/Tokens";
+import { PatternBuilder } from "../PatternBuilder";
 
 export function serialize( object:supportedNativeTypes ):Token[];
 export function serialize( object:ElementPattern ):Token[];
 export function serialize( object ):Token[] {
 
-	if( typeof object === "string" || object instanceof String )
+	if( typeof object === "string" || object instanceof String ) {
+		if( object === PatternBuilder.undefined ) return [ UNDEF ];
 		return [ OPEN_QUOTE, new StringLiteral( object as string ), CLOSE_QUOTE ];
+	}
 
 	if( typeof object === "number" || object instanceof Number ) {
 		if( Number.isInteger( object.valueOf() ) )

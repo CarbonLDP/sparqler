@@ -2,12 +2,14 @@ import {
 	Token,
 	SPACE_SEPARATOR,
 	EMPTY_SEPARATOR,
+	NEW_LINE_SEPARATOR,
 } from "./Token";
 import { StringLiteral } from "./StringLiteral";
 
 export class Identifier extends Token {
 
 	protected getPrettySeparator( nextToken:Token ):string {
+		if( this.value === "UNION" ) return NEW_LINE_SEPARATOR;
 		return SPACE_SEPARATOR;
 	}
 

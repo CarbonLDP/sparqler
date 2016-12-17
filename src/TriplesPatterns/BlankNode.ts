@@ -6,7 +6,7 @@ import {
 	OPEN_SINGLE_BN,
 	OPEN_MULTI_BN,
 	CLOSE_MULTI_BN
-} from "../Tokens";
+} from "../Patterns/Tokens";
 import { TriplesPattern } from "./TriplesPattern";
 import { TriplesNodePattern } from "../Patterns";
 

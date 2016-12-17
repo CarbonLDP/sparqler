@@ -4,12 +4,13 @@ import {
 	RDFLiteral,
 	NumericLiteral,
 	BooleanLiteral
-} from "./Patterns/Literals";
-import { Resource } from "./Patterns/Resource";
-import { Variable } from "./Patterns/Variable";
+} from "./TriplesPatterns/Literals";
+import { Resource } from "./TriplesPatterns/Resource";
+import { Variable } from "./TriplesPatterns/Variable";
 import { Token } from "./Tokens/Token";
-import { BlankNode } from "./Patterns/BlankNode";
-import { Collection } from "./Patterns/Collection";
+import { BlankNode } from "./TriplesPatterns/BlankNode";
+import { Collection } from "./TriplesPatterns/Collection";
+import { NotTriplesPattern } from "./NotTriplesPatterns/NotTriplesPattern";
 
 export interface IRIResolver {
 	_resolveIRI( iri:string, vocab?:boolean ):Token[];
@@ -39,10 +40,10 @@ export interface NotTriplesPatternBuilder {
 	union( patterns1:GraphPattern[], patterns2:GraphPattern[] ):NotTriplesPattern;
 
 	minus( pattern:GraphPattern ):NotTriplesPattern;
-	minus( patterns:GraphPattern[] ):NotTriplesPattern;
+	minus( firstPattern:GraphPattern, ...restPatterns:GraphPattern[] ):NotTriplesPattern;
 
 	undefined:Undefined;
-	values( variable:Variable ):ValuesPattern
+	values( variable:Variable ):SingleValuesPattern
 	values( ...variables:Variable[] ):MultipleValuesPattern;
 
 	// TODO: BIND pattern
@@ -50,21 +51,17 @@ export interface NotTriplesPatternBuilder {
 	// TODO: SERVICE pattern
 }
 
-// Internal interface
-export interface NotTriplesPattern extends GraphPattern {
+export interface SingleValuesPattern {
+	has( value:supportedNativeTypes ):SingleValuesPatternMore & NotTriplesPattern;
+	has( value:Resource ):SingleValuesPatternMore & NotTriplesPattern;
+	has( value:Literal ):SingleValuesPatternMore & NotTriplesPattern;
+	has( value:Undefined ):SingleValuesPatternMore & NotTriplesPattern;
 }
-
-export interface ValuesPattern {
-	has( value:supportedNativeTypes ):ValuesPatternMore & NotTriplesPattern;
-	has( value:Resource ):ValuesPatternMore & NotTriplesPattern;
-	has( value:Literal ):ValuesPatternMore & NotTriplesPattern;
-	has( value:Undefined ):ValuesPatternMore & NotTriplesPattern;
-}
-export interface ValuesPatternMore {
-	and( value:supportedNativeTypes ):ValuesPatternMore & NotTriplesPattern;
-	and( value:Resource ):ValuesPatternMore & NotTriplesPattern;
-	and( value:Literal ):ValuesPatternMore & NotTriplesPattern;
-	and( value:Undefined ):ValuesPatternMore & NotTriplesPattern;
+export interface SingleValuesPatternMore {
+	and( value:supportedNativeTypes ):SingleValuesPatternMore & NotTriplesPattern;
+	and( value:Resource ):SingleValuesPatternMore & NotTriplesPattern;
+	and( value:Literal ):SingleValuesPatternMore & NotTriplesPattern;
+	and( value:Undefined ):SingleValuesPatternMore & NotTriplesPattern;
 }
 
 export interface MultipleValuesPattern {

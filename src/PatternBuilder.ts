@@ -2,10 +2,8 @@ import {
 	GraphPattern,
 	TriplesPatternBuilder,
 	NotTriplesPatternBuilder,
-	TriplesSameSubject,
 	supportedNativeTypes,
-	NotTriplesPattern,
-	ValuesPattern,
+	SingleValuesPattern,
 	MultipleValuesPattern,
 	IRIResolver,
 	TriplesNodePattern
@@ -15,17 +13,28 @@ import {
 	NumericLiteral,
 	BooleanLiteral,
 	Literal
-} from "./Patterns/Literals";
-import { Resource } from "./Patterns/Resource";
-import { Variable } from "./Patterns/Variable";
-import { BlankNode } from "./Patterns/BlankNode";
-import { Collection } from "./Patterns/Collection";
+} from "./TriplesPatterns/Literals";
+import { Resource } from "./TriplesPatterns/Resource";
+import { Variable } from "./TriplesPatterns/Variable";
+import { BlankNode } from "./TriplesPatterns/BlankNode";
+import { Collection } from "./TriplesPatterns/Collection";
+import { NotTriplesPattern } from "./NotTriplesPatterns/NotTriplesPattern";
+import { Token } from "./Tokens/Token";
+import {
+	GRAPH,
+	OPTIONAL,
+	UNION,
+	MINUS,
+} from "./Patterns/Tokens";
+import * as Utils from "./Utils/Patterns";
+import { ValuesPattern } from "./NotTriplesPatterns/ValuesPattern";
 
 export type Undefined = "UNDEF";
 export class PatternBuilder implements TriplesPatternBuilder,
                                        NotTriplesPatternBuilder {
 
-	public undefined:Undefined = "UNDEF";
+	public static get undefined():Undefined { return "UNDEF" };
+	public get undefined():Undefined { return PatternBuilder.undefined };
 
 	private resolver:IRIResolver;
 
@@ -70,33 +79,46 @@ export class PatternBuilder implements TriplesPatternBuilder,
 	graph( iri:string, patterns:GraphPattern[] ):NotTriplesPattern;
 	graph( variable:Variable, pattern:GraphPattern ):NotTriplesPattern;
 	graph( variable:Variable, patterns:GraphPattern[] ):NotTriplesPattern;
-	graph( iri, pattern ):NotTriplesPattern {
-		return undefined;
+	graph( iriOrVariable, patterns ):NotTriplesPattern {
+		let graph:Token[] = ( typeof iriOrVariable === "string" )
+			? this.resolver._resolveIRI( iriOrVariable )
+			: iriOrVariable.getSelfTokens();
+
+		let patternTokens:Token[] = Utils.getBlockTokens( patterns );
+		return new NotTriplesPattern( [ GRAPH, ...graph, ...patternTokens ] );
 	}
 
 	optional( pattern:GraphPattern ):NotTriplesPattern;
 	optional( patterns:GraphPattern[] ):NotTriplesPattern;
-	optional( pattern ):NotTriplesPattern {
-		return undefined;
+	optional( patterns ):NotTriplesPattern {
+		let patternTokens:Token[] = Utils.getBlockTokens( patterns );
+
+		return new NotTriplesPattern( [ OPTIONAL, ...patternTokens ] );
 	}
 
 	union( pattern1:GraphPattern, pattern2:GraphPattern ):NotTriplesPattern;
 	union( pattern1:GraphPattern, patterns2:GraphPattern[] ):NotTriplesPattern;
 	union( patterns1:GraphPattern[], pattern2:GraphPattern ):NotTriplesPattern;
 	union( patterns1:GraphPattern[], patterns2:GraphPattern[] ):NotTriplesPattern;
-	union( pattern1, pattern2 ):NotTriplesPattern {
-		return undefined;
+	union( patterns1, patterns2 ):NotTriplesPattern {
+		let leftPatternTokens:Token[] = Utils.getBlockTokens( patterns1 );
+		let rightPatternTokens:Token[] = Utils.getBlockTokens( patterns2 );
+
+		return new NotTriplesPattern( [ ...leftPatternTokens, UNION, ...rightPatternTokens ] );
 	}
 
 	minus( pattern:GraphPattern ):NotTriplesPattern;
-	minus( patterns:GraphPattern[] ):NotTriplesPattern;
-	minus( pattern ):NotTriplesPattern {
-		return undefined;
+	minus( firstPattern:GraphPattern, ...restPatterns:GraphPattern[] ):NotTriplesPattern;
+	minus( ...patterns:GraphPattern[] ):NotTriplesPattern {
+		let patternTokens:Token[] = Utils.getBlockTokens( patterns );
+
+		return new NotTriplesPattern( [ MINUS, ...patternTokens ] );
 	}
 
-	values( variable:Variable ):ValuesPattern;
+	values( variable:Variable ):SingleValuesPattern;
 	values( ...variables:Variable[] ):MultipleValuesPattern;
-	values( ...variable ):any {
+	values( ...variables:Variable[] ):SingleValuesPattern | MultipleValuesPattern {
+		return new ValuesPattern( this.resolver, variables );
 	}
 
 }

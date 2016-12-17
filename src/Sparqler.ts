@@ -16,13 +16,12 @@ import {
 	GraphPattern,
 	IRIResolver,
 } from "./Patterns";
-import * as IRI from "./Utils/IRI";
+import * as IRIUtils from "./Utils/IRI";
+import * as PatternsUtils from "./Utils/Patterns";
 import { PatternBuilder } from "./PatternBuilder";
 import {
 	Token,
 	TokenFormat,
-	addIndentation,
-	removeIndentation
 } from "./Tokens/Token";
 import { Identifier } from "./Tokens/Identifier";
 import { StringLiteral } from "./Tokens/StringLiteral";
@@ -31,15 +30,10 @@ import { NumberLiteral } from "./Tokens/NumberLiteral";
 import {
 	OPEN_IRI,
 	CLOSE_IRI,
-	TRIPLE_SEPARATOR,
-	OPEN_BLOCK,
-	CLOSE_BLOCK,
 	VAR_SYMBOL,
 	PREFIX_SYMBOL,
-	OPEN_MULTI_BN,
-	CLOSE_MULTI_BN,
-	EMPTY_SEPARATOR
-} from "./Tokens";
+	EMPTY_SEPARATOR,
+} from "./Patterns/Tokens";
 
 interface PrefixInfo {
 	iri:string;
@@ -136,14 +130,7 @@ export class QueryBuilder implements QueryClause,
 	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[ ] ):SolutionModifier & FinishClause;
 	where( patternFunction ):SolutionModifier & FinishClause {
 		let result:GraphPattern | GraphPattern[] = patternFunction( new PatternBuilder( this ) );
-		let patterns:GraphPattern[] = Array.isArray( result ) ? <GraphPattern[]> result : [ result ];
-
-		this._where = [ new Identifier( "WHERE" ), OPEN_BLOCK ];
-		patterns.forEach( ( pattern, index ) => {
-			this._where.push( ...pattern.getPattern() );
-			if( index < patterns.length - 1 ) this._where.push( TRIPLE_SEPARATOR );
-		} );
-		this._where.push( CLOSE_BLOCK );
+		this._where = [ new Identifier( "WHERE" ), ...PatternsUtils.getBlockTokens( result as GraphPattern[] ) ];
 
 		return Object.assign(
 			{},
@@ -251,8 +238,9 @@ export class QueryBuilder implements QueryClause,
 			let nextToken:Token = tokens[ index + 1 ];
 
 			if( format === TokenFormat.COMPACT ) {
-				if( nextToken === EMPTY_SEPARATOR )
+				if( nextToken === EMPTY_SEPARATOR ) {
 					nextToken = tokens[ index + 2 ];
+				}
 			}
 
 			return res + token.getTokenValue( format, nextToken );
@@ -316,8 +304,8 @@ export class QueryBuilder implements QueryClause,
 	_resolveIRI( iri:string, vocab:boolean = false ):Token[] {
 		let tokens:Token[];
 
-		if( IRI.isPrefixed( iri ) ) {
-			let parts:string[] = IRI.getPrefixedParts( iri );
+		if( IRIUtils.isPrefixed( iri ) ) {
+			let parts:string[] = IRIUtils.getPrefixedParts( iri );
 			if( parts === null ) return;
 
 			let prefixInfo:PrefixInfo = this._prefixes.get( parts[ 0 ] );
@@ -326,7 +314,7 @@ export class QueryBuilder implements QueryClause,
 			tokens = [ new StringLiteral( parts[ 0 ] ), PREFIX_SYMBOL, new StringLiteral( parts[ 1 ] ) ];
 			prefixInfo.used = true;
 		} else {
-			tokens = IRI.resolve( iri, vocab ? this._vocab : void 0 );
+			tokens = IRIUtils.resolve( iri, vocab ? this._vocab : void 0 );
 		}
 
 		return tokens;

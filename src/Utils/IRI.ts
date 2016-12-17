@@ -1,11 +1,9 @@
 import { Token } from "../Tokens/Token";
-import { LeftSymbol } from "../Tokens/LeftSymbol";
 import { StringLiteral } from "../Tokens/StringLiteral";
-import { RightSymbol } from "../Tokens/RightSymbol";
 import {
 	OPEN_IRI,
 	CLOSE_IRI
-} from "../Tokens";
+} from "../Patterns/Tokens";
 export function isAbsolute( iri:string ):boolean {
 	return iri.indexOf( ":" ) !== - 1
 }

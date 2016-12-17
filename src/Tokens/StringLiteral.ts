@@ -14,7 +14,7 @@ export class StringLiteral extends Token {
 		if( nextToken instanceof Identifier )
 			return NEW_LINE_SEPARATOR;
 
-		if( nextToken instanceof Operator || nextToken instanceof RightSymbol )
+		if( nextToken instanceof Operator || ( nextToken instanceof RightSymbol && nextToken[ "value" ] !== ")" ) )
 			return EMPTY_SEPARATOR;
 
 		return SPACE_SEPARATOR;

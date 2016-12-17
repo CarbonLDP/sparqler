@@ -5,7 +5,7 @@ import {
 	OPEN_SINGLE_LIST,
 	CLOSE_SINGLE_LIST,
 	EMPTY_SEPARATOR
-} from "../Tokens";
+} from "../Patterns/Tokens";
 import { TriplesPattern } from "./TriplesPattern";
 import {
 	TriplesNodePattern,
@@ -15,7 +15,7 @@ import {
 import { Resource } from "./Resource";
 import { Variable } from "./Variable";
 import { Literal } from "./Literals";
-import * as PatternObject from "../Utils/PatternObject";
+import * as ObjectPattern from "../Utils/ObjectPattern";
 
 export class Collection extends TriplesPattern<TriplesNodePattern> implements TriplesNodePattern {
 
@@ -31,7 +31,7 @@ export class Collection extends TriplesPattern<TriplesNodePattern> implements Tr
 		}
 
 		values.forEach( ( value, index ) => {
-			this.elementTokens.push( ...PatternObject.serialize( value as supportedNativeTypes ) );
+			this.elementTokens.push( ...ObjectPattern.serialize( value as supportedNativeTypes ) );
 			if( index < values.length - 1 ) this.elementTokens.push( EMPTY_SEPARATOR );
 		} );
 

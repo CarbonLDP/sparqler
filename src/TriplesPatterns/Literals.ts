@@ -1,13 +1,13 @@
 import { TriplesSubject } from "./TriplesSubject";
 import { IRIResolver } from "../Patterns";
-import * as PatternObject from "../Utils/PatternObject";
+import * as ObjectPattern from "../Utils/ObjectPattern";
 import { Token } from "../Tokens/Token";
 import { StringLiteral } from "../Tokens/StringLiteral";
 import {
 	OPEN_QUOTE,
 	CLOSE_QUOTE,
 	LANG_SYMBOL
-} from "../Tokens";
+} from "../Patterns/Tokens";
 
 export abstract class Literal extends TriplesSubject {
 
@@ -24,8 +24,13 @@ export class RDFLiteral extends Literal {
 
 	protected elementTokens:Token[];
 
+	constructor( resolver:IRIResolver, value:string ) {
+		super( resolver, value );
+		this.elementTokens = [ OPEN_QUOTE, new StringLiteral( value ), CLOSE_QUOTE ];
+	}
+
 	ofType( type:string ):Literal {
-		this.elementTokens = PatternObject.addType( this.value, type );
+		this.elementTokens = ObjectPattern.addType( this.value, type );
 		return this;
 	};
 
@@ -44,7 +49,7 @@ export class NumericLiteral extends Literal {
 		super( resolver, value );
 
 		let type:string = Number.isInteger( value ) ? "integer" : "float";
-		this.elementTokens = PatternObject.addType( this.value, type );
+		this.elementTokens = ObjectPattern.addType( this.value, type );
 	}
 
 }
@@ -55,7 +60,7 @@ export class BooleanLiteral extends Literal {
 
 	constructor( resolver:IRIResolver, value:boolean ) {
 		super( resolver, value );
-		this.elementTokens = PatternObject.addType( this.value, "boolean" );
+		this.elementTokens = ObjectPattern.addType( this.value, "boolean" );
 	}
 
 }
