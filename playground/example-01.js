@@ -22,7 +22,8 @@ builder
             .has("other", _.blankNode().has("mmm", "ok...").and("ok", "no"))
             .and("color", _.resource("#asdf")),
         _.collection("Ha!"),
-        _.collection("some", "mmm..", _.resource(":some"), _.resource(":some"), _.literal(100.2), _.blankNode().has("color", _.resource("#asdf")).and("color", _.resource("#asdf"))),
+        _.collection("some", "mmm..", _.resource(":some"), _.literal(100.2), _.blankNode().has("color", _.resource("#asdf")).and("color", _.resource("#asdf"))),
+        _.collection("some", _.resource(":some")).has("color", _.resource("#asdf")).and("color", _.resource("#asdf")),
         _.resource("son/")
             .has("name", _.collection("My name", _.blankNode().has("address", "My address"))),
         _.graph("some", _.resource("some").has("yes", "no")),

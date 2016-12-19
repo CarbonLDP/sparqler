@@ -7,11 +7,12 @@ import {
 import { Identifier } from "./Identifier";
 import { Operator } from "./Operator";
 import { RightSymbol } from "./RightSymbol";
+import { NewLineSymbol } from "./NewLineSymbol";
 
 export class StringLiteral extends Token {
 
 	protected getPrettySeparator( nextToken:Token ):string {
-		if( nextToken instanceof Identifier )
+		if( nextToken instanceof Identifier || ( nextToken instanceof NewLineSymbol  && nextToken[ "value" ] === ")" ) )
 			return NEW_LINE_SEPARATOR;
 
 		if( nextToken instanceof Operator || ( nextToken instanceof RightSymbol && nextToken[ "value" ] !== ")" ) )

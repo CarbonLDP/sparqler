@@ -3,7 +3,6 @@ import {
 	EMPTY_SEPARATOR,
 	SPACE_SEPARATOR,
 	NEW_LINE_SEPARATOR,
-	removeIndentation,
 } from "./Token";
 import { Identifier } from "./Identifier";
 import { Operator } from "./Operator";
@@ -18,7 +17,6 @@ export class RightSymbol extends Token {
 
 		if( nextToken instanceof NewLineSymbol ) {
 			if( [ "}", "]", ")" ].indexOf( nextToken[ "value" ] ) !== - 1 ) {
-				removeIndentation();
 				return NEW_LINE_SEPARATOR;
 			}
 		}
