@@ -1,6 +1,6 @@
 "use strict";
-var Sparqler_1 = require("../src/Sparqler");
-var builder = new Sparqler_1.default();
+var SPARQLER_1 = require("../src/SPARQLER");
+var builder = new SPARQLER_1.default();
 builder
     .base("https://carbonldp.base22.io/apps/test-app/")
     .vocab("https://carbonldp.base22.io/apps/test-app/vocabulary/#")
@@ -56,6 +56,6 @@ builder
     ];
 })
     .limit(2);
-console.log(builder.getPrettySparqlQuery());
+console.log(builder.toPrettyString());
 console.log("\n\n");
-console.log(builder.getCompactSparqlQuery());
+console.log(builder.toCompactString());

@@ -1,4 +1,4 @@
-import Sparqler from "../src/Sparqler";
+import Sparqler from "../src/SPARQLER";
 
 let builder = new Sparqler();
 
@@ -77,6 +77,6 @@ builder
 
 	.limit( 2 );
 
-console.log( builder.getPrettySparqlQuery() );
+console.log( builder.toPrettyString() );
 console.log( "\n\n" );
-console.log( builder.getCompactSparqlQuery() );
+console.log( builder.toCompactString() );
