@@ -1355,15 +1355,20 @@ exports.string = ns + "string";
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_SPARQLER__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_SPARQLER___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__src_SPARQLER__);
-// This file makes sure that the exported file ends up being the SPARQLER default export
-// Without this file as an entry point, webpack would export an object like { SPARQLER: ..., default: ... }
-
-
-
-module.exports = __WEBPACK_IMPORTED_MODULE_0__src_SPARQLER___default.a;
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+var SPARQLER_1 = __webpack_require__( 14 );
+(function( root, factory ) {
+	if( true ) {
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ !(function webpackMissingModule() { var e = new Error("Cannot find module \"b\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	}
+	else {
+		// Browser globals
+		root.amdWeb = factory( root.b );
+	}
+}( this, function( b ) {
+	return SPARQLER_1.default;
+} ));
 
 
 /***/ }

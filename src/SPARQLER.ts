@@ -51,15 +51,15 @@ interface PrefixInfo {
 }
 
 export class SPARQLER implements QueryClause,
-                                     FromClause,
-                                     SelectClause,
-                                     WhereClause,
-                                     GroupClause,
-                                     HavingClause,
-                                     OrderClause,
-                                     LimitOffsetClause,
-                                     FinishClause,
-                                     IRIResolver {
+                                 FromClause,
+                                 SelectClause,
+                                 WhereClause,
+                                 GroupClause,
+                                 HavingClause,
+                                 OrderClause,
+                                 LimitOffsetClause,
+                                 FinishClause,
+                                 IRIResolver {
 
 	private _base:string;
 	private _vocab:string;
@@ -324,7 +324,7 @@ export class SPARQLER implements QueryClause,
 							spaces: 1
 						};
 
-					// Record a new state for a list of objects of a property
+						// Record a new state for a list of objects of a property
 					} else if( token === SAME_PROPERTY_SEPARATOR ) {
 						actual = {
 							token: token,

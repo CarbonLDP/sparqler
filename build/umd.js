@@ -1,6 +1,14 @@
-// This file makes sure that the exported file ends up being the SPARQLER default export
-// Without this file as an entry point, webpack would export an object like { SPARQLER: ..., default: ... }
-
-import SPARQLER from "./../src/SPARQLER";
-
-module.exports = SPARQLER;
+"use strict";
+var SPARQLER_1 = require( "./../src/SPARQLER" );
+(function( root, factory ) {
+	if( typeof define === 'function' && define.amd ) {
+		// AMD. Register as an anonymous module.
+		define( [ 'b' ], factory );
+	}
+	else {
+		// Browser globals
+		root.amdWeb = factory( root.b );
+	}
+}( this, function( b ) {
+	return SPARQLER_1.default;
+} ));

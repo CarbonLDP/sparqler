@@ -59,7 +59,7 @@ builder
 			] ),
 			_.union( [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
-			],  [
+			], [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			] ),
 			_.minus(
