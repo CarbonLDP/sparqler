@@ -1,6 +1,6 @@
 "use strict";
-var Sparqler_1 = require("../src/Sparqler");
-var builder = new Sparqler_1.default();
+var __1 = require("..");
+var builder = new __1.default();
 builder
     .base("https://carbonldp.base22.io/apps/test-app/")
     .vocab("https://carbonldp.base22.io/apps/test-app/vocabulary/#")

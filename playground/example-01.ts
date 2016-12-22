@@ -1,4 +1,4 @@
-import Sparqler from "../src/Sparqler";
+import Sparqler from "..";
 
 let builder = new Sparqler();
 

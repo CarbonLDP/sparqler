@@ -1,0 +1,36 @@
+import { GraphPattern, TriplesPatternBuilder, NotTriplesPatternBuilder, supportedNativeTypes, SingleValuesPattern, MultipleValuesPattern, IRIResolver, TriplesNodePattern } from "./Patterns";
+import { RDFLiteral, NumericLiteral, BooleanLiteral, Literal } from "./TriplesPatterns/Literals";
+import { Resource } from "./TriplesPatterns/Resource";
+import { Variable } from "./TriplesPatterns/Variable";
+import { BlankNode } from "./TriplesPatterns/BlankNode";
+import { Collection } from "./TriplesPatterns/Collection";
+import { NotTriplesPattern } from "./NotTriplesPatterns/NotTriplesPattern";
+export declare type Undefined = "UNDEF";
+export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder {
+    static readonly undefined: Undefined;
+    readonly undefined: Undefined;
+    private resolver;
+    constructor(resolver: IRIResolver);
+    resource(iri: string): Resource;
+    var(name: string): Variable;
+    literal(value: string): RDFLiteral;
+    literal(value: number): NumericLiteral;
+    literal(value: boolean): BooleanLiteral;
+    collection(...values: (supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): Collection;
+    blankNode(): BlankNode;
+    graph(iri: string, pattern: GraphPattern): NotTriplesPattern;
+    graph(iri: string, patterns: GraphPattern[]): NotTriplesPattern;
+    graph(variable: Variable, pattern: GraphPattern): NotTriplesPattern;
+    graph(variable: Variable, patterns: GraphPattern[]): NotTriplesPattern;
+    optional(pattern: GraphPattern): NotTriplesPattern;
+    optional(patterns: GraphPattern[]): NotTriplesPattern;
+    union(pattern1: GraphPattern, pattern2: GraphPattern): NotTriplesPattern;
+    union(pattern1: GraphPattern, patterns2: GraphPattern[]): NotTriplesPattern;
+    union(patterns1: GraphPattern[], pattern2: GraphPattern): NotTriplesPattern;
+    union(patterns1: GraphPattern[], patterns2: GraphPattern[]): NotTriplesPattern;
+    minus(pattern: GraphPattern): NotTriplesPattern;
+    minus(firstPattern: GraphPattern, ...restPatterns: GraphPattern[]): NotTriplesPattern;
+    values(variable: Variable): SingleValuesPattern;
+    values(...variables: Variable[]): MultipleValuesPattern;
+}
+export default PatternBuilder;
