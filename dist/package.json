@@ -1,23 +1,24 @@
 {
-  "name": "sparqler",
-  "version": "0.1.0-alpha.1",
-  "description": "SPARQL query buildER for JavaScript",
-  "main": "./Sparqler.js",
-  "typings": "./Sparqler.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CarbonLDP/sparqler.git"
-  },
-  "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/CarbonLDP/sparqler/issues"
-  },
-  "homepage": "https://github.com/CarbonLDP/sparqler#README",
-  "contributors": [{
-    "name": "Rodolfo Aguirre",
-    "email": "rodolfo.aguirre@base22.com"
-  }, {
-    "name": "Miguel Aragón",
-    "email": "miguel.aragon@base22.com"
-  }]
+	"name": "sparqler",
+	"version": "0.1.0-alpha.1",
+	"registry": "npm",
+	"description": "SPARQL query buildER for JavaScript",
+	"main": "./Sparqler.js",
+	"typings": "./Sparqler.d.ts",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CarbonLDP/sparqler.git"
+	},
+	"license": "BSD-3-Clause",
+	"bugs": {
+		"url": "https://github.com/CarbonLDP/sparqler/issues"
+	},
+	"homepage": "https://github.com/CarbonLDP/sparqler#README",
+	"contributors": [{
+		"name": "Rodolfo Aguirre",
+		"email": "rodolfo.aguirre@base22.com"
+	}, {
+		"name": "Miguel Aragón",
+		"email": "miguel.aragon@base22.com"
+	}]
 }

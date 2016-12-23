@@ -1,6 +1,7 @@
 {
 	"name": "sparqler",
 	"version": "0.1.0-alpha.1",
+	"registry": "npm",
 	"description": "SPARQL query buildER for JavaScript",
 	"main": "./dist/Sparqler.js",
 	"typings": "./dist/Sparqler.d.ts",

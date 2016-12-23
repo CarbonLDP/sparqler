@@ -11,6 +11,8 @@ import {
 	LimitClause,
 	OffsetClause,
 	FinishClause,
+	FinishSelectClause,
+	FinishSelect,
 } from "./Clauses";
 import {
 	GraphPattern,
@@ -51,13 +53,13 @@ interface PrefixInfo {
 }
 
 export class QueryBuilder implements QueryClause,
-                                     FromClause,
+                                     FromClause<FinishClause>,
                                      SelectClause,
-                                     WhereClause,
-                                     GroupClause,
-                                     HavingClause,
-                                     OrderClause,
-                                     LimitOffsetClause,
+                                     WhereClause<FinishClause>,
+                                     GroupClause<FinishClause>,
+                                     HavingClause<FinishClause>,
+                                     OrderClause<FinishClause>,
+                                     LimitOffsetClause<FinishClause>,
                                      FinishClause,
                                      IRIResolver {
 
@@ -76,14 +78,15 @@ export class QueryBuilder implements QueryClause,
 
 	private interfaces:{
 		queryClause:QueryClause;
-		fromClause:FromClause;
-		whereClause:WhereClause;
-		havingClause:HavingClause;
-		groupClause:GroupClause;
-		orderClause:OrderClause;
+		fromClause:FromClause<FinishClause>;
+		whereClause:WhereClause<FinishClause>;
+		havingClause:HavingClause<FinishClause>;
+		groupClause:GroupClause<FinishClause>;
+		orderClause:OrderClause<FinishClause>;
 		finishClause:FinishClause;
 		limitClause:LimitClause<FinishClause>;
 		offsetClause:OffsetClause<FinishClause>;
+		finishSelect?:FinishSelect;
 	};
 
 	constructor() {
@@ -112,33 +115,36 @@ export class QueryBuilder implements QueryClause,
 		return this.interfaces.queryClause;
 	}
 
-	select( ...variables:string[] ):WhereClause & FromClause {
+	select( ...variables:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
 		if( variables.length === 0 ) throw new Error( "IllegalArgumentError: Need to provide al least one variable." );
 
 		this._selects = [ new Identifier( "SELECT" ) ];
 		variables.forEach( variable => this._selects.push( VAR_SYMBOL, new StringLiteral( variable ) ) );
 
+		Object.assign( this.interfaces.finishClause, this.interfaces.finishSelect );
 		return Object.assign( {}, this.interfaces.whereClause, this.interfaces.fromClause );
 	}
 
-	selectAll():WhereClause & FromClause {
+	selectAll():WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
 		this._selects = [ new Identifier( "SELECT" ), new RightSymbol( "*" ) ];
+
+		Object.assign( this.interfaces.finishClause, this.interfaces.finishSelect );
 		return Object.assign( {}, this.interfaces.whereClause, this.interfaces.fromClause );
 	}
 
-	from( iri:string ):WhereClause {
+	from( iri:string ):WhereClause<FinishSelectClause> {
 		this._from = [ new Identifier( "FROM" ), ...this._resolveIRI( iri ) ];
 		return this.interfaces.whereClause;
 	}
 
-	fromNamed( iri:string ):WhereClause {
+	fromNamed( iri:string ):WhereClause<FinishSelectClause> {
 		this._from = [ new Identifier( "FROM" ), new Identifier( "NAMED" ), ...this._resolveIRI( iri ) ];
 		return this.interfaces.whereClause;
 	}
 
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern ):SolutionModifier & FinishClause;
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[ ] ):SolutionModifier & FinishClause;
-	where( patternFunction ):SolutionModifier & FinishClause {
+	where( patternFunction:( builder:PatternBuilder ) => GraphPattern ):SolutionModifier<FinishClause> & FinishClause;
+	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[ ] ):SolutionModifier<FinishClause> & FinishClause;
+	where( patternFunction ):SolutionModifier<FinishClause> & FinishClause {
 		let result:GraphPattern | GraphPattern[] = patternFunction( new PatternBuilder( this ) );
 		this._where = [ new Identifier( "WHERE" ), ...PatternsUtils.getBlockTokens( result as GraphPattern[] ) ];
 
@@ -154,7 +160,7 @@ export class QueryBuilder implements QueryClause,
 	}
 
 // TODO: Implement group condition
-	groupBy( rawCondition:string ):HavingClause & OrderClause & LimitOffsetClause & FinishClause {
+	groupBy( rawCondition:string ):HavingClause<FinishClause> & OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause {
 		this._group = [ new Identifier( "GROUP" ), new Identifier( "BY" ), new StringLiteral( rawCondition ) ];
 		return Object.assign(
 			{},
@@ -167,7 +173,7 @@ export class QueryBuilder implements QueryClause,
 	}
 
 // TODO: Implement having condition
-	having( rawCondition:string ):OrderClause & LimitOffsetClause & FinishClause {
+	having( rawCondition:string ):OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause {
 		this._having = [ new Identifier( "HAVING" ), new StringLiteral( rawCondition ) ];
 		return Object.assign(
 			{},
@@ -179,7 +185,7 @@ export class QueryBuilder implements QueryClause,
 	}
 
 // TODO: Implement order condition
-	orderBy( rawCondition:string ):LimitOffsetClause & FinishClause {
+	orderBy( rawCondition:string ):LimitOffsetClause<FinishClause> & FinishClause {
 		this._order = [ new Identifier( "ORDER" ), new Identifier( "BY" ), new StringLiteral( rawCondition ) ];
 		return Object.assign(
 			<any> {},
@@ -189,7 +195,7 @@ export class QueryBuilder implements QueryClause,
 		);
 	}
 
-	limit( limit:number ):OffsetClause < FinishClause > & FinishClause {
+	limit( limit:number ):OffsetClause<FinishClause> & FinishClause {
 		this._limit = [ new Identifier( "LIMIT" ), new NumberLiteral( limit ) ];
 
 		if( this._offset )
@@ -197,7 +203,7 @@ export class QueryBuilder implements QueryClause,
 		return Object.assign( {}, this.interfaces.offsetClause, this.interfaces.finishClause );
 	}
 
-	offset( offset:number ):LimitClause < FinishClause > & FinishClause {
+	offset( offset:number ):LimitClause<FinishClause> & FinishClause {
 		this._offset = [ new Identifier( "OFFSET" ), new NumberLiteral( offset ) ];
 
 		if( this._limit )
@@ -213,6 +219,7 @@ export class QueryBuilder implements QueryClause,
 		let tokens:Token[] = [];
 
 		// Add base
+		if( this._base )
 		tokens.push( new Identifier( "BASE" ), OPEN_IRI, new StringLiteral( this._base ), CLOSE_IRI );
 
 		// Add used prefixes
@@ -222,6 +229,7 @@ export class QueryBuilder implements QueryClause,
 		} );
 
 		// Add select clause
+		if( this._selects )
 		tokens.push( ...this._selects );
 
 		// Add from clause
@@ -229,6 +237,7 @@ export class QueryBuilder implements QueryClause,
 			tokens.push( ...this._from );
 
 		// Add where clause
+		if( this._where )
 		tokens.push( ...this._where );
 
 		// Add solution modifiers
@@ -324,7 +333,7 @@ export class QueryBuilder implements QueryClause,
 							spaces: 1
 						};
 
-					// Record a new state for a list of objects of a property
+						// Record a new state for a list of objects of a property
 					} else if( token === SAME_PROPERTY_SEPARATOR ) {
 						actual = {
 							token: token,

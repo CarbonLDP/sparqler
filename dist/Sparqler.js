@@ -39,10 +39,12 @@ var QueryBuilder = (function () {
             throw new Error("IllegalArgumentError: Need to provide al least one variable.");
         this._selects = [new Identifier_1.Identifier("SELECT")];
         variables.forEach(function (variable) { return _this._selects.push(Tokens_1.VAR_SYMBOL, new StringLiteral_1.StringLiteral(variable)); });
+        Object.assign(this.interfaces.finishClause, this.interfaces.finishSelect);
         return Object.assign({}, this.interfaces.whereClause, this.interfaces.fromClause);
     };
     QueryBuilder.prototype.selectAll = function () {
         this._selects = [new Identifier_1.Identifier("SELECT"), new RightSymbol_1.RightSymbol("*")];
+        Object.assign(this.interfaces.finishClause, this.interfaces.finishSelect);
         return Object.assign({}, this.interfaces.whereClause, this.interfaces.fromClause);
     };
     QueryBuilder.prototype.from = function (iri) {
@@ -84,15 +86,18 @@ var QueryBuilder = (function () {
     };
     QueryBuilder.prototype.constructQuery = function (format) {
         var tokens = [];
-        tokens.push(new Identifier_1.Identifier("BASE"), Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(this._base), Tokens_1.CLOSE_IRI);
+        if (this._base)
+            tokens.push(new Identifier_1.Identifier("BASE"), Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(this._base), Tokens_1.CLOSE_IRI);
         this._prefixes.forEach(function (prefixInfo, prefix) {
             if (prefixInfo.used || format === Token_1.TokenFormat.PRETTY)
                 tokens.push(new Identifier_1.Identifier("PREFIX"), new StringLiteral_1.StringLiteral(prefix + ":"), Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(prefixInfo.iri), Tokens_1.CLOSE_IRI);
         });
-        tokens.push.apply(tokens, this._selects);
+        if (this._selects)
+            tokens.push.apply(tokens, this._selects);
         if (this._from)
             tokens.push.apply(tokens, this._from);
-        tokens.push.apply(tokens, this._where);
+        if (this._where)
+            tokens.push.apply(tokens, this._where);
         if (this._order)
             tokens.push.apply(tokens, this._order);
         if (this._having)

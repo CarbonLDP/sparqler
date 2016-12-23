@@ -7,36 +7,36 @@ export interface QueryClause extends SelectClause {
 	prefix( name:string, iri:string ):QueryClause;
 }
 
-export interface FromClause {
-	from( iri:string ):WhereClause;
-	fromNamed( iri:string ):WhereClause;
+export interface FromClause<T extends FinishClause> {
+	from( iri:string ):WhereClause<T>;
+	fromNamed( iri:string ):WhereClause<T>;
 }
 
 export interface SelectClause {
-	select( ...variables:string[] ):WhereClause & FromClause;
-	selectAll():WhereClause & FromClause;
+	select( ...variables:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+	selectAll():WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
 }
 
-export interface WhereClause {
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern ):SolutionModifier & FinishClause;
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[] ):SolutionModifier & FinishClause;
+export interface WhereClause<T extends FinishClause> {
+	where( patternFunction:( builder:PatternBuilder ) => GraphPattern ):SolutionModifier<T> & T;
+	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[] ):SolutionModifier<T> & T;
 }
 
-export type SolutionModifier = GroupClause & HavingClause & OrderClause & LimitOffsetClause;
+export type SolutionModifier<T extends FinishClause> = GroupClause<T> & HavingClause<T> & OrderClause<T> & LimitOffsetClause<T>;
 
-export interface GroupClause {
+export interface GroupClause<T extends FinishClause> {
 	// TODO: create group condition expressions
-	groupBy( rawCondition:string ):HavingClause & OrderClause & LimitOffsetClause & FinishClause;
+	groupBy( rawCondition:string ):HavingClause<T> & OrderClause<T> & LimitOffsetClause<T> & T;
 }
 
-export interface HavingClause {
+export interface HavingClause<T extends FinishClause> {
 	// TODO: create having condition expressions
-	having( rawCondition:string ):OrderClause & LimitOffsetClause & FinishClause;
+	having( rawCondition:string ):OrderClause<T> & LimitOffsetClause<T> & T;
 }
 
-export interface OrderClause {
+export interface OrderClause<T extends FinishClause> {
 	// TODO: create order condition expressions
-	orderBy( rawCondition:string ):LimitOffsetClause & FinishClause;
+	orderBy( rawCondition:string ):LimitOffsetClause<T> & FinishClause;
 }
 
 /**
@@ -65,7 +65,7 @@ export interface OrderClause {
  *      .limit( ... )
  *      .offset( ... ) // Not possible
  */
-export interface LimitOffsetClause extends LimitClause<OffsetClause<FinishClause> & FinishClause>, OffsetClause<LimitClause<FinishClause> & FinishClause> {}
+export interface LimitOffsetClause<T extends FinishClause> extends LimitClause<OffsetClause<T> & T>, OffsetClause<LimitClause<T> & T> {}
 
 export interface OffsetClause<T> {
 	offset( offset:number ):T;
@@ -79,3 +79,7 @@ export interface FinishClause {
 	getCompactSparqlQuery():string;
 	getPrettySparqlQuery():string;
 }
+
+export interface FinishSelectClause extends FinishClause, FinishSelect {}
+
+export interface FinishSelect {}
