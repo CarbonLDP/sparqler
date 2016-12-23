@@ -1,6 +1,6 @@
 # SPARQLER
 
-[![npm version](https://badge.fury.io/js/carbonldp.svg)](https://badge.fury.io/js/carbonldp)
+[![npm version](https://badge.fury.io/js/sparqler.svg)](https://badge.fury.io/js/sparqler)
 
 SPARQL query buildER for JavaScript/TypeScript.
 
