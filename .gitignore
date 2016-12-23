@@ -4,6 +4,8 @@
 # Source files
 src/**/*.js
 src/**/*.map
+playground/**/*.js
+playground/**/*.map
 
 # NPM
 **/node_modules/

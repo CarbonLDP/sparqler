@@ -79,7 +79,7 @@ export class ValuesPattern extends NotTriplesPattern implements SingleValuesPatt
 	private init():void {
 		this.interfaces = <any> {
 			addPattern: {
-				and: this.has.bind( this  ),
+				and: this.has.bind( this ),
 				getPattern: () => this.getPattern(),
 			}
 		};

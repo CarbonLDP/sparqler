@@ -52,16 +52,16 @@ interface PrefixInfo {
 	used:boolean;
 }
 
-export class QueryBuilder implements QueryClause,
-                                     FromClause<FinishClause>,
-                                     SelectClause,
-                                     WhereClause<FinishClause>,
-                                     GroupClause<FinishClause>,
-                                     HavingClause<FinishClause>,
-                                     OrderClause<FinishClause>,
-                                     LimitOffsetClause<FinishClause>,
-                                     FinishClause,
-                                     IRIResolver {
+export class SPARQLER implements QueryClause,
+                                 FromClause<FinishClause>,
+                                 SelectClause,
+                                 WhereClause<FinishClause>,
+                                 GroupClause<FinishClause>,
+                                 HavingClause<FinishClause>,
+                                 OrderClause<FinishClause>,
+                                 LimitOffsetClause<FinishClause>,
+                                 FinishClause,
+                                 IRIResolver {
 
 	private _base:string;
 	private _vocab:string;
@@ -159,7 +159,7 @@ export class QueryBuilder implements QueryClause,
 		);
 	}
 
-// TODO: Implement group condition
+	// TODO: Implement group condition
 	groupBy( rawCondition:string ):HavingClause<FinishClause> & OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause {
 		this._group = [ new Identifier( "GROUP" ), new Identifier( "BY" ), new StringLiteral( rawCondition ) ];
 		return Object.assign(
@@ -172,7 +172,7 @@ export class QueryBuilder implements QueryClause,
 		);
 	}
 
-// TODO: Implement having condition
+	// TODO: Implement having condition
 	having( rawCondition:string ):OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause {
 		this._having = [ new Identifier( "HAVING" ), new StringLiteral( rawCondition ) ];
 		return Object.assign(
@@ -184,7 +184,7 @@ export class QueryBuilder implements QueryClause,
 		);
 	}
 
-// TODO: Implement order condition
+	// TODO: Implement order condition
 	orderBy( rawCondition:string ):LimitOffsetClause<FinishClause> & FinishClause {
 		this._order = [ new Identifier( "ORDER" ), new Identifier( "BY" ), new StringLiteral( rawCondition ) ];
 		return Object.assign(
@@ -376,15 +376,19 @@ export class QueryBuilder implements QueryClause,
 	 * Returns a compact SPARQL query string.
 	 * @returns {string}
 	 */
-	getCompactSparqlQuery():string {
+	toCompactString():string {
 		return this.constructQuery( TokenFormat.COMPACT );
+	}
+
+	toString():string {
+		return this.toCompactString();
 	}
 
 	/**
 	 * Returns a pretty SPARQL query string.
 	 * @returns {string}
 	 */
-	getPrettySparqlQuery():string {
+	toPrettyString():string {
 		return this.constructQuery( TokenFormat.PRETTY );
 	}
 
@@ -420,8 +424,8 @@ export class QueryBuilder implements QueryClause,
 				offset: this.offset.bind( this ),
 			},
 			finishClause: {
-				getCompactSparqlQuery: this.getCompactSparqlQuery.bind( this ),
-				getPrettySparqlQuery: this.getPrettySparqlQuery.bind( this ),
+				toCompactString: this.toCompactString.bind( this ),
+				toPrettyString: this.toPrettyString.bind( this ),
 			},
 		};
 	}
@@ -447,4 +451,4 @@ export class QueryBuilder implements QueryClause,
 
 }
 
-export default QueryBuilder;
+export default SPARQLER;

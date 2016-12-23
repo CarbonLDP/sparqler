@@ -34,6 +34,7 @@ export class PatternBuilder implements TriplesPatternBuilder,
                                        NotTriplesPatternBuilder {
 
 	public static get undefined():Undefined { return "UNDEF" };
+
 	public get undefined():Undefined { return PatternBuilder.undefined };
 
 	private resolver:IRIResolver;

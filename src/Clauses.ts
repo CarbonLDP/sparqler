@@ -76,8 +76,8 @@ export interface LimitClause<T> {
 }
 
 export interface FinishClause {
-	getCompactSparqlQuery():string;
-	getPrettySparqlQuery():string;
+	toCompactString():string;
+	toPrettyString():string;
 }
 
 export interface FinishSelectClause extends FinishClause, FinishSelect {}

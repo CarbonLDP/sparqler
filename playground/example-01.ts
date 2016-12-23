@@ -1,6 +1,6 @@
-import Sparqler from "..";
+import SPARQLER from "..";
 
-let builder = new Sparqler();
+let builder = new SPARQLER();
 
 builder
 	.base( "https://carbonldp.base22.io/apps/test-app/" )
@@ -59,7 +59,7 @@ builder
 			] ),
 			_.union( [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
-			],  [
+			], [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			] ),
 			_.minus(
@@ -77,6 +77,6 @@ builder
 
 	.limit( 2 );
 
-console.log( builder.getPrettySparqlQuery() );
+console.log( builder.toPrettyString() );
 console.log( "\n\n" );
-console.log( builder.getCompactSparqlQuery() );
+console.log( builder.toCompactString() );

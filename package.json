@@ -1,39 +1,43 @@
 {
-	"name": "sparqler",
-	"version": "0.1.0-alpha.1",
-	"registry": "npm",
-	"description": "SPARQL query buildER for JavaScript",
-	"main": "./dist/Sparqler.js",
-	"typings": "./dist/Sparqler.d.ts",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CarbonLDP/sparqler.git"
-	},
-	"license": "BSD-3-Clause",
-	"bugs": {
-		"url": "https://github.com/CarbonLDP/sparqler/issues"
-	},
-	"homepage": "https://github.com/CarbonLDP/sparqler#README",
-	"contributors": [
-		{
-			"name": "Rodolfo Aguirre",
-			"email": "rodolfo.aguirre@base22.com"
-		},
-		{
-			"name": "Miguel Aragón",
-			"email": "miguel.aragon@base22.com"
-		}
-	],
-	"devDependencies": {
-		"del": "^2.2.2",
-		"gulp": "^3.9.1",
-		"gulp-json-editor": "^2.2.1",
-		"gulp-sequence": "^0.4.6",
-		"gulp-sourcemaps": "^1.9.1",
-		"gulp-typescript": "^3.1.3",
-		"typescript": "^2.1.4"
-	}
+  "name": "sparqler",
+  "version": "0.1.0",
+  "registry": "npm",
+  "description": "SPARQL query buildER for JavaScript/TypeScript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarbonLDP/sparqler.git"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/CarbonLDP/sparqler/issues"
+  },
+  "homepage": "https://github.com/CarbonLDP/sparqler#README",
+  "contributors": [
+    {
+      "name": "Rodolfo Aguirre",
+      "email": "rodolfo.aguirre@base22.com"
+    },
+    {
+      "name": "Miguel Aragón",
+      "email": "miguel.aragon@base22.com"
+    }
+  ],
+  "main": "dist/SPARQLER.js",
+  "typings": "dist/SPARQLER.d.ts",
+  "scripts": {
+    "build": "gulp build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.0.0-beta.17",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-json-editor": "^2.2.1",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-typescript": "^3.1.3",
+    "run-sequence": "^1.2.2",
+    "typescript": "^2.1.4",
+    "webpack": "^2.2.0-rc.2"
+  },
+  "private": true
 }

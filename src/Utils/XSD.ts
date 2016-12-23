@@ -2,7 +2,7 @@ let ns:string = "http://www.w3.org/2001/XMLSchema#";
 
 export const dateTime:string = ns + "dateTime";
 
-export const integer:string = ns +  "integer";
+export const integer:string = ns + "integer";
 
 export const float:string = ns + "float";
 

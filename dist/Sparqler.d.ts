@@ -2,7 +2,7 @@ import { QueryClause, FromClause, SelectClause, WhereClause, SolutionModifier, G
 import { GraphPattern, IRIResolver } from "./Patterns";
 import { PatternBuilder } from "./PatternBuilder";
 import { Token } from "./Tokens/Token";
-export declare class QueryBuilder implements QueryClause, FromClause<FinishClause>, SelectClause, WhereClause<FinishClause>, GroupClause<FinishClause>, HavingClause<FinishClause>, OrderClause<FinishClause>, LimitOffsetClause<FinishClause>, FinishClause, IRIResolver {
+export declare class SPARQLER implements QueryClause, FromClause<FinishClause>, SelectClause, WhereClause<FinishClause>, GroupClause<FinishClause>, HavingClause<FinishClause>, OrderClause<FinishClause>, LimitOffsetClause<FinishClause>, FinishClause, IRIResolver {
     private _base;
     private _vocab;
     private _prefixes;
@@ -31,9 +31,10 @@ export declare class QueryBuilder implements QueryClause, FromClause<FinishClaus
     limit(limit: number): OffsetClause<FinishClause> & FinishClause;
     offset(offset: number): LimitClause<FinishClause> & FinishClause;
     private constructQuery(format);
-    getCompactSparqlQuery(): string;
-    getPrettySparqlQuery(): string;
+    toCompactString(): string;
+    toString(): string;
+    toPrettyString(): string;
     private initInterfaces();
     _resolveIRI(iri: string, vocab?: boolean): Token[];
 }
-export default QueryBuilder;
+export default SPARQLER;
