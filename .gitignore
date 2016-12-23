@@ -59,6 +59,7 @@ $RECYCLE.BIN/
 
 # IntelliJ
 .idea/workspace.xml
+.idea/dictionaries
 # *.iml
 # *.iws
 
