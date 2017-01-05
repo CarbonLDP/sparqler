@@ -5,6 +5,11 @@ const del = require( "del" );
 const gulp = require( "gulp" );
 const runSequence = require( "run-sequence" );
 
+const karma = require( "karma" );
+const intermediate = require( "gulp-intermediate" );
+const jasmine = require( "gulp-jasmine" );
+let SpecReporter = require( 'jasmine-spec-reporter' ).SpecReporter;
+
 const sourcemaps = require( "gulp-sourcemaps" );
 const ts = require( "gulp-typescript" );
 
@@ -25,6 +30,11 @@ const config = {
 		typescript: "dist",
 		all: "dist/**/*",
 	},
+	tests: {
+		typescript: [
+			"src/**/*.ts",
+		],
+	}
 };
 
 gulp.task( "default", [ "build" ] );
@@ -97,4 +107,38 @@ gulp.task( "prepare:npm-package|copy:package-json", () => {
 			return json;
 		} ) )
 		.pipe( gulp.dest( config.dist.dir ) );
+} );
+
+gulp.task( "test", [ "test:browser", "test:node" ] );
+
+gulp.task( "test:browser", ( done ) => {
+	new karma.Server( {
+		configFile: __dirname + "/karma.conf.js",
+		singleRun: true
+	}, done ).start();
+} );
+
+gulp.task( "test:node", () => {
+	let tsProject = ts.createProject( "tsconfig.json");
+
+	let tsResults = gulp.src( config.tests.typescript )
+		.pipe( sourcemaps.init() )
+		.pipe( tsProject() );
+
+	return tsResults.js
+		.pipe( sourcemaps.write( ".", {
+			includeContent: false,
+			sourceRoot: __dirname + "/src/"
+		} ) )
+		.pipe( intermediate( {}, function( tempDir, cb ) {
+			gulp.src( tempDir + "/**/*.spec.js" )
+				.pipe( jasmine( {
+					reporter: new SpecReporter( {
+						summary: {
+							displayStacktrace: true,
+						}
+					} ),
+				} ) )
+				.on( "end", cb );
+		} ) );
 } );

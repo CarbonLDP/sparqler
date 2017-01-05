@@ -220,7 +220,7 @@ export class SPARQLER implements QueryClause,
 
 		// Add base
 		if( this._base )
-		tokens.push( new Identifier( "BASE" ), OPEN_IRI, new StringLiteral( this._base ), CLOSE_IRI );
+			tokens.push( new Identifier( "BASE" ), OPEN_IRI, new StringLiteral( this._base ), CLOSE_IRI );
 
 		// Add used prefixes
 		this._prefixes.forEach( ( prefixInfo:PrefixInfo, prefix:string ) => {
@@ -230,7 +230,7 @@ export class SPARQLER implements QueryClause,
 
 		// Add select clause
 		if( this._selects )
-		tokens.push( ...this._selects );
+			tokens.push( ...this._selects );
 
 		// Add from clause
 		if( this._from )
@@ -238,7 +238,7 @@ export class SPARQLER implements QueryClause,
 
 		// Add where clause
 		if( this._where )
-		tokens.push( ...this._where );
+			tokens.push( ...this._where );
 
 		// Add solution modifiers
 		if( this._order )
