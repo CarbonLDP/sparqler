@@ -2,6 +2,10 @@ import { QueryClause, FromClause, SelectClause, WhereClause, SolutionModifier, G
 import { GraphPattern, IRIResolver } from "./Patterns";
 import { PatternBuilder } from "./PatternBuilder";
 import { Token } from "./Tokens/Token";
+export interface PrefixInfo {
+    iri: string;
+    used: boolean;
+}
 export declare class SPARQLER implements QueryClause, FromClause<FinishClause>, SelectClause, WhereClause<FinishClause>, GroupClause<FinishClause>, HavingClause<FinishClause>, OrderClause<FinishClause>, LimitOffsetClause<FinishClause>, FinishClause, IRIResolver {
     private _base;
     private _vocab;

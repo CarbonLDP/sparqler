@@ -47,7 +47,7 @@ import {
 } from "./Patterns/Tokens";
 import { NewLineSymbol } from "./Tokens/NewLineSymbol";
 
-interface PrefixInfo {
+export interface PrefixInfo {
 	iri:string;
 	used:boolean;
 }

@@ -1,15 +1,6 @@
 export const EMPTY_SEPARATOR:string = "";
 export const SPACE_SEPARATOR:string = " ";
 export const NEW_LINE_SEPARATOR:string = "\n";
-// export const TAB_SEPARATOR:string = "    ";
-
-// let indentation:number = 0;
-// export function addIndentation():void {
-// 	NEW_LINE_SEPARATOR = "\n" + TAB_SEPARATOR.repeat( ++ indentation );
-// }
-// export function removeIndentation():void {
-// 	NEW_LINE_SEPARATOR = "\n" + TAB_SEPARATOR.repeat( -- indentation );
-// }
 
 export enum TokenFormat {
 	PRETTY,
