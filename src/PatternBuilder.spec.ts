@@ -1,4 +1,6 @@
-import * as PatterBuilderModule from "./PatternBuilder";
+import * as PatternBuilderModule from "./PatternBuilder";
+import PatternBuilder from "./PatternBuilder";
+
 import {
 	IRIResolver,
 	SingleValuesPattern,
@@ -27,18 +29,16 @@ import * as ValuesPatternModule from "./NotTriplesPatterns/ValuesPattern";
 describe( "Module PatternBuilder", ():void => {
 
 	it( "Exists", ():void => {
-		expect( PatterBuilderModule ).toBeDefined();
-		expect( PatterBuilderModule ).toEqual( jasmine.any( Object ) );
+		expect( PatternBuilderModule ).toBeDefined();
+		expect( PatternBuilderModule ).toEqual( jasmine.any( Object ) );
 	} );
 
 	describe( "Class PatternBuilder", ():void => {
 
-		type PatternBuilder = PatterBuilderModule.PatternBuilder;
-		let PatternBuilder:typeof PatterBuilderModule.PatternBuilder = PatterBuilderModule.PatternBuilder;
-
 		it( "Exists", ():void => {
 			expect( PatternBuilder ).toBeDefined();
 			expect( PatternBuilder ).toEqual( jasmine.any( Function ) );
+			expect( PatternBuilder ).toBe( PatternBuilderModule.PatternBuilder );
 		} );
 
 		it( "Constructor", ():void => {

@@ -14,6 +14,7 @@ describe( "Module NotTriplesPattern", ():void => {
 		it( "Exists", ():void => {
 			expect( NotTriplesPattern ).toBeDefined();
 			expect( NotTriplesPattern ).toEqual( jasmine.any( Function ) );
+			expect( NotTriplesPattern ).toBe( NotTriplesPatternModule.NotTriplesPattern );
 		} );
 
 		it( "Constructor", ():void => {
