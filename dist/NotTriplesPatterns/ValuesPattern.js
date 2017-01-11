@@ -13,8 +13,8 @@ var ValuesPattern = (function (_super) {
         var _this = _super.call(this, [Tokens_1.VALUES]) || this;
         _this.init();
         _this.resolver = resolver;
-        _this.isSingle = variables.length === 1;
-        if (_this.isSingle) {
+        _this.length = variables.length;
+        if (_this.length === 1) {
             (_a = _this.patternTokens).push.apply(_a, variables[0].getSelfTokens().concat([Tokens_1.OPEN_SINGLE_BLOCK]));
         }
         else {
@@ -34,7 +34,9 @@ var ValuesPattern = (function (_super) {
         for (var _i = 0; _i < arguments.length; _i++) {
             values[_i] = arguments[_i];
         }
-        if (this.isSingle) {
+        if (this.length !== values.length)
+            throw new Error("InvalidArgumentError: The number of variables and values are different.");
+        if (this.length === 1) {
             (_a = this.patternTokens).push.apply(_a, ObjectPattern.serialize(values[0]));
         }
         else {
@@ -49,7 +51,7 @@ var ValuesPattern = (function (_super) {
         var _a;
     };
     ValuesPattern.prototype.getPattern = function () {
-        if (this.isSingle) {
+        if (this.length === 1) {
             this.patternTokens.push(Tokens_1.CLOSE_SINGLE_BLOCK);
         }
         else {

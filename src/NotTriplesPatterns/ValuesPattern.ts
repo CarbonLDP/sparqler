@@ -26,10 +26,10 @@ import { Token } from "../Tokens/Token";
 export class ValuesPattern extends NotTriplesPattern implements SingleValuesPattern, MultipleValuesPattern {
 
 	private resolver;
-	private isSingle:boolean;
+	private length:number;
 
 	protected interfaces:{
-		addPattern:( SingleValuesPatternMore | MultipleValuesPatternMore ) & NotTriplesPattern;
+		addPattern:SingleValuesPatternMore | MultipleValuesPatternMore;
 	};
 
 	constructor( resolver:IRIResolver, variables:Variable[] ) {
@@ -37,9 +37,9 @@ export class ValuesPattern extends NotTriplesPattern implements SingleValuesPatt
 		this.init();
 
 		this.resolver = resolver;
-		this.isSingle = variables.length === 1;
+		this.length = variables.length;
 
-		if( this.isSingle ) {
+		if( this.length === 1 ) {
 			this.patternTokens.push( ...variables[ 0 ].getSelfTokens(), OPEN_SINGLE_BLOCK );
 		} else {
 			this.patternTokens.push( OPEN_SINGLE_LIST );
@@ -48,13 +48,15 @@ export class ValuesPattern extends NotTriplesPattern implements SingleValuesPatt
 		}
 	}
 
-	has( value:supportedNativeTypes ):SingleValuesPatternMore & NotTriplesPattern;
-	has( value:Resource ):SingleValuesPatternMore & NotTriplesPattern;
-	has( value:Literal ):SingleValuesPatternMore & NotTriplesPattern;
-	has( value:Undefined ):SingleValuesPatternMore & NotTriplesPattern;
-	has( ...values:( supportedNativeTypes | Resource | Literal | Undefined )[] ):MultipleValuesPatternMore & NotTriplesPattern;
-	has( ...values ):( SingleValuesPatternMore | MultipleValuesPatternMore ) & NotTriplesPattern {
-		if( this.isSingle ) {
+	has( value:supportedNativeTypes ):SingleValuesPatternMore;
+	has( value:Resource ):SingleValuesPatternMore;
+	has( value:Literal ):SingleValuesPatternMore;
+	has( value:Undefined ):SingleValuesPatternMore;
+	has( ...values:( supportedNativeTypes | Resource | Literal | Undefined )[] ):MultipleValuesPatternMore;
+	has( ...values ):( SingleValuesPatternMore | MultipleValuesPatternMore ) {
+		if( this.length !== values.length ) throw new Error( "InvalidArgumentError: The number of variables and values are different." );
+
+		if( this.length === 1 ) {
 			this.patternTokens.push( ...ObjectPattern.serialize( values[ 0 ] ) );
 		} else {
 			this.patternTokens.push( OPEN_SINGLE_LIST );
@@ -67,7 +69,7 @@ export class ValuesPattern extends NotTriplesPattern implements SingleValuesPatt
 	}
 
 	getPattern():Token[] {
-		if( this.isSingle ) {
+		if( this.length === 1 ) {
 			this.patternTokens.push( CLOSE_SINGLE_BLOCK );
 		} else {
 			this.patternTokens.push( CLOSE_MULTI_BLOCK );

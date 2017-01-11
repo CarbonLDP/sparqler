@@ -1,4 +1,6 @@
-import SPARQLER from "..";
+import SPARQLER from "../src/SPARQLER";
+import { ValuesPattern } from "../src/NotTriplesPatterns/ValuesPattern";
+import { Variable } from "../src/TriplesPatterns/Variable";
 
 let builder = new SPARQLER();
 
@@ -72,6 +74,7 @@ builder
 			_.values( _.var( "v" ) ).has( 1 ),
 			_.values( _.var( "v" ) ).has( 1 ).and( 1.1 ).and( "some" ).and( _.undefined ),
 			_.values( _.var( "v1" ), _.var( "v2" ) ).has( 1, 2 ).and( _.undefined, _.literal( "nope" ) ).and( true, false ),
+			_.values().has(),
 		];
 	} )
 
