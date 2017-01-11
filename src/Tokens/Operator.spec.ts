@@ -12,7 +12,7 @@ import { NumberLiteral } from "./NumberLiteral";
 import { StringLiteral } from "./StringLiteral";
 import { RightSymbol } from "./RightSymbol";
 
-fdescribe( "Module Tokens/Operator", ():void => {
+describe( "Module Tokens/Operator", ():void => {
 
 	it( "Exists", ():void => {
 		expect( OperatorModule ).toBeDefined();
@@ -38,25 +38,25 @@ fdescribe( "Module Tokens/Operator", ():void => {
 		describe( "Operator.getTokenValue()", ():void => {
 
 			it( "Without nextToken always add space", ():void => {
-				let newLineSymbol:Operator;
+				let operator:Operator;
 				let value:string;
 
 				// Compact format
-				newLineSymbol = new Operator( "value" );
-				value = newLineSymbol.getTokenValue( TokenFormat.COMPACT );
+				operator = new Operator( "value" );
+				value = operator.getTokenValue( TokenFormat.COMPACT );
 				expect( value ).toBe( "value " );
 
-				newLineSymbol = new Operator( "value-2" );
-				value = newLineSymbol.getTokenValue( TokenFormat.COMPACT );
+				operator = new Operator( "value-2" );
+				value = operator.getTokenValue( TokenFormat.COMPACT );
 				expect( value ).toBe( "value-2 " );
 
 				// Pretty format
-				newLineSymbol = new Operator( "value" );
-				value = newLineSymbol.getTokenValue( TokenFormat.PRETTY );
+				operator = new Operator( "value" );
+				value = operator.getTokenValue( TokenFormat.PRETTY );
 				expect( value ).toBe( "value " );
 
-				newLineSymbol = new Operator( "value-2" );
-				value = newLineSymbol.getTokenValue( TokenFormat.PRETTY );
+				operator = new Operator( "value-2" );
+				value = operator.getTokenValue( TokenFormat.PRETTY );
 				expect( value ).toBe( "value-2 " );
 			} );
 
