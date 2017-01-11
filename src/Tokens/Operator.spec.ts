@@ -12,7 +12,7 @@ import { NumberLiteral } from "./NumberLiteral";
 import { StringLiteral } from "./StringLiteral";
 import { RightSymbol } from "./RightSymbol";
 
-describe( "Module Tokens/Operator", ():void => {
+fdescribe( "Module Tokens/Operator", ():void => {
 
 	it( "Exists", ():void => {
 		expect( OperatorModule ).toBeDefined();
@@ -73,43 +73,43 @@ describe( "Module Tokens/Operator", ():void => {
 					// nextToken an Identifier
 					operator = new Operator( "value" );
 					nextToken = new Identifier( "nextToken" );
-					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
+					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
 					// nextToken an LeftSymbol
 					operator = new Operator( "value" );
 					nextToken = new LeftSymbol( "nextToken" );
-					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
+					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
 					// nextToken an NewLineSymbol
 					operator = new Operator( "value" );
 					nextToken = new NewLineSymbol( "nextToken" );
-					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
+					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
 					// nextToken an NumberLiteral
 					operator = new Operator( "value" );
 					nextToken = new NumberLiteral( 1 );
-					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
+					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
 					// nextToken an Operator
 					operator = new Operator( "value" );
 					nextToken = new Operator( "nextToken" );
-					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
+					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
 					// nextToken an RightSymbol
 					operator = new Operator( "value" );
 					nextToken = new RightSymbol( "nextToken" );
-					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
+					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
 					// nextToken an StringLiteral
 					operator = new Operator( "value" );
 					nextToken = new StringLiteral( "nextToken" );
-					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
+					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 				} );
 
