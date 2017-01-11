@@ -200,9 +200,9 @@ describe( "Module Tokens/NewLineSymbol", ():void => {
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an NewLineSymbol
+					// nextToken an LeftSymbol
 					identifier = new NewLineSymbol( "value" );
-					nextToken = new NewLineSymbol( "nextToken" );
+					nextToken = new LeftSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
