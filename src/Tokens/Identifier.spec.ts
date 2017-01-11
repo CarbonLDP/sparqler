@@ -142,17 +142,6 @@ describe( "Module Tokens/Identifier", ():void => {
 					nextToken = new StringLiteral( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "UNION " );
-
-					// nextToken an StringLiteral
-					identifier = new Identifier( "identifier" );
-					nextToken = new StringLiteral( "nextToken" );
-					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
-					expect( value ).toBe( "identifier " );
-
-					identifier = new Identifier( "UNION" );
-					nextToken = new StringLiteral( "nextToken" );
-					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
-					expect( value ).not.toBe( "UNION " );
 				} );
 
 				it( "When `UNION` add new line", ():void => {
@@ -193,12 +182,6 @@ describe( "Module Tokens/Identifier", ():void => {
 					// nextToken an RightSymbol
 					identifier = new Identifier( "UNION" );
 					nextToken = new RightSymbol( "nextToken" );
-					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
-					expect( value ).toBe( "UNION\n" );
-
-					// nextToken an StringLiteral
-					identifier = new Identifier( "UNION" );
-					nextToken = new StringLiteral( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "UNION\n" );
 
