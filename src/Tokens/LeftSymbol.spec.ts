@@ -76,7 +76,7 @@ describe( "Module Tokens/LeftSymbol", ():void => {
 					value = leftSymbol.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value " );
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					leftSymbol = new LeftSymbol( "value" );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = leftSymbol.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -85,13 +85,13 @@ describe( "Module Tokens/LeftSymbol", ():void => {
 
 					// Not add an space
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					leftSymbol = new LeftSymbol( "value" );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = leftSymbol.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "value " );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					leftSymbol = new LeftSymbol( "value" );
 					nextToken = new NumberLiteral( 1 );
 					value = leftSymbol.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -103,13 +103,13 @@ describe( "Module Tokens/LeftSymbol", ():void => {
 					value = leftSymbol.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "value " );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					leftSymbol = new LeftSymbol( "value" );
 					nextToken = new RightSymbol( "nextToken" );
 					value = leftSymbol.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "value " );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					leftSymbol = new LeftSymbol( "value" );
 					nextToken = new StringLiteral( "nextToken" );
 					value = leftSymbol.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -124,13 +124,13 @@ describe( "Module Tokens/LeftSymbol", ():void => {
 
 					// Add nothing
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					identifier = new LeftSymbol( "value" );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					identifier = new LeftSymbol( "value" );
 					nextToken = new NumberLiteral( 1 );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -142,13 +142,13 @@ describe( "Module Tokens/LeftSymbol", ():void => {
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					identifier = new LeftSymbol( "value" );
 					nextToken = new RightSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					identifier = new LeftSymbol( "value" );
 					nextToken = new StringLiteral( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -163,7 +163,7 @@ describe( "Module Tokens/LeftSymbol", ():void => {
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "value" );
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					identifier = new LeftSymbol( "value" );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -187,19 +187,19 @@ describe( "Module Tokens/LeftSymbol", ():void => {
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					identifier = new LeftSymbol( "value" );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					identifier = new LeftSymbol( "value" );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					identifier = new LeftSymbol( "value" );
 					nextToken = new NumberLiteral( 1 );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -211,13 +211,13 @@ describe( "Module Tokens/LeftSymbol", ():void => {
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					identifier = new LeftSymbol( "value" );
 					nextToken = new RightSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					identifier = new LeftSymbol( "value" );
 					nextToken = new StringLiteral( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );

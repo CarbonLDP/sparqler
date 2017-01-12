@@ -76,19 +76,19 @@ describe( "Module Tokens/Operator", ():void => {
 					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					operator = new Operator( "value" );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					operator = new Operator( "value" );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					operator = new Operator( "value" );
 					nextToken = new NumberLiteral( 1 );
 					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -100,13 +100,13 @@ describe( "Module Tokens/Operator", ():void => {
 					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					operator = new Operator( "value" );
 					nextToken = new RightSymbol( "nextToken" );
 					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					operator = new Operator( "value" );
 					nextToken = new StringLiteral( "nextToken" );
 					value = operator.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -131,19 +131,19 @@ describe( "Module Tokens/Operator", ():void => {
 					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					operator = new Operator( "value" );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					operator = new Operator( "value" );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					operator = new Operator( "value" );
 					nextToken = new NumberLiteral( 1 );
 					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -155,13 +155,13 @@ describe( "Module Tokens/Operator", ():void => {
 					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					operator = new Operator( "value" );
 					nextToken = new RightSymbol( "nextToken" );
 					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "value" );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					operator = new Operator( "value" );
 					nextToken = new StringLiteral( "nextToken" );
 					value = operator.getTokenValue( TokenFormat.COMPACT, nextToken );

@@ -79,19 +79,19 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 
 					// Not add new line
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "1\n" );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "1\n" );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new NumberLiteral( 1 );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -103,13 +103,13 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "1\n" );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new RightSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "1\n" );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new StringLiteral( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -130,7 +130,7 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "1" );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new RightSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -144,25 +144,25 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "1" );
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "1" );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "1" );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new NumberLiteral( 1 );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "1" );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new StringLiteral( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -177,25 +177,25 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 
 					// Add space
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "1 " );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "1 " );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new NumberLiteral( 1 );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "1 " );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new StringLiteral( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -216,7 +216,7 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "1 " );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new RightSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -235,7 +235,7 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 
 					// Add space
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new NumberLiteral( 1 );
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -250,13 +250,13 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).not.toBe( "1 " );
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).not.toBe( "1 " );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -268,13 +268,13 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).not.toBe( "1 " );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new RightSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).not.toBe( "1 " );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new StringLiteral( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -295,13 +295,13 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "1" );
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "1" );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -313,13 +313,13 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "1" );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new RightSymbol( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "1" );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new StringLiteral( "nextToken" );
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -328,7 +328,7 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 
 					// Not add nothing
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					numberLiteral = new NumberLiteral( 1 );
 					nextToken = new NumberLiteral( 1 );
 					value = numberLiteral.getTokenValue( TokenFormat.COMPACT, nextToken );

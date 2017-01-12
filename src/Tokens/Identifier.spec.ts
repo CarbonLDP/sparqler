@@ -77,7 +77,7 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "UNION " );
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					identifier = new Identifier( "identifier" );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -88,7 +88,7 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "UNION " );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					identifier = new Identifier( "identifier" );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -99,7 +99,7 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "UNION " );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					identifier = new Identifier( "identifier" );
 					nextToken = new NumberLiteral( 1 );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -121,7 +121,7 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "UNION " );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					identifier = new Identifier( "identifier" );
 					nextToken = new RightSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -132,7 +132,7 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).not.toBe( "UNION " );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					identifier = new Identifier( "identifier" );
 					nextToken = new StringLiteral( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -155,19 +155,19 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "UNION\n" );
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					identifier = new Identifier( "UNION" );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "UNION\n" );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					identifier = new Identifier( "UNION" );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "UNION\n" );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					identifier = new Identifier( "UNION" );
 					nextToken = new NumberLiteral( 1 );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -179,13 +179,13 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "UNION\n" );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					identifier = new Identifier( "UNION" );
 					nextToken = new RightSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
 					expect( value ).toBe( "UNION\n" );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					identifier = new Identifier( "UNION" );
 					nextToken = new StringLiteral( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.PRETTY, nextToken );
@@ -209,7 +209,7 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "identifierValue " );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					identifier = new Identifier( "identifierValue" );
 					nextToken = new StringLiteral( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -217,19 +217,19 @@ describe( "Module Tokens/Identifier", ():void => {
 
 					// Not add space
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					identifier = new Identifier( "identifierValue" );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).not.toBe( "identifierValue " );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					identifier = new Identifier( "identifierValue" );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).not.toBe( "identifierValue " );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					identifier = new Identifier( "identifierValue" );
 					nextToken = new NumberLiteral( 1 );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -241,7 +241,7 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).not.toBe( "identifierValue " );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					identifier = new Identifier( "identifierValue" );
 					nextToken = new RightSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -255,19 +255,19 @@ describe( "Module Tokens/Identifier", ():void => {
 
 					// Add nothing
 
-					// nextToken an LeftSymbol
+					// nextToken a LeftSymbol
 					identifier = new Identifier( "identifierValue" );
 					nextToken = new LeftSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "identifierValue" );
 
-					// nextToken an NewLineSymbol
+					// nextToken a NewLineSymbol
 					identifier = new Identifier( "identifierValue" );
 					nextToken = new NewLineSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "identifierValue" );
 
-					// nextToken an NumberLiteral
+					// nextToken a NumberLiteral
 					identifier = new Identifier( "identifierValue" );
 					nextToken = new NumberLiteral( 1 );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -279,7 +279,7 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).toBe( "identifierValue" );
 
-					// nextToken an RightSymbol
+					// nextToken a RightSymbol
 					identifier = new Identifier( "identifierValue" );
 					nextToken = new RightSymbol( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
@@ -293,7 +293,7 @@ describe( "Module Tokens/Identifier", ():void => {
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
 					expect( value ).not.toBe( "identifierValue" );
 
-					// nextToken an StringLiteral
+					// nextToken a StringLiteral
 					identifier = new Identifier( "identifierValue" );
 					nextToken = new StringLiteral( "nextToken" );
 					value = identifier.getTokenValue( TokenFormat.COMPACT, nextToken );
