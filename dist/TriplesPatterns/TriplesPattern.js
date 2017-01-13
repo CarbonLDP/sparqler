@@ -7,35 +7,39 @@ var TriplesPattern = (function () {
         this.patternTokens = [];
         this.init();
     }
-    TriplesPattern.prototype.has = function (propertyIRIOrVariable, valueOrValues) {
-        var _this = this;
-        var property = (typeof propertyIRIOrVariable === "string" || propertyIRIOrVariable instanceof String)
-            ? this.resolver._resolveIRI(propertyIRIOrVariable, true)
-            : propertyIRIOrVariable.getSelfTokens();
-        valueOrValues = Array.isArray(valueOrValues) ? valueOrValues : [valueOrValues];
-        if (this.patternTokens.length > 0)
-            property.unshift(Tokens_1.SAME_SUBJECT_SEPARATOR);
-        (_a = this.patternTokens).push.apply(_a, property);
-        valueOrValues.forEach(function (value, index) {
-            (_a = _this.patternTokens).push.apply(_a, ObjectPattern.serialize(value));
-            if (index < valueOrValues.length - 1)
-                _this.patternTokens.push(Tokens_1.SAME_PROPERTY_SEPARATOR);
-            var _a;
-        });
-        return Object.assign({}, this.interfaces.addPattern, this.interfaces.graphPattern);
-        var _a;
+    TriplesPattern.prototype.has = function (property, values) {
+        this.patternTokens = [];
+        return this._addPattern(property, values);
     };
     TriplesPattern.prototype.getSelfTokens = function () {
         return this.elementTokens;
     };
     TriplesPattern.prototype.init = function () {
+        var _this = this;
         this.interfaces = {
             addPattern: {
-                and: this.has.bind(this),
+                and: function (property, values) {
+                    _this.patternTokens.push(Tokens_1.SAME_SUBJECT_SEPARATOR);
+                    return _this._addPattern(property, values);
+                },
             },
         };
     };
     ;
+    TriplesPattern.prototype._addPattern = function (property, values) {
+        var tokens = (typeof property === "string" || property instanceof String)
+            ? this.resolver._resolveIRI(property, true)
+            : property.getSelfTokens();
+        values = Array.isArray(values) ? values : [values];
+        values.forEach(function (value, index) {
+            tokens.push.apply(tokens, ObjectPattern.serialize(value));
+            if (index < values.length - 1)
+                tokens.push(Tokens_1.SAME_PROPERTY_SEPARATOR);
+        });
+        (_a = this.patternTokens).push.apply(_a, tokens);
+        return Object.assign({}, this.interfaces.addPattern, this.interfaces.graphPattern);
+        var _a;
+    };
     return TriplesPattern;
 }());
 exports.TriplesPattern = TriplesPattern;

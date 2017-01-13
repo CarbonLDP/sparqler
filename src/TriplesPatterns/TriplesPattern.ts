@@ -47,24 +47,9 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 	has( propertyVariable:Variable, literal:Literal ):TriplesSameSubjectMore<T> & T;
 	has( propertyVariable:Variable, node:TriplesNodePattern ):TriplesSameSubjectMore<T> & T;
 	has( propertyVariable:Variable, values:( supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):TriplesSameSubjectMore<T> & T;
-	has( propertyIRIOrVariable:string | Variable, valueOrValues ):TriplesSameSubjectMore<T> & T {
-		let property:Token[] = ( typeof propertyIRIOrVariable === "string" || propertyIRIOrVariable instanceof String )
-			? this.resolver._resolveIRI( propertyIRIOrVariable as string, true )
-			: propertyIRIOrVariable.getSelfTokens();
-
-		valueOrValues = Array.isArray( valueOrValues ) ? valueOrValues : [ valueOrValues ];
-
-		if( this.patternTokens.length > 0 )
-			property.unshift( SAME_SUBJECT_SEPARATOR );
-		this.patternTokens.push( ...property );
-
-		valueOrValues.forEach( ( value, index ) => {
-			this.patternTokens.push( ...ObjectPattern.serialize( value ) );
-			if( index < valueOrValues.length - 1 ) this.patternTokens.push( SAME_PROPERTY_SEPARATOR );
-		} );
-
-
-		return Object.assign( {}, this.interfaces.addPattern, this.interfaces.graphPattern );
+	has( property:string | Variable, values ):TriplesSameSubjectMore<T> & T {
+		this.patternTokens = [];
+		return this._addPattern( property, values );
 	}
 
 	getSelfTokens():Token[] {
@@ -74,10 +59,30 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 	protected init():void {
 		this.interfaces = {
 			addPattern: {
-				and: this.has.bind( this ),
+				and: ( property, values ) => {
+					this.patternTokens.push( SAME_SUBJECT_SEPARATOR );
+					return this._addPattern( property, values );
+				},
 			},
 		};
 	};
+
+	private _addPattern( property:string | Variable, values:ElementPattern | ElementPattern[] ):TriplesSameSubjectMore<T> & T;
+	private _addPattern( property, values ):TriplesSameSubjectMore<T> & T {
+		let tokens:Token[] = ( typeof property === "string" || property instanceof String )
+			? this.resolver._resolveIRI( property as string, true )
+			: property.getSelfTokens();
+
+		values = Array.isArray( values ) ? values : [ values ];
+		values.forEach( ( value, index ) => {
+			tokens.push( ...ObjectPattern.serialize( value ) );
+			if( index < values.length - 1 ) tokens.push( SAME_PROPERTY_SEPARATOR );
+		} );
+
+		this.patternTokens.push( ...tokens );
+		return Object.assign( {}, this.interfaces.addPattern, this.interfaces.graphPattern );
+	}
+
 }
 
 export default TriplesPattern;
