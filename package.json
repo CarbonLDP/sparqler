@@ -33,7 +33,7 @@
     "awesome-typescript-loader": "^3.0.0-beta.17",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
-    "gulp-intermediate": "^3.0.1",
+    "gulp-filter": "^5.0.0",
     "gulp-jasmine": "^2.4.2",
     "gulp-json-editor": "^2.2.1",
     "gulp-sourcemaps": "^1.9.1",
@@ -46,6 +46,7 @@
     "karma-typescript": "^2.1.5",
     "run-sequence": "^1.2.2",
     "typescript": "^2.1.4",
+    "uuid": "^3.0.1",
     "webpack": "^2.2.0-rc.2"
   },
   "private": true

@@ -6,8 +6,12 @@ const gulp = require( "gulp" );
 const runSequence = require( "run-sequence" );
 
 const karma = require( "karma" );
-const intermediate = require( "gulp-intermediate" );
 const jasmine = require( "gulp-jasmine" );
+const osTempDir = require( "os" ).tmpdir();
+const uuid = require( "uuid" );
+const path = require( "path" );
+const filter = require( 'gulp-filter' );
+
 let SpecReporter = require( 'jasmine-spec-reporter' ).SpecReporter;
 
 const sourcemaps = require( "gulp-sourcemaps" );
@@ -118,27 +122,24 @@ gulp.task( "test:browser", ( done ) => {
 	}, done ).start();
 } );
 
-gulp.task( "test:node", () => {
-	let tsProject = ts.createProject( "tsconfig.json");
+gulp.task( "test:node", function( done ) {
+	let tsProject = ts.createProject( "tsconfig.json" );
 
 	let tsResults = gulp.src( config.tests.typescript )
 		.pipe( sourcemaps.init() )
 		.pipe( tsProject() );
 
+	let tempDir = path.join( osTempDir, uuid.v4() );
+
 	return tsResults.js
-		.pipe( sourcemaps.write( ".", {
-			includeContent: false,
-			sourceRoot: __dirname + "/src/"
-		} ) )
-		.pipe( intermediate( {}, function( tempDir, cb ) {
-			gulp.src( tempDir + "/**/*.spec.js" )
-				.pipe( jasmine( {
-					reporter: new SpecReporter( {
-						summary: {
-							displayStacktrace: true,
-						}
-					} ),
-				} ) )
-				.on( "end", cb );
+		.pipe( sourcemaps.write( "." ) )
+		.pipe( gulp.dest( tempDir ) )
+		.pipe( filter( "**/*.spec.js" ) )
+		.pipe( jasmine( {
+			reporter: new SpecReporter( {
+				summary: {
+					displayStacktrace: true,
+				}
+			} ),
 		} ) );
 } );
