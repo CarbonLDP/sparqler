@@ -122,7 +122,7 @@ gulp.task( "test:browser", ( done ) => {
 	}, done ).start();
 } );
 
-gulp.task( "test:node", function( done ) {
+gulp.task( "test:node", () => {
 	let tsProject = ts.createProject( "tsconfig.json" );
 
 	let tsResults = gulp.src( config.tests.typescript )
