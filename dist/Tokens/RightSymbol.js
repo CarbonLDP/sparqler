@@ -12,7 +12,7 @@ var LeftSymbol_1 = require("./LeftSymbol");
 var RightSymbol = (function (_super) {
     __extends(RightSymbol, _super);
     function RightSymbol() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     RightSymbol.prototype.getPrettySeparator = function (nextToken) {
         if (nextToken instanceof Identifier_1.Identifier && nextToken["value"] !== "UNDEF")

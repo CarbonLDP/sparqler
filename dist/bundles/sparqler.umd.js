@@ -78,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -119,9 +119,9 @@ exports.VALUES = new Identifier_1.Identifier("VALUES");
 exports.UNDEF = new Identifier_1.Identifier("UNDEF");
 
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -159,9 +159,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Token;
 
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -175,7 +175,7 @@ var StringLiteral_1 = __webpack_require__(3);
 var Identifier = (function (_super) {
     __extends(Identifier, _super);
     function Identifier() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Identifier.prototype.getPrettySeparator = function (nextToken) {
         if (this.value === "UNION")
@@ -194,9 +194,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Identifier;
 
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -213,7 +213,7 @@ var NewLineSymbol_1 = __webpack_require__(4);
 var StringLiteral = (function (_super) {
     __extends(StringLiteral, _super);
     function StringLiteral() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     StringLiteral.prototype.getPrettySeparator = function (nextToken) {
         if (nextToken instanceof Identifier_1.Identifier || (nextToken instanceof NewLineSymbol_1.NewLineSymbol && nextToken["value"] === ")"))
@@ -234,9 +234,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = StringLiteral;
 
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -249,7 +249,7 @@ var Token_1 = __webpack_require__(1);
 var NewLineSymbol = (function (_super) {
     __extends(NewLineSymbol, _super);
     function NewLineSymbol() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     NewLineSymbol.prototype.getPrettySeparator = function (nextToken) {
         if (nextToken instanceof NewLineSymbol) {
@@ -268,9 +268,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = NewLineSymbol;
 
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -283,7 +283,7 @@ var Token_1 = __webpack_require__(1);
 var Operator = (function (_super) {
     __extends(Operator, _super);
     function Operator() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Operator.prototype.getPrettySeparator = function (nextToken) {
         return Token_1.EMPTY_SEPARATOR;
@@ -298,9 +298,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Operator;
 
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -317,7 +317,7 @@ var LeftSymbol_1 = __webpack_require__(12);
 var RightSymbol = (function (_super) {
     __extends(RightSymbol, _super);
     function RightSymbol() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     RightSymbol.prototype.getPrettySeparator = function (nextToken) {
         if (nextToken instanceof Identifier_1.Identifier && nextToken["value"] !== "UNDEF")
@@ -345,9 +345,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RightSymbol;
 
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -381,9 +381,9 @@ function addType(value, type) {
 exports.addType = addType;
 
 
-/***/ },
+/***/ }),
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -435,9 +435,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TriplesPattern;
 
 
-/***/ },
+/***/ }),
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -450,7 +450,7 @@ var TriplesPattern_1 = __webpack_require__(8);
 var TriplesSubject = (function (_super) {
     __extends(TriplesSubject, _super);
     function TriplesSubject() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     TriplesSubject.prototype.init = function () {
         var _this = this;
@@ -468,9 +468,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TriplesSubject;
 
 
-/***/ },
+/***/ }),
 /* 10 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -488,9 +488,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = NotTriplesPattern;
 
 
-/***/ },
+/***/ }),
 /* 11 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -584,9 +584,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = PatternBuilder;
 
 
-/***/ },
+/***/ }),
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -600,7 +600,7 @@ var Identifier_1 = __webpack_require__(2);
 var LeftSymbol = (function (_super) {
     __extends(LeftSymbol, _super);
     function LeftSymbol() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     LeftSymbol.prototype.getPrettySeparator = function (nextToken) {
         if (nextToken instanceof LeftSymbol || nextToken instanceof Identifier_1.Identifier)
@@ -617,9 +617,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LeftSymbol;
 
 
-/***/ },
+/***/ }),
 /* 13 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -660,9 +660,9 @@ function isMultiLine(tokens) {
 exports.isMultiLine = isMultiLine;
 
 
-/***/ },
+/***/ }),
 /* 14 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -954,9 +954,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SPARQLER;
 
 
-/***/ },
+/***/ }),
 /* 15 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1036,9 +1036,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ValuesPattern;
 
 
-/***/ },
+/***/ }),
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1075,9 +1075,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = NumberLiteral;
 
 
-/***/ },
+/***/ }),
 /* 17 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1091,7 +1091,7 @@ var TriplesPattern_1 = __webpack_require__(8);
 var BlankNode = (function (_super) {
     __extends(BlankNode, _super);
     function BlankNode() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     BlankNode.prototype.getSelfTokens = function () {
         if (!this.patternTokens.find(function (token) { return token === Tokens_1.SAME_SUBJECT_SEPARATOR || token === Tokens_1.SAME_PROPERTY_SEPARATOR; }))
@@ -1113,9 +1113,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = BlankNode;
 
 
-/***/ },
+/***/ }),
 /* 18 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1169,9 +1169,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Collection;
 
 
-/***/ },
+/***/ }),
 /* 19 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1235,13 +1235,11 @@ var BooleanLiteral = (function (_super) {
     return BooleanLiteral;
 }(Literal));
 exports.BooleanLiteral = BooleanLiteral;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Literal;
 
 
-/***/ },
+/***/ }),
 /* 20 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1265,9 +1263,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Resource;
 
 
-/***/ },
+/***/ }),
 /* 21 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1293,9 +1291,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Variable;
 
 
-/***/ },
+/***/ }),
 /* 22 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1347,9 +1345,9 @@ function resolve(iri, vocab) {
 exports.resolve = resolve;
 
 
-/***/ },
+/***/ }),
 /* 23 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1361,9 +1359,9 @@ exports.boolean = ns + "boolean";
 exports.string = ns + "string";
 
 
-/***/ },
+/***/ }),
 /* 24 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
@@ -1371,7 +1369,10 @@ var SPARQLER_1 = __webpack_require__( 14 );
 (function( root, factory ) {
 	if( true ) {
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ !(function webpackMissingModule() { var e = new Error("Cannot find module \"b\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ !(function webpackMissingModule() { var e = new Error("Cannot find module \"b\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	}
 	else {
 		// Browser globals
@@ -1382,6 +1383,6 @@ var SPARQLER_1 = __webpack_require__( 14 );
 } ));
 
 
-/***/ }
+/***/ })
 /******/ ]);
 });

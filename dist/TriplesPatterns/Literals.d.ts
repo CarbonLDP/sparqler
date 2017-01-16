@@ -19,4 +19,3 @@ export declare class BooleanLiteral extends Literal {
     protected elementTokens: Token[];
     constructor(resolver: IRIResolver, value: boolean);
 }
-export default Literal;

@@ -9,7 +9,7 @@ var Identifier_1 = require("./Identifier");
 var LeftSymbol = (function (_super) {
     __extends(LeftSymbol, _super);
     function LeftSymbol() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     LeftSymbol.prototype.getPrettySeparator = function (nextToken) {
         if (nextToken instanceof LeftSymbol || nextToken instanceof Identifier_1.Identifier)

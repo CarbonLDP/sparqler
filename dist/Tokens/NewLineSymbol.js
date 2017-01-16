@@ -8,7 +8,7 @@ var Token_1 = require("./Token");
 var NewLineSymbol = (function (_super) {
     __extends(NewLineSymbol, _super);
     function NewLineSymbol() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     NewLineSymbol.prototype.getPrettySeparator = function (nextToken) {
         if (nextToken instanceof NewLineSymbol) {
