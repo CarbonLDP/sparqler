@@ -435,7 +435,6 @@ export class SPARQLER implements QueryClause,
 
 		if( IRIUtils.isPrefixed( iri ) ) {
 			let parts:string[] = IRIUtils.getPrefixedParts( iri );
-			if( parts === null ) return;
 
 			let prefixInfo:PrefixInfo = this._prefixes.get( parts[ 0 ] );
 			if( prefixInfo === void 0 ) throw new Error( "IllegalArgumentError: The used prefix has not been declared" );

@@ -267,8 +267,6 @@ var SPARQLER = (function () {
         var tokens;
         if (IRIUtils.isPrefixed(iri)) {
             var parts = IRIUtils.getPrefixedParts(iri);
-            if (parts === null)
-                return;
             var prefixInfo = this._prefixes.get(parts[0]);
             if (prefixInfo === void 0)
                 throw new Error("IllegalArgumentError: The used prefix has not been declared");

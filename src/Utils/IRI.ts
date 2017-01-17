@@ -22,15 +22,15 @@ export function isIRI( iri:string ):boolean {
 
 
 let prefixRegex:RegExp = /([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?:/;
-let prefixNormalizeRegex:RegExp = /([_~.\-!$&'|()*+,;=/?#@%])/;
+let prefixNormalizeRegex:RegExp = /([_~.\-!$&'|()*+,;=/?#@%])/g;
 
 export function isPrefixed( iri:string ):boolean {
-	return iri.match( prefixRegex ) && ! hasProtocol( iri );
+	return ! ! iri.match( prefixRegex ) && ! hasProtocol( iri );
 }
 
 export function getPrefixedParts( iri:string ):[ string, string ] {
 	let parts:RegExpExecArray = prefixRegex.exec( iri );
-	if( parts === null ) return null;
+	if( parts === null || hasProtocol( iri ) ) return null;
 
 	let prefix:string = parts[ 1 ] || "";
 	let local:string = iri.substr( prefix.length + 1 ).replace( prefixNormalizeRegex, "\\$1" );

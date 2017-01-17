@@ -934,8 +934,6 @@ var SPARQLER = (function () {
         var tokens;
         if (IRIUtils.isPrefixed(iri)) {
             var parts = IRIUtils.getPrefixedParts(iri);
-            if (parts === null)
-                return;
             var prefixInfo = this._prefixes.get(parts[0]);
             if (prefixInfo === void 0)
                 throw new Error("IllegalArgumentError: The used prefix has not been declared");
@@ -1311,14 +1309,14 @@ function isIRI(iri) {
 }
 exports.isIRI = isIRI;
 var prefixRegex = /([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?:/;
-var prefixNormalizeRegex = /([_~.\-!$&'|()*+,;=/?#@%])/;
+var prefixNormalizeRegex = /([_~.\-!$&'|()*+,;=/?#@%])/g;
 function isPrefixed(iri) {
-    return iri.match(prefixRegex) && !hasProtocol(iri);
+    return !!iri.match(prefixRegex) && !hasProtocol(iri);
 }
 exports.isPrefixed = isPrefixed;
 function getPrefixedParts(iri) {
     var parts = prefixRegex.exec(iri);
-    if (parts === null)
+    if (parts === null || hasProtocol(iri))
         return null;
     var prefix = parts[1] || "";
     var local = iri.substr(prefix.length + 1).replace(prefixNormalizeRegex, "\\$1");
