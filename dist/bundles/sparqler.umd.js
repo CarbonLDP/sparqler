@@ -1127,39 +1127,34 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Tokens_1 = __webpack_require__(0);
 var TriplesPattern_1 = __webpack_require__(8);
 var ObjectPattern = __webpack_require__(7);
+var NewLineSymbol_1 = __webpack_require__(4);
 var Collection = (function (_super) {
     __extends(Collection, _super);
     function Collection(resolver, values) {
         var _this = _super.call(this, resolver) || this;
-        if (values.length === 1) {
-            _this.elementTokens = [Tokens_1.OPEN_SINGLE_LIST];
-        }
-        else {
-            _this.elementTokens = [Tokens_1.OPEN_MULTI_LIST];
-        }
+        var tokens = [];
         values.forEach(function (value, index) {
-            (_a = _this.elementTokens).push.apply(_a, ObjectPattern.serialize(value));
+            tokens.push.apply(tokens, ObjectPattern.serialize(value));
             if (index < values.length - 1)
-                _this.elementTokens.push(Tokens_1.EMPTY_SEPARATOR);
-            var _a;
+                tokens.push(Tokens_1.EMPTY_SEPARATOR);
         });
-        if (values.length === 1) {
-            _this.elementTokens.push(Tokens_1.CLOSE_SINGLE_LIST);
-        }
-        else {
-            _this.elementTokens.push(Tokens_1.CLOSE_MULTI_LIST);
-        }
+        var isSingle = values.length <= 1 && !tokens.find(function (token) { return token instanceof NewLineSymbol_1.NewLineSymbol; });
+        _this.elementTokens = [
+            isSingle ? Tokens_1.OPEN_SINGLE_LIST : Tokens_1.OPEN_MULTI_LIST
+        ].concat(tokens, [
+            isSingle ? Tokens_1.CLOSE_SINGLE_LIST : Tokens_1.CLOSE_MULTI_LIST
+        ]);
         return _this;
     }
     Collection.prototype.getPattern = function () {
-        return this.elementTokens.concat(this.patternTokens);
+        return this.getSelfTokens().concat(this.patternTokens);
     };
     Collection.prototype.init = function () {
         var _this = this;
         _super.prototype.init.call(this);
         this.interfaces.graphPattern = {
             getPattern: function () { return _this.getPattern(); },
-            getSelfTokens: function () { return _this.elementTokens; },
+            getSelfTokens: function () { return _this.getSelfTokens(); },
         };
     };
     return Collection;

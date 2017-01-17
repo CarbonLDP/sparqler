@@ -37,6 +37,9 @@ builder
 				_.blankNode().has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ),
 			),
 			_.collection(
+				_.blankNode().has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ),
+			),
+			_.collection(
 				"some",
 				_.resource( ":some" ),
 			).has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ),
