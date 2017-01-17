@@ -75,7 +75,7 @@ describe( "Module TriplesPattern/Literals", ():void => {
 			expect( literal.getSelfTokens() ).toEqual( [] );
 		} );
 
-		it( "getPattern(), get the pattern without self tokens", ():void => {
+		it( "getPattern(), get the triples tokens without self tokens", ():void => {
 			spyOn( ObjectPattern, "serialize" ).and.callFake( ( element ):Token[] => {
 				return [ new MockToken( element ) ];
 			} );
