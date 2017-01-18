@@ -111,6 +111,18 @@ exports.OPEN_MULTI_LIST = new NewLineSymbol_1.NewLineSymbol("(");
 exports.CLOSE_MULTI_LIST = new NewLineSymbol_1.NewLineSymbol(")");
 exports.OPEN_SINGLE_LIST = new LeftSymbol_1.LeftSymbol("(");
 exports.CLOSE_SINGLE_LIST = new RightSymbol_1.RightSymbol(")");
+exports.BASE = new Identifier_1.Identifier("BASE");
+exports.PREFIX = new Identifier_1.Identifier("PREFIX");
+exports.SELECT = new Identifier_1.Identifier("SELECT");
+exports.FROM = new Identifier_1.Identifier("FROM");
+exports.NAMED = new Identifier_1.Identifier("NAMED");
+exports.WHERE = new Identifier_1.Identifier("WHERE");
+exports.GROUP = new Identifier_1.Identifier("GROUP");
+exports.BY = new Identifier_1.Identifier("BY");
+exports.HAVING = new Identifier_1.Identifier("HAVING");
+exports.ORDER = new Identifier_1.Identifier("ORDER");
+exports.LIMIT = new Identifier_1.Identifier("LIMIT");
+exports.OFFSET = new Identifier_1.Identifier("OFFSET");
 exports.GRAPH = new Identifier_1.Identifier("GRAPH");
 exports.OPTIONAL = new Identifier_1.Identifier("OPTIONAL");
 exports.UNION = new Identifier_1.Identifier("UNION");
@@ -670,7 +682,6 @@ var IRIUtils = __webpack_require__(22);
 var PatternsUtils = __webpack_require__(13);
 var PatternBuilder_1 = __webpack_require__(11);
 var Token_1 = __webpack_require__(1);
-var Identifier_1 = __webpack_require__(2);
 var StringLiteral_1 = __webpack_require__(4);
 var RightSymbol_1 = __webpack_require__(6);
 var NumberLiteral_1 = __webpack_require__(16);
@@ -704,49 +715,49 @@ var SPARQLER = (function () {
         }
         if (variables.length === 0)
             throw new Error("IllegalArgumentError: Need to provide al least one variable.");
-        this._selects = [new Identifier_1.Identifier("SELECT")];
+        this._selects = [Tokens_1.SELECT];
         variables.forEach(function (variable) { return _this._selects.push(Tokens_1.VAR_SYMBOL, new StringLiteral_1.StringLiteral(variable)); });
         Object.assign(this.interfaces.finishClause, this.interfaces.finishSelect);
         return Object.assign({}, this.interfaces.whereClause, this.interfaces.fromClause);
     };
     SPARQLER.prototype.selectAll = function () {
-        this._selects = [new Identifier_1.Identifier("SELECT"), new RightSymbol_1.RightSymbol("*")];
+        this._selects = [Tokens_1.SELECT, new RightSymbol_1.RightSymbol("*")];
         Object.assign(this.interfaces.finishClause, this.interfaces.finishSelect);
         return Object.assign({}, this.interfaces.whereClause, this.interfaces.fromClause);
     };
     SPARQLER.prototype.from = function (iri) {
-        this._from = [new Identifier_1.Identifier("FROM")].concat(this._resolveIRI(iri));
+        this._from = [Tokens_1.FROM].concat(this._resolveIRI(iri));
         return this.interfaces.whereClause;
     };
     SPARQLER.prototype.fromNamed = function (iri) {
-        this._from = [new Identifier_1.Identifier("FROM"), new Identifier_1.Identifier("NAMED")].concat(this._resolveIRI(iri));
+        this._from = [Tokens_1.FROM, Tokens_1.NAMED].concat(this._resolveIRI(iri));
         return this.interfaces.whereClause;
     };
     SPARQLER.prototype.where = function (patternFunction) {
         var result = patternFunction(new PatternBuilder_1.PatternBuilder(this));
-        this._where = [new Identifier_1.Identifier("WHERE")].concat(PatternsUtils.getBlockTokens(result));
+        this._where = [Tokens_1.WHERE].concat(PatternsUtils.getBlockTokens(result));
         return Object.assign({}, this.interfaces.groupClause, this.interfaces.havingClause, this.interfaces.orderClause, this.interfaces.limitClause, this.interfaces.offsetClause, this.interfaces.finishClause);
     };
     SPARQLER.prototype.groupBy = function (rawCondition) {
-        this._group = [new Identifier_1.Identifier("GROUP"), new Identifier_1.Identifier("BY"), new StringLiteral_1.StringLiteral(rawCondition)];
+        this._group = [Tokens_1.GROUP, Tokens_1.BY, new StringLiteral_1.StringLiteral(rawCondition)];
         return Object.assign({}, this.interfaces.havingClause, this.interfaces.orderClause, this.interfaces.limitClause, this.interfaces.offsetClause, this.interfaces.finishClause);
     };
     SPARQLER.prototype.having = function (rawCondition) {
-        this._having = [new Identifier_1.Identifier("HAVING"), new StringLiteral_1.StringLiteral(rawCondition)];
+        this._having = [Tokens_1.HAVING, new StringLiteral_1.StringLiteral(rawCondition)];
         return Object.assign({}, this.interfaces.orderClause, this.interfaces.limitClause, this.interfaces.offsetClause, this.interfaces.finishClause);
     };
     SPARQLER.prototype.orderBy = function (rawCondition) {
-        this._order = [new Identifier_1.Identifier("ORDER"), new Identifier_1.Identifier("BY"), new StringLiteral_1.StringLiteral(rawCondition)];
+        this._order = [Tokens_1.ORDER, Tokens_1.BY, new StringLiteral_1.StringLiteral(rawCondition)];
         return Object.assign({}, this.interfaces.limitClause, this.interfaces.offsetClause, this.interfaces.finishClause);
     };
     SPARQLER.prototype.limit = function (limit) {
-        this._limit = [new Identifier_1.Identifier("LIMIT"), new NumberLiteral_1.NumberLiteral(limit)];
+        this._limit = [Tokens_1.LIMIT, new NumberLiteral_1.NumberLiteral(limit)];
         if (this._offset)
             return this.interfaces.finishClause;
         return Object.assign({}, this.interfaces.offsetClause, this.interfaces.finishClause);
     };
     SPARQLER.prototype.offset = function (offset) {
-        this._offset = [new Identifier_1.Identifier("OFFSET"), new NumberLiteral_1.NumberLiteral(offset)];
+        this._offset = [Tokens_1.OFFSET, new NumberLiteral_1.NumberLiteral(offset)];
         if (this._limit)
             return this.interfaces.finishClause;
         return Object.assign({}, this.interfaces.limitClause, this.interfaces.finishClause);
@@ -754,10 +765,10 @@ var SPARQLER = (function () {
     SPARQLER.prototype.constructQuery = function (format) {
         var tokens = [];
         if (this._base)
-            tokens.push(new Identifier_1.Identifier("BASE"), Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(this._base), Tokens_1.CLOSE_IRI);
+            tokens.push(Tokens_1.BASE, Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(this._base), Tokens_1.CLOSE_IRI);
         this._prefixes.forEach(function (prefixInfo, prefix) {
             if (prefixInfo.used || format === Token_1.TokenFormat.PRETTY)
-                tokens.push(new Identifier_1.Identifier("PREFIX"), new StringLiteral_1.StringLiteral(prefix + ":"), Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(prefixInfo.iri), Tokens_1.CLOSE_IRI);
+                tokens.push(Tokens_1.PREFIX, new StringLiteral_1.StringLiteral(prefix + ":"), Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(prefixInfo.iri), Tokens_1.CLOSE_IRI);
         });
         if (this._selects)
             tokens.push.apply(tokens, this._selects);

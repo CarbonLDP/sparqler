@@ -20,7 +20,7 @@ describe( "Module Tokens", ():void => {
 
 	it( "Tokens.PREFIX_SYMBOL", ():void => {
 		expect( Tokens.PREFIX_SYMBOL ).toBeDefined();
-		expect( Tokens.PREFIX_SYMBOL[ "value"] ).toBe( ":" );
+		expect( Tokens.PREFIX_SYMBOL[ "value" ] ).toBe( ":" );
 		expect( Tokens.PREFIX_SYMBOL ).toEqual( jasmine.any( Operator ) );
 	} );
 
@@ -155,6 +155,78 @@ describe( "Module Tokens", ():void => {
 		expect( Tokens.CLOSE_SINGLE_LIST ).toBeDefined();
 		expect( Tokens.CLOSE_SINGLE_LIST[ "value" ] ).toBe( ")" );
 		expect( Tokens.CLOSE_SINGLE_LIST ).toEqual( jasmine.any( RightSymbol ) );
+	} );
+
+	it( "Tokens.BASE", ():void => {
+		expect( Tokens.BASE ).toBeDefined();
+		expect( Tokens.BASE[ "value" ] ).toBe( "BASE" );
+		expect( Tokens.BASE ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.PREFIX", ():void => {
+		expect( Tokens.PREFIX ).toBeDefined();
+		expect( Tokens.PREFIX[ "value" ] ).toBe( "PREFIX" );
+		expect( Tokens.PREFIX ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.SELECT", ():void => {
+		expect( Tokens.SELECT ).toBeDefined();
+		expect( Tokens.SELECT[ "value" ] ).toBe( "SELECT" );
+		expect( Tokens.SELECT ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.FROM", ():void => {
+		expect( Tokens.FROM ).toBeDefined();
+		expect( Tokens.FROM[ "value" ] ).toBe( "FROM" );
+		expect( Tokens.FROM ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.NAMED", ():void => {
+		expect( Tokens.NAMED ).toBeDefined();
+		expect( Tokens.NAMED[ "value" ] ).toBe( "NAMED" );
+		expect( Tokens.NAMED ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.WHERE", ():void => {
+		expect( Tokens.WHERE ).toBeDefined();
+		expect( Tokens.WHERE[ "value" ] ).toBe( "WHERE" );
+		expect( Tokens.WHERE ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.GROUP", ():void => {
+		expect( Tokens.GROUP ).toBeDefined();
+		expect( Tokens.GROUP[ "value" ] ).toBe( "GROUP" );
+		expect( Tokens.GROUP ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.BY", ():void => {
+		expect( Tokens.BY ).toBeDefined();
+		expect( Tokens.BY[ "value" ] ).toBe( "BY" );
+		expect( Tokens.BY ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.HAVING", ():void => {
+		expect( Tokens.HAVING ).toBeDefined();
+		expect( Tokens.HAVING[ "value" ] ).toBe( "HAVING" );
+		expect( Tokens.HAVING ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.ORDER", ():void => {
+		expect( Tokens.ORDER ).toBeDefined();
+		expect( Tokens.ORDER[ "value" ] ).toBe( "ORDER" );
+		expect( Tokens.ORDER ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.LIMIT", ():void => {
+		expect( Tokens.LIMIT ).toBeDefined();
+		expect( Tokens.LIMIT[ "value" ] ).toBe( "LIMIT" );
+		expect( Tokens.LIMIT ).toEqual( jasmine.any( Identifier ) );
+	} );
+
+	it( "Tokens.OFFSET", ():void => {
+		expect( Tokens.OFFSET ).toBeDefined();
+		expect( Tokens.OFFSET[ "value" ] ).toBe( "OFFSET" );
+		expect( Tokens.OFFSET ).toEqual( jasmine.any( Identifier ) );
 	} );
 
 	it( "Tokens.GRAPH", ():void => {
