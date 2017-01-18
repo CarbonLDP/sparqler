@@ -95,7 +95,7 @@ exports.OPEN_IRI = new LeftSymbol_1.LeftSymbol("<");
 exports.CLOSE_IRI = new RightSymbol_1.RightSymbol(">");
 exports.OPEN_QUOTE = new LeftSymbol_1.LeftSymbol("\"");
 exports.CLOSE_QUOTE = new RightSymbol_1.RightSymbol("\"");
-exports.TRIPLE_SEPARATOR = new NewLineSymbol_1.NewLineSymbol(".");
+exports.GRAPH_PATTERN_SEPARATOR = new NewLineSymbol_1.NewLineSymbol(".");
 exports.SAME_SUBJECT_SEPARATOR = new NewLineSymbol_1.NewLineSymbol(";");
 exports.SAME_PROPERTY_SEPARATOR = new NewLineSymbol_1.NewLineSymbol(",");
 exports.EMPTY_SEPARATOR = new NewLineSymbol_1.NewLineSymbol("");
@@ -643,12 +643,12 @@ function getTokens(patterns) {
     var lastToken = void 0;
     patterns.forEach(function (graphPattern, index) {
         var tokens = graphPattern.getPattern();
-        if (lastToken === Tokens_1.TRIPLE_SEPARATOR && (tokens[0] instanceof Identifier_1.Identifier || tokens[0] === Tokens_1.OPEN_MULTI_BLOCK || tokens[0] === Tokens_1.OPEN_SINGLE_BLOCK))
+        if (lastToken === Tokens_1.GRAPH_PATTERN_SEPARATOR && (tokens[0] instanceof Identifier_1.Identifier || tokens[0] === Tokens_1.OPEN_MULTI_BLOCK || tokens[0] === Tokens_1.OPEN_SINGLE_BLOCK))
             triplesTokens.pop();
         triplesTokens.push.apply(triplesTokens, tokens);
         lastToken = tokens[tokens.length - 1];
         if (index < patterns.length - 1 && lastToken !== Tokens_1.CLOSE_MULTI_BLOCK && lastToken !== Tokens_1.CLOSE_SINGLE_BLOCK) {
-            triplesTokens.push(lastToken = Tokens_1.TRIPLE_SEPARATOR);
+            triplesTokens.push(lastToken = Tokens_1.GRAPH_PATTERN_SEPARATOR);
         }
     });
     return triplesTokens;
@@ -854,7 +854,7 @@ var SPARQLER = (function () {
                         };
                     }
                 }
-                else if (token === Tokens_1.TRIPLE_SEPARATOR) {
+                else if (token === Tokens_1.GRAPH_PATTERN_SEPARATOR) {
                     while (actual_1.token !== Tokens_1.OPEN_MULTI_BLOCK)
                         actual_1 = stack_1.pop();
                     actual_1.spaces = 0;

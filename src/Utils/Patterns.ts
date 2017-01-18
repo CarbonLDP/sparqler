@@ -1,7 +1,7 @@
 import { GraphPattern } from "../Patterns";
 import { Token } from "../Tokens/Token";
 import {
-	TRIPLE_SEPARATOR,
+	GRAPH_PATTERN_SEPARATOR,
 	OPEN_MULTI_BLOCK,
 	CLOSE_MULTI_BLOCK,
 	OPEN_SINGLE_BLOCK,
@@ -37,13 +37,13 @@ export function getTokens( patterns ):Token[] {
 	patterns.forEach( ( graphPattern, index ) => {
 		let tokens:Token[] = graphPattern.getPattern();
 
-		if( lastToken === TRIPLE_SEPARATOR && ( tokens[ 0 ] instanceof Identifier || tokens[ 0 ] === OPEN_MULTI_BLOCK || tokens[ 0 ] === OPEN_SINGLE_BLOCK ) ) triplesTokens.pop();
+		if( lastToken === GRAPH_PATTERN_SEPARATOR && ( tokens[ 0 ] instanceof Identifier || tokens[ 0 ] === OPEN_MULTI_BLOCK || tokens[ 0 ] === OPEN_SINGLE_BLOCK ) ) triplesTokens.pop();
 
 		triplesTokens.push( ...tokens );
 
 		lastToken = tokens[ tokens.length - 1 ];
 		if( index < patterns.length - 1 && lastToken !== CLOSE_MULTI_BLOCK && lastToken !== CLOSE_SINGLE_BLOCK ) {
-			triplesTokens.push( lastToken = TRIPLE_SEPARATOR );
+			triplesTokens.push( lastToken = GRAPH_PATTERN_SEPARATOR );
 		}
 	} );
 

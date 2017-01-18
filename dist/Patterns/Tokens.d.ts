@@ -11,7 +11,7 @@ export declare const OPEN_IRI: LeftSymbol;
 export declare const CLOSE_IRI: RightSymbol;
 export declare const OPEN_QUOTE: LeftSymbol;
 export declare const CLOSE_QUOTE: RightSymbol;
-export declare const TRIPLE_SEPARATOR: NewLineSymbol;
+export declare const GRAPH_PATTERN_SEPARATOR: NewLineSymbol;
 export declare const SAME_SUBJECT_SEPARATOR: NewLineSymbol;
 export declare const SAME_PROPERTY_SEPARATOR: NewLineSymbol;
 export declare const EMPTY_SEPARATOR: NewLineSymbol;

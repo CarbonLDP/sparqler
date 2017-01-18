@@ -187,7 +187,7 @@ var SPARQLER = (function () {
                         };
                     }
                 }
-                else if (token === Tokens_1.TRIPLE_SEPARATOR) {
+                else if (token === Tokens_1.GRAPH_PATTERN_SEPARATOR) {
                     while (actual_1.token !== Tokens_1.OPEN_MULTI_BLOCK)
                         actual_1 = stack_1.pop();
                     actual_1.spaces = 0;

@@ -43,7 +43,7 @@ import {
 	CLOSE_MULTI_BN,
 	SAME_SUBJECT_SEPARATOR,
 	SAME_PROPERTY_SEPARATOR,
-	TRIPLE_SEPARATOR,
+	GRAPH_PATTERN_SEPARATOR,
 } from "./Patterns/Tokens";
 import { NewLineSymbol } from "./Tokens/NewLineSymbol";
 
@@ -345,7 +345,7 @@ export class SPARQLER implements QueryClause,
 					}
 
 					// Returns still a block state
-				} else if( token === TRIPLE_SEPARATOR ) {
+				} else if( token === GRAPH_PATTERN_SEPARATOR ) {
 					while( actual.token !== OPEN_MULTI_BLOCK ) actual = stack.pop();
 					actual.spaces = 0;
 					actual.subject = 0;

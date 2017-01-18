@@ -15,7 +15,7 @@ export const CLOSE_IRI:RightSymbol = new RightSymbol( ">" );
 export const OPEN_QUOTE:LeftSymbol = new LeftSymbol( "\"" );
 export const CLOSE_QUOTE:RightSymbol = new RightSymbol( "\"" );
 
-export const TRIPLE_SEPARATOR:NewLineSymbol = new NewLineSymbol( "." );
+export const GRAPH_PATTERN_SEPARATOR:NewLineSymbol = new NewLineSymbol( "." );
 export const SAME_SUBJECT_SEPARATOR:NewLineSymbol = new NewLineSymbol( ";" );
 export const SAME_PROPERTY_SEPARATOR:NewLineSymbol = new NewLineSymbol( "," );
 export const EMPTY_SEPARATOR:NewLineSymbol = new NewLineSymbol( "" );

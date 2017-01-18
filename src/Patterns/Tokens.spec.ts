@@ -61,10 +61,10 @@ describe( "Module Tokens", ():void => {
 		expect( Tokens.CLOSE_QUOTE ).toEqual( jasmine.any( RightSymbol ) );
 	} );
 
-	it( "Tokens.TRIPLE_SEPARATOR", ():void => {
-		expect( Tokens.TRIPLE_SEPARATOR ).toBeDefined();
-		expect( Tokens.TRIPLE_SEPARATOR[ "value" ] ).toBe( "." );
-		expect( Tokens.TRIPLE_SEPARATOR ).toEqual( jasmine.any( NewLineSymbol ) );
+	it( "Tokens.GRAPH_PATTERN_SEPARATOR", ():void => {
+		expect( Tokens.GRAPH_PATTERN_SEPARATOR ).toBeDefined();
+		expect( Tokens.GRAPH_PATTERN_SEPARATOR[ "value" ] ).toBe( "." );
+		expect( Tokens.GRAPH_PATTERN_SEPARATOR ).toEqual( jasmine.any( NewLineSymbol ) );
 	} );
 
 	it( "Tokens.SAME_SUBJECT_SEPARATOR", ():void => {
