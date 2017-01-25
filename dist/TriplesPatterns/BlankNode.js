@@ -9,7 +9,7 @@ var TriplesPattern_1 = require("./TriplesPattern");
 var BlankNode = (function (_super) {
     __extends(BlankNode, _super);
     function BlankNode() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     BlankNode.prototype.getSelfTokens = function () {
         if (!this.patternTokens.find(function (token) { return token === Tokens_1.SAME_SUBJECT_SEPARATOR || token === Tokens_1.SAME_PROPERTY_SEPARATOR; }))

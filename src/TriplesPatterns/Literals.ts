@@ -64,5 +64,3 @@ export class BooleanLiteral extends Literal {
 	}
 
 }
-
-export default Literal;

@@ -8,7 +8,7 @@ var Token_1 = require("./Token");
 var Operator = (function (_super) {
     __extends(Operator, _super);
     function Operator() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Operator.prototype.getPrettySeparator = function (nextToken) {
         return Token_1.EMPTY_SEPARATOR;

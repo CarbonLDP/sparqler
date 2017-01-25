@@ -9,7 +9,7 @@ var StringLiteral_1 = require("./StringLiteral");
 var Identifier = (function (_super) {
     __extends(Identifier, _super);
     function Identifier() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Identifier.prototype.getPrettySeparator = function (nextToken) {
         if (this.value === "UNION")

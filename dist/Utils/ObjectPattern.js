@@ -11,13 +11,13 @@ function serialize(object) {
     }
     if (typeof object === "number" || object instanceof Number) {
         if (Number.isInteger(object.valueOf()))
-            return addType(object + "", "integer");
-        return addType(object + "", "float");
+            return this.addType(object + "", "integer");
+        return this.addType(object + "", "float");
     }
     if (typeof object === "boolean" || object instanceof Boolean)
-        return addType(object + "", "boolean");
+        return this.addType(object + "", "boolean");
     if (object instanceof Date)
-        return addType(object.toISOString(), "dateTime");
+        return this.addType(object.toISOString(), "dateTime");
     return object.getSelfTokens();
 }
 exports.serialize = serialize;

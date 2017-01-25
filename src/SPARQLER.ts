@@ -43,11 +43,23 @@ import {
 	CLOSE_MULTI_BN,
 	SAME_SUBJECT_SEPARATOR,
 	SAME_PROPERTY_SEPARATOR,
-	TRIPLE_SEPARATOR,
+	GRAPH_PATTERN_SEPARATOR,
+	SELECT,
+	FROM,
+	NAMED,
+	WHERE,
+	GROUP,
+	HAVING,
+	BY,
+	ORDER,
+	LIMIT,
+	OFFSET,
+	BASE,
+	PREFIX,
 } from "./Patterns/Tokens";
 import { NewLineSymbol } from "./Tokens/NewLineSymbol";
 
-interface PrefixInfo {
+export interface PrefixInfo {
 	iri:string;
 	used:boolean;
 }
@@ -118,7 +130,7 @@ export class SPARQLER implements QueryClause,
 	select( ...variables:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
 		if( variables.length === 0 ) throw new Error( "IllegalArgumentError: Need to provide al least one variable." );
 
-		this._selects = [ new Identifier( "SELECT" ) ];
+		this._selects = [ SELECT ];
 		variables.forEach( variable => this._selects.push( VAR_SYMBOL, new StringLiteral( variable ) ) );
 
 		Object.assign( this.interfaces.finishClause, this.interfaces.finishSelect );
@@ -126,19 +138,19 @@ export class SPARQLER implements QueryClause,
 	}
 
 	selectAll():WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
-		this._selects = [ new Identifier( "SELECT" ), new RightSymbol( "*" ) ];
+		this._selects = [ SELECT, new RightSymbol( "*" ) ];
 
 		Object.assign( this.interfaces.finishClause, this.interfaces.finishSelect );
 		return Object.assign( {}, this.interfaces.whereClause, this.interfaces.fromClause );
 	}
 
 	from( iri:string ):WhereClause<FinishSelectClause> {
-		this._from = [ new Identifier( "FROM" ), ...this._resolveIRI( iri ) ];
+		this._from = [ FROM, ...this._resolveIRI( iri ) ];
 		return this.interfaces.whereClause;
 	}
 
 	fromNamed( iri:string ):WhereClause<FinishSelectClause> {
-		this._from = [ new Identifier( "FROM" ), new Identifier( "NAMED" ), ...this._resolveIRI( iri ) ];
+		this._from = [ FROM, NAMED, ...this._resolveIRI( iri ) ];
 		return this.interfaces.whereClause;
 	}
 
@@ -146,7 +158,7 @@ export class SPARQLER implements QueryClause,
 	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[ ] ):SolutionModifier<FinishClause> & FinishClause;
 	where( patternFunction ):SolutionModifier<FinishClause> & FinishClause {
 		let result:GraphPattern | GraphPattern[] = patternFunction( new PatternBuilder( this ) );
-		this._where = [ new Identifier( "WHERE" ), ...PatternsUtils.getBlockTokens( result as GraphPattern[] ) ];
+		this._where = [ WHERE, ...PatternsUtils.getBlockTokens( result as GraphPattern[] ) ];
 
 		return Object.assign(
 			{},
@@ -161,7 +173,7 @@ export class SPARQLER implements QueryClause,
 
 	// TODO: Implement group condition
 	groupBy( rawCondition:string ):HavingClause<FinishClause> & OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause {
-		this._group = [ new Identifier( "GROUP" ), new Identifier( "BY" ), new StringLiteral( rawCondition ) ];
+		this._group = [ GROUP, BY, new StringLiteral( rawCondition ) ];
 		return Object.assign(
 			{},
 			this.interfaces.havingClause,
@@ -174,7 +186,7 @@ export class SPARQLER implements QueryClause,
 
 	// TODO: Implement having condition
 	having( rawCondition:string ):OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause {
-		this._having = [ new Identifier( "HAVING" ), new StringLiteral( rawCondition ) ];
+		this._having = [ HAVING, new StringLiteral( rawCondition ) ];
 		return Object.assign(
 			{},
 			this.interfaces.orderClause,
@@ -186,7 +198,7 @@ export class SPARQLER implements QueryClause,
 
 	// TODO: Implement order condition
 	orderBy( rawCondition:string ):LimitOffsetClause<FinishClause> & FinishClause {
-		this._order = [ new Identifier( "ORDER" ), new Identifier( "BY" ), new StringLiteral( rawCondition ) ];
+		this._order = [ ORDER, BY, new StringLiteral( rawCondition ) ];
 		return Object.assign(
 			<any> {},
 			this.interfaces.limitClause,
@@ -196,7 +208,7 @@ export class SPARQLER implements QueryClause,
 	}
 
 	limit( limit:number ):OffsetClause<FinishClause> & FinishClause {
-		this._limit = [ new Identifier( "LIMIT" ), new NumberLiteral( limit ) ];
+		this._limit = [ LIMIT, new NumberLiteral( limit ) ];
 
 		if( this._offset )
 			return <any> this.interfaces.finishClause;
@@ -204,7 +216,7 @@ export class SPARQLER implements QueryClause,
 	}
 
 	offset( offset:number ):LimitClause<FinishClause> & FinishClause {
-		this._offset = [ new Identifier( "OFFSET" ), new NumberLiteral( offset ) ];
+		this._offset = [ OFFSET, new NumberLiteral( offset ) ];
 
 		if( this._limit )
 			return <any> this.interfaces.finishClause;
@@ -220,17 +232,17 @@ export class SPARQLER implements QueryClause,
 
 		// Add base
 		if( this._base )
-		tokens.push( new Identifier( "BASE" ), OPEN_IRI, new StringLiteral( this._base ), CLOSE_IRI );
+			tokens.push( BASE, OPEN_IRI, new StringLiteral( this._base ), CLOSE_IRI );
 
 		// Add used prefixes
 		this._prefixes.forEach( ( prefixInfo:PrefixInfo, prefix:string ) => {
 			if( prefixInfo.used || format === TokenFormat.PRETTY )
-				tokens.push( new Identifier( "PREFIX" ), new StringLiteral( prefix + ":" ), OPEN_IRI, new StringLiteral( prefixInfo.iri ), CLOSE_IRI );
+				tokens.push( PREFIX, new StringLiteral( prefix + ":" ), OPEN_IRI, new StringLiteral( prefixInfo.iri ), CLOSE_IRI );
 		} );
 
 		// Add select clause
 		if( this._selects )
-		tokens.push( ...this._selects );
+			tokens.push( ...this._selects );
 
 		// Add from clause
 		if( this._from )
@@ -238,7 +250,7 @@ export class SPARQLER implements QueryClause,
 
 		// Add where clause
 		if( this._where )
-		tokens.push( ...this._where );
+			tokens.push( ...this._where );
 
 		// Add solution modifiers
 		if( this._order )
@@ -345,7 +357,7 @@ export class SPARQLER implements QueryClause,
 					}
 
 					// Returns still a block state
-				} else if( token === TRIPLE_SEPARATOR ) {
+				} else if( token === GRAPH_PATTERN_SEPARATOR ) {
 					while( actual.token !== OPEN_MULTI_BLOCK ) actual = stack.pop();
 					actual.spaces = 0;
 					actual.subject = 0;
@@ -435,7 +447,6 @@ export class SPARQLER implements QueryClause,
 
 		if( IRIUtils.isPrefixed( iri ) ) {
 			let parts:string[] = IRIUtils.getPrefixedParts( iri );
-			if( parts === null ) return;
 
 			let prefixInfo:PrefixInfo = this._prefixes.get( parts[ 0 ] );
 			if( prefixInfo === void 0 ) throw new Error( "IllegalArgumentError: The used prefix has not been declared" );

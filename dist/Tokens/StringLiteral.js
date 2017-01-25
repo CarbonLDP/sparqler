@@ -12,7 +12,7 @@ var NewLineSymbol_1 = require("./NewLineSymbol");
 var StringLiteral = (function (_super) {
     __extends(StringLiteral, _super);
     function StringLiteral() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     StringLiteral.prototype.getPrettySeparator = function (nextToken) {
         if (nextToken instanceof Identifier_1.Identifier || (nextToken instanceof NewLineSymbol_1.NewLineSymbol && nextToken["value"] === ")"))

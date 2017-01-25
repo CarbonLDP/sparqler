@@ -51,24 +51,24 @@ export interface NotTriplesPatternBuilder {
 	// TODO: SERVICE pattern
 }
 
-export interface SingleValuesPattern {
-	has( value:supportedNativeTypes ):SingleValuesPatternMore & NotTriplesPattern;
-	has( value:Resource ):SingleValuesPatternMore & NotTriplesPattern;
-	has( value:Literal ):SingleValuesPatternMore & NotTriplesPattern;
-	has( value:Undefined ):SingleValuesPatternMore & NotTriplesPattern;
+export interface SingleValuesPattern extends NotTriplesPattern {
+	has( value:supportedNativeTypes ):SingleValuesPatternMore;
+	has( value:Resource ):SingleValuesPatternMore;
+	has( value:Literal ):SingleValuesPatternMore;
+	has( value:Undefined ):SingleValuesPatternMore;
 }
-export interface SingleValuesPatternMore {
-	and( value:supportedNativeTypes ):SingleValuesPatternMore & NotTriplesPattern;
-	and( value:Resource ):SingleValuesPatternMore & NotTriplesPattern;
-	and( value:Literal ):SingleValuesPatternMore & NotTriplesPattern;
-	and( value:Undefined ):SingleValuesPatternMore & NotTriplesPattern;
+export interface SingleValuesPatternMore extends NotTriplesPattern {
+	and( value:supportedNativeTypes ):SingleValuesPatternMore;
+	and( value:Resource ):SingleValuesPatternMore;
+	and( value:Literal ):SingleValuesPatternMore;
+	and( value:Undefined ):SingleValuesPatternMore;
 }
 
-export interface MultipleValuesPattern {
-	has( ...values:( supportedNativeTypes | Resource | Literal | Undefined )[] ):MultipleValuesPatternMore & NotTriplesPattern;
+export interface MultipleValuesPattern extends NotTriplesPattern {
+	has( ...values:( supportedNativeTypes | Resource | Literal | Undefined )[] ):MultipleValuesPatternMore;
 }
-export interface MultipleValuesPatternMore {
-	and( ...values:( supportedNativeTypes | Resource | Literal | Undefined )[] ):MultipleValuesPatternMore & NotTriplesPattern;
+export interface MultipleValuesPatternMore extends NotTriplesPattern {
+	and( ...values:( supportedNativeTypes | Resource | Literal | Undefined )[] ):MultipleValuesPatternMore;
 }
 
 export type supportedNativeTypes = boolean | number | string | Date;

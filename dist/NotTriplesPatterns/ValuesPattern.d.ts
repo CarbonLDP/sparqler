@@ -7,16 +7,16 @@ import { Variable } from "../TriplesPatterns/Variable";
 import { Token } from "../Tokens/Token";
 export declare class ValuesPattern extends NotTriplesPattern implements SingleValuesPattern, MultipleValuesPattern {
     private resolver;
-    private isSingle;
+    private length;
     protected interfaces: {
-        addPattern: (SingleValuesPatternMore | MultipleValuesPatternMore) & NotTriplesPattern;
+        addPattern: SingleValuesPatternMore | MultipleValuesPatternMore;
     };
     constructor(resolver: IRIResolver, variables: Variable[]);
-    has(value: supportedNativeTypes): SingleValuesPatternMore & NotTriplesPattern;
-    has(value: Resource): SingleValuesPatternMore & NotTriplesPattern;
-    has(value: Literal): SingleValuesPatternMore & NotTriplesPattern;
-    has(value: Undefined): SingleValuesPatternMore & NotTriplesPattern;
-    has(...values: (supportedNativeTypes | Resource | Literal | Undefined)[]): MultipleValuesPatternMore & NotTriplesPattern;
+    has(value: supportedNativeTypes): SingleValuesPatternMore;
+    has(value: Resource): SingleValuesPatternMore;
+    has(value: Literal): SingleValuesPatternMore;
+    has(value: Undefined): SingleValuesPatternMore;
+    has(...values: (supportedNativeTypes | Resource | Literal | Undefined)[]): MultipleValuesPatternMore;
     getPattern(): Token[];
     private init();
 }

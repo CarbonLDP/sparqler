@@ -3,7 +3,6 @@ var IRIUtils = require("./Utils/IRI");
 var PatternsUtils = require("./Utils/Patterns");
 var PatternBuilder_1 = require("./PatternBuilder");
 var Token_1 = require("./Tokens/Token");
-var Identifier_1 = require("./Tokens/Identifier");
 var StringLiteral_1 = require("./Tokens/StringLiteral");
 var RightSymbol_1 = require("./Tokens/RightSymbol");
 var NumberLiteral_1 = require("./Tokens/NumberLiteral");
@@ -37,49 +36,49 @@ var SPARQLER = (function () {
         }
         if (variables.length === 0)
             throw new Error("IllegalArgumentError: Need to provide al least one variable.");
-        this._selects = [new Identifier_1.Identifier("SELECT")];
+        this._selects = [Tokens_1.SELECT];
         variables.forEach(function (variable) { return _this._selects.push(Tokens_1.VAR_SYMBOL, new StringLiteral_1.StringLiteral(variable)); });
         Object.assign(this.interfaces.finishClause, this.interfaces.finishSelect);
         return Object.assign({}, this.interfaces.whereClause, this.interfaces.fromClause);
     };
     SPARQLER.prototype.selectAll = function () {
-        this._selects = [new Identifier_1.Identifier("SELECT"), new RightSymbol_1.RightSymbol("*")];
+        this._selects = [Tokens_1.SELECT, new RightSymbol_1.RightSymbol("*")];
         Object.assign(this.interfaces.finishClause, this.interfaces.finishSelect);
         return Object.assign({}, this.interfaces.whereClause, this.interfaces.fromClause);
     };
     SPARQLER.prototype.from = function (iri) {
-        this._from = [new Identifier_1.Identifier("FROM")].concat(this._resolveIRI(iri));
+        this._from = [Tokens_1.FROM].concat(this._resolveIRI(iri));
         return this.interfaces.whereClause;
     };
     SPARQLER.prototype.fromNamed = function (iri) {
-        this._from = [new Identifier_1.Identifier("FROM"), new Identifier_1.Identifier("NAMED")].concat(this._resolveIRI(iri));
+        this._from = [Tokens_1.FROM, Tokens_1.NAMED].concat(this._resolveIRI(iri));
         return this.interfaces.whereClause;
     };
     SPARQLER.prototype.where = function (patternFunction) {
         var result = patternFunction(new PatternBuilder_1.PatternBuilder(this));
-        this._where = [new Identifier_1.Identifier("WHERE")].concat(PatternsUtils.getBlockTokens(result));
+        this._where = [Tokens_1.WHERE].concat(PatternsUtils.getBlockTokens(result));
         return Object.assign({}, this.interfaces.groupClause, this.interfaces.havingClause, this.interfaces.orderClause, this.interfaces.limitClause, this.interfaces.offsetClause, this.interfaces.finishClause);
     };
     SPARQLER.prototype.groupBy = function (rawCondition) {
-        this._group = [new Identifier_1.Identifier("GROUP"), new Identifier_1.Identifier("BY"), new StringLiteral_1.StringLiteral(rawCondition)];
+        this._group = [Tokens_1.GROUP, Tokens_1.BY, new StringLiteral_1.StringLiteral(rawCondition)];
         return Object.assign({}, this.interfaces.havingClause, this.interfaces.orderClause, this.interfaces.limitClause, this.interfaces.offsetClause, this.interfaces.finishClause);
     };
     SPARQLER.prototype.having = function (rawCondition) {
-        this._having = [new Identifier_1.Identifier("HAVING"), new StringLiteral_1.StringLiteral(rawCondition)];
+        this._having = [Tokens_1.HAVING, new StringLiteral_1.StringLiteral(rawCondition)];
         return Object.assign({}, this.interfaces.orderClause, this.interfaces.limitClause, this.interfaces.offsetClause, this.interfaces.finishClause);
     };
     SPARQLER.prototype.orderBy = function (rawCondition) {
-        this._order = [new Identifier_1.Identifier("ORDER"), new Identifier_1.Identifier("BY"), new StringLiteral_1.StringLiteral(rawCondition)];
+        this._order = [Tokens_1.ORDER, Tokens_1.BY, new StringLiteral_1.StringLiteral(rawCondition)];
         return Object.assign({}, this.interfaces.limitClause, this.interfaces.offsetClause, this.interfaces.finishClause);
     };
     SPARQLER.prototype.limit = function (limit) {
-        this._limit = [new Identifier_1.Identifier("LIMIT"), new NumberLiteral_1.NumberLiteral(limit)];
+        this._limit = [Tokens_1.LIMIT, new NumberLiteral_1.NumberLiteral(limit)];
         if (this._offset)
             return this.interfaces.finishClause;
         return Object.assign({}, this.interfaces.offsetClause, this.interfaces.finishClause);
     };
     SPARQLER.prototype.offset = function (offset) {
-        this._offset = [new Identifier_1.Identifier("OFFSET"), new NumberLiteral_1.NumberLiteral(offset)];
+        this._offset = [Tokens_1.OFFSET, new NumberLiteral_1.NumberLiteral(offset)];
         if (this._limit)
             return this.interfaces.finishClause;
         return Object.assign({}, this.interfaces.limitClause, this.interfaces.finishClause);
@@ -87,10 +86,10 @@ var SPARQLER = (function () {
     SPARQLER.prototype.constructQuery = function (format) {
         var tokens = [];
         if (this._base)
-            tokens.push(new Identifier_1.Identifier("BASE"), Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(this._base), Tokens_1.CLOSE_IRI);
+            tokens.push(Tokens_1.BASE, Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(this._base), Tokens_1.CLOSE_IRI);
         this._prefixes.forEach(function (prefixInfo, prefix) {
             if (prefixInfo.used || format === Token_1.TokenFormat.PRETTY)
-                tokens.push(new Identifier_1.Identifier("PREFIX"), new StringLiteral_1.StringLiteral(prefix + ":"), Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(prefixInfo.iri), Tokens_1.CLOSE_IRI);
+                tokens.push(Tokens_1.PREFIX, new StringLiteral_1.StringLiteral(prefix + ":"), Tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(prefixInfo.iri), Tokens_1.CLOSE_IRI);
         });
         if (this._selects)
             tokens.push.apply(tokens, this._selects);
@@ -187,7 +186,7 @@ var SPARQLER = (function () {
                         };
                     }
                 }
-                else if (token === Tokens_1.TRIPLE_SEPARATOR) {
+                else if (token === Tokens_1.GRAPH_PATTERN_SEPARATOR) {
                     while (actual_1.token !== Tokens_1.OPEN_MULTI_BLOCK)
                         actual_1 = stack_1.pop();
                     actual_1.spaces = 0;
@@ -267,8 +266,6 @@ var SPARQLER = (function () {
         var tokens;
         if (IRIUtils.isPrefixed(iri)) {
             var parts = IRIUtils.getPrefixedParts(iri);
-            if (parts === null)
-                return;
             var prefixInfo = this._prefixes.get(parts[0]);
             if (prefixInfo === void 0)
                 throw new Error("IllegalArgumentError: The used prefix has not been declared");

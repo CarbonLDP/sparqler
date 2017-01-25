@@ -59,7 +59,5 @@ var BooleanLiteral = (function (_super) {
     return BooleanLiteral;
 }(Literal));
 exports.BooleanLiteral = BooleanLiteral;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Literal;
 
 //# sourceMappingURL=Literals.js.map

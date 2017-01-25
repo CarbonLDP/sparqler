@@ -16,6 +16,7 @@ import { Resource } from "./Resource";
 import { Variable } from "./Variable";
 import { Literal } from "./Literals";
 import * as ObjectPattern from "../Utils/ObjectPattern";
+import { NewLineSymbol } from "../Tokens/NewLineSymbol";
 
 export class Collection extends TriplesPattern<TriplesNodePattern> implements TriplesNodePattern {
 
@@ -24,33 +25,29 @@ export class Collection extends TriplesPattern<TriplesNodePattern> implements Tr
 	constructor( resolver:IRIResolver, values:(supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ) {
 		super( resolver );
 
-		if( values.length === 1 ) {
-			this.elementTokens = [ OPEN_SINGLE_LIST ];
-		} else {
-			this.elementTokens = [ OPEN_MULTI_LIST ];
-		}
-
+		let tokens:Token[] = [];
 		values.forEach( ( value, index ) => {
-			this.elementTokens.push( ...ObjectPattern.serialize( value as supportedNativeTypes ) );
-			if( index < values.length - 1 ) this.elementTokens.push( EMPTY_SEPARATOR );
+			tokens.push( ...ObjectPattern.serialize( value as supportedNativeTypes ) );
+			if( index < values.length - 1 ) tokens.push( EMPTY_SEPARATOR );
 		} );
 
-		if( values.length === 1 ) {
-			this.elementTokens.push( CLOSE_SINGLE_LIST );
-		} else {
-			this.elementTokens.push( CLOSE_MULTI_LIST );
-		}
+		let isSingle:boolean = values.length <= 1 && ! tokens.find( token => token instanceof NewLineSymbol );
+		this.elementTokens = [
+			isSingle ? OPEN_SINGLE_LIST : OPEN_MULTI_LIST,
+			...tokens,
+			isSingle ? CLOSE_SINGLE_LIST : CLOSE_MULTI_LIST
+		];
 	}
 
 	getPattern():Token[] {
-		return this.elementTokens.concat( this.patternTokens );
+		return this.getSelfTokens().concat( this.patternTokens );
 	}
 
 	protected init():void {
 		super.init();
 		this.interfaces.graphPattern = {
 			getPattern: () => this.getPattern(),
-			getSelfTokens: () => this.elementTokens,
+			getSelfTokens: () => this.getSelfTokens(),
 		};
 	}
 

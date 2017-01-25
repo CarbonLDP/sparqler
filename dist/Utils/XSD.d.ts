@@ -1,3 +1,4 @@
+export declare const NAMESPACE: string;
 export declare const dateTime: string;
 export declare const integer: string;
 export declare const float: string;

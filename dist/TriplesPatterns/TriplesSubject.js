@@ -8,7 +8,7 @@ var TriplesPattern_1 = require("./TriplesPattern");
 var TriplesSubject = (function (_super) {
     __extends(TriplesSubject, _super);
     function TriplesSubject() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     TriplesSubject.prototype.init = function () {
         var _this = this;
