@@ -1,6 +1,7 @@
 {
   "name": "sparqler",
   "version": "0.1.0",
+  "registry": "npm",
   "description": "SPARQL query buildER for JavaScript/TypeScript",
   "repository": {
     "type": "git",
@@ -10,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/CarbonLDP/sparqler/issues"
   },
-  "homepage": "https://github.com/CarbonLDP/sparqler#readme",
+  "homepage": "https://github.com/CarbonLDP/sparqler#README",
   "contributors": [
     {
       "name": "Rodolfo Aguirre",

@@ -1,8 +1,8 @@
-import { QueryClause, FromClause, SelectClause, WhereClause, SolutionModifier, GroupClause, HavingClause, OrderClause, LimitOffsetClause, LimitClause, OffsetClause, FinishClause } from "./Clauses";
+import { QueryClause, FromClause, SelectClause, WhereClause, SolutionModifier, GroupClause, HavingClause, OrderClause, LimitOffsetClause, LimitClause, OffsetClause, FinishClause, FinishSelectClause } from "./Clauses";
 import { GraphPattern, IRIResolver } from "./Patterns";
 import { PatternBuilder } from "./PatternBuilder";
 import { Token } from "./Tokens/Token";
-export declare class SPARQLER implements QueryClause, FromClause, SelectClause, WhereClause, GroupClause, HavingClause, OrderClause, LimitOffsetClause, FinishClause, IRIResolver {
+export declare class SPARQLER implements QueryClause, FromClause<FinishClause>, SelectClause, WhereClause<FinishClause>, GroupClause<FinishClause>, HavingClause<FinishClause>, OrderClause<FinishClause>, LimitOffsetClause<FinishClause>, FinishClause, IRIResolver {
     private _base;
     private _vocab;
     private _prefixes;
@@ -19,15 +19,15 @@ export declare class SPARQLER implements QueryClause, FromClause, SelectClause, 
     base(iri: string): QueryClause;
     vocab(iri: string): QueryClause;
     prefix(name: string, iri: string): QueryClause;
-    select(...variables: string[]): WhereClause & FromClause;
-    selectAll(): WhereClause & FromClause;
-    from(iri: string): WhereClause;
-    fromNamed(iri: string): WhereClause;
-    where(patternFunction: (builder: PatternBuilder) => GraphPattern): SolutionModifier & FinishClause;
-    where(patternFunction: (builder: PatternBuilder) => GraphPattern[]): SolutionModifier & FinishClause;
-    groupBy(rawCondition: string): HavingClause & OrderClause & LimitOffsetClause & FinishClause;
-    having(rawCondition: string): OrderClause & LimitOffsetClause & FinishClause;
-    orderBy(rawCondition: string): LimitOffsetClause & FinishClause;
+    select(...variables: string[]): WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+    selectAll(): WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+    from(iri: string): WhereClause<FinishSelectClause>;
+    fromNamed(iri: string): WhereClause<FinishSelectClause>;
+    where(patternFunction: (builder: PatternBuilder) => GraphPattern): SolutionModifier<FinishClause> & FinishClause;
+    where(patternFunction: (builder: PatternBuilder) => GraphPattern[]): SolutionModifier<FinishClause> & FinishClause;
+    groupBy(rawCondition: string): HavingClause<FinishClause> & OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause;
+    having(rawCondition: string): OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause;
+    orderBy(rawCondition: string): LimitOffsetClause<FinishClause> & FinishClause;
     limit(limit: number): OffsetClause<FinishClause> & FinishClause;
     offset(offset: number): LimitClause<FinishClause> & FinishClause;
     private constructQuery(format);

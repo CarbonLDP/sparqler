@@ -1,6 +1,6 @@
-import Sparqler from "../src/SPARQLER";
+import SPARQLER from "..";
 
-let builder = new Sparqler();
+let builder = new SPARQLER();
 
 builder
 	.base( "https://carbonldp.base22.io/apps/test-app/" )
