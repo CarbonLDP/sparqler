@@ -84,7 +84,7 @@ export interface TriplesPatternBuilder {
 
 	collection( ...values:( supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):Collection;
 
-	/**
+	/*
 	 * With this form, there is no current way to form the pattern:
 	 *  [ ?var1 "ex:some-1" "Object" ] "ex:some-2" ?object.
 	 *

@@ -7,7 +7,7 @@ import {
 	FromClause,
 	WhereClause,
 	FinishClause,
-	SolutionModifier,
+	GroupClause,
 	HavingClause,
 	OrderClause,
 	LimitOffsetClause,
@@ -341,7 +341,7 @@ describe( "Module SPARQLER", () => {
 
 		it( "SPARQLER.where()", ():void => {
 			let sparqler:SPARQLER = new SPARQLER();
-			let clause:SolutionModifier<FinishClause> & FinishClause = sparqler.where( ( patternBuilder:PatternBuilder ) => {
+			let clause:GroupClause<FinishClause> & HavingClause<FinishClause> & OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause = sparqler.where( ( patternBuilder:PatternBuilder ) => {
 
 				// Check a pattern builder has been provided
 				expect( patternBuilder ).toEqual( jasmine.any( PatternBuilder ) );

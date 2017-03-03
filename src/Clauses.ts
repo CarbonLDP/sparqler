@@ -18,11 +18,9 @@ export interface SelectClause {
 }
 
 export interface WhereClause<T extends FinishClause> {
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern ):SolutionModifier<T> & T;
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[] ):SolutionModifier<T> & T;
+	where( patternFunction:( builder:PatternBuilder ) => GraphPattern ):GroupClause<T> & HavingClause<T> & OrderClause<T> & LimitOffsetClause<T> & T;
+	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[] ):GroupClause<T> & HavingClause<T> & OrderClause<T> & LimitOffsetClause<T> & T;
 }
-
-export type SolutionModifier<T extends FinishClause> = GroupClause<T> & HavingClause<T> & OrderClause<T> & LimitOffsetClause<T>;
 
 export interface GroupClause<T extends FinishClause> {
 	// TODO: create group condition expressions
@@ -40,38 +38,60 @@ export interface OrderClause<T extends FinishClause> {
 }
 
 /**
- * This LimitOffsetClause created this way to be able to specify `limit` and `offset` in this order or viceversa,
+ * This interface is created this way to be able to specify the methods `limit` and `offset` only in this order or viceversa,
  * but not be able to repeat `limit` or `offset` more that once.
  *
  * Example:
  *  - Correct:
- *      .limit( ... )
- *      .offset( ... )
- *      .execute();
+ *  ```typescript
+ *      import { LimitOffsetClause, FinishClause } from "sparqler/Clauses";
+ *      let query:LimitOffsetClause<FinishClause>
  *
- *      .offset( ... )
- *      .limit( ... )
- *      .execute();
+ *      query
+ *          // ...
+ *          .limit( ... )
+ *          .offset( ... )
+ *      ;
  *
- *      .limit( ... )
- *      .execute();
+ *      query
+ *          // ...
+ *          .offset( ... )
+ *          .limit( ... )
+ *      ;
+ *
+ *      query
+ *          // ...
+ *          .limit( ... )
+ *      ;
+ * ```
  *
  *  - Incorrect:
- *      .limit( ... )
- *      .limit( ... ) // Not possible
- *      .offset( ... )
+ *  ```typescript
+ *      import { LimitOffsetClause, FinishClause } from "sparqler/Clauses";
+ *      let query:LimitOffsetClause<FinishClause>
  *
- *      .offset( ... )
- *      .limit( ... )
- *      .offset( ... ) // Not possible
+ *      query
+ *          // ...
+ *          .limit( ... )
+ *          .limit( ... ) // Not possible
+ *          .offset( ... )
+ *      ;
+ *
+ *      query
+ *          // ...
+ *          .offset( ... )
+ *          .limit( ... )
+ *          .offset( ... ) // Not possible
+ *      ;
+ * ```
  */
 export interface LimitOffsetClause<T extends FinishClause> extends LimitClause<OffsetClause<T> & T>, OffsetClause<LimitClause<T> & T> {}
 
-export interface OffsetClause<T> {
+export interface OffsetClause<T extends FinishClause> {
 	offset( offset:number ):T;
 }
 
-export interface LimitClause<T> {
+export interface LimitClause<T extends FinishClause> {
 	limit( limit:number ):T;
 }
 

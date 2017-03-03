@@ -1,0 +1,25 @@
+{% extends 'base.template.njk' %}
+
+{% block title %}
+    Interface {{ doc.name }}
+{% endblock %}
+
+{% block locationItems %}
+    <a class="item" href="{{ doc.moduleDoc.url }}">{{ doc.moduleDoc.id }}</a>
+    <a class="item active" href="{{ doc.url }}">{{ doc.name }}</a>
+{% endblock %}
+
+{% block body %}
+    {% include 'content-header.template.njk' %}
+    <div class="ui basic segment justified text container docs-content">
+        {% include 'class-overview.template.njk' %}
+        <h3>Description</h3>
+        <div>{{ doc.description | marked }}</div>
+    </div>
+{% endblock %}
+
+{#
+{{ propertyList(class.properties) }}
+
+{{ methodList(class.methods) }}
+#}

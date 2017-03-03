@@ -25,9 +25,12 @@ import { Token } from "../Tokens/Token";
 
 export class ValuesPattern extends NotTriplesPattern implements SingleValuesPattern, MultipleValuesPattern {
 
-	private resolver;
+	private resolver:IRIResolver;
 	private length:number;
 
+	/**
+	 * @docs-private
+	 */
 	protected interfaces:{
 		addPattern:SingleValuesPatternMore | MultipleValuesPatternMore;
 	};

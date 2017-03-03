@@ -7,20 +7,27 @@ const runSequence = require( "run-sequence" );
 
 const karma = require( "karma" );
 const jasmine = require( "gulp-jasmine" );
+
 const osTempDir = require( "os" ).tmpdir();
 const uuid = require( "uuid" );
 const path = require( "path" );
-const filter = require( 'gulp-filter' );
+const filter = require( "gulp-filter" );
 
-let SpecReporter = require( 'jasmine-spec-reporter' ).SpecReporter;
+let SpecReporter = require( "jasmine-spec-reporter" ).SpecReporter;
 
 const sourcemaps = require( "gulp-sourcemaps" );
 const ts = require( "gulp-typescript" );
 
 const webpack = require( "webpack" );
-const webpackConfig = require( "./webpack.config" );
 
 const jeditor = require( "gulp-json-editor" );
+
+const Dgeni = require( "dgeni" );
+
+const buildSemanticUI = require( "./build/docs/src/semantic/tasks/build" );
+const htmlReplace = require( "gulp-html-replace" );
+const imagemin = require( "gulp-imagemin" );
+const htmlmin = require( "gulp-htmlmin" );
 
 const config = {
 	source: {
@@ -52,7 +59,7 @@ gulp.task( "build", ( done ) => {
 } );
 
 gulp.task( "bundle", ( done ) => {
-	const compiler = webpack( webpackConfig );
+	const compiler = webpack( require( "./webpack.config" ) );
 
 	compiler.run( ( error, stats ) => {
 		if( error ) done( error );
@@ -60,8 +67,8 @@ gulp.task( "bundle", ( done ) => {
 	} );
 } );
 
-gulp.task( "clean:dist", ( done ) => {
-	return del( [ config.dist.all ], done );
+gulp.task( "clean:dist", () => {
+	return del( [ config.dist.all ] );
 } );
 
 gulp.task( "compile:typescript", () => {
@@ -142,4 +149,93 @@ gulp.task( "test:node", () => {
 				}
 			} ),
 		} ) );
+} );
+
+gulp.task( "semantic-ui:build", buildSemanticUI );
+
+gulp.task( "docs:build|prod", ( done ) => {
+	process.env.NODE_ENV = "prod";
+
+	runSequence(
+		[ "semantic-ui:build", "docs:generate-html", "docs:images" ],
+		[ "docs:bundle", "docs:html-replace" ],
+		[ "docs:html-min" ],
+		done
+	);
+} );
+
+gulp.task( "docs:build|dev", ( done ) => {
+	process.env.NODE_ENV = "dev";
+
+	runSequence(
+		[ "semantic-ui:build", "docs:generate-html", "docs:images" ],
+		"docs:bundle",
+		done
+	);
+} );
+
+gulp.task( "docs:clean-html", () => {
+	return del( [
+		"docs/**", "!docs",
+		"!docs/styles", "!docs/styles/**",
+		"!docs/fonts", "!docs/fonts/**",
+		"!docs/images", "!docs/images/**",
+		"!docs/scripts", "!docs/scripts/**",
+		"!docs/scripts", "!docs/scripts/**",
+		"!docs/favicon.png",
+	] );
+} );
+
+gulp.task( "docs:generate-html", [ "docs:clean-html" ], () => {
+	const dgeni = new Dgeni( [ require( "./build/docs/config" ) ] );
+	return dgeni.generate();
+} );
+
+gulp.task( "docs:html-min", function() {
+	return gulp.src( "docs/**/*.html" )
+		.pipe( htmlmin( {
+			collapseWhitespace: true,
+			removeComments: true
+		} ) )
+		.pipe( gulp.dest( "docs" ) );
+} );
+
+gulp.task( "docs:clean-bundle", () => {
+	return del( [
+		"docs/styles/**",
+		"docs/scripts/**",
+		"docs/fonts/**",
+	] );
+} );
+
+gulp.task( "docs:bundle", [ "docs:clean-bundle" ], ( done ) => {
+	let config = process.env.NODE_ENV === "prod" ?
+		require( "./build/docs/build/webpack.prod" ) :
+		require( "./build/docs/build/webpack.dev" );
+
+	const compiler = webpack( config );
+
+	compiler.run( ( error ) => {
+		if( error ) done( error );
+		else done();
+	} );
+} );
+
+gulp.task( "docs:html-replace", () => {
+	return gulp.src( "docs/**/*.html" )
+		.pipe( htmlReplace( {
+			"css": "styles/styles.min.css",
+			"js": "scripts/bundle.min.js"
+		} ) )
+		.pipe( gulp.dest( "docs/" ) );
+} );
+
+gulp.task( "docs:clean-images", () => {
+	return del( [ "docs/images/**" ] );
+} );
+
+gulp.task( "docs:images", () => {
+	return gulp.src( "build/docs/src/images/**" )
+		.pipe( imagemin() )
+		.pipe( gulp.dest( "docs/images" ) );
 } );

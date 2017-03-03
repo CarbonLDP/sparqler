@@ -1,9 +1,12 @@
+/**
+ * Main module that contains the SPARQLER class that is the query builder.
+ */
+
 import {
 	QueryClause,
 	FromClause,
 	SelectClause,
 	WhereClause,
-	SolutionModifier,
 	GroupClause,
 	HavingClause,
 	OrderClause,
@@ -25,7 +28,6 @@ import {
 	Token,
 	TokenFormat,
 } from "./Tokens/Token";
-import { Identifier } from "./Tokens/Identifier";
 import { StringLiteral } from "./Tokens/StringLiteral";
 import { RightSymbol } from "./Tokens/RightSymbol";
 import { NumberLiteral } from "./Tokens/NumberLiteral";
@@ -59,11 +61,17 @@ import {
 } from "./Patterns/Tokens";
 import { NewLineSymbol } from "./Tokens/NewLineSymbol";
 
+/**
+ * Interface that is used in the prefixes map.
+ */
 export interface PrefixInfo {
 	iri:string;
 	used:boolean;
 }
 
+/**
+ * Main class of the package which implements all the methods that allows to construct the queries.
+ */
 export class SPARQLER implements QueryClause,
                                  FromClause<FinishClause>,
                                  SelectClause,
@@ -154,9 +162,9 @@ export class SPARQLER implements QueryClause,
 		return this.interfaces.whereClause;
 	}
 
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern ):SolutionModifier<FinishClause> & FinishClause;
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[ ] ):SolutionModifier<FinishClause> & FinishClause;
-	where( patternFunction ):SolutionModifier<FinishClause> & FinishClause {
+	where( patternFunction:( builder:PatternBuilder ) => GraphPattern ):GroupClause<FinishClause> & HavingClause<FinishClause> & OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause;
+	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[ ] ):GroupClause<FinishClause> & HavingClause<FinishClause> & OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause;
+	where( patternFunction ):GroupClause<FinishClause> & HavingClause<FinishClause> & OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause {
 		let result:GraphPattern | GraphPattern[] = patternFunction( new PatternBuilder( this ) );
 		this._where = [ WHERE, ...PatternsUtils.getBlockTokens( result as GraphPattern[] ) ];
 

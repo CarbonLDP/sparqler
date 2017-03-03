@@ -150,3 +150,8 @@ DerivedData
 
 # VSCode
 .vscode/
+
+# Semantic UI
+**/semantic/dist/
+**/semantic/tasks/
+**/semantic/gulpfile.js
