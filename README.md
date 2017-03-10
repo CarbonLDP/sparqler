@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/sparqler.svg)](https://badge.fury.io/js/sparqler)
 
-[![Build Status](https://travis-ci.org/CarbonLDP/sparqler.svg)](https://travis-ci.org/CarbonLDP/sparqler)
+[![Build Status](https://travis-ci.org/CarbonLDP/sparqler.svg?branch=develop)](https://travis-ci.org/CarbonLDP/sparqler)
 
 SPARQL query buildER for JavaScript/TypeScript.
 
