@@ -2,7 +2,7 @@
 // Generated on Tue Jan 03 2017 13:24:01 GMT-0600 (CST)
 
 module.exports = function( config ) {
-	config.set( {
+	let configuration = {
 
 		// base path that will be used to resolve all patterns (eg. files, exclude)
 		basePath: "",
@@ -61,6 +61,12 @@ module.exports = function( config ) {
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 		browsers: [ "Chrome" ],
 
+		customLaunchers: {
+			chrome_travis_ci: {
+				base: "Chrome",
+				flags: [ "--no-sandbox" ]
+			}
+		},
 
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits
@@ -77,6 +83,10 @@ module.exports = function( config ) {
 			}
 		}
 
-	} )
+	};
+
+	if( process.env.TRAVIS ) configuration.browsers = [ "chrome_travis_ci" ];
+
+	config.set( configuration );
 
 };
