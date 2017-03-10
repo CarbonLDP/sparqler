@@ -12,7 +12,7 @@ const uuid = require( "uuid" );
 const path = require( "path" );
 const filter = require( 'gulp-filter' );
 
-let SpecReporter = require( 'jasmine-spec-reporter' ).SpecReporter;
+const SpecReporter = require( 'jasmine-spec-reporter' ).SpecReporter;
 
 const sourcemaps = require( "gulp-sourcemaps" );
 const ts = require( "gulp-typescript" );
