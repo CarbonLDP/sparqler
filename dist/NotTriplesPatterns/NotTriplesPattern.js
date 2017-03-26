@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var NotTriplesPattern = (function () {
     function NotTriplesPattern(tokens) {
         this.patternTokens = tokens;
@@ -10,6 +9,7 @@ var NotTriplesPattern = (function () {
     return NotTriplesPattern;
 }());
 exports.NotTriplesPattern = NotTriplesPattern;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = NotTriplesPattern;
 
 //# sourceMappingURL=NotTriplesPattern.js.map

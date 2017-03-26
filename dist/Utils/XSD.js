@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.NAMESPACE = "http://www.w3.org/2001/XMLSchema#";
 exports.dateTime = exports.NAMESPACE + "dateTime";
 exports.integer = exports.NAMESPACE + "integer";

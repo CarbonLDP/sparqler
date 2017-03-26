@@ -11,41 +11,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
-
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -56,7 +56,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 			});
 /******/ 		}
 /******/ 	};
-
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -65,13 +65,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		__webpack_require__.d(getter, 'a', getter);
 /******/ 		return getter;
 /******/ 	};
-
+/******/
 /******/ 	// Object.prototype.hasOwnProperty.call
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 24);
 /******/ })
@@ -82,7 +82,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 var RightSymbol_1 = __webpack_require__(6);
 var LeftSymbol_1 = __webpack_require__(12);
 var NewLineSymbol_1 = __webpack_require__(3);
@@ -138,7 +137,6 @@ exports.UNDEF = new Identifier_1.Identifier("UNDEF");
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.EMPTY_SEPARATOR = "";
 exports.SPACE_SEPARATOR = " ";
 exports.NEW_LINE_SEPARATOR = "\n";
@@ -169,6 +167,7 @@ var Token = (function () {
     return Token;
 }());
 exports.Token = Token;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Token;
 
 
@@ -178,17 +177,11 @@ exports.default = Token;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Token_1 = __webpack_require__(1);
 var StringLiteral_1 = __webpack_require__(4);
 var Identifier = (function (_super) {
@@ -209,6 +202,7 @@ var Identifier = (function (_super) {
     return Identifier;
 }(Token_1.Token));
 exports.Identifier = Identifier;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Identifier;
 
 
@@ -218,17 +212,11 @@ exports.default = Identifier;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Token_1 = __webpack_require__(1);
 var NewLineSymbol = (function (_super) {
     __extends(NewLineSymbol, _super);
@@ -248,6 +236,7 @@ var NewLineSymbol = (function (_super) {
     return NewLineSymbol;
 }(Token_1.Token));
 exports.NewLineSymbol = NewLineSymbol;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = NewLineSymbol;
 
 
@@ -257,17 +246,11 @@ exports.default = NewLineSymbol;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Token_1 = __webpack_require__(1);
 var Identifier_1 = __webpack_require__(2);
 var Operator_1 = __webpack_require__(5);
@@ -293,6 +276,7 @@ var StringLiteral = (function (_super) {
     return StringLiteral;
 }(Token_1.Token));
 exports.StringLiteral = StringLiteral;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = StringLiteral;
 
 
@@ -302,17 +286,11 @@ exports.default = StringLiteral;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Token_1 = __webpack_require__(1);
 var Operator = (function (_super) {
     __extends(Operator, _super);
@@ -328,6 +306,7 @@ var Operator = (function (_super) {
     return Operator;
 }(Token_1.Token));
 exports.Operator = Operator;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Operator;
 
 
@@ -337,17 +316,11 @@ exports.default = Operator;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Token_1 = __webpack_require__(1);
 var Identifier_1 = __webpack_require__(2);
 var Operator_1 = __webpack_require__(5);
@@ -380,6 +353,7 @@ var RightSymbol = (function (_super) {
     return RightSymbol;
 }(Token_1.Token));
 exports.RightSymbol = RightSymbol;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RightSymbol;
 
 
@@ -389,7 +363,6 @@ exports.default = RightSymbol;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 var XSD = __webpack_require__(23);
 var StringLiteral_1 = __webpack_require__(4);
 var Tokens_1 = __webpack_require__(0);
@@ -426,7 +399,6 @@ exports.addType = addType;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 var ObjectPattern = __webpack_require__(7);
 var Tokens_1 = __webpack_require__(0);
 var TriplesPattern = (function () {
@@ -471,6 +443,7 @@ var TriplesPattern = (function () {
     return TriplesPattern;
 }());
 exports.TriplesPattern = TriplesPattern;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TriplesPattern;
 
 
@@ -480,17 +453,11 @@ exports.default = TriplesPattern;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var TriplesPattern_1 = __webpack_require__(8);
 var TriplesSubject = (function (_super) {
     __extends(TriplesSubject, _super);
@@ -509,6 +476,7 @@ var TriplesSubject = (function (_super) {
     return TriplesSubject;
 }(TriplesPattern_1.TriplesPattern));
 exports.TriplesSubject = TriplesSubject;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TriplesSubject;
 
 
@@ -518,7 +486,6 @@ exports.default = TriplesSubject;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 var NotTriplesPattern = (function () {
     function NotTriplesPattern(tokens) {
         this.patternTokens = tokens;
@@ -529,6 +496,7 @@ var NotTriplesPattern = (function () {
     return NotTriplesPattern;
 }());
 exports.NotTriplesPattern = NotTriplesPattern;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = NotTriplesPattern;
 
 
@@ -538,7 +506,6 @@ exports.default = NotTriplesPattern;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 var Literals_1 = __webpack_require__(19);
 var Resource_1 = __webpack_require__(20);
 var Variable_1 = __webpack_require__(21);
@@ -625,6 +592,7 @@ var PatternBuilder = (function () {
     return PatternBuilder;
 }());
 exports.PatternBuilder = PatternBuilder;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = PatternBuilder;
 
 
@@ -634,17 +602,11 @@ exports.default = PatternBuilder;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Token_1 = __webpack_require__(1);
 var Identifier_1 = __webpack_require__(2);
 var LeftSymbol = (function (_super) {
@@ -663,6 +625,7 @@ var LeftSymbol = (function (_super) {
     return LeftSymbol;
 }(Token_1.Token));
 exports.LeftSymbol = LeftSymbol;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LeftSymbol;
 
 
@@ -672,7 +635,6 @@ exports.default = LeftSymbol;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 var Tokens_1 = __webpack_require__(0);
 var Identifier_1 = __webpack_require__(2);
 var NewLineSymbol_1 = __webpack_require__(3);
@@ -716,7 +678,6 @@ exports.isMultiLine = isMultiLine;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 var IRIUtils = __webpack_require__(22);
 var PatternsUtils = __webpack_require__(13);
 var PatternBuilder_1 = __webpack_require__(11);
@@ -998,6 +959,7 @@ var SPARQLER = (function () {
     return SPARQLER;
 }());
 exports.SPARQLER = SPARQLER;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SPARQLER;
 
 
@@ -1007,17 +969,11 @@ exports.default = SPARQLER;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var NotTriplesPattern_1 = __webpack_require__(10);
 var Tokens_1 = __webpack_require__(0);
 var ObjectPattern = __webpack_require__(7);
@@ -1085,6 +1041,7 @@ var ValuesPattern = (function (_super) {
     return ValuesPattern;
 }(NotTriplesPattern_1.NotTriplesPattern));
 exports.ValuesPattern = ValuesPattern;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ValuesPattern;
 
 
@@ -1094,17 +1051,11 @@ exports.default = ValuesPattern;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Token_1 = __webpack_require__(1);
 var Identifier_1 = __webpack_require__(2);
 var Operator_1 = __webpack_require__(5);
@@ -1129,6 +1080,7 @@ var NumberLiteral = (function (_super) {
     return NumberLiteral;
 }(Token_1.Token));
 exports.NumberLiteral = NumberLiteral;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = NumberLiteral;
 
 
@@ -1138,17 +1090,11 @@ exports.default = NumberLiteral;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Tokens_1 = __webpack_require__(0);
 var TriplesPattern_1 = __webpack_require__(8);
 var BlankNode = (function (_super) {
@@ -1172,6 +1118,7 @@ var BlankNode = (function (_super) {
     return BlankNode;
 }(TriplesPattern_1.TriplesPattern));
 exports.BlankNode = BlankNode;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = BlankNode;
 
 
@@ -1181,17 +1128,11 @@ exports.default = BlankNode;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Tokens_1 = __webpack_require__(0);
 var TriplesPattern_1 = __webpack_require__(8);
 var ObjectPattern = __webpack_require__(7);
@@ -1228,6 +1169,7 @@ var Collection = (function (_super) {
     return Collection;
 }(TriplesPattern_1.TriplesPattern));
 exports.Collection = Collection;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Collection;
 
 
@@ -1237,17 +1179,11 @@ exports.default = Collection;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var TriplesSubject_1 = __webpack_require__(9);
 var ObjectPattern = __webpack_require__(7);
 var StringLiteral_1 = __webpack_require__(4);
@@ -1311,17 +1247,11 @@ exports.BooleanLiteral = BooleanLiteral;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var TriplesSubject_1 = __webpack_require__(9);
 var Resource = (function (_super) {
     __extends(Resource, _super);
@@ -1333,6 +1263,7 @@ var Resource = (function (_super) {
     return Resource;
 }(TriplesSubject_1.TriplesSubject));
 exports.Resource = Resource;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Resource;
 
 
@@ -1342,17 +1273,11 @@ exports.default = Resource;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var TriplesSubject_1 = __webpack_require__(9);
 var StringLiteral_1 = __webpack_require__(4);
 var Tokens_1 = __webpack_require__(0);
@@ -1366,6 +1291,7 @@ var Variable = (function (_super) {
     return Variable;
 }(TriplesSubject_1.TriplesSubject));
 exports.Variable = Variable;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Variable;
 
 
@@ -1375,7 +1301,6 @@ exports.default = Variable;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 var StringLiteral_1 = __webpack_require__(4);
 var Tokens_1 = __webpack_require__(0);
 function isAbsolute(iri) {
@@ -1430,7 +1355,6 @@ exports.resolve = resolve;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.NAMESPACE = "http://www.w3.org/2001/XMLSchema#";
 exports.dateTime = exports.NAMESPACE + "dateTime";
 exports.integer = exports.NAMESPACE + "integer";

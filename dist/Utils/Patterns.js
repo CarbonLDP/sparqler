@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var Tokens_1 = require("../Patterns/Tokens");
 var Identifier_1 = require("../Tokens/Identifier");
 var NewLineSymbol_1 = require("../Tokens/NewLineSymbol");

@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.EMPTY_SEPARATOR = "";
 exports.SPACE_SEPARATOR = " ";
 exports.NEW_LINE_SEPARATOR = "\n";
@@ -30,6 +29,7 @@ var Token = (function () {
     return Token;
 }());
 exports.Token = Token;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Token;
 
 //# sourceMappingURL=Token.js.map

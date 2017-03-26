@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var StringLiteral_1 = require("../Tokens/StringLiteral");
 var Tokens_1 = require("../Patterns/Tokens");
 function isAbsolute(iri) {

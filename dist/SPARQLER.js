@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var IRIUtils = require("./Utils/IRI");
 var PatternsUtils = require("./Utils/Patterns");
 var PatternBuilder_1 = require("./PatternBuilder");
@@ -281,6 +280,7 @@ var SPARQLER = (function () {
     return SPARQLER;
 }());
 exports.SPARQLER = SPARQLER;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SPARQLER;
 
 //# sourceMappingURL=SPARQLER.js.map
