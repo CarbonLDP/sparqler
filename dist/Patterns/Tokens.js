@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var RightSymbol_1 = require("../Tokens/RightSymbol");
 var LeftSymbol_1 = require("../Tokens/LeftSymbol");
 var NewLineSymbol_1 = require("../Tokens/NewLineSymbol");

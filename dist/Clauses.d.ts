@@ -25,7 +25,7 @@ export interface HavingClause<T extends FinishClause> {
     having(rawCondition: string): OrderClause<T> & LimitOffsetClause<T> & T;
 }
 export interface OrderClause<T extends FinishClause> {
-    orderBy(rawCondition: string): LimitOffsetClause<T> & FinishClause;
+    orderBy(rawCondition: string): LimitOffsetClause<T> & T;
 }
 export interface LimitOffsetClause<T extends FinishClause> extends LimitClause<OffsetClause<T> & T>, OffsetClause<LimitClause<T> & T> {
 }

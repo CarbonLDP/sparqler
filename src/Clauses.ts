@@ -36,7 +36,7 @@ export interface HavingClause<T extends FinishClause> {
 
 export interface OrderClause<T extends FinishClause> {
 	// TODO: create order condition expressions
-	orderBy( rawCondition:string ):LimitOffsetClause<T> & FinishClause;
+	orderBy( rawCondition:string ):LimitOffsetClause<T> & T;
 }
 
 /**

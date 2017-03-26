@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var ObjectPattern = require("../Utils/ObjectPattern");
 var Tokens_1 = require("../Patterns/Tokens");
 var TriplesPattern = (function () {
@@ -43,7 +44,6 @@ var TriplesPattern = (function () {
     return TriplesPattern;
 }());
 exports.TriplesPattern = TriplesPattern;
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TriplesPattern;
 
 //# sourceMappingURL=TriplesPattern.js.map

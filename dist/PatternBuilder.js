@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Literals_1 = require("./TriplesPatterns/Literals");
 var Resource_1 = require("./TriplesPatterns/Resource");
 var Variable_1 = require("./TriplesPatterns/Variable");
@@ -85,7 +86,6 @@ var PatternBuilder = (function () {
     return PatternBuilder;
 }());
 exports.PatternBuilder = PatternBuilder;
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = PatternBuilder;
 
 //# sourceMappingURL=PatternBuilder.js.map

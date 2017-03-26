@@ -1,9 +1,15 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var NotTriplesPattern_1 = require("./NotTriplesPattern");
 var Tokens_1 = require("../Patterns/Tokens");
 var ObjectPattern = require("../Utils/ObjectPattern");
@@ -71,7 +77,6 @@ var ValuesPattern = (function (_super) {
     return ValuesPattern;
 }(NotTriplesPattern_1.NotTriplesPattern));
 exports.ValuesPattern = ValuesPattern;
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ValuesPattern;
 
 //# sourceMappingURL=ValuesPattern.js.map
