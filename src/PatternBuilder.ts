@@ -31,6 +31,7 @@ import {
 	AS,
 	OPEN_SINGLE_LIST,
 	CLOSE_SINGLE_LIST,
+	FILTER,
 } from "./Patterns/Tokens";
 import * as Utils from "./Utils/Patterns";
 import { ValuesPattern } from "./NotTriplesPatterns/ValuesPattern";
@@ -154,6 +155,10 @@ export class PatternBuilder implements TriplesPatternBuilder,
 		variable = typeof variable === "string" ? this.var( variable ) : variable;
 		const patternTokens:Token[] = [ BIND, OPEN_SINGLE_LIST, new StringLiteral( rawExpression ), AS, ...variable.getSelfTokens(), CLOSE_SINGLE_LIST ];
 		return new NotTriplesPattern( patternTokens );
+	}
+
+	filter( rawConstraint:string ):NotTriplesPattern {
+		return new NotTriplesPattern( [ FILTER, new StringLiteral( rawConstraint ) ] );
 	}
 
 }

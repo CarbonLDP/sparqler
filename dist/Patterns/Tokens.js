@@ -53,5 +53,6 @@ exports.SERVICE = new Identifier_1.Identifier("SERVICE");
 exports.SILENT = new Identifier_1.Identifier("SILENT");
 exports.BIND = new Identifier_1.Identifier("BIND");
 exports.AS = new Identifier_1.Identifier("AS");
+exports.FILTER = new Identifier_1.Identifier("FILTER");
 
 //# sourceMappingURL=Tokens.js.map

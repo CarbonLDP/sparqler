@@ -102,6 +102,9 @@ var PatternBuilder = (function () {
         var patternTokens = [Tokens_1.BIND, Tokens_1.OPEN_SINGLE_LIST, new StringLiteral_1.StringLiteral(rawExpression), Tokens_1.AS].concat(variable.getSelfTokens(), [Tokens_1.CLOSE_SINGLE_LIST]);
         return new NotTriplesPattern_1.NotTriplesPattern(patternTokens);
     };
+    PatternBuilder.prototype.filter = function (rawConstraint) {
+        return new NotTriplesPattern_1.NotTriplesPattern([Tokens_1.FILTER, new StringLiteral_1.StringLiteral(rawConstraint)]);
+    };
     return PatternBuilder;
 }());
 exports.PatternBuilder = PatternBuilder;

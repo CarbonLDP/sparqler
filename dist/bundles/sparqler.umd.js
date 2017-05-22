@@ -136,6 +136,7 @@ exports.SERVICE = new Identifier_1.Identifier("SERVICE");
 exports.SILENT = new Identifier_1.Identifier("SILENT");
 exports.BIND = new Identifier_1.Identifier("BIND");
 exports.AS = new Identifier_1.Identifier("AS");
+exports.FILTER = new Identifier_1.Identifier("FILTER");
 
 
 /***/ }),
@@ -200,7 +201,7 @@ var StringLiteral = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     StringLiteral.prototype.getPrettySeparator = function (nextToken) {
-        if ((nextToken instanceof Identifier_1.Identifier && nextToken["value"] !== "AS") || (nextToken instanceof NewLineSymbol_1.NewLineSymbol && nextToken["value"] === ")"))
+        if ((nextToken instanceof Identifier_1.Identifier && nextToken["value"] !== "AS") || (nextToken instanceof NewLineSymbol_1.NewLineSymbol && (nextToken["value"] === ")" || nextToken["value"] === "}")))
             return Token_1.NEW_LINE_SEPARATOR;
         if (nextToken instanceof Operator_1.Operator || (nextToken instanceof RightSymbol_1.RightSymbol && nextToken["value"] !== ")"))
             return Token_1.EMPTY_SEPARATOR;
@@ -615,6 +616,9 @@ var PatternBuilder = (function () {
         variable = typeof variable === "string" ? this.var(variable) : variable;
         var patternTokens = [Tokens_1.BIND, Tokens_1.OPEN_SINGLE_LIST, new StringLiteral_1.StringLiteral(rawExpression), Tokens_1.AS].concat(variable.getSelfTokens(), [Tokens_1.CLOSE_SINGLE_LIST]);
         return new NotTriplesPattern_1.NotTriplesPattern(patternTokens);
+    };
+    PatternBuilder.prototype.filter = function (rawConstraint) {
+        return new NotTriplesPattern_1.NotTriplesPattern([Tokens_1.FILTER, new StringLiteral_1.StringLiteral(rawConstraint)]);
     };
     return PatternBuilder;
 }());

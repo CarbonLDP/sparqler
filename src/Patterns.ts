@@ -54,9 +54,8 @@ export interface NotTriplesPatternBuilder {
 	service( variable:Variable, patterns:GraphPattern[] ):NotTriplesPattern;
 
 	// TODO: Add expression support for this patterns
-	bind( rawExpression:string, variable:string | Variable );
-	// TODO: BIND pattern
-	// TODO: FILTER pattern
+	bind( rawExpression:string, variable:string | Variable ):NotTriplesPattern;
+	filter( rawConstraint:string ):NotTriplesPattern;
 }
 
 export interface SingleValuesPattern extends NotTriplesPattern {

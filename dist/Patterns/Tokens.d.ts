@@ -52,3 +52,4 @@ export declare const SERVICE: Identifier;
 export declare const SILENT: Identifier;
 export declare const BIND: Identifier;
 export declare const AS: Identifier;
+export declare const FILTER: Identifier;

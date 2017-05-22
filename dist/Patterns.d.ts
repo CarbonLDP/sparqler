@@ -37,7 +37,8 @@ export interface NotTriplesPatternBuilder {
     service(resource: Resource, patterns: GraphPattern[]): NotTriplesPattern;
     service(variable: Variable, pattern: GraphPattern): NotTriplesPattern;
     service(variable: Variable, patterns: GraphPattern[]): NotTriplesPattern;
-    bind(rawExpression: string, variable: string | Variable): any;
+    bind(rawExpression: string, variable: string | Variable): NotTriplesPattern;
+    filter(rawConstraint: string): NotTriplesPattern;
 }
 export interface SingleValuesPattern extends NotTriplesPattern {
     has(value: SupportedNativeTypes): SingleValuesPatternMore;

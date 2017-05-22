@@ -65,3 +65,5 @@ export const SILENT:Identifier = new Identifier( "SILENT" );
 export const BIND:Identifier = new Identifier( "BIND" );
 export const AS:Identifier = new Identifier( "AS" );
 
+export const FILTER:Identifier = new Identifier( "FILTER" );
+

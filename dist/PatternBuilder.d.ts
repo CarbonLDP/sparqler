@@ -35,5 +35,6 @@ export declare class PatternBuilder implements TriplesPatternBuilder, NotTriples
     service(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
     serviceSilent(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
     bind(rawExpression: string, variable: string | Variable): NotTriplesPattern;
+    filter(rawConstraint: string): NotTriplesPattern;
 }
 export default PatternBuilder;

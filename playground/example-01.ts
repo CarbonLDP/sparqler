@@ -105,6 +105,9 @@ builder
 
 			_.bind( "?v = ?v1", "equal" ),
 			_.bind( "?v2 = ?v1", _.var( "equal2") ),
+
+			_.filter( "( ?v = ?v2 )" ),
+			_.filter( "BNODE( ?s )" ),
 		];
 	} )
 
