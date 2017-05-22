@@ -46,12 +46,8 @@ export interface NotTriplesPatternBuilder {
 	values( variable:Variable ):SingleValuesPattern
 	values( ...variables:Variable[] ):MultipleValuesPattern;
 
-	service( iri:string, pattern:GraphPattern ):NotTriplesPattern;
-	service( iri:string, patterns:GraphPattern[] ):NotTriplesPattern;
-	service( resource:Resource, pattern:GraphPattern ):NotTriplesPattern;
-	service( resource:Resource, patterns:GraphPattern[] ):NotTriplesPattern;
-	service( variable:Variable, pattern:GraphPattern ):NotTriplesPattern;
-	service( variable:Variable, patterns:GraphPattern[] ):NotTriplesPattern;
+	service( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern;
+	serviceSilent( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern;
 
 	// TODO: Add expression support for this patterns
 	bind( rawExpression:string, variable:string | Variable ):NotTriplesPattern;

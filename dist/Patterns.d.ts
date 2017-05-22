@@ -31,12 +31,8 @@ export interface NotTriplesPatternBuilder {
     undefined: Undefined;
     values(variable: Variable): SingleValuesPattern;
     values(...variables: Variable[]): MultipleValuesPattern;
-    service(iri: string, pattern: GraphPattern): NotTriplesPattern;
-    service(iri: string, patterns: GraphPattern[]): NotTriplesPattern;
-    service(resource: Resource, pattern: GraphPattern): NotTriplesPattern;
-    service(resource: Resource, patterns: GraphPattern[]): NotTriplesPattern;
-    service(variable: Variable, pattern: GraphPattern): NotTriplesPattern;
-    service(variable: Variable, patterns: GraphPattern[]): NotTriplesPattern;
+    service(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
+    serviceSilent(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
     bind(rawExpression: string, variable: string | Variable): NotTriplesPattern;
     filter(rawConstraint: string): NotTriplesPattern;
 }
