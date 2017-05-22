@@ -53,6 +53,8 @@ export interface NotTriplesPatternBuilder {
 	service( variable:Variable, pattern:GraphPattern ):NotTriplesPattern;
 	service( variable:Variable, patterns:GraphPattern[] ):NotTriplesPattern;
 
+	// TODO: Add expression support for this patterns
+	bind( rawExpression:string, variable:string | Variable );
 	// TODO: BIND pattern
 	// TODO: FILTER pattern
 }

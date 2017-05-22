@@ -25,9 +25,7 @@ import {
 	Token,
 	TokenFormat,
 } from "./Tokens/Token";
-import { Identifier } from "./Tokens/Identifier";
 import { StringLiteral } from "./Tokens/StringLiteral";
-import { RightSymbol } from "./Tokens/RightSymbol";
 import { NumberLiteral } from "./Tokens/NumberLiteral";
 import {
 	OPEN_IRI,

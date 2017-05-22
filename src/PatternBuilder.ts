@@ -27,9 +27,14 @@ import {
 	MINUS,
 	SERVICE,
 	SILENT,
+	BIND,
+	AS,
+	OPEN_SINGLE_LIST,
+	CLOSE_SINGLE_LIST,
 } from "./Patterns/Tokens";
 import * as Utils from "./Utils/Patterns";
 import { ValuesPattern } from "./NotTriplesPatterns/ValuesPattern";
+import { StringLiteral } from "./Tokens/StringLiteral";
 
 export type Undefined = "UNDEF";
 export class PatternBuilder implements TriplesPatternBuilder,
@@ -143,6 +148,12 @@ export class PatternBuilder implements TriplesPatternBuilder,
 
 		const patternTokens:Token[] = Utils.getBlockTokens( patterns );
 		return new NotTriplesPattern( [ SERVICE, SILENT, ...serviceTokens, ...patternTokens ] );
+	}
+
+	bind( rawExpression:string, variable:string | Variable ):NotTriplesPattern {
+		variable = typeof variable === "string" ? this.var( variable ) : variable;
+		const patternTokens:Token[] = [ BIND, OPEN_SINGLE_LIST, new StringLiteral( rawExpression ), AS, ...variable.getSelfTokens(), CLOSE_SINGLE_LIST ];
+		return new NotTriplesPattern( patternTokens );
 	}
 
 }

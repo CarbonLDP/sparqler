@@ -50,3 +50,5 @@ export declare const DISTINCT: Identifier;
 export declare const REDUCED: Identifier;
 export declare const SERVICE: Identifier;
 export declare const SILENT: Identifier;
+export declare const BIND: Identifier;
+export declare const AS: Identifier;

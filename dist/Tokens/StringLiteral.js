@@ -15,7 +15,7 @@ var StringLiteral = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     StringLiteral.prototype.getPrettySeparator = function (nextToken) {
-        if (nextToken instanceof Identifier_1.Identifier || (nextToken instanceof NewLineSymbol_1.NewLineSymbol && nextToken["value"] === ")"))
+        if ((nextToken instanceof Identifier_1.Identifier && nextToken["value"] !== "AS") || (nextToken instanceof NewLineSymbol_1.NewLineSymbol && nextToken["value"] === ")"))
             return Token_1.NEW_LINE_SEPARATOR;
         if (nextToken instanceof Operator_1.Operator || (nextToken instanceof RightSymbol_1.RightSymbol && nextToken["value"] !== ")"))
             return Token_1.EMPTY_SEPARATOR;

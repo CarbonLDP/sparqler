@@ -102,6 +102,9 @@ builder
 					.and( "ex:property", "ex:object" ),
 				_.resource( "some-2" ).has( "ex:property-2", "ex:object-2" ),
 			] ),
+
+			_.bind( "?v = ?v1", "equal" ),
+			_.bind( "?v2 = ?v1", _.var( "equal2") ),
 		];
 	} )
 

@@ -8,6 +8,7 @@ var NotTriplesPattern_1 = require("./NotTriplesPatterns/NotTriplesPattern");
 var Tokens_1 = require("./Patterns/Tokens");
 var Utils = require("./Utils/Patterns");
 var ValuesPattern_1 = require("./NotTriplesPatterns/ValuesPattern");
+var StringLiteral_1 = require("./Tokens/StringLiteral");
 var PatternBuilder = (function () {
     function PatternBuilder(resolver) {
         this.resolver = resolver;
@@ -95,6 +96,11 @@ var PatternBuilder = (function () {
             resource.getSelfTokens();
         var patternTokens = Utils.getBlockTokens(patterns);
         return new NotTriplesPattern_1.NotTriplesPattern([Tokens_1.SERVICE, Tokens_1.SILENT].concat(serviceTokens, patternTokens));
+    };
+    PatternBuilder.prototype.bind = function (rawExpression, variable) {
+        variable = typeof variable === "string" ? this.var(variable) : variable;
+        var patternTokens = [Tokens_1.BIND, Tokens_1.OPEN_SINGLE_LIST, new StringLiteral_1.StringLiteral(rawExpression), Tokens_1.AS].concat(variable.getSelfTokens(), [Tokens_1.CLOSE_SINGLE_LIST]);
+        return new NotTriplesPattern_1.NotTriplesPattern(patternTokens);
     };
     return PatternBuilder;
 }());

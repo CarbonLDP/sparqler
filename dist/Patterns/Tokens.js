@@ -51,5 +51,7 @@ exports.DISTINCT = new Identifier_1.Identifier("DISTINCT");
 exports.REDUCED = new Identifier_1.Identifier("REDUCED");
 exports.SERVICE = new Identifier_1.Identifier("SERVICE");
 exports.SILENT = new Identifier_1.Identifier("SILENT");
+exports.BIND = new Identifier_1.Identifier("BIND");
+exports.AS = new Identifier_1.Identifier("AS");
 
 //# sourceMappingURL=Tokens.js.map

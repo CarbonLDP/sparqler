@@ -62,3 +62,6 @@ export const REDUCED:Identifier = new Identifier( "REDUCED" );
 export const SERVICE:Identifier = new Identifier( "SERVICE" );
 export const SILENT:Identifier = new Identifier( "SILENT" );
 
+export const BIND:Identifier = new Identifier( "BIND" );
+export const AS:Identifier = new Identifier( "AS" );
+
