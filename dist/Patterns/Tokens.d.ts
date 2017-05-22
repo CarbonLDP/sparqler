@@ -45,3 +45,5 @@ export declare const UNION: Identifier;
 export declare const MINUS: Identifier;
 export declare const VALUES: Identifier;
 export declare const UNDEF: Identifier;
+export declare const SERVICE: Identifier;
+export declare const SILENT: Identifier;

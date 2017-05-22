@@ -82,6 +82,20 @@ var PatternBuilder = (function () {
         }
         return new ValuesPattern_1.ValuesPattern(this.resolver, variables);
     };
+    PatternBuilder.prototype.service = function (resource, patterns) {
+        var serviceTokens = typeof resource === "string" ?
+            this.resolver._resolveIRI(resource) :
+            resource.getSelfTokens();
+        var patternTokens = Utils.getBlockTokens(patterns);
+        return new NotTriplesPattern_1.NotTriplesPattern([Tokens_1.SERVICE].concat(serviceTokens, patternTokens));
+    };
+    PatternBuilder.prototype.serviceSilent = function (resource, patterns) {
+        var serviceTokens = typeof resource === "string" ?
+            this.resolver._resolveIRI(resource) :
+            resource.getSelfTokens();
+        var patternTokens = Utils.getBlockTokens(patterns);
+        return new NotTriplesPattern_1.NotTriplesPattern([Tokens_1.SERVICE, Tokens_1.SILENT].concat(serviceTokens, patternTokens));
+    };
     return PatternBuilder;
 }());
 exports.PatternBuilder = PatternBuilder;

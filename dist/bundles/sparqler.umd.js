@@ -129,6 +129,8 @@ exports.UNION = new Identifier_1.Identifier("UNION");
 exports.MINUS = new Identifier_1.Identifier("MINUS");
 exports.VALUES = new Identifier_1.Identifier("VALUES");
 exports.UNDEF = new Identifier_1.Identifier("UNDEF");
+exports.SERVICE = new Identifier_1.Identifier("SERVICE");
+exports.SILENT = new Identifier_1.Identifier("SILENT");
 
 
 /***/ }),
@@ -589,6 +591,20 @@ var PatternBuilder = (function () {
         }
         return new ValuesPattern_1.ValuesPattern(this.resolver, variables);
     };
+    PatternBuilder.prototype.service = function (resource, patterns) {
+        var serviceTokens = typeof resource === "string" ?
+            this.resolver._resolveIRI(resource) :
+            resource.getSelfTokens();
+        var patternTokens = Utils.getBlockTokens(patterns);
+        return new NotTriplesPattern_1.NotTriplesPattern([Tokens_1.SERVICE].concat(serviceTokens, patternTokens));
+    };
+    PatternBuilder.prototype.serviceSilent = function (resource, patterns) {
+        var serviceTokens = typeof resource === "string" ?
+            this.resolver._resolveIRI(resource) :
+            resource.getSelfTokens();
+        var patternTokens = Utils.getBlockTokens(patterns);
+        return new NotTriplesPattern_1.NotTriplesPattern([Tokens_1.SERVICE, Tokens_1.SILENT].concat(serviceTokens, patternTokens));
+    };
     return PatternBuilder;
 }());
 exports.PatternBuilder = PatternBuilder;
@@ -650,16 +666,16 @@ function getBlockTokens(patterns) {
 }
 exports.getBlockTokens = getBlockTokens;
 function getTokens(patterns) {
-    patterns = Array.isArray(patterns) ? patterns : [patterns];
+    var patternArray = Array.isArray(patterns) ? patterns : [patterns];
     var triplesTokens = [];
     var lastToken = void 0;
-    patterns.forEach(function (graphPattern, index) {
+    patternArray.forEach(function (graphPattern, index) {
         var tokens = graphPattern.getPattern();
         if (lastToken === Tokens_1.GRAPH_PATTERN_SEPARATOR && (tokens[0] instanceof Identifier_1.Identifier || tokens[0] === Tokens_1.OPEN_MULTI_BLOCK || tokens[0] === Tokens_1.OPEN_SINGLE_BLOCK))
             triplesTokens.pop();
         triplesTokens.push.apply(triplesTokens, tokens);
         lastToken = tokens[tokens.length - 1];
-        if (index < patterns.length - 1 && lastToken !== Tokens_1.CLOSE_MULTI_BLOCK && lastToken !== Tokens_1.CLOSE_SINGLE_BLOCK) {
+        if (index < patternArray.length - 1 && lastToken !== Tokens_1.CLOSE_MULTI_BLOCK && lastToken !== Tokens_1.CLOSE_SINGLE_BLOCK) {
             triplesTokens.push(lastToken = Tokens_1.GRAPH_PATTERN_SEPARATOR);
         }
     });

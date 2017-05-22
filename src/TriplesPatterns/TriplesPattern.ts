@@ -1,7 +1,7 @@
 import {
 	TriplesSameSubject,
 	TriplesSameSubjectMore,
-	supportedNativeTypes,
+	SupportedNativeTypes,
 	IRIResolver,
 	GraphPattern,
 	ElementPattern,
@@ -35,18 +35,18 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 		this.init();
 	}
 
-	has( propertyIRI:string, value:supportedNativeTypes ):TriplesSameSubjectMore<T> & T;
+	has( propertyIRI:string, value:SupportedNativeTypes ):TriplesSameSubjectMore<T> & T;
 	has( propertyIRI:string, resource:Resource ):TriplesSameSubjectMore<T> & T;
 	has( propertyIRI:string, variable:Variable ):TriplesSameSubjectMore<T> & T;
 	has( propertyIRI:string, literal:Literal ):TriplesSameSubjectMore<T> & T;
 	has( propertyIRI:string, node:TriplesNodePattern ):TriplesSameSubjectMore<T> & T;
-	has( propertyIRI:string, values:( supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):TriplesSameSubjectMore<T> & T;
-	has( propertyVariable:Variable, value:supportedNativeTypes ):TriplesSameSubjectMore<T> & T;
+	has( propertyIRI:string, values:( SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):TriplesSameSubjectMore<T> & T;
+	has( propertyVariable:Variable, value:SupportedNativeTypes ):TriplesSameSubjectMore<T> & T;
 	has( propertyVariable:Variable, resource:Resource ):TriplesSameSubjectMore<T> & T;
 	has( propertyVariable:Variable, variable:Variable ):TriplesSameSubjectMore<T> & T;
 	has( propertyVariable:Variable, literal:Literal ):TriplesSameSubjectMore<T> & T;
 	has( propertyVariable:Variable, node:TriplesNodePattern ):TriplesSameSubjectMore<T> & T;
-	has( propertyVariable:Variable, values:( supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):TriplesSameSubjectMore<T> & T;
+	has( propertyVariable:Variable, values:( SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):TriplesSameSubjectMore<T> & T;
 	has( property:string | Variable, values ):TriplesSameSubjectMore<T> & T {
 		this.patternTokens = [];
 		return this._addPattern( property, values );

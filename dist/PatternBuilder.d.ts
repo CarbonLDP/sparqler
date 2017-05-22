@@ -1,4 +1,4 @@
-import { GraphPattern, TriplesPatternBuilder, NotTriplesPatternBuilder, supportedNativeTypes, SingleValuesPattern, MultipleValuesPattern, IRIResolver, TriplesNodePattern } from "./Patterns";
+import { GraphPattern, TriplesPatternBuilder, NotTriplesPatternBuilder, SupportedNativeTypes, SingleValuesPattern, MultipleValuesPattern, IRIResolver, TriplesNodePattern } from "./Patterns";
 import { RDFLiteral, NumericLiteral, BooleanLiteral, Literal } from "./TriplesPatterns/Literals";
 import { Resource } from "./TriplesPatterns/Resource";
 import { Variable } from "./TriplesPatterns/Variable";
@@ -16,7 +16,7 @@ export declare class PatternBuilder implements TriplesPatternBuilder, NotTriples
     literal(value: string): RDFLiteral;
     literal(value: number): NumericLiteral;
     literal(value: boolean): BooleanLiteral;
-    collection(...values: (supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): Collection;
+    collection(...values: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): Collection;
     blankNode(): BlankNode;
     graph(iri: string, pattern: GraphPattern): NotTriplesPattern;
     graph(iri: string, patterns: GraphPattern[]): NotTriplesPattern;
@@ -32,5 +32,7 @@ export declare class PatternBuilder implements TriplesPatternBuilder, NotTriples
     minus(firstPattern: GraphPattern, ...restPatterns: GraphPattern[]): NotTriplesPattern;
     values(variable: Variable): SingleValuesPattern;
     values(...variables: Variable[]): MultipleValuesPattern;
+    service(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
+    serviceSilent(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
 }
 export default PatternBuilder;

@@ -55,3 +55,6 @@ export const MINUS:Identifier = new Identifier( "MINUS" );
 export const VALUES:Identifier = new Identifier( "VALUES" );
 export const UNDEF:Identifier = new Identifier( "UNDEF" );
 
+export const SERVICE:Identifier = new Identifier( "SERVICE" );
+export const SILENT:Identifier = new Identifier( "SILENT" );
+

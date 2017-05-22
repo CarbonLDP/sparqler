@@ -2,7 +2,7 @@ import {
 	GraphPattern,
 	TriplesPatternBuilder,
 	NotTriplesPatternBuilder,
-	supportedNativeTypes,
+	SupportedNativeTypes,
 	SingleValuesPattern,
 	MultipleValuesPattern,
 	IRIResolver,
@@ -25,6 +25,8 @@ import {
 	OPTIONAL,
 	UNION,
 	MINUS,
+	SERVICE,
+	SILENT,
 } from "./Patterns/Tokens";
 import * as Utils from "./Utils/Patterns";
 import { ValuesPattern } from "./NotTriplesPatterns/ValuesPattern";
@@ -67,7 +69,7 @@ export class PatternBuilder implements TriplesPatternBuilder,
 		throw new Error( "InvalidArgumentError: No valid value of a literal was provided." );
 	}
 
-	collection( ...values:(supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ):Collection {
+	collection( ...values:(SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ):Collection {
 		if( values.length === 0 ) throw Error( "InvalidArgumentError: The collection needs at least one value." );
 		return new Collection( this.resolver, values );
 	}
@@ -120,6 +122,27 @@ export class PatternBuilder implements TriplesPatternBuilder,
 	values( ...variables:Variable[] ):MultipleValuesPattern;
 	values( ...variables:Variable[] ):SingleValuesPattern | MultipleValuesPattern {
 		return new ValuesPattern( this.resolver, variables );
+	}
+
+
+	// Expressions
+
+	service( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern {
+		const serviceTokens:Token[] = typeof resource === "string" ?
+			this.resolver._resolveIRI( resource ) :
+			resource.getSelfTokens();
+
+		const patternTokens:Token[] = Utils.getBlockTokens( patterns );
+		return new NotTriplesPattern( [ SERVICE, ...serviceTokens, ...patternTokens ] );
+	}
+
+	serviceSilent( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern {
+		const serviceTokens:Token[] = typeof resource === "string" ?
+			this.resolver._resolveIRI( resource ) :
+			resource.getSelfTokens();
+
+		const patternTokens:Token[] = Utils.getBlockTokens( patterns );
+		return new NotTriplesPattern( [ SERVICE, SILENT, ...serviceTokens, ...patternTokens ] );
 	}
 
 }

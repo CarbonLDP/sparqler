@@ -46,5 +46,7 @@ exports.UNION = new Identifier_1.Identifier("UNION");
 exports.MINUS = new Identifier_1.Identifier("MINUS");
 exports.VALUES = new Identifier_1.Identifier("VALUES");
 exports.UNDEF = new Identifier_1.Identifier("UNDEF");
+exports.SERVICE = new Identifier_1.Identifier("SERVICE");
+exports.SILENT = new Identifier_1.Identifier("SILENT");
 
 //# sourceMappingURL=Tokens.js.map
