@@ -14,7 +14,11 @@ export interface FromClause<T extends FinishClause> {
 
 export interface SelectClause {
 	select( ...variables:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+	selectDistinct( ...variables:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+	selectReduced( ...variables:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
 	selectAll():WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+	selectAllDistinct():WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+	selectAllReduced():WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
 }
 
 export interface WhereClause<T extends FinishClause> {

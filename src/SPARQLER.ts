@@ -56,6 +56,9 @@ import {
 	OFFSET,
 	BASE,
 	PREFIX,
+	DISTINCT,
+	REDUCED,
+	ALL,
 } from "./Patterns/Tokens";
 import { NewLineSymbol } from "./Tokens/NewLineSymbol";
 
@@ -127,21 +130,38 @@ export class SPARQLER implements QueryClause,
 		return this.interfaces.queryClause;
 	}
 
-	select( ...variables:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
-		if( variables.length === 0 ) throw new Error( "IllegalArgumentError: Need to provide al least one variable." );
+	_select( selectTokens:Token[], variables?:string[]):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
+		if( variables && variables.length === 0 ) throw new Error( "IllegalArgumentError: Need to provide al least one variable." );
 
-		this._selects = [ SELECT ];
-		variables.forEach( variable => this._selects.push( VAR_SYMBOL, new StringLiteral( variable ) ) );
+		this._selects = selectTokens;
+		if( variables ) variables.forEach( variable => this._selects.push( VAR_SYMBOL, new StringLiteral( variable ) ) );
 
 		Object.assign( this.interfaces.finishClause, this.interfaces.finishSelect );
 		return Object.assign( {}, this.interfaces.whereClause, this.interfaces.fromClause );
 	}
 
-	selectAll():WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
-		this._selects = [ SELECT, new RightSymbol( "*" ) ];
+	select( ...variables:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
+		return this._select( [ SELECT ], variables );
+	}
 
-		Object.assign( this.interfaces.finishClause, this.interfaces.finishSelect );
-		return Object.assign( {}, this.interfaces.whereClause, this.interfaces.fromClause );
+	selectDistinct( ...variables:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
+		return this._select( [ SELECT, DISTINCT ], variables );
+	}
+
+	selectReduced( ...variables:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
+		return this._select( [ SELECT, REDUCED ], variables );
+	}
+
+	selectAll():WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
+		return this._select( [ SELECT, ALL ] );
+	}
+
+	selectAllDistinct():WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
+		return this._select( [ SELECT, DISTINCT, ALL ] );
+	}
+
+	selectAllReduced():WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
+		return this._select( [ SELECT, REDUCED, ALL ] );
 	}
 
 	from( iri:string ):WhereClause<FinishSelectClause> {
@@ -411,7 +431,11 @@ export class SPARQLER implements QueryClause,
 				vocab: this.vocab.bind( this ),
 				prefix: this.prefix.bind( this ),
 				select: this.select.bind( this ),
+				selectDistinct: this.selectDistinct.bind( this ),
+				selectReduced: this.selectReduced.bind( this ),
 				selectAll: this.selectAll.bind( this ),
+				selectAllDistinct: this.selectAllDistinct.bind( this ),
+				selectAllReduced: this.selectAllReduced.bind( this ),
 			},
 			fromClause: {
 				from: this.from.bind( this ),

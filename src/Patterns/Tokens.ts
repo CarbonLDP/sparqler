@@ -8,6 +8,7 @@ export const VAR_SYMBOL:LeftSymbol = new LeftSymbol( "?" );
 export const PREFIX_SYMBOL:Operator = new Operator( ":" );
 export const OFF_TYPE:Operator = new Operator( "^^" );
 export const LANG_SYMBOL:Operator = new Operator( "@" );
+export const ALL:RightSymbol = new RightSymbol( "*" );
 
 export const OPEN_IRI:LeftSymbol = new LeftSymbol( "<" );
 export const CLOSE_IRI:RightSymbol = new RightSymbol( ">" );
@@ -54,6 +55,9 @@ export const UNION:Identifier = new Identifier( "UNION" );
 export const MINUS:Identifier = new Identifier( "MINUS" );
 export const VALUES:Identifier = new Identifier( "VALUES" );
 export const UNDEF:Identifier = new Identifier( "UNDEF" );
+
+export const DISTINCT:Identifier = new Identifier( "DISTINCT" );
+export const REDUCED:Identifier = new Identifier( "REDUCED" );
 
 export const SERVICE:Identifier = new Identifier( "SERVICE" );
 export const SILENT:Identifier = new Identifier( "SILENT" );

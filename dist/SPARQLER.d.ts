@@ -23,8 +23,13 @@ export declare class SPARQLER implements QueryClause, FromClause<FinishClause>, 
     base(iri: string): QueryClause;
     vocab(iri: string): QueryClause;
     prefix(name: string, iri: string): QueryClause;
+    _select(selectTokens: Token[], variables?: string[]): WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
     select(...variables: string[]): WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+    selectDistinct(...variables: string[]): WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+    selectReduced(...variables: string[]): WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
     selectAll(): WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+    selectAllDistinct(): WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
+    selectAllReduced(): WhereClause<FinishSelectClause> & FromClause<FinishSelectClause>;
     from(iri: string): WhereClause<FinishSelectClause>;
     fromNamed(iri: string): WhereClause<FinishSelectClause>;
     where(patternFunction: (builder: PatternBuilder) => GraphPattern): SolutionModifier<FinishClause> & FinishClause;

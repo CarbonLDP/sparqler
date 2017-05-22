@@ -13,7 +13,11 @@ builder
 	.prefix( "ldp", "http://www.w3.org/ns/ldp#" )
 
 	.select( "s", "color" )
+	// .selectDistinct( "s", "color" )
+	// .selectReduced( "s", "color" )
 	// .selectAll()
+	// .selectAllDistinct()
+	// .selectAllReduced()
 
 	.from( "" )
 

@@ -8,6 +8,7 @@ exports.VAR_SYMBOL = new LeftSymbol_1.LeftSymbol("?");
 exports.PREFIX_SYMBOL = new Operator_1.Operator(":");
 exports.OFF_TYPE = new Operator_1.Operator("^^");
 exports.LANG_SYMBOL = new Operator_1.Operator("@");
+exports.ALL = new RightSymbol_1.RightSymbol("*");
 exports.OPEN_IRI = new LeftSymbol_1.LeftSymbol("<");
 exports.CLOSE_IRI = new RightSymbol_1.RightSymbol(">");
 exports.OPEN_QUOTE = new LeftSymbol_1.LeftSymbol("\"");
@@ -46,6 +47,8 @@ exports.UNION = new Identifier_1.Identifier("UNION");
 exports.MINUS = new Identifier_1.Identifier("MINUS");
 exports.VALUES = new Identifier_1.Identifier("VALUES");
 exports.UNDEF = new Identifier_1.Identifier("UNDEF");
+exports.DISTINCT = new Identifier_1.Identifier("DISTINCT");
+exports.REDUCED = new Identifier_1.Identifier("REDUCED");
 exports.SERVICE = new Identifier_1.Identifier("SERVICE");
 exports.SILENT = new Identifier_1.Identifier("SILENT");
 

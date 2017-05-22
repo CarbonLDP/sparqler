@@ -81,8 +81,20 @@ describe( "Module SPARQLER", () => {
 			expect( "select" in sparqler ).toBe( true );
 			expect( sparqler.select ).toEqual( jasmine.any( Function ) );
 
+			expect( "selectDistinct" in sparqler ).toBe( true );
+			expect( sparqler.selectDistinct ).toEqual( jasmine.any( Function ) );
+
+			expect( "selectReduced" in sparqler ).toBe( true );
+			expect( sparqler.selectReduced ).toEqual( jasmine.any( Function ) );
+
 			expect( "selectAll" in sparqler ).toBe( true );
 			expect( sparqler.selectAll ).toEqual( jasmine.any( Function ) );
+
+			expect( "selectAllDistinct" in sparqler ).toBe( true );
+			expect( sparqler.selectAllDistinct ).toEqual( jasmine.any( Function ) );
+
+			expect( "selectAllReduced" in sparqler ).toBe( true );
+			expect( sparqler.selectAllReduced ).toEqual( jasmine.any( Function ) );
 
 			//Where Clauses
 
@@ -134,14 +146,28 @@ describe( "Module SPARQLER", () => {
 			expect( sparqler[ "_base" ] ).toEqual( "http://example.com/" );
 
 			// Check if only the QueryClause functions
-			expect( Object.keys( clause ) ).toEqual( [ "base", "vocab", "prefix", "select", "selectAll" ] );
+			expect( Object.keys( clause ) ).toEqual( [
+				"base",
+				"vocab",
+				"prefix",
+				"select",
+				"selectDistinct",
+				"selectReduced",
+				"selectAll",
+				"selectAllDistinct",
+				"selectAllReduced",
+			] );
 
 			// Are functions
 			expect( clause.base ).toEqual( jasmine.any( Function ) );
 			expect( clause.vocab ).toEqual( jasmine.any( Function ) );
 			expect( clause.prefix ).toEqual( jasmine.any( Function ) );
 			expect( clause.select ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectDistinct ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectReduced ).toEqual( jasmine.any( Function ) );
 			expect( clause.selectAll ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectAllDistinct ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectAllReduced ).toEqual( jasmine.any( Function ) );
 
 			// Always return a QueryClause
 			let equalClause:QueryClause = clause.base( "http://another-example.com/" );
@@ -161,14 +187,28 @@ describe( "Module SPARQLER", () => {
 			expect( sparqler[ "_vocab" ] ).toEqual( "http://example.com/ns#" );
 
 			// Check if only the QueryClause functions
-			expect( Object.keys( clause ) ).toEqual( [ "base", "vocab", "prefix", "select", "selectAll" ] );
+			expect( Object.keys( clause ) ).toEqual( [
+				"base",
+				"vocab",
+				"prefix",
+				"select",
+				"selectDistinct",
+				"selectReduced",
+				"selectAll",
+				"selectAllDistinct",
+				"selectAllReduced",
+			] );
 
 			// Are functions
 			expect( clause.base ).toEqual( jasmine.any( Function ) );
 			expect( clause.vocab ).toEqual( jasmine.any( Function ) );
 			expect( clause.prefix ).toEqual( jasmine.any( Function ) );
 			expect( clause.select ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectDistinct ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectReduced ).toEqual( jasmine.any( Function ) );
 			expect( clause.selectAll ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectAllDistinct ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectAllReduced ).toEqual( jasmine.any( Function ) );
 
 			// Always return a QueryClause
 			let equalClause:QueryClause = clause.vocab( "http://another-example.com/ns#" );
@@ -190,14 +230,28 @@ describe( "Module SPARQLER", () => {
 			expect( sparqler[ "_prefixes" ].get( "ex" ) ).toEqual( { iri: "http://example.com/ns#", used: false } );
 
 			// Check if only the QueryClause functions
-			expect( Object.keys( clause ) ).toEqual( [ "base", "vocab", "prefix", "select", "selectAll" ] );
+			expect( Object.keys( clause ) ).toEqual( [
+				"base",
+				"vocab",
+				"prefix",
+				"select",
+				"selectDistinct",
+				"selectReduced",
+				"selectAll",
+				"selectAllDistinct",
+				"selectAllReduced",
+			] );
 
 			// Are functions
 			expect( clause.base ).toEqual( jasmine.any( Function ) );
-			expect( clause.prefix ).toEqual( jasmine.any( Function ) );
+			expect( clause.vocab ).toEqual( jasmine.any( Function ) );
 			expect( clause.prefix ).toEqual( jasmine.any( Function ) );
 			expect( clause.select ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectDistinct ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectReduced ).toEqual( jasmine.any( Function ) );
 			expect( clause.selectAll ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectAllDistinct ).toEqual( jasmine.any( Function ) );
+			expect( clause.selectAllReduced ).toEqual( jasmine.any( Function ) );
 
 			// Always return a QueryClause
 			let equalClause:QueryClause = clause.prefix( "another", "http://another-example.com/ns#" );
