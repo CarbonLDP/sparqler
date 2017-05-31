@@ -130,9 +130,6 @@ export class PatternBuilder implements TriplesPatternBuilder,
 		return new ValuesPattern( this.resolver, variables );
 	}
 
-
-	// Expressions
-
 	service( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern {
 		const serviceTokens:Token[] = typeof resource === "string" ?
 			this.resolver._resolveIRI( resource ) :

@@ -65,32 +65,12 @@ export interface TriplesPatternBuilder {
     blankNode(): BlankNode;
 }
 export interface TriplesSameSubject<T> {
-    has(propertyIRI: string, value: SupportedNativeTypes): TriplesSameSubjectMore<T> & T;
-    has(propertyIRI: string, resource: Resource): TriplesSameSubjectMore<T> & T;
-    has(propertyIRI: string, variable: Variable): TriplesSameSubjectMore<T> & T;
-    has(propertyIRI: string, literal: Literal): TriplesSameSubjectMore<T> & T;
-    has(propertyIRI: string, node: TriplesNodePattern): TriplesSameSubjectMore<T> & T;
-    has(propertyIRI: string, values: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, value: SupportedNativeTypes): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, resource: Resource): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, variable: Variable): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, literal: Literal): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, node: TriplesNodePattern): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, values: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
+    has(property: string | Variable | Resource, object: SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern): TriplesSameSubjectMore<T> & T;
+    has(property: string | Variable | Resource, objects: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
 }
 export interface TriplesSameSubjectMore<T> {
-    and(propertyIRI: string, resource: Resource): TriplesSameSubjectMore<T> & T;
-    and(propertyIRI: string, variable: Variable): TriplesSameSubjectMore<T> & T;
-    and(propertyIRI: string, literal: Literal): TriplesSameSubjectMore<T> & T;
-    and(propertyIRI: string, node: TriplesNodePattern): TriplesSameSubjectMore<T> & T;
-    and(propertyIRI: string, value: SupportedNativeTypes): TriplesSameSubjectMore<T> & T;
-    and(propertyIRI: string, values: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
-    and(propertyVariable: Variable, resource: Resource): TriplesSameSubjectMore<T> & T;
-    and(propertyVariable: Variable, variable: Variable): TriplesSameSubjectMore<T> & T;
-    and(propertyVariable: Variable, literal: Literal): TriplesSameSubjectMore<T> & T;
-    and(propertyVariable: Variable, node: TriplesNodePattern): TriplesSameSubjectMore<T> & T;
-    and(propertyVariable: Variable, value: SupportedNativeTypes): TriplesSameSubjectMore<T> & T;
-    and(propertyVariable: Variable, values: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
+    and(property: string | Variable | Resource, object: SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern): TriplesSameSubjectMore<T> & T;
+    and(property: string | Variable | Resource, objects: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
 }
 export interface TriplesNodePattern extends GraphPattern, ElementPattern {
 }
