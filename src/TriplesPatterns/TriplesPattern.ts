@@ -16,6 +16,7 @@ import {
 	SAME_SUBJECT_SEPARATOR,
 	SAME_PROPERTY_SEPARATOR
 } from "../Patterns/Tokens";
+import { Res } from "awesome-typescript-loader/dist/checker/protocol";
 
 export abstract class TriplesPattern<T extends GraphPattern> implements TriplesSameSubject<T>, ElementPattern {
 
@@ -35,21 +36,12 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 		this.init();
 	}
 
-	has( propertyIRI:string, value:SupportedNativeTypes ):TriplesSameSubjectMore<T> & T;
-	has( propertyIRI:string, resource:Resource ):TriplesSameSubjectMore<T> & T;
-	has( propertyIRI:string, variable:Variable ):TriplesSameSubjectMore<T> & T;
-	has( propertyIRI:string, literal:Literal ):TriplesSameSubjectMore<T> & T;
-	has( propertyIRI:string, node:TriplesNodePattern ):TriplesSameSubjectMore<T> & T;
-	has( propertyIRI:string, values:( SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):TriplesSameSubjectMore<T> & T;
-	has( propertyVariable:Variable, value:SupportedNativeTypes ):TriplesSameSubjectMore<T> & T;
-	has( propertyVariable:Variable, resource:Resource ):TriplesSameSubjectMore<T> & T;
-	has( propertyVariable:Variable, variable:Variable ):TriplesSameSubjectMore<T> & T;
-	has( propertyVariable:Variable, literal:Literal ):TriplesSameSubjectMore<T> & T;
-	has( propertyVariable:Variable, node:TriplesNodePattern ):TriplesSameSubjectMore<T> & T;
-	has( propertyVariable:Variable, values:( SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern )[] ):TriplesSameSubjectMore<T> & T;
-	has( property:string | Variable, values ):TriplesSameSubjectMore<T> & T {
+
+	has( property:string | Variable | Resource, object:SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern ):TriplesSameSubjectMore<T> & T;
+	has( property:string | Variable | Resource, objects:(SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ):TriplesSameSubjectMore<T> & T;
+	has( property:string | Variable | Resource, objects ):TriplesSameSubjectMore<T> & T {
 		this.patternTokens = [];
-		return this._addPattern( property, values );
+		return this._addPattern( property, objects );
 	}
 
 	getSelfTokens():Token[] {
@@ -59,24 +51,23 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 	protected init():void {
 		this.interfaces = {
 			addPattern: {
-				and: ( property, values ) => {
+				and: ( property, objects ) => {
 					this.patternTokens.push( SAME_SUBJECT_SEPARATOR );
-					return this._addPattern( property, values );
+					return this._addPattern( property, objects );
 				},
 			},
 		};
 	};
 
-	private _addPattern( property:string | Variable, values:ElementPattern | ElementPattern[] ):TriplesSameSubjectMore<T> & T;
-	private _addPattern( property, values ):TriplesSameSubjectMore<T> & T {
+	private _addPattern( property:string | Variable | Resource, values:ElementPattern | ElementPattern[] ):TriplesSameSubjectMore<T> & T {
 		let tokens:Token[] = ( typeof property === "string" || property instanceof String )
 			? this.resolver._resolveIRI( property as string, true )
 			: property.getSelfTokens();
 
 		values = Array.isArray( values ) ? values : [ values ];
-		values.forEach( ( value, index ) => {
+		values.forEach( ( value, index, array ) => {
 			tokens.push( ...ObjectPattern.serialize( value ) );
-			if( index < values.length - 1 ) tokens.push( SAME_PROPERTY_SEPARATOR );
+			if( index < array.length - 1 ) tokens.push( SAME_PROPERTY_SEPARATOR );
 		} );
 
 		this.patternTokens.push( ...tokens );

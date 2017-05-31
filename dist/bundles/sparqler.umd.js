@@ -415,9 +415,9 @@ var TriplesPattern = (function () {
         this.patternTokens = [];
         this.init();
     }
-    TriplesPattern.prototype.has = function (property, values) {
+    TriplesPattern.prototype.has = function (property, objects) {
         this.patternTokens = [];
-        return this._addPattern(property, values);
+        return this._addPattern(property, objects);
     };
     TriplesPattern.prototype.getSelfTokens = function () {
         return this.elementTokens;
@@ -426,9 +426,9 @@ var TriplesPattern = (function () {
         var _this = this;
         this.interfaces = {
             addPattern: {
-                and: function (property, values) {
+                and: function (property, objects) {
                     _this.patternTokens.push(Tokens_1.SAME_SUBJECT_SEPARATOR);
-                    return _this._addPattern(property, values);
+                    return _this._addPattern(property, objects);
                 },
             },
         };
@@ -439,9 +439,9 @@ var TriplesPattern = (function () {
             ? this.resolver._resolveIRI(property, true)
             : property.getSelfTokens();
         values = Array.isArray(values) ? values : [values];
-        values.forEach(function (value, index) {
+        values.forEach(function (value, index, array) {
             tokens.push.apply(tokens, ObjectPattern.serialize(value));
-            if (index < values.length - 1)
+            if (index < array.length - 1)
                 tokens.push(Tokens_1.SAME_PROPERTY_SEPARATOR);
         });
         (_a = this.patternTokens).push.apply(_a, tokens);
