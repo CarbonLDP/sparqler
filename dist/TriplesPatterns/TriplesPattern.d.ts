@@ -1,4 +1,4 @@
-import { TriplesSameSubject, TriplesSameSubjectMore, supportedNativeTypes, IRIResolver, GraphPattern, ElementPattern, TriplesNodePattern } from "../Patterns";
+import { TriplesSameSubject, TriplesSameSubjectMore, SupportedNativeTypes, IRIResolver, GraphPattern, ElementPattern, TriplesNodePattern } from "../Patterns";
 import { Literal } from "./Literals";
 import { Resource } from "./Resource";
 import { Variable } from "./Variable";
@@ -12,18 +12,8 @@ export declare abstract class TriplesPattern<T extends GraphPattern> implements 
     };
     private resolver;
     constructor(resolver: IRIResolver);
-    has(propertyIRI: string, value: supportedNativeTypes): TriplesSameSubjectMore<T> & T;
-    has(propertyIRI: string, resource: Resource): TriplesSameSubjectMore<T> & T;
-    has(propertyIRI: string, variable: Variable): TriplesSameSubjectMore<T> & T;
-    has(propertyIRI: string, literal: Literal): TriplesSameSubjectMore<T> & T;
-    has(propertyIRI: string, node: TriplesNodePattern): TriplesSameSubjectMore<T> & T;
-    has(propertyIRI: string, values: (supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, value: supportedNativeTypes): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, resource: Resource): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, variable: Variable): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, literal: Literal): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, node: TriplesNodePattern): TriplesSameSubjectMore<T> & T;
-    has(propertyVariable: Variable, values: (supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
+    has(property: string | Variable | Resource, object: SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern): TriplesSameSubjectMore<T> & T;
+    has(property: string | Variable | Resource, objects: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
     getSelfTokens(): Token[];
     protected init(): void;
     private _addPattern(property, values);

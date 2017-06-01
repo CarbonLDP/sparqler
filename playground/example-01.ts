@@ -5,15 +5,19 @@ import { Variable } from "../src/TriplesPatterns/Variable";
 let builder = new SPARQLER();
 
 builder
-	.base( "https://carbonldp.base22.io/apps/test-app/" )
-	.vocab( "https://carbonldp.base22.io/apps/test-app/vocabulary/#" )
-	.prefix( "", "https://carbonldp.base22.io/apps/test-app/" )
+	.base( "https://carbonldp.base22.io/" )
+	.vocab( "https://carbonldp.base22.io/vocabulary/#" )
+	.prefix( "", "https://carbonldp.base22.io/" )
 	.prefix( "ex", "http://example.com/ns#" )
 	.prefix( "xsd", "http://www.w3.org/2001/XMLSchema#" )
 	.prefix( "ldp", "http://www.w3.org/ns/ldp#" )
 
 	.select( "s", "color" )
+	// .selectDistinct( "s", "color" )
+	// .selectReduced( "s", "color" )
 	// .selectAll()
+	// .selectAllDistinct()
+	// .selectAllReduced()
 
 	.from( "" )
 
@@ -78,6 +82,32 @@ builder
 			_.values( _.var( "v" ) ).has( 1 ).and( 1.1 ).and( "some" ).and( _.undefined ),
 			_.values( _.var( "v1" ), _.var( "v2" ) ).has( 1, 2 ).and( _.undefined, _.literal( "nope" ) ).and( true, false ),
 			_.values().has(),
+
+			_.service( "a-service", _.resource( "some" ).has( "ex:property", "ex:object" ) ),
+			_.service( ":a-service", _.resource( "some" ).has( "ex:property", "ex:object" ) ),
+			_.service( _.var( "service" ), _.resource( "some" ).has( "ex:property", "ex:object" ) ),
+			_.service( _.resource( "a-service" ), [
+				_.resource( "some" )
+					.has( "ex:property", "ex:object" )
+					.and( "ex:property", "ex:object" ),
+				_.resource( "some-2" ).has( "ex:property-2", "ex:object-2" ),
+			] ),
+
+			_.serviceSilent( "a-service", _.resource( "some" ).has( "ex:property", "ex:object" ) ),
+			_.serviceSilent( ":a-service", _.resource( "some" ).has( "ex:property", "ex:object" ) ),
+			_.serviceSilent( _.var( "service" ), _.resource( "some" ).has( "ex:property", "ex:object" ) ),
+			_.serviceSilent( _.resource( "a-service" ), [
+				_.resource( "some" )
+					.has( "ex:property", "ex:object" )
+					.and( "ex:property", "ex:object" ),
+				_.resource( "some-2" ).has( "ex:property-2", "ex:object-2" ),
+			] ),
+
+			_.bind( "?v = ?v1", "equal" ),
+			_.bind( "?v2 = ?v1", _.var( "equal2") ),
+
+			_.filter( "( ?v = ?v2 )" ),
+			_.filter( "BNODE( ?s )" ),
 		];
 	} )
 

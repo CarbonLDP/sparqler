@@ -2,7 +2,7 @@ import {
 	GraphPattern,
 	TriplesPatternBuilder,
 	NotTriplesPatternBuilder,
-	supportedNativeTypes,
+	SupportedNativeTypes,
 	SingleValuesPattern,
 	MultipleValuesPattern,
 	IRIResolver,
@@ -25,9 +25,17 @@ import {
 	OPTIONAL,
 	UNION,
 	MINUS,
+	SERVICE,
+	SILENT,
+	BIND,
+	AS,
+	OPEN_SINGLE_LIST,
+	CLOSE_SINGLE_LIST,
+	FILTER,
 } from "./Patterns/Tokens";
 import * as Utils from "./Utils/Patterns";
 import { ValuesPattern } from "./NotTriplesPatterns/ValuesPattern";
+import { StringLiteral } from "./Tokens/StringLiteral";
 
 export type Undefined = "UNDEF";
 export class PatternBuilder implements TriplesPatternBuilder,
@@ -67,7 +75,7 @@ export class PatternBuilder implements TriplesPatternBuilder,
 		throw new Error( "InvalidArgumentError: No valid value of a literal was provided." );
 	}
 
-	collection( ...values:(supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ):Collection {
+	collection( ...values:(SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ):Collection {
 		if( values.length === 0 ) throw Error( "InvalidArgumentError: The collection needs at least one value." );
 		return new Collection( this.resolver, values );
 	}
@@ -120,6 +128,34 @@ export class PatternBuilder implements TriplesPatternBuilder,
 	values( ...variables:Variable[] ):MultipleValuesPattern;
 	values( ...variables:Variable[] ):SingleValuesPattern | MultipleValuesPattern {
 		return new ValuesPattern( this.resolver, variables );
+	}
+
+	service( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern {
+		const serviceTokens:Token[] = typeof resource === "string" ?
+			this.resolver._resolveIRI( resource ) :
+			resource.getSelfTokens();
+
+		const patternTokens:Token[] = Utils.getBlockTokens( patterns );
+		return new NotTriplesPattern( [ SERVICE, ...serviceTokens, ...patternTokens ] );
+	}
+
+	serviceSilent( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern {
+		const serviceTokens:Token[] = typeof resource === "string" ?
+			this.resolver._resolveIRI( resource ) :
+			resource.getSelfTokens();
+
+		const patternTokens:Token[] = Utils.getBlockTokens( patterns );
+		return new NotTriplesPattern( [ SERVICE, SILENT, ...serviceTokens, ...patternTokens ] );
+	}
+
+	bind( rawExpression:string, variable:string | Variable ):NotTriplesPattern {
+		variable = typeof variable === "string" ? this.var( variable ) : variable;
+		const patternTokens:Token[] = [ BIND, OPEN_SINGLE_LIST, new StringLiteral( rawExpression ), AS, ...variable.getSelfTokens(), CLOSE_SINGLE_LIST ];
+		return new NotTriplesPattern( patternTokens );
+	}
+
+	filter( rawConstraint:string ):NotTriplesPattern {
+		return new NotTriplesPattern( [ FILTER, new StringLiteral( rawConstraint ) ] );
 	}
 
 }

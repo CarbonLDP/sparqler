@@ -10,9 +10,7 @@ import {
 import { Identifier } from "../Tokens/Identifier";
 import { NewLineSymbol } from "../Tokens/NewLineSymbol";
 
-export function getBlockTokens( pattern:GraphPattern ):Token[];
-export function getBlockTokens( patterns:GraphPattern[] ):Token[];
-export function getBlockTokens( patterns ):Token[] {
+export function getBlockTokens( patterns:GraphPattern | GraphPattern[] ):Token[] {
 	let tokens:Token[] = this.getTokens( patterns );
 
 	let openToken:Token = OPEN_SINGLE_BLOCK;
@@ -26,15 +24,13 @@ export function getBlockTokens( patterns ):Token[] {
 }
 
 
-export function getTokens( pattern:GraphPattern ):Token[];
-export function getTokens( patterns:GraphPattern[] ):Token[];
-export function getTokens( patterns ):Token[] {
-	patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
+export function getTokens( patterns:GraphPattern | GraphPattern[] ):Token[] {
+	const patternArray:GraphPattern[] = Array.isArray( patterns ) ? patterns : [ patterns ];
 
 	let triplesTokens:Token[] = [];
 	let lastToken:Token = void 0;
 
-	patterns.forEach( ( graphPattern, index ) => {
+	patternArray.forEach( ( graphPattern, index ) => {
 		let tokens:Token[] = graphPattern.getPattern();
 
 		if( lastToken === GRAPH_PATTERN_SEPARATOR && ( tokens[ 0 ] instanceof Identifier || tokens[ 0 ] === OPEN_MULTI_BLOCK || tokens[ 0 ] === OPEN_SINGLE_BLOCK ) ) triplesTokens.pop();
@@ -42,7 +38,7 @@ export function getTokens( patterns ):Token[] {
 		triplesTokens.push( ...tokens );
 
 		lastToken = tokens[ tokens.length - 1 ];
-		if( index < patterns.length - 1 && lastToken !== CLOSE_MULTI_BLOCK && lastToken !== CLOSE_SINGLE_BLOCK ) {
+		if( index < patternArray.length - 1 && lastToken !== CLOSE_MULTI_BLOCK && lastToken !== CLOSE_SINGLE_BLOCK ) {
 			triplesTokens.push( lastToken = GRAPH_PATTERN_SEPARATOR );
 		}
 	} );

@@ -4,7 +4,6 @@ var PatternsUtils = require("./Utils/Patterns");
 var PatternBuilder_1 = require("./PatternBuilder");
 var Token_1 = require("./Tokens/Token");
 var StringLiteral_1 = require("./Tokens/StringLiteral");
-var RightSymbol_1 = require("./Tokens/RightSymbol");
 var NumberLiteral_1 = require("./Tokens/NumberLiteral");
 var Tokens_1 = require("./Patterns/Tokens");
 var NewLineSymbol_1 = require("./Tokens/NewLineSymbol");
@@ -28,23 +27,45 @@ var SPARQLER = (function () {
         });
         return this.interfaces.queryClause;
     };
-    SPARQLER.prototype.select = function () {
+    SPARQLER.prototype._select = function (selectTokens, variables) {
         var _this = this;
+        if (variables && variables.length === 0)
+            throw new Error("IllegalArgumentError: Need to provide al least one variable.");
+        this._selects = selectTokens;
+        if (variables)
+            variables.forEach(function (variable) { return _this._selects.push(Tokens_1.VAR_SYMBOL, new StringLiteral_1.StringLiteral(variable)); });
+        Object.assign(this.interfaces.finishClause, this.interfaces.finishSelect);
+        return Object.assign({}, this.interfaces.whereClause, this.interfaces.fromClause);
+    };
+    SPARQLER.prototype.select = function () {
         var variables = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             variables[_i] = arguments[_i];
         }
-        if (variables.length === 0)
-            throw new Error("IllegalArgumentError: Need to provide al least one variable.");
-        this._selects = [Tokens_1.SELECT];
-        variables.forEach(function (variable) { return _this._selects.push(Tokens_1.VAR_SYMBOL, new StringLiteral_1.StringLiteral(variable)); });
-        Object.assign(this.interfaces.finishClause, this.interfaces.finishSelect);
-        return Object.assign({}, this.interfaces.whereClause, this.interfaces.fromClause);
+        return this._select([Tokens_1.SELECT], variables);
+    };
+    SPARQLER.prototype.selectDistinct = function () {
+        var variables = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            variables[_i] = arguments[_i];
+        }
+        return this._select([Tokens_1.SELECT, Tokens_1.DISTINCT], variables);
+    };
+    SPARQLER.prototype.selectReduced = function () {
+        var variables = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            variables[_i] = arguments[_i];
+        }
+        return this._select([Tokens_1.SELECT, Tokens_1.REDUCED], variables);
     };
     SPARQLER.prototype.selectAll = function () {
-        this._selects = [Tokens_1.SELECT, new RightSymbol_1.RightSymbol("*")];
-        Object.assign(this.interfaces.finishClause, this.interfaces.finishSelect);
-        return Object.assign({}, this.interfaces.whereClause, this.interfaces.fromClause);
+        return this._select([Tokens_1.SELECT, Tokens_1.ALL]);
+    };
+    SPARQLER.prototype.selectAllDistinct = function () {
+        return this._select([Tokens_1.SELECT, Tokens_1.DISTINCT, Tokens_1.ALL]);
+    };
+    SPARQLER.prototype.selectAllReduced = function () {
+        return this._select([Tokens_1.SELECT, Tokens_1.REDUCED, Tokens_1.ALL]);
     };
     SPARQLER.prototype.from = function (iri) {
         this._from = [Tokens_1.FROM].concat(this._resolveIRI(iri));
@@ -231,7 +252,11 @@ var SPARQLER = (function () {
                 vocab: this.vocab.bind(this),
                 prefix: this.prefix.bind(this),
                 select: this.select.bind(this),
+                selectDistinct: this.selectDistinct.bind(this),
+                selectReduced: this.selectReduced.bind(this),
                 selectAll: this.selectAll.bind(this),
+                selectAllDistinct: this.selectAllDistinct.bind(this),
+                selectAllReduced: this.selectAllReduced.bind(this),
             },
             fromClause: {
                 from: this.from.bind(this),

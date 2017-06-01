@@ -1,5 +1,5 @@
 import {
-	supportedNativeTypes,
+	SupportedNativeTypes,
 	ElementPattern
 } from "../Patterns";
 import * as XSD from "./XSD";
@@ -15,7 +15,7 @@ import {
 } from "../Patterns/Tokens";
 import { PatternBuilder } from "../PatternBuilder";
 
-export function serialize( object:supportedNativeTypes ):Token[];
+export function serialize( object:SupportedNativeTypes ):Token[];
 export function serialize( object:ElementPattern ):Token[];
 export function serialize( object ):Token[] {
 

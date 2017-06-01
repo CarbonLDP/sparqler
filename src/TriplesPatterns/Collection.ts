@@ -10,7 +10,7 @@ import { TriplesPattern } from "./TriplesPattern";
 import {
 	TriplesNodePattern,
 	IRIResolver,
-	supportedNativeTypes
+	SupportedNativeTypes
 } from "../Patterns";
 import { Resource } from "./Resource";
 import { Variable } from "./Variable";
@@ -22,12 +22,12 @@ export class Collection extends TriplesPattern<TriplesNodePattern> implements Tr
 
 	protected elementTokens:Token[];
 
-	constructor( resolver:IRIResolver, values:(supportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ) {
+	constructor( resolver:IRIResolver, values:(SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ) {
 		super( resolver );
 
 		let tokens:Token[] = [];
 		values.forEach( ( value, index ) => {
-			tokens.push( ...ObjectPattern.serialize( value as supportedNativeTypes ) );
+			tokens.push( ...ObjectPattern.serialize( value as SupportedNativeTypes ) );
 			if( index < values.length - 1 ) tokens.push( EMPTY_SEPARATOR );
 		} );
 

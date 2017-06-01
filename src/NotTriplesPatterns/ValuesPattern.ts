@@ -1,7 +1,7 @@
 import { NotTriplesPattern } from "./NotTriplesPattern";
 import {
 	SingleValuesPattern,
-	supportedNativeTypes,
+	SupportedNativeTypes,
 	SingleValuesPatternMore,
 	IRIResolver,
 	MultipleValuesPattern,
@@ -48,11 +48,11 @@ export class ValuesPattern extends NotTriplesPattern implements SingleValuesPatt
 		}
 	}
 
-	has( value:supportedNativeTypes ):SingleValuesPatternMore;
+	has( value:SupportedNativeTypes ):SingleValuesPatternMore;
 	has( value:Resource ):SingleValuesPatternMore;
 	has( value:Literal ):SingleValuesPatternMore;
 	has( value:Undefined ):SingleValuesPatternMore;
-	has( ...values:( supportedNativeTypes | Resource | Literal | Undefined )[] ):MultipleValuesPatternMore;
+	has( ...values:( SupportedNativeTypes | Resource | Literal | Undefined )[] ):MultipleValuesPatternMore;
 	has( ...values ):( SingleValuesPatternMore | MultipleValuesPatternMore ) {
 		if( this.length !== values.length ) throw new Error( "InvalidArgumentError: The number of variables and values are different." );
 

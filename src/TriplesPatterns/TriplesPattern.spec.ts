@@ -11,6 +11,7 @@ import { Token } from "../Tokens/Token";
 import * as ObjectPattern from "../Utils/ObjectPattern";
 import { Variable } from "./Variable";
 import { NewLineSymbol } from "../Tokens/NewLineSymbol";
+import { Resource } from "./Resource";
 
 describe( "Module TriplesPattern/TriplesPattern", ():void => {
 
@@ -271,6 +272,75 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 					new MockToken( "the-variable" ),
 					new MockToken( "element" ),
 				] );
+
+
+				// Resource property
+
+				class MockResource extends Resource {
+					constructor() {
+						super( resolver, "" );
+					}
+
+					getSelfTokens() {
+						return [ new MockToken( "the-resource/" ) ];
+					}
+				}
+
+				// String value
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+				triples = pattern.has( new MockResource(), "something" );
+				expect( triples ).toBeDefined();
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 1 );
+				expect( serializeSpy ).toHaveBeenCalledWith( "something" );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "the-resource/" ),
+					new MockToken( "element" ),
+				] );
+
+				// Number value
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+				triples = pattern.has( new MockResource(), 1.10 );
+				expect( triples ).toBeDefined();
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 1 );
+				expect( serializeSpy ).toHaveBeenCalledWith( 1.10 );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "the-resource/" ),
+					new MockToken( "element" ),
+				] );
+
+				// ElementPattern value
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+
+				elementPattern = { getSelfTokens: () => [ new MockToken( "element-pattern" ) ] };
+				triples = pattern.has( new MockResource(), <any> elementPattern );
+				expect( triples ).toBeDefined();
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 1 );
+				expect( serializeSpy ).toHaveBeenCalledWith( elementPattern );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "the-resource/" ),
+					new MockToken( "element" ),
+				] );
 			} );
 
 			it( "Transform the multiple data to tokens and returns a TriplesSameSubjectMore", ():void => {
@@ -449,6 +519,129 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 
 				expect( pattern[ "patternTokens" ] ).toEqual( [
 					new MockToken( "the-variable" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+				] );
+
+				// ElementPattern values
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+
+				triples = pattern.has( new MockVar(), [
+					{ getSelfTokens: getSelfTokens } as any,
+					{ getSelfTokens: getSelfTokens } as any,
+					{ getSelfTokens: getSelfTokens } as any,
+				] );
+				expect( triples ).toBeDefined();
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 3 );
+				expect( serializeSpy ).toHaveBeenCalledWith( { getSelfTokens: getSelfTokens } );
+				expect( serializeSpy ).toHaveBeenCalledWith( { getSelfTokens: getSelfTokens } );
+				expect( serializeSpy ).toHaveBeenCalledWith( { getSelfTokens: getSelfTokens } );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "the-variable" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+				] );
+
+				// Multiple values
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+
+				triples = pattern.has( new MockVar(), [
+					{ getSelfTokens: getSelfTokens } as any,
+					"hi!",
+					{ getSelfTokens: getSelfTokens } as any,
+					new Date( 123456 ),
+				] );
+				expect( triples ).toBeDefined();
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 4 );
+				expect( serializeSpy ).toHaveBeenCalledWith( { getSelfTokens: getSelfTokens } );
+				expect( serializeSpy ).toHaveBeenCalledWith( { getSelfTokens: getSelfTokens } );
+				expect( serializeSpy ).toHaveBeenCalledWith( "hi!" );
+				expect( serializeSpy ).toHaveBeenCalledWith( new Date( 123456 ) );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "the-variable" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+				] );
+
+
+				// Resource property
+
+				class MockResource extends Resource {
+					constructor() {
+						super( resolver, "" );
+					}
+
+					getSelfTokens():Token[] {
+						return [ new MockToken( "the-resource/" ) ];
+					}
+				}
+
+				// String values
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+				triples = pattern.has( new MockResource(), [ "something", "else", "here" ] );
+				expect( triples ).toBeDefined();
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 3 );
+				expect( serializeSpy ).toHaveBeenCalledWith( "something" );
+				expect( serializeSpy ).toHaveBeenCalledWith( "else" );
+				expect( serializeSpy ).toHaveBeenCalledWith( "here" );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "the-resource/" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+				] );
+
+				// Multiple values, 1
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+				triples = pattern.has( new MockResource(), [ 1.10, true, "hi" ] );
+				expect( triples ).toBeDefined();
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 3 );
+				expect( serializeSpy ).toHaveBeenCalledWith( 1.10 );
+				expect( serializeSpy ).toHaveBeenCalledWith( true );
+				expect( serializeSpy ).toHaveBeenCalledWith( "hi" );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "the-resource/" ),
 					new MockToken( "element" ),
 					new NewLineSymbol( "," ),
 					new MockToken( "element" ),
@@ -722,6 +915,72 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 					new MockToken( "another-var" ),
 					new MockToken( "element" ),
 				] );
+
+
+				// Resource property
+
+				class MockResource extends Variable {
+					constructor( private name ) {
+						super( resolver, "" );
+					}
+
+					getSelfTokens() {
+						return [ new MockToken( this.name ) ];
+					}
+				}
+
+				// Native values
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+				triples = pattern
+					.has( new MockResource( "resource/" ), "something" )
+					.and( new MockResource( "another-resource/" ), "something-else" );
+				expect( triples ).toBeDefined();
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 2 );
+				expect( serializeSpy ).toHaveBeenCalledWith( "something" );
+				expect( serializeSpy ).toHaveBeenCalledWith( "something-else" );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "resource/" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( ";" ),
+					new MockToken( "another-resource/" ),
+					new MockToken( "element" ),
+				] );
+
+				// Multiple values
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+				triples = pattern
+					.has( new MockResource( "resource/" ), 1.10 )
+					.and( "some:iri", "hi!" )
+					.and( new MockResource( "another-resource/" ), { getSelfTokens: getSelfTokens, element: 1 } as any );
+				expect( triples ).toBeDefined();
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 3 );
+				expect( serializeSpy ).toHaveBeenCalledWith( 1.10 );
+				expect( serializeSpy ).toHaveBeenCalledWith( "hi!" );
+				expect( serializeSpy ).toHaveBeenCalledWith( { getSelfTokens: getSelfTokens, element: 1 } );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "resource/" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( ";" ),
+					new MockToken( "some:iri" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( ";" ),
+					new MockToken( "another-resource/" ),
+					new MockToken( "element" ),
+				] );
 			} );
 
 			it( "Transform the multiple data to tokens and returns a TriplesSameSubjectMore", ():void => {
@@ -863,6 +1122,106 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 					new MockToken( "element" ),
 					new NewLineSymbol( ";" ),
 					new MockToken( "another-var" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+				] );
+
+				// Multiple values
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+				triples = pattern
+					.has( "some:iri", [ 1.10, true, "hi" ] )
+					.and( "another:iri", "one-element" )
+					.and( "another-more:iri", [ new Date( 123456 ), { getSelfTokens: getSelfTokens, first: true } as any ] )
+					.and( "last:iri", [ { getSelfTokens: getSelfTokens, second: true } as any, 1, 2, 3 ] );
+				expect( triples ).toBeDefined();
+
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 10 );
+				expect( serializeSpy ).toHaveBeenCalledWith( 1.10 );
+				expect( serializeSpy ).toHaveBeenCalledWith( true );
+				expect( serializeSpy ).toHaveBeenCalledWith( "hi" );
+				expect( serializeSpy ).toHaveBeenCalledWith( "one-element" );
+				expect( serializeSpy ).toHaveBeenCalledWith( new Date( 123456 ) );
+				expect( serializeSpy ).toHaveBeenCalledWith( { getSelfTokens: getSelfTokens, first: true } );
+				expect( serializeSpy ).toHaveBeenCalledWith( { getSelfTokens: getSelfTokens, second: true } );
+				expect( serializeSpy ).toHaveBeenCalledWith( 1 );
+				expect( serializeSpy ).toHaveBeenCalledWith( 2 );
+				expect( serializeSpy ).toHaveBeenCalledWith( 3 );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "some:iri" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( ";" ),
+					new MockToken( "another:iri" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( ";" ),
+					new MockToken( "another-more:iri" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( ";" ),
+					new MockToken( "last:iri" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+				] );
+
+
+				// Resource property
+
+				class MockResource extends Resource {
+					constructor( private name ) {
+						super( resolver, "" );
+					}
+
+					getSelfTokens():Token[] {
+						return [ new MockToken( this.name ) ];
+					}
+				}
+
+
+				// String values
+				serializeSpy.calls.reset();
+				pattern = new MockTriplesPattern( resolver );
+				triples = pattern
+					.has( new MockResource( "some-resource/" ), [ "something", "else", "here" ] )
+					.and( new MockResource( "another-resource/" ), [ "another", "thing" ] );
+				expect( triples ).toBeDefined();
+
+				expect( serializeSpy ).toHaveBeenCalledTimes( 5 );
+				expect( serializeSpy ).toHaveBeenCalledWith( "something" );
+				expect( serializeSpy ).toHaveBeenCalledWith( "else" );
+				expect( serializeSpy ).toHaveBeenCalledWith( "here" );
+				expect( serializeSpy ).toHaveBeenCalledWith( "another" );
+				expect( serializeSpy ).toHaveBeenCalledWith( "thing" );
+
+				// Returns TriplesSameSubject
+				expect( "and" in triples ).toBeDefined();
+				expect( triples.and ).toEqual( jasmine.any( Function ) );
+
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "some-resource/" ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( "," ),
+					new MockToken( "element" ),
+					new NewLineSymbol( ";" ),
+					new MockToken( "another-resource/" ),
 					new MockToken( "element" ),
 					new NewLineSymbol( "," ),
 					new MockToken( "element" ),
