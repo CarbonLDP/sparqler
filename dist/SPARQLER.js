@@ -293,7 +293,7 @@ var SPARQLER = (function () {
             var parts = IRIUtils.getPrefixedParts(iri);
             var prefixInfo = this._prefixes.get(parts[0]);
             if (prefixInfo === void 0)
-                throw new Error("IllegalArgumentError: The used prefix has not been declared");
+                throw new Error("IllegalArgumentError: The prefix \"" + parts[0] + "\" has not been declared");
             tokens = [new StringLiteral_1.StringLiteral(parts[0]), Tokens_1.PREFIX_SYMBOL, new StringLiteral_1.StringLiteral(parts[1])];
             prefixInfo.used = true;
         }

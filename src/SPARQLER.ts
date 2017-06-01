@@ -128,7 +128,7 @@ export class SPARQLER implements QueryClause,
 		return this.interfaces.queryClause;
 	}
 
-	_select( selectTokens:Token[], variables?:string[]):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
+	_select( selectTokens:Token[], variables?:string[] ):WhereClause<FinishSelectClause> & FromClause<FinishSelectClause> {
 		if( variables && variables.length === 0 ) throw new Error( "IllegalArgumentError: Need to provide al least one variable." );
 
 		this._selects = selectTokens;
@@ -471,7 +471,7 @@ export class SPARQLER implements QueryClause,
 			let parts:string[] = IRIUtils.getPrefixedParts( iri );
 
 			let prefixInfo:PrefixInfo = this._prefixes.get( parts[ 0 ] );
-			if( prefixInfo === void 0 ) throw new Error( "IllegalArgumentError: The used prefix has not been declared" );
+			if( prefixInfo === void 0 ) throw new Error( `IllegalArgumentError: The prefix "${ parts[ 0 ] }" has not been declared` );
 
 			tokens = [ new StringLiteral( parts[ 0 ] ), PREFIX_SYMBOL, new StringLiteral( parts[ 1 ] ) ];
 			prefixInfo.used = true;
