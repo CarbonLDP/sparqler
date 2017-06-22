@@ -3,35 +3,32 @@ import SPARQLER from "./SPARQLER";
 
 import {
 	QueryClause,
-	FinishSelectClause,
 	FromClause,
 	WhereClause,
 	FinishClause,
-	SolutionModifier,
 	HavingClause,
 	OrderClause,
 	LimitOffsetClause,
 	OffsetClause,
 	LimitClause,
-} from "./Clauses";
-import { Identifier } from "./Tokens/Identifier";
-import { LeftSymbol } from "./Tokens/LeftSymbol";
-import { StringLiteral } from "./Tokens/StringLiteral";
-import { RightSymbol } from "./Tokens/RightSymbol";
-import { PatternBuilder } from "./PatternBuilder";
-import { NewLineSymbol } from "./Tokens/NewLineSymbol";
+} from "./clauses/interfaces";
+import { Identifier } from "./tokens/Identifier";
+import { LeftSymbol } from "./tokens/LeftSymbol";
+import { StringLiteral } from "./tokens/StringLiteral";
+import { RightSymbol } from "./tokens/RightSymbol";
+import { PatternBuilder } from "./patterns/pattern-builder";
+import { NewLineSymbol } from "./tokens/NewLineSymbol";
 import {
 	Token,
 	TokenFormat
-} from "./Tokens/Token";
-import { NumberLiteral } from "./Tokens/NumberLiteral";
-import { PrefixInfo } from "./SPARQLER";
+} from "./tokens/Token";
+import { NumberLiteral } from "./tokens/NumberLiteral";
 import {
 	OPEN_MULTI_BLOCK,
 	CLOSE_MULTI_BLOCK,
 	EMPTY_SEPARATOR
-} from "./Patterns/Tokens";
-import { Operator } from "./Tokens/Operator";
+} from "./patterns/tokens";
+import { Operator } from "./tokens/Operator";
 
 describe( "Module SPARQLER", () => {
 

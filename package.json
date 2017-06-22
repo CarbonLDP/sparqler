@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "2.5.44",
+    "@types/node": "^7.0.18",
     "awesome-typescript-loader": "3.1.2",
     "del": "2.2.2",
     "es6-shim": "^0.35.3",
@@ -47,7 +48,9 @@
     "karma-mocha-reporter": "2.2.2",
     "karma-typescript": "2.1.7",
     "run-sequence": "1.2.2",
-    "typescript": "2.1.6",
+    "ts-node": "^3.1.0",
+    "tsconfig-paths": "^2.2.0",
+    "typescript": "^2.3.4",
     "uuid": "3.0.1",
     "webpack": "2.2.1"
   },
