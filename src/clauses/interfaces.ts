@@ -1,5 +1,7 @@
-import { GraphPattern } from "../patterns/interfaces";
-import { PatternBuilder } from "../patterns/pattern-builder";
+import {
+	GraphPattern,
+	PatternBuilder,
+} from "sparqler/patterns";
 
 export interface QueryClause<T extends FinishClause> extends SelectClause<T> {
 	base( iri:string ):QueryClause<T>;

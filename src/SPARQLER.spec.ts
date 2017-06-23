@@ -16,7 +16,7 @@ import { Identifier } from "./tokens/Identifier";
 import { LeftSymbol } from "./tokens/LeftSymbol";
 import { StringLiteral } from "./tokens/StringLiteral";
 import { RightSymbol } from "./tokens/RightSymbol";
-import { PatternBuilder } from "./patterns/pattern-builder";
+import { PatternBuilder } from "./patterns/PatternBuilder";
 import { NewLineSymbol } from "./tokens/NewLineSymbol";
 import {
 	Token,

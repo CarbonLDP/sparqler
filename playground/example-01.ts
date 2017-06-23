@@ -117,15 +117,15 @@ let difference:number[] = process.hrtime( startTime );
 let time:number = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
 console.log( "\n" + time + "ms\n");
 
-// console.log( finishQuery.toPrettyString() );
-finishQuery.toPrettyString();
+console.log( finishQuery.toPrettyString() );
+// finishQuery.toPrettyString();
 
 difference = process.hrtime( startTime );
 time = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
 console.log( "\n" + time + "ms\n");
 
-// console.log( finishQuery.toCompactString() );
-finishQuery.toCompactString();
+console.log( finishQuery.toCompactString() );
+// finishQuery.toCompactString();
 
 difference = process.hrtime( startTime );
 time = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
