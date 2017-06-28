@@ -24,8 +24,8 @@ import {
 export class LimitContainer<T extends FinishClause | GraphPattern> extends Container<T> {
 	readonly _offsetUsed:boolean;
 
-	constructor( base:Container<T>, newTokens:Token[], offsetUsed:boolean ) {
-		super( base, newTokens );
+	constructor( previousContainer:Container<any>, newTokens:Token[], offsetUsed:boolean ) {
+		super( previousContainer, newTokens );
 		this._offsetUsed = offsetUsed;
 
 		Object.freeze( this );
@@ -35,8 +35,8 @@ export class LimitContainer<T extends FinishClause | GraphPattern> extends Conta
 export class OffsetContainer<T extends FinishClause | GraphPattern> extends Container<T> {
 	readonly _limitUsed:boolean;
 
-	constructor( base:Container<T>, newTokens:Token[], limitUsed:boolean ) {
-		super( base, newTokens );
+	constructor( previousContainer:Container<any>, newTokens:Token[], limitUsed:boolean ) {
+		super( previousContainer, newTokens );
 		this._limitUsed = limitUsed;
 
 		Object.freeze( this );
@@ -59,7 +59,7 @@ export function limit<T extends FinishClause | GraphPattern>( this:LimitContaine
 	return this._finishDecorator<OffsetClause<T>>( container, offsetBuilderDecorator<T, {}>( container, {} ) );
 }
 
-export function offset<T extends FinishClause | GraphPattern>( this:OffsetContainer<T>, offset:number ):T | LimitClause<T> & T {
+export function offset<T extends FinishClause | GraphPattern>( this:OffsetContainer<T>, offset:number ):T | OffsetClause<T> & T {
 	const tokens:Token[] = [ OFFSET, new NumberLiteral( offset ) ];
 
 	// Return T
@@ -76,14 +76,17 @@ export function offset<T extends FinishClause | GraphPattern>( this:OffsetContai
 
 // Decorators
 
-export function limitBuilderDecorator<T extends FinishClause | GraphPattern, W extends object>( base:Container<T>, object:W ):W & LimitClause<T> {
-	return genericDecorator( { limit }, base, object );
+export function limitBuilderDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & LimitClause<T> {
+	return genericDecorator( { limit }, container, object );
 }
 
-export function offsetBuilderDecorator<T extends FinishClause | GraphPattern, W extends object>( base:Container<T>, object:W ):W & OffsetClause<T> {
-	return genericDecorator( { offset }, base, object );
+export function offsetBuilderDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & OffsetClause<T> {
+	return genericDecorator( { offset }, container, object );
 }
 
-export function limitOffsetDecorator<T extends FinishClause | GraphPattern, W extends object>( base:Container<T>, object:W ):W & LimitOffsetClause<T> {
-	return genericDecorator( { limit, offset }, base, object );
+export function limitOffsetDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & LimitOffsetClause<T> {
+	return genericDecorator( {
+		limit: limit as ( limit:number ) => OffsetClause<T> & T,
+		offset: offset as ( offset:number ) => LimitClause<T> & T,
+	}, container, object );
 }

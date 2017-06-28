@@ -21,6 +21,6 @@ function having<T extends FinishClause | GraphPattern>( this:Container<T>, rawCo
 	return this._finishDecorator<OrderClause<T>>( container, orderDecorator<T, {}>( container, {} ) );
 }
 
-export function havingDecorator<T extends FinishClause | GraphPattern, W extends object>( base:Container<T>, object:W ):W & HavingClause<T> {
-	return genericDecorator( { having }, base, orderDecorator<T, W>( base, object ) );
+export function havingDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & HavingClause<T> {
+	return genericDecorator( { having }, container, orderDecorator<T, W>( container, object ) );
 }

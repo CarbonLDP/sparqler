@@ -24,6 +24,6 @@ export function orderBy<T extends FinishClause | GraphPattern>( this:Container<T
 	return this._finishDecorator<LimitOffsetClause<T>>( container, limitOffsetDecorator<T, {}>( container, {} ) );
 }
 
-export function orderDecorator<T extends FinishClause | GraphPattern, W extends object>( base:Container<T>, object:W ):W & OrderClause<T> {
-	return genericDecorator( { orderBy }, base, limitOffsetDecorator<T, W>( base, object ) );
+export function orderDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & OrderClause<T> {
+	return genericDecorator( { orderBy }, container, limitOffsetDecorator<T, W>( container, object ) );
 }

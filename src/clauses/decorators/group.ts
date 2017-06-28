@@ -24,6 +24,6 @@ function groupBy<T extends FinishClause | GraphPattern>( this:Container<T>, rawC
 	return this._finishDecorator<HavingClause<T>>( container, havingDecorator<T, {}>( container, {} ) );
 }
 
-export function groupDecorator<T extends FinishClause | GraphPattern, W extends object>( base:Container<T>, object:W ):W & GroupClause<T> {
-	return genericDecorator( { groupBy }, base, havingDecorator<T, W>( base, object ) );
+export function groupDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & GroupClause<T> {
+	return genericDecorator( { groupBy }, container, havingDecorator<T, W>( container, object ) );
 }

@@ -1,6 +1,7 @@
 import {
 	Container,
 	FinishClause,
+	FinishDecorator,
 	FromClause,
 	genericDecorator,
 	SelectClause,
@@ -25,28 +26,28 @@ import {
 	Token,
 } from "sparqler/tokens";
 
-class SubSelectContainer extends Container<GraphPattern> {
+export class SubSelectContainer extends Container<GraphPattern> {
 
-	readonly _finishDecorator:<W extends object>( base:Container<GraphPattern>, object:W ) => W & GraphPattern;
+	readonly _finishDecorator:FinishDecorator<GraphPattern>;
 
-	constructor( base:Container<GraphPattern>, tokens:Token[] ) {
-		super( base, tokens );
+	constructor( previousContainer:Container<GraphPattern>, tokens:Token[] ) {
+		super( previousContainer, tokens );
 		this._finishDecorator = graphPatternDecorator;
 
 		Object.freeze( this );
 	}
 }
 
-function _select<T extends FinishClause>( base:Container<T | GraphPattern> | SubSelectContainer, tokens:Token[], variables?:string[] ):WhereClause<GraphPattern> | FromClause<T> {
+function _select<T extends FinishClause>( self:Container<T | GraphPattern> | SubSelectContainer, tokens:Token[], variables?:string[] ):WhereClause<GraphPattern> | FromClause<T> {
 	if( variables && variables.length === 0 ) throw new Error( "IllegalArgumentError: Need to provide al least one variable." );
 
 	if( variables ) variables.forEach( variable => tokens.push( VAR_SYMBOL, new StringLiteral( variable ) ) );
 
-	const container:Container<T> = new Container<T>( base, tokens );
+	const container:Container<T | GraphPattern> = new Container<T | GraphPattern>( self, tokens );
 
-	if( base._finishDecorator === graphPatternDecorator )
-		return whereDecorator<GraphPattern, {}>( container, {} );
-	return fromDecorator<T, {}>( container, {} );
+	if( self._finishDecorator === graphPatternDecorator )
+		return whereDecorator<GraphPattern, {}>( container as Container<GraphPattern>, {} );
+	return fromDecorator<T, {}>( container as Container<T>, {} );
 }
 
 function select<T extends FinishClause>( this:Container<T>, ...variables:string[] ):FromClause<T> {
@@ -68,7 +69,7 @@ function selectAllReduced<T extends FinishClause>( this:Container<T> ):FromClaus
 	return _select<T>( this, [ SELECT, REDUCED, ALL ] ) as FromClause<T>;
 }
 
-export function selectDecorator<T extends FinishClause, W extends object>( base:Container<T>, object:W ):W & SelectClause<T> {
+export function selectDecorator<T extends FinishClause, W extends object>( container:Container<T>, object:W ):W & SelectClause<T> {
 	return genericDecorator( {
 		select,
 		selectDistinct,
@@ -76,16 +77,16 @@ export function selectDecorator<T extends FinishClause, W extends object>( base:
 		selectAll,
 		selectAllDistinct,
 		selectAllReduced,
-	}, base, fromDecorator<T, W>( base, object ) );
+	}, container, object );
 }
 
-export function subSelectDecorator<W extends object>( base:SubSelectContainer, object:W ):W & SubSelect {
+export function subSelectDecorator<W extends object>( container:SubSelectContainer, object:W ):W & SubSelect {
 	return genericDecorator( {
-		select,
-		selectDistinct,
-		selectReduced,
-		selectAll,
-		selectAllDistinct,
-		selectAllReduced,
-	}, base, whereDecorator<GraphPattern, W>( base, object ) );
+		select: select as ( ...params:any[] ) => WhereClause<GraphPattern>,
+		selectDistinct: selectDistinct as ( ...params:any[] ) => WhereClause<GraphPattern>,
+		selectReduced: selectReduced as ( ...params:any[] ) => WhereClause<GraphPattern>,
+		selectAll: selectAll as () => WhereClause<GraphPattern>,
+		selectAllDistinct: selectAllDistinct as () => WhereClause<GraphPattern>,
+		selectAllReduced: selectAllReduced as () => WhereClause<GraphPattern>,
+	}, container, object );
 }

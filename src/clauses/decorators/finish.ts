@@ -163,10 +163,10 @@ function toPrettyString( this:Container<FinishClause> ):string {
 	}, "" );
 }
 
-export function finishDecorator<W extends object>( base:Container<FinishClause>, object:W ):W & FinishClause {
+export function finishDecorator<W extends object>( container:Container<FinishClause>, object:W ):W & FinishClause {
 	return genericDecorator( {
 		toCompactString,
 		toPrettyString,
 		toString: toPrettyString,
-	}, base, object );
+	}, container, object );
 }

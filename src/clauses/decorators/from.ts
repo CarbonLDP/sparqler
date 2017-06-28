@@ -13,10 +13,10 @@ import {
 import { Token } from "sparqler/tokens";
 
 
-function _from<T extends FinishClause>( base:Container<T>, tokens:Token[], iri:string ):WhereClause<T> {
-	tokens.push( ...base._iriResolver._resolveIRI( iri ) );
+function _from<T extends FinishClause>( self:Container<T>, tokens:Token[], iri:string ):WhereClause<T> {
+	tokens.push( ...self._iriResolver._resolveIRI( iri ) );
 
-	const container:Container<T> = new Container<T>( base, tokens );
+	const container:Container<T> = new Container<T>( self, tokens );
 	return whereDecorator<T, {}>( container, {} );
 }
 
@@ -28,6 +28,6 @@ function fromNamed<T extends FinishClause>( this:Container<T>, iri:string ):Wher
 	return _from<T>( this, [ FROM, NAMED ], iri );
 }
 
-export function fromDecorator<T extends FinishClause, W extends object>( base:Container<T>, object:W ):W & FromClause<T> {
-	return genericDecorator( { from, fromNamed }, base, whereDecorator<T, W>( base, object ) );
+export function fromDecorator<T extends FinishClause, W extends object>( container:Container<T>, object:W ):W & FromClause<T> {
+	return genericDecorator( { from, fromNamed }, container, whereDecorator<T, W>( container, object ) );
 }

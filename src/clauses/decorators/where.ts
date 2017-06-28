@@ -25,6 +25,6 @@ function where<T extends FinishClause | GraphPattern>( this:Container<T>, patter
 	return this._finishDecorator<GroupClause<T>>( container, groupDecorator<T, {}>( container, {} ) );
 }
 
-export function whereDecorator<T extends FinishClause | GraphPattern, W extends object>( base:Container<T>, object:W ):W & WhereClause<T> {
-	return genericDecorator( { where }, base, groupDecorator<T, W>( base, object ) );
+export function whereDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & WhereClause<T> {
+	return genericDecorator( { where }, container, groupDecorator<T, W>( container, object ) );
 }

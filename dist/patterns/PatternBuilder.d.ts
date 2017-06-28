@@ -1,0 +1,36 @@
+import { GraphPattern, IRIResolver, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "sparqler/patterns";
+import { NotTriplesPattern } from "sparqler/patterns/notTriples";
+import { BlankNode, BooleanLiteral, Collection, Literal, NumericLiteral, RDFLiteral, Resource, Variable } from "sparqler/patterns/triples";
+export declare type Undefined = "UNDEF";
+export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder {
+    static readonly undefined: Undefined;
+    readonly undefined: Undefined;
+    private resolver;
+    constructor(resolver: IRIResolver);
+    resource(iri: string): Resource;
+    var(name: string): Variable;
+    literal(value: string): RDFLiteral;
+    literal(value: number): NumericLiteral;
+    literal(value: boolean): BooleanLiteral;
+    collection(...values: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): Collection;
+    blankNode(): BlankNode;
+    graph(iri: string, pattern: GraphPattern): NotTriplesPattern;
+    graph(iri: string, patterns: GraphPattern[]): NotTriplesPattern;
+    graph(variable: Variable, pattern: GraphPattern): NotTriplesPattern;
+    graph(variable: Variable, patterns: GraphPattern[]): NotTriplesPattern;
+    optional(pattern: GraphPattern): NotTriplesPattern;
+    optional(patterns: GraphPattern[]): NotTriplesPattern;
+    union(pattern1: GraphPattern, pattern2: GraphPattern): NotTriplesPattern;
+    union(pattern1: GraphPattern, patterns2: GraphPattern[]): NotTriplesPattern;
+    union(patterns1: GraphPattern[], pattern2: GraphPattern): NotTriplesPattern;
+    union(patterns1: GraphPattern[], patterns2: GraphPattern[]): NotTriplesPattern;
+    minus(pattern: GraphPattern): NotTriplesPattern;
+    minus(firstPattern: GraphPattern, ...restPatterns: GraphPattern[]): NotTriplesPattern;
+    values(variable: Variable): SingleValuesPattern;
+    values(...variables: Variable[]): MultipleValuesPattern;
+    service(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
+    serviceSilent(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
+    bind(rawExpression: string, variable: string | Variable): NotTriplesPattern;
+    filter(rawConstraint: string): NotTriplesPattern;
+}
+export default PatternBuilder;

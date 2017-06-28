@@ -3,6 +3,7 @@
 const del = require( "del" );
 
 const gulp = require( "gulp" );
+const gulpUtil = require( "gulp-util" );
 const runSequence = require( "run-sequence" );
 
 const karma = require( "karma" );
@@ -52,11 +53,12 @@ gulp.task( "build", ( done ) => {
 } );
 
 gulp.task( "bundle", ( done ) => {
-	const compiler = webpack( webpackConfig );
-
-	compiler.run( ( error, stats ) => {
+	webpack( webpackConfig, ( error, stats ) => {
 		if( error ) done( error );
-		else done();
+		else {
+			gulpUtil.log( stats.toString() );
+			done( stats.hasErrors() ? "Webpack has errors" : null );
+		}
 	} );
 } );
 

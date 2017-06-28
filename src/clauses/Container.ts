@@ -73,10 +73,10 @@ export class Resolver implements IRIResolver {
 
 // Base container
 export interface FinishDecorator<T extends FinishClause | GraphPattern> extends Function {
-	<W extends object>( base:Container<T>, object:W ):T & W;
+	<W extends object>( container:Container<T>, object:W ):T & W;
 }
 
-export class Container<T extends FinishClause | GraphPattern> {
+export class Container<T extends FinishClause | GraphPattern = FinishClause> {
 
 	/**
 	 * Array containing the query tokens
@@ -95,16 +95,16 @@ export class Container<T extends FinishClause | GraphPattern> {
 
 	constructor();
 	constructor( finishDecorator:FinishDecorator<T> );
-	constructor( container:Container<T>, newTokens:Token[] );
-	constructor( container:Container<T>, newTokens:Token[], iriResolver:Resolver );
-	constructor( containerOrFinishDecorator?:Container<T> | FinishDecorator<T>, newTokens?:Token[], iriResolver?:Resolver ) {
-		const container:Container<T> = containerOrFinishDecorator instanceof Function
+	constructor( previousContainer:Container<any>, newTokens:Token[] );
+	constructor( previousContainer:Container<any>, newTokens:Token[], iriResolver:Resolver );
+	constructor( previousContainerOrFinishDecorator?:Container<any> | FinishDecorator<T>, newTokens?:Token[], iriResolver?:Resolver ) {
+		const container:Container<any> = previousContainerOrFinishDecorator instanceof Function
 			? void 0
-			: containerOrFinishDecorator;
+			: previousContainerOrFinishDecorator;
 
-		const finishDecorator:FinishDecorator<T> = containerOrFinishDecorator instanceof Function
-			? containerOrFinishDecorator
-			: originalFinishDecorator;
+		const finishDecorator:FinishDecorator<T> = previousContainerOrFinishDecorator instanceof Function
+			? previousContainerOrFinishDecorator
+			: originalFinishDecorator as FinishDecorator<T>;
 
 		this._iriResolver = iriResolver
 			? iriResolver : container
