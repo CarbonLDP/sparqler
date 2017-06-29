@@ -115,7 +115,9 @@ gulp.task( "prepare:npm-package|copy:package-json", () => {
 		.pipe( gulp.dest( config.dist.dir ) );
 } );
 
-gulp.task( "test", [ "test:browser", "test:node" ] );
+gulp.task( "test", ( done ) => {
+	runSequence( "test:node", "test:browser", done );
+} );
 
 gulp.task( "test:browser", ( done ) => {
 	new karma.Server( {
@@ -133,7 +135,13 @@ gulp.task( "test:node", () => {
 
 	let tempDir = path.join( osTempDir, uuid.v4() );
 
+	require( "tsconfig-paths/register" );
+	require( "source-map-support/register" );
+
 	return tsResults.js
+		.pipe( sourcemaps.mapSources( function( sourcePath ) {
+			return path.resolve( __dirname, "./src/", sourcePath );
+		} ) )
 		.pipe( sourcemaps.write( "." ) )
 		.pipe( gulp.dest( tempDir ) )
 		.pipe( filter( "**/*.spec.js" ) )

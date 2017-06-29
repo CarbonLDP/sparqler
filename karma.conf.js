@@ -9,14 +9,13 @@ module.exports = function( config ) {
 
 
 		// frameworks to use
-		// available frameworks:å https://npmjs.org/browse/keyword/karma-adapter
+		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
 		frameworks: [ "jasmine", "karma-typescript" ],
 
 
 		// list of files / patterns to load in the browser
 		files: [
-			"node_modules/es6-shim/es6-shim.min.js",
-			"src/**/*.ts"
+			{ pattern: "src/**/*.ts" }
 		],
 
 		// list of files to exclude
