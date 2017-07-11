@@ -212,7 +212,7 @@ var Token = (function () {
     }
     ;
     Token.prototype.getTokenValue = function (format, nextToken) {
-        var separator = exports.SPACE_SEPARATOR;
+        var separator = exports.EMPTY_SEPARATOR;
         if (nextToken !== void 0) {
             switch (format) {
                 case TokenFormat.PRETTY:
@@ -592,11 +592,13 @@ function genericDecorator(properties, base, object) {
 exports.genericDecorator = genericDecorator;
 var Resolver = (function () {
     function Resolver(base, vocab) {
+        var _newTarget = this.constructor;
         this._prefixes = base
             ? new Map(base._prefixes.entries())
             : new Map();
         this._vocab = vocab ? vocab : base ? base._vocab : void 0;
-        Object.freeze(this);
+        if (_newTarget === Resolver)
+            Object.freeze(this);
     }
     Resolver.prototype._resolveIRI = function (relativeIRI, vocab) {
         if (vocab === void 0) { vocab = false; }
@@ -631,9 +633,10 @@ var Container = (function () {
             ? iriResolver : container
             ? new Resolver(container._iriResolver)
             : new Resolver();
+        var previousTokens = container ? container._tokens : [];
         this._tokens = newTokens
-            ? container._tokens.concat(newTokens)
-            : [];
+            ? previousTokens.concat(newTokens)
+            : previousTokens;
         this._finishDecorator = container
             ? container._finishDecorator
             : finishDecorator;
@@ -709,7 +712,7 @@ function toPrettyString() {
             };
         }
         else if ([tokens_1.CLOSE_MULTI_LIST].indexOf(token) !== -1) {
-            if (!(nextToken instanceof tokens_2.NewLineSymbol)) {
+            if (nextToken && !(nextToken instanceof tokens_2.NewLineSymbol)) {
                 var parent = actual;
                 while ([tokens_1.OPEN_MULTI_BLOCK, tokens_1.OPEN_MULTI_BN, tokens_1.OPEN_MULTI_LIST].indexOf(parent.token) === -1)
                     parent = stack.pop();

@@ -14,11 +14,13 @@ function genericDecorator(properties, base, object) {
 exports.genericDecorator = genericDecorator;
 var Resolver = (function () {
     function Resolver(base, vocab) {
+        var _newTarget = this.constructor;
         this._prefixes = base
             ? new Map(base._prefixes.entries())
             : new Map();
         this._vocab = vocab ? vocab : base ? base._vocab : void 0;
-        Object.freeze(this);
+        if (_newTarget === Resolver)
+            Object.freeze(this);
     }
     Resolver.prototype._resolveIRI = function (relativeIRI, vocab) {
         if (vocab === void 0) { vocab = false; }
@@ -53,9 +55,10 @@ var Container = (function () {
             ? iriResolver : container
             ? new Resolver(container._iriResolver)
             : new Resolver();
+        var previousTokens = container ? container._tokens : [];
         this._tokens = newTokens
-            ? container._tokens.concat(newTokens)
-            : [];
+            ? previousTokens.concat(newTokens)
+            : previousTokens;
         this._finishDecorator = container
             ? container._finishDecorator
             : finishDecorator;

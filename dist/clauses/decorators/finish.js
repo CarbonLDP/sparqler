@@ -56,7 +56,7 @@ function toPrettyString() {
             };
         }
         else if ([tokens_1.CLOSE_MULTI_LIST].indexOf(token) !== -1) {
-            if (!(nextToken instanceof tokens_2.NewLineSymbol)) {
+            if (nextToken && !(nextToken instanceof tokens_2.NewLineSymbol)) {
                 var parent = actual;
                 while ([tokens_1.OPEN_MULTI_BLOCK, tokens_1.OPEN_MULTI_BN, tokens_1.OPEN_MULTI_LIST].indexOf(parent.token) === -1)
                     parent = stack.pop();

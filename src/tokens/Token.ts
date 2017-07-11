@@ -12,7 +12,7 @@ export abstract class Token {
 	constructor( protected value:string ) {};
 
 	getTokenValue( format?:TokenFormat, nextToken?:Token ):string {
-		let separator:string = SPACE_SEPARATOR;
+		let separator:string = EMPTY_SEPARATOR;
 
 		if( nextToken !== void 0 ) {
 			switch( format ) {

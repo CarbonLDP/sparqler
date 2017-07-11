@@ -49,7 +49,7 @@ export class Resolver implements IRIResolver {
 
 		this._vocab = vocab ? vocab : base ? base._vocab : void 0;
 
-		Object.freeze( this );
+		if( new.target === Resolver ) Object.freeze( this );
 	}
 
 	_resolveIRI( relativeIRI:string, vocab:boolean = false ):Token[] {
@@ -111,9 +111,10 @@ export class Container<T extends FinishClause | GraphPattern = FinishClause> {
 				? new Resolver( container._iriResolver )
 				: new Resolver();
 
+		const previousTokens:Token[] = container ? container._tokens : [];
 		this._tokens = newTokens
-			? container._tokens.concat( newTokens )
-			: [];
+			? previousTokens.concat( newTokens )
+			: previousTokens;
 
 		this._finishDecorator = container
 			? container._finishDecorator

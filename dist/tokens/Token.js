@@ -14,7 +14,7 @@ var Token = (function () {
     }
     ;
     Token.prototype.getTokenValue = function (format, nextToken) {
-        var separator = exports.SPACE_SEPARATOR;
+        var separator = exports.EMPTY_SEPARATOR;
         if (nextToken !== void 0) {
             switch (format) {
                 case TokenFormat.PRETTY:

@@ -126,6 +126,14 @@ gulp.task( "test:browser", ( done ) => {
 	}, done ).start();
 } );
 
+gulp.task( "test:debug", ( done ) => {
+	new karma.Server( {
+		configFile: __dirname + "/karma.conf.js",
+		autoWatch: true,
+		singleRun: false,
+	}, done ).start();
+} );
+
 gulp.task( "test:node", () => {
 	let tsProject = ts.createProject( "tsconfig.json" );
 
@@ -142,7 +150,9 @@ gulp.task( "test:node", () => {
 		.pipe( sourcemaps.mapSources( function( sourcePath ) {
 			return path.resolve( __dirname, "./src/", sourcePath );
 		} ) )
-		.pipe( sourcemaps.write( "." ) )
+		.pipe( sourcemaps.write( ".", {
+			includeContent: false,
+		} ) )
 		.pipe( gulp.dest( tempDir ) )
 		.pipe( filter( "**/*.spec.js" ) )
 		.pipe( jasmine( {

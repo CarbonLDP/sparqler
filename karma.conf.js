@@ -78,8 +78,13 @@ module.exports = function( config ) {
 
 		karmaTypescriptConfig: {
 			tsconfig: "./tsconfig.json",
+			bundlerOptions: {
+				addNodeGlobals: false,
+				entrypoints: /\.spec\.ts$/,
+			},
 			compilerOptions: {
-				"sourceMap": true
+				sourceMap: true,
+				inlineSources: true,
 			}
 		}
 

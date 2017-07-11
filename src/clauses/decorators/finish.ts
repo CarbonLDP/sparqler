@@ -24,17 +24,19 @@ import {
 } from "sparqler/tokens";
 
 /**
- * Returns a compact SPARQL query string.
- * @returns {string}
+ * Constructs a compact SPARQL query string.
+ * @returns The compact string.
  */
 function toCompactString( this:Container<FinishClause> ):string {
 	let ignore:number = 0;
 	return this._tokens.reduce( ( res, token, index, tokens ) => {
+		// Ignore tokes of unused prefixes
 		if( ignore ) {
 			-- ignore;
 			return res;
 		}
 
+		// Optional tokens
 		if( token === WHERE ) return res;
 
 		let nextToken:Token = tokens[ index + 1 ];
@@ -49,8 +51,8 @@ function toCompactString( this:Container<FinishClause> ):string {
 }
 
 /**
- * Returns a pretty SPARQL query string.
- * @returns {string}
+ * Constructs a pretty SPARQL query string.
+ * @returns The pretty string.
  */
 function toPrettyString( this:Container<FinishClause> ):string {
 	const stack:{ token:Token, indentation:number, subject:number, property:number, spaces:number }[] = [];
@@ -66,7 +68,7 @@ function toPrettyString( this:Container<FinishClause> ):string {
 		let nextToken:Token = tokens[ index + 1 ];
 		let tokenString:string = token.getTokenValue( TokenFormat.PRETTY, nextToken );
 
-		// Record spaces occupied by t¡he tokens
+		// Keep track of the indentation spaces
 		if( actual.spaces === 0 ) {
 			actual.subject += tokenString.length;
 			if( tokenString.endsWith( " " ) ) actual.spaces ++;
@@ -89,7 +91,7 @@ function toPrettyString( this:Container<FinishClause> ):string {
 			};
 
 		} else if( [ CLOSE_MULTI_LIST as Token ].indexOf( token ) !== - 1 ) {
-			if( ! ( nextToken instanceof NewLineSymbol ) ) {
+			if( nextToken && ! ( nextToken instanceof NewLineSymbol ) ) {
 
 				// Obtain parent state
 				let parent = actual;
@@ -163,6 +165,12 @@ function toPrettyString( this:Container<FinishClause> ):string {
 	}, "" );
 }
 
+/**
+ * Decorator that adds the FinishClause methods to the provided object.
+ * @param container The data container where to bind the respective methods.
+ * @param object The object to add the methods.
+ * @returns The same object provided with the FinishClause type it to it.
+ */
 export function finishDecorator<W extends object>( container:Container<FinishClause>, object:W ):W & FinishClause {
 	return genericDecorator( {
 		toCompactString,
