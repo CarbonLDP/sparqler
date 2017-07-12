@@ -13,14 +13,14 @@ var IRIResolver = (function () {
         if (_newTarget === IRIResolver)
             Object.freeze(this);
     }
-    IRIResolver.prototype._resolveIRI = function (relativeIRI, vocab) {
+    IRIResolver.prototype.resolve = function (relativeIRI, vocab) {
         if (vocab === void 0) { vocab = false; }
         var tokens;
         if (utils_1.isPrefixed(relativeIRI)) {
             var _a = utils_1.getPrefixedParts(relativeIRI), prefix = _a[0], prefixIRI = _a[1];
             var used = this._prefixes.get(prefix);
             if (used === void 0)
-                throw new Error("IllegalArgumentError: The used prefix has not been declared");
+                throw new Error("The used prefix has not been declared");
             tokens = [new tokens_2.StringLiteral(prefix), tokens_1.PREFIX_SYMBOL, new tokens_2.StringLiteral(prefixIRI)];
             if (!used)
                 this._prefixes.set(prefix, true);

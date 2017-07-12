@@ -29,7 +29,7 @@ var TriplesPattern = (function () {
     ;
     TriplesPattern.prototype._addPattern = function (property, values) {
         var tokens = (typeof property === "string" || property instanceof String)
-            ? this.resolver._resolveIRI(property, true)
+            ? this.resolver.resolve(property, true)
             : property.getSelfTokens();
         values = Array.isArray(values) ? values : [values];
         values.forEach(function (value, index, array) {

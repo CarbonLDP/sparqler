@@ -11,9 +11,9 @@ const jasmine = require( "gulp-jasmine" );
 const osTempDir = require( "os" ).tmpdir();
 const uuid = require( "uuid" );
 const path = require( "path" );
-const filter = require( 'gulp-filter' );
+const filter = require( "gulp-filter" );
 
-const SpecReporter = require( 'jasmine-spec-reporter' ).SpecReporter;
+const SpecReporter = require( "jasmine-spec-reporter" ).SpecReporter;
 
 const sourcemaps = require( "gulp-sourcemaps" );
 const ts = require( "gulp-typescript" );
@@ -143,13 +143,19 @@ gulp.task( "test:node", () => {
 
 	let tempDir = path.join( osTempDir, uuid.v4() );
 
-	require( "tsconfig-paths/register" );
+	// Register
+	const tsConfigPaths = require( "tsconfig-paths" );
+	tsConfigPaths.register( {
+		baseUrl: tempDir,
+		paths: { "sparqler/*": [ "/*" ] },
+	} );
+
 	require( "source-map-support/register" );
 
 	return tsResults.js
-		.pipe( sourcemaps.mapSources( function( sourcePath ) {
-			return path.resolve( __dirname, "./src/", sourcePath );
-		} ) )
+		.pipe( sourcemaps.mapSources( ( sourcePath ) =>
+			path.resolve( "./src/", sourcePath )
+		) )
 		.pipe( sourcemaps.write( ".", {
 			includeContent: false,
 		} ) )

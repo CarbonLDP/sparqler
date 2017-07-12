@@ -50,7 +50,7 @@ var PatternBuilder = (function () {
     };
     PatternBuilder.prototype.graph = function (iriOrVariable, patterns) {
         var graph = (typeof iriOrVariable === "string")
-            ? this.resolver._resolveIRI(iriOrVariable)
+            ? this.resolver.resolve(iriOrVariable)
             : iriOrVariable.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
         return new notTriples_1.NotTriplesPattern([tokens_1.GRAPH].concat(graph, patternTokens));
@@ -81,14 +81,14 @@ var PatternBuilder = (function () {
     };
     PatternBuilder.prototype.service = function (resource, patterns) {
         var serviceTokens = typeof resource === "string" ?
-            this.resolver._resolveIRI(resource) :
+            this.resolver.resolve(resource) :
             resource.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
         return new notTriples_1.NotTriplesPattern([tokens_1.SERVICE].concat(serviceTokens, patternTokens));
     };
     PatternBuilder.prototype.serviceSilent = function (resource, patterns) {
         var serviceTokens = typeof resource === "string" ?
-            this.resolver._resolveIRI(resource) :
+            this.resolver.resolve(resource) :
             resource.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
         return new notTriples_1.NotTriplesPattern([tokens_1.SERVICE, tokens_1.SILENT].concat(serviceTokens, patternTokens));

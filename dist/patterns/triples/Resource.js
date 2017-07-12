@@ -15,7 +15,7 @@ var Resource = (function (_super) {
     __extends(Resource, _super);
     function Resource(resolver, iri) {
         var _this = _super.call(this, resolver) || this;
-        _this.elementTokens = resolver._resolveIRI(iri);
+        _this.elementTokens = resolver.resolve(iri);
         return _this;
     }
     return Resource;

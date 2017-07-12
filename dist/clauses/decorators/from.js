@@ -4,7 +4,7 @@ var clauses_1 = require("sparqler/clauses");
 var decorators_1 = require("sparqler/clauses/decorators");
 var tokens_1 = require("sparqler/patterns/tokens");
 function _from(self, tokens, iri) {
-    tokens.push.apply(tokens, self._iriResolver._resolveIRI(iri));
+    tokens.push.apply(tokens, self._iriResolver.resolve(iri));
     var container = new clauses_1.Container(self, tokens);
     return decorators_1.whereDecorator(container, {});
 }

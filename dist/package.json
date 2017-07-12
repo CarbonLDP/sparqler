@@ -20,5 +20,6 @@
     "email": "miguel.aragon@base22.com"
   }],
   "main": "SPARQLER.js",
-  "typings": "SPARQLER.d.ts"
+  "typings": "SPARQLER.d.ts",
+  "dependencies": {}
 }

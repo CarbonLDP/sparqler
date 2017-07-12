@@ -308,7 +308,7 @@ var TriplesPattern = (function () {
     ;
     TriplesPattern.prototype._addPattern = function (property, values) {
         var tokens = (typeof property === "string" || property instanceof String)
-            ? this.resolver._resolveIRI(property, true)
+            ? this.resolver.resolve(property, true)
             : property.getSelfTokens();
         values = Array.isArray(values) ? values : [values];
         values.forEach(function (value, index, array) {
@@ -501,14 +501,14 @@ var IRIResolver = (function () {
         if (_newTarget === IRIResolver)
             Object.freeze(this);
     }
-    IRIResolver.prototype._resolveIRI = function (relativeIRI, vocab) {
+    IRIResolver.prototype.resolve = function (relativeIRI, vocab) {
         if (vocab === void 0) { vocab = false; }
         var tokens;
         if (utils_1.isPrefixed(relativeIRI)) {
             var _a = utils_1.getPrefixedParts(relativeIRI), prefix = _a[0], prefixIRI = _a[1];
             var used = this._prefixes.get(prefix);
             if (used === void 0)
-                throw new Error("IllegalArgumentError: The used prefix has not been declared");
+                throw new Error("The used prefix has not been declared");
             tokens = [new tokens_2.StringLiteral(prefix), tokens_1.PREFIX_SYMBOL, new tokens_2.StringLiteral(prefixIRI)];
             if (!used)
                 this._prefixes.set(prefix, true);
@@ -810,7 +810,7 @@ var PatternBuilder = (function () {
     };
     PatternBuilder.prototype.graph = function (iriOrVariable, patterns) {
         var graph = (typeof iriOrVariable === "string")
-            ? this.resolver._resolveIRI(iriOrVariable)
+            ? this.resolver.resolve(iriOrVariable)
             : iriOrVariable.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
         return new notTriples_1.NotTriplesPattern([tokens_1.GRAPH].concat(graph, patternTokens));
@@ -841,14 +841,14 @@ var PatternBuilder = (function () {
     };
     PatternBuilder.prototype.service = function (resource, patterns) {
         var serviceTokens = typeof resource === "string" ?
-            this.resolver._resolveIRI(resource) :
+            this.resolver.resolve(resource) :
             resource.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
         return new notTriples_1.NotTriplesPattern([tokens_1.SERVICE].concat(serviceTokens, patternTokens));
     };
     PatternBuilder.prototype.serviceSilent = function (resource, patterns) {
         var serviceTokens = typeof resource === "string" ?
-            this.resolver._resolveIRI(resource) :
+            this.resolver.resolve(resource) :
             resource.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
         return new notTriples_1.NotTriplesPattern([tokens_1.SERVICE, tokens_1.SILENT].concat(serviceTokens, patternTokens));
@@ -1041,7 +1041,7 @@ var clauses_1 = __webpack_require__(2);
 var decorators_1 = __webpack_require__(3);
 var tokens_1 = __webpack_require__(0);
 function _from(self, tokens, iri) {
-    tokens.push.apply(tokens, self._iriResolver._resolveIRI(iri));
+    tokens.push.apply(tokens, self._iriResolver.resolve(iri));
     var container = new clauses_1.Container(self, tokens);
     return decorators_1.whereDecorator(container, {});
 }
@@ -1764,7 +1764,7 @@ var Resource = (function (_super) {
     __extends(Resource, _super);
     function Resource(resolver, iri) {
         var _this = _super.call(this, resolver) || this;
-        _this.elementTokens = resolver._resolveIRI(iri);
+        _this.elementTokens = resolver.resolve(iri);
         return _this;
     }
     return Resource;
