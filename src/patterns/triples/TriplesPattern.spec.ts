@@ -109,7 +109,11 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 		} );
 
 		describe( "TriplesPattern.has()", ():void => {
-			let resolver:IRIResolver = new IRIResolver();
+			let resolver:IRIResolver = new class extends IRIResolver {
+				resolve( iri:string ):Token[] {
+					return [ new MockToken( iri ) ];
+				}
+			};
 
 			class MockToken extends Token {
 				protected getPrettySeparator():string {
@@ -753,7 +757,11 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 		} );
 
 		describe( "TriplesPattern.has().and()", ():void => {
-			let resolver:IRIResolver = new IRIResolver();
+			let resolver:IRIResolver = new class extends IRIResolver {
+				resolve( iri:string ):Token[] {
+					return [ new MockToken( iri ) ];
+				}
+			};
 
 			class MockToken extends Token {
 				protected getPrettySeparator():string {

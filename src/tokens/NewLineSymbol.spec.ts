@@ -37,27 +37,27 @@ describe( "Module Tokens/NewLineSymbol", ():void => {
 
 		describe( "NewLineSymbol.getTokenValue()", ():void => {
 
-			it( "Without nextToken always add space", ():void => {
+			it( "should add nothing if next token is undefined", ():void => {
 				let newLineSymbol:NewLineSymbol;
 				let value:string;
 
 				// Compact format
 				newLineSymbol = new NewLineSymbol( "value" );
 				value = newLineSymbol.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				newLineSymbol = new NewLineSymbol( "value-2" );
 				value = newLineSymbol.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "value-2 " );
+				expect( value ).toBe( "value-2" );
 
 				// Pretty format
 				newLineSymbol = new NewLineSymbol( "value" );
 				value = newLineSymbol.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				newLineSymbol = new NewLineSymbol( "value-2" );
 				value = newLineSymbol.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "value-2 " );
+				expect( value ).toBe( "value-2" );
 			} );
 
 			describe( "With PRETTY format", ():void => {

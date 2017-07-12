@@ -3,7 +3,7 @@ import PatternBuilder from "./PatternBuilder";
 
 import {
 	SingleValuesPattern,
-	MultipleValuesPattern
+	MultipleValuesPattern,
 } from "./interfaces";
 import { StringLiteral } from "../tokens/StringLiteral";
 import { Resource } from "./triples/Resource";
@@ -12,19 +12,18 @@ import {
 	Literal,
 	RDFLiteral,
 	NumericLiteral,
-	BooleanLiteral
+	BooleanLiteral,
 } from "./triples/Literals";
 import { Collection } from "./triples/Collection";
 import { BlankNode } from "./triples/BlankNode";
-import * as NotTriplesPatternModule from "./notTriples/NotTriplesPattern";
 import { NotTriplesPattern } from "./notTriples/NotTriplesPattern";
 import { Identifier } from "../tokens/Identifier";
 import { LeftSymbol } from "../tokens/LeftSymbol";
 import { RightSymbol } from "../tokens/RightSymbol";
 import { Token } from "../tokens/Token";
 import { NewLineSymbol } from "../tokens/NewLineSymbol";
-import * as ValuesPatternModule from "./notTriples/ValuesPattern";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
+import { ValuesPattern } from "sparqler/patterns/notTriples";
 
 describe( "Module PatternBuilder", ():void => {
 
@@ -35,6 +34,15 @@ describe( "Module PatternBuilder", ():void => {
 
 	describe( "Class PatternBuilder", ():void => {
 
+		let resolver:IRIResolver;
+		beforeEach( ():void => {
+			resolver = new class extends IRIResolver {
+				resolve( iri:string ):Token[] {
+					return [ new StringLiteral( iri ) ];
+				}
+			};
+		} );
+
 		it( "Exists", ():void => {
 			expect( PatternBuilder ).toBeDefined();
 			expect( PatternBuilder ).toEqual( jasmine.any( Function ) );
@@ -42,7 +50,6 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "Constructor", ():void => {
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 
 			expect( builder ).toBeDefined();
@@ -50,7 +57,6 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "Implements Builders", ():void => {
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 
 			// Triples patterns
@@ -95,7 +101,6 @@ describe( "Module PatternBuilder", ():void => {
 		// Test the methods
 
 		it( "PatternBuilder.resource()", ():void => {
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 
 			let resource:Resource = builder.resource( "http://example.com/" );
@@ -104,7 +109,6 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "PatternBuilder.var()", ():void => {
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 
 			let variable:Variable = builder.var( "name" );
@@ -113,7 +117,6 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "PatternBuilder.literal()", ():void => {
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 			let literal:Literal;
 
@@ -153,7 +156,6 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "PatternBuilder.collection()", ():void => {
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 			let collection:Collection;
 
@@ -171,7 +173,6 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "PatternBuilder.blankNode()", ():void => {
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 			let blankNode:BlankNode;
 
@@ -191,9 +192,7 @@ describe( "Module PatternBuilder", ():void => {
 					return " ";
 				}
 			}
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
-			let constructorSpy = spyOn( NotTriplesPatternModule, "NotTriplesPattern" ).and.callThrough();
 			let pattern:NotTriplesPattern;
 
 			// Usage with an IRI parameter
@@ -202,20 +201,17 @@ describe( "Module PatternBuilder", ():void => {
 			pattern = builder.graph( "http://example.com/resource/", [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "GRAPH" ), new StringLiteral( "http://example.com/resource/" ),
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 			] );
 
 			// Single pattern
-			constructorSpy.calls.reset();
 			pattern = builder.graph( "http://example.com/resource/", { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "GRAPH" ), new StringLiteral( "http://example.com/resource/" ),
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ),
@@ -224,14 +220,12 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Single pattern in an array
-			constructorSpy.calls.reset();
 			pattern = builder.graph( "http://example.com/resource/", [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "GRAPH" ), new StringLiteral( "http://example.com/resource/" ),
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ),
@@ -240,15 +234,13 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Multiple patterns
-			constructorSpy.calls.reset();
 			pattern = builder.graph( "http://example.com/resource/", [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "GRAPH" ), new StringLiteral( "http://example.com/resource/" ),
 				new NewLineSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ), new NewLineSymbol( "." ),
@@ -269,24 +261,20 @@ describe( "Module PatternBuilder", ():void => {
 			}
 
 			// Empty patterns
-			constructorSpy.calls.reset();
 			pattern = builder.graph( new MockVar(), [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "GRAPH" ), new MockToken( "variable" ),
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 			] );
 
 			// Single pattern
-			constructorSpy.calls.reset();
 			pattern = builder.graph( new MockVar(), { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "GRAPH" ), new MockToken( "variable" ),
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ),
@@ -295,14 +283,12 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Single pattern in an array
-			constructorSpy.calls.reset();
 			pattern = builder.graph( new MockVar(), [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "GRAPH" ), new MockToken( "variable" ),
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ),
@@ -311,15 +297,13 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Multiple patterns
-			constructorSpy.calls.reset();
 			pattern = builder.graph( new MockVar(), [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "GRAPH" ), new MockToken( "variable" ),
 				new NewLineSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ), new NewLineSymbol( "." ),
@@ -338,30 +322,24 @@ describe( "Module PatternBuilder", ():void => {
 					return " ";
 				}
 			}
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
-			let constructorSpy = spyOn( NotTriplesPatternModule, "NotTriplesPattern" ).and.callThrough();
 			let pattern:NotTriplesPattern;
 
 			// Empty pattern
-			constructorSpy.calls.reset();
 			pattern = builder.optional( [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "OPTIONAL" ),
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 			] );
 
 			// Single pattern
-			constructorSpy.calls.reset();
 			pattern = builder.optional( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "OPTIONAL" ),
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
@@ -369,14 +347,12 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Single pattern in an array
-			constructorSpy.calls.reset();
 			pattern = builder.optional( [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "OPTIONAL" ),
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
@@ -384,15 +360,13 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Multiple patterns
-			constructorSpy.calls.reset();
 			pattern = builder.optional( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "OPTIONAL" ),
 				new NewLineSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ), new NewLineSymbol( "." ),
@@ -411,18 +385,14 @@ describe( "Module PatternBuilder", ():void => {
 					return " ";
 				}
 			}
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
-			let constructorSpy = spyOn( NotTriplesPatternModule, "NotTriplesPattern" ).and.callThrough();
 			let pattern:NotTriplesPattern;
 
 			// Empty patterns
-			constructorSpy.calls.reset();
 			pattern = builder.union( [], [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 				new Identifier( "UNION" ),
@@ -431,12 +401,10 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Empty and single pattern
-			constructorSpy.calls.reset();
 			pattern = builder.union( [], { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 				new Identifier( "UNION" ),
@@ -446,14 +414,12 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Empty and single pattern in an array
-			constructorSpy.calls.reset();
 			pattern = builder.union( [], [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 				new Identifier( "UNION" ),
@@ -463,15 +429,13 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Empty and multiple patterns
-			constructorSpy.calls.reset();
 			pattern = builder.union( [], [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 				new Identifier( "UNION" ),
@@ -482,12 +446,10 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Single and empty pattern
-			constructorSpy.calls.reset();
 			pattern = builder.union( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }, [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
@@ -497,15 +459,13 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Singles patterns
-			constructorSpy.calls.reset();
 			pattern = builder.union(
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			);
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
@@ -516,14 +476,12 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Single pattern and single pattern in an array
-			constructorSpy.calls.reset();
 			pattern = builder.union( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }, [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
@@ -534,15 +492,13 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Empty and multiple patterns
-			constructorSpy.calls.reset();
 			pattern = builder.union( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }, [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
@@ -554,14 +510,12 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Single pattern in array and empty pattern
-			constructorSpy.calls.reset();
 			pattern = builder.union( [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			], [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
@@ -571,14 +525,12 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Single pattern in array and single pattern
-			constructorSpy.calls.reset();
 			pattern = builder.union( [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			], { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
@@ -589,16 +541,14 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Single pattern in array and single pattern in an array
-			constructorSpy.calls.reset();
 			pattern = builder.union( [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			], [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
@@ -609,17 +559,15 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Single pattern in array and multiple patterns
-			constructorSpy.calls.reset();
 			pattern = builder.union( [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			], [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
@@ -632,15 +580,13 @@ describe( "Module PatternBuilder", ():void => {
 
 
 			// Multiple patterns patterns
-			constructorSpy.calls.reset();
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
 			], [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new NewLineSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ), new NewLineSymbol( "." ),
 				new MockToken( "token-3" ), new MockToken( "token-4" ),
@@ -651,15 +597,13 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Multiple patterns and single pattern
-			constructorSpy.calls.reset();
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
 			], { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new NewLineSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ), new NewLineSymbol( "." ),
 				new MockToken( "token-3" ), new MockToken( "token-4" ),
@@ -671,17 +615,15 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Multiple patterns and single pattern in an array
-			constructorSpy.calls.reset();
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
 			], [
-				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }
+				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new NewLineSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ), new NewLineSymbol( "." ),
 				new MockToken( "token-3" ), new MockToken( "token-4" ),
@@ -693,7 +635,6 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Multiple patterns
-			constructorSpy.calls.reset();
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -703,8 +644,7 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new NewLineSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ), new NewLineSymbol( "." ),
 				new MockToken( "token-3" ), new MockToken( "token-4" ),
@@ -727,18 +667,14 @@ describe( "Module PatternBuilder", ():void => {
 					return " ";
 				}
 			}
-			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
-			let constructorSpy = spyOn( NotTriplesPatternModule, "NotTriplesPattern" ).and.callThrough();
 			let pattern:NotTriplesPattern;
 
 			// Single pattern
-			constructorSpy.calls.reset();
 			pattern = builder.minus( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "MINUS" ),
 				new LeftSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
@@ -746,15 +682,13 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Multiple patterns, 1
-			constructorSpy.calls.reset();
 			pattern = builder.minus(
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
 			);
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "MINUS" ),
 				new NewLineSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ), new NewLineSymbol( "." ),
@@ -763,7 +697,6 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 
 			// Multiple patterns, 2
-			constructorSpy.calls.reset();
 			pattern = builder.minus(
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -772,8 +705,7 @@ describe( "Module PatternBuilder", ():void => {
 			);
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 0 ] ).toEqual( [
+			expect( pattern.getPattern() ).toEqual( [
 				new Identifier( "MINUS" ),
 				new NewLineSymbol( "{" ),
 				new MockToken( "token-1" ), new MockToken( "token-2" ), new NewLineSymbol( "." ),
@@ -785,8 +717,6 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "PatternBuilder.values()", ():void => {
-			let resolver:IRIResolver = new IRIResolver();
-
 			class MockToken extends Token {
 				protected getPrettySeparator():string {
 					return " ";
@@ -811,33 +741,29 @@ describe( "Module PatternBuilder", ():void => {
 			}
 
 			let builder:PatternBuilder = new PatternBuilder( resolver );
-			let ValuesPattern:typeof ValuesPatternModule.ValuesPattern = ValuesPatternModule.ValuesPattern;
-			let constructorSpy = spyOn( ValuesPatternModule, "ValuesPattern" ).and.callFake( ( resolver, vars ) => {
-				return new ValuesPattern( resolver, vars );
-			} );
 			let pattern:SingleValuesPattern | MultipleValuesPattern;
 			let vars:Variable | Variable[];
+			let tokens:MockToken[];
 
 			// Single variables
-			constructorSpy.calls.reset();
 			vars = new MockVar( "first" );
 			pattern = builder.values( vars );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( ValuesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 1 ] ).toEqual( [ vars ] );
+
+			tokens = [ vars as Variable ].reduce( ( x, _ ) => x.concat( _.getSelfTokens() ), [] );
+			expect( pattern.getPattern() ).toEqual( jasmine.arrayContaining( tokens ) as any );
 
 			// Multiple variables, 1
-			constructorSpy.calls.reset();
 			vars = [ new MockVar( "first" ), new MockVar( "second" ) ];
 			pattern = builder.values( ...vars );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( ValuesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 1 ] ).toEqual( vars );
+
+			tokens = vars.reduce( ( x, _ ) => x.concat( _.getSelfTokens() ), [] );
+			expect( pattern.getPattern() ).toEqual( jasmine.arrayContaining( tokens ) as any );
 
 			// Multiple variables, 2
-			constructorSpy.calls.reset();
 			vars = [
 				new MockVar( "a" ),
 				new MockVar( "e" ),
@@ -848,8 +774,9 @@ describe( "Module PatternBuilder", ():void => {
 			pattern = builder.values( ...vars );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( ValuesPattern ) );
-			expect( constructorSpy ).toHaveBeenCalledTimes( 1 );
-			expect( constructorSpy.calls.mostRecent().args[ 1 ] ).toEqual( vars );
+
+			tokens = vars.reduce( ( x, _ ) => x.concat( _.getSelfTokens() ), [] );
+			expect( pattern.getPattern() ).toEqual( jasmine.arrayContaining( tokens ) as any );
 		} );
 
 	} );

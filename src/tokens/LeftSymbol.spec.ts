@@ -37,27 +37,27 @@ describe( "Module Tokens/LeftSymbol", ():void => {
 
 		describe( "LeftSymbol.getTokenValue()", ():void => {
 
-			it( "Without nextToken always add space", ():void => {
+			it( "should add nothing if next token is undefined", ():void => {
 				let leftSymbol:LeftSymbol;
 				let value:string;
 
 				// Compact format
 				leftSymbol = new LeftSymbol( "value" );
 				value = leftSymbol.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				leftSymbol = new LeftSymbol( "value-2" );
 				value = leftSymbol.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "value-2 " );
+				expect( value ).toBe( "value-2" );
 
 				// Pretty format
 				leftSymbol = new LeftSymbol( "value" );
 				value = leftSymbol.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				leftSymbol = new LeftSymbol( "value-2" );
 				value = leftSymbol.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "value-2 " );
+				expect( value ).toBe( "value-2" );
 			} );
 
 			describe( "With PRETTY format", ():void => {

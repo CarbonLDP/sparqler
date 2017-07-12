@@ -37,27 +37,27 @@ describe( "Module Tokens/Operator", ():void => {
 
 		describe( "Operator.getTokenValue()", ():void => {
 
-			it( "Without nextToken always add space", ():void => {
+			it( "should add nothing if next token is undefined", ():void => {
 				let operator:Operator;
 				let value:string;
 
 				// Compact format
 				operator = new Operator( "value" );
 				value = operator.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				operator = new Operator( "value-2" );
 				value = operator.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "value-2 " );
+				expect( value ).toBe( "value-2" );
 
 				// Pretty format
 				operator = new Operator( "value" );
 				value = operator.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				operator = new Operator( "value-2" );
 				value = operator.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "value-2 " );
+				expect( value ).toBe( "value-2" );
 			} );
 
 			describe( "With PRETTY format", ():void => {

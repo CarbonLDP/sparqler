@@ -645,54 +645,6 @@ xdescribe( "Module SPARQLER", () => {
 			expect( clause.toPrettyString ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "SPARQLER.resolve()", ():void => {
-			let sparqler:SPARQLER = new SPARQLER();
-
-			// SPARQLER implements the method
-			expect( "resolve" in sparqler ).toBe( true );
-			expect( sparqler._resolveIRI ).toEqual( jasmine.any( Function ) );
-
-			let tokens:Token[];
-
-			// Tokens of an iri
-			sparqler = new SPARQLER();
-			tokens = sparqler._resolveIRI( "http://example.com/resource/" );
-			expect( tokens ).toEqual( [ new LeftSymbol( "<" ), new StringLiteral( "http://example.com/resource/" ), new RightSymbol( ">" ) ] );
-
-			// Mark prefixes as used
-			sparqler = new SPARQLER();
-			sparqler[ "_prefixes" ] = new Map<string, PrefixInfo>();
-			sparqler[ "_prefixes" ].set( "ex", { iri: "http://example.com/ns#", used: false } );
-			sparqler[ "_prefixes" ].set( "another", { iri: "http://another-example.com/ns#", used: true } );
-			tokens = sparqler._resolveIRI( "ex:some" );
-			expect( tokens ).toEqual( [ new StringLiteral( "ex" ), new Operator( ":" ), new StringLiteral( "some" ) ] );
-			expect( sparqler[ "_prefixes" ].get( "ex" ) ).toEqual( { iri: "http://example.com/ns#", used: true } );
-
-			sparqler = new SPARQLER();
-			sparqler[ "_prefixes" ] = new Map<string, PrefixInfo>();
-			sparqler[ "_prefixes" ].set( "ex", { iri: "http://example.com/ns#", used: false } );
-			sparqler[ "_prefixes" ].set( "another", { iri: "http://another-example.com/ns#", used: true } );
-			tokens = sparqler._resolveIRI( "another:some" );
-			expect( tokens ).toEqual( [ new StringLiteral( "another" ), new Operator( ":" ), new StringLiteral( "some" ) ] );
-			expect( sparqler[ "_prefixes" ].get( "another" ) ).toEqual( { iri: "http://another-example.com/ns#", used: true } );
-
-			// Relative IRI with out use of the vocabulary
-			sparqler = new SPARQLER();
-			tokens = sparqler._resolveIRI( "relative-iri" );
-			expect( tokens ).toEqual( [ new LeftSymbol( "<" ), new StringLiteral( "relative-iri" ), new RightSymbol( ">" ) ] );
-
-			sparqler = new SPARQLER();
-			sparqler[ "_vocab" ] = "http://example.com/ns#";
-			tokens = sparqler._resolveIRI( "relative-iri", false );
-			expect( tokens ).toEqual( [ new LeftSymbol( "<" ), new StringLiteral( "relative-iri" ), new RightSymbol( ">" ) ] );
-
-			// Relative IRI resolved with the vocabulary
-			sparqler = new SPARQLER();
-			sparqler[ "_vocab" ] = "http://example.com/ns#";
-			tokens = sparqler._resolveIRI( "relative-iri", true );
-			expect( tokens ).toEqual( [ new LeftSymbol( "<" ), new StringLiteral( "http://example.com/ns#relative-iri" ), new RightSymbol( ">" ) ] );
-		} );
-
 	} );
 
 } );

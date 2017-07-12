@@ -36,27 +36,27 @@ describe( "Module Tokens/Identifier", ():void => {
 
 		describe( "Identifier.getTokenValue()", ():void => {
 
-			it( "Without nextToken always add space", ():void => {
+			it( "should add nothing if next token is undefined", ():void => {
 				let identifier:Identifier;
 				let value:string;
 
 				// Compact format
 				identifier = new Identifier( "identifier" );
 				value = identifier.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "identifier " );
+				expect( value ).toBe( "identifier" );
 
 				identifier = new Identifier( "identifier-2" );
 				value = identifier.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "identifier-2 " );
+				expect( value ).toBe( "identifier-2" );
 
 				// Pretty format
 				identifier = new Identifier( "identifier" );
 				value = identifier.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "identifier " );
+				expect( value ).toBe( "identifier" );
 
 				identifier = new Identifier( "identifier-2" );
 				value = identifier.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "identifier-2 " );
+				expect( value ).toBe( "identifier-2" );
 			} );
 
 			describe( "With PRETTY format", ():void => {

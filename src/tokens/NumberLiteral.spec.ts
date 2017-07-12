@@ -37,27 +37,27 @@ describe( "Module Tokens/NumberLiteral", ():void => {
 
 		describe( "NumberLiteral.getTokenValue()", ():void => {
 
-			it( "Without nextToken always add space", ():void => {
+			it( "should add nothing if next token is undefined", ():void => {
 				let numberLiteral:NumberLiteral;
 				let value:string;
 
 				// Compact format
 				numberLiteral = new NumberLiteral( 1 );
 				value = numberLiteral.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "1 " );
+				expect( value ).toBe( "1" );
 
 				numberLiteral = new NumberLiteral( 2 );
 				value = numberLiteral.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "2 " );
+				expect( value ).toBe( "2" );
 
 				// Pretty format
 				numberLiteral = new NumberLiteral( 1 );
 				value = numberLiteral.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "1 " );
+				expect( value ).toBe( "1" );
 
 				numberLiteral = new NumberLiteral( 2 );
 				value = numberLiteral.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "2 " );
+				expect( value ).toBe( "2" );
 			} );
 
 			describe( "With PRETTY format", ():void => {

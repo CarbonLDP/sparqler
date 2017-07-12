@@ -34,7 +34,11 @@ describe( "Module TriplesPattern/BlankNode", ():void => {
 
 		let resolver:IRIResolver;
 		beforeEach( ():void => {
-			resolver = new IRIResolver();
+			resolver = new class extends IRIResolver {
+				resolve( iri:string ):Token[] {
+					return [ new MockToken( iri ) ];
+				}
+			};
 		} );
 
 		it( "Exists", ():void => {

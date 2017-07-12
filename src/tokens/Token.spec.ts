@@ -20,7 +20,7 @@ describe( "Module Tokens/Token", ():void => {
 
 		describe( "Operator.getTokenValue()", ():void => {
 
-			it( "Without nextToken always add space", ():void => {
+			it( "should add nothing if next token is undefined", ():void => {
 				class MockToken extends Token {
 					protected getPrettySeparator( nextToken:Token ):string {
 						return "";
@@ -37,20 +37,20 @@ describe( "Module Tokens/Token", ():void => {
 				// Compact format
 				token = new MockToken( "value" );
 				value = token.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				token = new MockToken( "value-2" );
 				value = token.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "value-2 " );
+				expect( value ).toBe( "value-2" );
 
 				// Pretty format
 				token = new MockToken( "value" );
 				value = token.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				token = new MockToken( "value-2" );
 				value = token.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "value-2 " );
+				expect( value ).toBe( "value-2" );
 			} );
 
 			it( "With pretty format use the separator returned by `getPrettySeparator()`", ():void => {
@@ -141,7 +141,7 @@ describe( "Module Tokens/Token", ():void => {
 				expect( value ).toBe( "value-this-is-another-COMPACT-separator" );
 			} );
 
-			it( "Unknown format will always add an space", ():void => {
+			it( "should add nothing if format is unknown", ():void => {
 				class MockToken extends Token {
 					protected getPrettySeparator( nextToken:Token ):string {
 						return "not-a-space";
@@ -159,12 +159,12 @@ describe( "Module Tokens/Token", ():void => {
 				token = new MockToken( "value" );
 				nextToken = new MockToken( "nextToken" );
 				value = token.getTokenValue( <any> - 1, nextToken );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				token = new MockToken( "value" );
 				nextToken = new MockToken( "nextToken" );
 				value = token.getTokenValue( <any> - 1, nextToken );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 			} );
 
 		} );

@@ -44,20 +44,20 @@ describe( "Module Tokens/RightSymbol", ():void => {
 				// Compact format
 				rightSymbol = new RightSymbol( "value" );
 				value = rightSymbol.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				rightSymbol = new RightSymbol( "value-2" );
 				value = rightSymbol.getTokenValue( TokenFormat.COMPACT );
-				expect( value ).toBe( "value-2 " );
+				expect( value ).toBe( "value-2" );
 
 				// Pretty format
 				rightSymbol = new RightSymbol( "value" );
 				value = rightSymbol.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "value " );
+				expect( value ).toBe( "value" );
 
 				rightSymbol = new RightSymbol( "value-2" );
 				value = rightSymbol.getTokenValue( TokenFormat.PRETTY );
-				expect( value ).toBe( "value-2 " );
+				expect( value ).toBe( "value-2" );
 			} );
 
 			describe( "With PRETTY format", ():void => {

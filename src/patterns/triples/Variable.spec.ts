@@ -3,7 +3,7 @@ import Variable from "./Variable";
 
 import {
 	TriplesSameSubjectMore,
-	GraphPattern
+	GraphPattern,
 } from "../interfaces";
 import { Token } from "../../tokens/Token";
 import { TriplesPattern } from "./TriplesPattern";
@@ -34,7 +34,11 @@ describe( "Module TriplesPattern/Variable", ():void => {
 
 		let resolver:IRIResolver;
 		beforeEach( ():void => {
-			resolver = new IRIResolver();
+			resolver = new class extends IRIResolver {
+				resolve( iri:string ):Token[] {
+					return [ new MockToken( iri ) ];
+				}
+			};
 		} );
 
 		it( "Exists", ():void => {
