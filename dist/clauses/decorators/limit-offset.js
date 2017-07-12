@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container_1 = require("sparqler/clauses/Container");
+var clauses_1 = require("sparqler/clauses");
 var tokens_1 = require("sparqler/patterns/tokens");
 var tokens_2 = require("sparqler/tokens");
 var LimitContainer = (function (_super) {
@@ -22,7 +22,7 @@ var LimitContainer = (function (_super) {
         return _this;
     }
     return LimitContainer;
-}(Container_1.Container));
+}(clauses_1.Container));
 exports.LimitContainer = LimitContainer;
 var OffsetContainer = (function (_super) {
     __extends(OffsetContainer, _super);
@@ -33,12 +33,12 @@ var OffsetContainer = (function (_super) {
         return _this;
     }
     return OffsetContainer;
-}(Container_1.Container));
+}(clauses_1.Container));
 exports.OffsetContainer = OffsetContainer;
 function limit(limit) {
     var tokens = [tokens_1.LIMIT, new tokens_2.NumberLiteral(limit)];
     if (this._offsetUsed) {
-        var container_1 = new Container_1.Container(this, tokens);
+        var container_1 = new clauses_1.Container(this, tokens);
         return this._finishDecorator(container_1, {});
     }
     var container = new OffsetContainer(this, tokens, true);
@@ -48,7 +48,7 @@ exports.limit = limit;
 function offset(offset) {
     var tokens = [tokens_1.OFFSET, new tokens_2.NumberLiteral(offset)];
     if (this._limitUsed) {
-        var container_2 = new Container_1.Container(this, tokens);
+        var container_2 = new clauses_1.Container(this, tokens);
         return this._finishDecorator(container_2, {});
     }
     var container = new LimitContainer(this, tokens, true);
@@ -56,15 +56,15 @@ function offset(offset) {
 }
 exports.offset = offset;
 function limitBuilderDecorator(container, object) {
-    return Container_1.genericDecorator({ limit: limit }, container, object);
+    return clauses_1.genericDecorator({ limit: limit }, container, object);
 }
 exports.limitBuilderDecorator = limitBuilderDecorator;
 function offsetBuilderDecorator(container, object) {
-    return Container_1.genericDecorator({ offset: offset }, container, object);
+    return clauses_1.genericDecorator({ offset: offset }, container, object);
 }
 exports.offsetBuilderDecorator = offsetBuilderDecorator;
 function limitOffsetDecorator(container, object) {
-    return Container_1.genericDecorator({
+    return clauses_1.genericDecorator({
         limit: limit,
         offset: offset,
     }, container, object);

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var clauses_1 = require("sparqler/clauses");
 var decorators_1 = require("sparqler/clauses/decorators");
+var IRIResolver_1 = require("sparqler/iri/IRIResolver");
 var tokens_1 = require("sparqler/patterns/tokens");
 var tokens_2 = require("sparqler/tokens");
 function base(iri) {
@@ -10,12 +11,12 @@ function base(iri) {
     return queryDecorator(container, {});
 }
 function vocab(iri) {
-    var iriResolver = new clauses_1.Resolver(this._iriResolver, iri);
+    var iriResolver = new IRIResolver_1.IRIResolver(this._iriResolver, iri);
     var container = new clauses_1.Container(this, null, iriResolver);
     return queryDecorator(container, {});
 }
 function prefix(name, iri) {
-    var iriResolver = new clauses_1.Resolver(this._iriResolver);
+    var iriResolver = new IRIResolver_1.IRIResolver(this._iriResolver);
     iriResolver._prefixes.set(name, false);
     var tokens = [tokens_1.PREFIX, new tokens_2.StringLiteral(name), tokens_1.PREFIX_SYMBOL, tokens_1.OPEN_IRI, new tokens_2.StringLiteral(iri), tokens_1.CLOSE_IRI];
     var container = new clauses_1.Container(this, tokens, iriResolver);

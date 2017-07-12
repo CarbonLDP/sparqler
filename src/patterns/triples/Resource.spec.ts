@@ -2,7 +2,6 @@ import * as ResourceModule from "./Resource";
 import Resource from "./Resource";
 
 import {
-	IRIResolver,
 	TriplesSameSubjectMore,
 	GraphPattern
 } from "../interfaces";
@@ -10,6 +9,7 @@ import { Token } from "../../tokens/Token";
 import { TriplesPattern } from "./TriplesPattern";
 import { NewLineSymbol } from "../../tokens/NewLineSymbol";
 import * as ObjectPattern from "../../utils/ObjectPattern";
+import { IRIResolver } from "sparqler/iri";
 
 describe( "Module TriplesPattern/Resource", ():void => {
 
@@ -30,11 +30,10 @@ describe( "Module TriplesPattern/Resource", ():void => {
 			}
 		}
 
-		let resolver:IRIResolver = {
-			_resolveIRI: ( iri:string ) => {
-				return [ new MockToken( iri ) ];
-			}
-		};
+		let resolver:IRIResolver;
+		beforeEach( ():void => {
+			resolver = new IRIResolver();
+		} );
 
 		it( "Exists", ():void => {
 			expect( Resource ).toBeDefined();
@@ -51,7 +50,7 @@ describe( "Module TriplesPattern/Resource", ():void => {
 
 		it( "The self tokens are the resolved IRI", ():void => {
 			let resource:Resource;
-			let resolverSpy:jasmine.Spy = spyOn( resolver, "_resolveIRI" ).and.callThrough();
+			let resolverSpy:jasmine.Spy = spyOn( resolver, "resolve" ).and.callThrough();
 
 			resolverSpy.calls.reset();
 			resource = new Resource( resolver, "iri" );

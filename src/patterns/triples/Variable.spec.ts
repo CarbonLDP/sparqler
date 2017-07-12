@@ -2,7 +2,6 @@ import * as VariableModule from "./Variable";
 import Variable from "./Variable";
 
 import {
-	IRIResolver,
 	TriplesSameSubjectMore,
 	GraphPattern
 } from "../interfaces";
@@ -12,6 +11,7 @@ import { NewLineSymbol } from "../../tokens/NewLineSymbol";
 import * as ObjectPattern from "../../utils/ObjectPattern";
 import { LeftSymbol } from "../../tokens/LeftSymbol";
 import { StringLiteral } from "../../tokens/StringLiteral";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 
 describe( "Module TriplesPattern/Variable", ():void => {
 
@@ -32,11 +32,10 @@ describe( "Module TriplesPattern/Variable", ():void => {
 			}
 		}
 
-		let resolver:IRIResolver = {
-			_resolveIRI: ( iri:string ) => {
-				return [ new MockToken( iri ) ];
-			}
-		};
+		let resolver:IRIResolver;
+		beforeEach( ():void => {
+			resolver = new IRIResolver();
+		} );
 
 		it( "Exists", ():void => {
 			expect( Variable ).toBeDefined();

@@ -1,9 +1,6 @@
 import * as ValuesPatternModule from "./ValuesPattern";
 import ValuesPattern from "./ValuesPattern";
-import {
-	IRIResolver,
-	MultipleValuesPattern,
-} from "../interfaces";
+import { MultipleValuesPattern } from "../interfaces";
 import { StringLiteral } from "../../tokens/StringLiteral";
 import { Token } from "../../tokens/Token";
 import { Variable } from "../triples/Variable";
@@ -18,6 +15,7 @@ import {
 	RDFLiteral,
 	Literal
 } from "../triples/Literals";
+import { IRIResolver } from "sparqler/iri";
 
 describe( "Module ValuesPattern", ():void => {
 
@@ -35,11 +33,7 @@ describe( "Module ValuesPattern", ():void => {
 		} );
 
 		it( "Empty DataBlock, ValuesPattern()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 
 			class MockToken extends Token {
 				protected getPrettySeparator():string {
@@ -131,11 +125,7 @@ describe( "Module ValuesPattern", ():void => {
 		} );
 
 		it( "Single DataBlock, ValuesPattern().has()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 
 			class MockToken extends Token {
 				protected getPrettySeparator():string {
@@ -324,11 +314,7 @@ describe( "Module ValuesPattern", ():void => {
 		} );
 
 		it( "Multiple DataBlock, ValuesPattern().has().and()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 
 			class MockToken extends Token {
 				protected getPrettySeparator():string {

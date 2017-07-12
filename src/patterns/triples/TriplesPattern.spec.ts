@@ -2,7 +2,6 @@ import * as TriplesPatternModule from "./TriplesPattern";
 import TriplesPattern from "./TriplesPattern";
 
 import {
-	IRIResolver,
 	GraphPattern,
 	TriplesSameSubjectMore,
 	ElementPattern,
@@ -12,6 +11,7 @@ import * as ObjectPattern from "../../utils/ObjectPattern";
 import { Variable } from "./Variable";
 import { NewLineSymbol } from "../../tokens/NewLineSymbol";
 import { Resource } from "./Resource";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 
 describe( "Module TriplesPattern/TriplesPattern", ():void => {
 
@@ -29,11 +29,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 		} );
 
 		it( "Implements ElementPattern and TriplesSameSubject", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new MockToken( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 
 			class MockToken extends Token {
 				protected getPrettySeparator():string {
@@ -68,11 +64,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 		} );
 
 		it( "GraphPattern generic expected to be implemented by its subclasses", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new MockToken( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 
 			class MockToken extends Token {
 				protected getPrettySeparator():string {
@@ -117,11 +109,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 		} );
 
 		describe( "TriplesPattern.has()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new MockToken( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 
 			class MockToken extends Token {
 				protected getPrettySeparator():string {
@@ -765,11 +753,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 		} );
 
 		describe( "TriplesPattern.has().and()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new MockToken( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 
 			class MockToken extends Token {
 				protected getPrettySeparator():string {

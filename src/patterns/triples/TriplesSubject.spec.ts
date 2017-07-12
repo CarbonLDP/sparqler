@@ -2,7 +2,6 @@ import * as TriplesSubjectModule from "./TriplesSubject";
 import TriplesSubject from "./TriplesSubject";
 
 import {
-	IRIResolver,
 	TriplesSameSubjectMore,
 	GraphPattern
 } from "../interfaces";
@@ -10,6 +9,7 @@ import { Token } from "../../tokens/Token";
 import { TriplesPattern } from "./TriplesPattern";
 import { NewLineSymbol } from "../../tokens/NewLineSymbol";
 import * as ObjectPattern from "../../utils/ObjectPattern";
+import { IRIResolver } from "sparqler/iri";
 
 describe( "Module TriplesPattern/TriplesSubject", ():void => {
 
@@ -30,11 +30,10 @@ describe( "Module TriplesPattern/TriplesSubject", ():void => {
 			}
 		}
 
-		let resolver:IRIResolver = {
-			_resolveIRI: ( iri:string ) => {
-				return [ new MockToken( iri ) ];
-			}
-		};
+		let resolver:IRIResolver;
+		beforeEach( ():void => {
+			resolver = new IRIResolver();
+		} );
 
 		class MockTriplesSubject extends TriplesSubject { elementTokens:Token[] = []; }
 

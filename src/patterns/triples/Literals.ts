@@ -1,4 +1,4 @@
-import { IRIResolver } from "sparqler/patterns";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	CLOSE_QUOTE,
 	LANG_SYMBOL,

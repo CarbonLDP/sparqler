@@ -12,10 +12,6 @@ import {
 } from "sparqler/patterns/triples";
 import { Token } from "sparqler/tokens";
 
-export interface IRIResolver {
-	_resolveIRI( iri:string, vocab?:boolean ):Token[];
-}
-
 export interface ElementPattern {
 	getSelfTokens():Token[];
 }

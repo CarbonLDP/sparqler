@@ -2,9 +2,8 @@ import * as CollectionModule from "./Collection";
 import Collection from "./Collection";
 
 import {
-	IRIResolver,
 	TriplesSameSubjectMore,
-	TriplesNodePattern
+	TriplesNodePattern,
 } from "../interfaces";
 import { Token } from "../../tokens/Token";
 import { TriplesPattern } from "./TriplesPattern";
@@ -12,6 +11,7 @@ import { NewLineSymbol } from "../../tokens/NewLineSymbol";
 import * as ObjectPattern from "../../utils/ObjectPattern";
 import { LeftSymbol } from "../../tokens/LeftSymbol";
 import { RightSymbol } from "../../tokens/RightSymbol";
+import { IRIResolver } from "sparqler/iri";
 
 describe( "Module TriplesPattern/Collection", ():void => {
 
@@ -32,11 +32,10 @@ describe( "Module TriplesPattern/Collection", ():void => {
 			}
 		}
 
-		let resolver:IRIResolver = {
-			_resolveIRI: ( iri:string ) => {
-				return [ new MockToken( iri ) ];
-			}
-		};
+		let resolver:IRIResolver;
+		beforeEach( ():void => {
+			resolver = new IRIResolver();
+		} );
 
 		it( "Exists", ():void => {
 			expect( Collection ).toBeDefined();

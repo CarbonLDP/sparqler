@@ -1,7 +1,7 @@
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	ElementPattern,
 	GraphPattern,
-	IRIResolver,
 	SupportedNativeTypes,
 	TriplesNodePattern,
 	TriplesSameSubject,
@@ -62,7 +62,7 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 
 	private _addPattern( property:string | Variable | Resource, values:ElementPattern | ElementPattern[] ):TriplesSameSubjectMore<T> & T {
 		let tokens:Token[] = ( typeof property === "string" || property instanceof String )
-			? this.resolver._resolveIRI( property as string, true )
+			? this.resolver.resolve( property as string, true )
 			: property.getSelfTokens();
 
 		values = Array.isArray( values ) ? values : [ values ];

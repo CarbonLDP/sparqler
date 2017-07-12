@@ -47,4 +47,4 @@ function resolve(iri, vocab) {
 }
 exports.resolve = resolve;
 
-//# sourceMappingURL=IRI.js.map
+//# sourceMappingURL=utils.js.map

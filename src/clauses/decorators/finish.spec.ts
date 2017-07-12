@@ -1,9 +1,11 @@
 import {
 	Container,
 	FinishClause,
-	PrefixMap,
-	Resolver,
 } from "sparqler/clauses";
+import {
+	IRIResolver,
+	PrefixMap,
+} from "sparqler/iri";
 import {
 	CLOSE_IRI,
 	CLOSE_MULTI_BLOCK,
@@ -24,9 +26,10 @@ import {
 	StringLiteral,
 	Token,
 } from "sparqler/tokens";
+
 import { finishDecorator } from "./finish";
 
-fdescribe( "finishDecorator", ():void => {
+describe( "finishDecorator", ():void => {
 
 	it( "should exists", ():void => {
 		expect( finishDecorator ).toBeDefined();
@@ -86,7 +89,7 @@ fdescribe( "finishDecorator", ():void => {
 
 } );
 
-fdescribe( "FinishClause", ():void => {
+describe( "FinishClause", ():void => {
 
 	class MockToken extends Token {
 		//noinspection JSMethodCanBeStatic
@@ -134,7 +137,7 @@ fdescribe( "FinishClause", ():void => {
 
 			// Non used prefixes
 			(() => {
-				const iriResolver:Resolver = new class extends Resolver {
+				const iriResolver:IRIResolver = new class extends IRIResolver {
 					readonly _prefixes:PrefixMap = new Map( [
 						[ "prefix-1", false ],
 						[ "prefix-3", false ],
@@ -147,7 +150,7 @@ fdescribe( "FinishClause", ():void => {
 
 			// First prefix used
 			(() => {
-				const iriResolver:Resolver = new class extends Resolver {
+				const iriResolver:IRIResolver = new class extends IRIResolver {
 					readonly _prefixes:PrefixMap = new Map( [
 						[ "prefix-1", true ],
 						[ "prefix-3", false ],
@@ -160,7 +163,7 @@ fdescribe( "FinishClause", ():void => {
 
 			// Some prefixes used
 			(() => {
-				const iriResolver:Resolver = new class extends Resolver {
+				const iriResolver:IRIResolver = new class extends IRIResolver {
 					readonly _prefixes:PrefixMap = new Map( [
 						[ "prefix-1", true ],
 						[ "prefix-3", true ],

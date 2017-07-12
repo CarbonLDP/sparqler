@@ -2,9 +2,6 @@ import { Undefined } from "sparqler/patterns";
 import { NotTriplesPattern } from "sparqler/patterns/notTriples";
 import { BlankNode, BooleanLiteral, Collection, Literal, NumericLiteral, RDFLiteral, Resource, Variable } from "sparqler/patterns/triples";
 import { Token } from "sparqler/tokens";
-export interface IRIResolver {
-    _resolveIRI(iri: string, vocab?: boolean): Token[];
-}
 export interface ElementPattern {
     getSelfTokens(): Token[];
 }

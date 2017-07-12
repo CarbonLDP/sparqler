@@ -3,9 +3,9 @@ import {
 	FinishClause,
 	genericDecorator,
 	QueryClause,
-	Resolver,
 } from "sparqler/clauses";
 import { selectDecorator } from "sparqler/clauses/decorators";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	BASE,
 	CLOSE_IRI,
@@ -26,14 +26,14 @@ function base<T extends FinishClause>( this:Container<T>, iri:string ):QueryClau
 }
 
 function vocab<T extends FinishClause>( this:Container<T>, iri:string ):QueryClause<T> {
-	const iriResolver:Resolver = new Resolver( this._iriResolver, iri );
+	const iriResolver:IRIResolver = new IRIResolver( this._iriResolver, iri );
 
 	const container:Container<T> = new Container<T>( this, null, iriResolver );
 	return queryDecorator<T, {}>( container, {} );
 }
 
 function prefix<T extends FinishClause>( this:Container<T>, name:string, iri:string ):QueryClause<T> {
-	const iriResolver:Resolver = new Resolver( this._iriResolver );
+	const iriResolver:IRIResolver = new IRIResolver( this._iriResolver );
 	iriResolver._prefixes.set( name, false );
 
 	const tokens:Token[] = [ PREFIX, new StringLiteral( name ), PREFIX_SYMBOL, OPEN_IRI, new StringLiteral( iri ), CLOSE_IRI ];

@@ -14,7 +14,7 @@ import { Token } from "sparqler/tokens";
 
 
 function _from<T extends FinishClause>( self:Container<T>, tokens:Token[], iri:string ):WhereClause<T> {
-	tokens.push( ...self._iriResolver._resolveIRI( iri ) );
+	tokens.push( ...self._iriResolver.resolve( iri ) );
 
 	const container:Container<T> = new Container<T>( self, tokens );
 	return whereDecorator<T, {}>( container, {} );

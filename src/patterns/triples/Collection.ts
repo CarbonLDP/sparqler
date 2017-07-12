@@ -1,5 +1,5 @@
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
-	IRIResolver,
 	SupportedNativeTypes,
 	TriplesNodePattern,
 } from "sparqler/patterns";

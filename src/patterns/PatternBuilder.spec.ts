@@ -2,7 +2,6 @@ import * as PatternBuilderModule from "./PatternBuilder";
 import PatternBuilder from "./PatternBuilder";
 
 import {
-	IRIResolver,
 	SingleValuesPattern,
 	MultipleValuesPattern
 } from "./interfaces";
@@ -25,6 +24,7 @@ import { RightSymbol } from "../tokens/RightSymbol";
 import { Token } from "../tokens/Token";
 import { NewLineSymbol } from "../tokens/NewLineSymbol";
 import * as ValuesPatternModule from "./notTriples/ValuesPattern";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 
 describe( "Module PatternBuilder", ():void => {
 
@@ -42,11 +42,7 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "Constructor", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 
 			expect( builder ).toBeDefined();
@@ -54,11 +50,7 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "Implements Builders", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 
 			// Triples patterns
@@ -103,11 +95,7 @@ describe( "Module PatternBuilder", ():void => {
 		// Test the methods
 
 		it( "PatternBuilder.resource()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 
 			let resource:Resource = builder.resource( "http://example.com/" );
@@ -116,11 +104,7 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "PatternBuilder.var()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 
 			let variable:Variable = builder.var( "name" );
@@ -129,11 +113,7 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "PatternBuilder.literal()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 			let literal:Literal;
 
@@ -173,11 +153,7 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "PatternBuilder.collection()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 			let collection:Collection;
 
@@ -195,11 +171,7 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "PatternBuilder.blankNode()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 			let blankNode:BlankNode;
 
@@ -219,11 +191,7 @@ describe( "Module PatternBuilder", ():void => {
 					return " ";
 				}
 			}
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 			let constructorSpy = spyOn( NotTriplesPatternModule, "NotTriplesPattern" ).and.callThrough();
 			let pattern:NotTriplesPattern;
@@ -370,11 +338,7 @@ describe( "Module PatternBuilder", ():void => {
 					return " ";
 				}
 			}
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 			let constructorSpy = spyOn( NotTriplesPatternModule, "NotTriplesPattern" ).and.callThrough();
 			let pattern:NotTriplesPattern;
@@ -447,11 +411,7 @@ describe( "Module PatternBuilder", ():void => {
 					return " ";
 				}
 			}
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 			let constructorSpy = spyOn( NotTriplesPatternModule, "NotTriplesPattern" ).and.callThrough();
 			let pattern:NotTriplesPattern;
@@ -767,11 +727,7 @@ describe( "Module PatternBuilder", ():void => {
 					return " ";
 				}
 			}
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 			let constructorSpy = spyOn( NotTriplesPatternModule, "NotTriplesPattern" ).and.callThrough();
 			let pattern:NotTriplesPattern;
@@ -829,11 +785,7 @@ describe( "Module PatternBuilder", ():void => {
 		} );
 
 		it( "PatternBuilder.values()", ():void => {
-			let resolver:IRIResolver = {
-				_resolveIRI: ( iri:string ) => {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
+			let resolver:IRIResolver = new IRIResolver();
 
 			class MockToken extends Token {
 				protected getPrettySeparator():string {

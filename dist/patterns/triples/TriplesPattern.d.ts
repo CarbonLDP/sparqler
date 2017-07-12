@@ -1,4 +1,5 @@
-import { ElementPattern, GraphPattern, IRIResolver, SupportedNativeTypes, TriplesNodePattern, TriplesSameSubject, TriplesSameSubjectMore } from "sparqler/patterns";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
+import { ElementPattern, GraphPattern, SupportedNativeTypes, TriplesNodePattern, TriplesSameSubject, TriplesSameSubjectMore } from "sparqler/patterns";
 import { Literal, Resource, Variable } from "sparqler/patterns/triples";
 import { Token } from "sparqler/tokens";
 export declare abstract class TriplesPattern<T extends GraphPattern> implements TriplesSameSubject<T>, ElementPattern {

@@ -1,6 +1,6 @@
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	GraphPattern,
-	IRIResolver,
 	MultipleValuesPattern,
 	NotTriplesPatternBuilder,
 	SingleValuesPattern,
@@ -94,7 +94,7 @@ export class PatternBuilder implements TriplesPatternBuilder,
 	graph( variable:Variable, patterns:GraphPattern[] ):NotTriplesPattern;
 	graph( iriOrVariable, patterns ):NotTriplesPattern {
 		let graph:Token[] = ( typeof iriOrVariable === "string" )
-			? this.resolver._resolveIRI( iriOrVariable )
+			? this.resolver.resolve( iriOrVariable )
 			: iriOrVariable.getSelfTokens();
 
 		let patternTokens:Token[] = getBlockTokens( patterns );
@@ -136,7 +136,7 @@ export class PatternBuilder implements TriplesPatternBuilder,
 
 	service( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern {
 		const serviceTokens:Token[] = typeof resource === "string" ?
-			this.resolver._resolveIRI( resource ) :
+			this.resolver.resolve( resource ) :
 			resource.getSelfTokens();
 
 		const patternTokens:Token[] = getBlockTokens( patterns );
@@ -145,7 +145,7 @@ export class PatternBuilder implements TriplesPatternBuilder,
 
 	serviceSilent( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern {
 		const serviceTokens:Token[] = typeof resource === "string" ?
-			this.resolver._resolveIRI( resource ) :
+			this.resolver.resolve( resource ) :
 			resource.getSelfTokens();
 
 		const patternTokens:Token[] = getBlockTokens( patterns );

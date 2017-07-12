@@ -2,9 +2,8 @@ import * as BlankNodeModule from "./BlankNode";
 import BlankNode from "./BlankNode";
 
 import {
-	IRIResolver,
 	TriplesSameSubjectMore,
-	TriplesNodePattern
+	TriplesNodePattern,
 } from "../interfaces";
 import { Token } from "../../tokens/Token";
 import { TriplesPattern } from "./TriplesPattern";
@@ -12,6 +11,7 @@ import { NewLineSymbol } from "../../tokens/NewLineSymbol";
 import * as ObjectPattern from "../../utils/ObjectPattern";
 import { LeftSymbol } from "../../tokens/LeftSymbol";
 import { RightSymbol } from "../../tokens/RightSymbol";
+import { IRIResolver } from "sparqler/iri";
 
 describe( "Module TriplesPattern/BlankNode", ():void => {
 
@@ -32,11 +32,10 @@ describe( "Module TriplesPattern/BlankNode", ():void => {
 			}
 		}
 
-		let resolver:IRIResolver = {
-			_resolveIRI: ( iri:string ) => {
-				return [ new MockToken( iri ) ];
-			}
-		};
+		let resolver:IRIResolver;
+		beforeEach( ():void => {
+			resolver = new IRIResolver();
+		} );
 
 		it( "Exists", ():void => {
 			expect( BlankNode ).toBeDefined();
@@ -168,9 +167,9 @@ describe( "Module TriplesPattern/BlankNode", ():void => {
 			expect( pattern.getPattern() ).toEqual( [
 				new NewLineSymbol( "[" ),
 				new MockToken( "middle-iri-2" ),
-					new MockToken( "thing-2-1" ), new NewLineSymbol( "," ),
-					new MockToken( "thing-2-2" ), new NewLineSymbol( "," ),
-					new MockToken( "thing-2-3" ),
+				new MockToken( "thing-2-1" ), new NewLineSymbol( "," ),
+				new MockToken( "thing-2-2" ), new NewLineSymbol( "," ),
+				new MockToken( "thing-2-3" ),
 				new NewLineSymbol( "]" ),
 			] );
 
@@ -186,9 +185,9 @@ describe( "Module TriplesPattern/BlankNode", ():void => {
 				new MockToken( "some-iri" ), new MockToken( "something" ), new NewLineSymbol( ";" ),
 				new MockToken( "middle-iri-1" ), new MockToken( "thing-1" ), new NewLineSymbol( ";" ),
 				new MockToken( "middle-iri-2" ),
-					new MockToken( "thing-2-1" ), new NewLineSymbol( "," ),
-					new MockToken( "thing-2-2" ), new NewLineSymbol( "," ),
-					new MockToken( "thing-2-3" ), new NewLineSymbol( ";" ),
+				new MockToken( "thing-2-1" ), new NewLineSymbol( "," ),
+				new MockToken( "thing-2-2" ), new NewLineSymbol( "," ),
+				new MockToken( "thing-2-3" ), new NewLineSymbol( ";" ),
 				new MockToken( "last-iri" ), new MockToken( "anything" ),
 				new NewLineSymbol( "]" ),
 			] );

@@ -1,4 +1,4 @@
-import { Container } from "sparqler/clauses/Container";
+import { Container } from "sparqler/clauses";
 import { FinishClause, LimitClause, LimitOffsetClause, OffsetClause } from "sparqler/clauses/interfaces";
 import { GraphPattern } from "sparqler/patterns";
 import { Token } from "sparqler/tokens";

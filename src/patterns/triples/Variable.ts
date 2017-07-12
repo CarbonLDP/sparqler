@@ -1,4 +1,4 @@
-import { IRIResolver } from "sparqler/patterns";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 import { VAR_SYMBOL } from "sparqler/patterns/tokens";
 import {
 	StringLiteral,

@@ -1,7 +1,7 @@
 import {
 	Container,
 	genericDecorator,
-} from "sparqler/clauses/Container";
+} from "sparqler/clauses";
 import {
 	FinishClause,
 	LimitClause,

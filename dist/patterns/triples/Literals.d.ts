@@ -1,4 +1,4 @@
-import { IRIResolver } from "sparqler/patterns";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 import { Token } from "sparqler/tokens";
 import { TriplesSubject } from "./TriplesSubject";
 export declare abstract class Literal extends TriplesSubject {

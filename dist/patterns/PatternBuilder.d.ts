@@ -1,4 +1,5 @@
-import { GraphPattern, IRIResolver, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "sparqler/patterns";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
+import { GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "sparqler/patterns";
 import { NotTriplesPattern } from "sparqler/patterns/notTriples";
 import { BlankNode, BooleanLiteral, Collection, Literal, NumericLiteral, RDFLiteral, Resource, Variable } from "sparqler/patterns/triples";
 export declare type Undefined = "UNDEF";

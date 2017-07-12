@@ -1,4 +1,5 @@
-import { IRIResolver, SupportedNativeTypes, TriplesNodePattern } from "sparqler/patterns";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
+import { SupportedNativeTypes, TriplesNodePattern } from "sparqler/patterns";
 import { Literal, Resource, Variable } from "sparqler/patterns/triples";
 import { Token } from "sparqler/tokens";
 import { TriplesPattern } from "./TriplesPattern";

@@ -1,4 +1,5 @@
-import { IRIResolver, MultipleValuesPattern, MultipleValuesPatternMore, SingleValuesPattern, SingleValuesPatternMore, SupportedNativeTypes, Undefined } from "sparqler/patterns";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
+import { MultipleValuesPattern, MultipleValuesPatternMore, SingleValuesPattern, SingleValuesPatternMore, SupportedNativeTypes, Undefined } from "sparqler/patterns";
 import { NotTriplesPattern } from "sparqler/patterns/notTriples";
 import { Literal, Resource, Variable } from "sparqler/patterns/triples";
 import { Token } from "sparqler/tokens";

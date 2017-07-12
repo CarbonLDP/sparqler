@@ -1,4 +1,4 @@
-import { IRIResolver } from "sparqler/patterns";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 import { Token } from "sparqler/tokens";
 import { TriplesSubject } from "./TriplesSubject";
 
@@ -8,7 +8,7 @@ export class Resource extends TriplesSubject {
 
 	constructor( resolver:IRIResolver, iri:string ) {
 		super( resolver );
-		this.elementTokens = resolver._resolveIRI( iri );
+		this.elementTokens = resolver.resolve( iri );
 	}
 
 }

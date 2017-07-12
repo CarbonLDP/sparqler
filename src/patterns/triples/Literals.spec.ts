@@ -7,7 +7,6 @@ import {
 } from "./Literals";
 
 import {
-	IRIResolver,
 	TriplesSameSubjectMore,
 	GraphPattern
 } from "../interfaces";
@@ -19,6 +18,7 @@ import { LeftSymbol } from "../../tokens/LeftSymbol";
 import { StringLiteral } from "../../tokens/StringLiteral";
 import { RightSymbol } from "../../tokens/RightSymbol";
 import { Operator } from "../../tokens/Operator";
+import { IRIResolver } from "sparqler/iri";
 
 describe( "Module TriplesPattern/Literals", ():void => {
 
@@ -39,11 +39,10 @@ describe( "Module TriplesPattern/Literals", ():void => {
 			}
 		}
 
-		let resolver:IRIResolver = {
-			_resolveIRI: ( iri:string ) => {
-				return [ new MockToken( iri ) ];
-			}
-		};
+		let resolver:IRIResolver;
+		beforeEach( ():void => {
+			resolver = new IRIResolver();
+		} );
 
 		class MockLiteral extends Literal { elementTokens:Token[] = []; }
 
@@ -138,11 +137,10 @@ describe( "Module TriplesPattern/Literals", ():void => {
 			}
 		}
 
-		let resolver:IRIResolver = {
-			_resolveIRI: ( iri:string ) => {
-				return [ new MockToken( iri ) ];
-			}
-		};
+		let resolver:IRIResolver;
+		beforeEach( ():void => {
+			resolver = new IRIResolver();
+		} );
 
 		it( "Exists", ():void => {
 			expect( RDFLiteral ).toBeDefined();
@@ -334,11 +332,10 @@ describe( "Module TriplesPattern/Literals", ():void => {
 			}
 		}
 
-		let resolver:IRIResolver = {
-			_resolveIRI: ( iri:string ) => {
-				return [ new MockToken( iri ) ];
-			}
-		};
+		let resolver:IRIResolver;
+		beforeEach( ():void => {
+			resolver = new IRIResolver();
+		} );
 
 		it( "Exists", ():void => {
 			expect( Literal ).toBeDefined();
@@ -428,11 +425,10 @@ describe( "Module TriplesPattern/Literals", ():void => {
 			}
 		}
 
-		let resolver:IRIResolver = {
-			_resolveIRI: ( iri:string ) => {
-				return [ new MockToken( iri ) ];
-			}
-		};
+		let resolver:IRIResolver;
+		beforeEach( ():void => {
+			resolver = new IRIResolver();
+		} );
 
 		it( "Exists", ():void => {
 			expect( Literal ).toBeDefined();
