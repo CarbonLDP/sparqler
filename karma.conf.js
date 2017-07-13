@@ -10,7 +10,7 @@ module.exports = function( config ) {
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: [ "jasmine", "karma-typescript", "source-map-support", "es6-shim" ],
+		frameworks: [ "jasmine", "karma-typescript", "source-map-support" ],
 
 
 		// list of files / patterns to load in the browser
@@ -59,14 +59,7 @@ module.exports = function( config ) {
 
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: [ "Chrome" ],
-
-		customLaunchers: {
-			chrome_travis_ci: {
-				base: "Chrome",
-				flags: [ "--no-sandbox" ]
-			}
-		},
+		browsers: [ "ChromeHeadless" ],
 
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits
@@ -90,7 +83,7 @@ module.exports = function( config ) {
 
 	};
 
-	if( process.env.TRAVIS ) configuration.browsers = [ "chrome_travis_ci" ];
+	if( process.env.TRAVIS ) configuration.browsers = [ "ChromeHeadless" ];
 
 	config.set( configuration );
 
