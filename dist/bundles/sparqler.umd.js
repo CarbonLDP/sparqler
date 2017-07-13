@@ -1109,9 +1109,9 @@ var Container = (function () {
             ? new IRIResolver_1.IRIResolver(container._iriResolver)
             : new IRIResolver_1.IRIResolver();
         var previousTokens = container ? container._tokens : [];
-        this._tokens = newTokens
-            ? previousTokens.concat(newTokens)
-            : previousTokens;
+        if (!newTokens)
+            newTokens = [];
+        this._tokens = previousTokens.concat(newTokens);
         this._finishDecorator = container
             ? container._finishDecorator
             : finishDecorator;
