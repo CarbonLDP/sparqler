@@ -7,11 +7,9 @@ import {
 	SupportedNativeTypes,
 	TriplesNodePattern,
 	TriplesPatternBuilder,
-} from "sparqler/patterns";
-import {
-	NotTriplesPattern,
-	ValuesPattern,
-} from "sparqler/patterns/notTriples";
+} from "sparqler/patterns/interfaces";
+import { NotTriplesPattern } from "sparqler/patterns/notTriples/NotTriplesPattern";
+import { ValuesPattern } from "sparqler/patterns/notTriples/ValuesPattern";
 import {
 	AS,
 	BIND,

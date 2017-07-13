@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var notTriples_1 = require("sparqler/patterns/notTriples");
+var NotTriplesPattern_1 = require("sparqler/patterns/notTriples/NotTriplesPattern");
+var ValuesPattern_1 = require("sparqler/patterns/notTriples/ValuesPattern");
 var tokens_1 = require("sparqler/patterns/tokens");
 var triples_1 = require("sparqler/patterns/triples");
 var tokens_2 = require("sparqler/tokens");
@@ -53,16 +54,16 @@ var PatternBuilder = (function () {
             ? this.resolver.resolve(iriOrVariable)
             : iriOrVariable.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
-        return new notTriples_1.NotTriplesPattern([tokens_1.GRAPH].concat(graph, patternTokens));
+        return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.GRAPH].concat(graph, patternTokens));
     };
     PatternBuilder.prototype.optional = function (patterns) {
         var patternTokens = Patterns_1.getBlockTokens(patterns);
-        return new notTriples_1.NotTriplesPattern([tokens_1.OPTIONAL].concat(patternTokens));
+        return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.OPTIONAL].concat(patternTokens));
     };
     PatternBuilder.prototype.union = function (patterns1, patterns2) {
         var leftPatternTokens = Patterns_1.getBlockTokens(patterns1);
         var rightPatternTokens = Patterns_1.getBlockTokens(patterns2);
-        return new notTriples_1.NotTriplesPattern(leftPatternTokens.concat([tokens_1.UNION], rightPatternTokens));
+        return new NotTriplesPattern_1.NotTriplesPattern(leftPatternTokens.concat([tokens_1.UNION], rightPatternTokens));
     };
     PatternBuilder.prototype.minus = function () {
         var patterns = [];
@@ -70,36 +71,36 @@ var PatternBuilder = (function () {
             patterns[_i] = arguments[_i];
         }
         var patternTokens = Patterns_1.getBlockTokens(patterns);
-        return new notTriples_1.NotTriplesPattern([tokens_1.MINUS].concat(patternTokens));
+        return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.MINUS].concat(patternTokens));
     };
     PatternBuilder.prototype.values = function () {
         var variables = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             variables[_i] = arguments[_i];
         }
-        return new notTriples_1.ValuesPattern(this.resolver, variables);
+        return new ValuesPattern_1.ValuesPattern(this.resolver, variables);
     };
     PatternBuilder.prototype.service = function (resource, patterns) {
         var serviceTokens = typeof resource === "string" ?
             this.resolver.resolve(resource) :
             resource.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
-        return new notTriples_1.NotTriplesPattern([tokens_1.SERVICE].concat(serviceTokens, patternTokens));
+        return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.SERVICE].concat(serviceTokens, patternTokens));
     };
     PatternBuilder.prototype.serviceSilent = function (resource, patterns) {
         var serviceTokens = typeof resource === "string" ?
             this.resolver.resolve(resource) :
             resource.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
-        return new notTriples_1.NotTriplesPattern([tokens_1.SERVICE, tokens_1.SILENT].concat(serviceTokens, patternTokens));
+        return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.SERVICE, tokens_1.SILENT].concat(serviceTokens, patternTokens));
     };
     PatternBuilder.prototype.bind = function (rawExpression, variable) {
         variable = typeof variable === "string" ? this.var(variable) : variable;
         var patternTokens = [tokens_1.BIND, tokens_1.OPEN_SINGLE_LIST, new tokens_2.StringLiteral(rawExpression), tokens_1.AS].concat(variable.getSelfTokens(), [tokens_1.CLOSE_SINGLE_LIST]);
-        return new notTriples_1.NotTriplesPattern(patternTokens);
+        return new NotTriplesPattern_1.NotTriplesPattern(patternTokens);
     };
     PatternBuilder.prototype.filter = function (rawConstraint) {
-        return new notTriples_1.NotTriplesPattern([tokens_1.FILTER, new tokens_2.StringLiteral(rawConstraint)]);
+        return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.FILTER, new tokens_2.StringLiteral(rawConstraint)]);
     };
     return PatternBuilder;
 }());

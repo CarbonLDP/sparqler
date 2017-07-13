@@ -1,6 +1,6 @@
 import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "sparqler/patterns";
-import { NotTriplesPattern } from "sparqler/patterns/notTriples";
+import { GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "sparqler/patterns/interfaces";
+import { NotTriplesPattern } from "sparqler/patterns/notTriples/NotTriplesPattern";
 import { BlankNode, BooleanLiteral, Collection, Literal, NumericLiteral, RDFLiteral, Resource, Variable } from "sparqler/patterns/triples";
 export declare type Undefined = "UNDEF";
 export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder {

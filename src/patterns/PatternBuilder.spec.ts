@@ -23,7 +23,7 @@ import { RightSymbol } from "../tokens/RightSymbol";
 import { Token } from "../tokens/Token";
 import { NewLineSymbol } from "../tokens/NewLineSymbol";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { ValuesPattern } from "sparqler/patterns/notTriples";
+import { ValuesPattern } from "sparqler/patterns/notTriples/ValuesPattern";
 
 describe( "Module PatternBuilder", ():void => {
 
