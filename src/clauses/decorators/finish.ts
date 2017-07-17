@@ -168,8 +168,8 @@ function toPrettyString( this:Container<FinishClause> ):string {
 /**
  * Decorator that adds the FinishClause methods to the provided object.
  * @param container The data container where to bind the respective methods.
- * @param object The object to add the methods.
- * @returns The same object provided with the FinishClause type it to it.
+ * @param object The object to add the bound methods.
+ * @returns The same object provided that has been decorated.
  */
 export function finishDecorator<W extends object>( container:Container<FinishClause>, object:W ):W & FinishClause {
 	return genericDecorator( {

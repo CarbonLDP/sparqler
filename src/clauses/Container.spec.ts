@@ -32,7 +32,7 @@ describe( "Container", ():void => {
 		expect( container ).toEqual( jasmine.any( Container ) );
 	} );
 
-	it( "should be read only object", ():void => {
+	it( "should be a read only object", ():void => {
 		type Writable<T extends { [x:string]:any }, K extends string> = { [P in K]: T[P] };
 		const container:Writable<Container, keyof Container> & { something?:any } = new Container();
 

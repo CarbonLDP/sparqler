@@ -37,7 +37,7 @@ export interface HavingClause<T extends FinishClause | GraphPattern> extends Ord
 export interface OrderClause<T extends FinishClause | GraphPattern> extends LimitOffsetClause<T> {
     orderBy(rawCondition: string): LimitOffsetClause<T> & T;
 }
-export interface LimitOffsetClause<T extends FinishClause | GraphPattern> extends LimitClause<OffsetClause<T> & T>, OffsetClause<LimitClause<T> & T> {
+export interface LimitOffsetClause<T extends FinishClause | GraphPattern = FinishClause> extends LimitClause<OffsetClause<T> & T>, OffsetClause<LimitClause<T> & T> {
 }
 export interface OffsetClause<T> {
     offset(offset: number): T;
@@ -48,4 +48,5 @@ export interface LimitClause<T> {
 export interface FinishClause {
     toCompactString(): string;
     toPrettyString(): string;
+    toString(): string;
 }

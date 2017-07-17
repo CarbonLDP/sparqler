@@ -1,4 +1,4 @@
-import { Container } from "sparqler/clauses";
+import { Container } from "sparqler/clauses/Container";
 export interface FunctionProperties {
     [method: string]: Function;
 }

@@ -10,61 +10,57 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var clauses_1 = require("sparqler/clauses");
+var Container_1 = require("sparqler/clauses/Container");
+var utils_1 = require("sparqler/clauses/utils");
 var tokens_1 = require("sparqler/patterns/tokens");
 var tokens_2 = require("sparqler/tokens");
-var LimitContainer = (function (_super) {
-    __extends(LimitContainer, _super);
-    function LimitContainer(previousContainer, newTokens, offsetUsed) {
+var CurrentMethod;
+(function (CurrentMethod) {
+    CurrentMethod[CurrentMethod["LIMIT"] = 0] = "LIMIT";
+    CurrentMethod[CurrentMethod["OFFSET"] = 1] = "OFFSET";
+})(CurrentMethod = exports.CurrentMethod || (exports.CurrentMethod = {}));
+var LimitOffsetContainer = (function (_super) {
+    __extends(LimitOffsetContainer, _super);
+    function LimitOffsetContainer(previousContainer, newTokens, currentMethod) {
         var _this = _super.call(this, previousContainer, newTokens) || this;
-        _this._offsetUsed = offsetUsed;
+        _this._offsetUsed = currentMethod === CurrentMethod.OFFSET;
+        _this._limitUsed = currentMethod === CurrentMethod.LIMIT;
         Object.freeze(_this);
         return _this;
     }
-    return LimitContainer;
-}(clauses_1.Container));
-exports.LimitContainer = LimitContainer;
-var OffsetContainer = (function (_super) {
-    __extends(OffsetContainer, _super);
-    function OffsetContainer(previousContainer, newTokens, limitUsed) {
-        var _this = _super.call(this, previousContainer, newTokens) || this;
-        _this._limitUsed = limitUsed;
-        Object.freeze(_this);
-        return _this;
-    }
-    return OffsetContainer;
-}(clauses_1.Container));
-exports.OffsetContainer = OffsetContainer;
+    return LimitOffsetContainer;
+}(Container_1.Container));
+exports.LimitOffsetContainer = LimitOffsetContainer;
 function limit(limit) {
     var tokens = [tokens_1.LIMIT, new tokens_2.NumberLiteral(limit)];
     if (this._offsetUsed) {
-        var container_1 = new clauses_1.Container(this, tokens);
+        var container_1 = new Container_1.Container(this, tokens);
         return this._finishDecorator(container_1, {});
     }
-    var container = new OffsetContainer(this, tokens, true);
-    return this._finishDecorator(container, offsetBuilderDecorator(container, {}));
+    var container = new LimitOffsetContainer(this, tokens, CurrentMethod.LIMIT);
+    return this._finishDecorator(container, offsetDecorator(container, {}));
 }
 exports.limit = limit;
 function offset(offset) {
     var tokens = [tokens_1.OFFSET, new tokens_2.NumberLiteral(offset)];
     if (this._limitUsed) {
-        var container_2 = new clauses_1.Container(this, tokens);
+        var container_2 = new Container_1.Container(this, tokens);
         return this._finishDecorator(container_2, {});
     }
-    var container = new LimitContainer(this, tokens, true);
-    return this._finishDecorator(container, limitBuilderDecorator(container, {}));
+    var container = new LimitOffsetContainer(this, tokens, CurrentMethod.OFFSET);
+    return this._finishDecorator(container, limitDecorator(container, {}));
 }
 exports.offset = offset;
-function limitBuilderDecorator(container, object) {
-    return clauses_1.genericDecorator({ limit: limit }, container, object);
+function limitDecorator(container, object) {
+    return utils_1.genericDecorator({ limit: limit }, container, object);
 }
-exports.limitBuilderDecorator = limitBuilderDecorator;
-function offsetBuilderDecorator(container, object) {
-    return clauses_1.genericDecorator({ offset: offset }, container, object);
+exports.limitDecorator = limitDecorator;
+function offsetDecorator(container, object) {
+    return utils_1.genericDecorator({ offset: offset }, container, object);
 }
-exports.offsetBuilderDecorator = offsetBuilderDecorator;
+exports.offsetDecorator = offsetDecorator;
 function limitOffsetDecorator(container, object) {
-    return clauses_1.genericDecorator({
+    return utils_1.genericDecorator({
         limit: limit,
         offset: offset,
     }, container, object);

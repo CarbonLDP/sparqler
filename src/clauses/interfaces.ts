@@ -78,7 +78,7 @@ export interface OrderClause<T extends FinishClause | GraphPattern> extends Limi
  *      .limit( ... )
  *      .offset( ... ) // Not possible
  */
-export interface LimitOffsetClause<T extends FinishClause | GraphPattern> extends LimitClause<OffsetClause<T> & T>, OffsetClause<LimitClause<T> & T> {}
+export interface LimitOffsetClause<T extends FinishClause | GraphPattern = FinishClause> extends LimitClause<OffsetClause<T> & T>, OffsetClause<LimitClause<T> & T> {}
 
 export interface OffsetClause<T> {
 	offset( offset:number ):T;
@@ -91,4 +91,5 @@ export interface LimitClause<T> {
 export interface FinishClause {
 	toCompactString():string;
 	toPrettyString():string;
+	toString():string;
 }

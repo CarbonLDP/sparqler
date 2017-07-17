@@ -55,7 +55,7 @@ describe( "finishDecorator", ():void => {
 		expect( finishClause.toString.name ).toBe( "bound toPrettyString" );
 	} );
 
-	it( "should extend extend the Object provided", ():void => {
+	it( "should extend the object provided", ():void => {
 		const container:Container = new Container();
 
 		interface MyObject {

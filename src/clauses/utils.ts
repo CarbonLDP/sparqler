@@ -1,4 +1,4 @@
-import { Container } from "sparqler/clauses";
+import { Container } from "sparqler/clauses/Container";
 
 /**
  * Interface to represents the functions to bind by the {@link genericDecorator}
