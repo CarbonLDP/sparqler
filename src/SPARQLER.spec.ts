@@ -512,36 +512,6 @@ xdescribe( "Module SPARQLER", () => {
 			] );
 		} );
 
-		it( "SPARQLER.having()", ():void => {
-			let sparqler:SPARQLER = new SPARQLER();
-			let clause:OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause = sparqler.having( "( ?a )" );
-
-			// Check data stored
-			expect( sparqler[ "_having" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_having" ] ).toEqual( [
-				new Identifier( "HAVING" ),
-				new StringLiteral( "( ?a )" ),
-			] );
-
-			// Check the object returned has the function of WhereClause
-			expect( Object.keys( clause ) ).toEqual( [ "orderBy", "limit", "offset", "toCompactString", "toPrettyString" ] );
-
-			// Are functions
-			expect( clause.orderBy ).toEqual( jasmine.any( Function ) );
-			expect( clause.limit ).toEqual( jasmine.any( Function ) );
-			expect( clause.offset ).toEqual( jasmine.any( Function ) );
-			expect( clause.toCompactString ).toEqual( jasmine.any( Function ) );
-			expect( clause.toPrettyString ).toEqual( jasmine.any( Function ) );
-
-			// Calling the method again replace the stored data
-			sparqler.having( "( AVG(?size) > 10 )" );
-			expect( sparqler[ "_having" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_having" ] ).toEqual( [
-				new Identifier( "HAVING" ),
-				new StringLiteral( "( AVG(?size) > 10 )" ),
-			] );
-		} );
-
 	} );
 
 } );

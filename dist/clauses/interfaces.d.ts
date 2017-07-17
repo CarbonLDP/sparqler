@@ -31,7 +31,7 @@ export interface WhereClause<T extends FinishClause | GraphPattern> {
 export interface GroupClause<T extends FinishClause | GraphPattern> extends HavingClause<T> {
     groupBy(rawCondition: string): HavingClause<T> & T;
 }
-export interface HavingClause<T extends FinishClause | GraphPattern> extends OrderClause<T> {
+export interface HavingClause<T extends FinishClause | GraphPattern = FinishClause> extends OrderClause<T> {
     having(rawCondition: string): OrderClause<T> & T;
 }
 export interface OrderClause<T extends FinishClause | GraphPattern = FinishClause> extends LimitOffsetClause<T> {

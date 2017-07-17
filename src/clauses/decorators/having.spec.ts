@@ -1,36 +1,37 @@
 import {
 	Container,
-	OrderClause,
+	HavingClause,
 } from "sparqler/clauses";
 import * as ContainerModule from "sparqler/clauses/Container";
-import { orderDecorator } from "sparqler/clauses/decorators";
+import { havingDecorator } from "sparqler/clauses/decorators";
 import {
 	Identifier,
 	StringLiteral,
 	Token,
 } from "sparqler/tokens";
 
-describe( "orderDecorator", ():void => {
+describe( "havingDecorator", ():void => {
 
 	it( "should exists", ():void => {
-		expect( orderDecorator ).toBeDefined();
-		expect( orderDecorator ).toEqual( jasmine.any( Function ) );
+		expect( havingDecorator ).toBeDefined();
+		expect( havingDecorator ).toEqual( jasmine.any( Function ) );
 	} );
 
-	it( "should create an OrderClause", ():void => {
+	it( "should create a HavingClause", ():void => {
 		const container:Container = new Container();
-		const orderClause:OrderClause = orderDecorator( container, {} );
+		const havingClause:HavingClause = havingDecorator( container, {} );
 
-		expect( orderClause ).toEqual( {
+		expect( havingClause ).toEqual( {
 			// Self methods
-			orderBy: jasmine.any( Function ),
+			having: jasmine.any( Function ),
 
 			// Inherit methods
+			orderBy: jasmine.any( Function ),
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
 		} );
 
-		expect( orderClause.orderBy.name ).toBe( "bound orderBy" );
+		expect( havingClause.having.name ).toBe( "bound having" );
 	} );
 
 	it( "should extend the object provided", ():void => {
@@ -42,62 +43,62 @@ describe( "orderDecorator", ():void => {
 		}
 
 		const myObject:MyObject = { aProperty: "a property", aFunction: () => {} };
-		const orderClause:OrderClause & MyObject = orderDecorator( container, myObject );
+		const havingClause:HavingClause & MyObject = havingDecorator( container, myObject );
 
-		expect( orderClause ).toEqual( {
+		expect( havingClause ).toEqual( {
 			// Original properties
 			aProperty: jasmine.any( String ) as any as string,
 			aFunction: jasmine.any( Function ),
 
 			// Decorated methods
-			orderBy: jasmine.any( Function ),
+			having: jasmine.any( Function ),
 
+			orderBy: jasmine.any( Function ),
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
 		} );
 
 		// Maintains the object reference
-		expect( orderClause as MyObject ).toBe( myObject );
+		expect( havingClause as MyObject ).toEqual( myObject );
 	} );
 
-	describe( "OrderClause", ():void => {
+	describe( "HavingClause", ():void => {
 
 		it( "should not change content of current container", ():void => {
 			const container:Container = new Container();
-
 			const tokensCopy:Token[] = [].concat( container._tokens );
 
-			const orderClause:OrderClause = orderDecorator( container, {} );
+			const havingClause:HavingClause = havingDecorator( container, {} );
 
-			orderClause.orderBy( "?a" );
+			havingClause.having( "( ?a )" );
 			expect( container._tokens ).toEqual( tokensCopy );
-			orderClause.orderBy( "DESC( ?a )" );
+			havingClause.having( "( AVG(?size) > 10 )" );
 			expect( container._tokens ).toEqual( tokensCopy );
 		} );
 
-		describe( "orderBy", ():void => {
+		describe( "having", ():void => {
 
-			it( "should construct order tokens", ():void => {
+			it( "should construct having tokens", ():void => {
 				const container:Container = new Container();
-				const orderClause:OrderClause = orderDecorator( container, {} );
+				const havingClause:HavingClause = havingDecorator( container, {} );
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
 					return newContainer = new Container( ...args );
 				} );
 
-				orderClause.orderBy( "?a" );
-				expect( spy ).toHaveBeenCalled();
+				havingClause.having( "( ?a )" );
+				expect( spy ).toHaveBeenCalledTimes( 1 );
 				expect( newContainer._tokens ).toEqual( [
-					new Identifier( "ORDER" ), new Identifier( "BY" ),
-					new StringLiteral( "?a" ),
+					new Identifier( "HAVING" ),
+					new StringLiteral( "( ?a )" ),
 				] );
 
-				orderClause.orderBy( "DESC( ?a )" );
-				expect( spy ).toHaveBeenCalled();
+				havingClause.having( "( AVG(?size) > 10 )" );
+				expect( spy ).toHaveBeenCalledTimes( 2 );
 				expect( newContainer._tokens ).toEqual( [
-					new Identifier( "ORDER" ), new Identifier( "BY" ),
-					new StringLiteral( "DESC( ?a )" ),
+					new Identifier( "HAVING" ),
+					new StringLiteral( "( AVG(?size) > 10 )" ),
 				] );
 			} );
 

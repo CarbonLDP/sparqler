@@ -42,7 +42,7 @@ export interface GroupClause<T extends FinishClause | GraphPattern> extends Havi
 	groupBy( rawCondition:string ):HavingClause<T> & T;
 }
 
-export interface HavingClause<T extends FinishClause | GraphPattern> extends OrderClause<T> {
+export interface HavingClause<T extends FinishClause | GraphPattern = FinishClause> extends OrderClause<T> {
 	// TODO: create having condition expressions
 	having( rawCondition:string ):OrderClause<T> & T;
 }
