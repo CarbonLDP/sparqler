@@ -481,37 +481,6 @@ xdescribe( "Module SPARQLER", () => {
 
 		} );
 
-		it( "SPARQLER.groupBy()", ():void => {
-			let sparqler:SPARQLER = new SPARQLER();
-			let clause:HavingClause<FinishClause> & OrderClause<FinishClause> & LimitOffsetClause<FinishClause> & FinishClause = sparqler.groupBy( "?a" );
-
-			// Check data stored
-			expect( sparqler[ "_group" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_group" ] ).toEqual( [
-				new Identifier( "GROUP" ), new Identifier( "BY" ),
-				new StringLiteral( "?a" ),
-			] );
-
-			// Check the object returned has the function of WhereClause
-			expect( Object.keys( clause ) ).toEqual( [ "having", "orderBy", "limit", "offset", "toCompactString", "toPrettyString" ] );
-
-			// Are functions
-			expect( clause.having ).toEqual( jasmine.any( Function ) );
-			expect( clause.orderBy ).toEqual( jasmine.any( Function ) );
-			expect( clause.limit ).toEqual( jasmine.any( Function ) );
-			expect( clause.offset ).toEqual( jasmine.any( Function ) );
-			expect( clause.toCompactString ).toEqual( jasmine.any( Function ) );
-			expect( clause.toPrettyString ).toEqual( jasmine.any( Function ) );
-
-			// Calling the method again replace the stored data
-			sparqler.groupBy( "DESC ( ?a )" );
-			expect( sparqler[ "_group" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_group" ] ).toEqual( [
-				new Identifier( "GROUP" ), new Identifier( "BY" ),
-				new StringLiteral( "DESC ( ?a )" ),
-			] );
-		} );
-
 	} );
 
 } );

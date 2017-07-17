@@ -37,7 +37,7 @@ export interface WhereClause<T extends FinishClause | GraphPattern> {
 	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[] ):GroupClause<T> & T;
 }
 
-export interface GroupClause<T extends FinishClause | GraphPattern> extends HavingClause<T> {
+export interface GroupClause<T extends FinishClause | GraphPattern = FinishClause> extends HavingClause<T> {
 	// TODO: create group condition expressions
 	groupBy( rawCondition:string ):HavingClause<T> & T;
 }

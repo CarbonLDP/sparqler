@@ -1,11 +1,11 @@
 import {
-	Container,
 	FinishClause,
-	genericDecorator,
 	GroupClause,
 	HavingClause,
 } from "sparqler/clauses";
+import { Container } from "sparqler/clauses/Container";
 import { havingDecorator } from "sparqler/clauses/decorators";
+import { genericDecorator } from "sparqler/clauses/utils";
 import { GraphPattern } from "sparqler/patterns";
 import {
 	BY,
