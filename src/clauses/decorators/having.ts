@@ -13,7 +13,16 @@ import {
 	Token,
 } from "sparqler/tokens";
 
-
+/**
+ * Set a condition to filter the sequence of solutions the query will
+ * retrieve.
+ *
+ * Notice: The current version of SPARQLER does not evaluate the condition
+ * for possible errors
+ *
+ * @param rawCondition Raw condition to be applied for the solutions filtering.
+ * @returns Object with the methods to keep constructing the query.
+ */
 function having<T extends FinishClause | GraphPattern>( this:Container<T>, rawCondition:string ):OrderClause<T> & T {
 	const tokens:Token[] = [ HAVING, new StringLiteral( rawCondition ) ];
 
@@ -21,6 +30,14 @@ function having<T extends FinishClause | GraphPattern>( this:Container<T>, rawCo
 	return this._finishDecorator<OrderClause<T>>( container, orderDecorator<T, {}>( container, {} ) );
 }
 
+/**
+ * Decorator that bind the HavingClause methods to a container and adds them
+ * to the provided object.
+ *
+ * @param container The container to bind the methods
+ * @param object Object to be decorated with the bound methods.
+ * @returns The same object provided that has been decorated.
+ */
 export function havingDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & HavingClause<T> {
 	return genericDecorator( { having }, container, orderDecorator<T, W>( container, object ) );
 }
