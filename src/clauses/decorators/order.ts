@@ -23,7 +23,7 @@ import {
  * Notice: The current version of SPARQLER does not evaluate the condition
  * for possible errors.
  *
- * @param rawCondition RAW condition to be applied for the solutions order.
+ * @param rawCondition Raw condition to be applied for the solutions order.
  * @returns Object with the methods to keep constructing the query.
  */
 export function orderBy<T extends FinishClause | GraphPattern>( this:Container<T>, rawCondition:string ):LimitOffsetClause<T> & T {
@@ -34,10 +34,10 @@ export function orderBy<T extends FinishClause | GraphPattern>( this:Container<T
 }
 
 /**
- * Decorator that bind the OrderClause methods to a container and adds them
+ * Decorator that binds the OrderClause methods to a container and adds them
  * to the provided object.
  *
- * @param container The container to bind the methods
+ * @param container The container where to bind the respective methods.
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */

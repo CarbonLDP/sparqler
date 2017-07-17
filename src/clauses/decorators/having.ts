@@ -31,10 +31,10 @@ function having<T extends FinishClause | GraphPattern>( this:Container<T>, rawCo
 }
 
 /**
- * Decorator that bind the HavingClause methods to a container and adds them
+ * Decorator that binds the HavingClause methods to a container and adds them
  * to the provided object.
  *
- * @param container The container to bind the methods
+ * @param container The container where to bind the respective methods.
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */

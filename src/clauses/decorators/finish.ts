@@ -166,8 +166,10 @@ function toPrettyString( this:Container<FinishClause> ):string {
 }
 
 /**
- * Decorator that adds the FinishClause methods to the provided object.
- * @param container The data container where to bind the respective methods.
+ * Decorator that binds the FinishClause methods to a container and adds them
+ * to the provided object.
+ *
+ * @param container The container where to bind the respective methods.
  * @param object The object to add the bound methods.
  * @returns The same object provided that has been decorated.
  */
