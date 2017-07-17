@@ -216,7 +216,7 @@ describe( "limitOffsetDecorator", ():void => {
 
 	describe( "LimitOffsetClause", ():void => {
 
-		it( "should methods don't change content of current container", ():void => {
+		it( "should not change content of current container", ():void => {
 			const container:Container = new Container();
 
 			const tokensCopy:Token[] = [].concat( container._tokens );

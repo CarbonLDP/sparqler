@@ -1,11 +1,11 @@
+import { Container } from "sparqler/clauses/Container";
+import { limitOffsetDecorator } from "sparqler/clauses/decorators";
 import {
-	Container,
 	FinishClause,
-	genericDecorator,
 	LimitOffsetClause,
 	OrderClause,
-} from "sparqler/clauses";
-import { limitOffsetDecorator } from "sparqler/clauses/decorators";
+} from "sparqler/clauses/interfaces";
+import { genericDecorator } from "sparqler/clauses/utils";
 import { GraphPattern } from "sparqler/patterns";
 import {
 	BY,

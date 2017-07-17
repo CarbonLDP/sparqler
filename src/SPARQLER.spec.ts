@@ -542,35 +542,6 @@ xdescribe( "Module SPARQLER", () => {
 			] );
 		} );
 
-		it( "SPARQLER.orderBy()", ():void => {
-			let sparqler:SPARQLER = new SPARQLER();
-			let clause:LimitOffsetClause<FinishClause> & FinishClause = sparqler.orderBy( "?a" );
-
-			// Check data stored
-			expect( sparqler[ "_order" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_order" ] ).toEqual( [
-				new Identifier( "ORDER" ), new Identifier( "BY" ),
-				new StringLiteral( "?a" ),
-			] );
-
-			// Check the object returned has the function of WhereClause
-			expect( Object.keys( clause ) ).toEqual( [ "limit", "offset", "toCompactString", "toPrettyString" ] );
-
-			// Are functions
-			expect( clause.limit ).toEqual( jasmine.any( Function ) );
-			expect( clause.offset ).toEqual( jasmine.any( Function ) );
-			expect( clause.toCompactString ).toEqual( jasmine.any( Function ) );
-			expect( clause.toPrettyString ).toEqual( jasmine.any( Function ) );
-
-			// Calling the method again replace the stored data
-			sparqler.orderBy( "DESC ( ?a )" );
-			expect( sparqler[ "_order" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_order" ] ).toEqual( [
-				new Identifier( "ORDER" ), new Identifier( "BY" ),
-				new StringLiteral( "DESC ( ?a )" ),
-			] );
-		} );
-
 	} );
 
 } );

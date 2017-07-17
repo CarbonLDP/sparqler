@@ -47,7 +47,7 @@ export interface HavingClause<T extends FinishClause | GraphPattern> extends Ord
 	having( rawCondition:string ):OrderClause<T> & T;
 }
 
-export interface OrderClause<T extends FinishClause | GraphPattern> extends LimitOffsetClause<T> {
+export interface OrderClause<T extends FinishClause | GraphPattern = FinishClause> extends LimitOffsetClause<T> {
 	// TODO: create order condition expressions
 	orderBy( rawCondition:string ):LimitOffsetClause<T> & T;
 }
