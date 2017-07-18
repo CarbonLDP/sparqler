@@ -6,6 +6,7 @@ import {
 import * as ContainerModule from "sparqler/clauses/Container";
 import { fromDecorator, } from "sparqler/clauses/decorators";
 import { IRIResolver } from "sparqler/iri";
+import * as IRIResolverModule from "sparqler/iri/IRIResolver";
 import {
 	CLOSE_IRI,
 	FROM,
@@ -79,26 +80,35 @@ describe( "fromDecorator", ():void => {
 	} );
 
 
-	describe( "FromClause", ():void => {
-
-		it( "should not change content of current container", ():void => {
-			const container:Container = new Container();
-
-			const originalTokensReference:Token[] = container._tokens;
-			const tokensCopy:Token[] = [].concat( container._tokens );
-
-			const fromClause:FromClause = fromDecorator( container, {} );
-
-			fromClause.from( "resource/" );
-			expect( container._tokens ).toEqual( tokensCopy );
-			expect( container._tokens ).toBe( originalTokensReference );
-
-			fromClause.fromNamed( "resource/" );
-			expect( container._tokens ).toEqual( tokensCopy );
-			expect( container._tokens ).toBe( originalTokensReference );
-		} );
+	fdescribe( "FromClause", ():void => {
 
 		describe( "from", ():void => {
+
+			it( "should not change content of current container", ():void => {
+				const container:Container = new Container();
+				container._iriResolver._prefixes.set( "ex", false );
+
+				const originalTokensReference:Token[] = container._tokens;
+				const tokensCopy:Token[] = [].concat( container._tokens );
+				const originalIRIResolver:IRIResolver = container._iriResolver;
+				const iriResolverCopy:IRIResolver = new IRIResolver( container._iriResolver );
+
+				const fromClause:FromClause = fromDecorator( container, {} );
+
+				fromClause.from( "resource/" );
+				expect( container._tokens ).toEqual( tokensCopy );
+				expect( container._tokens ).toBe( originalTokensReference );
+
+				expect( container._iriResolver ).toEqual( iriResolverCopy );
+				expect( container._iriResolver ).toBe( originalIRIResolver );
+
+				fromClause.from( "ex:resource" );
+				expect( container._tokens ).toEqual( tokensCopy );
+				expect( container._tokens ).toBe( originalTokensReference );
+
+				expect( container._iriResolver ).toEqual( iriResolverCopy );
+				expect( container._iriResolver ).toBe( originalIRIResolver );
+			} );
 
 			it( "should construct base `from` tokens", ():void => {
 				const container:Container = new Container();
@@ -118,13 +128,18 @@ describe( "fromDecorator", ():void => {
 			} );
 
 			it( "should resolve IRIs provided", ():void => {
-				// Extend IRIResolver to be able to spy on it
-				const mockIRIResolver:IRIResolver = new class extends IRIResolver {};
-				const container:Container = new Container( null, null, mockIRIResolver );
+				const container:Container = new Container();
 
 				const fromClause:FromClause = fromDecorator( container, {} );
 
-				const spy:jasmine.Spy = spyOn( container._iriResolver, "resolve" );
+				let spy:jasmine.Spy = void 0;
+				spyOn( IRIResolverModule, "IRIResolver" ).and.callFake( ( ...args ) => {
+					// Extend IRIResolver to be able to spy on it
+					const iriResolver:IRIResolver = new class extends IRIResolver {}( ...args );
+					spy = spyOn( iriResolver, "resolve" );
+
+					return iriResolver;
+				} );
 
 				fromClause.from( "resource/" );
 				expect( spy ).toHaveBeenCalledWith( "resource/" );
@@ -136,6 +151,32 @@ describe( "fromDecorator", ():void => {
 		} );
 
 		describe( "fromNamed", ():void => {
+
+			it( "should not change content of current container", ():void => {
+				const container:Container = new Container();
+				container._iriResolver._prefixes.set( "ex", false );
+
+				const originalTokensReference:Token[] = container._tokens;
+				const tokensCopy:Token[] = [].concat( container._tokens );
+				const originalIRIResolver:IRIResolver = container._iriResolver;
+				const iriResolverCopy:IRIResolver = new IRIResolver( container._iriResolver );
+
+				const fromClause:FromClause = fromDecorator( container, {} );
+
+				fromClause.fromNamed( "resource/" );
+				expect( container._tokens ).toEqual( tokensCopy );
+				expect( container._tokens ).toBe( originalTokensReference );
+
+				expect( container._iriResolver ).toEqual( iriResolverCopy );
+				expect( container._iriResolver ).toBe( originalIRIResolver );
+
+				fromClause.fromNamed( "ex:resource" );
+				expect( container._tokens ).toEqual( tokensCopy );
+				expect( container._tokens ).toBe( originalTokensReference );
+
+				expect( container._iriResolver ).toEqual( iriResolverCopy );
+				expect( container._iriResolver ).toBe( originalIRIResolver );
+			} );
 
 			it( "should construct base `fromNamed` tokens", ():void => {
 				const container:Container = new Container();
@@ -156,12 +197,18 @@ describe( "fromDecorator", ():void => {
 
 			it( "should resolve IRIs provided", ():void => {
 				// Extend IRIResolver to be able to spy on it
-				const mockIRIResolver:IRIResolver = new class extends IRIResolver {};
-				const container:Container = new Container( null, null, mockIRIResolver );
+				const container:Container = new Container();
 
 				const fromClause:FromClause = fromDecorator( container, {} );
 
-				const spy:jasmine.Spy = spyOn( container._iriResolver, "resolve" );
+				let spy:jasmine.Spy = void 0;
+				spyOn( IRIResolverModule, "IRIResolver" ).and.callFake( ( ...args ) => {
+					// Extend IRIResolver to be able to spy on it
+					const iriResolver:IRIResolver = new class extends IRIResolver {}( ...args );
+					spy = spyOn( iriResolver, "resolve" );
+
+					return iriResolver;
+				} );
 
 				fromClause.fromNamed( "resource/" );
 				expect( spy ).toHaveBeenCalledWith( "resource/" );

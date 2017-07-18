@@ -6,6 +6,7 @@ import {
 import { Container } from "sparqler/clauses/Container";
 import { whereDecorator } from "sparqler/clauses/decorators";
 import { genericDecorator } from "sparqler/clauses/utils";
+import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	FROM,
 	NAMED,
@@ -23,9 +24,10 @@ import { Token } from "sparqler/tokens";
  * @private
  */
 function _from<T extends FinishClause>( self:Container<T>, tokens:Token[], iri:string ):WhereClause<T> {
-	tokens.push( ...self._iriResolver.resolve( iri ) );
+	const iriResolver:IRIResolver = new IRIResolver( self._iriResolver );
+	tokens.push( ...iriResolver.resolve( iri ) );
 
-	const container:Container<T> = new Container<T>( self, tokens );
+	const container:Container<T> = new Container<T>( self, tokens, iriResolver );
 	return whereDecorator<T, {}>( container, {} );
 }
 

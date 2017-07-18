@@ -167,5 +167,10 @@ gulp.task( "test:node", () => {
 					displayStacktrace: true,
 				}
 			} ),
+			config: {
+				helpers: [
+					"test/es6-map.helper.js",
+				]
+			}
 		} ) );
 } );

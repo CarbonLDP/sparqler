@@ -3,10 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = require("sparqler/clauses/Container");
 var decorators_1 = require("sparqler/clauses/decorators");
 var utils_1 = require("sparqler/clauses/utils");
+var IRIResolver_1 = require("sparqler/iri/IRIResolver");
 var tokens_1 = require("sparqler/patterns/tokens");
 function _from(self, tokens, iri) {
-    tokens.push.apply(tokens, self._iriResolver.resolve(iri));
-    var container = new Container_1.Container(self, tokens);
+    var iriResolver = new IRIResolver_1.IRIResolver(self._iriResolver);
+    tokens.push.apply(tokens, iriResolver.resolve(iri));
+    var container = new Container_1.Container(self, tokens, iriResolver);
     return decorators_1.whereDecorator(container, {});
 }
 function from(iri) {
