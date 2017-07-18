@@ -1,11 +1,11 @@
 import {
-	Container,
 	FinishClause,
 	FromClause,
-	genericDecorator,
 	WhereClause,
 } from "sparqler/clauses";
+import { Container } from "sparqler/clauses/Container";
 import { whereDecorator } from "sparqler/clauses/decorators";
+import { genericDecorator } from "sparqler/clauses/utils";
 import {
 	FROM,
 	NAMED,

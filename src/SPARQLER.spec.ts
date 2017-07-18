@@ -331,65 +331,6 @@ xdescribe( "Module SPARQLER", () => {
 			] );
 		} );
 
-		it( "SPARQLER.from()", ():void => {
-			let sparqler:SPARQLER = new SPARQLER();
-			let clause:WhereClause<FinishClause> = sparqler.from( "http://example.com/resource/" );
-
-			// Check data stored
-			expect( sparqler[ "_from" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_from" ] ).toEqual( [
-				new Identifier( "FROM" ),
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/resource/" ), new RightSymbol( ">" ),
-			] );
-
-			// Check the object returned has the function of WhereClause
-			expect( Object.keys( clause ) ).toEqual( [ "where" ] );
-
-			// Are functions
-			expect( clause.where ).toEqual( jasmine.any( Function ) );
-
-			// Calling the method again override the stored data
-			sparqler.from( "http://example.com/another-resource/" );
-			expect( sparqler[ "_from" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_from" ] ).toEqual( [
-				new Identifier( "FROM" ),
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/another-resource/" ), new RightSymbol( ">" ),
-			] );
-		} );
-
-		it( "SPARQLER.fromNamed()", ():void => {
-			let sparqler:SPARQLER = new SPARQLER();
-			let clause:WhereClause<FinishClause> = sparqler.fromNamed( "http://example.com/resource/" );
-
-			// Check data stored
-			expect( sparqler[ "_from" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_from" ] ).toEqual( [
-				new Identifier( "FROM" ), new Identifier( "NAMED" ),
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/resource/" ), new RightSymbol( ">" ),
-			] );
-
-			// Check the object returned has the function of WhereClause
-			expect( Object.keys( clause ) ).toEqual( [ "where" ] );
-
-			// Are functions
-			expect( clause.where ).toEqual( jasmine.any( Function ) );
-
-			// Calling a `from` method replace the stored data
-			sparqler.from( "http://example.com/resource/" );
-			expect( sparqler[ "_from" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_from" ] ).toEqual( [
-				new Identifier( "FROM" ),
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/resource/" ), new RightSymbol( ">" ),
-			] );
-
-			sparqler.fromNamed( "http://example.com/another-resource/" );
-			expect( sparqler[ "_from" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_from" ] ).toEqual( [
-				new Identifier( "FROM" ), new Identifier( "NAMED" ),
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/another-resource/" ), new RightSymbol( ">" ),
-			] );
-		} );
-
 	} );
 
 } );

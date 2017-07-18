@@ -27,7 +27,7 @@ export interface SubSelect {
 	selectAllReduced():WhereClause<GraphPattern>;
 }
 
-export interface FromClause<T extends FinishClause> extends WhereClause<T> {
+export interface FromClause<T extends FinishClause = FinishClause> extends WhereClause<T> {
 	from( iri:string ):WhereClause<T>;
 	fromNamed( iri:string ):WhereClause<T>;
 }
