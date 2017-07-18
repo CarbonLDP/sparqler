@@ -28,8 +28,8 @@ export interface SubSelect {
 }
 
 export interface FromClause<T extends FinishClause = FinishClause> extends WhereClause<T> {
-	from( iri:string ):WhereClause<T>;
-	fromNamed( iri:string ):WhereClause<T>;
+	from( iri:string ):FromClause<T>;
+	fromNamed( iri:string ):FromClause<T>;
 }
 
 export interface WhereClause<T extends FinishClause | GraphPattern = FinishClause> {

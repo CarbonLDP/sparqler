@@ -1,7 +1,6 @@
 import {
 	Container,
 	FromClause,
-	WhereClause,
 } from "sparqler/clauses";
 import * as ContainerModule from "sparqler/clauses/Container";
 import { fromDecorator, } from "sparqler/clauses/decorators";
@@ -73,14 +72,17 @@ describe( "fromDecorator", ():void => {
 		const container:Container = new Container();
 		const fromClause:FromClause = fromDecorator( container, {} );
 
-		const groupFinishClause:WhereClause = fromClause.from( "resource/" );
+		const groupFinishClause:FromClause = fromClause.from( "resource/" );
 		expect( groupFinishClause ).toEqual( {
+			from: jasmine.any( Function ),
+			fromNamed: jasmine.any( Function ),
+
 			where: jasmine.any( Function ),
 		} );
 	} );
 
 
-	fdescribe( "FromClause", ():void => {
+	describe( "FromClause", ():void => {
 
 		describe( "from", ():void => {
 

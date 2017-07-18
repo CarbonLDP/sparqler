@@ -9,7 +9,7 @@ function _from(self, tokens, iri) {
     var iriResolver = new IRIResolver_1.IRIResolver(self._iriResolver);
     tokens.push.apply(tokens, iriResolver.resolve(iri));
     var container = new Container_1.Container(self, tokens, iriResolver);
-    return decorators_1.whereDecorator(container, {});
+    return fromDecorator(container, {});
 }
 function from(iri) {
     return _from(this, [tokens_1.FROM], iri);

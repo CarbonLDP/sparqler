@@ -1,7 +1,6 @@
 import {
 	FinishClause,
 	FromClause,
-	WhereClause,
 } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
 import { whereDecorator } from "sparqler/clauses/decorators";
@@ -23,12 +22,12 @@ import { Token } from "sparqler/tokens";
  * @returns Object with the methods to keep constructing to query.
  * @private
  */
-function _from<T extends FinishClause>( self:Container<T>, tokens:Token[], iri:string ):WhereClause<T> {
+function _from<T extends FinishClause>( self:Container<T>, tokens:Token[], iri:string ):FromClause<T> {
 	const iriResolver:IRIResolver = new IRIResolver( self._iriResolver );
 	tokens.push( ...iriResolver.resolve( iri ) );
 
 	const container:Container<T> = new Container<T>( self, tokens, iriResolver );
-	return whereDecorator<T, {}>( container, {} );
+	return fromDecorator<T, {}>( container, {} );
 }
 
 /**
@@ -38,7 +37,7 @@ function _from<T extends FinishClause>( self:Container<T>, tokens:Token[], iri:s
  * @param iri IRI of the default graph to be included.
  * @returns Object with the methods to keep constructing to query.
  */
-function from<T extends FinishClause>( this:Container<T>, iri:string ):WhereClause<T> {
+function from<T extends FinishClause>( this:Container<T>, iri:string ):FromClause<T> {
 	return _from<T>( this, [ FROM ], iri );
 }
 
@@ -49,7 +48,7 @@ function from<T extends FinishClause>( this:Container<T>, iri:string ):WhereClau
  * @param iri IRI of the named graph to be included.
  * @returns Object with the methods to keep constructing the query.
  */
-function fromNamed<T extends FinishClause>( this:Container<T>, iri:string ):WhereClause<T> {
+function fromNamed<T extends FinishClause>( this:Container<T>, iri:string ):FromClause<T> {
 	return _from<T>( this, [ FROM, NAMED ], iri );
 }
 
