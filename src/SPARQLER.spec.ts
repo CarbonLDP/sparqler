@@ -20,13 +20,13 @@ import { PatternBuilder } from "./patterns/PatternBuilder";
 import { NewLineSymbol } from "./tokens/NewLineSymbol";
 import {
 	Token,
-	TokenFormat
+	TokenFormat,
 } from "./tokens/Token";
 import { NumberLiteral } from "./tokens/NumberLiteral";
 import {
 	OPEN_MULTI_BLOCK,
 	CLOSE_MULTI_BLOCK,
-	EMPTY_SEPARATOR
+	EMPTY_SEPARATOR,
 } from "./patterns/tokens";
 import { Operator } from "./tokens/Operator";
 
@@ -388,97 +388,6 @@ xdescribe( "Module SPARQLER", () => {
 				new Identifier( "FROM" ), new Identifier( "NAMED" ),
 				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/another-resource/" ), new RightSymbol( ">" ),
 			] );
-		} );
-
-		it( "SPARQLER.where()", ():void => {
-			let sparqler:SPARQLER = new SPARQLER();
-			let clause:SolutionModifier<FinishClause> & FinishClause = sparqler.where( ( patternBuilder:PatternBuilder ) => {
-
-				// Check a pattern builder has been provided
-				expect( patternBuilder ).toEqual( jasmine.any( PatternBuilder ) );
-
-				// Empty where statement
-				return [];
-			} );
-
-			// Check data stored
-			expect( sparqler[ "_where" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_where" ] ).toEqual( [
-				new Identifier( "WHERE" ),
-				new LeftSymbol( "{" ),
-				new RightSymbol( "}" ),
-			] );
-
-			// Check the object returned has the function of WhereClause
-			expect( Object.keys( clause ) ).toEqual( [ "groupBy", "having", "orderBy", "limit", "offset", "toCompactString", "toPrettyString" ] );
-
-			// Are functions
-			expect( clause.groupBy ).toEqual( jasmine.any( Function ) );
-			expect( clause.having ).toEqual( jasmine.any( Function ) );
-			expect( clause.orderBy ).toEqual( jasmine.any( Function ) );
-			expect( clause.limit ).toEqual( jasmine.any( Function ) );
-			expect( clause.offset ).toEqual( jasmine.any( Function ) );
-			expect( clause.toCompactString ).toEqual( jasmine.any( Function ) );
-			expect( clause.toPrettyString ).toEqual( jasmine.any( Function ) );
-
-			class MockToken extends Token {
-				protected getPrettySeparator():string {
-					return "";
-				}
-
-				protected getCompactSeparator():string {
-					return "";
-				}
-			}
-
-			// Test different patterns returned
-
-			sparqler.where( () => {
-				// Single pattern
-				return { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] };
-			} );
-
-			// Check data stored
-			expect( sparqler[ "_where" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_where" ] ).toEqual( [
-				new Identifier( "WHERE" ),
-				new LeftSymbol( "{" ),
-				new MockToken( "token-1" ), new MockToken( "token-2" ),
-				new RightSymbol( "}" ),
-			] );
-			sparqler.where( () => {
-				// Single pattern in an array
-				return [
-					{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
-				];
-			} );
-
-			// Check data stored
-			expect( sparqler[ "_where" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_where" ] ).toEqual( [
-				new Identifier( "WHERE" ),
-				new LeftSymbol( "{" ),
-				new MockToken( "token-1" ), new MockToken( "token-2" ),
-				new RightSymbol( "}" ),
-			] );
-			sparqler.where( () => {
-				// Multiple patterns
-				return [
-					{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
-					{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
-				];
-			} );
-
-			// Check data stored
-			expect( sparqler[ "_where" ] ).toEqual( jasmine.any( Array ) );
-			expect( sparqler[ "_where" ] ).toEqual( [
-				new Identifier( "WHERE" ),
-				new NewLineSymbol( "{" ),
-				new MockToken( "token-1" ), new MockToken( "token-2" ), new NewLineSymbol( "." ),
-				new MockToken( "token-3" ), new MockToken( "token-4" ),
-				new NewLineSymbol( "}" ),
-			] );
-
 		} );
 
 	} );

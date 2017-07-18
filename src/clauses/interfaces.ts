@@ -32,9 +32,8 @@ export interface FromClause<T extends FinishClause> extends WhereClause<T> {
 	fromNamed( iri:string ):WhereClause<T>;
 }
 
-export interface WhereClause<T extends FinishClause | GraphPattern> {
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern ):GroupClause<T> & T;
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern[] ):GroupClause<T> & T;
+export interface WhereClause<T extends FinishClause | GraphPattern = FinishClause> {
+	where( patternFunction:( builder:PatternBuilder ) => GraphPattern | GraphPattern[] ):GroupClause<T> & T;
 }
 
 export interface GroupClause<T extends FinishClause | GraphPattern = FinishClause> extends HavingClause<T> {

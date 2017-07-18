@@ -1,11 +1,11 @@
+import { Container } from "sparqler/clauses/Container";
+import { groupDecorator } from "sparqler/clauses/decorators";
 import {
-	Container,
 	FinishClause,
-	genericDecorator,
 	GroupClause,
 	WhereClause,
-} from "sparqler/clauses";
-import { groupDecorator } from "sparqler/clauses/decorators";
+} from "sparqler/clauses/interfaces";
+import { genericDecorator } from "sparqler/clauses/utils";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	GraphPattern,
@@ -26,5 +26,5 @@ function where<T extends FinishClause | GraphPattern>( this:Container<T>, patter
 }
 
 export function whereDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & WhereClause<T> {
-	return genericDecorator( { where }, container, groupDecorator<T, W>( container, object ) );
+	return genericDecorator( { where }, container, object );
 }
