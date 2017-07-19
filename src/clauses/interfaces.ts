@@ -9,7 +9,7 @@ export interface QueryClause<T extends FinishClause> extends SelectClause<T> {
 	prefix( name:string, iri:string ):QueryClause<T>;
 }
 
-export interface SelectClause<T extends FinishClause> {
+export interface SelectClause<T extends FinishClause = FinishClause> {
 	select( ...variables:string[] ):FromClause<T>;
 	selectDistinct( ...variables:string[] ):FromClause<T>;
 	selectReduced( ...variables:string[] ):FromClause<T>;

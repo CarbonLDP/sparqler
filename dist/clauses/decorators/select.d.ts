@@ -1,4 +1,5 @@
-import { Container, FinishClause, FinishDecorator, SelectClause, SubSelect } from "sparqler/clauses";
+import { Container, FinishDecorator } from "sparqler/clauses/Container";
+import { FinishClause, SelectClause, SubSelect } from "sparqler/clauses/interfaces";
 import { GraphPattern } from "sparqler/patterns";
 import { Token } from "sparqler/tokens";
 export declare class SubSelectContainer extends Container<GraphPattern> {

@@ -10,8 +10,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var clauses_1 = require("sparqler/clauses");
+var Container_1 = require("sparqler/clauses/Container");
 var decorators_1 = require("sparqler/clauses/decorators");
+var utils_1 = require("sparqler/clauses/utils");
 var tokens_1 = require("sparqler/patterns/tokens");
 var tokens_2 = require("sparqler/tokens");
 var SubSelectContainer = (function (_super) {
@@ -23,14 +24,14 @@ var SubSelectContainer = (function (_super) {
         return _this;
     }
     return SubSelectContainer;
-}(clauses_1.Container));
+}(Container_1.Container));
 exports.SubSelectContainer = SubSelectContainer;
 function _select(self, tokens, variables) {
     if (variables && variables.length === 0)
-        throw new Error("IllegalArgumentError: Need to provide al least one variable.");
+        throw new Error("Need to provide al least one variable.");
     if (variables)
         variables.forEach(function (variable) { return tokens.push(tokens_1.VAR_SYMBOL, new tokens_2.StringLiteral(variable)); });
-    var container = new clauses_1.Container(self, tokens);
+    var container = new Container_1.Container(self, tokens);
     if (self._finishDecorator === decorators_1.graphPatternDecorator)
         return decorators_1.whereDecorator(container, {});
     return decorators_1.fromDecorator(container, {});
@@ -66,7 +67,7 @@ function selectAllReduced() {
     return _select(this, [tokens_1.SELECT, tokens_1.REDUCED, tokens_1.ALL]);
 }
 function selectDecorator(container, object) {
-    return clauses_1.genericDecorator({
+    return utils_1.genericDecorator({
         select: select,
         selectDistinct: selectDistinct,
         selectReduced: selectReduced,
@@ -77,7 +78,7 @@ function selectDecorator(container, object) {
 }
 exports.selectDecorator = selectDecorator;
 function subSelectDecorator(container, object) {
-    return clauses_1.genericDecorator({
+    return utils_1.genericDecorator({
         select: select,
         selectDistinct: selectDistinct,
         selectReduced: selectReduced,

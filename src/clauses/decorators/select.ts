@@ -1,18 +1,20 @@
 import {
 	Container,
-	FinishClause,
 	FinishDecorator,
-	FromClause,
-	genericDecorator,
-	SelectClause,
-	SubSelect,
-	WhereClause,
-} from "sparqler/clauses";
+} from "sparqler/clauses/Container";
 import {
 	fromDecorator,
 	graphPatternDecorator,
 	whereDecorator,
 } from "sparqler/clauses/decorators";
+import {
+	FinishClause,
+	FromClause,
+	SelectClause,
+	SubSelect,
+	WhereClause,
+} from "sparqler/clauses/interfaces";
+import { genericDecorator } from "sparqler/clauses/utils";
 import { GraphPattern } from "sparqler/patterns";
 import {
 	ALL,
@@ -39,7 +41,7 @@ export class SubSelectContainer extends Container<GraphPattern> {
 }
 
 function _select<T extends FinishClause>( self:Container<T | GraphPattern> | SubSelectContainer, tokens:Token[], variables?:string[] ):WhereClause<GraphPattern> | FromClause<T> {
-	if( variables && variables.length === 0 ) throw new Error( "IllegalArgumentError: Need to provide al least one variable." );
+	if( variables && variables.length === 0 ) throw new Error( "Need to provide al least one variable." );
 
 	if( variables ) variables.forEach( variable => tokens.push( VAR_SYMBOL, new StringLiteral( variable ) ) );
 
@@ -53,18 +55,23 @@ function _select<T extends FinishClause>( self:Container<T | GraphPattern> | Sub
 function select<T extends FinishClause>( this:Container<T>, ...variables:string[] ):FromClause<T> {
 	return _select<T>( this, [ SELECT ], variables ) as FromClause<T>;
 }
+
 function selectDistinct<T extends FinishClause>( this:Container<T>, ...variables:string[] ):FromClause<T> {
 	return _select<T>( this, [ SELECT, DISTINCT ], variables ) as FromClause<T>;
 }
+
 function selectReduced<T extends FinishClause>( this:Container<T>, ...variables:string[] ):FromClause<T> {
 	return _select<T>( this, [ SELECT, REDUCED ], variables ) as FromClause<T>;
 }
+
 function selectAll<T extends FinishClause>( this:Container<T> ):FromClause<T> {
 	return _select<T>( this, [ SELECT, ALL ] ) as FromClause<T>;
 }
+
 function selectAllDistinct<T extends FinishClause>( this:Container<T> ):FromClause<T> {
 	return _select<T>( this, [ SELECT, DISTINCT, ALL ] ) as FromClause<T>;
 }
+
 function selectAllReduced<T extends FinishClause>( this:Container<T> ):FromClause<T> {
 	return _select<T>( this, [ SELECT, REDUCED, ALL ] ) as FromClause<T>;
 }

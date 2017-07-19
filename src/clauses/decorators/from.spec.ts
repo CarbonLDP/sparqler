@@ -112,7 +112,7 @@ describe( "fromDecorator", ():void => {
 				expect( container._iriResolver ).toBe( originalIRIResolver );
 			} );
 
-			it( "should construct base `from` tokens", ():void => {
+			it( "should construct `from` tokens", ():void => {
 				const container:Container = new Container();
 				const fromClause:FromClause = fromDecorator( container, {} );
 
@@ -180,7 +180,7 @@ describe( "fromDecorator", ():void => {
 				expect( container._iriResolver ).toBe( originalIRIResolver );
 			} );
 
-			it( "should construct base `fromNamed` tokens", ():void => {
+			it( "should construct `fromNamed` tokens", ():void => {
 				const container:Container = new Container();
 				const fromClause:FromClause = fromDecorator( container, {} );
 

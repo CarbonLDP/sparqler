@@ -132,7 +132,7 @@ describe( "whereDecorator", ():void => {
 				} );
 			} );
 
-			it( "should construct base `where` tokens", ():void => {
+			it( "should construct `where` tokens", ():void => {
 				const container:Container = new Container();
 				const whereClause:WhereClause = whereDecorator( container, {} );
 
