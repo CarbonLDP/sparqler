@@ -6,5 +6,5 @@ export declare class SubSelectContainer extends Container<GraphPattern> {
     readonly _finishDecorator: FinishDecorator<GraphPattern>;
     constructor(iriResolver: IRIResolver);
 }
-export declare function selectDecorator<W extends object>(container: SubSelectContainer, object: W): W & SubSelect;
 export declare function selectDecorator<T extends FinishClause, W extends object>(container: Container<T>, object: W): W & SelectClause<T>;
+export declare function selectDecorator<W extends object>(container: SubSelectContainer, object: W): W & SubSelect;

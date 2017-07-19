@@ -54,7 +54,7 @@ function fromNamed<T extends FinishClause>( this:Container<T>, iri:string ):From
 
 /**
  * Decorator that binds the FromClause methods to a container and
- * adds the, to the provided object.
+ * adds them to the provided object.
  *
  * @param container The container where to bind the respective methods.
  * @param object Object to be decorated with the bound methods.
