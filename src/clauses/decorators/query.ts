@@ -1,10 +1,10 @@
 import {
-	Container,
 	FinishClause,
-	genericDecorator,
 	QueryClause,
 } from "sparqler/clauses";
+import { Container } from "sparqler/clauses/Container";
 import { selectDecorator } from "sparqler/clauses/decorators";
+import { genericDecorator } from "sparqler/clauses/utils";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	BASE,

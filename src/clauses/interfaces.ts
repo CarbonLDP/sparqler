@@ -3,7 +3,7 @@ import {
 	PatternBuilder,
 } from "sparqler/patterns";
 
-export interface QueryClause<T extends FinishClause> extends SelectClause<T> {
+export interface QueryClause<T extends FinishClause = FinishClause> extends SelectClause<T> {
 	base( iri:string ):QueryClause<T>;
 	vocab( iri:string ):QueryClause<T>;
 	prefix( name:string, iri:string ):QueryClause<T>;

@@ -25,7 +25,7 @@ describe( "havingDecorator", ():void => {
 			// Self methods
 			having: jasmine.any( Function ),
 
-			// Inherit methods
+			// Inherited methods
 			orderBy: jasmine.any( Function ),
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),

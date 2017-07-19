@@ -25,7 +25,7 @@ describe( "orderDecorator", ():void => {
 			// Self methods
 			orderBy: jasmine.any( Function ),
 
-			// Inherit methods
+			// Inherited methods
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
 		} );

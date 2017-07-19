@@ -25,7 +25,7 @@ describe( "groupDecorator", ():void => {
 			// Self methods
 			groupBy: jasmine.any( Function ),
 
-			// Inherit methods
+			// Inherited methods
 			having: jasmine.any( Function ),
 			orderBy: jasmine.any( Function ),
 			limit: jasmine.any( Function ),

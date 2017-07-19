@@ -33,7 +33,7 @@ describe( "fromDecorator", ():void => {
 			from: jasmine.any( Function ),
 			fromNamed: jasmine.any( Function ),
 
-			// Where methods
+			// Inherited methods
 			where: jasmine.any( Function ),
 		} );
 
