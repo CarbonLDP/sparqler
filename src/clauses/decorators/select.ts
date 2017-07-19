@@ -15,6 +15,7 @@ import {
 	WhereClause,
 } from "sparqler/clauses/interfaces";
 import { genericDecorator } from "sparqler/clauses/utils";
+import { IRIResolver } from "sparqler/iri";
 import { GraphPattern } from "sparqler/patterns";
 import {
 	ALL,
@@ -32,8 +33,8 @@ export class SubSelectContainer extends Container<GraphPattern> {
 
 	readonly _finishDecorator:FinishDecorator<GraphPattern>;
 
-	constructor( previousContainer:Container<GraphPattern>, tokens:Token[] ) {
-		super( previousContainer, tokens );
+	constructor( iriResolver:IRIResolver ) {
+		super( null, null, iriResolver );
 		this._finishDecorator = graphPatternDecorator;
 
 		Object.freeze( this );
@@ -76,7 +77,9 @@ function selectAllReduced<T extends FinishClause>( this:Container<T> ):FromClaus
 	return _select<T>( this, [ SELECT, REDUCED, ALL ] ) as FromClause<T>;
 }
 
-export function selectDecorator<T extends FinishClause, W extends object>( container:Container<T>, object:W ):W & SelectClause<T> {
+export function selectDecorator<W extends object>( container:SubSelectContainer, object:W ):W & SubSelect;
+export function selectDecorator<T extends FinishClause, W extends object>( container:Container<T>, object:W ):W & SelectClause<T>;
+export function selectDecorator<T extends FinishClause, W extends object>( container:Container<T> | SubSelectContainer, object:W ):W & (SelectClause<T> | SubSelect) {
 	return genericDecorator( {
 		select,
 		selectDistinct,
@@ -84,16 +87,5 @@ export function selectDecorator<T extends FinishClause, W extends object>( conta
 		selectAll,
 		selectAllDistinct,
 		selectAllReduced,
-	}, container, object );
-}
-
-export function subSelectDecorator<W extends object>( container:SubSelectContainer, object:W ):W & SubSelect {
-	return genericDecorator( {
-		select: select as ( ...params:any[] ) => WhereClause<GraphPattern>,
-		selectDistinct: selectDistinct as ( ...params:any[] ) => WhereClause<GraphPattern>,
-		selectReduced: selectReduced as ( ...params:any[] ) => WhereClause<GraphPattern>,
-		selectAll: selectAll as () => WhereClause<GraphPattern>,
-		selectAllDistinct: selectAllDistinct as () => WhereClause<GraphPattern>,
-		selectAllReduced: selectAllReduced as () => WhereClause<GraphPattern>,
 	}, container, object );
 }

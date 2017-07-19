@@ -17,8 +17,8 @@ var tokens_1 = require("sparqler/patterns/tokens");
 var tokens_2 = require("sparqler/tokens");
 var SubSelectContainer = (function (_super) {
     __extends(SubSelectContainer, _super);
-    function SubSelectContainer(previousContainer, tokens) {
-        var _this = _super.call(this, previousContainer, tokens) || this;
+    function SubSelectContainer(iriResolver) {
+        var _this = _super.call(this, null, null, iriResolver) || this;
         _this._finishDecorator = decorators_1.graphPatternDecorator;
         Object.freeze(_this);
         return _this;
@@ -77,16 +77,5 @@ function selectDecorator(container, object) {
     }, container, object);
 }
 exports.selectDecorator = selectDecorator;
-function subSelectDecorator(container, object) {
-    return utils_1.genericDecorator({
-        select: select,
-        selectDistinct: selectDistinct,
-        selectReduced: selectReduced,
-        selectAll: selectAll,
-        selectAllDistinct: selectAllDistinct,
-        selectAllReduced: selectAllReduced,
-    }, container, object);
-}
-exports.subSelectDecorator = subSelectDecorator;
 
 //# sourceMappingURL=select.js.map
