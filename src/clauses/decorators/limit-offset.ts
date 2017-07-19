@@ -103,7 +103,7 @@ export function offset<T extends FinishClause | GraphPattern>( this:LimitOffsetC
  * Decorator that binds the LimitClause methods to a container and adds them
  * to the provided object.
  *
- * @param container The container to bind the methods.
+ * @param container The container where to bind the respective methods.
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
@@ -112,10 +112,10 @@ export function limitDecorator<T extends FinishClause | GraphPattern, W extends 
 }
 
 /**
- * Decorator that binds the OffsetClause methods to a container and add them
+ * Decorator that binds the OffsetClause methods to a container and adds them
  * to the provided object.
  *
- * @param container The container to bind the methods.
+ * @param container The container where to bind the respective methods.
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
@@ -124,7 +124,7 @@ export function offsetDecorator<T extends FinishClause | GraphPattern, W extends
 }
 
 /**
- * Decorated that binds the LimitOffsetClause methods to a container and add
+ * Decorator that binds the LimitOffsetClause methods to a container and adds
  * them to the provided object.
  *
  * @param container The container where to bind the respective methods.
