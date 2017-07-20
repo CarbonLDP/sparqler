@@ -6,12 +6,13 @@ import { Collection } from "sparqler/patterns/triples/Collection";
 import { BooleanLiteral, Literal, NumericLiteral, RDFLiteral } from "sparqler/patterns/triples/Literals";
 import { Resource } from "sparqler/patterns/triples/Resource";
 import { Variable } from "sparqler/patterns/triples/Variable";
+import { SubSelect } from "sparqler/clauses";
 export declare type Undefined = "UNDEF";
 export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder {
     static readonly undefined: Undefined;
     readonly undefined: Undefined;
-    private resolver;
-    constructor(resolver: IRIResolver);
+    private iriResolver;
+    constructor(iriResolver: IRIResolver);
     resource(iri: string): Resource;
     var(name: string): Variable;
     literal(value: string): RDFLiteral;
@@ -37,5 +38,6 @@ export declare class PatternBuilder implements TriplesPatternBuilder, NotTriples
     serviceSilent(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
     bind(rawExpression: string, variable: string | Variable): NotTriplesPattern;
     filter(rawConstraint: string): NotTriplesPattern;
+    subSelect(): SubSelect;
 }
 export default PatternBuilder;

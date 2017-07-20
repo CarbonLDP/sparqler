@@ -819,9 +819,10 @@ var Resource_1 = __webpack_require__(39);
 var Variable_1 = __webpack_require__(40);
 var StringLiteral_1 = __webpack_require__(7);
 var Patterns_1 = __webpack_require__(20);
+var decorators_1 = __webpack_require__(4);
 var PatternBuilder = (function () {
-    function PatternBuilder(resolver) {
-        this.resolver = resolver;
+    function PatternBuilder(iriResolver) {
+        this.iriResolver = iriResolver;
     }
     Object.defineProperty(PatternBuilder, "undefined", {
         get: function () { return "UNDEF"; },
@@ -836,18 +837,18 @@ var PatternBuilder = (function () {
     });
     ;
     PatternBuilder.prototype.resource = function (iri) {
-        return new Resource_1.Resource(this.resolver, iri);
+        return new Resource_1.Resource(this.iriResolver, iri);
     };
     PatternBuilder.prototype.var = function (name) {
-        return new Variable_1.Variable(this.resolver, name);
+        return new Variable_1.Variable(this.iriResolver, name);
     };
     PatternBuilder.prototype.literal = function (value) {
         if (typeof value === "string" || value instanceof String)
-            return new Literals_1.RDFLiteral(this.resolver, value);
+            return new Literals_1.RDFLiteral(this.iriResolver, value);
         if (typeof value === "number" || value instanceof Number)
-            return new Literals_1.NumericLiteral(this.resolver, value);
+            return new Literals_1.NumericLiteral(this.iriResolver, value);
         if (typeof value === "boolean" || value instanceof Boolean)
-            return new Literals_1.BooleanLiteral(this.resolver, value);
+            return new Literals_1.BooleanLiteral(this.iriResolver, value);
         throw new Error("No valid value of a literal was provided.");
     };
     PatternBuilder.prototype.collection = function () {
@@ -857,14 +858,14 @@ var PatternBuilder = (function () {
         }
         if (values.length === 0)
             throw Error("The collection needs at least one value.");
-        return new Collection_1.Collection(this.resolver, values);
+        return new Collection_1.Collection(this.iriResolver, values);
     };
     PatternBuilder.prototype.blankNode = function () {
-        return new BlankNode_1.BlankNode(this.resolver);
+        return new BlankNode_1.BlankNode(this.iriResolver);
     };
     PatternBuilder.prototype.graph = function (iriOrVariable, patterns) {
         var graph = (typeof iriOrVariable === "string")
-            ? this.resolver.resolve(iriOrVariable)
+            ? this.iriResolver.resolve(iriOrVariable)
             : iriOrVariable.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
         return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.GRAPH].concat(graph, patternTokens));
@@ -891,18 +892,18 @@ var PatternBuilder = (function () {
         for (var _i = 0; _i < arguments.length; _i++) {
             variables[_i] = arguments[_i];
         }
-        return new ValuesPattern_1.ValuesPattern(this.resolver, variables);
+        return new ValuesPattern_1.ValuesPattern(this.iriResolver, variables);
     };
     PatternBuilder.prototype.service = function (resource, patterns) {
         var serviceTokens = typeof resource === "string" ?
-            this.resolver.resolve(resource) :
+            this.iriResolver.resolve(resource) :
             resource.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
         return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.SERVICE].concat(serviceTokens, patternTokens));
     };
     PatternBuilder.prototype.serviceSilent = function (resource, patterns) {
         var serviceTokens = typeof resource === "string" ?
-            this.resolver.resolve(resource) :
+            this.iriResolver.resolve(resource) :
             resource.getSelfTokens();
         var patternTokens = Patterns_1.getBlockTokens(patterns);
         return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.SERVICE, tokens_1.SILENT].concat(serviceTokens, patternTokens));
@@ -914,6 +915,10 @@ var PatternBuilder = (function () {
     };
     PatternBuilder.prototype.filter = function (rawConstraint) {
         return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.FILTER, new StringLiteral_1.StringLiteral(rawConstraint)]);
+    };
+    PatternBuilder.prototype.subSelect = function () {
+        var container = new decorators_1.SubSelectContainer(this.iriResolver);
+        return decorators_1.selectDecorator(container, {});
     };
     return PatternBuilder;
 }());

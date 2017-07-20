@@ -26,13 +26,14 @@ import {
 } from "sparqler/tokens";
 
 import DefaultExport, { PatternBuilder } from "./PatternBuilder";
+import { SubSelect } from "sparqler/clauses";
 
 
 describe( "PatternBuilder", ():void => {
 
-	let resolver:IRIResolver;
+	let iriResolver:IRIResolver;
 	beforeEach( ():void => {
-		resolver = new class extends IRIResolver {
+		iriResolver = new class extends IRIResolver {
 			resolve( iri:string ):Token[] {
 				return [ new StringLiteral( iri ) ];
 			}
@@ -45,7 +46,7 @@ describe( "PatternBuilder", ():void => {
 	} );
 
 	it( "should be instantiable", ():void => {
-		let builder:PatternBuilder = new PatternBuilder( resolver );
+		let builder:PatternBuilder = new PatternBuilder( iriResolver );
 
 		expect( builder ).toBeDefined();
 		expect( builder ).toEqual( jasmine.any( PatternBuilder ) );
@@ -56,9 +57,12 @@ describe( "PatternBuilder", ():void => {
 	} );
 
 	it( "should implement all the builders", ():void => {
-		let builder:PatternBuilder = new PatternBuilder( resolver );
+		let builder:PatternBuilder = new PatternBuilder( iriResolver );
 
 		expect( builder ).toEqual( jasmine.objectContaining( {
+			// Properties
+			undefined: jasmine.any( String ) as any,
+
 			// Triples patterns
 			resource: jasmine.any( Function ),
 			var: jasmine.any( Function ),
@@ -72,7 +76,9 @@ describe( "PatternBuilder", ():void => {
 			union: jasmine.any( Function ),
 			minus: jasmine.any( Function ),
 			values: jasmine.any( Function ),
-			undefined: jasmine.any( String ) as any as Undefined,
+
+			// Clause patterns
+			subSelect: jasmine.any( Function ),
 		} ) );
 
 	} );
@@ -80,8 +86,8 @@ describe( "PatternBuilder", ():void => {
 	// Test the methods
 	describe( "PatternBuilder.resource", ():void => {
 
-		it( "should create a Resource object", ():void => {
-			let builder:PatternBuilder = new PatternBuilder( resolver );
+		it( "should return a Resource object", ():void => {
+			let builder:PatternBuilder = new PatternBuilder( iriResolver );
 
 			let resource:Resource = builder.resource( "http://example.com/" );
 			expect( resource ).toBeDefined();
@@ -92,8 +98,8 @@ describe( "PatternBuilder", ():void => {
 
 	describe( "PatternBuilder.var", ():void => {
 
-		it( "should create a Variable object", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+		it( "should return a Variable object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 
 			let variable:Variable = builder.var( "name" );
 			expect( variable ).toBeDefined();
@@ -104,8 +110,8 @@ describe( "PatternBuilder", ():void => {
 
 	describe( "PatternBuilder.literal", ():void => {
 
-		it( "should create an RDFLiteral object", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+		it( "should return an RDFLiteral object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let literal:Literal;
 
 			literal = builder.literal( "something" );
@@ -117,8 +123,8 @@ describe( "PatternBuilder", ():void => {
 			expect( literal ).toEqual( jasmine.any( RDFLiteral ) );
 		} );
 
-		it( "should create a NumericLiteral object", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+		it( "should return a NumericLiteral object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let literal:Literal;
 
 			literal = builder.literal( 1 );
@@ -134,8 +140,8 @@ describe( "PatternBuilder", ():void => {
 			expect( literal ).toEqual( jasmine.any( NumericLiteral ) );
 		} );
 
-		it( "should create BooleanLiteral object", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+		it( "should return BooleanLiteral object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let literal:Literal;
 
 			literal = builder.literal( true );
@@ -148,7 +154,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should throw an Error if invalid type is provided", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 
 			expect( () => builder.literal( new Date() as any ) )
 				.toThrowError( "No valid value of a literal was provided." );
@@ -158,8 +164,8 @@ describe( "PatternBuilder", ():void => {
 
 	describe( "PatternBuilder.collection", ():void => {
 
-		it( "should create a Collection object", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+		it( "should return a Collection object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let collection:Collection;
 
 			// Normal usage
@@ -173,7 +179,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should throw Error if no parameter is provided", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 
 			expect( () => builder.collection() )
 				.toThrowError( "The collection needs at least one value." );
@@ -183,8 +189,8 @@ describe( "PatternBuilder", ():void => {
 
 	describe( "PatternBuilder.blankNode", ():void => {
 
-		it( "should create BlankNode object", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+		it( "should return a BlankNode object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let blankNode:BlankNode;
 
 			blankNode = builder.blankNode();
@@ -210,7 +216,7 @@ describe( "PatternBuilder", ():void => {
 
 		class MockVar extends Variable {
 			constructor() {
-				super( resolver, "" );
+				super( iriResolver, "" );
 			}
 
 			getSelfTokens():Token[] {
@@ -219,7 +225,7 @@ describe( "PatternBuilder", ():void => {
 		}
 
 		it( "should accept an IRI and an empty pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.graph( "http://example.com/resource/", [] );
@@ -233,7 +239,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept an IRI and a single pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.graph( "http://example.com/resource/", { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
@@ -249,7 +255,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept an IRI and a single pattern in the array", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.graph( "http://example.com/resource/", [
@@ -267,7 +273,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept an IRI and multiple patterns in the array", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.graph( "http://example.com/resource/", [
@@ -286,7 +292,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept a Variable and an empty pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.graph( new MockVar(), [] );
@@ -300,7 +306,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept a Variable and a single pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.graph( new MockVar(), { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
@@ -316,7 +322,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept a Variable and a single pattern in the array", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.graph( new MockVar(), [
@@ -334,7 +340,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept a Variable and multiple patterns in the array", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.graph( new MockVar(), [
@@ -369,7 +375,7 @@ describe( "PatternBuilder", ():void => {
 
 
 		it( "should accept an empty pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.optional( [] );
@@ -383,7 +389,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept a single pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.optional( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
@@ -398,7 +404,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept an empty pattern in the array", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.optional( [
@@ -415,7 +421,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept multiple pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.optional( [
@@ -450,7 +456,7 @@ describe( "PatternBuilder", ():void => {
 		}
 
 		it( "should accept empty patterns", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [], [] );
@@ -466,7 +472,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept empty and single patterns", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [], { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
@@ -483,7 +489,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept empty and single patterns in an array", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [], [
@@ -502,7 +508,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept empty and multiple patterns", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [], [
@@ -523,7 +529,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept single and empty pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }, [] );
@@ -540,7 +546,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept singles patterns", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union(
@@ -561,7 +567,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept single pattern and single pattern in an array", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }, [
@@ -581,7 +587,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept empty and multiple patterns", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }, [
@@ -603,7 +609,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept single pattern in array and empty pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [
@@ -622,7 +628,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept single pattern in array and single pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [
@@ -642,7 +648,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept single pattern in array and single pattern in an array", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [
@@ -664,7 +670,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept single pattern in array and multiple patterns", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [
@@ -688,7 +694,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept multiple patterns patterns", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [
@@ -709,7 +715,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept multiple patterns and single pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [
@@ -731,7 +737,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept multiple patterns and single pattern in an array", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [
@@ -755,7 +761,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept multiple patterns", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.union( [
@@ -797,7 +803,7 @@ describe( "PatternBuilder", ():void => {
 		}
 
 		it( "should accept single pattern", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.minus( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
@@ -812,7 +818,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept single multiple patterns", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 			let pattern:NotTriplesPattern;
 
 			pattern = builder.minus(
@@ -868,7 +874,7 @@ describe( "PatternBuilder", ():void => {
 			private name:string;
 
 			constructor( name:string ) {
-				super( resolver, name );
+				super( iriResolver, name );
 				this.name = name;
 			}
 
@@ -878,7 +884,7 @@ describe( "PatternBuilder", ():void => {
 		}
 
 		it( "should accept single variables", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 
 			const vars:Variable = new MockVar( "first" );
 			const pattern:SingleValuesPattern = builder.values( vars );
@@ -890,7 +896,7 @@ describe( "PatternBuilder", ():void => {
 		} );
 
 		it( "should accept multiple variables", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( resolver );
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
 
 			const vars:Variable[] = [
 				new MockVar( "a" ),
@@ -905,6 +911,25 @@ describe( "PatternBuilder", ():void => {
 
 			const tokens:MockToken[] = vars.reduce( ( x, _ ) => x.concat( _.getSelfTokens() ), [] );
 			expect( pattern.getPattern() ).toEqual( jasmine.arrayContaining( tokens ) as any );
+		} );
+
+	} );
+
+	describe( "PatternBuilder.subSelect", ():void => {
+
+		it( "should return a SubSelect object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( iriResolver );
+			const subSelect:SubSelect = builder.subSelect();
+
+			expect( subSelect ).toEqual( {
+				select: jasmine.any( Function ),
+				selectDistinct: jasmine.any( Function ),
+				selectReduced: jasmine.any( Function ),
+
+				selectAll: jasmine.any( Function ),
+				selectAllDistinct: jasmine.any( Function ),
+				selectAllReduced: jasmine.any( Function ),
+			} );
 		} );
 
 	} );

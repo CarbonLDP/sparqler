@@ -36,6 +36,11 @@ import { Variable } from "sparqler/patterns/triples/Variable";
 import { StringLiteral } from "sparqler/tokens/StringLiteral";
 import { Token } from "sparqler/tokens/Token";
 import { getBlockTokens } from "sparqler/utils/Patterns";
+import { SubSelect } from "sparqler/clauses";
+import {
+	selectDecorator,
+	SubSelectContainer,
+} from "sparqler/clauses/decorators";
 
 export type Undefined = "UNDEF";
 
@@ -46,18 +51,18 @@ export class PatternBuilder implements TriplesPatternBuilder,
 
 	public get undefined():Undefined { return PatternBuilder.undefined; };
 
-	private resolver:IRIResolver;
+	private iriResolver:IRIResolver;
 
-	constructor( resolver:IRIResolver ) {
-		this.resolver = resolver;
+	constructor( iriResolver:IRIResolver ) {
+		this.iriResolver = iriResolver;
 	}
 
 	resource( iri:string ):Resource {
-		return new Resource( this.resolver, iri );
+		return new Resource( this.iriResolver, iri );
 	}
 
 	var( name:string ):Variable {
-		return new Variable( this.resolver, name );
+		return new Variable( this.iriResolver, name );
 	}
 
 	literal( value:string ):RDFLiteral;
@@ -65,24 +70,24 @@ export class PatternBuilder implements TriplesPatternBuilder,
 	literal( value:boolean ):BooleanLiteral;
 	literal( value ):any {
 		if( typeof value === "string" || value instanceof String )
-			return new RDFLiteral( this.resolver, value as string );
+			return new RDFLiteral( this.iriResolver, value as string );
 
 		if( typeof value === "number" || value instanceof Number )
-			return new NumericLiteral( this.resolver, value as number );
+			return new NumericLiteral( this.iriResolver, value as number );
 
 		if( typeof value === "boolean" || value instanceof Boolean )
-			return new BooleanLiteral( this.resolver, value as boolean );
+			return new BooleanLiteral( this.iriResolver, value as boolean );
 
 		throw new Error( "No valid value of a literal was provided." );
 	}
 
 	collection( ...values:(SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ):Collection {
 		if( values.length === 0 ) throw Error( "The collection needs at least one value." );
-		return new Collection( this.resolver, values );
+		return new Collection( this.iriResolver, values );
 	}
 
 	blankNode():BlankNode {
-		return new BlankNode( this.resolver );
+		return new BlankNode( this.iriResolver );
 	}
 
 	graph( iri:string, pattern:GraphPattern ):NotTriplesPattern;
@@ -91,7 +96,7 @@ export class PatternBuilder implements TriplesPatternBuilder,
 	graph( variable:Variable, patterns:GraphPattern[] ):NotTriplesPattern;
 	graph( iriOrVariable, patterns ):NotTriplesPattern {
 		let graph:Token[] = ( typeof iriOrVariable === "string" )
-			? this.resolver.resolve( iriOrVariable )
+			? this.iriResolver.resolve( iriOrVariable )
 			: iriOrVariable.getSelfTokens();
 
 		let patternTokens:Token[] = getBlockTokens( patterns );
@@ -128,12 +133,12 @@ export class PatternBuilder implements TriplesPatternBuilder,
 	values( variable:Variable ):SingleValuesPattern;
 	values( ...variables:Variable[] ):MultipleValuesPattern;
 	values( ...variables:Variable[] ):SingleValuesPattern | MultipleValuesPattern {
-		return new ValuesPattern( this.resolver, variables );
+		return new ValuesPattern( this.iriResolver, variables );
 	}
 
 	service( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern {
 		const serviceTokens:Token[] = typeof resource === "string" ?
-			this.resolver.resolve( resource ) :
+			this.iriResolver.resolve( resource ) :
 			resource.getSelfTokens();
 
 		const patternTokens:Token[] = getBlockTokens( patterns );
@@ -142,7 +147,7 @@ export class PatternBuilder implements TriplesPatternBuilder,
 
 	serviceSilent( resource:string | Resource | Variable, patterns:GraphPattern | GraphPattern[] ):NotTriplesPattern {
 		const serviceTokens:Token[] = typeof resource === "string" ?
-			this.resolver.resolve( resource ) :
+			this.iriResolver.resolve( resource ) :
 			resource.getSelfTokens();
 
 		const patternTokens:Token[] = getBlockTokens( patterns );
@@ -157,6 +162,11 @@ export class PatternBuilder implements TriplesPatternBuilder,
 
 	filter( rawConstraint:string ):NotTriplesPattern {
 		return new NotTriplesPattern( [ FILTER, new StringLiteral( rawConstraint ) ] );
+	}
+
+	subSelect():SubSelect {
+		const container:SubSelectContainer = new SubSelectContainer( this.iriResolver );
+		return selectDecorator( container, {} );
 	}
 
 }
