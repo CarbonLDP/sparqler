@@ -1,106 +1,86 @@
-import * as PatternBuilderModule from "./PatternBuilder";
-import PatternBuilder from "./PatternBuilder";
-
+import { IRIResolver } from "sparqler/iri";
 import {
-	SingleValuesPattern,
 	MultipleValuesPattern,
-} from "./interfaces";
-import { StringLiteral } from "../tokens/StringLiteral";
-import { Resource } from "./triples/Resource";
-import { Variable } from "./triples/Variable";
-import {
-	Literal,
-	RDFLiteral,
-	NumericLiteral,
-	BooleanLiteral,
-} from "./triples/Literals";
-import { Collection } from "./triples/Collection";
-import { BlankNode } from "./triples/BlankNode";
-import { NotTriplesPattern } from "./notTriples/NotTriplesPattern";
-import { Identifier } from "../tokens/Identifier";
-import { LeftSymbol } from "../tokens/LeftSymbol";
-import { RightSymbol } from "../tokens/RightSymbol";
-import { Token } from "../tokens/Token";
-import { NewLineSymbol } from "../tokens/NewLineSymbol";
-import { IRIResolver } from "sparqler/iri/IRIResolver";
+	SingleValuesPattern,
+	Undefined,
+} from "sparqler/patterns";
+import { NotTriplesPattern } from "sparqler/patterns/notTriples/NotTriplesPattern";
 import { ValuesPattern } from "sparqler/patterns/notTriples/ValuesPattern";
+import {
+	BlankNode,
+	BooleanLiteral,
+	Collection,
+	Literal,
+	NumericLiteral,
+	RDFLiteral,
+	Resource,
+	Variable,
+} from "sparqler/patterns/triples";
+import {
+	Identifier,
+	LeftSymbol,
+	NewLineSymbol,
+	RightSymbol,
+	StringLiteral,
+	Token,
+} from "sparqler/tokens";
 
-describe( "Module PatternBuilder", ():void => {
+import DefaultExport, { PatternBuilder } from "./PatternBuilder";
 
-	it( "Exists", ():void => {
-		expect( PatternBuilderModule ).toBeDefined();
-		expect( PatternBuilderModule ).toEqual( jasmine.any( Object ) );
+
+describe( "PatternBuilder", ():void => {
+
+	let resolver:IRIResolver;
+	beforeEach( ():void => {
+		resolver = new class extends IRIResolver {
+			resolve( iri:string ):Token[] {
+				return [ new StringLiteral( iri ) ];
+			}
+		};
 	} );
 
-	describe( "Class PatternBuilder", ():void => {
+	it( "should exists", ():void => {
+		expect( PatternBuilder ).toBeDefined();
+		expect( PatternBuilder ).toEqual( jasmine.any( Function ) );
+	} );
 
-		let resolver:IRIResolver;
-		beforeEach( ():void => {
-			resolver = new class extends IRIResolver {
-				resolve( iri:string ):Token[] {
-					return [ new StringLiteral( iri ) ];
-				}
-			};
-		} );
+	it( "should be instantiable", ():void => {
+		let builder:PatternBuilder = new PatternBuilder( resolver );
 
-		it( "Exists", ():void => {
-			expect( PatternBuilder ).toBeDefined();
-			expect( PatternBuilder ).toEqual( jasmine.any( Function ) );
-			expect( PatternBuilder ).toBe( PatternBuilderModule.PatternBuilder );
-		} );
+		expect( builder ).toBeDefined();
+		expect( builder ).toEqual( jasmine.any( PatternBuilder ) );
+	} );
 
-		it( "Constructor", ():void => {
-			let builder:PatternBuilder = new PatternBuilder( resolver );
+	it( "should be the default export", ():void => {
+		expect( PatternBuilder ).toBe( DefaultExport );
+	} );
 
-			expect( builder ).toBeDefined();
-			expect( builder ).toEqual( jasmine.any( PatternBuilder ) );
-		} );
+	it( "should implement all the builders", ():void => {
+		let builder:PatternBuilder = new PatternBuilder( resolver );
 
-		it( "Implements Builders", ():void => {
-			let builder:PatternBuilder = new PatternBuilder( resolver );
-
+		expect( builder ).toEqual( jasmine.objectContaining( {
 			// Triples patterns
-
-			expect( "resource" in builder ).toBe( true );
-			expect( builder.resource ).toEqual( jasmine.any( Function ) );
-
-			expect( "var" in builder ).toBe( true );
-			expect( builder.var ).toEqual( jasmine.any( Function ) );
-
-			expect( "literal" in builder ).toBe( true );
-			expect( builder.literal ).toEqual( jasmine.any( Function ) );
-
-			expect( "collection" in builder ).toBe( true );
-			expect( builder.collection ).toEqual( jasmine.any( Function ) );
-
-			expect( "blankNode" in builder ).toBe( true );
-			expect( builder.blankNode ).toEqual( jasmine.any( Function ) );
-
+			resource: jasmine.any( Function ),
+			var: jasmine.any( Function ),
+			literal: jasmine.any( Function ),
+			collection: jasmine.any( Function ),
+			blankNode: jasmine.any( Function ),
 
 			// Not triples pattern
+			graph: jasmine.any( Function ),
+			optional: jasmine.any( Function ),
+			union: jasmine.any( Function ),
+			minus: jasmine.any( Function ),
+			values: jasmine.any( Function ),
+			undefined: jasmine.any( String ) as any as Undefined,
+		} ) );
 
-			expect( "graph" in builder ).toBe( true );
-			expect( builder.graph ).toEqual( jasmine.any( Function ) );
+	} );
 
-			expect( "optional" in builder ).toBe( true );
-			expect( builder.optional ).toEqual( jasmine.any( Function ) );
+	// Test the methods
+	describe( "PatternBuilder.resource", ():void => {
 
-			expect( "union" in builder ).toBe( true );
-			expect( builder.union ).toEqual( jasmine.any( Function ) );
-
-			expect( "minus" in builder ).toBe( true );
-			expect( builder.minus ).toEqual( jasmine.any( Function ) );
-
-			expect( "values" in builder ).toBe( true );
-			expect( builder.values ).toEqual( jasmine.any( Function ) );
-
-			expect( "undefined" in builder ).toBe( true );
-			expect( builder.undefined ).toEqual( jasmine.any( String ) );
-		} );
-
-		// Test the methods
-
-		it( "PatternBuilder.resource()", ():void => {
+		it( "should create a Resource object", ():void => {
 			let builder:PatternBuilder = new PatternBuilder( resolver );
 
 			let resource:Resource = builder.resource( "http://example.com/" );
@@ -108,19 +88,26 @@ describe( "Module PatternBuilder", ():void => {
 			expect( resource ).toEqual( jasmine.any( Resource ) );
 		} );
 
-		it( "PatternBuilder.var()", ():void => {
-			let builder:PatternBuilder = new PatternBuilder( resolver );
+	} );
+
+	describe( "PatternBuilder.var", ():void => {
+
+		it( "should create a Variable object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
 
 			let variable:Variable = builder.var( "name" );
 			expect( variable ).toBeDefined();
 			expect( variable ).toEqual( jasmine.any( Variable ) );
 		} );
 
-		it( "PatternBuilder.literal()", ():void => {
-			let builder:PatternBuilder = new PatternBuilder( resolver );
+	} );
+
+	describe( "PatternBuilder.literal", ():void => {
+
+		it( "should create an RDFLiteral object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
 			let literal:Literal;
 
-			// With string returns an RDFLiteral
 			literal = builder.literal( "something" );
 			expect( literal ).toBeDefined();
 			expect( literal ).toEqual( jasmine.any( RDFLiteral ) );
@@ -128,8 +115,12 @@ describe( "Module PatternBuilder", ():void => {
 			literal = builder.literal( "http://example.com/iri/as/literal" );
 			expect( literal ).toBeDefined();
 			expect( literal ).toEqual( jasmine.any( RDFLiteral ) );
+		} );
 
-			// With number returns an NumericLiteral
+		it( "should create a NumericLiteral object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let literal:Literal;
+
 			literal = builder.literal( 1 );
 			expect( literal ).toBeDefined();
 			expect( literal ).toEqual( jasmine.any( NumericLiteral ) );
@@ -141,8 +132,12 @@ describe( "Module PatternBuilder", ():void => {
 			literal = builder.literal( 3.1 );
 			expect( literal ).toBeDefined();
 			expect( literal ).toEqual( jasmine.any( NumericLiteral ) );
+		} );
 
-			// With number returns an NumericLiteral
+		it( "should create BooleanLiteral object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let literal:Literal;
+
 			literal = builder.literal( true );
 			expect( literal ).toBeDefined();
 			expect( literal ).toEqual( jasmine.any( BooleanLiteral ) );
@@ -150,13 +145,21 @@ describe( "Module PatternBuilder", ():void => {
 			literal = builder.literal( false );
 			expect( literal ).toBeDefined();
 			expect( literal ).toEqual( jasmine.any( BooleanLiteral ) );
-
-			// Another type throw an error
-			expect( () => builder.literal( <any> new Date() ) ).toThrowError( "InvalidArgumentError: No valid value of a literal was provided." );
 		} );
 
-		it( "PatternBuilder.collection()", ():void => {
-			let builder:PatternBuilder = new PatternBuilder( resolver );
+		it( "should throw an Error if invalid type is provided", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+
+			expect( () => builder.literal( new Date() as any ) )
+				.toThrowError( "No valid value of a literal was provided." );
+		} );
+
+	} );
+
+	describe( "PatternBuilder.collection", ():void => {
+
+		it( "should create a Collection object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
 			let collection:Collection;
 
 			// Normal usage
@@ -167,37 +170,58 @@ describe( "Module PatternBuilder", ():void => {
 			collection = builder.collection( 1, true, "hi!" );
 			expect( collection ).toBeDefined();
 			expect( collection ).toEqual( jasmine.any( Collection ) );
-
-			// Must provide at least one parameter
-			expect( () => builder.collection() ).toThrowError( "InvalidArgumentError: The collection needs at least one value." );
 		} );
 
-		it( "PatternBuilder.blankNode()", ():void => {
-			let builder:PatternBuilder = new PatternBuilder( resolver );
+		it( "should throw Error if no parameter is provided", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+
+			expect( () => builder.collection() )
+				.toThrowError( "The collection needs at least one value." );
+		} );
+
+	} );
+
+	describe( "PatternBuilder.blankNode", ():void => {
+
+		it( "should create BlankNode object", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
 			let blankNode:BlankNode;
 
-			// Normal usage
 			blankNode = builder.blankNode();
 			expect( blankNode ).toBeDefined();
 			expect( blankNode ).toEqual( jasmine.any( BlankNode ) );
 		} );
 
-		it( "PatternBuilder.graph()", ():void => {
-			class MockToken extends Token {
-				protected getPrettySeparator():string {
-					return " ";
-				}
+	} );
 
-				protected getCompactSeparator():string {
-					return " ";
-				}
+	describe( "PatternBuilder.graph", ():void => {
+
+		class MockToken extends Token {
+			// noinspection JSMethodCanBeStatic
+			protected getPrettySeparator():string {
+				throw new Error( "Method not implemented." );
 			}
-			let builder:PatternBuilder = new PatternBuilder( resolver );
+
+			// noinspection JSMethodCanBeStatic
+			protected getCompactSeparator():string {
+				throw new Error( "Method not implemented." );
+			}
+		}
+
+		class MockVar extends Variable {
+			constructor() {
+				super( resolver, "" );
+			}
+
+			getSelfTokens():Token[] {
+				return [ new MockToken( "variable" ) ];
+			}
+		}
+
+		it( "should accept an IRI and an empty pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
 			let pattern:NotTriplesPattern;
 
-			// Usage with an IRI parameter
-
-			// Empty patterns
 			pattern = builder.graph( "http://example.com/resource/", [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
@@ -206,8 +230,12 @@ describe( "Module PatternBuilder", ():void => {
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern
+		it( "should accept an IRI and a single pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.graph( "http://example.com/resource/", { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
@@ -218,8 +246,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern in an array
+		it( "should accept an IRI and a single pattern in the array", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.graph( "http://example.com/resource/", [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
@@ -232,8 +264,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Multiple patterns
+		it( "should accept an IRI and multiple patterns in the array", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.graph( "http://example.com/resource/", [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -247,20 +283,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-3" ), new MockToken( "token-4" ),
 				new NewLineSymbol( "}" ),
 			] );
+		} );
 
-			// Usage with an VAR parameter
+		it( "should accept a Variable and an empty pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
 
-			class MockVar extends Variable {
-				constructor() {
-					super( resolver, "" );
-				}
-
-				getSelfTokens():Token[] {
-					return [ new MockToken( "variable" ) ];
-				}
-			}
-
-			// Empty patterns
 			pattern = builder.graph( new MockVar(), [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
@@ -269,8 +297,12 @@ describe( "Module PatternBuilder", ():void => {
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern
+		it( "should accept a Variable and a single pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.graph( new MockVar(), { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
@@ -281,8 +313,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern in an array
+		it( "should accept a Variable and a single pattern in the array", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.graph( new MockVar(), [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
@@ -295,8 +331,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Multiple patterns
+		it( "should accept a Variable and multiple patterns in the array", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.graph( new MockVar(), [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -311,21 +351,27 @@ describe( "Module PatternBuilder", ():void => {
 				new NewLineSymbol( "}" ),
 			] );
 		} );
+	} );
 
-		it( "PatternBuilder.optional()", ():void => {
-			class MockToken extends Token {
-				protected getPrettySeparator():string {
-					return " ";
-				}
+	describe( "PatternBuilder.optional", ():void => {
 
-				protected getCompactSeparator():string {
-					return " ";
-				}
+		class MockToken extends Token {
+			// noinspection JSMethodCanBeStatic
+			protected getPrettySeparator():string {
+				throw new Error( "Method not implemented." );
 			}
-			let builder:PatternBuilder = new PatternBuilder( resolver );
+
+			// noinspection JSMethodCanBeStatic
+			protected getCompactSeparator():string {
+				throw new Error( "Method not implemented." );
+			}
+		}
+
+
+		it( "should accept an empty pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
 			let pattern:NotTriplesPattern;
 
-			// Empty pattern
 			pattern = builder.optional( [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
@@ -334,8 +380,12 @@ describe( "Module PatternBuilder", ():void => {
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern
+		it( "should accept a single pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.optional( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
@@ -345,8 +395,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern in an array
+		it( "should accept an empty pattern in the array", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.optional( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
@@ -358,8 +412,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Multiple patterns
+		it( "should accept multiple pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.optional( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -375,20 +433,26 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 		} );
 
-		it( "PatternBuilder.union()", ():void => {
-			class MockToken extends Token {
-				protected getPrettySeparator():string {
-					return " ";
-				}
+	} );
 
-				protected getCompactSeparator():string {
-					return " ";
-				}
+	describe( "PatternBuilder.union", ():void => {
+
+		class MockToken extends Token {
+			// noinspection JSMethodCanBeStatic
+			protected getPrettySeparator():string {
+				throw new Error( "Method not implemented." );
 			}
-			let builder:PatternBuilder = new PatternBuilder( resolver );
+
+			// noinspection JSMethodCanBeStatic
+			protected getCompactSeparator():string {
+				throw new Error( "Method not implemented." );
+			}
+		}
+
+		it( "should accept empty patterns", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
 			let pattern:NotTriplesPattern;
 
-			// Empty patterns
 			pattern = builder.union( [], [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
@@ -399,8 +463,12 @@ describe( "Module PatternBuilder", ():void => {
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Empty and single pattern
+		it( "should accept empty and single patterns", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( [], { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
@@ -412,8 +480,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Empty and single pattern in an array
+		it( "should accept empty and single patterns in an array", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( [], [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
@@ -427,8 +499,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Empty and multiple patterns
+		it( "should accept empty and multiple patterns", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( [], [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -444,8 +520,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-3" ), new MockToken( "token-4" ),
 				new NewLineSymbol( "}" ),
 			] );
+		} );
 
-			// Single and empty pattern
+		it( "should accept single and empty pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }, [] );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
@@ -457,8 +537,12 @@ describe( "Module PatternBuilder", ():void => {
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Singles patterns
+		it( "should accept singles patterns", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union(
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
@@ -474,8 +558,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern and single pattern in an array
+		it( "should accept single pattern and single pattern in an array", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }, [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			] );
@@ -490,8 +578,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Empty and multiple patterns
+		it( "should accept empty and multiple patterns", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] }, [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -508,8 +600,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-3" ), new MockToken( "token-4" ),
 				new NewLineSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern in array and empty pattern
+		it( "should accept single pattern in array and empty pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			], [] );
@@ -523,8 +619,12 @@ describe( "Module PatternBuilder", ():void => {
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern in array and single pattern
+		it( "should accept single pattern in array and single pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			], { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
@@ -539,8 +639,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern in array and single pattern in an array
+		it( "should accept single pattern in array and single pattern in an array", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			], [
@@ -557,8 +661,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Single pattern in array and multiple patterns
+		it( "should accept single pattern in array and multiple patterns", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 			], [
@@ -577,9 +685,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-3" ), new MockToken( "token-4" ),
 				new NewLineSymbol( "}" ),
 			] );
+		} );
 
+		it( "should accept multiple patterns patterns", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
 
-			// Multiple patterns patterns
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -595,8 +706,12 @@ describe( "Module PatternBuilder", ():void => {
 				new LeftSymbol( "{" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Multiple patterns and single pattern
+		it( "should accept multiple patterns and single pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -613,8 +728,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Multiple patterns and single pattern in an array
+		it( "should accept multiple patterns and single pattern in an array", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -633,8 +752,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Multiple patterns
+		it( "should accept multiple patterns", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.union( [
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -657,20 +780,26 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 		} );
 
-		it( "PatternBuilder.minus()", ():void => {
-			class MockToken extends Token {
-				protected getPrettySeparator():string {
-					return " ";
-				}
+	} );
 
-				protected getCompactSeparator():string {
-					return " ";
-				}
+	describe( "PatternBuilder.minus", ():void => {
+
+		class MockToken extends Token {
+			// noinspection JSMethodCanBeStatic
+			protected getPrettySeparator():string {
+				throw new Error( "Method not implemented." );
 			}
-			let builder:PatternBuilder = new PatternBuilder( resolver );
+
+			// noinspection JSMethodCanBeStatic
+			protected getCompactSeparator():string {
+				throw new Error( "Method not implemented." );
+			}
+		}
+
+		it( "should accept single pattern", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
 			let pattern:NotTriplesPattern;
 
-			// Single pattern
 			pattern = builder.minus( { getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] } );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( NotTriplesPattern ) );
@@ -680,8 +809,12 @@ describe( "Module PatternBuilder", ():void => {
 				new MockToken( "token-1" ), new MockToken( "token-2" ),
 				new RightSymbol( "}" ),
 			] );
+		} );
 
-			// Multiple patterns, 1
+		it( "should accept single multiple patterns", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+			let pattern:NotTriplesPattern;
+
 			pattern = builder.minus(
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -696,7 +829,6 @@ describe( "Module PatternBuilder", ():void => {
 				new NewLineSymbol( "}" ),
 			] );
 
-			// Multiple patterns, 2
 			pattern = builder.minus(
 				{ getPattern: () => [ new MockToken( "token-1" ), new MockToken( "token-2" ) ] },
 				{ getPattern: () => [ new MockToken( "token-3" ), new MockToken( "token-4" ) ] },
@@ -716,66 +848,62 @@ describe( "Module PatternBuilder", ():void => {
 			] );
 		} );
 
-		it( "PatternBuilder.values()", ():void => {
-			class MockToken extends Token {
-				protected getPrettySeparator():string {
-					return " ";
-				}
+	} );
 
-				protected getCompactSeparator():string {
-					return " ";
-				}
+	describe( "PatternBuilder.values", ():void => {
+
+		class MockToken extends Token {
+			// noinspection JSMethodCanBeStatic
+			protected getPrettySeparator():string {
+				throw new Error( "Method not implemented." );
 			}
 
-			class MockVar extends Variable {
-				private name:string;
+			// noinspection JSMethodCanBeStatic
+			protected getCompactSeparator():string {
+				throw new Error( "Method not implemented." );
+			}
+		}
 
-				constructor( name:string ) {
-					super( resolver, name );
-					this.name = name;
-				}
+		class MockVar extends Variable {
+			private name:string;
 
-				getSelfTokens():Token[] {
-					return [ new MockToken( this.name ) ];
-				}
+			constructor( name:string ) {
+				super( resolver, name );
+				this.name = name;
 			}
 
-			let builder:PatternBuilder = new PatternBuilder( resolver );
-			let pattern:SingleValuesPattern | MultipleValuesPattern;
-			let vars:Variable | Variable[];
-			let tokens:MockToken[];
+			getSelfTokens():Token[] {
+				return [ new MockToken( this.name ) ];
+			}
+		}
 
-			// Single variables
-			vars = new MockVar( "first" );
-			pattern = builder.values( vars );
+		it( "should accept single variables", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
+
+			const vars:Variable = new MockVar( "first" );
+			const pattern:SingleValuesPattern = builder.values( vars );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( ValuesPattern ) );
 
-			tokens = [ vars as Variable ].reduce( ( x, _ ) => x.concat( _.getSelfTokens() ), [] );
+			const tokens:MockToken[] = vars.getSelfTokens() as MockToken[];
 			expect( pattern.getPattern() ).toEqual( jasmine.arrayContaining( tokens ) as any );
+		} );
 
-			// Multiple variables, 1
-			vars = [ new MockVar( "first" ), new MockVar( "second" ) ];
-			pattern = builder.values( ...vars );
-			expect( pattern ).toBeDefined();
-			expect( pattern ).toEqual( jasmine.any( ValuesPattern ) );
+		it( "should accept multiple variables", ():void => {
+			const builder:PatternBuilder = new PatternBuilder( resolver );
 
-			tokens = vars.reduce( ( x, _ ) => x.concat( _.getSelfTokens() ), [] );
-			expect( pattern.getPattern() ).toEqual( jasmine.arrayContaining( tokens ) as any );
-
-			// Multiple variables, 2
-			vars = [
+			const vars:Variable[] = [
 				new MockVar( "a" ),
 				new MockVar( "e" ),
 				new MockVar( "i" ),
 				new MockVar( "o" ),
 				new MockVar( "u" ),
 			];
-			pattern = builder.values( ...vars );
+			const pattern:MultipleValuesPattern = builder.values( ...vars );
 			expect( pattern ).toBeDefined();
 			expect( pattern ).toEqual( jasmine.any( ValuesPattern ) );
 
-			tokens = vars.reduce( ( x, _ ) => x.concat( _.getSelfTokens() ), [] );
+			const tokens:MockToken[] = vars.reduce( ( x, _ ) => x.concat( _.getSelfTokens() ), [] );
 			expect( pattern.getPattern() ).toEqual( jasmine.arrayContaining( tokens ) as any );
 		} );
 

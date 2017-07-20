@@ -23,23 +23,22 @@ import {
 	SILENT,
 	UNION,
 } from "sparqler/patterns/tokens";
+import { BlankNode } from "sparqler/patterns/triples/BlankNode";
+import { Collection } from "sparqler/patterns/triples/Collection";
 import {
-	BlankNode,
 	BooleanLiteral,
-	Collection,
 	Literal,
 	NumericLiteral,
 	RDFLiteral,
-	Resource,
-	Variable,
-} from "sparqler/patterns/triples";
-import {
-	StringLiteral,
-	Token,
-} from "sparqler/tokens";
+} from "sparqler/patterns/triples/Literals";
+import { Resource } from "sparqler/patterns/triples/Resource";
+import { Variable } from "sparqler/patterns/triples/Variable";
+import { StringLiteral } from "sparqler/tokens/StringLiteral";
+import { Token } from "sparqler/tokens/Token";
 import { getBlockTokens } from "sparqler/utils/Patterns";
 
 export type Undefined = "UNDEF";
+
 export class PatternBuilder implements TriplesPatternBuilder,
                                        NotTriplesPatternBuilder {
 
@@ -74,11 +73,11 @@ export class PatternBuilder implements TriplesPatternBuilder,
 		if( typeof value === "boolean" || value instanceof Boolean )
 			return new BooleanLiteral( this.resolver, value as boolean );
 
-		throw new Error( "InvalidArgumentError: No valid value of a literal was provided." );
+		throw new Error( "No valid value of a literal was provided." );
 	}
 
 	collection( ...values:(SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[] ):Collection {
-		if( values.length === 0 ) throw Error( "InvalidArgumentError: The collection needs at least one value." );
+		if( values.length === 0 ) throw Error( "The collection needs at least one value." );
 		return new Collection( this.resolver, values );
 	}
 
