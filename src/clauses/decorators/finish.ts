@@ -4,6 +4,7 @@ import {
 	genericDecorator,
 } from "sparqler/clauses";
 import {
+	BASE,
 	CLOSE_MULTI_BLOCK,
 	CLOSE_MULTI_BN,
 	CLOSE_MULTI_LIST,
@@ -15,6 +16,7 @@ import {
 	PREFIX,
 	SAME_PROPERTY_SEPARATOR,
 	SAME_SUBJECT_SEPARATOR,
+	SELECT,
 	WHERE,
 } from "sparqler/patterns/tokens";
 import {
@@ -28,24 +30,39 @@ import {
  * @returns The compact string.
  */
 function toCompactString( this:Container<FinishClause> ):string {
-	let ignore:number = 0;
-	return this._tokens.reduce( ( res, token, index, tokens ) => {
-		// Ignore tokes of unused prefixes
-		if( ignore ) {
-			-- ignore;
-			return res;
+	let tokens:Token[] = [].concat( this._tokens );
+
+	const maxTokens:Token[] = [ SELECT ];
+	let baseTokens:Token[];
+
+	for( let index:number = 0, token:Token = tokens[ index ]; token && maxTokens.indexOf( token ) === - 1; ++ index, token = tokens[ index ] ) {
+		// Remove unused prefixes
+		if( token === PREFIX ) {
+			const nextToken:Token = tokens[ index + 1 ];
+			if( ! this._iriResolver._prefixes.get( nextToken[ "value" ] ) ) {
+				tokens.splice( index, 6 );
+				-- index;
+			}
 		}
+
+		// Remove bases and store the last one
+		else if( token === BASE ) {
+			baseTokens = tokens.splice( index, 4 );
+			-- index;
+		}
+	}
+
+	// Add the last base as first element
+	if( baseTokens )
+		tokens.unshift( ...baseTokens );
+
+	return tokens.reduce( ( res, token, index, thisArray ) => {
+		let nextToken:Token = thisArray[ index + 1 ];
 
 		// Optional tokens
 		if( token === WHERE ) return res;
 
-		let nextToken:Token = tokens[ index + 1 ];
-		if( token === PREFIX && ! this._iriResolver._prefixes.get( nextToken[ "value" ] ) ) {
-			ignore = 5;
-			return res;
-		}
-
-		if( nextToken === EMPTY_SEPARATOR ) nextToken = tokens[ index + 2 ];
+		if( nextToken === EMPTY_SEPARATOR ) nextToken = thisArray[ index + 2 ];
 		return res + token.getTokenValue( TokenFormat.COMPACT, nextToken );
 	}, "" );
 }

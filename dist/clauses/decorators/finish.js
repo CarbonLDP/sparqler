@@ -4,22 +4,30 @@ var clauses_1 = require("sparqler/clauses");
 var tokens_1 = require("sparqler/patterns/tokens");
 var tokens_2 = require("sparqler/tokens");
 function toCompactString() {
-    var _this = this;
-    var ignore = 0;
-    return this._tokens.reduce(function (res, token, index, tokens) {
-        if (ignore) {
-            --ignore;
-            return res;
+    var tokens = [].concat(this._tokens);
+    var maxTokens = [tokens_1.SELECT];
+    var baseTokens;
+    for (var index = 0, token = tokens[index]; token && maxTokens.indexOf(token) === -1; ++index, token = tokens[index]) {
+        if (token === tokens_1.PREFIX) {
+            var nextToken = tokens[index + 1];
+            if (!this._iriResolver._prefixes.get(nextToken["value"])) {
+                tokens.splice(index, 6);
+                --index;
+            }
         }
+        else if (token === tokens_1.BASE) {
+            baseTokens = tokens.splice(index, 4);
+            --index;
+        }
+    }
+    if (baseTokens)
+        tokens.unshift.apply(tokens, baseTokens);
+    return tokens.reduce(function (res, token, index, thisArray) {
+        var nextToken = thisArray[index + 1];
         if (token === tokens_1.WHERE)
             return res;
-        var nextToken = tokens[index + 1];
-        if (token === tokens_1.PREFIX && !_this._iriResolver._prefixes.get(nextToken["value"])) {
-            ignore = 5;
-            return res;
-        }
         if (nextToken === tokens_1.EMPTY_SEPARATOR)
-            nextToken = tokens[index + 2];
+            nextToken = thisArray[index + 2];
         return res + token.getTokenValue(tokens_2.TokenFormat.COMPACT, nextToken);
     }, "");
 }

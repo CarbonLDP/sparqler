@@ -2,11 +2,9 @@ import {
 	Container,
 	FinishClause,
 } from "sparqler/clauses";
+import { IRIResolver } from "sparqler/iri";
 import {
-	IRIResolver,
-	PrefixMap,
-} from "sparqler/iri";
-import {
+	BASE,
 	CLOSE_IRI,
 	CLOSE_MULTI_BLOCK,
 	CLOSE_MULTI_BN,
@@ -62,6 +60,7 @@ describe( "finishDecorator", ():void => {
 			aProperty:string;
 			aFunction:Function;
 		}
+
 		const myObject:MyObject = {
 			aProperty: "a property",
 			aFunction: () => {},
@@ -137,12 +136,10 @@ describe( "FinishClause", ():void => {
 
 			// Non used prefixes
 			(() => {
-				const iriResolver:IRIResolver = new class extends IRIResolver {
-					readonly _prefixes:PrefixMap = new Map( [
-						[ "prefix-1", false ],
-						[ "prefix-3", false ],
-					] );
-				};
+				const iriResolver:IRIResolver = new IRIResolver();
+				iriResolver._prefixes.set( "prefix-1", false );
+				iriResolver._prefixes.set( "prefix-3", false );
+
 				const container:Container = new Container( null, prefixesTokens, iriResolver );
 				const compactString:string = finishDecorator( container, {} ).toCompactString();
 				expect( compactString ).toBe( "" );
@@ -150,12 +147,10 @@ describe( "FinishClause", ():void => {
 
 			// First prefix used
 			(() => {
-				const iriResolver:IRIResolver = new class extends IRIResolver {
-					readonly _prefixes:PrefixMap = new Map( [
-						[ "prefix-1", true ],
-						[ "prefix-3", false ],
-					] );
-				};
+				const iriResolver:IRIResolver = new IRIResolver();
+				iriResolver._prefixes.set( "prefix-1", true );
+				iriResolver._prefixes.set( "prefix-3", false );
+
 				const container:Container = new Container( null, prefixesTokens, iriResolver );
 				const compactString:string = finishDecorator( container, {} ).toCompactString();
 				expect( compactString ).toBe( "PREFIX prefix-1:<http://example.com/prefix-1#>" );
@@ -163,12 +158,10 @@ describe( "FinishClause", ():void => {
 
 			// Some prefixes used
 			(() => {
-				const iriResolver:IRIResolver = new class extends IRIResolver {
-					readonly _prefixes:PrefixMap = new Map( [
-						[ "prefix-1", true ],
-						[ "prefix-3", true ],
-					] );
-				};
+				const iriResolver:IRIResolver = new IRIResolver();
+				iriResolver._prefixes.set( "prefix-1", true );
+				iriResolver._prefixes.set( "prefix-3", true );
+
 				const container:Container = new Container( null, prefixesTokens, iriResolver );
 				const compactString:string = finishDecorator( container, {} ).toCompactString();
 				expect( compactString ).toBe(
@@ -192,6 +185,39 @@ describe( "FinishClause", ():void => {
 				const compactString:string = finishDecorator( container, {} ).toCompactString();
 				expect( compactString ).toBe( "{}" );
 			})();
+		} );
+
+		it( "should keep only the last BASE statement", ():void => {
+			const container:Container = new Container( null, [
+				BASE, OPEN_IRI, new StringLiteral( "http://example.com/base-1/" ), CLOSE_IRI,
+				BASE, OPEN_IRI, new StringLiteral( "http://example.com/base-2/" ), CLOSE_IRI,
+				BASE, OPEN_IRI, new StringLiteral( "http://example.com/last-base/" ), CLOSE_IRI,
+			] );
+			const finishClause:FinishClause = finishDecorator( container, {} );
+
+			const compactString:string = finishClause.toCompactString();
+			expect( compactString ).toEqual( "BASE<http://example.com/last-base/>" );
+		} );
+
+		it( "should put BASE statement at first of all", ():void => {
+			const iriResolver:IRIResolver = new IRIResolver();
+			iriResolver._prefixes.set( "prefix-1", true );
+			iriResolver._prefixes.set( "prefix-2", true );
+
+			const container:Container = new Container( null, [
+				PREFIX, new StringLiteral( "prefix-1" ), PREFIX_SYMBOL, OPEN_IRI, new StringLiteral( "http://example.com/prefix-1#" ), CLOSE_IRI,
+				BASE, OPEN_IRI, new StringLiteral( "http://example.com/base-1/" ), CLOSE_IRI,
+				PREFIX, new StringLiteral( "prefix-2" ), PREFIX_SYMBOL, OPEN_IRI, new StringLiteral( "http://example.com/prefix-2#" ), CLOSE_IRI,
+				BASE, OPEN_IRI, new StringLiteral( "http://example.com/last-base/" ), CLOSE_IRI,
+			], iriResolver );
+			const finishClause:FinishClause = finishDecorator( container, {} );
+
+			const compactString:string = finishClause.toCompactString();
+			expect( compactString ).toEqual( "" +
+				"BASE<http://example.com/last-base/>" +
+				"PREFIX prefix-1:<http://example.com/prefix-1#>" +
+				"PREFIX prefix-2:<http://example.com/prefix-2#>",
+			);
 		} );
 
 	} );
