@@ -4,9 +4,9 @@ import {
 	FinishClause,
 	LimitOffsetClause,
 	OrderClause,
+	SubFinishClause,
 } from "sparqler/clauses/interfaces";
 import { genericDecorator } from "sparqler/clauses/utils";
-import { GraphPattern } from "sparqler/patterns";
 import {
 	BY,
 	ORDER,
@@ -26,7 +26,7 @@ import {
  * @param rawCondition Raw condition to be applied for the solutions order.
  * @returns Object with the methods to keep constructing the query.
  */
-export function orderBy<T extends FinishClause | GraphPattern>( this:Container<T>, rawCondition:string ):LimitOffsetClause<T> & T {
+export function orderBy<T extends FinishClause | SubFinishClause>( this:Container<T>, rawCondition:string ):LimitOffsetClause<T> & T {
 	const tokens:Token[] = [ ORDER, BY, new StringLiteral( rawCondition ) ];
 
 	const container:Container<T> = new Container<T>( this, tokens );
@@ -41,6 +41,6 @@ export function orderBy<T extends FinishClause | GraphPattern>( this:Container<T
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
-export function orderDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & OrderClause<T> {
+export function orderDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & OrderClause<T> {
 	return genericDecorator( { orderBy }, container, limitOffsetDecorator<T, W>( container, object ) );
 }

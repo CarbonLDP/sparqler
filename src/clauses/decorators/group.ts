@@ -2,11 +2,11 @@ import {
 	FinishClause,
 	GroupClause,
 	HavingClause,
+	SubFinishClause,
 } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
 import { havingDecorator } from "sparqler/clauses/decorators";
 import { genericDecorator } from "sparqler/clauses/utils";
-import { GraphPattern } from "sparqler/patterns";
 import {
 	BY,
 	GROUP,
@@ -23,7 +23,7 @@ import {
  * @param rawCondition Raw condition to be applied to the solutions grouping.
  * @returns Object with the methods to keep constructing the query.
  */
-function groupBy<T extends FinishClause | GraphPattern>( this:Container<T>, rawCondition:string ):HavingClause<T> & T {
+function groupBy<T extends FinishClause | SubFinishClause>( this:Container<T>, rawCondition:string ):HavingClause<T> & T {
 	const tokens:Token[] = [ GROUP, BY, new StringLiteral( rawCondition ) ];
 
 	const container:Container<T> = new Container<T>( this, tokens );
@@ -38,6 +38,6 @@ function groupBy<T extends FinishClause | GraphPattern>( this:Container<T>, rawC
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
-export function groupDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & GroupClause<T> {
+export function groupDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & GroupClause<T> {
 	return genericDecorator( { groupBy }, container, havingDecorator<T, W>( container, object ) );
 }

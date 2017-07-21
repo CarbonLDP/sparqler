@@ -2,16 +2,15 @@ import {
 	Container,
 	FromClause,
 	SelectClause,
-	SubSelect,
-	WhereClause,
+	SubFinishClause,
+	SubSelectClause,
+	SubWhereClause,
 } from "sparqler/clauses";
 import * as ContainerModule from "sparqler/clauses/Container";
 import {
-	graphPatternDecorator,
 	selectDecorator,
-	SubSelectContainer,
+	subFinishDecorator,
 } from "sparqler/clauses/decorators";
-import { IRIResolver } from "sparqler/iri";
 import { GraphPattern } from "sparqler/patterns";
 import {
 	ALL,
@@ -24,49 +23,6 @@ import {
 	StringLiteral,
 	Token,
 } from "sparqler/tokens";
-
-describe( "SubSelectContainer", ():void => {
-
-	it( "should exists", ():void => {
-		expect( SubSelectContainer ).toBeDefined();
-		expect( SubSelectContainer ).toEqual( jasmine.any( Function ) );
-	} );
-
-	it( "should be instantiable", ():void => {
-		const iriResolver:IRIResolver = new IRIResolver();
-		const container:SubSelectContainer = new SubSelectContainer( iriResolver );
-
-		expect( container ).toBeDefined();
-		expect( container ).toEqual( jasmine.any( SubSelectContainer ) );
-	} );
-
-	it( "should extend Container", ():void => {
-		const iriResolver:IRIResolver = new IRIResolver();
-		const container:SubSelectContainer = new SubSelectContainer( iriResolver );
-
-		expect( container ).toEqual( jasmine.any( Container ) );
-	} );
-
-	it( "should be a read only object", ():void => {
-		type Writable<T extends { [x:string]:any }, K extends string> = { [P in K]: T[P] };
-		const container:Writable<SubSelectContainer, keyof SubSelectContainer> & { something?:any }
-			= new SubSelectContainer( new IRIResolver() );
-
-		expect( () => container._tokens = null ).toThrowError( /read only/ );
-		expect( () => container._iriResolver = null ).toThrowError( /read only/ );
-		expect( () => container._finishDecorator = null ).toThrowError( /read only/ );
-
-		expect( () => container.something = null ).toThrowError( /extensible/ );
-	} );
-
-	it( "should have graphPatternDecorator as finish decorator", ():void => {
-		const iriResolver:IRIResolver = new IRIResolver();
-		const container:SubSelectContainer = new SubSelectContainer( iriResolver );
-
-		expect( container._finishDecorator ).toBe( graphPatternDecorator );
-	} );
-
-} );
 
 describe( "selectDecorator", ():void => {
 
@@ -99,11 +55,9 @@ describe( "selectDecorator", ():void => {
 		expect( selectClause.selectAllReduced.name ).toBe( "bound selectAllReduced" );
 	} );
 
-	it( "should create a SubSelect", ():void => {
-		const iriResolver:IRIResolver = new IRIResolver();
-		const container:SubSelectContainer = new SubSelectContainer( iriResolver );
-
-		const subSelect:SubSelect = selectDecorator( container, {} );
+	it( "should create a SubSelectClause", ():void => {
+		const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+		const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 		expect( subSelect ).toEqual( {
 			// Self methods
@@ -549,24 +503,24 @@ describe( "selectDecorator", ():void => {
 
 	} );
 
-	describe( "SubSelect", ():void => {
+	describe( "SubSelectClause", ():void => {
 
 		describe( "select", ():void => {
 
 			it( "should require at least one parameter", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
 
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 				expect( () => subSelect.select() ).toThrowError( "Need to provide al least one variable." );
 			} );
 
 			it( "should not change content of current container", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
 
 				const originalTokensReference:Token[] = container._tokens;
 				const tokensCopy:Token[] = [].concat( container._tokens );
 
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 				subSelect.select( "a" );
 				expect( container._tokens ).toEqual( tokensCopy );
 				expect( container._tokens ).toBe( originalTokensReference );
@@ -580,24 +534,24 @@ describe( "selectDecorator", ():void => {
 				expect( container._tokens ).toBe( originalTokensReference );
 			} );
 
-			it( "should return a WhereClause<GraphPattern> object", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+			it( "should return a SubWhereClause object", ():void => {
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
-				const whereClausePattern:WhereClause<GraphPattern> = subSelect.select( "a" );
-				expect( whereClausePattern ).toEqual( {
+				const subWhere:SubWhereClause = subSelect.select( "a" );
+				expect( subWhere ).toEqual( {
 					where: jasmine.any( Function ),
 				} );
 
-				const graphPattern:GraphPattern = whereClausePattern.where( () => [] );
+				const graphPattern:GraphPattern = subWhere.where( [] );
 				expect( graphPattern ).toEqual( jasmine.objectContaining( {
 					getPattern: jasmine.any( Function ),
 				} ) );
 			} );
 
 			it( "should construct `select` tokens", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
@@ -626,19 +580,19 @@ describe( "selectDecorator", ():void => {
 		describe( "selectDistinct", ():void => {
 
 			it( "should require at least one parameter", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
 
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 				expect( () => subSelect.selectDistinct() ).toThrowError( "Need to provide al least one variable." );
 			} );
 
 			it( "should not change content of current container", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
 
 				const originalTokensReference:Token[] = container._tokens;
 				const tokensCopy:Token[] = [].concat( container._tokens );
 
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 				subSelect.selectDistinct( "a" );
 				expect( container._tokens ).toEqual( tokensCopy );
 				expect( container._tokens ).toBe( originalTokensReference );
@@ -652,24 +606,24 @@ describe( "selectDecorator", ():void => {
 				expect( container._tokens ).toBe( originalTokensReference );
 			} );
 
-			it( "should return a WhereClause<GraphPattern> object", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+			it( "should return a SubWhereClause object", ():void => {
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
-				const whereClausePattern:WhereClause<GraphPattern> = subSelect.selectDistinct( "a" );
-				expect( whereClausePattern ).toEqual( {
+				const subWhere:SubWhereClause = subSelect.selectDistinct( "a" );
+				expect( subWhere ).toEqual( {
 					where: jasmine.any( Function ),
 				} );
 
-				const graphPattern:GraphPattern = whereClausePattern.where( () => [] );
+				const graphPattern:GraphPattern = subWhere.where( [] );
 				expect( graphPattern ).toEqual( jasmine.objectContaining( {
 					getPattern: jasmine.any( Function ),
 				} ) );
 			} );
 
 			it( "should construct `selectDistinct` tokens", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
@@ -698,19 +652,19 @@ describe( "selectDecorator", ():void => {
 		describe( "selectReduced", ():void => {
 
 			it( "should require at least one parameter", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
 
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 				expect( () => subSelect.selectReduced() ).toThrowError( "Need to provide al least one variable." );
 			} );
 
 			it( "should not change content of current container", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
 
 				const originalTokensReference:Token[] = container._tokens;
 				const tokensCopy:Token[] = [].concat( container._tokens );
 
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 				subSelect.selectReduced( "a" );
 				expect( container._tokens ).toEqual( tokensCopy );
 				expect( container._tokens ).toBe( originalTokensReference );
@@ -724,24 +678,24 @@ describe( "selectDecorator", ():void => {
 				expect( container._tokens ).toBe( originalTokensReference );
 			} );
 
-			it( "should return a WhereClause<GraphPattern> object", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+			it( "should return a SubWhereClause object", ():void => {
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
-				const whereClausePattern:WhereClause<GraphPattern> = subSelect.selectReduced( "a" );
-				expect( whereClausePattern ).toEqual( {
+				const subWhere:SubWhereClause = subSelect.selectReduced( "a" );
+				expect( subWhere ).toEqual( {
 					where: jasmine.any( Function ),
 				} );
 
-				const graphPattern:GraphPattern = whereClausePattern.where( () => [] );
+				const graphPattern:GraphPattern = subWhere.where( [] );
 				expect( graphPattern ).toEqual( jasmine.objectContaining( {
 					getPattern: jasmine.any( Function ),
 				} ) );
 			} );
 
 			it( "should construct `selectReduced` tokens", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
@@ -770,12 +724,12 @@ describe( "selectDecorator", ():void => {
 		describe( "selectAll", ():void => {
 
 			it( "should not change content of current container", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
 
 				const originalTokensReference:Token[] = container._tokens;
 				const tokensCopy:Token[] = [].concat( container._tokens );
 
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 				subSelect.selectAll();
 				expect( container._tokens ).toEqual( tokensCopy );
 				expect( container._tokens ).toBe( originalTokensReference );
@@ -789,24 +743,24 @@ describe( "selectDecorator", ():void => {
 				expect( container._tokens ).toBe( originalTokensReference );
 			} );
 
-			it( "should return a WhereClause<GraphPattern> object", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+			it( "should return a SubWhereClause object", ():void => {
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
-				const whereClausePattern:WhereClause<GraphPattern> = subSelect.selectAll();
-				expect( whereClausePattern ).toEqual( {
+				const subWhere:SubWhereClause = subSelect.selectAll();
+				expect( subWhere ).toEqual( {
 					where: jasmine.any( Function ),
 				} );
 
-				const graphPattern:GraphPattern = whereClausePattern.where( () => [] );
+				const graphPattern:GraphPattern = subWhere.where( [] );
 				expect( graphPattern ).toEqual( jasmine.objectContaining( {
 					getPattern: jasmine.any( Function ),
 				} ) );
 			} );
 
 			it( "should construct `selectAll` tokens", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
@@ -833,12 +787,12 @@ describe( "selectDecorator", ():void => {
 		describe( "selectAllDistinct", ():void => {
 
 			it( "should not change content of current container", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
 
 				const originalTokensReference:Token[] = container._tokens;
 				const tokensCopy:Token[] = [].concat( container._tokens );
 
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 				subSelect.selectAllDistinct();
 				expect( container._tokens ).toEqual( tokensCopy );
 				expect( container._tokens ).toBe( originalTokensReference );
@@ -852,24 +806,24 @@ describe( "selectDecorator", ():void => {
 				expect( container._tokens ).toBe( originalTokensReference );
 			} );
 
-			it( "should return a WhereClause<GraphPattern> object", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+			it( "should return a SubWhereClause object", ():void => {
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
-				const whereClausePattern:WhereClause<GraphPattern> = subSelect.selectAllDistinct();
-				expect( whereClausePattern ).toEqual( {
+				const subWhere:SubWhereClause = subSelect.selectAllDistinct();
+				expect( subWhere ).toEqual( {
 					where: jasmine.any( Function ),
 				} );
 
-				const graphPattern:GraphPattern = whereClausePattern.where( () => [] );
+				const graphPattern:GraphPattern = subWhere.where( [] );
 				expect( graphPattern ).toEqual( jasmine.objectContaining( {
 					getPattern: jasmine.any( Function ),
 				} ) );
 			} );
 
 			it( "should construct `selectAllDistinct` tokens", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
@@ -896,12 +850,12 @@ describe( "selectDecorator", ():void => {
 		describe( "selectAllReduced", ():void => {
 
 			it( "should not change content of current container", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
 
 				const originalTokensReference:Token[] = container._tokens;
 				const tokensCopy:Token[] = [].concat( container._tokens );
 
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 				subSelect.selectAllReduced();
 				expect( container._tokens ).toEqual( tokensCopy );
 				expect( container._tokens ).toBe( originalTokensReference );
@@ -915,24 +869,24 @@ describe( "selectDecorator", ():void => {
 				expect( container._tokens ).toBe( originalTokensReference );
 			} );
 
-			it( "should return a WhereClause<GraphPattern> object", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+			it( "should return a SubWhereClause object", ():void => {
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
-				const whereClausePattern:WhereClause<GraphPattern> = subSelect.selectAllReduced();
-				expect( whereClausePattern ).toEqual( {
+				const subWhere:SubWhereClause = subSelect.selectAllReduced();
+				expect( subWhere ).toEqual( {
 					where: jasmine.any( Function ),
 				} );
 
-				const graphPattern:GraphPattern = whereClausePattern.where( () => [] );
+				const graphPattern:GraphPattern = subWhere.where( [] );
 				expect( graphPattern ).toEqual( jasmine.objectContaining( {
 					getPattern: jasmine.any( Function ),
 				} ) );
 			} );
 
 			it( "should construct `selectAllReduced` tokens", ():void => {
-				const container:SubSelectContainer = new SubSelectContainer( new IRIResolver() );
-				const subSelect:SubSelect = selectDecorator( container, {} );
+				const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {

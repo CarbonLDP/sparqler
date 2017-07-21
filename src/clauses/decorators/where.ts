@@ -1,8 +1,10 @@
+import { SubFinishClause } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
 import { groupDecorator } from "sparqler/clauses/decorators";
 import {
 	FinishClause,
 	GroupClause,
+	SubWhereClause,
 	WhereClause,
 } from "sparqler/clauses/interfaces";
 import { genericDecorator } from "sparqler/clauses/utils";
@@ -16,6 +18,20 @@ import { Token } from "sparqler/tokens";
 import { getBlockTokens } from "sparqler/utils/Patterns";
 
 /**
+ * Sets the graph patterns the sub-query should match to retrieve the
+ * sub-solutions data.
+ *
+ * @param patterns Patterns the sub-query should match.
+ * @returns Object with the methods to keep constructing the query.
+ */
+function subWhere( this:Container<SubFinishClause>, patterns:GraphPattern | GraphPattern[] ):GroupClause<SubFinishClause> & SubFinishClause {
+	const tokens:Token[] = [ WHERE, ...getBlockTokens( patterns ) ];
+
+	const container:Container<SubFinishClause> = new Container<SubFinishClause>( this, tokens );
+	return this._finishDecorator( container, groupDecorator( container, {} ) );
+}
+
+/**
  * Specifies the graph patterns the query should match to retrieve
  * the solutions results.
  *
@@ -27,23 +43,36 @@ import { getBlockTokens } from "sparqler/utils/Patterns";
  * array of patterns to match.
  * @returns Object with the methods to keep constructing the query.
  */
-function where<T extends FinishClause | GraphPattern>( this:Container<T>, patternFunction:( builder:PatternBuilder ) => GraphPattern | GraphPattern[ ] ):GroupClause<T> & T {
+function where<T extends FinishClause>( this:Container<T>, patternFunction:( builder:PatternBuilder ) => GraphPattern | GraphPattern[ ] ):GroupClause<T> & T {
 	const iriResolver:IRIResolver = new IRIResolver( this._iriResolver );
-	const result:GraphPattern | GraphPattern[] = patternFunction( new PatternBuilder( iriResolver ) );
-	const tokens:Token[] = [ WHERE, ...getBlockTokens( result ) ];
+	const patterns:GraphPattern | GraphPattern[] = patternFunction( new PatternBuilder( iriResolver ) );
 
+	const tokens:Token[] = [ WHERE, ...getBlockTokens( patterns ) ];
 	const container:Container<T> = new Container<T>( this, tokens, iriResolver );
-	return this._finishDecorator<GroupClause<T>>( container, groupDecorator<T, {}>( container, {} ) );
+
+	return this._finishDecorator( container, groupDecorator( container, {} ) );
 }
 
 /**
- * Decorator that binds the WhereClause methods to a container and
- * adds them to the provided object.
+ * Decorator that binds the {@link WhereClause} methods to a container
+ * and adds them to the provided object.
  *
  * @param container The container where to bind the respective methods.
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
-export function whereDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & WhereClause<T> {
+export function whereDecorator<T extends FinishClause, W extends object>( container:Container<T>, object:W ):W & WhereClause<T> {
 	return genericDecorator( { where }, container, object );
+}
+
+/**
+ * Decorator that binds the {@link SubWhereClause} clause pattern
+ * methods to a container and adds them to the provided object.
+ *
+ * @param container The container where to bind the respective methods.
+ * @param object Object to be decorated with the bound methods.
+ * @returns The same object provided that has been decorated.
+ */
+export function subWhereDecorator<T extends SubFinishClause, W extends object>( container:Container<T>, object:W ):W & SubWhereClause {
+	return genericDecorator( { where: subWhere }, container, object );
 }

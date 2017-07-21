@@ -5,7 +5,7 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./finish"));
 __export(require("./from"));
-__export(require("./graph-pattern"));
+__export(require("./subFinish"));
 __export(require("./group"));
 __export(require("./having"));
 __export(require("./limit-offset"));

@@ -1,6 +1,6 @@
 export * from "./finish";
 export * from "./from";
-export * from "./graph-pattern";
+export * from "./subFinish";
 export * from "./group";
 export * from "./having";
 export * from "./limit-offset";

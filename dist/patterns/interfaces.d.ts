@@ -1,3 +1,4 @@
+import { SubSelectClause } from "sparqler/clauses";
 import { Undefined } from "sparqler/patterns";
 import { NotTriplesPattern } from "sparqler/patterns/notTriples";
 import { BlankNode, BooleanLiteral, Collection, Literal, NumericLiteral, RDFLiteral, Resource, Variable } from "sparqler/patterns/triples";
@@ -66,4 +67,7 @@ export interface TriplesSameSubjectMore<T> {
     and(property: string | Variable | Resource, objects: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
 }
 export interface TriplesNodePattern extends GraphPattern, ElementPattern {
+}
+export interface ClausePatternBuilder {
+    subSelect(): SubSelectClause;
 }

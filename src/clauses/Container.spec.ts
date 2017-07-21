@@ -1,10 +1,12 @@
 import {
 	Container,
 	FinishDecorator,
+	SubFinishClause,
 } from "sparqler/clauses";
 import { Token } from "sparqler/tokens";
 import { IRIResolver } from "sparqler/iri";
 import * as IRIResolverModule from "sparqler/iri/IRIResolver";
+import { subFinishDecorator } from "sparqler/clauses/decorators";
 
 
 describe( "Container", ():void => {
@@ -33,7 +35,7 @@ describe( "Container", ():void => {
 	} );
 
 	it( "should be a read only object", ():void => {
-		type Writable<T extends { [x:string]:any }, K extends string> = { [P in K]: T[P] };
+		type Writable<T extends { [x:string]:any }, K extends string> = { [P in K]?: T[P] };
 		const container:Writable<Container, keyof Container> & { something?:any } = new Container();
 
 		expect( () => container._tokens = null ).toThrowError( /read only/ );
@@ -56,6 +58,7 @@ describe( "Container", ():void => {
 		const previousContainer:Container = new class extends Container {
 			_finishDecorator = customFinishDecorator;
 			_tokens = customTokens;
+			// noinspection JSUnusedGlobalSymbols
 			_iriResolver = customIRIResolver;
 		};
 
@@ -109,6 +112,7 @@ describe( "Container", ():void => {
 		const previousIRIResolver:IRIResolver = new IRIResolver();
 
 		const previousContainer:Container = new class extends Container {
+			// noinspection JSUnusedGlobalSymbols
 			_iriResolver = previousIRIResolver;
 		};
 
@@ -127,6 +131,7 @@ describe( "Container", ():void => {
 		const previousIRIResolver:IRIResolver = new IRIResolver();
 
 		const previousContainer:Container = new class extends Container {
+			// noinspection JSUnusedGlobalSymbols
 			_iriResolver = previousIRIResolver;
 		};
 
@@ -136,6 +141,27 @@ describe( "Container", ():void => {
 		expect( container._iriResolver ).not.toBe( previousIRIResolver );
 		expect( spyIRIResolver ).toHaveBeenCalledTimes( 1 );
 		expect( spyIRIResolver ).toHaveBeenCalledWith( previousIRIResolver );
+	} );
+
+	it( "should not set iriResolver if previous container doesn't have it", ():void => {
+		const previousContainer:Container = new class extends Container {
+			// noinspection JSUnusedGlobalSymbols
+			_iriResolver = void 0;
+		};
+
+		const spyIRIResolver:jasmine.Spy = spyOn( IRIResolverModule, "IRIResolver" ).and.callThrough();
+		const container:Container = new Container( previousContainer, null, null );
+
+		expect( container._iriResolver ).toBeUndefined();
+		expect( spyIRIResolver ).toHaveBeenCalledTimes( 0 );
+	} );
+	
+	it( "should not set iriResolver if finish decorator is subFinishDecorator", ():void => {
+		const spyIRIResolver:jasmine.Spy = spyOn( IRIResolverModule, "IRIResolver" ).and.callThrough();
+		const container:Container<SubFinishClause> = new Container( subFinishDecorator );
+
+		expect( container._iriResolver ).toBeUndefined();
+		expect( spyIRIResolver ).toHaveBeenCalledTimes( 0 );
 	} );
 
 } );

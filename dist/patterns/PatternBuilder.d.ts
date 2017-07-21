@@ -1,14 +1,14 @@
+import { SubSelectClause } from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "sparqler/patterns/interfaces";
+import { ClausePatternBuilder, GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "sparqler/patterns/interfaces";
 import { NotTriplesPattern } from "sparqler/patterns/notTriples/NotTriplesPattern";
 import { BlankNode } from "sparqler/patterns/triples/BlankNode";
 import { Collection } from "sparqler/patterns/triples/Collection";
 import { BooleanLiteral, Literal, NumericLiteral, RDFLiteral } from "sparqler/patterns/triples/Literals";
 import { Resource } from "sparqler/patterns/triples/Resource";
 import { Variable } from "sparqler/patterns/triples/Variable";
-import { SubSelect } from "sparqler/clauses";
 export declare type Undefined = "UNDEF";
-export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder {
+export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder, ClausePatternBuilder {
     static readonly undefined: Undefined;
     readonly undefined: Undefined;
     private iriResolver;
@@ -38,6 +38,6 @@ export declare class PatternBuilder implements TriplesPatternBuilder, NotTriples
     serviceSilent(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
     bind(rawExpression: string, variable: string | Variable): NotTriplesPattern;
     filter(rawConstraint: string): NotTriplesPattern;
-    subSelect(): SubSelect;
+    subSelect(): SubSelectClause;
 }
 export default PatternBuilder;

@@ -1,18 +1,24 @@
-import { Container } from "sparqler/clauses";
-import { graphPatternDecorator } from "sparqler/clauses/decorators";
-import { GraphPattern } from "sparqler/patterns";
+import {
+	Container,
+	SubFinishClause,
+} from "sparqler/clauses";
+import { subFinishDecorator } from "sparqler/clauses/decorators";
+import {
+	CLOSE_MULTI_BLOCK,
+	OPEN_MULTI_BLOCK,
+} from "sparqler/patterns/tokens";
 import { Token } from "sparqler/tokens";
 
-describe( "graphPatternDecorator", ():void => {
+describe( "subFinishDecorator", ():void => {
 
 	it( "should exists", ():void => {
-		expect( graphPatternDecorator ).toBeDefined();
-		expect( graphPatternDecorator ).toEqual( jasmine.any( Function ) );
+		expect( subFinishDecorator ).toBeDefined();
+		expect( subFinishDecorator ).toEqual( jasmine.any( Function ) );
 	} );
 
-	it( "should create a GraphPattern object", ():void => {
-		const container:Container<GraphPattern> = new Container<GraphPattern>( graphPatternDecorator );
-		const graphPattern:GraphPattern = graphPatternDecorator( container, {} );
+	it( "should create a SubFinishClause object", ():void => {
+		const container:Container<SubFinishClause> = new Container<SubFinishClause>( subFinishDecorator );
+		const graphPattern:SubFinishClause = subFinishDecorator( container, {} );
 
 		expect( graphPattern ).toEqual( {
 			getPattern: jasmine.any( Function ),
@@ -22,7 +28,7 @@ describe( "graphPatternDecorator", ():void => {
 	} );
 
 	it( "should extend the object provided", ():void => {
-		const container:Container<GraphPattern> = new Container<GraphPattern>( graphPatternDecorator );
+		const container:Container<SubFinishClause> = new Container<SubFinishClause>( subFinishDecorator );
 
 		interface MyObject {
 			aProperty:string;
@@ -30,7 +36,7 @@ describe( "graphPatternDecorator", ():void => {
 		}
 
 		const myObject:MyObject = { aProperty: "a property", aFunction: () => {} };
-		const graphPattern:GraphPattern & MyObject = graphPatternDecorator( container, myObject );
+		const graphPattern:SubFinishClause & MyObject = subFinishDecorator( container, myObject );
 
 		expect( graphPattern ).toEqual( {
 			// Original properties
@@ -42,17 +48,17 @@ describe( "graphPatternDecorator", ():void => {
 		} );
 	} );
 
-	describe( "GraphPattern", ():void => {
+	describe( "SubFinishClause", ():void => {
 
-		describe( "getPattern", ():void => {
+		describe( "SubFinishClause.getPattern", ():void => {
 
 			it( "should not change content of current container", ():void => {
-				const container:Container<GraphPattern> = new Container<GraphPattern>( graphPatternDecorator );
+				const container:Container<SubFinishClause> = new Container<SubFinishClause>( subFinishDecorator );
 
 				const originalTokensReference:Token[] = container._tokens;
 				const tokensCopy:Token[] = [].concat( container._tokens );
 
-				const graphPattern:GraphPattern = graphPatternDecorator( container, {} );
+				const graphPattern:SubFinishClause = subFinishDecorator( container, {} );
 				graphPattern.getPattern();
 				expect( container._tokens ).toEqual( tokensCopy );
 				expect( container._tokens ).toBe( originalTokensReference );
@@ -76,21 +82,23 @@ describe( "graphPatternDecorator", ():void => {
 
 				}
 
-				const container:Container<GraphPattern> = new class extends Container<GraphPattern> {
+				const container:Container<SubFinishClause> = new class extends Container<SubFinishClause> {
 					// noinspection JSMismatchedCollectionQueryUpdate
 					readonly _tokens:Token[];
 
 					constructor() {
-						super( graphPatternDecorator );
+						super( subFinishDecorator );
 						this._tokens = [ new MockToken( "token-1" ), new MockToken( "token-2" ) ];
 					}
 				};
 
-				const graphPattern:GraphPattern = graphPatternDecorator( container, {} );
+				const graphPattern:SubFinishClause = subFinishDecorator( container, {} );
 
 				expect( graphPattern.getPattern() ).toEqual( [
+					OPEN_MULTI_BLOCK,
 					new MockToken( "token-1" ),
 					new MockToken( "token-2" ),
+					CLOSE_MULTI_BLOCK,
 				] );
 				expect( graphPattern.getPattern() ).not.toBe( container._tokens );
 			} );

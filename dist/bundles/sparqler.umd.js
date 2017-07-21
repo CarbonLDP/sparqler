@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 22);
+/******/ 	return __webpack_require__(__webpack_require__.s = 23);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -147,7 +147,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(6));
-__export(__webpack_require__(19));
+__export(__webpack_require__(20));
 __export(__webpack_require__(13));
 __export(__webpack_require__(41));
 __export(__webpack_require__(9));
@@ -164,20 +164,17 @@ __export(__webpack_require__(5));
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var finish_1 = __webpack_require__(15);
+var subFinish_1 = __webpack_require__(16);
 var IRIResolver_1 = __webpack_require__(8);
 var Container = (function () {
-    function Container(previousContainerOrFinishDecorator, newTokens, iriResolver) {
+    function Container(containerOrFunction, newTokens, iriResolver) {
         var _newTarget = this.constructor;
-        var container = previousContainerOrFinishDecorator instanceof Function
-            ? void 0
-            : previousContainerOrFinishDecorator;
-        var finishDecorator = previousContainerOrFinishDecorator instanceof Function
-            ? previousContainerOrFinishDecorator
-            : finish_1.finishDecorator;
-        this._iriResolver = iriResolver
-            ? iriResolver : container
-            ? new IRIResolver_1.IRIResolver(container._iriResolver)
-            : new IRIResolver_1.IRIResolver();
+        var container = containerOrFunction instanceof Function ?
+            void 0 : containerOrFunction;
+        var finishDecorator = containerOrFunction instanceof Function
+            ? containerOrFunction : finish_1.finishDecorator;
+        this._iriResolver = finishDecorator !== subFinish_1.subFinishDecorator ? !iriResolver ? container ? container._iriResolver ?
+            new IRIResolver_1.IRIResolver(container._iriResolver) : void 0 : new IRIResolver_1.IRIResolver() : iriResolver : void 0;
         var previousTokens = container ? container._tokens : [];
         if (!newTokens)
             newTokens = [];
@@ -222,8 +219,8 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(15));
-__export(__webpack_require__(23));
 __export(__webpack_require__(24));
+__export(__webpack_require__(16));
 __export(__webpack_require__(25));
 __export(__webpack_require__(26));
 __export(__webpack_require__(27));
@@ -445,7 +442,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var XSD = __webpack_require__(42);
 var StringLiteral_1 = __webpack_require__(7);
 var tokens_1 = __webpack_require__(0);
-var PatternBuilder_1 = __webpack_require__(16);
+var PatternBuilder_1 = __webpack_require__(17);
 function serialize(object) {
     if (typeof object === "string" || object instanceof String) {
         if (object === PatternBuilder_1.PatternBuilder.undefined)
@@ -621,7 +618,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Identifier_1 = __webpack_require__(6);
-var LeftSymbol_1 = __webpack_require__(19);
+var LeftSymbol_1 = __webpack_require__(20);
 var NewLineSymbol_1 = __webpack_require__(13);
 var Operator_1 = __webpack_require__(9);
 var Token_1 = __webpack_require__(5);
@@ -809,8 +806,28 @@ exports.finishDecorator = finishDecorator;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var NotTriplesPattern_1 = __webpack_require__(17);
-var ValuesPattern_1 = __webpack_require__(18);
+var utils_1 = __webpack_require__(3);
+var tokens_1 = __webpack_require__(0);
+function getPattern() {
+    return [tokens_1.OPEN_MULTI_BLOCK].concat(this._tokens, [tokens_1.CLOSE_MULTI_BLOCK]);
+}
+function subFinishDecorator(container, object) {
+    return utils_1.genericDecorator({ getPattern: getPattern }, container, object);
+}
+exports.subFinishDecorator = subFinishDecorator;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Container_1 = __webpack_require__(2);
+var decorators_1 = __webpack_require__(4);
+var NotTriplesPattern_1 = __webpack_require__(18);
+var ValuesPattern_1 = __webpack_require__(19);
 var tokens_1 = __webpack_require__(0);
 var BlankNode_1 = __webpack_require__(36);
 var Collection_1 = __webpack_require__(37);
@@ -818,8 +835,7 @@ var Literals_1 = __webpack_require__(38);
 var Resource_1 = __webpack_require__(39);
 var Variable_1 = __webpack_require__(40);
 var StringLiteral_1 = __webpack_require__(7);
-var Patterns_1 = __webpack_require__(20);
-var decorators_1 = __webpack_require__(4);
+var Patterns_1 = __webpack_require__(21);
 var PatternBuilder = (function () {
     function PatternBuilder(iriResolver) {
         this.iriResolver = iriResolver;
@@ -917,8 +933,7 @@ var PatternBuilder = (function () {
         return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.FILTER, new StringLiteral_1.StringLiteral(rawConstraint)]);
     };
     PatternBuilder.prototype.subSelect = function () {
-        var container = new decorators_1.SubSelectContainer(this.iriResolver);
-        return decorators_1.selectDecorator(container, {});
+        return decorators_1.selectDecorator(new Container_1.Container(decorators_1.subFinishDecorator), {});
     };
     return PatternBuilder;
 }());
@@ -927,7 +942,7 @@ exports.default = PatternBuilder;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -947,7 +962,7 @@ exports.default = NotTriplesPattern;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1034,7 +1049,7 @@ exports.default = ValuesPattern;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1072,7 +1087,7 @@ exports.default = LeftSymbol;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1115,7 +1130,7 @@ exports.isMultiLine = isMultiLine;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1135,17 +1150,17 @@ exports.default = SPARQLER;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var index_1 = __webpack_require__(21);
+var index_1 = __webpack_require__(22);
 module.exports = index_1.SPARQLER;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1172,23 +1187,6 @@ function fromDecorator(container, object) {
     return utils_1.genericDecorator({ from: from, fromNamed: fromNamed }, container, decorators_1.whereDecorator(container, object));
 }
 exports.fromDecorator = fromDecorator;
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(3);
-function getPattern() {
-    return [].concat(this._tokens);
-}
-function graphPatternDecorator(container, object) {
-    return utils_1.genericDecorator({ getPattern: getPattern }, container, object);
-}
-exports.graphPatternDecorator = graphPatternDecorator;
 
 
 /***/ }),
@@ -1378,41 +1376,20 @@ exports.queryDecorator = queryDecorator;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = __webpack_require__(2);
 var decorators_1 = __webpack_require__(4);
 var utils_1 = __webpack_require__(3);
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
-var SubSelectContainer = (function (_super) {
-    __extends(SubSelectContainer, _super);
-    function SubSelectContainer(iriResolver) {
-        var _this = _super.call(this, null, null, iriResolver) || this;
-        _this._finishDecorator = decorators_1.graphPatternDecorator;
-        Object.freeze(_this);
-        return _this;
-    }
-    return SubSelectContainer;
-}(Container_1.Container));
-exports.SubSelectContainer = SubSelectContainer;
 function _select(self, tokens, variables) {
     if (variables && variables.length === 0)
         throw new Error("Need to provide al least one variable.");
     if (variables)
         variables.forEach(function (variable) { return tokens.push(tokens_1.VAR_SYMBOL, new tokens_2.StringLiteral(variable)); });
     var container = new Container_1.Container(self, tokens);
-    if (self._finishDecorator === decorators_1.graphPatternDecorator)
-        return decorators_1.whereDecorator(container, {});
+    if (self._finishDecorator === decorators_1.subFinishDecorator)
+        return decorators_1.subWhereDecorator(container, {});
     return decorators_1.fromDecorator(container, {});
 }
 function select() {
@@ -1471,11 +1448,16 @@ var utils_1 = __webpack_require__(3);
 var IRIResolver_1 = __webpack_require__(8);
 var patterns_1 = __webpack_require__(34);
 var tokens_1 = __webpack_require__(0);
-var Patterns_1 = __webpack_require__(20);
+var Patterns_1 = __webpack_require__(21);
+function subWhere(patterns) {
+    var tokens = [tokens_1.WHERE].concat(Patterns_1.getBlockTokens(patterns));
+    var container = new Container_1.Container(this, tokens);
+    return this._finishDecorator(container, decorators_1.groupDecorator(container, {}));
+}
 function where(patternFunction) {
     var iriResolver = new IRIResolver_1.IRIResolver(this._iriResolver);
-    var result = patternFunction(new patterns_1.PatternBuilder(iriResolver));
-    var tokens = [tokens_1.WHERE].concat(Patterns_1.getBlockTokens(result));
+    var patterns = patternFunction(new patterns_1.PatternBuilder(iriResolver));
+    var tokens = [tokens_1.WHERE].concat(Patterns_1.getBlockTokens(patterns));
     var container = new Container_1.Container(this, tokens, iriResolver);
     return this._finishDecorator(container, decorators_1.groupDecorator(container, {}));
 }
@@ -1483,6 +1465,10 @@ function whereDecorator(container, object) {
     return utils_1.genericDecorator({ where: where }, container, object);
 }
 exports.whereDecorator = whereDecorator;
+function subWhereDecorator(container, object) {
+    return utils_1.genericDecorator({ where: subWhere }, container, object);
+}
+exports.subWhereDecorator = subWhereDecorator;
 
 
 /***/ }),
@@ -1564,7 +1550,7 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(16));
+__export(__webpack_require__(17));
 
 
 /***/ }),
@@ -1577,8 +1563,8 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(17));
 __export(__webpack_require__(18));
+__export(__webpack_require__(19));
 
 
 /***/ }),

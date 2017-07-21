@@ -26,7 +26,7 @@ import {
 } from "sparqler/tokens";
 
 import DefaultExport, { PatternBuilder } from "./PatternBuilder";
-import { SubSelect } from "sparqler/clauses";
+import { SubSelectClause } from "sparqler/clauses";
 
 
 describe( "PatternBuilder", ():void => {
@@ -917,9 +917,9 @@ describe( "PatternBuilder", ():void => {
 
 	describe( "PatternBuilder.subSelect", ():void => {
 
-		it( "should return a SubSelect object", ():void => {
+		it( "should return a SubSelectClause object", ():void => {
 			const builder:PatternBuilder = new PatternBuilder( iriResolver );
-			const subSelect:SubSelect = builder.subSelect();
+			const subSelect:SubSelectClause = builder.subSelect();
 
 			expect( subSelect ).toEqual( {
 				select: jasmine.any( Function ),

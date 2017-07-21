@@ -4,9 +4,9 @@ import {
 	LimitClause,
 	LimitOffsetClause,
 	OffsetClause,
+	SubFinishClause,
 } from "sparqler/clauses/interfaces";
 import { genericDecorator } from "sparqler/clauses/utils";
-import { GraphPattern } from "sparqler/patterns/interfaces";
 import {
 	LIMIT,
 	OFFSET,
@@ -28,7 +28,7 @@ export enum CurrentMethod {
 /**
  * Container to be used by the limit and offset methods to keep track of which method is called first.
  */
-export class LimitOffsetContainer<T extends FinishClause | GraphPattern = FinishClause> extends Container<T> {
+export class LimitOffsetContainer<T extends FinishClause | SubFinishClause = FinishClause> extends Container<T> {
 
 	/**
 	 * Property indicating that limit method has been used first.
@@ -60,10 +60,10 @@ export class LimitOffsetContainer<T extends FinishClause | GraphPattern = Finish
  * Set the limit of results the query should return.
  *
  * @param limit The number to be applied as limit.
- * @returns A OffsetClause or the FinishClause/GraphPattern depending
+ * @returns A OffsetClause or the FinishClause/SubFinishClause depending
  * if the offset method has been called before or not.
  */
-export function limit<T extends FinishClause | GraphPattern>( this:LimitOffsetContainer<T>, limit:number ):T | OffsetClause<T> & T {
+export function limit<T extends FinishClause | SubFinishClause>( this:LimitOffsetContainer<T>, limit:number ):T | OffsetClause<T> & T {
 	const tokens:Token[] = [ LIMIT, new NumberLiteral( limit ) ];
 
 	// Return T
@@ -81,10 +81,10 @@ export function limit<T extends FinishClause | GraphPattern>( this:LimitOffsetCo
  * Set the offset of results the query should return from.
  *
  * @param offset The number to be applied as offset.
- * @returns A LimitClause or the FinishClause/GraphPattern depending
+ * @returns A LimitClause or the FinishClause/SubFinishClause depending
  * if the limit method has been called before or not.
  */
-export function offset<T extends FinishClause | GraphPattern>( this:LimitOffsetContainer<T>, offset:number ):T | LimitClause<T> & T {
+export function offset<T extends FinishClause | SubFinishClause>( this:LimitOffsetContainer<T>, offset:number ):T | LimitClause<T> & T {
 	const tokens:Token[] = [ OFFSET, new NumberLiteral( offset ) ];
 
 	// Return T
@@ -107,7 +107,7 @@ export function offset<T extends FinishClause | GraphPattern>( this:LimitOffsetC
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
-export function limitDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & LimitClause<T> {
+export function limitDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & LimitClause<T> {
 	return genericDecorator( { limit }, container, object );
 }
 
@@ -119,7 +119,7 @@ export function limitDecorator<T extends FinishClause | GraphPattern, W extends 
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
-export function offsetDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & OffsetClause<T> {
+export function offsetDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & OffsetClause<T> {
 	return genericDecorator( { offset }, container, object );
 }
 
@@ -131,7 +131,7 @@ export function offsetDecorator<T extends FinishClause | GraphPattern, W extends
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
-export function limitOffsetDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & LimitOffsetClause<T> {
+export function limitOffsetDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & LimitOffsetClause<T> {
 	return genericDecorator( {
 		limit: limit as ( limit:number ) => OffsetClause<T> & T,
 		offset: offset as ( offset:number ) => LimitClause<T> & T,

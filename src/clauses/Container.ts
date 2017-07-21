@@ -1,7 +1,10 @@
 import { finishDecorator as originalFinishDecorator } from "sparqler/clauses/decorators/finish";
-import { FinishClause } from "sparqler/clauses/interfaces";
+import { subFinishDecorator } from "sparqler/clauses/decorators/subFinish";
+import {
+	FinishClause,
+	SubFinishClause,
+} from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { GraphPattern } from "sparqler/patterns/interfaces";
 import { Token } from "sparqler/tokens/Token";
 
 
@@ -11,7 +14,7 @@ import { Token } from "sparqler/tokens/Token";
  * Should accept a container with the query data as first parameter and
  * as second the object to decorate.
  */
-export interface FinishDecorator<T extends FinishClause | GraphPattern> extends Function {
+export interface FinishDecorator<T extends FinishClause | SubFinishClause> extends Function {
 	<W extends object>( container:Container<T>, object:W ):T & W;
 }
 
@@ -21,7 +24,7 @@ export interface FinishDecorator<T extends FinishClause | GraphPattern> extends 
  * Every step of the builder uses a different instance of the container
  * to make the query builder immutable-like.
  */
-export class Container<T extends FinishClause | GraphPattern = FinishClause> {
+export class Container<T extends FinishClause | SubFinishClause = FinishClause> {
 
 	/**
 	 * Array containing the query tokens.
@@ -34,9 +37,9 @@ export class Container<T extends FinishClause | GraphPattern = FinishClause> {
 	readonly _finishDecorator:FinishDecorator<T>;
 
 	/**
-	 * Implementation of the IRI Resolver interface.
+	 * Optional implementation of the IRI Resolver interface.
 	 */
-	readonly _iriResolver:IRIResolver;
+	readonly _iriResolver?:IRIResolver;
 
 	/**
 	 * Creates an empty container with the default finish decorator: {@link finishDecorator}.
@@ -55,26 +58,23 @@ export class Container<T extends FinishClause | GraphPattern = FinishClause> {
 	 * of the previous container tokens.
 	 *
 	 * If the `iriResolver` is provided, it will be used in the new container instead
-	 * of the IRIResolver of the previous container.
+	 * of the IRIResolver of the previous container. But if the value is `null` the
+	 * `_iriResolver` property will be undefined.
 	 *
 	 * @param previousContainer Container to be copied.
 	 * @param newTokens Tokens to append to the to the previousContainer tokens copied.
 	 * @param iriResolver IRIResolver to be used.
 	 */
 	constructor( previousContainer:Container<any>, newTokens?:Token[], iriResolver?:IRIResolver );
-	constructor( previousContainerOrFinishDecorator?:Container<any> | FinishDecorator<T>, newTokens?:Token[], iriResolver?:IRIResolver ) {
-		const container:Container<any> = previousContainerOrFinishDecorator instanceof Function
-			? void 0
-			: previousContainerOrFinishDecorator;
+	constructor( containerOrFunction?:Container<any> | FinishDecorator<T>, newTokens?:Token[], iriResolver?:IRIResolver ) {
+		const container:Container<any> = containerOrFunction instanceof Function ?
+			void 0 : containerOrFunction;
 
-		const finishDecorator:FinishDecorator<T> = previousContainerOrFinishDecorator instanceof Function
-			? previousContainerOrFinishDecorator
-			: originalFinishDecorator as FinishDecorator<T>;
+		const finishDecorator:FinishDecorator<T> = containerOrFunction instanceof Function
+			? containerOrFunction : originalFinishDecorator as FinishDecorator<T>;
 
-		this._iriResolver = iriResolver
-			? iriResolver : container
-				? new IRIResolver( container._iriResolver )
-				: new IRIResolver();
+		this._iriResolver = finishDecorator !== subFinishDecorator ? ! iriResolver ? container ? container._iriResolver ?
+			new IRIResolver( container._iriResolver ) : void 0 : new IRIResolver() : iriResolver : void 0;
 
 		const previousTokens:Token[] = container ? container._tokens : [];
 		if( ! newTokens ) newTokens = [];

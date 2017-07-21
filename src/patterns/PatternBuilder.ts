@@ -1,5 +1,12 @@
+import { Container } from "sparqler/clauses/Container";
+import {
+	selectDecorator,
+	subFinishDecorator,
+} from "sparqler/clauses/decorators";
+import { SubSelectClause } from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
+	ClausePatternBuilder,
 	GraphPattern,
 	MultipleValuesPattern,
 	NotTriplesPatternBuilder,
@@ -36,16 +43,12 @@ import { Variable } from "sparqler/patterns/triples/Variable";
 import { StringLiteral } from "sparqler/tokens/StringLiteral";
 import { Token } from "sparqler/tokens/Token";
 import { getBlockTokens } from "sparqler/utils/Patterns";
-import { SubSelect } from "sparqler/clauses";
-import {
-	selectDecorator,
-	SubSelectContainer,
-} from "sparqler/clauses/decorators";
 
 export type Undefined = "UNDEF";
 
 export class PatternBuilder implements TriplesPatternBuilder,
-                                       NotTriplesPatternBuilder {
+                                       NotTriplesPatternBuilder,
+                                       ClausePatternBuilder {
 
 	public static get undefined():Undefined { return "UNDEF"; };
 
@@ -164,9 +167,8 @@ export class PatternBuilder implements TriplesPatternBuilder,
 		return new NotTriplesPattern( [ FILTER, new StringLiteral( rawConstraint ) ] );
 	}
 
-	subSelect():SubSelect {
-		const container:SubSelectContainer = new SubSelectContainer( this.iriResolver );
-		return selectDecorator( container, {} );
+	subSelect():SubSelectClause {
+		return selectDecorator( new Container( subFinishDecorator ), {} );
 	}
 
 }

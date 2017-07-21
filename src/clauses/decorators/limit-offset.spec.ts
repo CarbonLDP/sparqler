@@ -37,7 +37,7 @@ describe( "LimitOffsetContainer", ():void => {
 	} );
 
 	it( "should be a read only object", ():void => {
-		type Writable<T extends { [x:string]:any }, K extends string> = { [P in K]: T[P] };
+		type Writable<T extends { [x:string]:any }, K extends string> = { [P in K]?: T[P] };
 		const container:Writable<LimitOffsetContainer, keyof LimitOffsetContainer> & { something?:any }
 			= new LimitOffsetContainer( null, null, null );
 

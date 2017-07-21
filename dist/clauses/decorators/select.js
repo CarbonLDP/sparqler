@@ -1,39 +1,18 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = require("sparqler/clauses/Container");
 var decorators_1 = require("sparqler/clauses/decorators");
 var utils_1 = require("sparqler/clauses/utils");
 var tokens_1 = require("sparqler/patterns/tokens");
 var tokens_2 = require("sparqler/tokens");
-var SubSelectContainer = (function (_super) {
-    __extends(SubSelectContainer, _super);
-    function SubSelectContainer(iriResolver) {
-        var _this = _super.call(this, null, null, iriResolver) || this;
-        _this._finishDecorator = decorators_1.graphPatternDecorator;
-        Object.freeze(_this);
-        return _this;
-    }
-    return SubSelectContainer;
-}(Container_1.Container));
-exports.SubSelectContainer = SubSelectContainer;
 function _select(self, tokens, variables) {
     if (variables && variables.length === 0)
         throw new Error("Need to provide al least one variable.");
     if (variables)
         variables.forEach(function (variable) { return tokens.push(tokens_1.VAR_SYMBOL, new tokens_2.StringLiteral(variable)); });
     var container = new Container_1.Container(self, tokens);
-    if (self._finishDecorator === decorators_1.graphPatternDecorator)
-        return decorators_1.whereDecorator(container, {});
+    if (self._finishDecorator === decorators_1.subFinishDecorator)
+        return decorators_1.subWhereDecorator(container, {});
     return decorators_1.fromDecorator(container, {});
 }
 function select() {

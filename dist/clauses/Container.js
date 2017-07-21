@@ -1,20 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var finish_1 = require("sparqler/clauses/decorators/finish");
+var subFinish_1 = require("sparqler/clauses/decorators/subFinish");
 var IRIResolver_1 = require("sparqler/iri/IRIResolver");
 var Container = (function () {
-    function Container(previousContainerOrFinishDecorator, newTokens, iriResolver) {
+    function Container(containerOrFunction, newTokens, iriResolver) {
         var _newTarget = this.constructor;
-        var container = previousContainerOrFinishDecorator instanceof Function
-            ? void 0
-            : previousContainerOrFinishDecorator;
-        var finishDecorator = previousContainerOrFinishDecorator instanceof Function
-            ? previousContainerOrFinishDecorator
-            : finish_1.finishDecorator;
-        this._iriResolver = iriResolver
-            ? iriResolver : container
-            ? new IRIResolver_1.IRIResolver(container._iriResolver)
-            : new IRIResolver_1.IRIResolver();
+        var container = containerOrFunction instanceof Function ?
+            void 0 : containerOrFunction;
+        var finishDecorator = containerOrFunction instanceof Function
+            ? containerOrFunction : finish_1.finishDecorator;
+        this._iriResolver = finishDecorator !== subFinish_1.subFinishDecorator ? !iriResolver ? container ? container._iriResolver ?
+            new IRIResolver_1.IRIResolver(container._iriResolver) : void 0 : new IRIResolver_1.IRIResolver() : iriResolver : void 0;
         var previousTokens = container ? container._tokens : [];
         if (!newTokens)
             newTokens = [];

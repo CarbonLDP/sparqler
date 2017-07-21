@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Container_1 = require("sparqler/clauses/Container");
+var decorators_1 = require("sparqler/clauses/decorators");
 var NotTriplesPattern_1 = require("sparqler/patterns/notTriples/NotTriplesPattern");
 var ValuesPattern_1 = require("sparqler/patterns/notTriples/ValuesPattern");
 var tokens_1 = require("sparqler/patterns/tokens");
@@ -10,7 +12,6 @@ var Resource_1 = require("sparqler/patterns/triples/Resource");
 var Variable_1 = require("sparqler/patterns/triples/Variable");
 var StringLiteral_1 = require("sparqler/tokens/StringLiteral");
 var Patterns_1 = require("sparqler/utils/Patterns");
-var decorators_1 = require("sparqler/clauses/decorators");
 var PatternBuilder = (function () {
     function PatternBuilder(iriResolver) {
         this.iriResolver = iriResolver;
@@ -108,8 +109,7 @@ var PatternBuilder = (function () {
         return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.FILTER, new StringLiteral_1.StringLiteral(rawConstraint)]);
     };
     PatternBuilder.prototype.subSelect = function () {
-        var container = new decorators_1.SubSelectContainer(this.iriResolver);
-        return decorators_1.selectDecorator(container, {});
+        return decorators_1.selectDecorator(new Container_1.Container(decorators_1.subFinishDecorator), {});
     };
     return PatternBuilder;
 }());

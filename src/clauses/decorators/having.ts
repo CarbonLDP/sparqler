@@ -4,9 +4,9 @@ import {
 	FinishClause,
 	HavingClause,
 	OrderClause,
+	SubFinishClause,
 } from "sparqler/clauses/interfaces";
 import { genericDecorator } from "sparqler/clauses/utils";
-import { GraphPattern } from "sparqler/patterns";
 import { HAVING } from "sparqler/patterns/tokens";
 import {
 	StringLiteral,
@@ -23,7 +23,7 @@ import {
  * @param rawCondition Raw condition to be applied for the solutions filtering.
  * @returns Object with the methods to keep constructing the query.
  */
-function having<T extends FinishClause | GraphPattern>( this:Container<T>, rawCondition:string ):OrderClause<T> & T {
+function having<T extends FinishClause | SubFinishClause>( this:Container<T>, rawCondition:string ):OrderClause<T> & T {
 	const tokens:Token[] = [ HAVING, new StringLiteral( rawCondition ) ];
 
 	const container:Container<T> = new Container<T>( this, tokens );
@@ -38,6 +38,6 @@ function having<T extends FinishClause | GraphPattern>( this:Container<T>, rawCo
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
-export function havingDecorator<T extends FinishClause | GraphPattern, W extends object>( container:Container<T>, object:W ):W & HavingClause<T> {
+export function havingDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & HavingClause<T> {
 	return genericDecorator( { having }, container, orderDecorator<T, W>( container, object ) );
 }
