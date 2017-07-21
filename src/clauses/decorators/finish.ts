@@ -30,7 +30,9 @@ import {
  * @returns The compact string.
  */
 function toCompactString( this:Container<FinishClause> ):string {
-	let tokens:Token[] = [].concat( this._tokens );
+	// Optional tokens
+	const tokens:Token[] = this._tokens
+		.filter( token => token !== WHERE );
 
 	const maxTokens:Token[] = [ SELECT ];
 	let baseTokens:Token[];
@@ -58,9 +60,6 @@ function toCompactString( this:Container<FinishClause> ):string {
 
 	return tokens.reduce( ( res, token, index, thisArray ) => {
 		let nextToken:Token = thisArray[ index + 1 ];
-
-		// Optional tokens
-		if( token === WHERE ) return res;
 
 		if( nextToken === EMPTY_SEPARATOR ) nextToken = thisArray[ index + 2 ];
 		return res + token.getTokenValue( TokenFormat.COMPACT, nextToken );

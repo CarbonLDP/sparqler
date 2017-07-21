@@ -4,6 +4,7 @@ import {
 } from "sparqler/clauses";
 import { IRIResolver } from "sparqler/iri";
 import {
+	ALL,
 	BASE,
 	CLOSE_IRI,
 	CLOSE_MULTI_BLOCK,
@@ -17,6 +18,7 @@ import {
 	OPEN_SINGLE_BLOCK,
 	PREFIX,
 	PREFIX_SYMBOL,
+	SELECT,
 	WHERE,
 } from "sparqler/patterns/tokens";
 import {
@@ -180,10 +182,10 @@ describe( "FinishClause", ():void => {
 
 			(() => {
 				const container:Container = new Container( null, [
-					WHERE, OPEN_SINGLE_BLOCK, CLOSE_SINGLE_BLOCK,
+					SELECT, ALL, WHERE, OPEN_SINGLE_BLOCK, CLOSE_SINGLE_BLOCK,
 				] );
 				const compactString:string = finishDecorator( container, {} ).toCompactString();
-				expect( compactString ).toBe( "{}" );
+				expect( compactString ).toBe( "SELECT*{}" );
 			})();
 		} );
 

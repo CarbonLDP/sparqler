@@ -4,7 +4,8 @@ var clauses_1 = require("sparqler/clauses");
 var tokens_1 = require("sparqler/patterns/tokens");
 var tokens_2 = require("sparqler/tokens");
 function toCompactString() {
-    var tokens = [].concat(this._tokens);
+    var tokens = this._tokens
+        .filter(function (token) { return token !== tokens_1.WHERE; });
     var maxTokens = [tokens_1.SELECT];
     var baseTokens;
     for (var index = 0, token = tokens[index]; token && maxTokens.indexOf(token) === -1; ++index, token = tokens[index]) {
@@ -24,8 +25,6 @@ function toCompactString() {
         tokens.unshift.apply(tokens, baseTokens);
     return tokens.reduce(function (res, token, index, thisArray) {
         var nextToken = thisArray[index + 1];
-        if (token === tokens_1.WHERE)
-            return res;
         if (nextToken === tokens_1.EMPTY_SEPARATOR)
             nextToken = thisArray[index + 2];
         return res + token.getTokenValue(tokens_2.TokenFormat.COMPACT, nextToken);

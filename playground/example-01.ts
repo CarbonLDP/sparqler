@@ -23,6 +23,19 @@ const finishQuery = builder
 
 	.where( ( _ ) => {
 		return [
+			_.subSelect()
+				.selectAll()
+				.where( [
+					_.resource( "" )
+						.has( "ldp:member", _.var( "members" ) ),
+				] ),
+			_.subSelect()
+				.select( "my-members" )
+				.where( [
+					_.resource( "" )
+						.has( ":my-member", _.var( "my-members" ) ),
+				] ),
+
 			_.resource( "" )
 				.has( "ldp:contains", _.resource( "posts/" ) ),
 			_.var( "s" )
@@ -64,7 +77,7 @@ const finishQuery = builder
 			] ),
 			_.optional( [
 				_.resource( "some" ).has( "ex:yes", "no" ).and( "ex:yes", "maybe" ),
-				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] )
+				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			] ),
 			_.union( [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
@@ -115,18 +128,18 @@ const finishQuery = builder
 
 let difference:number[] = process.hrtime( startTime );
 let time:number = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
-console.log( "\n" + time + "ms\n");
+console.log( "\n" + time + "ms\n" );
 
 console.log( finishQuery.toPrettyString() );
 // finishQuery.toPrettyString();
 
 difference = process.hrtime( startTime );
 time = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
-console.log( "\n" + time + "ms\n");
+console.log( "\n" + time + "ms\n" );
 
 console.log( finishQuery.toCompactString() );
 // finishQuery.toCompactString();
 
 difference = process.hrtime( startTime );
 time = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
-console.log( "\n" + time + "ms\n");
+console.log( "\n" + time + "ms\n" );
