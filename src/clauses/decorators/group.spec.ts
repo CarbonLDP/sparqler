@@ -27,9 +27,13 @@ describe( "groupDecorator", ():void => {
 
 			// Inherited methods
 			having: jasmine.any( Function ),
+
 			orderBy: jasmine.any( Function ),
+
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		expect( groupClause.groupBy.name ).toBe( "bound groupBy" );
@@ -55,9 +59,13 @@ describe( "groupDecorator", ():void => {
 			groupBy: jasmine.any( Function ),
 
 			having: jasmine.any( Function ),
+
 			orderBy: jasmine.any( Function ),
+
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		// Maintains the object reference

@@ -28,6 +28,8 @@ describe( "orderDecorator", ():void => {
 			// Inherited methods
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		expect( orderClause.orderBy.name ).toBe( "bound orderBy" );
@@ -54,6 +56,8 @@ describe( "orderDecorator", ():void => {
 
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		// Maintains the object reference

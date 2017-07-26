@@ -87,9 +87,9 @@ export interface OrderClause<T extends FinishClause | SubFinishClause = FinishCl
  *      .limit( ... )
  *      .offset( ... ) // Not possible
  */
-export interface LimitOffsetClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitClause<OffsetClause<T> & ValuesClause<T> & T>,
-                                                                                                    OffsetClause<LimitClause<T> & ValuesClause<T> & T>,
-                                                                                                    ValuesClause<T> {}
+export interface LimitOffsetClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitClause<OffsetClause<T & ValuesClause<T>> & ValuesClause<T> & T>,
+                                                                                                    OffsetClause<LimitClause<T & ValuesClause<T>> & ValuesClause<T> & T>,
+																									ValuesClause<T> {}
 
 export interface OffsetClause<T> {
 	offset( offset:number ):T;

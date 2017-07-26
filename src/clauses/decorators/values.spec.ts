@@ -24,7 +24,7 @@ import {
 } from "sparqler/tokens";
 import * as SerializeModule from "sparqler/utils/ObjectPattern";
 
-fdescribe( "valuesDecorator", ():void => {
+describe( "valuesDecorator", ():void => {
 
 	it( "should exists", ():void => {
 		expect( valuesDecorator ).toBeDefined();

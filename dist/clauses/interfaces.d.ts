@@ -40,7 +40,7 @@ export interface HavingClause<T extends FinishClause | SubFinishClause = FinishC
 export interface OrderClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitOffsetClause<T> {
     orderBy(rawCondition: string): LimitOffsetClause<T> & T;
 }
-export interface LimitOffsetClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitClause<OffsetClause<T> & ValuesClause<T> & T>, OffsetClause<LimitClause<T> & ValuesClause<T> & T>, ValuesClause<T> {
+export interface LimitOffsetClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitClause<OffsetClause<T & ValuesClause<T>> & ValuesClause<T> & T>, OffsetClause<LimitClause<T & ValuesClause<T>> & ValuesClause<T> & T>, ValuesClause<T> {
 }
 export interface OffsetClause<T> {
     offset(offset: number): T;
