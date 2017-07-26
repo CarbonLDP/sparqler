@@ -34,7 +34,8 @@ const finishQuery = builder
 				.where( [
 					_.resource( "" )
 						.has( ":my-member", _.var( "my-members" ) ),
-				] ),
+				] )
+				.values( "my-members", _ => _.resource( "a-member/" ) ),
 
 			_.resource( "" )
 				.has( "ldp:contains", _.resource( "posts/" ) ),
@@ -124,7 +125,8 @@ const finishQuery = builder
 		];
 	} )
 
-	.limit( 2 );
+	.limit( 2 )
+	.values( "var1", "value1" );
 
 let difference:number[] = process.hrtime( startTime );
 let time:number = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
