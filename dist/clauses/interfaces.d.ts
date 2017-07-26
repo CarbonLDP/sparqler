@@ -1,4 +1,5 @@
-import { GraphPattern, PatternBuilder } from "sparqler/patterns";
+import { GraphPattern, PatternBuilder, SupportedNativeTypes, Undefined } from "sparqler/patterns";
+import { Literal, Resource } from "sparqler/patterns/triples";
 export interface QueryClause<T extends FinishClause = FinishClause> extends SelectClause<T> {
     base(iri: string): QueryClause<T>;
     vocab(iri: string): QueryClause<T>;
@@ -39,13 +40,19 @@ export interface HavingClause<T extends FinishClause | SubFinishClause = FinishC
 export interface OrderClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitOffsetClause<T> {
     orderBy(rawCondition: string): LimitOffsetClause<T> & T;
 }
-export interface LimitOffsetClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitClause<OffsetClause<T> & T>, OffsetClause<LimitClause<T> & T> {
+export interface LimitOffsetClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitClause<OffsetClause<T> & ValuesClause<T> & T>, OffsetClause<LimitClause<T> & ValuesClause<T> & T>, ValuesClause<T> {
 }
 export interface OffsetClause<T> {
     offset(offset: number): T;
 }
 export interface LimitClause<T> {
     limit(limit: number): T;
+}
+export interface ValuesClause<T extends FinishClause | SubFinishClause = FinishClause> {
+    values(variable: string, values: SupportedNativeTypes | SupportedNativeTypes[]): T;
+    values(variable: string, valuesBuilder: (builder: PatternBuilder) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[]): T;
+    values(variables: string[], values: SupportedNativeTypes[] | SupportedNativeTypes[][]): T;
+    values(variables: string[], valuesBuilder: (builder: PatternBuilder) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][]): T;
 }
 export interface FinishClause {
     toCompactString(): string;
