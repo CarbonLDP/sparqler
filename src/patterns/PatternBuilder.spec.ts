@@ -216,7 +216,7 @@ describe( "PatternBuilder", ():void => {
 
 		class MockVar extends Variable {
 			constructor() {
-				super( iriResolver, "" );
+				super( iriResolver, "name" );
 			}
 
 			getSelfTokens():Token[] {

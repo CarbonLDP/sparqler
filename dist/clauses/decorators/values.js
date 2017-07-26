@@ -5,18 +5,20 @@ var Container_1 = require("sparqler/clauses/Container");
 var IRIResolver_1 = require("sparqler/iri/IRIResolver");
 var patterns_1 = require("sparqler/patterns");
 var tokens_1 = require("sparqler/patterns/tokens");
-var tokens_2 = require("sparqler/tokens");
+var triples_1 = require("sparqler/patterns/triples");
 var ObjectPattern_1 = require("sparqler/utils/ObjectPattern");
 function values(variableOrVariables, valuesOrBuilder) {
     var isSingle = !Array.isArray(variableOrVariables);
-    var variables = isSingle ? [variableOrVariables] : variableOrVariables;
+    var variables = (isSingle ?
+        [variableOrVariables] : variableOrVariables)
+        .map(function (name) { return new triples_1.Variable(null, name); });
     var tokens = [tokens_1.VALUES];
     if (isSingle) {
-        tokens.push(tokens_1.VAR_SYMBOL, new tokens_2.StringLiteral(variables[0]), tokens_1.OPEN_SINGLE_BLOCK);
+        tokens.push.apply(tokens, variables[0].getSelfTokens().concat([tokens_1.OPEN_SINGLE_BLOCK]));
     }
     else {
         tokens.push(tokens_1.OPEN_SINGLE_LIST);
-        variables.forEach(function (variable) { return tokens.push(tokens_1.VAR_SYMBOL, new tokens_2.StringLiteral(variable)); });
+        variables.forEach(function (variable) { return tokens.push.apply(tokens, variable.getSelfTokens()); });
         tokens.push(tokens_1.CLOSE_SINGLE_LIST, tokens_1.OPEN_MULTI_BLOCK);
     }
     var iriResolver = void 0;

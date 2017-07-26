@@ -30,12 +30,12 @@ const finishQuery = builder
 						.has( "ldp:member", _.var( "members" ) ),
 				] ),
 			_.subSelect()
-				.select( "my-members" )
+				.select( "my_members" )
 				.where( [
 					_.resource( "" )
-						.has( ":my-member", _.var( "my-members" ) ),
+						.has( ":my-member", _.var( "my_members" ) ),
 				] )
-				.values( "my-members", _ => _.resource( "a-member/" ) ),
+				.values( "my_members", _ => _.resource( "a-member/" ) ),
 
 			_.resource( "" )
 				.has( "ldp:contains", _.resource( "posts/" ) ),
@@ -126,7 +126,7 @@ const finishQuery = builder
 	} )
 
 	.limit( 2 )
-	.values( "var1", "value1" );
+	.values( "var1", [ "value1", "value2" ] );
 
 let difference:number[] = process.hrtime( startTime );
 let time:number = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;

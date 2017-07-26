@@ -21,16 +21,13 @@ import {
 	OPEN_SINGLE_BLOCK,
 	OPEN_SINGLE_LIST,
 	VALUES,
-	VAR_SYMBOL,
 } from "sparqler/patterns/tokens";
 import {
 	Literal,
 	Resource,
+	Variable,
 } from "sparqler/patterns/triples";
-import {
-	StringLiteral,
-	Token,
-} from "sparqler/tokens";
+import { Token } from "sparqler/tokens";
 import { serialize } from "sparqler/utils/ObjectPattern";
 
 type PossibleTypes = SupportedNativeTypes | Resource | Literal | Undefined;
@@ -77,14 +74,16 @@ function values<T extends FinishClause | SubFinishClause>( this:Container<T>, va
 function values<T extends FinishClause | SubFinishClause>( this:Container<T>, variables:string[], valuesBuilder:( builder:PatternBuilder ) => ( SupportedNativeTypes | Resource | Literal | Undefined )[] | ( SupportedNativeTypes | Resource | Literal | Undefined )[][] ):T;
 function values<T extends FinishClause | SubFinishClause>( this:Container<T>, variableOrVariables:string | string[], valuesOrBuilder ):T {
 	const isSingle:boolean = ! Array.isArray( variableOrVariables );
-	const variables:string[] = isSingle ? [ variableOrVariables as string ] : variableOrVariables as string[];
+	const variables:Variable[] = ( isSingle ?
+		[ variableOrVariables as string ] : variableOrVariables as string[] )
+		.map( name => new Variable( null, name ) );
 	const tokens:Token[] = [ VALUES ];
 
 	if( isSingle ) {
-		tokens.push( VAR_SYMBOL, new StringLiteral( variables[ 0 ] ), OPEN_SINGLE_BLOCK );
+		tokens.push( ...variables[ 0 ].getSelfTokens(), OPEN_SINGLE_BLOCK );
 	} else {
 		tokens.push( OPEN_SINGLE_LIST );
-		variables.forEach( variable => tokens.push( VAR_SYMBOL, new StringLiteral( variable ) ) );
+		variables.forEach( variable => tokens.push( ...variable.getSelfTokens() ) );
 		tokens.push( CLOSE_SINGLE_LIST, OPEN_MULTI_BLOCK );
 	}
 

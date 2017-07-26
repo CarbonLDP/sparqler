@@ -201,7 +201,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 
 				class MockVar extends Variable {
 					constructor() {
-						super( resolver, "" );
+						super( resolver, "name" );
 					}
 
 					getSelfTokens() {
@@ -462,7 +462,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 
 				class MockVar extends Variable {
 					constructor() {
-						super( resolver, "" );
+						super( resolver, "name" );
 					}
 
 					getSelfTokens():Token[] {
@@ -847,7 +847,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 
 				class MockVar extends Variable {
 					constructor( private name ) {
-						super( resolver, "" );
+						super( resolver, name );
 					}
 
 					getSelfTokens() {
@@ -860,7 +860,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 				pattern = new MockTriplesPattern( resolver );
 				triples = pattern
 					.has( new MockVar( "var" ), "something" )
-					.and( new MockVar( "another-var" ), "something-else" );
+					.and( new MockVar( "another_var" ), "something-else" );
 				expect( triples ).toBeDefined();
 
 				expect( serializeSpy ).toHaveBeenCalledTimes( 2 );
@@ -875,7 +875,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 					new MockToken( "var" ),
 					new MockToken( "element" ),
 					new NewLineSymbol( ";" ),
-					new MockToken( "another-var" ),
+					new MockToken( "another_var" ),
 					new MockToken( "element" ),
 				] );
 
@@ -885,7 +885,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 				triples = pattern
 					.has( new MockVar( "var" ), 1.10 )
 					.and( "some:iri", "hi!" )
-					.and( new MockVar( "another-var" ), { getSelfTokens: getSelfTokens, element: 1 } as any );
+					.and( new MockVar( "another_var" ), { getSelfTokens: getSelfTokens, element: 1 } as any );
 				expect( triples ).toBeDefined();
 
 				expect( serializeSpy ).toHaveBeenCalledTimes( 3 );
@@ -904,14 +904,14 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 					new MockToken( "some:iri" ),
 					new MockToken( "element" ),
 					new NewLineSymbol( ";" ),
-					new MockToken( "another-var" ),
+					new MockToken( "another_var" ),
 					new MockToken( "element" ),
 				] );
 
 
 				// Resource property
 
-				class MockResource extends Variable {
+				class MockResource extends Resource {
 					constructor( private name ) {
 						super( resolver, "" );
 					}
@@ -1077,7 +1077,7 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 
 				class MockVar extends Variable {
 					constructor( private name ) {
-						super( resolver, "" );
+						super( resolver, name );
 					}
 
 					getSelfTokens():Token[] {
@@ -1090,8 +1090,8 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 				serializeSpy.calls.reset();
 				pattern = new MockTriplesPattern( resolver );
 				triples = pattern
-					.has( new MockVar( "some-var" ), [ "something", "else", "here" ] )
-					.and( new MockVar( "another-var" ), [ "another", "thing" ] );
+					.has( new MockVar( "some_var" ), [ "something", "else", "here" ] )
+					.and( new MockVar( "another_var" ), [ "another", "thing" ] );
 				expect( triples ).toBeDefined();
 
 				expect( serializeSpy ).toHaveBeenCalledTimes( 5 );
@@ -1106,14 +1106,14 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 				expect( triples.and ).toEqual( jasmine.any( Function ) );
 
 				expect( pattern[ "patternTokens" ] ).toEqual( [
-					new MockToken( "some-var" ),
+					new MockToken( "some_var" ),
 					new MockToken( "element" ),
 					new NewLineSymbol( "," ),
 					new MockToken( "element" ),
 					new NewLineSymbol( "," ),
 					new MockToken( "element" ),
 					new NewLineSymbol( ";" ),
-					new MockToken( "another-var" ),
+					new MockToken( "another_var" ),
 					new MockToken( "element" ),
 					new NewLineSymbol( "," ),
 					new MockToken( "element" ),
