@@ -25,7 +25,6 @@ const jeditor = require( "gulp-json-editor" );
 
 const Dgeni = require( "dgeni" );
 
-const buildSemanticUI = require( "./build/docs/src/semantic/tasks/build" );
 const htmlReplace = require( "gulp-html-replace" );
 const imagemin = require( "gulp-imagemin" );
 const htmlmin = require( "gulp-htmlmin" );
@@ -182,13 +181,11 @@ gulp.task( "test:node", () => {
 		} ) );
 } );
 
-gulp.task( "semantic-ui:build", buildSemanticUI );
-
 gulp.task( "docs:build|prod", ( done ) => {
 	process.env.NODE_ENV = "prod";
 
 	runSequence(
-		[ "semantic-ui:build", "docs:generate-html", "docs:images" ],
+		[ "docs:generate-html", "docs:images" ],
 		[ "docs:bundle", "docs:html-replace" ],
 		[ "docs:html-min" ],
 		done
@@ -199,7 +196,7 @@ gulp.task( "docs:build|dev", ( done ) => {
 	process.env.NODE_ENV = "dev";
 
 	runSequence(
-		[ "semantic-ui:build", "docs:generate-html", "docs:images" ],
+		[ "docs:generate-html", "docs:images" ],
 		"docs:bundle",
 		done
 	);

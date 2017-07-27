@@ -1,7 +1,6 @@
 const path = require( 'path' );
 
-module.exports = function fixTypeScript( tsParser, modules, getFileInfo, ignoreTypeScriptNamespaces,
-	getExportDocType, getExportAccessibility, getContent, createDocMessage, log ) {
+module.exports = function fixTypeScript( tsParser, modules, getFileInfo, ignoreTypeScriptNamespaces, getExportAccessibility, getContent, createDocMessage, log ) {
 
 	return {
 		$runAfter: [ 'files-read' ],
@@ -9,10 +8,10 @@ module.exports = function fixTypeScript( tsParser, modules, getFileInfo, ignoreT
 		$process: function( docs ) {
 
 
-			let basePath = path.resolve( this.basePath );
-			let filesPaths = expandSourceFiles( this.sourceFiles, basePath );
-			let parseInfo = tsParser.parse( filesPaths, this.basePath );
-			let moduleSymbols = parseInfo.moduleSymbols;
+			// let basePath = path.resolve( this.basePath );
+			// let filesPaths = expandSourceFiles( this.sourceFiles, basePath );
+			// let parseInfo = tsParser.parse( filesPaths, this.basePath );
+			// let moduleSymbols = parseInfo.moduleSymbols;
 		}
 	};
 

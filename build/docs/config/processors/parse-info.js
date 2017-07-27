@@ -5,12 +5,12 @@ const multipleHeritageRegex = /(?=\s+implements)/;
 const singleHeritageRegex = /(implements|extends)\s+(.*)/;
 const parametersRegex = /(\S*)?:(.*)?/;
 
-module.exports = function parse( getExportDocType ) {
+module.exports = function parse() {
 	return {
 		$runAfter: [ "tags-extracted" ],
 		$runBefore: [ "processing-docs" ],
 		$process: function( docs ) {
-			return docs.forEach( doc => {
+			/*return docs.forEach( doc => {
 				createURL( doc );
 				parseTypeParams( doc, docs );
 				parseHeritage( doc, docs );
@@ -38,7 +38,7 @@ module.exports = function parse( getExportDocType ) {
 				// if( doc.docType === "module" && ( doc.name === "IRI" || doc.name === "NotTriplesPattern" ) ) {
 				// 	console.log( doc.exports );
 				// }
-			} );
+			} );*/
 		}
 	};
 

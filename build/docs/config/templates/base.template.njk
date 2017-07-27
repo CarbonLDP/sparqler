@@ -40,10 +40,10 @@
             <div class="ui bottom attached inverted fluid vertical menu docs-left-menu__items">
                 {% for moduleDoc in doc.navigationDocs %}
                     <div class="item {{ ' active' if doc.id === moduleDoc.id or doc.moduleDoc.id === moduleDoc.id }}">
-                        <a class="header" href="{{ moduleDoc.url }}">{{ moduleDoc.id }}</a>
+                        <a class="header" href="/{{ moduleDoc.id }}">{{ moduleDoc.id }}</a>
                         <div class="menu">
                             {% for exported in moduleDoc.exports -%}
-                                <a class="item{{ ' active' if doc.id === exported.id }}" href="{{ exported.url }}">{{ exported.name }}</a>
+                                <a class="item{{ ' active' if doc.id === exported.id }}" href="/{{ exported.id }}">{{ exported.name }}</a>
                             {% endfor %}
                         </div>
                     </div>

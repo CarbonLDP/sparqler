@@ -6,8 +6,8 @@ src/**/*.js
 src/**/*.map
 playground/**/*.js
 playground/**/*.map
-build/**/*.js
-build/**/*.map
+build/*.js
+build/*.map
 
 # NPM
 **/node_modules/

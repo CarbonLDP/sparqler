@@ -3,7 +3,7 @@
 {% block title %}Module {{ doc.name }}{% endblock %}
 
 {% block locationItems %}
-    <a class="item active" href="{{ doc.url }}">{{ doc.id }}</a>
+    <a class="item active" href="/{{ doc.id }}">{{ doc.id }}</a>
 {% endblock %}
 
 {% block body %}
@@ -18,7 +18,7 @@
                     <ul>
                         {% for item in items %}
                             {% if item.name !== 'default' %}
-                                <li><a href="{{ item.url }}">{{ item.name }}</a></li>
+                                <li><a href="/{{ item.id }}">{{ item.name }}</a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>

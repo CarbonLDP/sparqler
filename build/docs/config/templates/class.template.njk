@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block locationItems %}
-    <a class="item" href="{{ doc.moduleDoc.url }}">{{ doc.moduleDoc.id }}</a>
-    <a class="item active" href="{{ doc.url }}">{{ doc.name }}</a>
+    <a class="item" href="/{{ doc.moduleDoc.id }}">{{ doc.moduleDoc.id }}</a>
+    <a class="item active" href="/{{ doc.id }}">{{ doc.name }}</a>
 {% endblock %}
 
 {% block body %}
