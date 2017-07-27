@@ -1,23 +1,34 @@
+const path = require( "path" );
+
 module.exports = {
 	entry: {
-		"umd": "./build/umd.js"
+		"umd": "./build/umd.ts"
 	},
 
 	output: {
-		filename: "./dist/bundles/sparqler.umd.js",
+		path: path.resolve( __dirname, "./dist/bundles/" ),
+		filename: "sparqler.umd.js",
 		library: "SPARQLER",
 		libraryTarget: "umd"
 	},
 
 	resolve: {
-		extensions: [ ".ts" ]
+		extensions: [ ".ts" ],
+		alias: {
+			"sparqler": path.resolve( __dirname, "./src" ),
+		}
 	},
 
 	module: {
 		loaders: [
 			{
 				test: /\.ts$/,
-				loader: "awesome-typescript-loader"
+				loader: "awesome-typescript-loader",
+				options: {
+					reportFiles: [
+						"**/*.!spec.ts",
+					],
+				},
 			}
 		]
 	}

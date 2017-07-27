@@ -1,6 +1,6 @@
 {
   "name": "sparqler",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "registry": "npm",
   "description": "SPARQL query buildER for JavaScript/TypeScript",
   "repository": {
@@ -19,6 +19,7 @@
     "name": "Miguel Aragón",
     "email": "miguel.aragon@base22.com"
   }],
-  "main": "SPARQLER.js",
-  "typings": "SPARQLER.d.ts"
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "dependencies": {}
 }
