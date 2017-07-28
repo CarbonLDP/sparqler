@@ -1,0 +1,19 @@
+{% extends 'base.template.njk' %}
+
+{% block title %}
+    Interface {{ doc.name }}
+{% endblock %}
+
+{% block body %}
+    {% include 'content-header.template.njk' %}
+    <div class="ui basic segment justified text container docs-content">
+        <h3>Description</h3>
+        <div>{{ doc.description | marked }}</div>
+    </div>
+{% endblock %}
+
+{#
+{{ propertyList(class.properties) }}
+
+{{ methodList(class.methods) }}
+#}

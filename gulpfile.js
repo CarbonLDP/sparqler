@@ -215,7 +215,7 @@ gulp.task( "docs:clean-html", () => {
 } );
 
 gulp.task( "docs:generate-html", [ "docs:clean-html" ], () => {
-	const dgeni = new Dgeni( [ require( "./build/docs/config" ) ] );
+	const dgeni = new Dgeni( [ require( "./build/docs/dgeni" ) ] );
 	return dgeni.generate();
 } );
 
@@ -238,8 +238,8 @@ gulp.task( "docs:clean-bundle", () => {
 
 gulp.task( "docs:bundle", [ "docs:clean-bundle" ], ( done ) => {
 	let config = process.env.NODE_ENV === "prod" ?
-		require( "./build/docs/build/webpack.prod" ) :
-		require( "./build/docs/build/webpack.dev" );
+		require( "./build/docs/webpack/webpack.prod" ) :
+		require( "./build/docs/webpack/webpack.dev" );
 
 	const compiler = webpack( config );
 

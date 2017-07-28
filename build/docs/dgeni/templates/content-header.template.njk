@@ -1,0 +1,7 @@
+<div class="ui tertiary inverted basic grey segment">
+    <div class="ui container">
+        <h1 class="ui header">{{ doc.name if doc.docType !== 'module' else doc.id }}</h1>
+        {% set color = 'orange' if doc.docType === 'interface' else ( 'blue' if doc.docType === 'class' else 'purple' ) %}
+        <label class="ui horizontal {{ color }} label">{{ doc.docType | capitalize }}</label>
+    </div>
+</div>

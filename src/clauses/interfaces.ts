@@ -56,30 +56,47 @@ export interface OrderClause<T extends FinishClause | SubFinishClause = FinishCl
 }
 
 /**
- * This LimitOffsetClause created this way to be able to specify `limit` and `offset` in this order or viceversa,
+ * This interface is created this way to be able to specify the methods `limit` and `offset` only in this order or viceversa,
  * but not be able to repeat `limit` or `offset` more that once.
  *
  * Example:
  *  - Correct:
- *      .limit( ... )
- *      .offset( ... )
- *      .execute();
+ *  ```typescript
+ *      import { LimitOffsetClause } from "sparqler/Clauses";
+ *      let query:LimitOffsetClause;
  *
- *      .offset( ... )
- *      .limit( ... )
- *      .execute();
+ *      query
+ *          .limit( /*...&#42;/ )
+ *          .offset( /*...&#42;/ )
+ *      ;
  *
- *      .limit( ... )
- *      .execute();
+ *      query
+ *          .offset( /*...&#42;/ )
+ *          .limit( /*...&#42;/ )
+ *      ;
+ *
+ *      query
+ *          .limit( /*...&#42;/ )
+ *      ;
+ * ```
  *
  *  - Incorrect:
- *      .limit( ... )
- *      .limit( ... ) // Not possible
- *      .offset( ... )
+ *  ```typescript
+ *      import { LimitOffsetClause } from "sparqler/Clauses";
+ *      let query:LimitOffsetClause;
  *
- *      .offset( ... )
- *      .limit( ... )
- *      .offset( ... ) // Not possible
+ *      query
+ *          .limit( /*...&#42;/ )
+ *          .limit( /*...&#42;/ ) // Not possible
+ *          .offset( /*...&#42;/ )
+ *      ;
+ *
+ *      query
+ *          .offset( /*...&#42;/ )
+ *          .limit( /*...&#42;/ )
+ *          .offset( /*...&#42;/ ) // Not possible
+ *      ;
+ * ```
  */
 export interface LimitOffsetClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitClause<OffsetClause<T> & T>, OffsetClause<LimitClause<T> & T> {}
 

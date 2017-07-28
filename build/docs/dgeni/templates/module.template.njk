@@ -1,0 +1,56 @@
+{% extends 'base.template.njk' %}
+
+{% block title %}Module {{ doc.name }}{% endblock %}
+
+{% block body %}
+    {% include 'content-header.template.njk' %}
+    <div class="ui basic segment justified text container docs-content">
+        <h3>Description</h3>
+        <div>{{ doc.description | marked }}</div>
+        {% if doc.exports %}
+            {% for key, items in doc.exports | groupby( 'docType' ) %}
+                {% if key === 'class' or key === 'interface' %}
+                    <h3>{{ 'Classes' if key === 'class' else 'Interfaces' }}</h3>
+                    <ul>
+                        {% for item in items %}
+                            {% if item.name !== 'default' %}
+                                <li><a href="/{{ item.id }}">{{ item.name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endfor %}
+            {% for key, items in doc.exports | groupby( 'docType' ) %}
+                {% if key === 'enum' %}
+                    <h3>Enum</h3>
+                    <ul>
+                        {% for item in items %}
+                            {% if item.name !== 'default' %}
+                                <li id="{{ item.name }}">{{ item.name }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% elseif key === 'type-alias' %}
+                    <h3>Types</h3>
+                    <ul>
+                        {% for item in items %}
+                            {% if item.name !== 'default' %}
+                                <li id="{{ item.name }}">{{ item.name }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% elseif key === 'const' or key === 'let' or key === 'var' %}
+                    <h3>Constants</h3>
+                    <ul>
+                        {% for item in items %}
+                            {% if item.name !== 'default' %}
+                                <li>{{ item.name }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -8,6 +8,8 @@ playground/**/*.js
 playground/**/*.map
 build/*.js
 build/*.map
+build/docs/dgeni/**/*.js
+build/docs/dgeni/**/*.map
 
 # NPM
 **/node_modules/
@@ -154,6 +156,6 @@ DerivedData
 .vscode/
 
 # Semantic UI
-**/semantic/dist/
-**/semantic/tasks/
-**/semantic/gulpfile.js
+**/semantic-ui/dist/
+**/semantic-ui/tasks/
+**/semantic-ui/gulpfile.js

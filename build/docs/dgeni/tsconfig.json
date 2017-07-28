@@ -1,18 +1,18 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es5",
-		"lib": [ "es2015" ],
+		"target": "es2016",
+		"lib": [ "es2016" ],
 		"noImplicitAny": false,
 		"removeComments": true,
 		"baseUrl": ".",
 		"paths": {
-			"sparqler/*": [ "src/*" ]
+			"semantic-ui/*": [ "semantic-ui/*" ],
+			"src/*": [ "src/*" ]
 		}
 	},
 	"exclude": [
-		"node_modules",
-		"dist",
-		"build/docs"
+		"../../node_modules",
+		"../../dist"
 	]
 }
