@@ -1,0 +1,9 @@
+{% set color = 'orange' if doc.docType === 'interface' else ( 'blue' if doc.docType === 'class' else 'purple' ) %}
+<div class="doc__header">
+    <div class="ui basic segment container doc__container">
+        <h1 class="ui header doc-header">
+            <label class="ui horizontal {{ color }} large label doc-header__label">{{ doc.docType | capitalize }}</label>
+            {{ doc.name if doc.docType !== 'module' else doc.id }}
+        </h1>
+    </div>
+</div>

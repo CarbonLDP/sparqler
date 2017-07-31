@@ -1,0 +1,15 @@
+<div class="docs-main-block__content docs-left-menu__sibling">
+    {% include 'location-menu.partial.njk' %}
+    <div class="ui fluid container main-container doc">
+        {% if doc.docType !== 'index' %}
+            {% include 'doc-header.partial.njk' %}
+        {% endif %}
+        <div class="ui basic segment justified text container doc__container doc-content">
+            {% if doc.docType !== 'index' and  doc.description %}
+                <h3>Description</h3>
+                <div>{{ doc.description | marked }}</div>
+            {% endif %}
+            {% block content_continuation %}{% endblock %}
+        </div>
+    </div>
+</div>

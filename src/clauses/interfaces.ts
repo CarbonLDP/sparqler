@@ -62,7 +62,7 @@ export interface OrderClause<T extends FinishClause | SubFinishClause = FinishCl
  * Example:
  *  - Correct:
  *  ```typescript
- *      import { LimitOffsetClause } from "sparqler/Clauses";
+ *      import { LimitOffsetClause } from "sparqler/clauses";
  *      let query:LimitOffsetClause;
  *
  *      query
