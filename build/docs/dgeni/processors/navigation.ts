@@ -17,8 +17,11 @@ function docCompare( first:NavigationDoc, second:NavigationDoc ):number {
 	return first.id.toLowerCase().localeCompare( second.id.toLowerCase() );
 }
 
+export function navigationProcessor():Navigation {
+	return new Navigation();
+}
+
 export class Navigation implements Processor {
-	name = "navigationProcessor";
 
 	$runAfter = [ "processing-docs" ];
 	$runBefore = [ "docs-processed" ];
@@ -53,7 +56,6 @@ export class Navigation implements Processor {
 		return filteredDocs;
 	}
 
-	// // noinspection JSMethodCanBeStatic
 	_fixIndexModule( doc:Document ):void {
 		// Change document properties
 		doc.docType = "index";

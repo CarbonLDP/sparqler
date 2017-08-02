@@ -1,9 +1,24 @@
 {% set color = 'orange' if doc.docType === 'interface' else ( 'blue' if doc.docType === 'class' else 'purple' ) %}
 <div class="doc__header">
     <div class="ui basic segment container doc__container">
-        <h1 class="ui header doc-header">
+        <h2 class="ui header doc-header">
             <label class="ui horizontal {{ color }} large label doc-header__label">{{ doc.docType | capitalize }}</label>
             {{ doc.name if doc.docType !== 'module' else doc.id }}
-        </h1>
+            {% set subheaders =[ { title: "Generics", items: [ doc.typeParams ] | nullifyEmpty }, { title: "Extends", items: doc.extendsClauses | nullifyEmpty }, { title: "Implements", items: doc.implementsClauses | nullifyEmpty } ] | selectattr('items') %}
+            {% if subheaders | length %}
+                <div class="doc-header__sub-header">
+                    <div class="sub header">
+                        <div class="ui list">
+                            {% for subheader in subheaders %}
+                                <div class="item">
+                                    <div class="header">{{ subheader.title }}</div>
+                                    <div class="left-indent">{{ subheader.items | join(', ') | linkify }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </h2>
     </div>
 </div>

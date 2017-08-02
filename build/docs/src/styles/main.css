@@ -178,6 +178,11 @@ p > code {
     padding-left: 2.5em;
 }
 
+/* ==================== */
+/*       Globals        */
+.left-indent {
+    padding-left: 2.5em;
+}
 
 /* ==================== */
 /*      Left menu       */
@@ -191,7 +196,6 @@ p > code {
 .module-menu-header .module-menu-header__link.item {
     text-transform: uppercase;
 }
-
 
 /* ==================== */
 /*    Documents Page    */
@@ -223,6 +227,10 @@ p > code {
 .doc__header .doc__container.ui.segment.container {
     padding-top: 4em;
     padding-bottom: 4em;
+}
+
+.doc-header__sub-header {
+    margin: 0.5em 0 0 0.5rem;
 }
 
 @media (max-width: 933px) {

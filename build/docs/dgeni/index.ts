@@ -1,5 +1,12 @@
 import path = require( "path" );
-import { Package } from "dgeni";
+import { Package, } from "dgeni";
+// Processors
+import { extendsTypescriptProcessor } from "./processors/extends-typescript";
+import { navigationProcessor } from "./processors/navigation";
+import { privateFilterProcessor } from "./processors/private-filter";
+// Nunjucks filters
+import { linkify } from "./rendering/filters/linkify";
+import { nullifyEmpty } from "./rendering/filters/nullifyEmpty";
 
 // Project configuration.
 const projectRootDir = path.resolve( __dirname, "./../../.." );
@@ -8,20 +15,16 @@ const outputDir = path.resolve( projectRootDir, "docs/" );
 const templateDir = path.resolve( __dirname, "./templates" );
 
 
-// Processors
-
-// Filters out symbols that should not be shown in the docs.
-import { PrivateFilter } from "./processors/private-filter";
-// Processor to group components for the navigation.
-import { Navigation } from "./processors/navigation";
-
 const apiDocsPackage = new Package( "sparqler-api-docs", [
 	require( "dgeni-packages/jsdoc" ),
 	require( "dgeni-packages/nunjucks" ),
 	require( "dgeni-packages/typescript" ),
+	require( "dgeni-packages/links" ),
 ] )
-	.processor( new PrivateFilter() )
-	.processor( new Navigation() )
+
+	.processor( privateFilterProcessor )
+	.processor( navigationProcessor )
+	.processor( extendsTypescriptProcessor )
 
 	.config( function( log ) {
 		log.level = "info";
@@ -73,7 +76,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 		computeIdsProcessor.idTemplates.push( {
 			docTypes: [ "index" ],
 			idTemplate: "index",
-			getAliases: () => [ "index" ],
+			// getAliases: () => [ "index" ],
 		} );
 	} )
 
@@ -102,7 +105,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 
 
 	// Configure processor for finding nunjucks templates.
-	.config( function( templateFinder, templateEngine ) {
+	.config( function( templateFinder ) {
 		// Where to find the templates for the doc rendering
 		templateFinder.templateFolders = [ templateDir, path.resolve( templateDir, "partials" ) ];
 
@@ -120,15 +123,12 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 			// '${ doc.docType }.template.json',
 			"${ doc.docType }.template.njk",
 		];
-
-		// dgeni disables autoescape by default, but we want this turned on.
-		// templateEngine.config.autoescape = true;
-
-		// Nunjucks and Angular conflict in their template bindings so change Nunjucks
-		// templateEngine.config.tags = {
-		// 	variableStart: "{$",
-		// 	variableEnd: "$}"
-		// };
+	} )
+	.config( function( templateEngine, getInjectables ) {
+		templateEngine.filters.push( ...getInjectables( [
+			linkify,
+			nullifyEmpty,
+		] ) );
 	} );
 
 
