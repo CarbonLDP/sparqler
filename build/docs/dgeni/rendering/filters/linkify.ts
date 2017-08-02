@@ -1,7 +1,17 @@
 import { Document } from "dgeni";
 import { Filter } from "./Filter";
 
-const IDENTIFIERS_REGEX:RegExp = /((?::|=>?|<|&lt;|&|&amp;|\||extends|,|^) ?)([_$a-zA-Z][_$a-zA-Z0-9]*)/g;
+const IDENTIFIERS_REGEX:RegExp = /((?::|=>|&#x3D;&gt;|[|=<&]|&#x3D;|&lt;|&amp;|extends|,|^) ?)([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)/g;
+const ESCAPE_CHARS = {
+	"&": "&amp;",
+	"<": "&lt;",
+	">": "&gt;",
+	"\"": "&quot;",
+	"'": "&#39;",
+	"/": "&#x2F;",
+	"`": "&#x60;",
+	"=": "&#x3D;",
+};
 
 const MDN_URL:string = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/";
 // noinspection SpellCheckingInspection
@@ -84,11 +94,7 @@ export function linkify( getLinkInfo ):Filter {
 
 			if( ! IDENTIFIERS_REGEX.test( str ) ) return str;
 			return str
-				.replace( /&/g, "&amp;" )
-				.replace( /</g, "&lt;" )
-				.replace( />/g, "&gt;" )
-				.replace( /"/g, "&quot;" )
-				.replace( /'/g, "&#039;" )
+				.replace( /[&<>"'`=\/]/g, match => ESCAPE_CHARS[ match ] )
 				.replace( IDENTIFIERS_REGEX, ( match:string, before:string, identifier:string ) => {
 					const linkInfo = getLinkInfo( identifier, identifier, doc );
 
