@@ -20,6 +20,7 @@ const sourcemaps = require( "gulp-sourcemaps" );
 const ts = require( "gulp-typescript" );
 
 const webpack = require( "webpack" );
+const webpackConfig = require( "./webpack.config" );
 
 const jeditor = require( "gulp-json-editor" );
 
@@ -173,11 +174,6 @@ gulp.task( "test:node", () => {
 					displayStacktrace: true,
 				}
 			} ),
-			config: {
-				helpers: [
-					"test/es6-map.helper.js",
-				]
-			}
 		} ) );
 } );
 
