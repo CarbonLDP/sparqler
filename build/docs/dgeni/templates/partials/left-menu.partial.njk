@@ -1,4 +1,4 @@
-<div class="docs-main-block__menu docs-left-menu docs-left-menu--visible in-mobile">
+<div class="main-container__menu left-menu visible in-mobile">
     <div class="ui top attached inverted fluid vertical menu">
         <div class="ui item right aligned container">
             <button class="ui inverted icon button js-sidebar-toggler">
@@ -6,7 +6,7 @@
             </button>
         </div>
     </div>
-    <div class="ui bottom attached inverted fluid vertical menu docs-left-menu__items">
+    <div class="ui bottom attached inverted fluid vertical menu left-menu__items">
         {% for moduleDoc in doc.navigationDocs %}
             <div class="item {{ ' active' if doc.id === moduleDoc.id or doc.moduleDoc.id === moduleDoc.id }}">
                 {% if moduleDoc.name !== "index" %}

@@ -27,7 +27,15 @@ module.exports = {
 					fallback: 'style-loader',
 					use: [
 						{
-							loader: 'css-loader?sourceMap',
+							loader: 'css-loader?sourceMap&importLoaders=1',
+						}, {
+							loader: 'postcss-loader',
+							options: {
+								sourceMap: true,
+								plugins: [
+									require( 'autoprefixer' ),
+								]
+							}
 						}, {
 							loader: 'sass-loader?sourceMap',
 						}

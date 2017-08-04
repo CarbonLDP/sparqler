@@ -10,13 +10,13 @@ $( document ).ready( function() {
 	// Sidebar behaviour
 	$( ".js-sidebar-toggler" ).click( function() {
 		if( $( window ).width() <= 768 ) {
-			$( ".docs-left-menu" )
+			$( ".main-container__menu" )
 				.toggleClass( "in-mobile" )
-				.addClass( "docs-left-menu--visible" )
+				.addClass( "visible" )
 			;
 		} else {
-			$( ".docs-left-menu" )
-				.toggleClass( "docs-left-menu--visible" )
+			$( ".main-container__menu" )
+				.toggleClass( "visible" )
 				.addClass( "in-mobile" )
 			;
 		}

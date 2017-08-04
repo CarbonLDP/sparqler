@@ -14,25 +14,13 @@
     <!-- endbuild -->
 </head>
 <body>
+    {% include 'partials/top-menu.partial.njk' %}
 
-    <div class="ui top fixed inverted menu docs-menu-top">
-        <a class="item" href="https://carbonldp.com">
-            <img class="ui small image doc-logo" src="images/carbon-ldp-logo.png">
-        </a>
-        <div class="ui right aligned search item doc-search">
-            <div class="ui icon input">
-                <input class="prompt" placeholder="Search...">
-                <i class="search icon"></i>
-            </div>
-            <div class="results"></div>
-        </div>
-    </div>
-
-    <div class="docs-main-block">
+    <div class="main-container">
         {% include 'partials/left-menu.partial.njk' %}
 
-        <div class="docs-main-block__content docs-left-menu__sibling">
-            {% include 'location-menu.partial.njk' %}
+        <div class="main-container__content">
+            {% include 'partials/location-menu.partial.njk' %}
             <div class="ui fluid container doc">
                 {% if doc.docType !== 'index' %}
                     {% include 'doc-header.partial.njk' %}
