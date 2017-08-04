@@ -4,7 +4,7 @@
         <h2 class="ui header doc-header">
             <label class="ui horizontal {{ color }} large label doc-header__label">{{ doc.docType | capitalize }}</label>
             {{ doc.name if doc.docType !== 'module' else doc.id }}
-            {% set subheaders =[ { title: "Generics", items: [ doc.typeParams ] | nullifyEmpty }, { title: "Extends", items: doc.extendsClauses | nullifyEmpty }, { title: "Implements", items: doc.implementsClauses | nullifyEmpty } ] | selectattr('items') %}
+            {% set subheaders =[ { title: "Generics", items: [ doc.generics ] | nullifyEmpty }, { title: "Extends", items: doc.extendsClauses | nullifyEmpty }, { title: "Implements", items: doc.implementsClauses | nullifyEmpty } ] | selectattr('items') %}
             {% if subheaders | length %}
                 <div class="doc-header__sub-header">
                     <div class="sub header">

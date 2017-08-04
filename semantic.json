@@ -33,7 +33,8 @@
     "menu",
     "table",
     "item",
-    "search"
+    "search",
+    "divider"
   ],
   "version": "2.2.11"
 }

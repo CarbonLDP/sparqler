@@ -1,10 +1,10 @@
-(function() {
+import * as hljs from "highlight.js/lib/highlight";
+
+$( document ).ready( function() {
 	// Start Highlight
-	$( document ).ready( function() {
-		hljs.initHighlighting();
-		$( ".overview-code" ).each( function( i, block ) {
-			hljs.highlightBlock( block );
-		} );
+	hljs.initHighlighting();
+	$( ".member-code__hjs" ).each( function( i, block ) {
+		hljs.highlightBlock( block );
 	} );
 
 	// Sidebar behaviour
@@ -21,4 +21,4 @@
 			;
 		}
 	} );
-})();
+} );

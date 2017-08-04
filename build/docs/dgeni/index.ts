@@ -7,6 +7,9 @@ import { privateFilterProcessor } from "./processors/private-filter";
 // Nunjucks filters
 import { linkify } from "./rendering/filters/linkify";
 import { nullifyEmpty } from "./rendering/filters/nullifyEmpty";
+// Custom tags
+import { generics } from "./tags-def/generics";
+import { module } from "./tags-def/module";
 
 // Project configuration.
 const projectRootDir = path.resolve( __dirname, "./../../.." );
@@ -93,8 +96,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 		readTypeScriptModules.hidePrivateMembers = false;
 		// readTypeScriptModules.sortClassMembers = true;
 
-		// Entry points for docs generation. All publically exported symbols found through these
-		// files will have docs generated.
+		// Entry points for docs generation.
 		readTypeScriptModules.sourceFiles = [
 			{
 				include: "**/*.ts",
@@ -129,7 +131,13 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 			linkify,
 			nullifyEmpty,
 		] ) );
+	} )
+	.config( function( parseTagsProcessor, getInjectables ) {
+		parseTagsProcessor.tagDefinitions.push( ...getInjectables( [
+			module,
+			generics,
+		] ) );
 	} );
 
 
-module.exports = apiDocsPackage;
+export = apiDocsPackage;

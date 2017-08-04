@@ -1,8 +1,8 @@
 // Semantic UI
 //  js
-import "../semantic-ui/dist/semantic";
+import "../semantic-ui/dist/semantic.min";
 //  css
-import "../semantic-ui/dist/semantic.css";
+import "../semantic-ui/dist/semantic.min.css";
 
 // Highlight.js
 // js
@@ -14,6 +14,6 @@ import "highlight.js/styles/darcula.css";
 
 // Customs
 //  js
-import "../src/scripts/main";
+import "./scripts/main";
 //  css
-import "../src/styles/main.css";
+import "./styles/main.scss";

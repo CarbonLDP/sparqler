@@ -1,0 +1,172 @@
+/*!
+* # SPARQLER custom styles
+* https://github.com/CarbonLDP/sparqler
+*
+* Licence under BSD-style
+* Copyright (c) 2016-present, Base22 Technology Group, LLC.
+* All rights reserved.
+*/
+.ui.top.attached.inverted.menu, .ui.top.fixed.inverted.menu {
+	border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.docs-main-block {
+	position: relative;
+	top: 76px;
+	height: calc(100% - 76px);
+	width: 100%;
+	overflow: hidden;
+
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+}
+
+.docs-main-block__menu {
+	height: 100%;
+	overflow: hidden;
+	z-index: 1001;
+
+	-webkit-box-flex: 0;
+	-webkit-flex: 0 0 auto;
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.docs-main-block__content {
+	-webkit-box-flex: 1;
+	-webkit-flex: 0 0 auto;
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.docs-left-menu {
+	width: 350px;
+
+	-webkit-transition: transform 0.5s ease-in-out;
+	-moz-transition: transform 0.5s ease-in-out;
+	-ms-transition: transform 0.5s ease-in-out;
+	-o-transition: transform 0.5s ease-in-out;
+	transition: transform 0.5s ease-in-out;
+
+	-webkit-transform: translateX(-100%);
+	-moz-transform: translateX(-100%);
+	-ms-transform: translateX(-100%);
+	-o-transform: translateX(-100%);
+	transform: translateX(-100%);
+}
+
+.docs-left-menu.docs-left-menu--visible {
+	-webkit-transform: translateX(0);
+	-moz-transform: translateX(0);
+	-ms-transform: translateX(0);
+	-o-transform: translateX(0);
+	transform: translateX(0);
+}
+
+.docs-left-menu > .ui.attached.menu {
+	margin: 0;
+}
+
+@media (min-width: 768px) {
+	.docs-left-menu.docs-left-menu--visible + .docs-left-menu__sibling {
+		width: calc(100% - 350px);
+	}
+}
+
+@media (max-width: 767px) {
+	.docs-left-menu.in-mobile {
+		-webkit-transform: translateX(-100%);
+		-moz-transform: translateX(-100%);
+		-ms-transform: translateX(-100%);
+		-o-transform: translateX(-100%);
+		transform: translateX(-100%);
+	}
+
+	.docs-left-menu.in-mobile + .docs-left-menu__sibling {
+		-webkit-transform: translateX(-350px);
+		-moz-transform: translateX(-350px);
+		-ms-transform: translateX(-350px);
+		-o-transform: translateX(-350px);
+		transform: translateX(-350px);
+	}
+
+	.docs-left-menu.docs-left-menu--visible.in-mobile + .docs-left-menu__sibling > .docs-location-menu {
+		width: 100%;
+
+		-webkit-transform: translateX(0);
+		-moz-transform: translateX(0);
+		-ms-transform: translateX(0);
+		-o-transform: translateX(0);
+		transform: translateX(0);
+	}
+}
+
+.docs-left-menu__sibling {
+	width: 100%;
+
+	-webkit-transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+	-moz-transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+	-ms-transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+	-o-transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+	transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.docs-left-menu:not(.docs-left-menu--visible) + .docs-left-menu__sibling {
+	-webkit-transform: translateX(-350px);
+	-moz-transform: translateX(-350px);
+	-ms-transform: translateX(-350px);
+	-o-transform: translateX(-350px);
+	transform: translateX(-350px);
+}
+
+.docs-left-menu > .ui.vertical.fluid.menu, .ui.menu.docs-location-menu {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.docs-left-menu__items {
+	overflow-y: auto;
+	height: calc(100% - 63px);
+}
+
+.ui.attached.menu.docs-location-menu {
+	max-width: none;
+	border-right: none;
+}
+
+.docs-location-menu {
+	height: 63px;
+
+	-webkit-transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+	-moz-transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+	-ms-transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+	-o-transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+	transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.docs-location-menu > .menu.left {
+	overflow-x: auto;
+}
+
+.docs-left-menu.docs-left-menu--visible + .docs-left-menu__sibling > .docs-location-menu {
+	width: calc(100% + 101px);
+
+	-webkit-transform: translateX(-100px);
+	-moz-transform: translateX(-100px);
+	-ms-transform: translateX(-100px);
+	-o-transform: translateX(-100px);
+	transform: translateX(-100px);
+}
+
+/* ==================== */
+/*       Globals        */
+@import "typography";
+
+@import "left-menu";
+@import "doc";

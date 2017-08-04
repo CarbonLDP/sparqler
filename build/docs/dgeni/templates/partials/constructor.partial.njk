@@ -1,0 +1,17 @@
+<h3>Constructor</h3>
+{% if doc.constructorDoc %}
+    {% set constuctorDocs = doc.constructorDoc.overloads if doc.constructorDoc.overloads | length else [ doc.constructorDoc ] %}
+    {% for constructorDoc in constuctorDocs %}
+        <div class="member-code">
+            <span class="member-code__hjs typescript">{{ doc.name }}{{ doc.typeParams | escape }}({{ constructorDoc.parameters | join(', ') | linkify }})</span>
+        </div>
+        {{ constructorDoc.description | marked }}
+        {% if not loop.last %}
+            <div class="ui section divider"></div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    {# TODO: Check if a constructor is inheried #}
+    new {{ doc.name }}()
+{% endif %}
+

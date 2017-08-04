@@ -2,7 +2,6 @@ const path = require( 'path' );
 const webpack = require( 'webpack' );
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 
-const BUILD_DIR = path.resolve( __dirname, '.' );
 const SRC_DIR = path.resolve( __dirname, '../src/' );
 const DIST_DIR = path.resolve( __dirname, '../../../docs/' );
 
@@ -23,16 +22,16 @@ module.exports = {
 	module: {
 		loaders: [
 			{
-				test: /\.css$/,
+				test: /\.s?css$/,
 				use: extractCSS.extract( {
 					fallback: 'style-loader',
-					use: {
-						loader: 'css-loader',
-						options: {
-							import: false,
-							sourceMap: true,
-						},
-					},
+					use: [
+						{
+							loader: 'css-loader?sourceMap',
+						}, {
+							loader: 'sass-loader?sourceMap',
+						}
+					],
 				} ),
 			},
 			{
@@ -55,7 +54,6 @@ module.exports = {
 		new webpack.ProvidePlugin( {
 			$: "jquery",
 			jQuery: "jquery",
-			hljs: "highlight.js/lib/highlight",
 		} ),
 	],
 };

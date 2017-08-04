@@ -42,15 +42,13 @@ export class Container<T extends FinishClause | SubFinishClause = FinishClause> 
 	readonly _iriResolver?:IRIResolver;
 
 	/**
-	 * Creates an empty container with the default finish decorator: {@link finishDecorator}.
-	 */
-	constructor();
-	/**
-	 * Creates an empty container with a custom finish decorator.
+	 * Creates an empty container with a custom finish decorator if set.
+	 * If none is provided `{@link clauses/decorators/finishDecorator}`
+	 * will be used.
 	 *
-	 * @param finishDecorator The finish decorated to be used in the container.
+	 * @param finishDecorator The finish decorator to be used in the container.
 	 */
-	constructor( finishDecorator:FinishDecorator<T> );
+	constructor( finishDecorator?:FinishDecorator<T> );
 	/**
 	 * Creates a container copping the data of the previous container provided.
 	 *
@@ -66,6 +64,9 @@ export class Container<T extends FinishClause | SubFinishClause = FinishClause> 
 	 * @param iriResolver IRIResolver to be used.
 	 */
 	constructor( previousContainer:Container<any>, newTokens?:Token[], iriResolver?:IRIResolver );
+	/**
+	 * Some description
+	 */
 	constructor( containerOrFunction?:Container<any> | FinishDecorator<T>, newTokens?:Token[], iriResolver?:IRIResolver ) {
 		const container:Container<any> = containerOrFunction instanceof Function ?
 			void 0 : containerOrFunction;
