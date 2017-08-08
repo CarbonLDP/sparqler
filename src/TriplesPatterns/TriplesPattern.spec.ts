@@ -12,6 +12,8 @@ import * as ObjectPattern from "../Utils/ObjectPattern";
 import { Variable } from "./Variable";
 import { NewLineSymbol } from "../Tokens/NewLineSymbol";
 import { Resource } from "./Resource";
+import { Operator } from "../Tokens/Operator";
+import { StringLiteral } from "../Tokens/StringLiteral";
 
 describe( "Module TriplesPattern/TriplesPattern", ():void => {
 
@@ -760,6 +762,95 @@ describe( "Module TriplesPattern/TriplesPattern", ():void => {
 					new NewLineSymbol( "," ),
 					new MockToken( "new-last-stuff" ),
 				] );
+			} );
+
+			it( "should parse a property path", ():void => {
+				spyOn( ObjectPattern, "serialize" ).and.callFake( ( value ):Token[] => {
+					return [ new MockToken( value ) ];
+				} );
+				let pattern:TriplesPattern<GraphPattern>;
+
+
+				pattern = new MockTriplesPattern( resolver );
+
+				// Strict IRI string
+				pattern.has( "<http://example.com/iri/>", "stuff" );
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "http://example.com/iri/" ),
+					new MockToken( "stuff" ),
+				] );
+
+				// Flexible IRI string
+				pattern.has( "iri", "stuff" );
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "iri" ),
+					new MockToken( "stuff" ),
+				] );
+
+				// Alternative path
+				pattern.has( "iri|another-iri", "stuff" );
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "iri" ),
+					new Operator( "|" ),
+					new MockToken( "another-iri" ),
+					new MockToken( "stuff" ),
+				] );
+
+				// Sequence path
+				pattern.has( "iri/another-iri", "new-stuff" );
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new MockToken( "iri" ),
+					new Operator( "/" ),
+					new MockToken( "another-iri" ),
+					new MockToken( "new-stuff" ),
+				] );
+
+				// Inverse path
+				pattern.has( "^iri", "new-stuff" );
+				expect( pattern[ "patternTokens" ] ).toEqual( jasmine.arrayContaining( [
+					new Operator( "^" ),
+					new MockToken( "iri" ),
+					new MockToken( "new-stuff" ),
+				] ) );
+
+				// Path with Mod
+				pattern.has( "iri?", "new-stuff" );
+				expect( pattern[ "patternTokens" ] ).toEqual( jasmine.arrayContaining( [
+					new MockToken( "iri" ),
+					new Operator( "?" ),
+					new MockToken( "new-stuff" ),
+				] ) );
+
+				// Path with Mod
+				pattern.has( "iri*", "new-stuff" );
+				expect( pattern[ "patternTokens" ] ).toEqual( jasmine.arrayContaining( [
+					new MockToken( "iri" ),
+					new Operator( "*" ),
+					new MockToken( "new-stuff" ),
+				] ) );
+
+				// Path with Mod
+				pattern.has( "iri+", "new-stuff" );
+				expect( pattern[ "patternTokens" ] ).toEqual( jasmine.arrayContaining( [
+					new MockToken( "iri" ),
+					new Operator( "+" ),
+					new MockToken( "new-stuff" ),
+				] ) );
+
+				// "a" keyword
+				pattern.has( "a", "new-stuff" );
+				expect( pattern[ "patternTokens" ] ).toEqual( [
+					new StringLiteral( "a" ),
+					new MockToken( "new-stuff" ),
+				] );
+
+				// Negative path
+				pattern.has( "!iri", "new-stuff" );
+				expect( pattern[ "patternTokens" ] ).toEqual( jasmine.arrayContaining( [
+					new Operator( "!" ),
+					new MockToken( "iri" ),
+					new MockToken( "new-stuff" ),
+				] ) );
 			} );
 
 		} );
