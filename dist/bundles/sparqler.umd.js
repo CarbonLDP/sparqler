@@ -909,6 +909,7 @@ var Patterns_1 = __webpack_require__(21);
 var PatternBuilder = (function () {
     function PatternBuilder(iriResolver) {
         this.iriResolver = iriResolver;
+        decorators_1.selectDecorator(new Container_1.Container(decorators_1.subFinishDecorator), this);
     }
     Object.defineProperty(PatternBuilder, "undefined", {
         get: function () { return "UNDEF"; },
@@ -1001,9 +1002,6 @@ var PatternBuilder = (function () {
     };
     PatternBuilder.prototype.filter = function (rawConstraint) {
         return new NotTriplesPattern_1.NotTriplesPattern([tokens_1.FILTER, new StringLiteral_1.StringLiteral(rawConstraint)]);
-    };
-    PatternBuilder.prototype.subSelect = function () {
-        return decorators_1.selectDecorator(new Container_1.Container(decorators_1.subFinishDecorator), {});
     };
     return PatternBuilder;
 }());

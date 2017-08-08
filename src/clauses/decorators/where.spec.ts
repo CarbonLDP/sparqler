@@ -122,6 +122,7 @@ describe( "whereDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
 					return newContainer = new Container( ...args );
 				} );
 
@@ -140,6 +141,7 @@ describe( "whereDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
 					return newContainer = new Container( ...args );
 				} );
 
@@ -173,6 +175,7 @@ describe( "whereDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
 					return newContainer = new Container( ...args );
 				} );
 

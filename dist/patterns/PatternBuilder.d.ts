@@ -1,6 +1,6 @@
-import { SubSelectClause } from "sparqler/clauses/interfaces";
+import { SubSelectClause, SubWhereClause } from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { ClausePatternBuilder, GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "sparqler/patterns/interfaces";
+import { GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "sparqler/patterns/interfaces";
 import { NotTriplesPattern } from "sparqler/patterns/notTriples/NotTriplesPattern";
 import { BlankNode } from "sparqler/patterns/triples/BlankNode";
 import { Collection } from "sparqler/patterns/triples/Collection";
@@ -8,7 +8,7 @@ import { BooleanLiteral, Literal, NumericLiteral, RDFLiteral } from "sparqler/pa
 import { Resource } from "sparqler/patterns/triples/Resource";
 import { Variable } from "sparqler/patterns/triples/Variable";
 export declare type Undefined = "UNDEF";
-export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder, ClausePatternBuilder {
+export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder, SubSelectClause {
     static readonly undefined: Undefined;
     readonly undefined: Undefined;
     private iriResolver;
@@ -38,6 +38,11 @@ export declare class PatternBuilder implements TriplesPatternBuilder, NotTriples
     serviceSilent(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
     bind(rawExpression: string, variable: string | Variable): NotTriplesPattern;
     filter(rawConstraint: string): NotTriplesPattern;
-    subSelect(): SubSelectClause;
+    select: (...variables: string[]) => SubWhereClause;
+    selectDistinct: (...variables: string[]) => SubWhereClause;
+    selectReduced: (...variables: string[]) => SubWhereClause;
+    selectAll: () => SubWhereClause;
+    selectAllDistinct: () => SubWhereClause;
+    selectAllReduced: () => SubWhereClause;
 }
 export default PatternBuilder;

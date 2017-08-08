@@ -24,14 +24,12 @@ const finishQuery = builder
 
 	.where( ( _ ) => {
 		return [
-			_.subSelect()
-				.selectAll()
+			_.selectAll()
 				.where( [
 					_.resource( "" )
 						.has( "ldp:member", _.var( "members" ) ),
 				] ),
-			_.subSelect()
-				.select( "my-members" )
+			_.select( "my-members" )
 				.where( [
 					_.resource( "" )
 						.has( ":my-member", _.var( "my-members" ) ),
