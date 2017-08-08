@@ -11,6 +11,7 @@ const finishQuery = builder
 	.prefix( "ex", "http://example.com/ns#" )
 	.prefix( "xsd", "http://www.w3.org/2001/XMLSchema#" )
 	.prefix( "ldp", "http://www.w3.org/ns/ldp#" )
+	.prefix( "rdfs", "http://www.w3.org/2000/01/rdf-schema#" )
 
 	.select( "s", "color" )
 	// .selectDistinct( "s", "color" )
@@ -121,6 +122,9 @@ const finishQuery = builder
 
 			_.filter( "( ?v = ?v2 )" ),
 			_.filter( "BNODE( ?s )" ),
+
+			_.resource( "resource/" )
+				.has( "(a/rdfs:subClassOf)|<property-1/>", _.resource( "ex:Class" ) )
 		];
 	} )
 
