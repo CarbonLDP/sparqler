@@ -1,4 +1,6 @@
+import { ValuesClause } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
+import { valuesDecorator } from "sparqler/clauses/decorators/values";
 import {
 	FinishClause,
 	LimitClause,
@@ -63,18 +65,18 @@ export class LimitOffsetContainer<T extends FinishClause | SubFinishClause = Fin
  * @returns A OffsetClause or the FinishClause/SubFinishClause depending
  * if the offset method has been called before or not.
  */
-export function limit<T extends FinishClause | SubFinishClause>( this:LimitOffsetContainer<T>, limit:number ):T | OffsetClause<T> & T {
+export function limit<T extends FinishClause | SubFinishClause>( this:LimitOffsetContainer<T>, limit:number ):( T & ValuesClause<T> ) | ( OffsetClause<T & ValuesClause<T>> & ValuesClause<T> & T ) {
 	const tokens:Token[] = [ LIMIT, new NumberLiteral( limit ) ];
 
-	// Return T
+	// Return T & ValuesClause<T>
 	if( this._offsetUsed ) {
 		const container:Container<T> = new Container<T>( this, tokens );
-		return this._finishDecorator<{}>( container, {} );
+		return this._finishDecorator( container, valuesDecorator( container, {} ) );
 	}
 
-	// Return OffsetClause<T> & T
+	// Return OffsetClause<T & ValuesClause<T>> & ValuesClause<T> & T
 	const container:LimitOffsetContainer<T> = new LimitOffsetContainer<T>( this, tokens, CurrentMethod.LIMIT );
-	return this._finishDecorator<OffsetClause<T>>( container, offsetDecorator<T, {}>( container, {} ) );
+	return this._finishDecorator( container, offsetDecorator( container, {} ) );
 }
 
 /**
@@ -84,18 +86,18 @@ export function limit<T extends FinishClause | SubFinishClause>( this:LimitOffse
  * @returns A LimitClause or the FinishClause/SubFinishClause depending
  * if the limit method has been called before or not.
  */
-export function offset<T extends FinishClause | SubFinishClause>( this:LimitOffsetContainer<T>, offset:number ):T | LimitClause<T> & T {
+export function offset<T extends FinishClause | SubFinishClause>( this:LimitOffsetContainer<T>, offset:number ):( T & ValuesClause<T> ) | ( LimitClause<T & ValuesClause<T>> & ValuesClause<T> & T ) {
 	const tokens:Token[] = [ OFFSET, new NumberLiteral( offset ) ];
 
-	// Return T
+	// Return T & ValuesClause<T>
 	if( this._limitUsed ) {
 		const container:Container<T> = new Container<T>( this, tokens );
-		return this._finishDecorator<{}>( container, {} );
+		return this._finishDecorator( container, valuesDecorator( container, {} ) );
 	}
 
-	// Return LimitClause<T> & T
+	// Return LimitClause<T & ValuesClause<T>> & ValuesClause<T> & T
 	const container:LimitOffsetContainer<T> = new LimitOffsetContainer<T>( this, tokens, CurrentMethod.OFFSET );
-	return this._finishDecorator<LimitClause<T>>( container, limitDecorator<T, {}>( container, {} ) );
+	return this._finishDecorator( container, limitDecorator( container, {} ) );
 }
 
 
@@ -107,8 +109,8 @@ export function offset<T extends FinishClause | SubFinishClause>( this:LimitOffs
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
-export function limitDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & LimitClause<T> {
-	return genericDecorator( { limit }, container, object );
+export function limitDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & LimitClause<T & ValuesClause<T>> & ValuesClause<T> {
+	return genericDecorator( { limit }, container, valuesDecorator( container, object ) );
 }
 
 /**
@@ -119,8 +121,8 @@ export function limitDecorator<T extends FinishClause | SubFinishClause, W exten
  * @param object Object to be decorated with the bound methods.
  * @returns The same object provided that has been decorated.
  */
-export function offsetDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & OffsetClause<T> {
-	return genericDecorator( { offset }, container, object );
+export function offsetDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & OffsetClause<T & ValuesClause<T>> & ValuesClause<T> {
+	return genericDecorator( { offset }, container, valuesDecorator( container, object ) );
 }
 
 /**
@@ -133,7 +135,7 @@ export function offsetDecorator<T extends FinishClause | SubFinishClause, W exte
  */
 export function limitOffsetDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & LimitOffsetClause<T> {
 	return genericDecorator( {
-		limit: limit as ( limit:number ) => OffsetClause<T> & T,
-		offset: offset as ( offset:number ) => LimitClause<T> & T,
-	}, container, object );
+		limit: limit as ( limit:number ) => OffsetClause<T & ValuesClause<T>> & ValuesClause<T> & T,
+		offset: offset as ( offset:number ) => LimitClause<T & ValuesClause<T>> & ValuesClause<T> & T,
+	}, container, valuesDecorator( container, object ) );
 }

@@ -63,16 +63,16 @@ describe( "Module TriplesPattern/Variable", ():void => {
 				new StringLiteral( "name" ),
 			] );
 
-			resource = new Variable( resolver, "another-name" );
+			resource = new Variable( resolver, "another_name" );
 			expect( resource.getSelfTokens() ).toEqual( [
 				new LeftSymbol( "?" ),
-				new StringLiteral( "another-name" ),
+				new StringLiteral( "another_name" ),
 			] );
 
-			resource = new Variable( resolver, "last-name" );
+			resource = new Variable( resolver, "last_name" );
 			expect( resource.getSelfTokens() ).toEqual( [
 				new LeftSymbol( "?" ),
-				new StringLiteral( "last-name" ),
+				new StringLiteral( "last_name" ),
 			] );
 		} );
 
@@ -91,14 +91,14 @@ describe( "Module TriplesPattern/Variable", ():void => {
 				new MockToken( "some-iri" ), new MockToken( "something" ),
 			] );
 
-			pattern = new Variable( resolver, "another-name" )
+			pattern = new Variable( resolver, "another_name" )
 				.has( "some-iri", "something" )
 				.and( "middle-iri-1", "thing-1" )
 				.and( "middle-iri-2", [ "thing-2-1", "thing-2-2", "thing-2-3" ] )
 				.and( "last-iri", "anything" )
 			;
 			expect( pattern.getPattern() ).toEqual( [
-				new LeftSymbol( "?" ), new StringLiteral( "another-name" ),
+				new LeftSymbol( "?" ), new StringLiteral( "another_name" ),
 				new MockToken( "some-iri" ), new MockToken( "something" ), new NewLineSymbol( ";" ),
 				new MockToken( "middle-iri-1" ), new MockToken( "thing-1" ), new NewLineSymbol( ";" ),
 				new MockToken( "middle-iri-2" ), new MockToken( "thing-2-1" ), new NewLineSymbol( "," ), new MockToken( "thing-2-2" ), new NewLineSymbol( "," ), new MockToken( "thing-2-3" ), new NewLineSymbol( ";" ),

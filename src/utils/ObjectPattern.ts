@@ -15,8 +15,7 @@ import {
 } from "../patterns/tokens";
 import { PatternBuilder } from "../patterns/PatternBuilder";
 
-export function serialize( object:SupportedNativeTypes ):Token[];
-export function serialize( object:ElementPattern ):Token[];
+export function serialize( object:SupportedNativeTypes | ElementPattern ):Token[];
 export function serialize( object ):Token[] {
 
 	if( typeof object === "string" || object instanceof String ) {

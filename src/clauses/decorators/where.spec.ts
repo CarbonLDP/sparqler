@@ -73,10 +73,15 @@ describe( "whereDecorator", ():void => {
 		const groupFinishClause:GroupClause & FinishClause = whereClause.where( () => [] );
 		expect( groupFinishClause ).toEqual( {
 			groupBy: jasmine.any( Function ),
+
 			having: jasmine.any( Function ),
+
 			orderBy: jasmine.any( Function ),
+
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 
 			toPrettyString: jasmine.any( Function ),
 			toCompactString: jasmine.any( Function ),
@@ -284,10 +289,15 @@ describe( "subWhereDecorator", ():void => {
 				const groupGraphClause:GroupClause<SubFinishClause> & SubFinishClause = whereClause.where( [] );
 				expect( groupGraphClause ).toEqual( {
 					groupBy: jasmine.any( Function ),
+
 					having: jasmine.any( Function ),
+
 					orderBy: jasmine.any( Function ),
+
 					limit: jasmine.any( Function ),
 					offset: jasmine.any( Function ),
+
+					values: jasmine.any( Function ),
 
 					getPattern: jasmine.any( Function ),
 				} );
