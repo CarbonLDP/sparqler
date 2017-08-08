@@ -56,17 +56,16 @@ export class Container<T extends FinishClause | SubFinishClause = FinishClause> 
 	 * of the previous container tokens.
 	 *
 	 * If the `iriResolver` is provided, it will be used in the new container instead
-	 * of the IRIResolver of the previous container. But if the value is `null` the
-	 * `_iriResolver` property will be undefined.
+	 * of the IRIResolver of the previous container.
 	 *
-	 * @param previousContainer Container to be copied.
-	 * @param newTokens Tokens to append to the to the previousContainer tokens copied.
-	 * @param iriResolver IRIResolver to be used.
+	 * If the previousContainer has `{@link subFinishDecorator}` as finish decorator,
+	 * the `_iriResolver` property will be un set.
+	 *
+	 * @param previousContainer Container to copied its properties.
+	 * @param newTokens Tokens to append to the to the `previousContainer` tokens copied.
+	 * @param iriResolver IRIResolver to be used for the new container.
 	 */
 	constructor( previousContainer:Container<any>, newTokens?:Token[], iriResolver?:IRIResolver );
-	/**
-	 * Some description
-	 */
 	constructor( containerOrFunction?:Container<any> | FinishDecorator<T>, newTokens?:Token[], iriResolver?:IRIResolver ) {
 		const container:Container<any> = containerOrFunction instanceof Function ?
 			void 0 : containerOrFunction;

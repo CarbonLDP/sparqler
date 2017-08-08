@@ -6,6 +6,7 @@
             <span class="member-code__hjs typescript">{{ doc.name }}{{ doc.typeParams | escape }}({{ constructorDoc.parameters | join(', ') | linkify }})</span>
         </div>
         {{ constructorDoc.description | marked }}
+        {{ parameters(doc, constructorDoc) }}
         {% if not loop.last %}
             <div class="ui section divider"></div>
         {% endif %}

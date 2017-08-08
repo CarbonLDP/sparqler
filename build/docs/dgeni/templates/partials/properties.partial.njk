@@ -1,0 +1,7 @@
+<h3>Properties</h3>
+{% if doc.members %}
+        {% for member in doc.members %}
+            {#{{ member.name }}{% if member.parsedParameters %}({% if member.parsedParameters.length > 0 %} {% endif %}{% for parameter in member.parsedParameters %}{{ parameter.name }}:{{ parameter.type }}{{ ', ' if not loop.last }}{% endfor %}{% if member.parsedParameters.length > 0 %} {% endif %}){% endif %}:{{ member.parsedReturnType }};<br>#}
+            {{ member.name }} => {{ member }}
+        {% endfor %}
+{% endif %}

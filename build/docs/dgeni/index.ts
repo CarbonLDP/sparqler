@@ -3,6 +3,7 @@ import { Package, } from "dgeni";
 // Processors
 import { extendsTypescriptProcessor } from "./processors/extends-typescript";
 import { navigationProcessor } from "./processors/navigation";
+import { normalizeDocsProcessor } from "./processors/normalizeDocs";
 import { privateFilterProcessor } from "./processors/private-filter";
 // Nunjucks filters
 import { linkify } from "./rendering/filters/linkify";
@@ -28,6 +29,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 	.processor( privateFilterProcessor )
 	.processor( navigationProcessor )
 	.processor( extendsTypescriptProcessor )
+	.processor( normalizeDocsProcessor )
 
 	.config( function( log ) {
 		log.level = "info";
