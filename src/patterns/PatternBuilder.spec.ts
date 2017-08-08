@@ -2,7 +2,6 @@ import { IRIResolver } from "sparqler/iri";
 import {
 	MultipleValuesPattern,
 	SingleValuesPattern,
-	Undefined,
 } from "sparqler/patterns";
 import { NotTriplesPattern } from "sparqler/patterns/notTriples/NotTriplesPattern";
 import { ValuesPattern } from "sparqler/patterns/notTriples/ValuesPattern";
@@ -77,8 +76,14 @@ describe( "PatternBuilder", ():void => {
 			minus: jasmine.any( Function ),
 			values: jasmine.any( Function ),
 
-			// Clause patterns
-			subSelect: jasmine.any( Function ),
+			// Sub-Select patterns
+			select: jasmine.any( Function ),
+			selectDistinct: jasmine.any( Function ),
+			selectReduced: jasmine.any( Function ),
+
+			selectAll: jasmine.any( Function ),
+			selectAllDistinct: jasmine.any( Function ),
+			selectAllReduced: jasmine.any( Function ),
 		} ) );
 
 	} );
@@ -911,25 +916,6 @@ describe( "PatternBuilder", ():void => {
 
 			const tokens:MockToken[] = vars.reduce( ( x, _ ) => x.concat( _.getSelfTokens() ), [] );
 			expect( pattern.getPattern() ).toEqual( jasmine.arrayContaining( tokens ) as any );
-		} );
-
-	} );
-
-	describe( "PatternBuilder.subSelect", ():void => {
-
-		it( "should return a SubSelectClause object", ():void => {
-			const builder:PatternBuilder = new PatternBuilder( iriResolver );
-			const subSelect:SubSelectClause = builder.subSelect();
-
-			expect( subSelect ).toEqual( {
-				select: jasmine.any( Function ),
-				selectDistinct: jasmine.any( Function ),
-				selectReduced: jasmine.any( Function ),
-
-				selectAll: jasmine.any( Function ),
-				selectAllDistinct: jasmine.any( Function ),
-				selectAllReduced: jasmine.any( Function ),
-			} );
 		} );
 
 	} );

@@ -110,6 +110,3 @@ export interface TriplesSameSubjectMore<T> {
 
 export interface TriplesNodePattern extends GraphPattern, ElementPattern {}
 
-export interface ClausePatternBuilder {
-	subSelect():SubSelectClause;
-}

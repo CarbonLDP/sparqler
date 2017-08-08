@@ -16,7 +16,13 @@ import {
 	Resource,
 	Variable,
 } from "sparqler/patterns/triples";
-import { Token } from "sparqler/tokens";
+import {
+	LeftSymbol,
+	Operator,
+	RightSymbol,
+	StringLiteral,
+	Token,
+} from "sparqler/tokens";
 import { serialize } from "sparqler/utils/ObjectPattern";
 
 export abstract class TriplesPattern<T extends GraphPattern> implements TriplesSameSubject<T>, ElementPattern {
@@ -60,19 +66,67 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 		};
 	};
 
-	private _addPattern( property:string | Variable | Resource, values:ElementPattern | ElementPattern[] ):TriplesSameSubjectMore<T> & T {
-		let tokens:Token[] = ( typeof property === "string" || property instanceof String )
-			? this.resolver.resolve( property as string, true )
+	private _addPattern( property:string | Variable | Resource, objects:ElementPattern | ElementPattern[] ):TriplesSameSubjectMore<T> & T {
+		let tokens:Token[] = ( typeof property === "string" )
+			? this._resolvePath( property )
 			: property.getSelfTokens();
 
-		values = Array.isArray( values ) ? values : [ values ];
-		values.forEach( ( value, index, array ) => {
+		objects = Array.isArray( objects ) ? objects : [ objects ];
+		objects.forEach( ( value, index, array ) => {
 			tokens.push( ...serialize( value ) );
 			if( index < array.length - 1 ) tokens.push( SAME_PROPERTY_SEPARATOR );
 		} );
 
 		this.patternTokens.push( ...tokens );
 		return Object.assign( {}, this.interfaces.addPattern, this.interfaces.graphPattern );
+	}
+
+	private static PATH_OPERATORS:string[] = [ "|", "/", "^", "?", "*", "+", "!", "(", ")" ];
+
+	private _resolvePath( propertyPath:string ):Token[] {
+		const tokens:Token[] = propertyPath
+			.split( /(<.*?>)/ ).reduce( ( array:string[], part:string ) => {
+				// Is an IRI
+				if( part.startsWith( "<" ) ) {
+					array.push( part );
+				}
+
+				// Everything else
+				else {
+					array.push( ...part.split( /([|/^?*+!()])/ ) )
+				}
+
+				return array;
+			}, [] )
+			.reduce( ( array:Token[], part:string ) => {
+				if( ! part ) return array;
+
+				// Operators
+				if( TriplesPattern.PATH_OPERATORS.indexOf( part ) !== - 1 ) {
+					array.push( new Operator( part ) );
+				}
+
+				// "a" keyword
+				else if( part === "a" ) {
+					array.push( new StringLiteral( part ) );
+				}
+
+				// IRI or prefix
+				else {
+					if( part.startsWith( "<" ) && part.endsWith( ">" ) ) part = part.slice( 1, - 1 );
+					array.push( ...this.resolver.resolve( part, true ) );
+				}
+
+				return array;
+			}, [] );
+
+
+		if( tokens[ 0 ] instanceof Operator )
+			tokens.unshift( new LeftSymbol( "" ) );
+		if( tokens[ tokens.length - 1 ] instanceof Operator )
+			tokens.push( new RightSymbol( "" ) );
+
+		return tokens;
 	}
 
 }
