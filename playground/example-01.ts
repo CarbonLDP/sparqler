@@ -1,8 +1,10 @@
-import SPARQLER from "../src/SPARQLER";
+import SPARQLER from "../src";
 
-let builder = new SPARQLER();
+const startTime:[ number, number ] = process.hrtime();
 
-builder
+const builder = new SPARQLER();
+
+const finishQuery = builder
 	.base( "https://carbonldp.base22.io/" )
 	.vocab( "https://carbonldp.base22.io/vocabulary/#" )
 	.prefix( "", "https://carbonldp.base22.io/" )
@@ -22,6 +24,17 @@ builder
 
 	.where( ( _ ) => {
 		return [
+			_.selectAll()
+				.where( [
+					_.resource( "" )
+						.has( "ldp:member", _.var( "members" ) ),
+				] ),
+			_.select( "my-members" )
+				.where( [
+					_.resource( "" )
+						.has( ":my-member", _.var( "my-members" ) ),
+				] ),
+
 			_.resource( "" )
 				.has( "ldp:contains", _.resource( "posts/" ) ),
 			_.var( "s" )
@@ -63,7 +76,7 @@ builder
 			] ),
 			_.optional( [
 				_.resource( "some" ).has( "ex:yes", "no" ).and( "ex:yes", "maybe" ),
-				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] )
+				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			] ),
 			_.union( [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
@@ -103,7 +116,7 @@ builder
 			] ),
 
 			_.bind( "?v = ?v1", "equal" ),
-			_.bind( "?v2 = ?v1", _.var( "equal2") ),
+			_.bind( "?v2 = ?v1", _.var( "equal2" ) ),
 
 			_.filter( "( ?v = ?v2 )" ),
 			_.filter( "BNODE( ?s )" ),
@@ -115,6 +128,20 @@ builder
 
 	.limit( 2 );
 
-console.log( builder.toPrettyString() );
-console.log( "\n\n" );
-console.log( builder.toCompactString() );
+let difference:number[] = process.hrtime( startTime );
+let time:number = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
+console.log( "\n" + time + "ms\n" );
+
+console.log( finishQuery.toPrettyString() );
+// finishQuery.toPrettyString();
+
+difference = process.hrtime( startTime );
+time = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
+console.log( "\n" + time + "ms\n" );
+
+console.log( finishQuery.toCompactString() );
+// finishQuery.toCompactString();
+
+difference = process.hrtime( startTime );
+time = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
+console.log( "\n" + time + "ms\n" );

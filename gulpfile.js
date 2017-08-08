@@ -3,6 +3,7 @@
 const del = require( "del" );
 
 const gulp = require( "gulp" );
+const gulpUtil = require( "gulp-util" );
 const runSequence = require( "run-sequence" );
 
 const karma = require( "karma" );
@@ -10,9 +11,9 @@ const jasmine = require( "gulp-jasmine" );
 const osTempDir = require( "os" ).tmpdir();
 const uuid = require( "uuid" );
 const path = require( "path" );
-const filter = require( 'gulp-filter' );
+const filter = require( "gulp-filter" );
 
-const SpecReporter = require( 'jasmine-spec-reporter' ).SpecReporter;
+const SpecReporter = require( "jasmine-spec-reporter" ).SpecReporter;
 
 const sourcemaps = require( "gulp-sourcemaps" );
 const ts = require( "gulp-typescript" );
@@ -52,11 +53,12 @@ gulp.task( "build", ( done ) => {
 } );
 
 gulp.task( "bundle", ( done ) => {
-	const compiler = webpack( webpackConfig );
-
-	compiler.run( ( error, stats ) => {
+	webpack( webpackConfig, ( error, stats ) => {
 		if( error ) done( error );
-		else done();
+		else {
+			gulpUtil.log( stats.toString() );
+			done( stats.hasErrors() ? "Webpack has errors" : null );
+		}
 	} );
 } );
 
@@ -113,12 +115,22 @@ gulp.task( "prepare:npm-package|copy:package-json", () => {
 		.pipe( gulp.dest( config.dist.dir ) );
 } );
 
-gulp.task( "test", [ "test:browser", "test:node" ] );
+gulp.task( "test", ( done ) => {
+	runSequence( "test:node", "test:browser", done );
+} );
 
 gulp.task( "test:browser", ( done ) => {
 	new karma.Server( {
 		configFile: __dirname + "/karma.conf.js",
 		singleRun: true
+	}, done ).start();
+} );
+
+gulp.task( "test:debug", ( done ) => {
+	new karma.Server( {
+		configFile: __dirname + "/karma.conf.js",
+		autoWatch: true,
+		singleRun: false,
 	}, done ).start();
 } );
 
@@ -131,8 +143,22 @@ gulp.task( "test:node", () => {
 
 	let tempDir = path.join( osTempDir, uuid.v4() );
 
+	// Register
+	const tsConfigPaths = require( "tsconfig-paths" );
+	tsConfigPaths.register( {
+		baseUrl: tempDir,
+		paths: { "sparqler/*": [ "/*" ] },
+	} );
+
+	require( "source-map-support/register" );
+
 	return tsResults.js
-		.pipe( sourcemaps.write( "." ) )
+		.pipe( sourcemaps.mapSources( ( sourcePath ) =>
+			path.resolve( "./src/", sourcePath )
+		) )
+		.pipe( sourcemaps.write( ".", {
+			includeContent: false,
+		} ) )
 		.pipe( gulp.dest( tempDir ) )
 		.pipe( filter( "**/*.spec.js" ) )
 		.pipe( jasmine( {
@@ -141,5 +167,10 @@ gulp.task( "test:node", () => {
 					displayStacktrace: true,
 				}
 			} ),
+			config: {
+				helpers: [
+					"test/es6-map.helper.js",
+				]
+			}
 		} ) );
 } );
