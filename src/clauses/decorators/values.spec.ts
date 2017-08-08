@@ -223,11 +223,13 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
 				valuesClause.values( "var1", _ => [] );
-				expect( spy ).toHaveBeenCalledTimes( 1 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 2 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					VAR_SYMBOL, new StringLiteral( "var1" ),
@@ -241,11 +243,13 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
 				valuesClause.values( "var1", _ => "value" );
-				expect( spy ).toHaveBeenCalledTimes( 1 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 2 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					VAR_SYMBOL, new StringLiteral( "var1" ),
@@ -253,7 +257,8 @@ describe( "valuesDecorator", ():void => {
 				] );
 
 				valuesClause.values( "var1", _ => _.resource( "resource/" ) );
-				expect( spy ).toHaveBeenCalledTimes( 2 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 4 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					VAR_SYMBOL, new StringLiteral( "var1" ),
@@ -261,7 +266,8 @@ describe( "valuesDecorator", ():void => {
 				] );
 
 				valuesClause.values( "var1", _ => _.literal( "literal" ) );
-				expect( spy ).toHaveBeenCalledTimes( 3 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 6 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					VAR_SYMBOL, new StringLiteral( "var1" ),
@@ -275,6 +281,7 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
@@ -285,7 +292,8 @@ describe( "valuesDecorator", ():void => {
 					_.resource( "resource/" ),
 					_.literal( "literal" ),
 				] );
-				expect( spy ).toHaveBeenCalledTimes( 1 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 2 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					VAR_SYMBOL, new StringLiteral( "var1" ),
@@ -407,11 +415,13 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
 				valuesClause.values( [ "var1" ], _ => [] );
-				expect( spy ).toHaveBeenCalledTimes( 1 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 2 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					OPEN_SINGLE_LIST,
@@ -424,7 +434,8 @@ describe( "valuesDecorator", ():void => {
 				] );
 
 				valuesClause.values( [ "var1", "var2" ], _ => [ [] ] );
-				expect( spy ).toHaveBeenCalledTimes( 2 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 4 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					OPEN_SINGLE_LIST, VAR_SYMBOL, new StringLiteral( "var1" ), VAR_SYMBOL, new StringLiteral( "var2" ), CLOSE_SINGLE_LIST,
@@ -441,11 +452,13 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
 				valuesClause.values( [ "var1" ], _ => [ "value" ] );
-				expect( spy ).toHaveBeenCalledTimes( 1 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 2 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					OPEN_SINGLE_LIST, VAR_SYMBOL, new StringLiteral( "var1" ), CLOSE_SINGLE_LIST,
@@ -456,7 +469,8 @@ describe( "valuesDecorator", ():void => {
 				] );
 
 				valuesClause.values( [ "var1" ], _ => [ _.resource( "resource/" ) ] );
-				expect( spy ).toHaveBeenCalledTimes( 2 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 4 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					OPEN_SINGLE_LIST, VAR_SYMBOL, new StringLiteral( "var1" ), CLOSE_SINGLE_LIST,
@@ -467,7 +481,8 @@ describe( "valuesDecorator", ():void => {
 				] );
 
 				valuesClause.values( [ "var1" ], _ => [ [ _.literal( "literal" ) ] ] );
-				expect( spy ).toHaveBeenCalledTimes( 3 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 6 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					OPEN_SINGLE_LIST, VAR_SYMBOL, new StringLiteral( "var1" ), CLOSE_SINGLE_LIST,
@@ -484,6 +499,7 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
@@ -494,7 +510,8 @@ describe( "valuesDecorator", ():void => {
 					[ _.resource( "resource/" ) ],
 					[ _.literal( "literal" ) ],
 				] );
-				expect( spy ).toHaveBeenCalledTimes( 1 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 2 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					OPEN_SINGLE_LIST, VAR_SYMBOL, new StringLiteral( "var1" ), CLOSE_SINGLE_LIST,
@@ -525,7 +542,8 @@ describe( "valuesDecorator", ():void => {
 					[ _.resource( "resource1/" ), _.resource( "resource2/" ), _.resource( "resource3/" ) ],
 					[ _.literal( "literal1" ), _.literal( "literal2" ), _.literal( "literal3" ) ],
 				] );
-				expect( spy ).toHaveBeenCalledTimes( 2 );
+				// Pattern builder creation add a call to the spy
+				expect( spy ).toHaveBeenCalledTimes( 4 );
 				expect( newContainer._tokens ).toEqual( [
 					VALUES,
 					OPEN_SINGLE_LIST,
