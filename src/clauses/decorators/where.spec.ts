@@ -73,10 +73,15 @@ describe( "whereDecorator", ():void => {
 		const groupFinishClause:GroupClause & FinishClause = whereClause.where( () => [] );
 		expect( groupFinishClause ).toEqual( {
 			groupBy: jasmine.any( Function ),
+
 			having: jasmine.any( Function ),
+
 			orderBy: jasmine.any( Function ),
+
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 
 			toPrettyString: jasmine.any( Function ),
 			toCompactString: jasmine.any( Function ),
@@ -122,6 +127,7 @@ describe( "whereDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
 					return newContainer = new Container( ...args );
 				} );
 
@@ -140,6 +146,7 @@ describe( "whereDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
 					return newContainer = new Container( ...args );
 				} );
 
@@ -173,6 +180,7 @@ describe( "whereDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
 					return newContainer = new Container( ...args );
 				} );
 
@@ -281,10 +289,15 @@ describe( "subWhereDecorator", ():void => {
 				const groupGraphClause:GroupClause<SubFinishClause> & SubFinishClause = whereClause.where( [] );
 				expect( groupGraphClause ).toEqual( {
 					groupBy: jasmine.any( Function ),
+
 					having: jasmine.any( Function ),
+
 					orderBy: jasmine.any( Function ),
+
 					limit: jasmine.any( Function ),
 					offset: jasmine.any( Function ),
+
+					values: jasmine.any( Function ),
 
 					getPattern: jasmine.any( Function ),
 				} );

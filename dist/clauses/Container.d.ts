@@ -8,8 +8,7 @@ export declare class Container<T extends FinishClause | SubFinishClause = Finish
     readonly _tokens: Token[];
     readonly _finishDecorator: FinishDecorator<T>;
     readonly _iriResolver?: IRIResolver;
-    constructor();
-    constructor(finishDecorator: FinishDecorator<T>);
+    constructor(finishDecorator?: FinishDecorator<T>);
     constructor(previousContainer: Container<any>, newTokens?: Token[], iriResolver?: IRIResolver);
 }
 export default Container;

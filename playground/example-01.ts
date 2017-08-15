@@ -11,6 +11,7 @@ const finishQuery = builder
 	.prefix( "ex", "http://example.com/ns#" )
 	.prefix( "xsd", "http://www.w3.org/2001/XMLSchema#" )
 	.prefix( "ldp", "http://www.w3.org/ns/ldp#" )
+	.prefix( "rdfs", "http://www.w3.org/2000/01/rdf-schema#" )
 
 	.select( "s", "color" )
 	// .selectDistinct( "s", "color" )
@@ -23,18 +24,17 @@ const finishQuery = builder
 
 	.where( ( _ ) => {
 		return [
-			_.subSelect()
-				.selectAll()
+			_.selectAll()
 				.where( [
 					_.resource( "" )
 						.has( "ldp:member", _.var( "members" ) ),
 				] ),
-			_.subSelect()
-				.select( "my-members" )
+			_.select( "my_members" )
 				.where( [
 					_.resource( "" )
-						.has( ":my-member", _.var( "my-members" ) ),
-				] ),
+						.has( ":my-member", _.var( "my_members" ) ),
+				] )
+				.values( "my_members", _ => _.resource( "a-member/" ) ),
 
 			_.resource( "" )
 				.has( "ldp:contains", _.resource( "posts/" ) ),
@@ -121,10 +121,14 @@ const finishQuery = builder
 
 			_.filter( "( ?v = ?v2 )" ),
 			_.filter( "BNODE( ?s )" ),
+
+			_.resource( "resource/" )
+				.has( "(a/rdfs:subClassOf)|<property-1/>", _.resource( "ex:Class" ) )
 		];
 	} )
 
-	.limit( 2 );
+	.limit( 2 )
+	.values( "var1", [ "value1", "value2" ] );
 
 let difference:number[] = process.hrtime( startTime );
 let time:number = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;

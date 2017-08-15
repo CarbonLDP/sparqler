@@ -1,9 +1,7 @@
 import {
 	Container,
 	FinishClause,
-	LimitClause,
 	LimitOffsetClause,
-	OffsetClause,
 } from "sparqler/clauses";
 import {
 	CurrentMethod,
@@ -82,12 +80,15 @@ describe( "limitDecorator", ():void => {
 		expect( limitDecorator ).toEqual( jasmine.any( Function ) );
 	} );
 
-	it( "should create a LimitClause", ():void => {
+	it( "should create a LimitClause & ValuesClause", ():void => {
 		const container:Container = new Container();
-		const limitClause:LimitClause<FinishClause> = limitDecorator( container, {} );
+		const limitClause = limitDecorator( container, {} );
 
+		expect( limitClause ).toBeDefined();
 		expect( limitClause ).toEqual( {
 			limit: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		expect( limitClause.limit.name ).toBe( "bound limit" );
@@ -103,7 +104,7 @@ describe( "limitDecorator", ():void => {
 
 		const myObject:MyObject = { aProperty: "a property", aFunction: () => {} };
 
-		const limitClause:LimitClause<FinishClause> & MyObject
+		const limitClause
 			= limitDecorator<FinishClause, MyObject>( container, myObject );
 
 		expect( limitClause ).toEqual( {
@@ -113,6 +114,8 @@ describe( "limitDecorator", ():void => {
 
 			// The decorated methods
 			limit: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		// To maintain the object reference
@@ -128,12 +131,15 @@ describe( "offsetDecorator", ():void => {
 		expect( offsetDecorator ).toEqual( jasmine.any( Function ) );
 	} );
 
-	it( "should create a OffsetClause", ():void => {
+	it( "should create a OffsetClause & ValuesClause", ():void => {
 		const container:Container = new Container();
-		const offsetClause:OffsetClause<FinishClause> = offsetDecorator( container, {} );
+		const offsetClause = offsetDecorator( container, {} );
 
+		expect( offsetClause ).toBeDefined();
 		expect( offsetClause ).toEqual( {
 			offset: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		expect( offsetClause.offset.name ).toBe( "bound offset" );
@@ -149,7 +155,7 @@ describe( "offsetDecorator", ():void => {
 
 		const myObject:MyObject = { aProperty: "a property", aFunction: () => {} };
 
-		const offsetClause:OffsetClause<FinishClause> & MyObject
+		const offsetClause
 			= offsetDecorator<FinishClause, MyObject>( container, myObject );
 
 		expect( offsetClause ).toEqual( {
@@ -159,6 +165,8 @@ describe( "offsetDecorator", ():void => {
 
 			// The decorated methods
 			offset: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		// To maintain the object reference
@@ -179,8 +187,12 @@ describe( "limitOffsetDecorator", ():void => {
 		const limitOffsetClause:LimitOffsetClause<FinishClause> = limitOffsetDecorator( container, {} );
 
 		expect( limitOffsetClause ).toEqual( {
+			// Self methods
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
+
+			//Inherited methods
+			values: jasmine.any( Function ),
 		} );
 
 		expect( limitOffsetClause.limit.name ).toBe( "bound limit" );
@@ -208,6 +220,8 @@ describe( "limitOffsetDecorator", ():void => {
 			// The decorated methods
 			offset: jasmine.any( Function ),
 			limit: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		// To maintain the object reference
@@ -235,7 +249,7 @@ describe( "limitOffsetDecorator", ():void => {
 			expect( container._iriResolver ).toEqual( iriResolverCopy );
 		} );
 
-		describe( "limit", ():void => {
+		describe( "LimitOffsetClause.limit", ():void => {
 
 			it( "should construct limit tokens", ():void => {
 				const container:Container = new Container();
@@ -255,11 +269,11 @@ describe( "limitOffsetDecorator", ():void => {
 				] );
 			} );
 
-			it( "should return a Finish and Offset clause", ():void => {
+			it( "should return a FinishClause & ValuesClause & OffsetClause", ():void => {
 				const container:Container = new Container();
 				const limitOffsetClause:LimitOffsetClause = limitOffsetDecorator( container, {} );
 
-				const returnedClause:FinishClause & OffsetClause<FinishClause> = limitOffsetClause.limit( 1 );
+				const returnedClause = limitOffsetClause.limit( 1 );
 				expect( returnedClause ).toEqual( {
 					// The finish methods
 					toPrettyString: jasmine.any( Function ),
@@ -268,10 +282,13 @@ describe( "limitOffsetDecorator", ():void => {
 
 					// The offset clause
 					offset: jasmine.any( Function ),
+
+					// The values clause
+					values: jasmine.any( Function ),
 				} );
 			} );
 
-			it( "should return a custom Finish and Offset clause", ():void => {
+			it( "should return a custom FinishClause & ValuesClause & OffsetClause", ():void => {
 				type CustomFinish = FinishClause & { another:Function };
 
 				function customFinishDecorator<W extends object>( container:Container, object:W ):CustomFinish & W {
@@ -283,7 +300,7 @@ describe( "limitOffsetDecorator", ():void => {
 				const container:Container<CustomFinish> = new Container<CustomFinish>( customFinishDecorator );
 				const limitOffsetClause:LimitOffsetClause<CustomFinish> = limitOffsetDecorator( container, {} );
 
-				const returnedClause:CustomFinish & OffsetClause<CustomFinish> & {} = limitOffsetClause.limit( 1 );
+				const returnedClause = limitOffsetClause.limit( 1 );
 				expect( returnedClause ).toEqual( {
 					// The finish methods
 					toPrettyString: jasmine.any( Function ),
@@ -293,12 +310,15 @@ describe( "limitOffsetDecorator", ():void => {
 					// The offset clause
 					offset: jasmine.any( Function ),
 
+					// The values clause
+					values: jasmine.any( Function ),
+
 					// Custom property
 					another: jasmine.any( Function ),
 				} );
 			} );
 
-			it( "should just return a Finish clause if its called .limit().offset()", ():void => {
+			it( "should just return a FinishClause & ValuesClause if its called .limit().offset()", ():void => {
 				const container:Container = new Container();
 				const limitOffsetClause:LimitOffsetClause = limitOffsetDecorator( container, {} );
 
@@ -308,6 +328,8 @@ describe( "limitOffsetDecorator", ():void => {
 				;
 
 				expect( nextClause ).toEqual( {
+					values: jasmine.any( Function ),
+
 					toPrettyString: jasmine.any( Function ),
 					toCompactString: jasmine.any( Function ),
 					toString: jasmine.any( Function ),
@@ -336,11 +358,11 @@ describe( "limitOffsetDecorator", ():void => {
 				] );
 			} );
 
-			it( "should return a Finish and Limit clause", ():void => {
+			it( "should return a FinishClause & ValuesClause & LimitClause", ():void => {
 				const container:Container = new Container();
 				const limitOffsetClause:LimitOffsetClause = limitOffsetDecorator( container, {} );
 
-				const returnedClause:FinishClause & LimitClause<FinishClause> = limitOffsetClause.offset( 1 );
+				const returnedClause = limitOffsetClause.offset( 1 );
 				expect( returnedClause ).toEqual( {
 					// The finish methods
 					toPrettyString: jasmine.any( Function ),
@@ -349,10 +371,13 @@ describe( "limitOffsetDecorator", ():void => {
 
 					// The limit clause
 					limit: jasmine.any( Function ),
+
+					// The values clause
+					values: jasmine.any( Function ),
 				} );
 			} );
 
-			it( "should return a custom Finish and Limit clause", ():void => {
+			it( "should return a custom FinishClause & ValuesClause & LimitClause", ():void => {
 				type CustomFinish = FinishClause & { another:Function };
 
 				function customFinishDecorator<W extends object>( container:Container, object:W ):CustomFinish & W {
@@ -364,7 +389,7 @@ describe( "limitOffsetDecorator", ():void => {
 				const container:Container<CustomFinish> = new Container<CustomFinish>( customFinishDecorator );
 				const limitOffsetClause:LimitOffsetClause<CustomFinish> = limitOffsetDecorator( container, {} );
 
-				const returnedClause:CustomFinish & LimitClause<CustomFinish> & {} = limitOffsetClause.offset( 1 );
+				const returnedClause = limitOffsetClause.offset( 1 );
 				expect( returnedClause ).toEqual( {
 					// The finish methods
 					toPrettyString: jasmine.any( Function ),
@@ -374,12 +399,15 @@ describe( "limitOffsetDecorator", ():void => {
 					// The limit clause
 					limit: jasmine.any( Function ),
 
+					// The values clause
+					values: jasmine.any( Function ),
+
 					// Custom property
 					another: jasmine.any( Function ),
 				} );
 			} );
 
-			it( "should just return a Finish clause if its called .offset().limit()", ():void => {
+			it( "should just return a FinishClause & ValuesClause if its called .offset().limit()", ():void => {
 				const container:Container = new Container();
 				const limitOffsetClause:LimitOffsetClause = limitOffsetDecorator( container, {} );
 
@@ -389,6 +417,8 @@ describe( "limitOffsetDecorator", ():void => {
 				;
 
 				expect( nextClause ).toEqual( {
+					values: jasmine.any( Function ),
+
 					toPrettyString: jasmine.any( Function ),
 					toCompactString: jasmine.any( Function ),
 					toString: jasmine.any( Function ),

@@ -27,8 +27,11 @@ describe( "havingDecorator", ():void => {
 
 			// Inherited methods
 			orderBy: jasmine.any( Function ),
+
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		expect( havingClause.having.name ).toBe( "bound having" );
@@ -54,8 +57,11 @@ describe( "havingDecorator", ():void => {
 			having: jasmine.any( Function ),
 
 			orderBy: jasmine.any( Function ),
+
 			limit: jasmine.any( Function ),
 			offset: jasmine.any( Function ),
+
+			values: jasmine.any( Function ),
 		} );
 
 		// Maintains the object reference

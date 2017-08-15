@@ -15,6 +15,8 @@ export declare abstract class TriplesPattern<T extends GraphPattern> implements 
     has(property: string | Variable | Resource, objects: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): TriplesSameSubjectMore<T> & T;
     getSelfTokens(): Token[];
     protected init(): void;
-    private _addPattern(property, values);
+    private _addPattern(property, objects);
+    private static PATH_OPERATORS;
+    private _resolvePath(propertyPath);
 }
 export default TriplesPattern;

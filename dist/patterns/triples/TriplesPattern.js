@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tokens_1 = require("sparqler/patterns/tokens");
+var tokens_2 = require("sparqler/tokens");
 var ObjectPattern_1 = require("sparqler/utils/ObjectPattern");
 var TriplesPattern = (function () {
     function TriplesPattern(resolver) {
@@ -27,12 +28,12 @@ var TriplesPattern = (function () {
         };
     };
     ;
-    TriplesPattern.prototype._addPattern = function (property, values) {
-        var tokens = (typeof property === "string" || property instanceof String)
-            ? this.resolver.resolve(property, true)
+    TriplesPattern.prototype._addPattern = function (property, objects) {
+        var tokens = (typeof property === "string")
+            ? this._resolvePath(property)
             : property.getSelfTokens();
-        values = Array.isArray(values) ? values : [values];
-        values.forEach(function (value, index, array) {
+        objects = Array.isArray(objects) ? objects : [objects];
+        objects.forEach(function (value, index, array) {
             tokens.push.apply(tokens, ObjectPattern_1.serialize(value));
             if (index < array.length - 1)
                 tokens.push(tokens_1.SAME_PROPERTY_SEPARATOR);
@@ -41,6 +42,41 @@ var TriplesPattern = (function () {
         return Object.assign({}, this.interfaces.addPattern, this.interfaces.graphPattern);
         var _a;
     };
+    TriplesPattern.prototype._resolvePath = function (propertyPath) {
+        var _this = this;
+        var tokens = propertyPath
+            .split(/(<.*?>)/).reduce(function (array, part) {
+            if (part.startsWith("<")) {
+                array.push(part);
+            }
+            else {
+                array.push.apply(array, part.split(/([|/^?*+!()])/));
+            }
+            return array;
+        }, [])
+            .reduce(function (array, part) {
+            if (!part)
+                return array;
+            if (TriplesPattern.PATH_OPERATORS.indexOf(part) !== -1) {
+                array.push(new tokens_2.Operator(part));
+            }
+            else if (part === "a") {
+                array.push(new tokens_2.StringLiteral(part));
+            }
+            else {
+                if (part.startsWith("<") && part.endsWith(">"))
+                    part = part.slice(1, -1);
+                array.push.apply(array, _this.resolver.resolve(part, true));
+            }
+            return array;
+        }, []);
+        if (tokens[0] instanceof tokens_2.Operator)
+            tokens.unshift(new tokens_2.LeftSymbol(""));
+        if (tokens[tokens.length - 1] instanceof tokens_2.Operator)
+            tokens.push(new tokens_2.RightSymbol(""));
+        return tokens;
+    };
+    TriplesPattern.PATH_OPERATORS = ["|", "/", "^", "?", "*", "+", "!", "(", ")"];
     return TriplesPattern;
 }());
 exports.TriplesPattern = TriplesPattern;
