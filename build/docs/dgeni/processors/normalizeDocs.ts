@@ -52,7 +52,7 @@ export class NormalizeDocs implements Processor {
 			}
 
 			if( doc.name === "Container" ) {
-				console.log( doc.constructorDoc.params );
+				console.log( doc.members );
 				// console.log( doc );
 			}
 		} );

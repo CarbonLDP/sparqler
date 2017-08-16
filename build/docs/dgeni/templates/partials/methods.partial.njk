@@ -1,9 +1,9 @@
-{% set members = doc.members | rejectattr( 'parameters' ) %}
+{% set members = doc.members | selectattr( 'parameters' ) %}
 {% if members | length %}
-    <h3 class="doc-content__title">Properties</h3>
+    <h3 class="doc-content__title">Methods</h3>
     {% for member in members %}
         <div class="member-code">
-            <span class="member-code__hjs typescript">{{ member.name }}{{ '?' if member.isOptional }}: {{ member.type | linkify }}</span>
+            <span class="member-code__hjs typescript">{{ member.name }}{{ member.generics | escape }}({{ member.parameters | join(', ') | linkify }})</span>
         </div>
         {{ member.description | marked }}
         {% if not loop.last %}
