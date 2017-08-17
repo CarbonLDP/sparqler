@@ -26,7 +26,6 @@ export class Highlight implements Tag {
 	process( context:any, content:() => string ):string;
 	process( context:any, lang:string, content:() => string ):string;
 	process( context:any, langOrContent, content?:() => string ):string {
-		console.log( arguments );
 		const lang:string = content ? langOrContent : void 0;
 		const contentString:string = content ? content() : langOrContent();
 		const hljsString = highlight( contentString, lang );

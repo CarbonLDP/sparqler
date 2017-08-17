@@ -19,7 +19,7 @@ interface JSDocParam {
 	type?:string;
 }
 
-const PARAM_REGEX:RegExp = /(.*?)([?]?): +(.*)/;
+const PARAM_REGEX:RegExp = /(.*?)([?]?): *(.*)?/;
 
 export function normalizeDocsProcessor():NormalizeDocs {
 	return new NormalizeDocs();
@@ -51,8 +51,8 @@ export class NormalizeDocs implements Processor {
 					return;
 			}
 
-			if( doc.name === "Container" ) {
-				console.log( doc.members );
+			if( doc.name === "IRIResolver" ) {
+				console.log( doc.members.map( member => member.params ) );
 				// console.log( doc );
 			}
 		} );
@@ -66,20 +66,20 @@ export class NormalizeDocs implements Processor {
 
 		if( doc.statics ) doc.statics
 			.filter( isMethod )
-			.forEach( this._normalizeFunctionLike );
+			.forEach( this._normalizeFunctionLike, this );
 	}
 
 	_normalizeContainer( doc:ContainerExportDoc ):void {
 		if( doc.members ) doc.members
 			.filter( isMethod )
-			.forEach( this._normalizeFunctionLike );
+			.forEach( this._normalizeFunctionLike, this );
 	}
 
 	_normalizeFunctionLike( doc:MethodMemberDoc | FunctionExportDoc ):void {
 		this._normalizeParams( doc );
 
 		const overloads:( MethodMemberDoc | OverloadInfo )[] = doc.overloads;
-		if( overloads ) overloads.forEach( this._normalizeParams );
+		if( overloads ) overloads.forEach( this._normalizeParams, this );
 	}
 
 	_normalizeParams( doc:( MethodMemberDoc | FunctionExportDoc | OverloadInfo ) & Partial<JSDocMethod> ):void {
@@ -87,7 +87,7 @@ export class NormalizeDocs implements Processor {
 		doc.params = doc.params ? doc.params : [];
 
 		doc.parameters.forEach( parameter => {
-			const [ , name, optional, type ] = parameter.match( PARAM_REGEX );
+			const [ , name, optional, type = "any" ] = parameter.match( PARAM_REGEX );
 
 			let jsDocParam = doc.params.find( param => param.name == name );
 			if( ! jsDocParam ) doc.params.push( jsDocParam = { name } );
@@ -100,6 +100,6 @@ export class NormalizeDocs implements Processor {
 }
 
 function isMethod( doc:MemberDoc ):doc is MethodMemberDoc {
-	return doc.docType === "method";
+	return "parameters" in doc;
 }
 

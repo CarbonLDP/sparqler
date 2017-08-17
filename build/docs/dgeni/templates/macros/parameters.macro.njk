@@ -13,7 +13,7 @@
                 <tr>
                     <td><label class="param-name">{{ param.name }}</label>{% if param.optional %}<label class="ui basic small blue horizontal label">optional</label>{% endif %}</td>
                     <td>{{ param.type | linkify( doc ) }}</td>
-                    <td>{{ param.description }}</td>
+                    <td>{{ param.description | marked }}</td>
                 </tr>
             {% endfor %}
         </tbody>
