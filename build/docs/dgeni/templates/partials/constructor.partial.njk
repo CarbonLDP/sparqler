@@ -2,9 +2,7 @@
 {% if doc.constructorDoc %}
     {% set constuctorDocs = doc.constructorDoc.overloads if doc.constructorDoc.overloads | length else [ doc.constructorDoc ] %}
     {% for constructorDoc in constuctorDocs %}
-        <div class="member-code">
-            <span class="member-code__hjs typescript">{{ doc.name }}{{ doc.typeParams | escape }}({{ constructorDoc.parameters | join(', ') | linkify }})</span>
-        </div>
+        {{ memberCode.constructor( doc, constructorDoc ) }}
         {{ constructorDoc.description | marked }}
         {{ parameters(doc, constructorDoc) }}
         {% if not loop.last %}

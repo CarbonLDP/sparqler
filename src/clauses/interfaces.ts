@@ -72,17 +72,17 @@ export interface OrderClause<T extends FinishClause | SubFinishClause = FinishCl
  *      let query:LimitOffsetClause;
  *
  *      query
- *          .limit( /*...&#42;/ )
- *          .offset( /*...&#42;/ )
+ *          .limit( &#47;*...*&#47; )
+ *          .offset( &#47;*...*&#47; )
  *      ;
  *
  *      query
- *          .offset( /*...&#42;/ )
- *          .limit( /*...&#42;/ )
+ *          .offset( &#47;*...*&#47; )
+ *          .limit( &#47;*...*&#47; )
  *      ;
  *
  *      query
- *          .limit( /*...&#42;/ )
+ *          .limit( &#47;*...*&#47; )
  *      ;
  * ```
  *
@@ -92,15 +92,15 @@ export interface OrderClause<T extends FinishClause | SubFinishClause = FinishCl
  *      let query:LimitOffsetClause;
  *
  *      query
- *          .limit( /*...&#42;/ )
- *          .limit( /*...&#42;/ ) // Not possible
- *          .offset( /*...&#42;/ )
+ *          .limit( &#47;*...*&#47; )
+ *          .limit( &#47;*...*&#47; ) // Not possible
+ *          .offset( &#47;*...*&#47; )
  *      ;
  *
  *      query
- *          .offset( /*...&#42;/ )
- *          .limit( /*...&#42;/ )
- *          .offset( /*...&#42;/ ) // Not possible
+ *          .offset( &#47;*...*&#47; )
+ *          .limit( &#47;*...*&#47; )
+ *          .offset( &#47;*...*&#47; ) // Not possible
  *      ;
  * ```
  */

@@ -1,14 +1,18 @@
 import path = require( "path" );
-import { Package, } from "dgeni";
+import { Package } from "dgeni";
 // Processors
 import { extendsTypescriptProcessor } from "./processors/extends-typescript";
 import { navigationProcessor } from "./processors/navigation";
 import { normalizeDocsProcessor } from "./processors/normalizeDocs";
 import { privateFilterProcessor } from "./processors/private-filter";
+// Config marked lib
+import "./rendering/config-marked";
 // Nunjucks filters
-import { linkify } from "./rendering/filters/linkify";
-import { nullifyEmpty } from "./rendering/filters/nullifyEmpty";
-// Custom tags
+import { linkifyFilter } from "./rendering/filters/linkify";
+import { nullifyEmptyFilter } from "./rendering/filters/nullifyEmpty";
+// Nunjucks tags
+import { highlightTag } from "./rendering/tags/highlight";
+// Dgeni doc tags
 import { generics } from "./tags-def/generics";
 import { module } from "./tags-def/module";
 
@@ -130,8 +134,11 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 	} )
 	.config( function( templateEngine, getInjectables ) {
 		templateEngine.filters.push( ...getInjectables( [
-			linkify,
-			nullifyEmpty,
+			linkifyFilter,
+			nullifyEmptyFilter,
+		] ) );
+		templateEngine.tags.push( ...getInjectables( [
+			highlightTag,
 		] ) );
 	} )
 	.config( function( parseTagsProcessor, getInjectables ) {

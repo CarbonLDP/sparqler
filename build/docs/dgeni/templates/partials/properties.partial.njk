@@ -2,9 +2,7 @@
 {% if members | length %}
     <h3 class="doc-content__title">Properties</h3>
     {% for member in members %}
-        <div class="member-code">
-            <span class="member-code__hjs typescript">{{ member.name }}{{ '?' if member.isOptional }}: {{ member.type | linkify }}</span>
-        </div>
+        {{ memberCode.property( member ) }}
         {{ member.description | marked }}
         {% if not loop.last %}
             <div class="ui section divider"></div>

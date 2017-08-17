@@ -1,6 +1,6 @@
 import { Filter } from "./Filter";
 
-export function nullifyEmpty():Filter {
+export function nullifyEmptyFilter():Filter {
 	return {
 		name: "nullifyEmpty",
 		process( array:any[] ):any[] {
