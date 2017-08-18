@@ -5,6 +5,10 @@
         {{ memberCode.method( member ) }}
         {{ member.description | marked }}
         {{ parameters(doc, member) }}
+        {% if member.returns %}
+            <h4>Returns</h4>
+            {{ member.returns.description | marked }}
+        {% endif %}
         {% if not loop.last %}
             <div class="ui section divider"></div>
         {% endif %}

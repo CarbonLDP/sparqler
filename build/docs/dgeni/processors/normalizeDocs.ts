@@ -52,7 +52,7 @@ export class NormalizeDocs implements Processor {
 			}
 
 			if( doc.name === "IRIResolver" ) {
-				console.log( doc.members.map( member => member.params ) );
+				console.log( doc.members );
 				// console.log( doc );
 			}
 		} );
