@@ -1,4 +1,4 @@
-{% set members = doc.members | selectattr( 'parameters' ) %}
+{% set members = doc.members | selectattr( 'params' ) | rejectattr( 'isIndex' ) %}
 {% if members | length %}
     <h3 class="doc-content__title">Methods</h3>
     {% for member in members %}

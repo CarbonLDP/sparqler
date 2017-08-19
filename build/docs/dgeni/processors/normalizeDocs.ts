@@ -5,6 +5,7 @@ import {
 import { ClassExportDoc } from "dgeni-packages/typescript/api-doc-types/ClassExportDoc";
 import { ContainerExportDoc } from "dgeni-packages/typescript/api-doc-types/ContainerExportDoc";
 import { FunctionExportDoc } from "dgeni-packages/typescript/api-doc-types/FunctionExportDoc";
+import { InterfaceExportDoc } from "dgeni-packages/typescript/api-doc-types/InterfaceExportDoc";
 import { MemberDoc } from "dgeni-packages/typescript/api-doc-types/MemberDoc";
 import { MethodMemberDoc } from "dgeni-packages/typescript/api-doc-types/MethodMemberDoc";
 import { OverloadInfo } from "dgeni-packages/typescript/api-doc-types/OverloadInfo";
@@ -17,6 +18,10 @@ interface JSDocParam {
 	name:string;
 	optional?:boolean;
 	type?:string;
+}
+
+interface IndexMemberDoc extends MethodMemberDoc {
+	isIndex?:boolean;
 }
 
 const PARAM_REGEX:RegExp = /(.*?)([?]?): *(.*)?/;
@@ -40,7 +45,7 @@ export class NormalizeDocs implements Processor {
 					break;
 
 				case "interface":
-					this._normalizeContainer( doc );
+					this._normalizeInterface( doc );
 					break;
 
 				case "function":
@@ -51,7 +56,7 @@ export class NormalizeDocs implements Processor {
 					return;
 			}
 
-			if( doc.name === "IRIResolver" ) {
+			if( doc.name === "PatternBuilder" ) {
 				console.log( doc.members );
 				// console.log( doc );
 			}
@@ -69,8 +74,19 @@ export class NormalizeDocs implements Processor {
 			.forEach( this._normalizeFunctionLike, this );
 	}
 
+	_normalizeInterface( doc:InterfaceExportDoc ):void {
+		this._normalizeContainer( doc );
+
+		if( doc.members ) doc.members
+			.filter<IndexMemberDoc>( isIndex )
+			.forEach( index => {
+				index.isIndex = true;
+			} );
+	}
+
 	_normalizeContainer( doc:ContainerExportDoc ):void {
 		if( doc.members ) doc.members
+			.filter( isNotGetter )
 			.filter( isMethod )
 			.forEach( this._normalizeFunctionLike, this );
 	}
@@ -103,3 +119,10 @@ function isMethod( doc:MemberDoc ):doc is MethodMemberDoc {
 	return "parameters" in doc;
 }
 
+function isIndex( doc:MemberDoc ):doc is IndexMemberDoc {
+	return doc.name === "__index";
+}
+
+function isNotGetter( doc:MemberDoc ):boolean {
+	return ! doc.isGetAccessor;
+}

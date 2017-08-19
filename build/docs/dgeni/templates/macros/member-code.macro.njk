@@ -14,6 +14,13 @@
     {{ base( memberString ) }}
 {% endmacro %}
 
+{% macro index( methodDoc ) %}
+    {% set memberString %}
+        [ {{ methodDoc.parameters | first }} ]: {{ methodDoc.type }}
+    {% endset %}
+    {{ base( memberString ) }}
+{% endmacro %}
+
 {% macro method( methodDoc ) %}
     {% set paramsString %}( {{ methodDoc.parameters | join(', ') }} ){% endset %}
     {% set memberString %}
