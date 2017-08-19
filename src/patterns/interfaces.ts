@@ -1,4 +1,3 @@
-import { SubSelectClause } from "sparqler/clauses";
 import { Undefined } from "sparqler/patterns";
 import { NotTriplesPattern } from "sparqler/patterns/notTriples";
 import {

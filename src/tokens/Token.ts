@@ -1,5 +1,16 @@
+/**
+ * @docs-private
+ */
 export const EMPTY_SEPARATOR:string = "";
+
+/**
+ * @docs-private
+ */
 export const SPACE_SEPARATOR:string = " ";
+
+/**
+ * @docs-private
+ */
 export const NEW_LINE_SEPARATOR:string = "\n";
 
 export enum TokenFormat {
