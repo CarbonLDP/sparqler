@@ -1,4 +1,4 @@
-{% macro parameters(doc, method) %}
+{% macro parameters(doc, method) %}{% if method.params | length %}
     <h4>Parameters</h4>
     <table class="ui celled table">
         <thead>
@@ -18,4 +18,4 @@
             {% endfor %}
         </tbody>
     </table>
-{% endmacro %}
+{% endif %}{% endmacro %}

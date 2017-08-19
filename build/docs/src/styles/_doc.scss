@@ -4,6 +4,7 @@
 .doc {
 	overflow-y: auto;
 	height: calc(100% - 63px);
+	padding-bottom: 1.5rem;
 
 	&.ui.container {
 		@media only screen and (max-width: 767px) {
