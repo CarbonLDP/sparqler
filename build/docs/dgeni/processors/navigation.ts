@@ -28,7 +28,7 @@ export class Navigation implements Processor {
 
 	$process( docs:DocCollection ) {
 		const filteredDocs:DocCollection = docs.filter( doc => {
-			if( [ "function-overload", "type-alias" ].includes( doc.docType ) ) return false;
+			if( [ "function-overload" ].includes( doc.docType ) ) return false;
 
 			if( doc.docType === "module" ) {
 				if( doc.fileInfo.baseName !== "index" ) return false;

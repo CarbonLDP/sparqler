@@ -52,10 +52,6 @@ export class NormalizeDocs implements Processor {
 					this._normalizeParams( doc );
 					break;
 			}
-
-			if( doc.name === "CurrentMethod" ) {
-				// console.log( doc );
-			}
 		} );
 	}
 

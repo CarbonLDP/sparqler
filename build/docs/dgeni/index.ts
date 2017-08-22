@@ -58,7 +58,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 		} );
 
 		computePathsProcessor.pathTemplates.push( {
-			docTypes: [ "class", "interface", "function", "enum" ],
+			docTypes: [ "class", "interface", "function", "enum", "type-alias" ],
 			pathTemplate: "/${id}/",
 			outputPathTemplate: "${id}/index.html",
 		} );

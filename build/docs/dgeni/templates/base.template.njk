@@ -27,9 +27,10 @@
             {% include 'partials/location-menu.partial.njk' %}
             <div class="ui fluid container doc">
                 {% if doc.docType !== 'index' %}
-                    {% include 'doc-header.partial.njk' %}
+                    {% include 'partials/doc-header.partial.njk' %}
                 {% endif %}
                 <div class="ui basic segment justified text container doc__container doc-content">
+                    {% block overview %}{% endblock %}
                     {% if doc.docType !== 'index' and  doc.description %}
                         <h3>Description</h3>
                         <div>{{ doc.description | marked }}</div>

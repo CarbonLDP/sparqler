@@ -33,3 +33,10 @@
     {% endset %}
     {{ base( memberString, methodDoc ) }}
 {% endmacro %}
+
+{% macro type( typeDoc ) %}
+    {% set typeString %}
+        type {{ typeDoc.name }} = {{ typeDoc.typeDefinition }}
+    {% endset %}
+    {{ base( typeString, typeDoc ) }}
+{% endmacro %}
