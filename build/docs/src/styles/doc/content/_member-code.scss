@@ -1,13 +1,8 @@
 .member-code {
-	@import "../../vendor/atom-one-light";
-	margin-bottom: 1em;
+	@import "../../vendor/default";
+	margin: 2rem 0 1.5rem;
 
-	.member-code__hljs {
-		font-family: monospace, monospace;
-		text-align: left;
-		hyphens: none;
-
-		background-color: transparent;
-		padding-left: 0;
+	code[class*="language-"] {
+		white-space: normal;
 	}
 }

@@ -2,14 +2,13 @@ import * as marked from "marked";
 import { highlight } from "./utils/highlight";
 
 marked.setOptions( {
+	langPrefix: "language-",
 	highlight,
 } );
 
 // Extends code rendering
-const superCode = marked.Renderer.prototype.code;
-marked.Renderer.prototype.code = function( code, language, isEscaped ):string {
-	const renderedCode:string = superCode.call( this, code, language, isEscaped );
-	return "<div class='example-code'>"
-		+ renderedCode.replace( /class="(.+?)"/, `class="hljs $1"` )
-		+ "</div>";
+marked.Renderer.prototype.code = function( code, lang ):string {
+	const codeHTML:string = this.options.highlight( code, lang );
+	const className:string = `${ this.options.langPrefix }${ lang || "*" }`;
+	return `<div class="example-code"><pre class="${ className }"><code>${ codeHTML }</code></pre></div>`;
 };

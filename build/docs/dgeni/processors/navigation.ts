@@ -11,7 +11,7 @@ interface NavigationDoc {
 	exports:NavigationDoc[];
 }
 
-const supportedElements:string[] = [ "module", "class", "interface" ];
+const supportedElements:string[] = [ "module", "class", "interface", "function" ];
 
 function docCompare( first:NavigationDoc, second:NavigationDoc ):number {
 	return first.id.toLowerCase().localeCompare( second.id.toLowerCase() );

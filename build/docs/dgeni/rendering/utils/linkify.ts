@@ -1,6 +1,6 @@
 import { Document } from "dgeni";
 
-const IDENTIFIERS_REGEX:RegExp = /((?:&#x3D;&gt;|&#x3D;|&lt;|&amp;|extends|=>|[|=<&,:](?!gt;)|^) ?)([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)/g;
+const IDENTIFIERS_REGEX:RegExp = /((?:<span class=".*?">)?(?:&#x3D;&gt;|&#x3D;|&lt;|&amp;|extends|=>|[|=<&,:](?!gt;)|^)(?:<\/span>)? ?)([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)/g;
 const ESCAPE_CHARS = {
 	"&": "&amp;",
 	"<": "&lt;",

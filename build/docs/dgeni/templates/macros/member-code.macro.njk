@@ -1,8 +1,6 @@
-{% macro base( memberString ) %}
+{% macro base( memberString, doc ) %}
     <div class="member-code">
-        <div class="member-code__hljs hljs typescript">
-            {% highlight "typescript" %}{{ memberString }}{% endhighlight %}
-        </div>
+        <code class="member-code__code language-typescript">{{ memberString | highlight('typescript', doc) }}</code>
     </div>
 {% endmacro %}
 
@@ -11,14 +9,14 @@
     {% set memberString %}
         {{ classDoc.name }}{{ classDoc.typeParams }}{{ paramsString if constructorDoc.parameters | length else "()" }}
     {% endset %}
-    {{ base( memberString ) }}
+    {{ base( memberString, constructorDoc ) }}
 {% endmacro %}
 
 {% macro index( methodDoc ) %}
     {% set memberString %}
         [ {{ methodDoc.parameters | first }} ]: {{ methodDoc.type }}
     {% endset %}
-    {{ base( memberString ) }}
+    {{ base( memberString, methodDoc ) }}
 {% endmacro %}
 
 {% macro method( methodDoc ) %}
@@ -26,12 +24,12 @@
     {% set memberString %}
         {{ methodDoc.name }}{{ methodDoc.generics }}{{ paramsString if methodDoc.parameters | length else "()" }}: {{ methodDoc.type }}
     {% endset %}
-    {{ base( memberString ) }}
+    {{ base( memberString, methodDoc ) }}
 {% endmacro %}
 
 {% macro property( methodDoc ) %}
     {% set memberString %}
         {{ methodDoc.name }}{{ '?' if methodDoc.isOptional }}: {{ methodDoc.type }}
     {% endset %}
-    {{ base( memberString ) }}
+    {{ base( memberString, methodDoc ) }}
 {% endmacro %}

@@ -8,6 +8,7 @@ import { privateFilterProcessor } from "./processors/private-filter";
 // Config marked lib
 import "./rendering/config-marked";
 // Nunjucks filters
+import { highlightFilter } from "./rendering/filters/highlight";
 import { linkifyFilter } from "./rendering/filters/linkify";
 import { nullifyEmptyFilter } from "./rendering/filters/nullifyEmpty";
 // Nunjucks tags
@@ -136,6 +137,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 		templateEngine.filters.push( ...getInjectables( [
 			linkifyFilter,
 			nullifyEmptyFilter,
+			highlightFilter,
 		] ) );
 		templateEngine.tags.push( ...getInjectables( [
 			highlightTag,
