@@ -19,10 +19,10 @@
     {{ base( memberString, methodDoc ) }}
 {% endmacro %}
 
-{% macro method( methodDoc ) %}
+{% macro method( methodDoc, isFunction=false ) %}
     {% set paramsString %}( {{ methodDoc.parameters | join(', ') }} ){% endset %}
     {% set memberString %}
-        {{ methodDoc.name }}{{ methodDoc.generics }}{{ paramsString if methodDoc.parameters | length else "()" }}: {{ methodDoc.type }}
+        {{ 'function ' if isFunction }}{{ methodDoc.name }}{{ methodDoc.generics }}{{ paramsString if methodDoc.parameters | length else "()" }}: {{ methodDoc.type }}
     {% endset %}
     {{ base( memberString, methodDoc ) }}
 {% endmacro %}
