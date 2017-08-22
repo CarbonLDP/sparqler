@@ -1,6 +1,6 @@
 import { Document } from "dgeni";
 
-const IDENTIFIERS_REGEX:RegExp = /((?:<span class=".*?">)?(?:&#x3D;&gt;|&#x3D;|&lt;|&amp;|extends|=>|[|=<&,:](?!gt;)|^)(?:<\/span>)? ?)([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)/g;
+const IDENTIFIERS_REGEX:RegExp = /((?:<span class=".*?">)?(?:&#x3D;&gt;|&#x3D;|&lt;|&amp;|extends|=>|[|=<&,:](?!gt;|span class)|^)(?:<\/span>)? ?)([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)/g;
 const ESCAPE_CHARS = {
 	"&": "&amp;",
 	"<": "&lt;",
@@ -12,6 +12,7 @@ const ESCAPE_CHARS = {
 	"=": "&#x3D;",
 };
 
+const KEYWORD_REGEX:RegExp = /<span class="token keyword">(.*?)<\/span>/g;
 const MDN_URL:string = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/";
 // noinspection SpellCheckingInspection
 const MDN_IDENTIFIERS:string[] = [
@@ -101,5 +102,9 @@ export function linkify( str:string, getLinkInfo, doc:Document, escape:boolean =
 			}
 
 			return `${ before }<a href="${ linkInfo.url }"${ linkInfo.external ? ` target="_blank"` : "" }>${ identifier }</a>`;
+		} )
+		.replace( KEYWORD_REGEX, ( match:string, keyword:string ) => {
+			if( MDN_IDENTIFIERS.includes( keyword ) ) return `<a href="${ MDN_URL + keyword }" target="_blank">${ keyword }</a>`;
+			return match;
 		} );
 }
