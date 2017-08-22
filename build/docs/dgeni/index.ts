@@ -58,24 +58,17 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 		} );
 
 		computePathsProcessor.pathTemplates.push( {
-			docTypes: [ "class", "interface", "function" ],
+			docTypes: [ "class", "interface", "function", "enum" ],
 			pathTemplate: "/${id}/",
 			outputPathTemplate: "${id}/index.html",
 		} );
 
-		computePathsProcessor.pathTemplates.push( {
-			docTypes: [ "member" ],
-			pathTemplate: "${containerDoc.path}#${name}",
-			getOutputPath: () => {
-			},
-		} );
-
-		computePathsProcessor.pathTemplates.push( {
-			docTypes: [ "enum", "type-alias" ],
-			pathTemplate: "${moduleDoc.path}#${name}",
-			getOutputPath: () => {
-			},
-		} );
+		// computePathsProcessor.pathTemplates.push( {
+		// 	docTypes: [ "member" ],
+		// 	pathTemplate: "${containerDoc.path}#${name}",
+		// 	getOutputPath: () => {
+		// 	},
+		// } );
 
 		computePathsProcessor.pathTemplates.push( {
 			docTypes: [ "index" ],

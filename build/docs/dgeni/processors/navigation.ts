@@ -11,8 +11,6 @@ interface NavigationDoc {
 	exports:NavigationDoc[];
 }
 
-const supportedElements:string[] = [ "module", "class", "interface", "function" ];
-
 function docCompare( first:NavigationDoc, second:NavigationDoc ):number {
 	return first.id.toLowerCase().localeCompare( second.id.toLowerCase() );
 }
@@ -30,7 +28,7 @@ export class Navigation implements Processor {
 
 	$process( docs:DocCollection ) {
 		const filteredDocs:DocCollection = docs.filter( doc => {
-			if( ! supportedElements.includes( doc.docType ) ) return false;
+			if( [ "function-overload", "type-alias" ].includes( doc.docType ) ) return false;
 
 			if( doc.docType === "module" ) {
 				if( doc.fileInfo.baseName !== "index" ) return false;
@@ -46,12 +44,6 @@ export class Navigation implements Processor {
 		} );
 
 		this._navigationDocs.sort( docCompare );
-		// filteredDocs.push( {
-		// 	name: "index",
-		// 	id: "index",
-		// 	docType: "index",
-		// 	navigationDocs: this._navigationDocs,
-		// } );
 
 		return filteredDocs;
 	}

@@ -51,13 +51,9 @@ export class NormalizeDocs implements Processor {
 				case "function":
 					this._normalizeParams( doc );
 					break;
-
-				default:
-					return;
 			}
 
-			if( doc.name === "PatternBuilder" ) {
-				console.log( doc.members );
+			if( doc.name === "CurrentMethod" ) {
 				// console.log( doc );
 			}
 		} );
