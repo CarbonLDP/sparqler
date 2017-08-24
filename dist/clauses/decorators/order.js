@@ -10,7 +10,6 @@ function orderBy(rawCondition) {
     var container = new Container_1.Container(this, tokens);
     return this._finishDecorator(container, decorators_1.limitOffsetDecorator(container, {}));
 }
-exports.orderBy = orderBy;
 function orderDecorator(container, object) {
     return utils_1.genericDecorator({ orderBy: orderBy }, container, decorators_1.limitOffsetDecorator(container, object));
 }

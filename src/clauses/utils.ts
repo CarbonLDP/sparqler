@@ -1,7 +1,7 @@
 import { Container } from "sparqler/clauses/Container";
 
 /**
- * Interface to represents the functions to bind by the {@link genericDecorator}
+ * Interface to represents the functions to bind by the {@link genericDecorator}.
  */
 export interface FunctionProperties {
 	[ method:string ]:Function;

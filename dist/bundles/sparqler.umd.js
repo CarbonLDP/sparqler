@@ -1680,7 +1680,6 @@ function limit(limit) {
     var container = new LimitOffsetContainer(this, tokens, CurrentMethod.LIMIT);
     return this._finishDecorator(container, offsetDecorator(container, {}));
 }
-exports.limit = limit;
 function offset(offset) {
     var tokens = [tokens_1.OFFSET, new tokens_2.NumberLiteral(offset)];
     if (this._limitUsed) {
@@ -1690,7 +1689,6 @@ function offset(offset) {
     var container = new LimitOffsetContainer(this, tokens, CurrentMethod.OFFSET);
     return this._finishDecorator(container, limitDecorator(container, {}));
 }
-exports.offset = offset;
 function limitDecorator(container, object) {
     return utils_1.genericDecorator({ limit: limit }, container, values_1.valuesDecorator(container, object));
 }
@@ -1828,7 +1826,6 @@ function orderBy(rawCondition) {
     var container = new Container_1.Container(this, tokens);
     return this._finishDecorator(container, decorators_1.limitOffsetDecorator(container, {}));
 }
-exports.orderBy = orderBy;
 function orderDecorator(container, object) {
     return utils_1.genericDecorator({ orderBy: orderBy }, container, decorators_1.limitOffsetDecorator(container, object));
 }

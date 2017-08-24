@@ -26,7 +26,7 @@ import {
  * @param rawCondition Raw condition to be applied for the solutions order.
  * @returns Object with the methods to keep constructing the query.
  */
-export function orderBy<T extends FinishClause | SubFinishClause>( this:Container<T>, rawCondition:string ):LimitOffsetClause<T> & T {
+function orderBy<T extends FinishClause | SubFinishClause>( this:Container<T>, rawCondition:string ):LimitOffsetClause<T> & T {
 	const tokens:Token[] = [ ORDER, BY, new StringLiteral( rawCondition ) ];
 
 	const container:Container<T> = new Container<T>( this, tokens );

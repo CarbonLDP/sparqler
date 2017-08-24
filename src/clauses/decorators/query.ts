@@ -69,8 +69,8 @@ function prefix<T extends FinishClause>( this:Container<T>, name:string, iri:str
 }
 
 /**
- * Decorator that bind {@link QueryClause} methods to container and
- * adds them to the provided object.
+ * Decorator that binds the {@link QueryClause} methods to a container
+ * and adds them to the provided object.
  *
  * @param container The container where to bind the respective methods.
  * @param object Object to be decorated with the bound methods.

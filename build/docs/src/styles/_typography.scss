@@ -1,4 +1,4 @@
-p > code {
+p > code, a > code {
 	background-color: #f1f1f1;
 	border-radius: 4px;
 	padding: 2px 6px;
@@ -7,4 +7,8 @@ p > code {
 
 .left-indent {
 	padding-left: 2.5em;
+}
+
+.no-width {
+	width: 0;
 }

@@ -43,7 +43,7 @@ export class Container<T extends FinishClause | SubFinishClause = FinishClause> 
 
 	/**
 	 * Creates an empty container with a custom finish decorator if set.
-	 * If none is provided `{@link clauses/decorators/finishDecorator}`
+	 * If none is provided {@link clauses/decorators/finishDecorator}
 	 * will be used.
 	 *
 	 * @param finishDecorator The finish decorator to be used in the container.
@@ -58,7 +58,7 @@ export class Container<T extends FinishClause | SubFinishClause = FinishClause> 
 	 * If the `iriResolver` is provided, it will be used in the new container instead
 	 * of the IRIResolver of the previous container.
 	 *
-	 * If the previousContainer has `{@link subFinishDecorator}` as finish decorator,
+	 * If the previousContainer has {@link subFinishDecorator} as finish decorator,
 	 * the `_iriResolver` property will be un set.
 	 *
 	 * @param previousContainer Container to copied its properties.

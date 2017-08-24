@@ -66,8 +66,8 @@ export function whereDecorator<T extends FinishClause, W extends object>( contai
 }
 
 /**
- * Decorator that binds the {@link SubWhereClause} clause pattern
- * methods to a container and adds them to the provided object.
+ * Decorator that binds the {@link SubWhereClause} methods to a
+ * container and adds them to the provided object.
  *
  * @param container The container where to bind the respective methods.
  * @param object Object to be decorated with the bound methods.

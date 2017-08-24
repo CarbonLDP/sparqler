@@ -65,7 +65,7 @@ export class LimitOffsetContainer<T extends FinishClause | SubFinishClause = Fin
  * @returns A OffsetClause or the FinishClause/SubFinishClause depending
  * if the offset method has been called before or not.
  */
-export function limit<T extends FinishClause | SubFinishClause>( this:LimitOffsetContainer<T>, limit:number ):( T & ValuesClause<T> ) | ( OffsetClause<T & ValuesClause<T>> & ValuesClause<T> & T ) {
+function limit<T extends FinishClause | SubFinishClause>( this:LimitOffsetContainer<T>, limit:number ):( T & ValuesClause<T> ) | ( OffsetClause<T & ValuesClause<T>> & ValuesClause<T> & T ) {
 	const tokens:Token[] = [ LIMIT, new NumberLiteral( limit ) ];
 
 	// Return T & ValuesClause<T>
@@ -86,7 +86,7 @@ export function limit<T extends FinishClause | SubFinishClause>( this:LimitOffse
  * @returns A LimitClause or the FinishClause/SubFinishClause depending
  * if the limit method has been called before or not.
  */
-export function offset<T extends FinishClause | SubFinishClause>( this:LimitOffsetContainer<T>, offset:number ):( T & ValuesClause<T> ) | ( LimitClause<T & ValuesClause<T>> & ValuesClause<T> & T ) {
+function offset<T extends FinishClause | SubFinishClause>( this:LimitOffsetContainer<T>, offset:number ):( T & ValuesClause<T> ) | ( LimitClause<T & ValuesClause<T>> & ValuesClause<T> & T ) {
 	const tokens:Token[] = [ OFFSET, new NumberLiteral( offset ) ];
 
 	// Return T & ValuesClause<T>
