@@ -15,6 +15,7 @@ import { nullifyEmptyFilter } from "./rendering/filters/nullifyEmpty";
 import { highlightTag } from "./rendering/tags/highlight";
 // Dgeni doc tags
 import { generics } from "./tags-def/generics";
+import { isDefault } from "./tags-def/isDefault";
 import { module } from "./tags-def/module";
 
 // Project configuration.
@@ -29,6 +30,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 	require( "dgeni-packages/nunjucks" ),
 	require( "dgeni-packages/typescript" ),
 	require( "dgeni-packages/links" ),
+	require( "dgeni-packages/git" ),
 ] )
 
 	.processor( privateFilterProcessor )
@@ -134,6 +136,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 		parseTagsProcessor.tagDefinitions.push( ...getInjectables( [
 			module,
 			generics,
+			isDefault,
 		] ) );
 	} );
 

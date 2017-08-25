@@ -34,7 +34,8 @@
     "table",
     "item",
     "search",
-    "divider"
+    "divider",
+    "message"
   ],
   "version": "2.2.11"
 }

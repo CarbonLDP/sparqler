@@ -3,6 +3,29 @@
 {% block title %}Index{% endblock %}
 
 {% block content_continuation %}
-<h1>INDEX</h1>
+    <h2 class="doc-content__title">SPARQLER</h2>
+    <p>SPARQL query buildER for JavaScript/TypeScript which offers a fluent interface to help you construct queries and prevent errors by malformed patterns.</p>
+    <div class="info-cards">
+        {% set main = doc.exports | selectattr('isDefault') | first %}
+        <a class="info-cards__card" href="{{ main.id }}">
+            <div class="ui icon message">
+                <i class="student icon"></i>
+                <div class="content">Getting Started</div>
+            </div>
+        </a>
+        <a class="info-cards__card" href="https://carbonldp.com/documentation/javascript-sdk/querying/">
+            <div class="ui icon message">
+                <i class="university icon"></i>
+                <div class="content">Querying with the<br>Carbon LDP SDK</div>
+            </div>
+        </a>
+        <a class="info-cards__card" href="https://github.com/{{ git.info.owner }}/{{ git.info.repo }}/tree/{{ git.version.isSnapshot and 'develop' or git.version.raw }}/">
+            <div class="ui icon message">
+                <i class="github icon"></i>
+                <div class="content">Source Code</div>
+            </div>
+        </a>
+    </div>
 
+    <h2 class="doc-content__title">API Reference</h2>
 {% endblock %}
