@@ -26,19 +26,9 @@ module.exports = {
 				use: extractCSS.extract( {
 					fallback: 'style-loader',
 					use: [
-						{
-							loader: 'css-loader?sourceMap&importLoaders=1',
-						}, {
-							loader: 'postcss-loader',
-							options: {
-								sourceMap: true,
-								plugins: [
-									require( 'autoprefixer' ),
-								]
-							}
-						}, {
-							loader: 'sass-loader?sourceMap',
-						}
+						'css-loader?sourceMap&importLoaders=1',
+						'postcss-loader?sourceMap&postcss={}',
+						'sass-loader?sourceMap',
 					],
 				} ),
 			},
@@ -62,6 +52,11 @@ module.exports = {
 		new webpack.ProvidePlugin( {
 			$: "jquery",
 			jQuery: "jquery",
+		} ),
+		new webpack.DefinePlugin( {
+			"process.env": {
+				"NODE_ENV": JSON.stringify( "dev" ),
+			},
 		} ),
 	],
 };

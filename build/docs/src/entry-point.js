@@ -1,8 +1,11 @@
 // Semantic UI
-//  js
-import "../semantic-ui/dist/semantic.min";
-//  css
-import "../semantic-ui/dist/semantic.min.css";
+if( process.env.NODE_ENV === "prod" ) {
+	require( "../semantic-ui/dist/semantic.min" );
+	require( "../semantic-ui/dist/semantic.min.css" );
+} else {
+	require( "../semantic-ui/dist/semantic" );
+	require( "../semantic-ui/dist/semantic.css" );
+}
 
 // Customs
 //  js
