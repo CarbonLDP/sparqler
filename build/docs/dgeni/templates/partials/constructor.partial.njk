@@ -11,6 +11,6 @@
     {% endfor %}
 {% else %}
     {# TODO: Check if a constructor is inheried #}
-    new {{ doc.name }}()
+    {{ memberCode.constructor( doc, { parameters:[] } ) }}
 {% endif %}
 

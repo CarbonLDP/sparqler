@@ -9,7 +9,7 @@
     {% set memberString %}
         {{ classDoc.name }}{{ classDoc.typeParams }}{{ paramsString if constructorDoc.parameters | length else "()" }}
     {% endset %}
-    {{ base( memberString, constructorDoc ) }}
+    {{ base( memberString, classDoc ) }}
 {% endmacro %}
 
 {% macro index( methodDoc ) %}
