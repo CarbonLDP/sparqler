@@ -17,7 +17,7 @@
                             {% for subheader in subheaders %}
                                 <div class="item">
                                     <div class="header">{{ subheader.title }}</div>
-                                    <div class="left-indent">{{ subheader.items | join(', ') | linkify }}</div>
+                                    <div class="left-indent">{% for item in subheader.items %}{{ item.text | linkify }}{{ ', ' if not loop.last }}{% endfor %}</div>
                                 </div>
                             {% endfor %}
                         </div>

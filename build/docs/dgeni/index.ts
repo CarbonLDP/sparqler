@@ -1,7 +1,6 @@
 import path = require( "path" );
 import { Package } from "dgeni";
 // Processors
-import { extendsTypescriptProcessor } from "./processors/extends-typescript";
 import { navigationProcessor } from "./processors/navigation";
 import { normalizeDocsProcessor } from "./processors/normalizeDocs";
 import { privateFilterProcessor } from "./processors/private-filter";
@@ -35,7 +34,6 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 
 	.processor( privateFilterProcessor )
 	.processor( navigationProcessor )
-	.processor( extendsTypescriptProcessor )
 	.processor( normalizeDocsProcessor )
 
 	.config( function( log ) {

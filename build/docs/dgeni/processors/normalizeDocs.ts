@@ -24,7 +24,7 @@ interface IndexMemberDoc extends MethodMemberDoc {
 	isIndex?:boolean;
 }
 
-const PARAM_REGEX:RegExp = /(.*?)([?]?): *(.*)?/;
+const PARAM_REGEX:RegExp = /([^:?]+)(\?)?(?:: (.+))?/;
 
 export function normalizeDocsProcessor():NormalizeDocs {
 	return new NormalizeDocs();
