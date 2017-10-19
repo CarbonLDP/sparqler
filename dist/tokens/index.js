@@ -11,5 +11,14 @@ __export(require("./Operator"));
 __export(require("./RightSymbol"));
 __export(require("./StringLiteral"));
 __export(require("./Token"));
+__export(require("./BlankNodeToken"));
+__export(require("./VariableToken"));
+__export(require("./IRIToken"));
+__export(require("./PrefixedNameToken"));
+__export(require("./NumberToken"));
+__export(require("./LanguageToken"));
+__export(require("./BooleanToken"));
+__export(require("./LiteralToken"));
+__export(require("./StringToken"));
 
 //# sourceMappingURL=index.js.map

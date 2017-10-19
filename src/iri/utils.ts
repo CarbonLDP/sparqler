@@ -2,10 +2,11 @@ import { Token } from "../tokens/Token";
 import { StringLiteral } from "../tokens/StringLiteral";
 import {
 	OPEN_IRI,
-	CLOSE_IRI
+	CLOSE_IRI,
 } from "../patterns/tokens";
+
 export function isAbsolute( iri:string ):boolean {
-	return iri.indexOf( ":" ) !== - 1
+	return iri.indexOf( ":" ) !== - 1;
 }
 
 export function hasProtocol( iri:string ):boolean {
@@ -20,12 +21,17 @@ export function isIRI( iri:string ):boolean {
 	return hasProtocol( iri ) || ! isAbsolute( iri );
 }
 
+const BN_LABEL_REGEX:RegExp = /^_:[A-Za-z0-9_]([A-Za-z0-9_\-.]*[A-Za-z0-9_\-])?$/;
+
+export function isBNodeLabel( label:string ):boolean {
+	return BN_LABEL_REGEX.test( label );
+}
 
 let prefixRegex:RegExp = /([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?:/;
 let prefixNormalizeRegex:RegExp = /([_~.\-!$&'|()*+,;=/?#@%])/g;
 
 export function isPrefixed( iri:string ):boolean {
-	return ! ! iri.match( prefixRegex ) && ! hasProtocol( iri );
+	return iri.includes( ":" ) && ! hasProtocol( iri );
 }
 
 export function getPrefixedParts( iri:string ):[ string, string ] {

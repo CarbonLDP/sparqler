@@ -135,6 +135,41 @@ describe( "Module Utils", ():void => {
 
 	} );
 
+	describe( "isBNodeLabel", ():void => {
+
+		it( "should exists", ():void => {
+			expect( Utils.isBNodeLabel ).toBeDefined();
+			expect( Utils.isBNodeLabel ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should validate a correct blank node label", ():void => {
+			expect( Utils.isBNodeLabel( "_:label" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:another-label" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:1234" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:_" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:_-" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:_-_" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:_-a1_" ) ).toBe( true );
+		} );
+
+		it( "should validate a invalid blank node label", ():void => {
+			expect( Utils.isBNodeLabel( "label" ) ).toBe( false );
+			expect( Utils.isBNodeLabel( "http://:iri.com" ) ).toBe( false );
+			expect( Utils.isBNodeLabel( "prefixed:name" ) ).toBe( false );
+			expect( Utils.isBNodeLabel( ":prefixed" ) ).toBe( false );
+
+			expect( Utils.isBNodeLabel( "_:-not-start-with" ) ).toBe( false );
+			expect( Utils.isBNodeLabel( "_:.not-start-with" ) ).toBe( false );
+			expect( Utils.isBNodeLabel( "_:not-end-with." ) ).toBe( false );
+
+			expect( Utils.isBNodeLabel( "_:#invalid-character" ) ).toBe( false );
+			expect( Utils.isBNodeLabel( "_:@invalid-character" ) ).toBe( false );
+			expect( Utils.isBNodeLabel( "_:invalid-@-character." ) ).toBe( false );
+			expect( Utils.isBNodeLabel( "_:invalid-character-@." ) ).toBe( false );
+		} );
+
+	} );
+
 	describe( "isPrefixed()", ():void => {
 
 		it( "Exists", ():void => {
