@@ -1,6 +1,6 @@
-import { FinishClause, SubFinishClause } from "sparqler/clauses/interfaces";
-import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { Token } from "sparqler/tokens/Token";
+import { FinishClause, SubFinishClause } from "./interfaces";
+import { IRIResolver } from "./../iri/IRIResolver";
+import { Token } from "./../tokens/Token";
 export interface FinishDecorator<T extends FinishClause | SubFinishClause> extends Function {
     <W extends object>(container: Container<T>, object: W): T & W;
 }

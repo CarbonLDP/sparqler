@@ -1,7 +1,7 @@
-import { ValuesClause } from "sparqler/clauses";
-import { Container } from "sparqler/clauses/Container";
-import { FinishClause, LimitClause, LimitOffsetClause, OffsetClause, SubFinishClause } from "sparqler/clauses/interfaces";
-import { Token } from "sparqler/tokens";
+import { ValuesClause } from "./..";
+import { Container } from "./../Container";
+import { FinishClause, LimitClause, LimitOffsetClause, OffsetClause, SubFinishClause } from "./../interfaces";
+import { Token } from "./../../tokens";
 export declare enum CurrentMethod {
     LIMIT = 0,
     OFFSET = 1,

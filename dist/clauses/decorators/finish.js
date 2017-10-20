@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var clauses_1 = require("sparqler/clauses");
-var tokens_1 = require("sparqler/patterns/tokens");
-var tokens_2 = require("sparqler/tokens");
+var __1 = require("./..");
+var tokens_1 = require("./../../patterns/tokens");
+var tokens_2 = require("./../../tokens");
 function toCompactString() {
     var tokens = this._tokens
         .filter(function (token) { return token !== tokens_1.WHERE; });
@@ -130,7 +130,7 @@ function toPrettyString() {
     }, "");
 }
 function finishDecorator(container, object) {
-    return clauses_1.genericDecorator({
+    return __1.genericDecorator({
         toCompactString: toCompactString,
         toPrettyString: toPrettyString,
         toString: toPrettyString,

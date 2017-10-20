@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var tokens_1 = require("sparqler/patterns/tokens");
-var tokens_2 = require("sparqler/tokens");
-var ObjectPattern_1 = require("sparqler/utils/ObjectPattern");
+var tokens_1 = require("./../tokens");
+var tokens_2 = require("./../../tokens");
+var ObjectPattern_1 = require("./../../utils/ObjectPattern");
 var TriplesPattern = (function () {
     function TriplesPattern(resolver) {
         this.resolver = resolver;

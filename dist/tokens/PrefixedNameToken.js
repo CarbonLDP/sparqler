@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = require("sparqler/iri/utils");
+var utils_1 = require("./../iri/utils");
 var NAMESPACE_REGEX = /^([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?$/;
 var NORMALIZE_REGEX = /([_~.\-!$&'|()*+,;=/?#@%])/g;
 var PrefixedNameToken = (function () {

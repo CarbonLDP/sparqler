@@ -1,7 +1,7 @@
-import { Undefined } from "sparqler/patterns";
-import { NotTriplesPattern } from "sparqler/patterns/notTriples";
-import { BlankNode, BooleanLiteral, Collection, Literal, NumericLiteral, RDFLiteral, Resource, Variable } from "sparqler/patterns/triples";
-import { Token } from "sparqler/tokens";
+import { Undefined } from "./";
+import { NotTriplesPattern } from "./notTriples";
+import { BlankNode, BooleanLiteral, Collection, Literal, NumericLiteral, RDFLiteral, Resource, Variable } from "./triples";
+import { Token } from "./../tokens";
 export interface ElementPattern {
     getSelfTokens(): Token[];
 }
