@@ -142,7 +142,7 @@ describe( "Module Utils", ():void => {
 			expect( Utils.isBNodeLabel ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "should validate a correct blank node label", ():void => {
+		it( "should return true when the string starts with `_:`", ():void => {
 			expect( Utils.isBNodeLabel( "_:label" ) ).toBe( true );
 			expect( Utils.isBNodeLabel( "_:another-label" ) ).toBe( true );
 			expect( Utils.isBNodeLabel( "_:1234" ) ).toBe( true );
@@ -150,22 +150,7 @@ describe( "Module Utils", ():void => {
 			expect( Utils.isBNodeLabel( "_:_-" ) ).toBe( true );
 			expect( Utils.isBNodeLabel( "_:_-_" ) ).toBe( true );
 			expect( Utils.isBNodeLabel( "_:_-a1_" ) ).toBe( true );
-		} );
-
-		it( "should validate a invalid blank node label", ():void => {
-			expect( Utils.isBNodeLabel( "label" ) ).toBe( false );
-			expect( Utils.isBNodeLabel( "http://:iri.com" ) ).toBe( false );
-			expect( Utils.isBNodeLabel( "prefixed:name" ) ).toBe( false );
-			expect( Utils.isBNodeLabel( ":prefixed" ) ).toBe( false );
-
-			expect( Utils.isBNodeLabel( "_:-not-start-with" ) ).toBe( false );
-			expect( Utils.isBNodeLabel( "_:.not-start-with" ) ).toBe( false );
-			expect( Utils.isBNodeLabel( "_:not-end-with." ) ).toBe( false );
-
-			expect( Utils.isBNodeLabel( "_:#invalid-character" ) ).toBe( false );
-			expect( Utils.isBNodeLabel( "_:@invalid-character" ) ).toBe( false );
-			expect( Utils.isBNodeLabel( "_:invalid-@-character." ) ).toBe( false );
-			expect( Utils.isBNodeLabel( "_:invalid-character-@." ) ).toBe( false );
+			expect( Utils.isBNodeLabel( "_:@#%" ) ).toBe( true );
 		} );
 
 	} );
@@ -191,6 +176,12 @@ describe( "Module Utils", ():void => {
 			expect( Utils.isPrefixed( "/another-relative-iri" ) ).toBe( false );
 			expect( Utils.isPrefixed( "/another-relative-iri/" ) ).toBe( false );
 			expect( Utils.isPrefixed( "" ) ).toBe( false );
+		} );
+
+		it( "should return false when is a blank node label", ():void => {
+			expect( Utils.isPrefixed( "_:label" ) ).toBe( false );
+			expect( Utils.isPrefixed( "_:_" ) ).toBe( false );
+			expect( Utils.isPrefixed( "_:" ) ).toBe( false );
 		} );
 
 		it( "A relative prefix is prefixed", ():void => {

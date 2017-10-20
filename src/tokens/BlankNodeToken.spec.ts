@@ -24,10 +24,23 @@ describe( "Module BlankNodeToken", ():void => {
 			expect( token.label ).toBe( "_:label" );
 		} );
 
-		it( "should not assign label id no provided", ():void => {
+		it( "should not assign label if non is provided", ():void => {
 			const token:BlankNodeToken = new BlankNodeToken();
 			expect( token ).toBeDefined();
 			expect( token.label ).toBeUndefined();
+		} );
+
+		it( "should validate is a valid blank node label", ():void => {
+			const bNodeCreator = ( label ) => () => new BlankNodeToken( label );
+
+			expect( bNodeCreator( "_:" ) ).toThrowError( "Invalid blank node label." );
+			expect( bNodeCreator( "_:-not-start-with" ) ).toThrowError( "Invalid blank node label." );
+			expect( bNodeCreator( "_:.not-start-with" ) ).toThrowError( "Invalid blank node label." );
+			expect( bNodeCreator( "_:not-end-with." ) ).toThrowError( "Invalid blank node label." );
+			expect( bNodeCreator( "_:#invalid-character" ) ).toThrowError( "Invalid blank node label." );
+			expect( bNodeCreator( "_:@invalid-character" ) ).toThrowError( "Invalid blank node label." );
+			expect( bNodeCreator( "_:invalid-@-character." ) ).toThrowError( "Invalid blank node label." );
+			expect( bNodeCreator( "_:invalid-character-@." ) ).toThrowError( "Invalid blank node label." );
 		} );
 
 		it( "should assign the `blankNode` as token name", ():void => {

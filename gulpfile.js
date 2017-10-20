@@ -73,7 +73,7 @@ gulp.task( "compile:typescript", () => {
 	} );
 
 	let tsResults = gulp.src( config.source.typescript )
-		.pipe( replace( /(import[\s\S]*?from +")sparqler\/(.*?)(";)/gm, ( _match, $1, $2, $3 ) => {
+		.pipe( replace( /(import[\s\S]*?from +")sparqler\/(.*?)(";)/gm, function( _match, $1, $2, $3 ) {
 			const fileDir = path.dirname( this.file.relative );
 			const relativePath = path.relative( fileDir, $2 );
 			return `${ $1 }./${ relativePath }${ $3 }`;

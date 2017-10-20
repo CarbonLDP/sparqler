@@ -21,17 +21,15 @@ export function isIRI( iri:string ):boolean {
 	return hasProtocol( iri ) || ! isAbsolute( iri );
 }
 
-const BN_LABEL_REGEX:RegExp = /^_:[A-Za-z0-9_]([A-Za-z0-9_\-.]*[A-Za-z0-9_\-])?$/;
-
 export function isBNodeLabel( label:string ):boolean {
-	return BN_LABEL_REGEX.test( label );
+	return /^_:/.test( label );
 }
 
 let prefixRegex:RegExp = /([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?:/;
 let prefixNormalizeRegex:RegExp = /([_~.\-!$&'|()*+,;=/?#@%])/g;
 
 export function isPrefixed( iri:string ):boolean {
-	return iri.includes( ":" ) && ! hasProtocol( iri );
+	return /^(?!_:)[^]*?:/.test( iri ) && ! hasProtocol( iri );
 }
 
 export function getPrefixedParts( iri:string ):[ string, string ] {
