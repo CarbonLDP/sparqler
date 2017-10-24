@@ -160,6 +160,12 @@ __export(__webpack_require__(22));
 __export(__webpack_require__(23));
 __export(__webpack_require__(41));
 __export(__webpack_require__(24));
+__export(__webpack_require__(43));
+__export(__webpack_require__(44));
+__export(__webpack_require__(45));
+__export(__webpack_require__(46));
+__export(__webpack_require__(47));
+__export(__webpack_require__(48));
 
 
 /***/ }),
@@ -225,15 +231,15 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(16));
-__export(__webpack_require__(43));
+__export(__webpack_require__(49));
 __export(__webpack_require__(25));
-__export(__webpack_require__(44));
-__export(__webpack_require__(45));
-__export(__webpack_require__(46));
+__export(__webpack_require__(50));
 __export(__webpack_require__(51));
 __export(__webpack_require__(52));
-__export(__webpack_require__(53));
-__export(__webpack_require__(54));
+__export(__webpack_require__(57));
+__export(__webpack_require__(58));
+__export(__webpack_require__(59));
+__export(__webpack_require__(60));
 
 
 /***/ }),
@@ -410,7 +416,7 @@ exports.default = StringLiteral;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var XSD = __webpack_require__(49);
+var XSD = __webpack_require__(55);
 var StringLiteral_1 = __webpack_require__(8);
 var tokens_1 = __webpack_require__(0);
 var PatternBuilder_1 = __webpack_require__(27);
@@ -1281,7 +1287,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var notTriples_1 = __webpack_require__(48);
+var notTriples_1 = __webpack_require__(54);
 var tokens_1 = __webpack_require__(0);
 var ObjectPattern_1 = __webpack_require__(9);
 var ValuesPattern = (function (_super) {
@@ -1792,7 +1798,8 @@ var LiteralToken = (function () {
             throw new Error("Must set a value before a type.");
         if (this.value.token !== "string")
             this.value = new StringToken_1.StringToken("" + this.value);
-        this.type = iri_1.isPrefixed(type) ? new PrefixedNameToken_1.PrefixedNameToken(type) : new IRIToken_1.IRIToken(type);
+        this.type = typeof type === "string" ? iri_1.isPrefixed(type) ?
+            new PrefixedNameToken_1.PrefixedNameToken(type) : new IRIToken_1.IRIToken(type) : type;
     };
     LiteralToken.prototype.setLanguage = function (language) {
         if (!this.value || this.value.token !== "string")
@@ -1833,6 +1840,155 @@ __export(__webpack_require__(15));
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var ValuesToken = (function () {
+    function ValuesToken() {
+        this.token = "values";
+        this.variables = [];
+        this.values = [];
+    }
+    ValuesToken.prototype.addValues = function (variable) {
+        var values = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            values[_i - 1] = arguments[_i];
+        }
+        this.variables.push(variable);
+        this.values.push(values);
+        return this;
+    };
+    ValuesToken.prototype.toString = function () {
+        var variables = this.variables.length ? this.variables.length === 1 ? this.variables.join(" ") :
+            "( " + this.variables.join(" ") + " )" : "()";
+        var values = this.variables.length ? this.variables.length === 1 ? this.values[0] :
+            this.values.map(function (varValues) { return "( " + varValues.join(" ") + " )"; }) : ["()"];
+        return "VALUES " + variables + " { " + values.join(" ") + " }";
+    };
+    return ValuesToken;
+}());
+exports.ValuesToken = ValuesToken;
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var SubjectToken = (function () {
+    function SubjectToken(subject) {
+        this.token = "subject";
+        this.subject = subject;
+        this.predicates = [];
+    }
+    SubjectToken.prototype.addPredicate = function (predicate) {
+        this.predicates.push(predicate);
+        return this;
+    };
+    SubjectToken.prototype.toString = function () {
+        return this.subject + " " + this.predicates.join("; ");
+    };
+    return SubjectToken;
+}());
+exports.SubjectToken = SubjectToken;
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var PredicateToken = (function () {
+    function PredicateToken(predicate) {
+        this.token = "predicate";
+        this.predicate = predicate;
+        this.objects = [];
+    }
+    PredicateToken.prototype.addObject = function (object) {
+        this.objects.push(object);
+        return this;
+    };
+    PredicateToken.prototype.toString = function () {
+        return this.predicate + " " + this.objects.join(", ");
+    };
+    return PredicateToken;
+}());
+exports.PredicateToken = PredicateToken;
+
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var OptionalToken = (function () {
+    function OptionalToken() {
+        this.token = "optional";
+        this.patterns = [];
+    }
+    OptionalToken.prototype.addPattern = function (pattern) {
+        this.patterns.push(pattern);
+        return this;
+    };
+    OptionalToken.prototype.toString = function () {
+        return "OPTIONAL { " + this.patterns.join(". ") + " }";
+    };
+    return OptionalToken;
+}());
+exports.OptionalToken = OptionalToken;
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var FilterToken = (function () {
+    function FilterToken(constraint) {
+        this.token = "filter";
+        this.constraint = constraint;
+    }
+    FilterToken.prototype.toString = function () {
+        return "FILTER( " + this.constraint + " )";
+    };
+    return FilterToken;
+}());
+exports.FilterToken = FilterToken;
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var PrefixToken = (function () {
+    function PrefixToken(name, iri) {
+        this.token = "prefix";
+        this.name = name;
+        this.iri = iri;
+    }
+    PrefixToken.prototype.toString = function () {
+        return "PREFIX " + this.name + ": " + this.iri;
+    };
+    return PrefixToken;
+}());
+exports.PrefixToken = PrefixToken;
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = __webpack_require__(2);
 var decorators_1 = __webpack_require__(4);
 var utils_1 = __webpack_require__(3);
@@ -1857,7 +2013,7 @@ exports.fromDecorator = fromDecorator;
 
 
 /***/ }),
-/* 44 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1880,7 +2036,7 @@ exports.groupDecorator = groupDecorator;
 
 
 /***/ }),
-/* 45 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1903,7 +2059,7 @@ exports.havingDecorator = havingDecorator;
 
 
 /***/ }),
-/* 46 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1920,7 +2076,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = __webpack_require__(2);
-var values_1 = __webpack_require__(47);
+var values_1 = __webpack_require__(53);
 var utils_1 = __webpack_require__(3);
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
@@ -1979,7 +2135,7 @@ exports.limitOffsetDecorator = limitOffsetDecorator;
 
 
 /***/ }),
-/* 47 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1990,7 +2146,7 @@ var Container_1 = __webpack_require__(2);
 var IRIResolver_1 = __webpack_require__(6);
 var patterns_1 = __webpack_require__(26);
 var tokens_1 = __webpack_require__(0);
-var triples_1 = __webpack_require__(50);
+var triples_1 = __webpack_require__(56);
 var ObjectPattern_1 = __webpack_require__(9);
 function values(variableOrVariables, valuesOrBuilder) {
     var isSingle = !Array.isArray(variableOrVariables);
@@ -2034,7 +2190,7 @@ exports.valuesDecorator = valuesDecorator;
 
 
 /***/ }),
-/* 48 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2048,7 +2204,7 @@ __export(__webpack_require__(29));
 
 
 /***/ }),
-/* 49 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2063,7 +2219,7 @@ exports.string = exports.NAMESPACE + "string";
 
 
 /***/ }),
-/* 50 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2082,7 +2238,7 @@ __export(__webpack_require__(34));
 
 
 /***/ }),
-/* 51 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2106,7 +2262,7 @@ exports.orderDecorator = orderDecorator;
 
 
 /***/ }),
-/* 52 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2142,7 +2298,7 @@ exports.queryDecorator = queryDecorator;
 
 
 /***/ }),
-/* 53 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2207,7 +2363,7 @@ exports.selectDecorator = selectDecorator;
 
 
 /***/ }),
-/* 54 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

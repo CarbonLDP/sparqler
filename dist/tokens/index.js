@@ -20,5 +20,11 @@ __export(require("./LanguageToken"));
 __export(require("./BooleanToken"));
 __export(require("./LiteralToken"));
 __export(require("./StringToken"));
+__export(require("./ValuesToken"));
+__export(require("./SubjectToken"));
+__export(require("./PredicateToken"));
+__export(require("./OptionalToken"));
+__export(require("./FilterToken"));
+__export(require("./PrefixToken"));
 
 //# sourceMappingURL=index.js.map

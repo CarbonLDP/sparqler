@@ -27,11 +27,12 @@ export class LiteralToken implements TokenNode {
 				new StringToken( value );
 	}
 
-	setType( type:string ):void {
+	setType( type:string | IRIToken | PrefixedNameToken ):void {
 		if( ! this.value ) throw new Error( "Must set a value before a type." );
 		if( this.value.token !== "string" ) this.value = new StringToken( `${ this.value }` );
 
-		this.type = isPrefixed( type ) ? new PrefixedNameToken( type ) : new IRIToken( type );
+		this.type = typeof type === "string" ? isPrefixed( type ) ?
+			new PrefixedNameToken( type ) : new IRIToken( type ) : type;
 	}
 
 	setLanguage( language:string ):void {

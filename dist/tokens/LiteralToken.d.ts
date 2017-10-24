@@ -12,7 +12,7 @@ export declare class LiteralToken implements TokenNode {
     language?: LanguageToken;
     constructor(value?: boolean | number | string);
     setValue(value: boolean | number | string): void;
-    setType(type: string): void;
+    setType(type: string | IRIToken | PrefixedNameToken): void;
     setLanguage(language: string): void;
     toString(): string;
 }

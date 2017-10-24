@@ -26,7 +26,8 @@ var LiteralToken = (function () {
             throw new Error("Must set a value before a type.");
         if (this.value.token !== "string")
             this.value = new StringToken_1.StringToken("" + this.value);
-        this.type = iri_1.isPrefixed(type) ? new PrefixedNameToken_1.PrefixedNameToken(type) : new IRIToken_1.IRIToken(type);
+        this.type = typeof type === "string" ? iri_1.isPrefixed(type) ?
+            new PrefixedNameToken_1.PrefixedNameToken(type) : new IRIToken_1.IRIToken(type) : type;
     };
     LiteralToken.prototype.setLanguage = function (language) {
         if (!this.value || this.value.token !== "string")
