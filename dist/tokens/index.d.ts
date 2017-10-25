@@ -30,6 +30,7 @@ export * from "./PredicateToken";
 export * from "./OptionalToken";
 export * from "./FilterToken";
 export * from "./PrefixToken";
+export * from "./ConstructToken";
 export declare type TermToken = IRIToken | PrefixedNameToken | BlankNodeToken | LiteralToken;
 export declare type TripleToken = SubjectToken;
 export declare type NotTripleToken = OptionalToken | FilterToken | ValuesToken;

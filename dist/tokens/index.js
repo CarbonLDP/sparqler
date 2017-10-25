@@ -26,5 +26,6 @@ __export(require("./PredicateToken"));
 __export(require("./OptionalToken"));
 __export(require("./FilterToken"));
 __export(require("./PrefixToken"));
+__export(require("./ConstructToken"));
 
 //# sourceMappingURL=index.js.map

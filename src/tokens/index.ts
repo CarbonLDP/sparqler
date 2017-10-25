@@ -32,6 +32,7 @@ export * from "./PredicateToken";
 export * from "./OptionalToken";
 export * from "./FilterToken";
 export * from "./PrefixToken";
+export * from "./ConstructToken";
 
 export type TermToken = IRIToken | PrefixedNameToken | BlankNodeToken | LiteralToken;
 

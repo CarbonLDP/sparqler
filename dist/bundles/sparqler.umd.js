@@ -166,6 +166,7 @@ __export(__webpack_require__(45));
 __export(__webpack_require__(46));
 __export(__webpack_require__(47));
 __export(__webpack_require__(48));
+__export(__webpack_require__(49));
 
 
 /***/ }),
@@ -231,15 +232,15 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(16));
-__export(__webpack_require__(49));
-__export(__webpack_require__(25));
 __export(__webpack_require__(50));
+__export(__webpack_require__(25));
 __export(__webpack_require__(51));
 __export(__webpack_require__(52));
-__export(__webpack_require__(57));
+__export(__webpack_require__(53));
 __export(__webpack_require__(58));
 __export(__webpack_require__(59));
 __export(__webpack_require__(60));
+__export(__webpack_require__(61));
 
 
 /***/ }),
@@ -416,7 +417,7 @@ exports.default = StringLiteral;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var XSD = __webpack_require__(55);
+var XSD = __webpack_require__(56);
 var StringLiteral_1 = __webpack_require__(8);
 var tokens_1 = __webpack_require__(0);
 var PatternBuilder_1 = __webpack_require__(27);
@@ -1287,7 +1288,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var notTriples_1 = __webpack_require__(54);
+var notTriples_1 = __webpack_require__(55);
 var tokens_1 = __webpack_require__(0);
 var ObjectPattern_1 = __webpack_require__(9);
 var ValuesPattern = (function (_super) {
@@ -1989,6 +1990,45 @@ exports.PrefixToken = PrefixToken;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var ConstructToken = (function () {
+    function ConstructToken() {
+        this.token = "construct";
+        this.triples = [];
+        this.patterns = [];
+    }
+    ConstructToken.prototype.addTriples = function () {
+        var triple = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            triple[_i] = arguments[_i];
+        }
+        (_a = this.triples).push.apply(_a, triple);
+        return this;
+        var _a;
+    };
+    ConstructToken.prototype.addPatterns = function () {
+        var patterns = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            patterns[_i] = arguments[_i];
+        }
+        (_a = this.patterns).push.apply(_a, patterns);
+        return this;
+        var _a;
+    };
+    ConstructToken.prototype.toString = function () {
+        return "CONSTRUCT { " + this.triples.join(". ") + " } WHERE { " + this.patterns.join(". ") + " } ";
+    };
+    return ConstructToken;
+}());
+exports.ConstructToken = ConstructToken;
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = __webpack_require__(2);
 var decorators_1 = __webpack_require__(4);
 var utils_1 = __webpack_require__(3);
@@ -2013,7 +2053,7 @@ exports.fromDecorator = fromDecorator;
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2036,7 +2076,7 @@ exports.groupDecorator = groupDecorator;
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2059,7 +2099,7 @@ exports.havingDecorator = havingDecorator;
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2076,7 +2116,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = __webpack_require__(2);
-var values_1 = __webpack_require__(53);
+var values_1 = __webpack_require__(54);
 var utils_1 = __webpack_require__(3);
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
@@ -2135,7 +2175,7 @@ exports.limitOffsetDecorator = limitOffsetDecorator;
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2146,7 +2186,7 @@ var Container_1 = __webpack_require__(2);
 var IRIResolver_1 = __webpack_require__(6);
 var patterns_1 = __webpack_require__(26);
 var tokens_1 = __webpack_require__(0);
-var triples_1 = __webpack_require__(56);
+var triples_1 = __webpack_require__(57);
 var ObjectPattern_1 = __webpack_require__(9);
 function values(variableOrVariables, valuesOrBuilder) {
     var isSingle = !Array.isArray(variableOrVariables);
@@ -2190,7 +2230,7 @@ exports.valuesDecorator = valuesDecorator;
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2204,7 +2244,7 @@ __export(__webpack_require__(29));
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2219,7 +2259,7 @@ exports.string = exports.NAMESPACE + "string";
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2238,7 +2278,7 @@ __export(__webpack_require__(34));
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2262,7 +2302,7 @@ exports.orderDecorator = orderDecorator;
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2298,7 +2338,7 @@ exports.queryDecorator = queryDecorator;
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2363,7 +2403,7 @@ exports.selectDecorator = selectDecorator;
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
