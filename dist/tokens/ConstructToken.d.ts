@@ -5,7 +5,7 @@ export declare class ConstructToken implements TokenNode {
     readonly triples: TripleToken[];
     readonly patterns: PatternToken[];
     constructor();
-    addTriples(...triple: TripleToken[]): this;
-    addPatterns(...patterns: PatternToken[]): this;
+    addTriple(...triple: TripleToken[]): this;
+    addPattern(...patterns: PatternToken[]): this;
     toString(): string;
 }

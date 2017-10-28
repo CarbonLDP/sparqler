@@ -6,7 +6,7 @@ var ConstructToken = (function () {
         this.triples = [];
         this.patterns = [];
     }
-    ConstructToken.prototype.addTriples = function () {
+    ConstructToken.prototype.addTriple = function () {
         var triple = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             triple[_i] = arguments[_i];
@@ -15,7 +15,7 @@ var ConstructToken = (function () {
         return this;
         var _a;
     };
-    ConstructToken.prototype.addPatterns = function () {
+    ConstructToken.prototype.addPattern = function () {
         var patterns = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             patterns[_i] = arguments[_i];
@@ -25,7 +25,7 @@ var ConstructToken = (function () {
         var _a;
     };
     ConstructToken.prototype.toString = function () {
-        return "CONSTRUCT { " + this.triples.join(". ") + " } WHERE { " + this.patterns.join(". ") + " } ";
+        return "CONSTRUCT { " + this.triples.join(". ") + " } WHERE { " + this.patterns.join(". ") + " }";
     };
     return ConstructToken;
 }());

@@ -9,8 +9,8 @@ export class OptionalToken implements TokenNode {
 		this.patterns = [];
 	}
 
-	addPattern( pattern:PatternToken ):this {
-		this.patterns.push( pattern );
+	addPattern( ...pattern:PatternToken[] ):this {
+		this.patterns.push( ...pattern );
 		return this;
 	}
 

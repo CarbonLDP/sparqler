@@ -14,17 +14,17 @@ export class ConstructToken implements TokenNode {
 		this.patterns = [];
 	}
 
-	addTriples( ...triple:TripleToken[] ):this {
+	addTriple( ...triple:TripleToken[] ):this {
 		this.triples.push( ...triple );
 		return this;
 	}
 
-	addPatterns( ...patterns:PatternToken[] ):this {
+	addPattern( ...patterns:PatternToken[] ):this {
 		this.patterns.push( ...patterns );
 		return this;
 	}
 
 	toString():string {
-		return `CONSTRUCT { ${ this.triples.join( ". " ) } } WHERE { ${ this.patterns.join( ". " ) } } `;
+		return `CONSTRUCT { ${ this.triples.join( ". " ) } } WHERE { ${ this.patterns.join( ". " ) } }`;
 	}
 }
