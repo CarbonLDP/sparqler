@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = require("./utils");
 var ConstructToken = (function () {
     function ConstructToken() {
         this.token = "construct";
         this.triples = [];
         this.patterns = [];
+        this.modifiers = [];
     }
     ConstructToken.prototype.addTriple = function () {
         var triple = [];
@@ -24,8 +26,20 @@ var ConstructToken = (function () {
         return this;
         var _a;
     };
+    ConstructToken.prototype.addModifier = function () {
+        var modifiers = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            modifiers[_i] = arguments[_i];
+        }
+        (_a = this.modifiers).push.apply(_a, modifiers);
+        return this;
+        var _a;
+    };
     ConstructToken.prototype.toString = function () {
-        return "CONSTRUCT { " + this.triples.join(". ") + " } WHERE { " + this.patterns.join(". ") + " }";
+        var query = "CONSTRUCT { " + this.triples.join(". ") + " } WHERE { " + utils_1.joinPatterns(this.patterns) + " }";
+        if (this.modifiers.length)
+            query += " " + this.modifiers.join(" ");
+        return query;
     };
     return ConstructToken;
 }());

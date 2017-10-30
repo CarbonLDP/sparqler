@@ -1,25 +1,25 @@
 import {
 	PatternToken,
 	SolutionModifier,
-	TripleToken,
 } from "sparqler/tokens";
 import { TokenNode } from "sparqler/tokens/TokenNode";
+import { VariableToken } from "sparqler/tokens/VariableToken";
 import { joinPatterns } from "sparqler/tokens/utils";
 
-export class ConstructToken implements TokenNode {
-	readonly token:"construct" = "construct";
-	readonly triples:TripleToken[];
+export class SelectToken implements TokenNode {
+	readonly token:"select" = "select";
+	readonly variables:VariableToken[];
 	readonly patterns:PatternToken[];
 	readonly modifiers:SolutionModifier[];
 
 	constructor() {
-		this.triples = [];
+		this.variables = [];
 		this.patterns = [];
 		this.modifiers = [];
 	}
 
-	addTriple( ...triple:TripleToken[] ):this {
-		this.triples.push( ...triple );
+	addVariable( ...variables:VariableToken[] ):this {
+		this.variables.push( ...variables );
 		return this;
 	}
 
@@ -28,13 +28,13 @@ export class ConstructToken implements TokenNode {
 		return this;
 	}
 
-	addModifier( ...modifiers:SolutionModifier[] ):this {
-		this.modifiers.push( ...modifiers );
+	addModifier( ...modifier:SolutionModifier[] ):this {
+		this.modifiers.push( ...modifier );
 		return this;
 	}
 
 	toString():string {
-		let query:string = `CONSTRUCT { ${ this.triples.join( ". " ) } } WHERE { ${ joinPatterns( this.patterns ) } }`;
+		let query:string = `SELECT ${ this.variables.join( " " ) } WHERE { ${ joinPatterns( this.patterns ) } }`;
 		if( this.modifiers.length ) query += ` ${ this.modifiers.join( " " ) }`;
 
 		return query;

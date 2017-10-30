@@ -1,9 +1,13 @@
 import { BlankNodeToken } from "sparqler/tokens/BlankNodeToken";
 import { FilterToken } from "sparqler/tokens/FilterToken";
 import { IRIToken } from "sparqler/tokens/IRIToken";
+import { LimitToken } from "sparqler/tokens/LimitToken";
 import { LiteralToken } from "sparqler/tokens/LiteralToken";
+import { OffsetToken } from "sparqler/tokens/OffsetToken";
 import { OptionalToken } from "sparqler/tokens/OptionalToken";
+import { OrderToken } from "sparqler/tokens/OrderToken";
 import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
+import { SelectToken } from "sparqler/tokens/SelectToken";
 import { SubjectToken } from "sparqler/tokens/SubjectToken";
 import { ValuesToken } from "sparqler/tokens/ValuesToken";
 
@@ -33,9 +37,17 @@ export * from "./OptionalToken";
 export * from "./FilterToken";
 export * from "./PrefixToken";
 export * from "./ConstructToken";
+export * from "./SelectToken";
+export * from "./BaseToken";
+export * from "./OrderToken";
+export * from "./LimitToken";
+export * from "./OffsetToken";
+export * from "./QueryToken";
 
 export type TermToken = IRIToken | PrefixedNameToken | BlankNodeToken | LiteralToken;
 
 export type TripleToken = SubjectToken;
 export type NotTripleToken = OptionalToken | FilterToken | ValuesToken;
-export type PatternToken = TripleToken | NotTripleToken;
+export type PatternToken = SelectToken | TripleToken | NotTripleToken;
+
+export type SolutionModifier = /*GroupToken | HavingToken |*/ OrderToken | LimitToken | OffsetToken;
