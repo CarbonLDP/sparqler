@@ -1,13 +1,10 @@
-import { TermToken } from "./";
-import { IRIToken } from "./IRIToken";
-import { PrefixedNameToken } from "./PrefixedNameToken";
+import { ObjectToken, VariableOrIRI } from "./";
 import { TokenNode } from "./TokenNode";
-import { VariableToken } from "./VariableToken";
 export declare class PredicateToken implements TokenNode {
     readonly token: "predicate";
-    readonly predicate: VariableToken | IRIToken | PrefixedNameToken | "a";
-    readonly objects: (VariableToken | TermToken)[];
-    constructor(predicate: VariableToken | IRIToken | PrefixedNameToken | "a");
-    addObject(object: VariableToken | TermToken): this;
+    readonly predicate: VariableOrIRI | "a";
+    readonly objects: ObjectToken[];
+    constructor(predicate: VariableOrIRI | "a");
+    addObject(object: ObjectToken): this;
     toString(): string;
 }

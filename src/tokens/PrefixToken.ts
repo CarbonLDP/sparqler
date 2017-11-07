@@ -12,7 +12,7 @@ export class PrefixToken implements TokenNode {
 	constructor( name:string, iri:IRIToken ) {
 		this.name = name;
 		this.iri = iri;
-	}
+	}`
 
 	toString():string {
 		return `PREFIX ${ this.name }: ${ this.iri }`;

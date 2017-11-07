@@ -1,20 +1,20 @@
-import { TermToken } from "sparqler/tokens";
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
+import {
+	ObjectToken,
+	VariableOrIRI,
+} from "sparqler/tokens";
 import { TokenNode } from "sparqler/tokens/TokenNode";
-import { VariableToken } from "sparqler/tokens/VariableToken";
 
 export class PredicateToken implements TokenNode {
 	readonly token:"predicate" = "predicate";
-	readonly predicate:VariableToken | IRIToken | PrefixedNameToken | "a";
-	readonly objects:( VariableToken | TermToken )[];
+	readonly predicate:VariableOrIRI | "a";
+	readonly objects:ObjectToken[];
 
-	constructor( predicate:VariableToken | IRIToken | PrefixedNameToken | "a" ) {
+	constructor( predicate:VariableOrIRI | "a" ) {
 		this.predicate = predicate;
 		this.objects = [];
 	}
 
-	addObject( object:VariableToken | TermToken ):this {
+	addObject( object:ObjectToken ):this {
 		this.objects.push( object );
 		return this;
 	}

@@ -33,5 +33,6 @@ __export(require("./OrderToken"));
 __export(require("./LimitToken"));
 __export(require("./OffsetToken"));
 __export(require("./QueryToken"));
+__export(require("./CollectionToken"));
 
 //# sourceMappingURL=index.js.map
