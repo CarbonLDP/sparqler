@@ -11,8 +11,8 @@ export declare class LiteralToken implements TokenNode {
     type?: IRIToken | PrefixedNameToken;
     language?: LanguageToken;
     constructor(value?: boolean | number | string);
-    setValue(value: boolean | number | string): void;
-    setType(type: string | IRIToken | PrefixedNameToken): void;
-    setLanguage(language: string): void;
+    setValue(value: boolean | number | string): this;
+    setType(type: string | IRIToken | PrefixedNameToken): this;
+    setLanguage(language: string): this;
     toString(): string;
 }
