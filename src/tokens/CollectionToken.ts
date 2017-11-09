@@ -9,8 +9,13 @@ export class CollectionToken implements TokenNode {
 		this.objects = [];
 	}
 
+	addObject( object:ObjectToken ):this {
+		this.objects.push( object );
+		return this;
+	}
+
 	toString():string {
-		if ( ! this.objects.length ) return "()";
+		if( ! this.objects.length ) return "()";
 		return `( ${ this.objects.join( " " ) } )`;
 	}
 }
