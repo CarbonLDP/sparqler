@@ -994,7 +994,6 @@ exports.IRIToken = IRIToken;
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(15);
 var NAMESPACE_REGEX = /^([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?$/;
-var NORMALIZE_REGEX = /([_~.\-!$&'|()*+,;=/?#@%])/g;
 var PrefixedNameToken = (function () {
     function PrefixedNameToken(prefixedOrNamespace, localName) {
         this.token = "prefixedName";
@@ -1007,7 +1006,15 @@ var PrefixedNameToken = (function () {
         if (!NAMESPACE_REGEX.test(namespace))
             throw new Error("Invalid prefixed namespace.");
         this.namespace = namespace;
-        this.localName = localName.replace(NORMALIZE_REGEX, "\\$1");
+        var _b = localName.split(/^(.)(?:(.*)?(.))?$/), ln1 = _b[1], ln2 = _b[2], ln3 = _b[3];
+        var preSanitation = "";
+        if (ln1)
+            preSanitation += ln1.replace(/([\-.])/g, "\\$1");
+        if (ln2)
+            preSanitation += ln2;
+        if (ln2)
+            preSanitation += ln3.replace(/([.])/g, "\\$1");
+        this.localName = preSanitation.replace(/([~!$&'|()*+,;=/?#@%])/g, "\\$1");
         var _a;
     }
     PrefixedNameToken.prototype.toString = function () {
