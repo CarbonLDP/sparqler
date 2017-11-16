@@ -1,3 +1,4 @@
+import { BindToken } from "sparqler/tokens/BindToken";
 import { BlankNodeToken } from "sparqler/tokens/BlankNodeToken";
 import { CollectionToken } from "sparqler/tokens/CollectionToken";
 import { FilterToken } from "sparqler/tokens/FilterToken";
@@ -36,6 +37,7 @@ export * from "./ValuesToken";
 export * from "./SubjectToken";
 export * from "./PredicateToken";
 export * from "./OptionalToken";
+export * from "./BindToken";
 export * from "./FilterToken";
 export * from "./PrefixToken";
 export * from "./ConstructToken";
@@ -53,7 +55,7 @@ export type TermToken = IRIToken | PrefixedNameToken | BlankNodeToken | LiteralT
 
 export type TripleToken = SubjectToken;
 
-export type NotTripleToken = OptionalToken | FilterToken | ValuesToken;
+export type NotTripleToken = OptionalToken | BindToken | FilterToken | ValuesToken;
 
 export type PatternToken = SelectToken | TripleToken | NotTripleToken;
 

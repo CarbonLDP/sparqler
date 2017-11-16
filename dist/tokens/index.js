@@ -24,6 +24,7 @@ __export(require("./ValuesToken"));
 __export(require("./SubjectToken"));
 __export(require("./PredicateToken"));
 __export(require("./OptionalToken"));
+__export(require("./BindToken"));
 __export(require("./FilterToken"));
 __export(require("./PrefixToken"));
 __export(require("./ConstructToken"));
