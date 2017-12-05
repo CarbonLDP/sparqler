@@ -17,7 +17,10 @@ var QueryToken = (function () {
         var _a;
     };
     QueryToken.prototype.toString = function () {
-        var query = this.prologues.join(" ") + (" " + this.query);
+        var query = this.prologues.join(" ");
+        if (this.prologues.length)
+            query += " ";
+        query += this.query;
         if (this.values)
             query += " " + this.values;
         return query;

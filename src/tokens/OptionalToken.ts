@@ -1,5 +1,6 @@
 import { PatternToken } from "sparqler/tokens";
 import { TokenNode } from "sparqler/tokens/TokenNode";
+import { joinPatterns } from "sparqler/tokens/utils";
 
 export class OptionalToken implements TokenNode {
 	readonly token:"optional" = "optional";
@@ -15,6 +16,6 @@ export class OptionalToken implements TokenNode {
 	}
 
 	toString():string {
-		return `OPTIONAL { ${ this.patterns.join( ". " ) } }`;
+		return `OPTIONAL { ${ joinPatterns( this.patterns ) } }`;
 	}
 }

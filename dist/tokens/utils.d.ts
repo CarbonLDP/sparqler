@@ -1,2 +1,2 @@
-import { PatternToken } from "./index";
+import { PatternToken } from "./";
 export declare const joinPatterns: (patterns: PatternToken[]) => string;

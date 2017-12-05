@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = require("./utils");
 var OptionalToken = (function () {
     function OptionalToken() {
         this.token = "optional";
@@ -15,7 +16,7 @@ var OptionalToken = (function () {
         var _a;
     };
     OptionalToken.prototype.toString = function () {
-        return "OPTIONAL { " + this.patterns.join(". ") + " }";
+        return "OPTIONAL { " + utils_1.joinPatterns(this.patterns) + " }";
     };
     return OptionalToken;
 }());

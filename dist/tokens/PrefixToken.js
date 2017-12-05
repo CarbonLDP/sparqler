@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var PrefixToken = (function () {
-    function PrefixToken(name, iri) {
+    function PrefixToken(namespace, iri) {
         this.token = "prefix";
-        this.name = name;
+        this.namespace = namespace;
         this.iri = iri;
     }
     PrefixToken.prototype.toString = function () {
-        return "PREFIX " + this.name + ": " + this.iri;
+        return "PREFIX " + this.namespace + ": " + this.iri;
     };
     return PrefixToken;
 }());

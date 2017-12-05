@@ -22,7 +22,11 @@ export class QueryToken implements TokenNode {
 	}
 
 	toString():string {
-		let query:string = this.prologues.join( " " ) + ` ${ this.query }`;
+		let query:string = this.prologues.join( " " );
+		if( this.prologues.length ) query += " ";
+
+		query += this.query;
+
 		if( this.values ) query += ` ${ this.values }`;
 
 		return query;

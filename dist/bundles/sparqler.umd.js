@@ -7,7 +7,7 @@
 		exports["SPARQLER"] = factory();
 	else
 		root["SPARQLER"] = factory();
-})(this, function() {
+})(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -144,7 +144,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(7));
-__export(__webpack_require__(18));
+__export(__webpack_require__(19));
 __export(__webpack_require__(13));
 __export(__webpack_require__(39));
 __export(__webpack_require__(10));
@@ -153,13 +153,13 @@ __export(__webpack_require__(8));
 __export(__webpack_require__(5));
 __export(__webpack_require__(40));
 __export(__webpack_require__(41));
-__export(__webpack_require__(19));
 __export(__webpack_require__(20));
 __export(__webpack_require__(21));
 __export(__webpack_require__(22));
 __export(__webpack_require__(23));
-__export(__webpack_require__(42));
 __export(__webpack_require__(24));
+__export(__webpack_require__(42));
+__export(__webpack_require__(25));
 __export(__webpack_require__(44));
 __export(__webpack_require__(45));
 __export(__webpack_require__(46));
@@ -184,7 +184,7 @@ __export(__webpack_require__(58));
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var finish_1 = __webpack_require__(16);
+var finish_1 = __webpack_require__(17);
 var subFinish_1 = __webpack_require__(26);
 var IRIResolver_1 = __webpack_require__(6);
 var Container = (function () {
@@ -239,7 +239,7 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(16));
+__export(__webpack_require__(17));
 __export(__webpack_require__(59));
 __export(__webpack_require__(26));
 __export(__webpack_require__(60));
@@ -675,7 +675,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Identifier_1 = __webpack_require__(7);
-var LeftSymbol_1 = __webpack_require__(18);
+var LeftSymbol_1 = __webpack_require__(19);
 var NewLineSymbol_1 = __webpack_require__(13);
 var Operator_1 = __webpack_require__(10);
 var Token_1 = __webpack_require__(5);
@@ -775,7 +775,25 @@ exports.resolve = resolve;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var clauses_1 = __webpack_require__(17);
+exports.joinPatterns = function (patterns) {
+    return patterns
+        .map(function (pattern) {
+        if (pattern.token === "select")
+            return "{ " + pattern + " }";
+        return pattern;
+    })
+        .join(". ");
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var clauses_1 = __webpack_require__(18);
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
 function toCompactString() {
@@ -915,7 +933,7 @@ exports.finishDecorator = finishDecorator;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -929,7 +947,7 @@ __export(__webpack_require__(3));
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -967,7 +985,7 @@ exports.default = LeftSymbol;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -987,7 +1005,7 @@ exports.IRIToken = IRIToken;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1027,7 +1045,7 @@ exports.PrefixedNameToken = PrefixedNameToken;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1047,7 +1065,7 @@ exports.NumberToken = NumberToken;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1074,7 +1092,7 @@ exports.LanguageToken = LanguageToken;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1094,7 +1112,7 @@ exports.BooleanToken = BooleanToken;
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1111,25 +1129,6 @@ var StringToken = (function () {
     return StringToken;
 }());
 exports.StringToken = StringToken;
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.joinPatterns = function (patterns) {
-    var buffer = "";
-    for (var _i = 0, patterns_1 = patterns; _i < patterns_1.length; _i++) {
-        var pattern = patterns_1[_i];
-        if (buffer)
-            buffer += ". ";
-        buffer += pattern.token === "select" ? "{ " + pattern + " }" : pattern;
-    }
-    return buffer;
-};
 
 
 /***/ }),
@@ -1808,12 +1807,12 @@ exports.VariableToken = VariableToken;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var iri_1 = __webpack_require__(43);
-var BooleanToken_1 = __webpack_require__(23);
-var IRIToken_1 = __webpack_require__(19);
-var LanguageToken_1 = __webpack_require__(22);
-var NumberToken_1 = __webpack_require__(21);
-var PrefixedNameToken_1 = __webpack_require__(20);
-var StringToken_1 = __webpack_require__(24);
+var BooleanToken_1 = __webpack_require__(24);
+var IRIToken_1 = __webpack_require__(20);
+var LanguageToken_1 = __webpack_require__(23);
+var NumberToken_1 = __webpack_require__(22);
+var PrefixedNameToken_1 = __webpack_require__(21);
+var StringToken_1 = __webpack_require__(25);
 var LiteralToken = (function () {
     function LiteralToken(value) {
         this.token = "literal";
@@ -1962,6 +1961,7 @@ exports.PredicateToken = PredicateToken;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(16);
 var OptionalToken = (function () {
     function OptionalToken() {
         this.token = "optional";
@@ -1977,7 +1977,7 @@ var OptionalToken = (function () {
         var _a;
     };
     OptionalToken.prototype.toString = function () {
-        return "OPTIONAL { " + this.patterns.join(". ") + " }";
+        return "OPTIONAL { " + utils_1.joinPatterns(this.patterns) + " }";
     };
     return OptionalToken;
 }());
@@ -2033,13 +2033,13 @@ exports.FilterToken = FilterToken;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var PrefixToken = (function () {
-    function PrefixToken(name, iri) {
+    function PrefixToken(namespace, iri) {
         this.token = "prefix";
-        this.name = name;
+        this.namespace = namespace;
         this.iri = iri;
     }
     PrefixToken.prototype.toString = function () {
-        return "PREFIX " + this.name + ": " + this.iri;
+        return "PREFIX " + this.namespace + ": " + this.iri;
     };
     return PrefixToken;
 }());
@@ -2053,7 +2053,7 @@ exports.PrefixToken = PrefixToken;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(25);
+var utils_1 = __webpack_require__(16);
 var ConstructToken = (function () {
     function ConstructToken() {
         this.token = "construct";
@@ -2106,7 +2106,7 @@ exports.ConstructToken = ConstructToken;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(25);
+var utils_1 = __webpack_require__(16);
 var SelectToken = (function () {
     function SelectToken() {
         this.token = "select";
@@ -2260,7 +2260,10 @@ var QueryToken = (function () {
         var _a;
     };
     QueryToken.prototype.toString = function () {
-        var query = this.prologues.join(" ") + (" " + this.query);
+        var query = this.prologues.join(" ");
+        if (this.prologues.length)
+            query += " ";
+        query += this.query;
         if (this.values)
             query += " " + this.values;
         return query;
@@ -2455,7 +2458,7 @@ exports.limitOffsetDecorator = limitOffsetDecorator;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var clauses_1 = __webpack_require__(17);
+var clauses_1 = __webpack_require__(18);
 var Container_1 = __webpack_require__(2);
 var IRIResolver_1 = __webpack_require__(6);
 var patterns_1 = __webpack_require__(27);

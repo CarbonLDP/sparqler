@@ -1,12 +1,11 @@
-import { PatternToken } from "sparqler/tokens/index";
+import { PatternToken } from "sparqler/tokens";
 
 export const joinPatterns = ( patterns:PatternToken[] ):string => {
-	let buffer:string = "";
-
-	for( const pattern of patterns ) {
-		if( buffer ) buffer += ". ";
-		buffer += pattern.token === "select" ? `{ ${ pattern } }` : pattern;
-	}
-
-	return buffer;
+	return patterns
+		.map( pattern => {
+			if( pattern.token === "select" ) return `{ ${ pattern } }`;
+			return pattern;
+		} )
+		.join( ". " )
+		;
 };
