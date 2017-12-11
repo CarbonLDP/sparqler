@@ -1,56 +1,63 @@
 import { PatternToken } from "sparqler/tokens/index";
+import { OptionalToken } from "sparqler/tokens/OptionalToken";
 import { PredicateToken } from "sparqler/tokens/PredicateToken";
 import { SubjectToken } from "sparqler/tokens/SubjectToken";
 import * as Utils from "sparqler/tokens/utils";
 import { VariableToken } from "sparqler/tokens/VariableToken";
 
-import * as Module from "./OptionalToken";
-import { OptionalToken } from "./OptionalToken";
+import * as Module from "./GraphToken";
+import { GraphToken } from "./GraphToken";
 
-describe( "Module OptionalToken", ():void => {
+describe( "Module GraphToken", ():void => {
 
 	it( "should exists", ():void => {
 		expect( Module ).toBeDefined();
 		expect( Module ).toEqual( jasmine.any( Object ) );
 	} );
 
-	describe( "OptionalToken", ():void => {
+	describe( "GraphToken", ():void => {
 
 		it( "should exists", ():void => {
-			expect( OptionalToken ).toBeDefined();
-			expect( OptionalToken ).toEqual( jasmine.any( Function ) );
+			expect( GraphToken ).toBeDefined();
+			expect( GraphToken ).toEqual( jasmine.any( Function ) );
 		} );
 
-		describe( "OptionalToken.constructor", ():void => {
+		describe( "GraphToken.constructor", ():void => {
 
 			it( "should be instantiable", ():void => {
-				const token:OptionalToken = new OptionalToken();
+				const token:GraphToken = new GraphToken( null );
 
 				expect( token ).toBeDefined();
-				expect( token ).toEqual( jasmine.any( OptionalToken ) );
+				expect( token ).toEqual( jasmine.any( GraphToken ) );
+			} );
+
+			it( "should assign the graph reference", ():void => {
+				const graph:VariableToken = new VariableToken( "graph" );
+				const token:GraphToken = new GraphToken( graph );
+				expect( token.graph ).toBe( graph );
 			} );
 
 			it( "should initialize the patterns", ():void => {
-				const token:OptionalToken = new OptionalToken();
+				const token:GraphToken = new GraphToken( null );
 				expect( token.patterns ).toEqual( [] );
 			} );
 
-			it( "should assign `optional` as token name", ():void => {
-				const token:OptionalToken = new OptionalToken();
-				expect( token.token ).toBe( "optional" );
+			it( "should assign `graph` as token name", ():void => {
+				const token:GraphToken = new GraphToken( null );
+				expect( token.token ).toBe( "graph" );
 			} );
 
 		} );
 
-		describe( "OptionalToken.addPattern", ():void => {
+		describe( "GraphToken.addPattern", ():void => {
 
 			it( "should exists", ():void => {
-				expect( OptionalToken.prototype.addPattern ).toBeDefined();
-				expect( OptionalToken.prototype.addPattern ).toEqual( jasmine.any( Function ) );
+				expect( GraphToken.prototype.addPattern ).toBeDefined();
+				expect( GraphToken.prototype.addPattern ).toEqual( jasmine.any( Function ) );
 			} );
 
 			it( "should add single pattern", ():void => {
-				const token:OptionalToken = new OptionalToken();
+				const token:GraphToken = new GraphToken( null );
 
 				const pattern:PatternToken = new SubjectToken( new VariableToken( "pattern" ) );
 				token.addPattern( pattern );
@@ -59,7 +66,7 @@ describe( "Module OptionalToken", ():void => {
 			} );
 
 			it( "should add multiple patterns", ():void => {
-				const token:OptionalToken = new OptionalToken();
+				const token:GraphToken = new GraphToken( null );
 
 				const pattern1:PatternToken = new SubjectToken( new VariableToken( "pattern" ) );
 				const pattern2:PatternToken = new OptionalToken();
@@ -69,7 +76,7 @@ describe( "Module OptionalToken", ():void => {
 			} );
 
 			it( "should append patterns", ():void => {
-				const token:OptionalToken = new OptionalToken();
+				const token:GraphToken = new GraphToken( null );
 
 				const firstPattern:PatternToken = new SubjectToken( new VariableToken( "pattern" ) );
 				token.addPattern( firstPattern );
@@ -81,32 +88,34 @@ describe( "Module OptionalToken", ():void => {
 			} );
 
 			it( "should return itself", ():void => {
-				const token:OptionalToken = new OptionalToken();
+				const token:GraphToken = new GraphToken( null );
 
 				const pattern:PatternToken = new OptionalToken();
-				const returned:OptionalToken = token.addPattern( pattern );
+				const returned:GraphToken = token.addPattern( pattern );
 
 				expect( returned ).toBe( token );
 			} );
 
 		} );
 
-		describe( "OptionalToken.toString", ():void => {
+		describe( "GraphToken.toString", ():void => {
 
 			it( "should exists", ():void => {
-				expect( OptionalToken.prototype.toString ).toBeDefined();
-				expect( OptionalToken.prototype.toString ).toEqual( jasmine.any( Function ) );
+				expect( GraphToken.prototype.toString ).toBeDefined();
+				expect( GraphToken.prototype.toString ).toEqual( jasmine.any( Function ) );
 			} );
 
 			it( "should return the SPARQL empty optional statement", ():void => {
-				const token:OptionalToken = new OptionalToken();
-				expect( token.toString() ).toBe( "OPTIONAL {  }" );
+				const graph:VariableToken = new VariableToken( "graph" );
+				const token:GraphToken = new GraphToken( graph );
+				expect( token.toString() ).toBe( "GRAPH ?graph {  }" );
 			} );
 
 			it( "should return the SPARQL optional statement using joinPatterns function", ():void => {
 				const spy:jasmine.Spy = spyOn( Utils, "joinPatterns" ).and.callThrough();
 
-				const token:OptionalToken = new OptionalToken()
+				const graph:VariableToken = new VariableToken( "graph" );
+				const token:GraphToken = new GraphToken( graph )
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
 						.addPredicate( new PredicateToken( "a" )
 							.addObject( new VariableToken( "obj1" ) ),
@@ -119,7 +128,7 @@ describe( "Module OptionalToken", ():void => {
 					)
 				;
 
-				expect( token.toString() ).toBe( "OPTIONAL { ?subj1 a ?obj1. ?subj1 a ?obj1 }" );
+				expect( token.toString() ).toBe( "GRAPH ?graph { ?subj1 a ?obj1. ?subj1 a ?obj1 }" );
 				expect( spy ).toHaveBeenCalled();
 			} );
 
