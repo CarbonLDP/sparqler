@@ -1,24 +1,23 @@
+import { IRIResolver } from "../../iri/IRIResolver";
+import { LeftSymbol } from "../../tokens/LeftSymbol";
+import { NewLineSymbol } from "../../tokens/NewLineSymbol";
+import { Operator } from "../../tokens/Operator";
+import { RightSymbol } from "../../tokens/RightSymbol";
+import { StringLiteral } from "../../tokens/StringLiteral";
+import { Token } from "../../tokens/Token";
+import * as ObjectPattern from "../../utils/ObjectPattern";
+import {
+	GraphPattern,
+	TriplesSameSubjectMore,
+} from "../interfaces";
 import * as LiteralsModule from "./Literals";
 import {
-	Literal,
-	RDFLiteral,
-	NumericLiteral,
 	BooleanLiteral,
+	Literal,
+	NumericLiteral,
+	RDFLiteral,
 } from "./Literals";
-
-import {
-	TriplesSameSubjectMore,
-	GraphPattern
-} from "../interfaces";
-import { Token } from "../../tokens/Token";
 import { TriplesPattern } from "./TriplesPattern";
-import { NewLineSymbol } from "../../tokens/NewLineSymbol";
-import * as ObjectPattern from "../../utils/ObjectPattern";
-import { LeftSymbol } from "../../tokens/LeftSymbol";
-import { StringLiteral } from "../../tokens/StringLiteral";
-import { RightSymbol } from "../../tokens/RightSymbol";
-import { Operator } from "../../tokens/Operator";
-import { IRIResolver } from "sparqler/iri";
 
 describe( "Module TriplesPattern/Literals", ():void => {
 
@@ -48,7 +47,7 @@ describe( "Module TriplesPattern/Literals", ():void => {
 			};
 		} );
 
-		class MockLiteral extends Literal { elementTokens:Token[] = []; }
+		class MockLiteral extends Literal {elementTokens:Token[] = [];}
 
 		it( "Exists", ():void => {
 			expect( Literal ).toBeDefined();

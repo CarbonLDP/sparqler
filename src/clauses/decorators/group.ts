@@ -1,20 +1,20 @@
 import {
+	Container,
 	FinishClause,
+	genericDecorator,
 	GroupClause,
 	HavingClause,
 	SubFinishClause,
-} from "sparqler/clauses";
-import { Container } from "sparqler/clauses/Container";
-import { havingDecorator } from "sparqler/clauses/decorators";
-import { genericDecorator } from "sparqler/clauses/utils";
+} from "../";
 import {
 	BY,
 	GROUP,
-} from "sparqler/patterns/tokens";
+} from "../../patterns/tokens";
 import {
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
+} from "../../tokens";
+import { havingDecorator } from "./having";
 
 /**
  * Set a condition to be divide the solutions returned by the query

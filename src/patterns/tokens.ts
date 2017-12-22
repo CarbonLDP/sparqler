@@ -4,7 +4,7 @@ import {
 	NewLineSymbol,
 	Operator,
 	RightSymbol,
-} from "sparqler/tokens";
+} from "../tokens";
 
 export const VAR_SYMBOL:LeftSymbol = new LeftSymbol( "?" );
 export const PREFIX_SYMBOL:Operator = new Operator( ":" );

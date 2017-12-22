@@ -1,10 +1,10 @@
+import { Container } from "./clauses/Container";
+import { queryDecorator } from "./clauses/decorators";
 import {
 	FinishClause,
+	FromClause,
 	QueryClause,
-} from "sparqler/clauses/interfaces";
-import { Container } from "sparqler/clauses/Container";
-import { queryDecorator } from "sparqler/clauses/decorators";
-import { FromClause } from "sparqler/clauses";
+} from "./clauses/interfaces";
 
 export interface FinishDecorator<T> extends Function {
 	<W extends object>( container:Container<T & FinishClause>, object:W ):T & W & FinishClause;

@@ -1,7 +1,7 @@
-import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { SupportedNativeTypes, TriplesNodePattern } from "sparqler/patterns";
-import { Literal, Resource, Variable } from "sparqler/patterns/triples";
-import { Token } from "sparqler/tokens";
+import { IRIResolver } from "../../iri/IRIResolver";
+import { Literal, Resource, Variable } from "../../patterns/triples";
+import { Token } from "../../tokens";
+import { SupportedNativeTypes, TriplesNodePattern } from "../interfaces";
 import { TriplesPattern } from "./TriplesPattern";
 export declare class Collection extends TriplesPattern<TriplesNodePattern> implements TriplesNodePattern {
     protected elementTokens: Token[];

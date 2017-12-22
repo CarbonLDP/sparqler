@@ -1,4 +1,5 @@
-import { TriplesNodePattern } from "sparqler/patterns";
+import { Token } from "../../tokens/Token";
+import { TriplesNodePattern } from "../interfaces";
 import {
 	CLOSE_MULTI_BN,
 	CLOSE_SINGLE_BN,
@@ -6,9 +7,8 @@ import {
 	OPEN_SINGLE_BN,
 	SAME_PROPERTY_SEPARATOR,
 	SAME_SUBJECT_SEPARATOR,
-} from "sparqler/patterns/tokens";
+} from "../tokens";
 import { TriplesPattern } from "./TriplesPattern";
-import { Token } from "sparqler/tokens";
 
 export class BlankNode extends TriplesPattern<TriplesNodePattern> {
 

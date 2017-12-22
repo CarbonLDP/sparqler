@@ -1,14 +1,15 @@
 import {
 	Container,
 	OrderClause,
-} from "sparqler/clauses";
-import * as ContainerModule from "sparqler/clauses/Container";
-import { orderDecorator } from "sparqler/clauses/decorators";
+} from "../../clauses";
 import {
 	Identifier,
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
+} from "../../tokens";
+import * as ContainerModule from "../Container";
+
+import { orderDecorator } from "./order";
 
 describe( "orderDecorator", ():void => {
 

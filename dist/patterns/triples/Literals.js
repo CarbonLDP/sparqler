@@ -10,9 +10,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var tokens_1 = require("sparqler/patterns/tokens");
-var tokens_2 = require("sparqler/tokens");
-var ObjectPattern_1 = require("sparqler/utils/ObjectPattern");
+var tokens_1 = require("../../tokens");
+var ObjectPattern_1 = require("../../utils/ObjectPattern");
+var tokens_2 = require("../tokens");
 var TriplesSubject_1 = require("./TriplesSubject");
 var Literal = (function (_super) {
     __extends(Literal, _super);
@@ -28,7 +28,7 @@ var RDFLiteral = (function (_super) {
     __extends(RDFLiteral, _super);
     function RDFLiteral(resolver, value) {
         var _this = _super.call(this, resolver, value) || this;
-        _this.elementTokens = [tokens_1.OPEN_QUOTE, new tokens_2.StringLiteral(value), tokens_1.CLOSE_QUOTE];
+        _this.elementTokens = [tokens_2.OPEN_QUOTE, new tokens_1.StringLiteral(value), tokens_2.CLOSE_QUOTE];
         return _this;
     }
     RDFLiteral.prototype.ofType = function (type) {
@@ -37,7 +37,7 @@ var RDFLiteral = (function (_super) {
     };
     ;
     RDFLiteral.prototype.withLanguage = function (language) {
-        this.elementTokens = [tokens_1.OPEN_QUOTE, new tokens_2.StringLiteral(this.value), tokens_1.CLOSE_QUOTE, tokens_1.LANG_SYMBOL, new tokens_2.StringLiteral(language)];
+        this.elementTokens = [tokens_2.OPEN_QUOTE, new tokens_1.StringLiteral(this.value), tokens_2.CLOSE_QUOTE, tokens_2.LANG_SYMBOL, new tokens_1.StringLiteral(language)];
         return this;
     };
     ;

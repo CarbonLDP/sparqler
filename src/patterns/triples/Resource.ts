@@ -1,5 +1,5 @@
-import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { Token } from "sparqler/tokens";
+import { IRIResolver } from "../../iri/IRIResolver";
+import { Token } from "../../tokens/Token";
 import { TriplesSubject } from "./TriplesSubject";
 
 export class Resource extends TriplesSubject {

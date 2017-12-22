@@ -1,19 +1,19 @@
-import * as TriplesPatternModule from "./TriplesPattern";
-import TriplesPattern from "./TriplesPattern";
-
-import {
-	GraphPattern,
-	TriplesSameSubjectMore,
-	ElementPattern,
-} from "../interfaces";
-import { Token } from "../../tokens/Token";
-import * as ObjectPattern from "../../utils/ObjectPattern";
-import { Variable } from "./Variable";
+import { IRIResolver } from "../../iri/IRIResolver";
 import { NewLineSymbol } from "../../tokens/NewLineSymbol";
-import { Resource } from "./Resource";
-import { IRIResolver } from "sparqler/iri/IRIResolver";
 import { Operator } from "../../tokens/Operator";
 import { StringLiteral } from "../../tokens/StringLiteral";
+import { Token } from "../../tokens/Token";
+import * as ObjectPattern from "../../utils/ObjectPattern";
+import {
+	ElementPattern,
+	GraphPattern,
+	TriplesSameSubjectMore,
+} from "../interfaces";
+import { Resource } from "./Resource";
+
+import * as TriplesPatternModule from "./TriplesPattern";
+import TriplesPattern from "./TriplesPattern";
+import { Variable } from "./Variable";
 
 describe( "Module TriplesPattern/TriplesPattern", ():void => {
 

@@ -1,17 +1,16 @@
-import * as CollectionModule from "./Collection";
-import Collection from "./Collection";
-
-import {
-	TriplesSameSubjectMore,
-	TriplesNodePattern,
-} from "../interfaces";
-import { Token } from "../../tokens/Token";
-import { TriplesPattern } from "./TriplesPattern";
-import { NewLineSymbol } from "../../tokens/NewLineSymbol";
-import * as ObjectPattern from "../../utils/ObjectPattern";
+import { IRIResolver } from "../../iri/IRIResolver";
 import { LeftSymbol } from "../../tokens/LeftSymbol";
+import { NewLineSymbol } from "../../tokens/NewLineSymbol";
 import { RightSymbol } from "../../tokens/RightSymbol";
-import { IRIResolver } from "sparqler/iri";
+import { Token } from "../../tokens/Token";
+import * as ObjectPattern from "../../utils/ObjectPattern";
+import {
+	TriplesNodePattern,
+	TriplesSameSubjectMore,
+} from "../interfaces";
+import * as CollectionModule from "./Collection";
+import { Collection } from "./Collection";
+import { TriplesPattern } from "./TriplesPattern";
 
 describe( "Module TriplesPattern/Collection", ():void => {
 

@@ -1,28 +1,28 @@
 import {
-	Container,
-	FromClause,
-	SelectClause,
-	SubFinishClause,
-	SubSelectClause,
-	SubWhereClause,
-} from "sparqler/clauses";
-import * as ContainerModule from "sparqler/clauses/Container";
-import {
 	selectDecorator,
 	subFinishDecorator,
-} from "sparqler/clauses/decorators";
-import { GraphPattern } from "sparqler/patterns";
+} from "../../clauses/decorators";
+import { GraphPattern } from "../../patterns";
 import {
 	ALL,
 	DISTINCT,
 	REDUCED,
 	SELECT,
 	VAR_SYMBOL,
-} from "sparqler/patterns/tokens";
+} from "../../patterns/tokens";
 import {
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
+} from "../../tokens";
+import * as ContainerModule from "../Container";
+import { Container } from "../Container";
+import {
+	FromClause,
+	SelectClause,
+	SubFinishClause,
+	SubSelectClause,
+	SubWhereClause,
+} from "../interfaces";
 
 describe( "selectDecorator", ():void => {
 

@@ -1,21 +1,22 @@
 import {
 	Container,
 	QueryClause,
-} from "sparqler/clauses";
-import * as ContainerModule from "sparqler/clauses/Container";
-import { queryDecorator } from "sparqler/clauses/decorators";
-import { IRIResolver } from "sparqler/iri";
+} from "../";
+import { IRIResolver } from "../../iri/IRIResolver";
 import {
 	BASE,
 	CLOSE_IRI,
 	OPEN_IRI,
 	PREFIX,
 	PREFIX_SYMBOL,
-} from "sparqler/patterns/tokens";
+} from "../../patterns/tokens";
 import {
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
+} from "../../tokens";
+import * as ContainerModule from "../Container";
+
+import { queryDecorator } from "./query";
 
 describe( "queryDecorator", ():void => {
 
@@ -278,7 +279,7 @@ describe( "queryDecorator", ():void => {
 				expect( container._iriResolver ).toEqual( iriResolverCopy );
 				expect( container._iriResolver ).toBe( originalIRIResolver );
 			} );
-			
+
 			it( "should store prefix in IRIResolver", ():void => {
 				const container:Container = new Container();
 				const queryClause:QueryClause = queryDecorator( container, {} );

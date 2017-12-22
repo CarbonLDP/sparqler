@@ -1,15 +1,15 @@
+import { IRIResolver } from "../../iri/IRIResolver";
+import { NewLineSymbol } from "../../tokens/NewLineSymbol";
+import { Token } from "../../tokens/Token";
+import * as ObjectPattern from "../../utils/ObjectPattern";
+import {
+	GraphPattern,
+	TriplesSameSubjectMore,
+} from "../interfaces";
+
 import * as ResourceModule from "./Resource";
 import Resource from "./Resource";
-
-import {
-	TriplesSameSubjectMore,
-	GraphPattern
-} from "../interfaces";
-import { Token } from "../../tokens/Token";
 import { TriplesPattern } from "./TriplesPattern";
-import { NewLineSymbol } from "../../tokens/NewLineSymbol";
-import * as ObjectPattern from "../../utils/ObjectPattern";
-import { IRIResolver } from "sparqler/iri";
 
 describe( "Module TriplesPattern/Resource", ():void => {
 

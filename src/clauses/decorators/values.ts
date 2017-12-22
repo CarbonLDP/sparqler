@@ -1,18 +1,9 @@
-import {
-	genericDecorator,
-	ValuesClause,
-} from "sparqler/clauses";
-import { Container } from "sparqler/clauses/Container";
-import {
-	FinishClause,
-	SubFinishClause,
-} from "sparqler/clauses/interfaces";
-import { IRIResolver } from "sparqler/iri/IRIResolver";
+import { IRIResolver } from "../../iri/IRIResolver";
+import { SupportedNativeTypes } from "../../patterns/interfaces";
 import {
 	PatternBuilder,
-	SupportedNativeTypes,
 	Undefined,
-} from "sparqler/patterns";
+} from "../../patterns/PatternBuilder";
 import {
 	CLOSE_MULTI_BLOCK,
 	CLOSE_SINGLE_BLOCK,
@@ -21,14 +12,21 @@ import {
 	OPEN_SINGLE_BLOCK,
 	OPEN_SINGLE_LIST,
 	VALUES,
-} from "sparqler/patterns/tokens";
+} from "../../patterns/tokens";
 import {
 	Literal,
 	Resource,
 	Variable,
-} from "sparqler/patterns/triples";
-import { Token } from "sparqler/tokens";
-import { serialize } from "sparqler/utils/ObjectPattern";
+} from "../../patterns/triples";
+import { Token } from "../../tokens";
+import { serialize } from "../../utils/ObjectPattern";
+import { Container } from "../Container";
+import {
+	FinishClause,
+	SubFinishClause,
+	ValuesClause,
+} from "../interfaces";
+import { genericDecorator } from "../utils";
 
 type PossibleTypes = SupportedNativeTypes | Resource | Literal | Undefined;
 

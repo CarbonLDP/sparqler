@@ -2,7 +2,7 @@ import {
 	Container,
 	FinishClause,
 	genericDecorator,
-} from "sparqler/clauses";
+} from "../";
 import {
 	BASE,
 	CLOSE_MULTI_BLOCK,
@@ -18,12 +18,12 @@ import {
 	SAME_SUBJECT_SEPARATOR,
 	SELECT,
 	WHERE,
-} from "sparqler/patterns/tokens";
+} from "../../patterns/tokens";
 import {
 	NewLineSymbol,
 	Token,
 	TokenFormat,
-} from "sparqler/tokens";
+} from "../../tokens";
 
 /**
  * Constructs a compact SPARQL query string.

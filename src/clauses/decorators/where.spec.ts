@@ -5,14 +5,8 @@ import {
 	SubFinishClause,
 	SubWhereClause,
 	WhereClause,
-} from "sparqler/clauses";
-import * as ContainerModule from "sparqler/clauses/Container";
-import {
-	subFinishDecorator,
-	subWhereDecorator,
-	whereDecorator,
-} from "sparqler/clauses/decorators";
-import { PatternBuilder, } from "sparqler/patterns";
+} from "../";
+import { PatternBuilder } from "../../patterns";
 import {
 	CLOSE_MULTI_BLOCK,
 	CLOSE_SINGLE_BLOCK,
@@ -20,8 +14,15 @@ import {
 	OPEN_MULTI_BLOCK,
 	OPEN_SINGLE_BLOCK,
 	WHERE,
-} from "sparqler/patterns/tokens";
-import { Token } from "sparqler/tokens";
+} from "../../patterns/tokens";
+import { Token } from "../../tokens";
+import * as ContainerModule from "../Container";
+import {
+	subFinishDecorator,
+	subWhereDecorator,
+} from "./";
+
+import { whereDecorator } from "./where";
 
 describe( "whereDecorator", ():void => {
 
@@ -127,7 +128,7 @@ describe( "whereDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
+					if( args.length > 0 && args[ 0 ] === subFinishDecorator ) spy.calls.reset();
 					return newContainer = new Container( ...args );
 				} );
 
@@ -146,7 +147,7 @@ describe( "whereDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
+					if( args.length > 0 && args[ 0 ] === subFinishDecorator ) spy.calls.reset();
 					return newContainer = new Container( ...args );
 				} );
 
@@ -180,7 +181,7 @@ describe( "whereDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
+					if( args.length > 0 && args[ 0 ] === subFinishDecorator ) spy.calls.reset();
 					return newContainer = new Container( ...args );
 				} );
 

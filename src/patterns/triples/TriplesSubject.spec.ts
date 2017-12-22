@@ -1,15 +1,15 @@
+import { IRIResolver } from "../../iri/IRIResolver";
+import { NewLineSymbol } from "../../tokens/NewLineSymbol";
+import { Token } from "../../tokens/Token";
+import * as ObjectPattern from "../../utils/ObjectPattern";
+import {
+	GraphPattern,
+	TriplesSameSubjectMore,
+} from "../interfaces";
+import { TriplesPattern } from "./TriplesPattern";
+
 import * as TriplesSubjectModule from "./TriplesSubject";
 import TriplesSubject from "./TriplesSubject";
-
-import {
-	TriplesSameSubjectMore,
-	GraphPattern,
-} from "../interfaces";
-import { Token } from "../../tokens/Token";
-import { TriplesPattern } from "./TriplesPattern";
-import { NewLineSymbol } from "../../tokens/NewLineSymbol";
-import * as ObjectPattern from "../../utils/ObjectPattern";
-import { IRIResolver } from "sparqler/iri";
 
 describe( "Module TriplesPattern/TriplesSubject", ():void => {
 
@@ -39,7 +39,7 @@ describe( "Module TriplesPattern/TriplesSubject", ():void => {
 			};
 		} );
 
-		class MockTriplesSubject extends TriplesSubject { elementTokens:Token[] = []; }
+		class MockTriplesSubject extends TriplesSubject {elementTokens:Token[] = [];}
 
 		it( "Exists", ():void => {
 			expect( TriplesSubject ).toBeDefined();

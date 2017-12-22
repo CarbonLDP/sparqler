@@ -1,13 +1,14 @@
-import { Container } from "sparqler/clauses/Container";
-import {
-	selectDecorator,
-	subFinishDecorator,
-} from "sparqler/clauses/decorators";
+import { Container } from "../clauses/Container";
+import { selectDecorator } from "../clauses/decorators/select";
+import { subFinishDecorator } from "../clauses/decorators/subFinish";
 import {
 	SubSelectClause,
 	SubWhereClause,
-} from "sparqler/clauses/interfaces";
-import { IRIResolver } from "sparqler/iri/IRIResolver";
+} from "../clauses/interfaces";
+import { IRIResolver } from "../iri/IRIResolver";
+import { StringLiteral } from "../tokens/StringLiteral";
+import { Token } from "../tokens/Token";
+import { getBlockTokens } from "../utils/Patterns";
 import {
 	GraphPattern,
 	MultipleValuesPattern,
@@ -16,9 +17,9 @@ import {
 	SupportedNativeTypes,
 	TriplesNodePattern,
 	TriplesPatternBuilder,
-} from "sparqler/patterns/interfaces";
-import { NotTriplesPattern } from "sparqler/patterns/notTriples/NotTriplesPattern";
-import { ValuesPattern } from "sparqler/patterns/notTriples/ValuesPattern";
+} from "./interfaces";
+import { NotTriplesPattern } from "./notTriples/NotTriplesPattern";
+import { ValuesPattern } from "./notTriples/ValuesPattern";
 import {
 	AS,
 	BIND,
@@ -31,20 +32,17 @@ import {
 	SERVICE,
 	SILENT,
 	UNION,
-} from "sparqler/patterns/tokens";
-import { BlankNode } from "sparqler/patterns/triples/BlankNode";
-import { Collection } from "sparqler/patterns/triples/Collection";
+} from "./tokens";
+import { BlankNode } from "./triples/BlankNode";
+import { Collection } from "./triples/Collection";
 import {
 	BooleanLiteral,
 	Literal,
 	NumericLiteral,
 	RDFLiteral,
-} from "sparqler/patterns/triples/Literals";
-import { Resource } from "sparqler/patterns/triples/Resource";
-import { Variable } from "sparqler/patterns/triples/Variable";
-import { StringLiteral } from "sparqler/tokens/StringLiteral";
-import { Token } from "sparqler/tokens/Token";
-import { getBlockTokens } from "sparqler/utils/Patterns";
+} from "./triples/Literals";
+import { Resource } from "./triples/Resource";
+import { Variable } from "./triples/Variable";
 
 export type Undefined = "UNDEF";
 

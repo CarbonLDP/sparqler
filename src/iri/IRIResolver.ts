@@ -1,13 +1,13 @@
+import { PREFIX_SYMBOL } from "../patterns/tokens";
+import {
+	StringLiteral,
+	Token,
+} from "../tokens";
 import {
 	getPrefixedParts,
 	isPrefixed,
 	resolve,
-} from "sparqler/iri/utils";
-import { PREFIX_SYMBOL } from "sparqler/patterns/tokens";
-import {
-	StringLiteral,
-	Token,
-} from "sparqler/tokens";
+} from "./utils";
 
 /**
  * Map type of the stored prefixes used by {@link IRIResolver}.

@@ -1,5 +1,6 @@
-import { GraphPattern, PatternBuilder, SupportedNativeTypes, Undefined } from "sparqler/patterns";
-import { Literal, Resource } from "sparqler/patterns/triples";
+import { PatternBuilder, Undefined } from "../patterns/PatternBuilder";
+import { GraphPattern, SupportedNativeTypes } from "../patterns/interfaces";
+import { Literal, Resource } from "../patterns/triples";
 export interface QueryClause<T extends FinishClause = FinishClause> extends SelectClause<T> {
     base(iri: string): QueryClause<T>;
     vocab(iri: string): QueryClause<T>;

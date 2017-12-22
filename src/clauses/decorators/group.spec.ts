@@ -1,14 +1,14 @@
 import {
 	Container,
 	GroupClause,
-} from "sparqler/clauses";
-import * as ContainerModule from "sparqler/clauses/Container";
-import { groupDecorator } from "sparqler/clauses/decorators";
+} from "../../clauses";
 import {
 	Identifier,
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
+} from "../../tokens";
+import * as ContainerModule from "../Container";
+import { groupDecorator } from "./group";
 
 describe( "groupDecorator", ():void => {
 

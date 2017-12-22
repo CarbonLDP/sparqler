@@ -3,11 +3,8 @@ import {
 	FinishClause,
 	SubFinishClause,
 	ValuesClause,
-} from "sparqler/clauses";
-import * as ContainerModule from "sparqler/clauses/Container";
-import { subFinishDecorator } from "sparqler/clauses/decorators";
-import { valuesDecorator } from "sparqler/clauses/decorators/values";
-import { IRIResolver } from "sparqler/iri";
+} from "../";
+import { IRIResolver } from "../../iri/IRIResolver";
 import {
 	CLOSE_MULTI_BLOCK,
 	CLOSE_SINGLE_BLOCK,
@@ -17,12 +14,15 @@ import {
 	OPEN_SINGLE_LIST,
 	VALUES,
 	VAR_SYMBOL,
-} from "sparqler/patterns/tokens";
+} from "../../patterns/tokens";
 import {
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
-import * as SerializeModule from "sparqler/utils/ObjectPattern";
+} from "../../tokens";
+import * as SerializeModule from "../../utils/ObjectPattern";
+import * as ContainerModule from "../Container";
+import { subFinishDecorator } from "./subFinish";
+import { valuesDecorator } from "./values";
 
 describe( "valuesDecorator", ():void => {
 
@@ -223,7 +223,7 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
+					if( args.length > 0 && args[ 0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
@@ -243,7 +243,7 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
+					if( args.length > 0 && args[ 0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
@@ -281,7 +281,7 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
+					if( args.length > 0 && args[ 0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
@@ -415,7 +415,7 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
+					if( args.length > 0 && args[ 0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
@@ -452,7 +452,7 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
+					if( args.length > 0 && args[ 0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 
@@ -499,7 +499,7 @@ describe( "valuesDecorator", ():void => {
 
 				let newContainer:Container = void 0;
 				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) return new Container( ...args );
+					if( args.length > 0 && args[ 0 ] === subFinishDecorator ) return new Container( ...args );
 					return newContainer = new Container( ...args );
 				} );
 

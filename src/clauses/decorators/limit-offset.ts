@@ -1,22 +1,22 @@
-import { ValuesClause } from "sparqler/clauses";
-import { Container } from "sparqler/clauses/Container";
-import { valuesDecorator } from "sparqler/clauses/decorators/values";
+import {
+	LIMIT,
+	OFFSET,
+} from "../../patterns/tokens";
+import {
+	NumberLiteral,
+	Token,
+} from "../../tokens";
+import { Container } from "../Container";
 import {
 	FinishClause,
 	LimitClause,
 	LimitOffsetClause,
 	OffsetClause,
 	SubFinishClause,
-} from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
-import {
-	LIMIT,
-	OFFSET,
-} from "sparqler/patterns/tokens";
-import {
-	NumberLiteral,
-	Token,
-} from "sparqler/tokens";
+	ValuesClause,
+} from "../interfaces";
+import { genericDecorator } from "../utils";
+import { valuesDecorator } from "./values";
 
 
 /**

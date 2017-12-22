@@ -1,8 +1,8 @@
 import {
 	Container,
 	FinishClause,
-} from "sparqler/clauses";
-import { IRIResolver } from "sparqler/iri";
+} from "../../clauses";
+import { IRIResolver } from "../../iri";
 import {
 	ALL,
 	BASE,
@@ -20,12 +20,12 @@ import {
 	PREFIX_SYMBOL,
 	SELECT,
 	WHERE,
-} from "sparqler/patterns/tokens";
+} from "../../patterns/tokens";
 import {
 	NewLineSymbol,
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
+} from "../../tokens";
 
 import { finishDecorator } from "./finish";
 

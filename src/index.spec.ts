@@ -1,13 +1,14 @@
 import {
 	Container,
 	FinishClause,
-} from "sparqler/clauses";
-import * as ContainerModule from "sparqler/clauses/Container";
-import { finishDecorator } from "sparqler/clauses/decorators";
+} from "./clauses";
+import * as ContainerModule from "./clauses/Container";
+import { finishDecorator } from "./clauses/decorators";
+
 import DefaultExport, {
 	FinishDecorator,
 	SPARQLER,
-} from "sparqler/index";
+} from "./index";
 
 describe( "SPARQLER", ():void => {
 

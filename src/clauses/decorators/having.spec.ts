@@ -1,14 +1,14 @@
 import {
 	Container,
 	HavingClause,
-} from "sparqler/clauses";
-import * as ContainerModule from "sparqler/clauses/Container";
-import { havingDecorator } from "sparqler/clauses/decorators";
+} from "../../clauses";
 import {
 	Identifier,
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
+} from "../../tokens";
+import * as ContainerModule from "../Container";
+import { havingDecorator } from "./having";
 
 describe( "havingDecorator", ():void => {
 

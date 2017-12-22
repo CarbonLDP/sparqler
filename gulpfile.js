@@ -80,7 +80,8 @@ gulp.task( "compile:typescript", () => {
 
 	let tsResults = gulp.src( config.source.typescript )
 		.pipe( sourcemaps.init() )
-		.pipe( tsProject() );
+		.pipe( tsProject() )
+	;
 
 	tsResults.dts
 		.pipe( gulp.dest( config.dist.typescript ) )

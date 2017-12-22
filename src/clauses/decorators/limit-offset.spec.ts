@@ -2,7 +2,16 @@ import {
 	Container,
 	FinishClause,
 	LimitOffsetClause,
-} from "sparqler/clauses";
+} from "../";
+import { IRIResolver } from "../../iri";
+import {
+	LIMIT,
+	OFFSET,
+} from "../../patterns/tokens";
+import {
+	NumberLiteral,
+	Token,
+} from "../../tokens";
 import {
 	CurrentMethod,
 	finishDecorator,
@@ -10,16 +19,7 @@ import {
 	LimitOffsetContainer,
 	limitOffsetDecorator,
 	offsetDecorator,
-} from "sparqler/clauses/decorators";
-import { IRIResolver } from "sparqler/iri";
-import {
-	LIMIT,
-	OFFSET,
-} from "sparqler/patterns/tokens";
-import {
-	NumberLiteral,
-	Token,
-} from "sparqler/tokens";
+} from "../decorators";
 
 describe( "LimitOffsetContainer", ():void => {
 

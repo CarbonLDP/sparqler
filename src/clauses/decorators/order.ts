@@ -1,20 +1,20 @@
-import { Container } from "sparqler/clauses/Container";
-import { limitOffsetDecorator } from "sparqler/clauses/decorators";
+import {
+	BY,
+	ORDER,
+} from "../../patterns/tokens";
+import {
+	StringLiteral,
+	Token,
+} from "../../tokens";
+import { Container } from "../Container";
 import {
 	FinishClause,
 	LimitOffsetClause,
 	OrderClause,
 	SubFinishClause,
-} from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
-import {
-	BY,
-	ORDER,
-} from "sparqler/patterns/tokens";
-import {
-	StringLiteral,
-	Token,
-} from "sparqler/tokens";
+} from "../interfaces";
+import { genericDecorator } from "../utils";
+import { limitOffsetDecorator } from "./limit-offset";
 
 /**
  * Set a condition to be used as the order of the sequence of solutions the

@@ -1,9 +1,15 @@
-import { Container, } from "sparqler/clauses/Container";
 import {
-	fromDecorator,
-	subFinishDecorator,
-	subWhereDecorator,
-} from "sparqler/clauses/decorators";
+	ALL,
+	DISTINCT,
+	REDUCED,
+	SELECT,
+	VAR_SYMBOL,
+} from "../../patterns/tokens";
+import {
+	StringLiteral,
+	Token,
+} from "../../tokens";
+import { Container } from "../Container";
 import {
 	FinishClause,
 	FromClause,
@@ -11,19 +17,11 @@ import {
 	SubFinishClause,
 	SubSelectClause,
 	SubWhereClause,
-} from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
-import {
-	ALL,
-	DISTINCT,
-	REDUCED,
-	SELECT,
-	VAR_SYMBOL,
-} from "sparqler/patterns/tokens";
-import {
-	StringLiteral,
-	Token,
-} from "sparqler/tokens";
+} from "../interfaces";
+import { genericDecorator } from "../utils";
+import { fromDecorator } from "./from";
+import { subFinishDecorator } from "./subFinish";
+import { subWhereDecorator } from "./where";
 
 /**
  * Internal function that actually creates the tokens of the

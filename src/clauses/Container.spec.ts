@@ -2,11 +2,11 @@ import {
 	Container,
 	FinishDecorator,
 	SubFinishClause,
-} from "sparqler/clauses";
-import { Token } from "sparqler/tokens";
-import { IRIResolver } from "sparqler/iri";
-import * as IRIResolverModule from "sparqler/iri/IRIResolver";
-import { subFinishDecorator } from "sparqler/clauses/decorators";
+} from "../clauses";
+import { subFinishDecorator } from "../clauses/decorators";
+import { IRIResolver } from "../iri";
+import * as IRIResolverModule from "../iri/IRIResolver";
+import { Token } from "../tokens";
 
 
 describe( "Container", ():void => {
@@ -155,7 +155,7 @@ describe( "Container", ():void => {
 		expect( container._iriResolver ).toBeUndefined();
 		expect( spyIRIResolver ).toHaveBeenCalledTimes( 0 );
 	} );
-	
+
 	it( "should not set iriResolver if finish decorator is subFinishDecorator", ():void => {
 		const spyIRIResolver:jasmine.Spy = spyOn( IRIResolverModule, "IRIResolver" ).and.callThrough();
 		const container:Container<SubFinishClause> = new Container( subFinishDecorator );

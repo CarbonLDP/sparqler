@@ -1,5 +1,5 @@
-import { Container } from "sparqler/clauses";
-import { genericDecorator } from "sparqler/clauses/utils";
+import { Container } from "./Container";
+import { genericDecorator } from "./utils";
 
 
 describe( "genericDecorator", ():void => {

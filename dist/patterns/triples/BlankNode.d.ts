@@ -1,6 +1,6 @@
-import { TriplesNodePattern } from "sparqler/patterns";
+import { Token } from "../../tokens/Token";
+import { TriplesNodePattern } from "../interfaces";
 import { TriplesPattern } from "./TriplesPattern";
-import { Token } from "sparqler/tokens";
 export declare class BlankNode extends TriplesPattern<TriplesNodePattern> {
     protected elementTokens: Token[];
     getSelfTokens(): Token[];

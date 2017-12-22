@@ -1,25 +1,25 @@
-import { IRIResolver } from "sparqler/iri/IRIResolver";
+import { IRIResolver } from "../../iri/IRIResolver";
+import {
+	Literal,
+	Resource,
+	Variable,
+} from "../../patterns/triples";
+import {
+	NewLineSymbol,
+	Token,
+} from "../../tokens";
+import { serialize } from "../../utils/ObjectPattern";
 import {
 	SupportedNativeTypes,
 	TriplesNodePattern,
-} from "sparqler/patterns";
+} from "../interfaces";
 import {
 	CLOSE_MULTI_LIST,
 	CLOSE_SINGLE_LIST,
 	EMPTY_SEPARATOR,
 	OPEN_MULTI_LIST,
 	OPEN_SINGLE_LIST,
-} from "sparqler/patterns/tokens";
-import {
-	Literal,
-	Resource,
-	Variable,
-} from "sparqler/patterns/triples";
-import {
-	NewLineSymbol,
-	Token,
-} from "sparqler/tokens";
-import { serialize } from "sparqler/utils/ObjectPattern";
+} from "../tokens";
 import { TriplesPattern } from "./TriplesPattern";
 
 export class Collection extends TriplesPattern<TriplesNodePattern> implements TriplesNodePattern {

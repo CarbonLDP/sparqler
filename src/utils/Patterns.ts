@@ -1,16 +1,16 @@
-import { GraphPattern } from "sparqler/patterns";
+import { GraphPattern } from "../patterns/interfaces";
 import {
 	CLOSE_MULTI_BLOCK,
 	CLOSE_SINGLE_BLOCK,
 	GRAPH_PATTERN_SEPARATOR,
 	OPEN_MULTI_BLOCK,
 	OPEN_SINGLE_BLOCK,
-} from "sparqler/patterns/tokens";
+} from "../patterns/tokens";
 import {
 	Identifier,
 	NewLineSymbol,
 	Token,
-} from "sparqler/tokens";
+} from "../tokens";
 
 export function getBlockTokens( patterns:GraphPattern | GraphPattern[] ):Token[] {
 	let tokens:Token[] = this.getTokens( patterns );

@@ -1,14 +1,14 @@
-import { IRIResolver } from "sparqler/iri/IRIResolver";
+import { IRIResolver } from "../../iri/IRIResolver";
+import {
+	StringLiteral,
+	Token,
+} from "../../tokens";
+import { addType } from "../../utils/ObjectPattern";
 import {
 	CLOSE_QUOTE,
 	LANG_SYMBOL,
 	OPEN_QUOTE,
-} from "sparqler/patterns/tokens";
-import {
-	StringLiteral,
-	Token,
-} from "sparqler/tokens";
-import { addType } from "sparqler/utils/ObjectPattern";
+} from "../tokens";
 import { TriplesSubject } from "./TriplesSubject";
 
 export abstract class Literal extends TriplesSubject {

@@ -1,11 +1,11 @@
-import { IRIResolver } from "sparqler/iri";
+import { IRIResolver } from "../iri";
 import {
 	LeftSymbol,
 	Operator,
 	RightSymbol,
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
+} from "../tokens";
 
 
 describe( "IRIResolver", ():void => {

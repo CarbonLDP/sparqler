@@ -1,12 +1,12 @@
-import { SubSelectClause, SubWhereClause } from "sparqler/clauses/interfaces";
-import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "sparqler/patterns/interfaces";
-import { NotTriplesPattern } from "sparqler/patterns/notTriples/NotTriplesPattern";
-import { BlankNode } from "sparqler/patterns/triples/BlankNode";
-import { Collection } from "sparqler/patterns/triples/Collection";
-import { BooleanLiteral, Literal, NumericLiteral, RDFLiteral } from "sparqler/patterns/triples/Literals";
-import { Resource } from "sparqler/patterns/triples/Resource";
-import { Variable } from "sparqler/patterns/triples/Variable";
+import { SubSelectClause, SubWhereClause } from "../clauses/interfaces";
+import { IRIResolver } from "../iri/IRIResolver";
+import { GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "./interfaces";
+import { NotTriplesPattern } from "./notTriples/NotTriplesPattern";
+import { BlankNode } from "./triples/BlankNode";
+import { Collection } from "./triples/Collection";
+import { BooleanLiteral, Literal, NumericLiteral, RDFLiteral } from "./triples/Literals";
+import { Resource } from "./triples/Resource";
+import { Variable } from "./triples/Variable";
 export declare type Undefined = "UNDEF";
 export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder, SubSelectClause {
     static readonly undefined: Undefined;

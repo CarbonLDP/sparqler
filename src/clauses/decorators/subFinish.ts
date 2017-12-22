@@ -1,11 +1,11 @@
-import { SubFinishClause } from "sparqler/clauses";
-import { Container } from "sparqler/clauses/Container";
-import { genericDecorator } from "sparqler/clauses/utils";
 import {
 	CLOSE_MULTI_BLOCK,
 	OPEN_MULTI_BLOCK,
-} from "sparqler/patterns/tokens";
-import { Token } from "sparqler/tokens";
+} from "../../patterns/tokens";
+import { Token } from "../../tokens";
+import { Container } from "../Container";
+import { SubFinishClause } from "../interfaces";
+import { genericDecorator } from "../utils";
 
 /**
  * Returns the tokens of the that represent all the subSelect clause

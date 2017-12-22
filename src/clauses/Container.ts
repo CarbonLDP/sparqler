@@ -1,11 +1,11 @@
-import { finishDecorator as originalFinishDecorator } from "sparqler/clauses/decorators/finish";
-import { subFinishDecorator } from "sparqler/clauses/decorators/subFinish";
+import { IRIResolver } from "../iri/IRIResolver";
+import { Token } from "../tokens/Token";
+import { finishDecorator as originalFinishDecorator } from "./decorators/finish";
+import { subFinishDecorator } from "./decorators/subFinish";
 import {
 	FinishClause,
 	SubFinishClause,
-} from "sparqler/clauses/interfaces";
-import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { Token } from "sparqler/tokens/Token";
+} from "./interfaces";
 
 
 /**

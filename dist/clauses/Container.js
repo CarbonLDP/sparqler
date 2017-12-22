@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var finish_1 = require("sparqler/clauses/decorators/finish");
-var subFinish_1 = require("sparqler/clauses/decorators/subFinish");
-var IRIResolver_1 = require("sparqler/iri/IRIResolver");
+var IRIResolver_1 = require("../iri/IRIResolver");
+var finish_1 = require("./decorators/finish");
+var subFinish_1 = require("./decorators/subFinish");
 var Container = (function () {
     function Container(containerOrFunction, newTokens, iriResolver) {
         var _newTarget = this.constructor;

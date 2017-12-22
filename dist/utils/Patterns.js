@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var tokens_1 = require("sparqler/patterns/tokens");
-var tokens_2 = require("sparqler/tokens");
+var tokens_1 = require("../patterns/tokens");
+var tokens_2 = require("../tokens");
 function getBlockTokens(patterns) {
     var tokens = this.getTokens(patterns);
     var openToken = tokens_1.OPEN_SINGLE_BLOCK;

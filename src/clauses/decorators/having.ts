@@ -1,17 +1,17 @@
-import { Container } from "sparqler/clauses/Container";
-import { orderDecorator } from "sparqler/clauses/decorators";
+import { HAVING } from "../../patterns/tokens";
+import {
+	StringLiteral,
+	Token,
+} from "../../tokens";
+import { Container } from "../Container";
 import {
 	FinishClause,
 	HavingClause,
 	OrderClause,
 	SubFinishClause,
-} from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
-import { HAVING } from "sparqler/patterns/tokens";
-import {
-	StringLiteral,
-	Token,
-} from "sparqler/tokens";
+} from "../interfaces";
+import { genericDecorator } from "../utils";
+import { orderDecorator } from "./order";
 
 /**
  * Set a condition to filter the sequence of solutions the query will

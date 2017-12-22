@@ -1,13 +1,14 @@
 import {
 	Container,
 	SubFinishClause,
-} from "sparqler/clauses";
-import { subFinishDecorator } from "sparqler/clauses/decorators";
+} from "../";
 import {
 	CLOSE_MULTI_BLOCK,
 	OPEN_MULTI_BLOCK,
-} from "sparqler/patterns/tokens";
-import { Token } from "sparqler/tokens";
+} from "../../patterns/tokens";
+import { Token } from "../../tokens";
+
+import { subFinishDecorator } from "./subFinish";
 
 describe( "subFinishDecorator", ():void => {
 

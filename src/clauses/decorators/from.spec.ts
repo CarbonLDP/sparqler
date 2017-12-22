@@ -1,21 +1,22 @@
 import {
 	Container,
 	FromClause,
-} from "sparqler/clauses";
-import * as ContainerModule from "sparqler/clauses/Container";
-import { fromDecorator, } from "sparqler/clauses/decorators";
-import { IRIResolver } from "sparqler/iri";
-import * as IRIResolverModule from "sparqler/iri/IRIResolver";
+} from "../../clauses";
+import { IRIResolver } from "../../iri/";
+import * as IRIResolverModule from "../../iri/IRIResolver";
 import {
 	CLOSE_IRI,
 	FROM,
 	NAMED,
 	OPEN_IRI,
-} from "sparqler/patterns/tokens";
+} from "../../patterns/tokens";
 import {
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
+} from "../../tokens";
+import * as ContainerModule from "../Container";
+
+import { fromDecorator } from "./from";
 
 describe( "fromDecorator", ():void => {
 

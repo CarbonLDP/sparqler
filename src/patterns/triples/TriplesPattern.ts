@@ -1,4 +1,17 @@
-import { IRIResolver } from "sparqler/iri/IRIResolver";
+import { IRIResolver } from "../../iri/IRIResolver";
+import {
+	Literal,
+	Resource,
+	Variable,
+} from "../../patterns/triples";
+import {
+	LeftSymbol,
+	Operator,
+	RightSymbol,
+	StringLiteral,
+	Token,
+} from "../../tokens";
+import { serialize } from "../../utils/ObjectPattern";
 import {
 	ElementPattern,
 	GraphPattern,
@@ -6,24 +19,11 @@ import {
 	TriplesNodePattern,
 	TriplesSameSubject,
 	TriplesSameSubjectMore,
-} from "sparqler/patterns";
+} from "../interfaces";
 import {
 	SAME_PROPERTY_SEPARATOR,
 	SAME_SUBJECT_SEPARATOR,
-} from "sparqler/patterns/tokens";
-import {
-	Literal,
-	Resource,
-	Variable,
-} from "sparqler/patterns/triples";
-import {
-	LeftSymbol,
-	Operator,
-	RightSymbol,
-	StringLiteral,
-	Token,
-} from "sparqler/tokens";
-import { serialize } from "sparqler/utils/ObjectPattern";
+} from "../tokens";
 
 export abstract class TriplesPattern<T extends GraphPattern> implements TriplesSameSubject<T>, ElementPattern {
 
@@ -93,7 +93,7 @@ export abstract class TriplesPattern<T extends GraphPattern> implements TriplesS
 
 				// Everything else
 				else {
-					array.push( ...part.split( /([|/^?*+!()])/ ) )
+					array.push( ...part.split( /([|/^?*+!()])/ ) );
 				}
 
 				return array;

@@ -1,4 +1,4 @@
-import { Identifier, LeftSymbol, NewLineSymbol, Operator, RightSymbol } from "sparqler/tokens";
+import { Identifier, LeftSymbol, NewLineSymbol, Operator, RightSymbol } from "../tokens";
 export declare const VAR_SYMBOL: LeftSymbol;
 export declare const PREFIX_SYMBOL: Operator;
 export declare const OFF_TYPE: Operator;

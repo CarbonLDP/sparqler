@@ -1,10 +1,8 @@
-import { IRIResolver } from "sparqler/iri";
+import { IRIResolver } from "../iri";
 import {
 	MultipleValuesPattern,
 	SingleValuesPattern,
-} from "sparqler/patterns";
-import { NotTriplesPattern } from "sparqler/patterns/notTriples/NotTriplesPattern";
-import { ValuesPattern } from "sparqler/patterns/notTriples/ValuesPattern";
+} from "../patterns";
 import {
 	BlankNode,
 	BooleanLiteral,
@@ -14,7 +12,7 @@ import {
 	RDFLiteral,
 	Resource,
 	Variable,
-} from "sparqler/patterns/triples";
+} from "../patterns/triples";
 import {
 	Identifier,
 	LeftSymbol,
@@ -22,10 +20,11 @@ import {
 	RightSymbol,
 	StringLiteral,
 	Token,
-} from "sparqler/tokens";
+} from "../tokens";
+import { NotTriplesPattern } from "./notTriples/NotTriplesPattern";
+import { ValuesPattern } from "./notTriples/ValuesPattern";
 
 import DefaultExport, { PatternBuilder } from "./PatternBuilder";
-import { SubSelectClause } from "sparqler/clauses";
 
 
 describe( "PatternBuilder", ():void => {

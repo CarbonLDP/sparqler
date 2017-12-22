@@ -1,21 +1,20 @@
-import * as ValuesPatternModule from "./ValuesPattern";
-import ValuesPattern from "./ValuesPattern";
-import { MultipleValuesPattern } from "../interfaces";
-import { StringLiteral } from "../../tokens/StringLiteral";
-import { Token } from "../../tokens/Token";
-import { Variable } from "../triples/Variable";
+import { IRIResolver } from "../../iri/IRIResolver";
 import { Identifier } from "../../tokens/Identifier";
 import { LeftSymbol } from "../../tokens/LeftSymbol";
 import { NewLineSymbol } from "../../tokens/NewLineSymbol";
 import { RightSymbol } from "../../tokens/RightSymbol";
+import { Token } from "../../tokens/Token";
 import * as ObjectPattern from "../../utils/ObjectPattern";
-import { NotTriplesPattern } from "./NotTriplesPattern";
+import { MultipleValuesPattern } from "../interfaces";
 import {
+	Literal,
 	NumericLiteral,
 	RDFLiteral,
-	Literal
 } from "../triples/Literals";
-import { IRIResolver } from "sparqler/iri";
+import { Variable } from "../triples/Variable";
+import { NotTriplesPattern } from "./NotTriplesPattern";
+import * as ValuesPatternModule from "./ValuesPattern";
+import ValuesPattern from "./ValuesPattern";
 
 describe( "Module ValuesPattern", ():void => {
 
@@ -182,14 +181,14 @@ describe( "Module ValuesPattern", ():void => {
 			// The number of values differ from the number of variables, throw error
 			serializeSpy.calls.reset();
 			expect( () => new ValuesPattern( resolver, [] )
-				.has( "something" )
+				.has( "something" ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 0 );
 
 			// The number of values differ from the number of variables, throw error
 			serializeSpy.calls.reset();
 			expect( () => new ValuesPattern( resolver, [] )
-				.has( "something", "else" )
+				.has( "something", "else" ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 0 );
 
@@ -217,7 +216,7 @@ describe( "Module ValuesPattern", ():void => {
 			// The number of values differ from the number of variables, throw error
 			serializeSpy.calls.reset();
 			expect( () => new ValuesPattern( resolver, [ new MockVar( "one" ) ] )
-				.has( "something", "else" )
+				.has( "something", "else" ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 0 );
 
@@ -225,7 +224,7 @@ describe( "Module ValuesPattern", ():void => {
 			serializeSpy.calls.reset();
 			literals = [ new RDFLiteral( resolver, "yes" ), new NumericLiteral( resolver, 1 ) ];
 			expect( () => new ValuesPattern( resolver, [ new MockVar( "one" ) ] )
-				.has( "something", 1, true, ...literals )
+				.has( "something", 1, true, ...literals ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 0 );
 
@@ -240,7 +239,7 @@ describe( "Module ValuesPattern", ():void => {
 					new MockVar( "d" ),
 					new MockVar( "e" ),
 				] )
-					.has( "something" )
+					.has( "something" ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 0 );
 
@@ -253,7 +252,7 @@ describe( "Module ValuesPattern", ():void => {
 					new MockVar( "d" ),
 					new MockVar( "e" ),
 				] )
-					.has()
+					.has(),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 0 );
 
@@ -266,7 +265,7 @@ describe( "Module ValuesPattern", ():void => {
 					new MockVar( "d" ),
 					new MockVar( "e" ),
 				] )
-					.has( 1, 2, 3, 4, 5, 6 )
+					.has( 1, 2, 3, 4, 5, 6 ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 0 );
 
@@ -398,7 +397,7 @@ describe( "Module ValuesPattern", ():void => {
 			serializeSpy.calls.reset();
 			expect( () => new ValuesPattern( resolver, [] )
 				.has()
-				.and( "something" )
+				.and( "something" ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 0 );
 
@@ -408,7 +407,7 @@ describe( "Module ValuesPattern", ():void => {
 				.has()
 				.and()
 				.and()
-				.and( "something", "else" )
+				.and( "something", "else" ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 0 );
 
@@ -418,7 +417,7 @@ describe( "Module ValuesPattern", ():void => {
 				.has()
 				.and()
 				.and( "something" )
-				.and( "something", "else" )
+				.and( "something", "else" ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 0 );
 
@@ -450,7 +449,7 @@ describe( "Module ValuesPattern", ():void => {
 			serializeSpy.calls.reset();
 			expect( () => ( new ValuesPattern( resolver, [ new MockVar( "one" ) ] ) as MultipleValuesPattern )
 				.has( "no-important" )
-				.and( "something", "wrong" )
+				.and( "something", "wrong" ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 1 );
 
@@ -461,7 +460,7 @@ describe( "Module ValuesPattern", ():void => {
 				.has( "no-important" )
 				.and( "no-important" )
 				.and( "no-important" )
-				.and( "something", "wrong", 1, true, ...literals )
+				.and( "something", "wrong", 1, true, ...literals ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 3 );
 
@@ -477,7 +476,7 @@ describe( "Module ValuesPattern", ():void => {
 					new MockVar( "e" ),
 				] ) as MultipleValuesPattern )
 					.has( "no-important", "no-important", "no-important", "no-important", "no-important" )
-					.and()
+					.and(),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 5 );
 
@@ -491,7 +490,7 @@ describe( "Module ValuesPattern", ():void => {
 					new MockVar( "e" ),
 				] ) as MultipleValuesPattern )
 					.has( "no-important", "no-important", "no-important", "no-important", "no-important" )
-					.and( "wrong" )
+					.and( "wrong" ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 5 );
 
@@ -507,7 +506,7 @@ describe( "Module ValuesPattern", ():void => {
 					.has( "no-important", "no-important", "no-important", "no-important", "no-important" )
 					.and( "no-important", "no-important", "no-important", "no-important", "no-important" )
 					.and( "no-important", "no-important", "no-important", "no-important", "no-important" )
-					.and( "something", "wrong" )
+					.and( "something", "wrong" ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 15 );
 
@@ -522,7 +521,7 @@ describe( "Module ValuesPattern", ():void => {
 				] )
 					.has( "no-important", "no-important", "no-important", "no-important", "no-important" )
 					.and( "no-important", "no-important", "no-important", "no-important", "no-important" )
-					.and( 1, 2, 3, 4, 5, 6 )
+					.and( 1, 2, 3, 4, 5, 6 ),
 			).toThrowError( "InvalidArgumentError: The number of variables and values are different." );
 			expect( serializeSpy ).toHaveBeenCalledTimes( 10 );
 

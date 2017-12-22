@@ -1,21 +1,19 @@
-import { SubFinishClause } from "sparqler/clauses";
-import { Container } from "sparqler/clauses/Container";
-import { groupDecorator } from "sparqler/clauses/decorators";
+import { IRIResolver } from "../../iri/IRIResolver";
+import { GraphPattern } from "../../patterns/interfaces";
+import { PatternBuilder } from "../../patterns/PatternBuilder";
+import { WHERE } from "../../patterns/tokens";
+import { Token } from "../../tokens";
+import { getBlockTokens } from "../../utils/Patterns";
+import { Container } from "../Container";
 import {
 	FinishClause,
 	GroupClause,
+	SubFinishClause,
 	SubWhereClause,
 	WhereClause,
-} from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
-import { IRIResolver } from "sparqler/iri/IRIResolver";
-import {
-	GraphPattern,
-	PatternBuilder,
-} from "sparqler/patterns";
-import { WHERE } from "sparqler/patterns/tokens";
-import { Token } from "sparqler/tokens";
-import { getBlockTokens } from "sparqler/utils/Patterns";
+} from "../interfaces";
+import { genericDecorator } from "../utils";
+import { groupDecorator } from "./group";
 
 /**
  * Sets the graph patterns the sub-query should match to retrieve the
