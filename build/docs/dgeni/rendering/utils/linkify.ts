@@ -1,6 +1,7 @@
 import { Document } from "dgeni";
 
-const IDENTIFIERS_REGEX:RegExp = /((?:<span class=".*?">)?(?:&#x3D;&gt;|&#x3D;|&lt;|&amp;|extends|=>|[|=<&,:](?!gt;|span class)|^)(?:<\/span>)? ?)([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)/g;
+const RAW_MATCH:RegExp = /((?:&#x3D;&gt;|&#x3D;|&lt;|&amp;|extends|=>|[|=<&,:](?!gt;)|^) ?)([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)/g;
+const HTML_MATCH:RegExp = /((?:<span class="token (?:punctuation|operator|keyword)">(?:&lt;|<|&amp;|&|extends|=>|[|=<&,:])<\/span>) *(?:<span class="token class-name">)?)([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)/g;
 const ESCAPE_CHARS = {
 	"&": "&amp;",
 	"<": "&lt;",
@@ -89,6 +90,9 @@ const MDN_IDENTIFIERS:string[] = [
 export function linkify( str:string, getLinkInfo, doc:Document, escape:boolean = true ):string {
 	if( ! str ) return;
 
+	const IDENTIFIERS_REGEX:RegExp = str.match( /<span class="token/ ) ?
+		HTML_MATCH : RAW_MATCH;
+
 	if( escape ) str = str.replace( /[&<>"'`=\/]/g, match => ESCAPE_CHARS[ match ] );
 	return str
 		.replace( IDENTIFIERS_REGEX, ( match:string, before:string, identifier:string ) => {
@@ -101,7 +105,7 @@ export function linkify( str:string, getLinkInfo, doc:Document, escape:boolean =
 				linkInfo.external = true;
 			}
 
-			return `${ before }<a href="${ linkInfo.url }"${ linkInfo.external ? ` target="_blank"` : "" }>${ identifier }</a>`;
+			return `${ before }<a href="${ linkInfo.url }" ${ linkInfo.external ? ` target="_blank"` : "" }>${ identifier }</a>`;
 		} )
 		.replace( KEYWORD_REGEX, ( match:string, keyword:string ) => {
 			if( MDN_IDENTIFIERS.includes( keyword ) ) return `<a href="${ MDN_URL + keyword }" target="_blank">${ keyword }</a>`;

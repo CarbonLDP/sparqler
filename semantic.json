@@ -1,5 +1,5 @@
 {
-  "base": "build/docs/semantic-ui",
+  "base": "build/docs/semantic-ui/",
   "paths": {
     "source": {
       "config": "src/theme.config",
@@ -23,19 +23,19 @@
     "site",
     "button",
     "container",
-    "input",
+    "divider",
     "header",
     "icon",
     "image",
+    "input",
     "label",
     "list",
     "segment",
     "menu",
+    "message",
     "table",
     "item",
-    "search",
-    "divider",
-    "message"
+    "search"
   ],
   "version": "2.2.13"
 }

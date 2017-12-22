@@ -13,9 +13,9 @@ import { nullifyEmptyFilter } from "./rendering/filters/nullifyEmpty";
 // Nunjucks tags
 import { highlightTag } from "./rendering/tags/highlight";
 // Dgeni doc tags
-import { generics } from "./tags-def/generics";
 import { isDefault } from "./tags-def/isDefault";
 import { module } from "./tags-def/module";
+import { typeParameters } from "./tags-def/typeParameters";
 
 // Project configuration.
 const projectRootDir = path.resolve( __dirname, "./../../.." );
@@ -133,7 +133,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 	.config( function( parseTagsProcessor, getInjectables ) {
 		parseTagsProcessor.tagDefinitions.push( ...getInjectables( [
 			module,
-			generics,
+			typeParameters,
 			isDefault,
 		] ) );
 	} );
