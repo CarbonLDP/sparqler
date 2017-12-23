@@ -1,12 +1,4 @@
 import {
-	Container,
-	FinishClause,
-	genericDecorator,
-	GroupClause,
-	HavingClause,
-	SubFinishClause,
-} from "../";
-import {
 	BY,
 	GROUP,
 } from "../../patterns/tokens";
@@ -14,6 +6,14 @@ import {
 	StringLiteral,
 	Token,
 } from "../../tokens";
+import { Container } from "../Container";
+import {
+	FinishClause,
+	GroupClause,
+	HavingClause,
+	SubFinishClause,
+} from "../interfaces";
+import { genericDecorator } from "../utils";
 import { havingDecorator } from "./having";
 
 /**

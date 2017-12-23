@@ -1,4 +1,12 @@
 import {
+	Container,
+	FromClause,
+	SelectClause,
+	SubFinishClause,
+	SubSelectClause,
+	SubWhereClause,
+} from "../";
+import {
 	selectDecorator,
 	subFinishDecorator,
 } from "../../clauses/decorators";
@@ -15,14 +23,6 @@ import {
 	Token,
 } from "../../tokens";
 import * as ContainerModule from "../Container";
-import { Container } from "../Container";
-import {
-	FromClause,
-	SelectClause,
-	SubFinishClause,
-	SubSelectClause,
-	SubWhereClause,
-} from "../interfaces";
 
 describe( "selectDecorator", ():void => {
 

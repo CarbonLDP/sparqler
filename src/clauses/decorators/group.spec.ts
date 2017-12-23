@@ -8,6 +8,7 @@ import {
 	Token,
 } from "../../tokens";
 import * as ContainerModule from "../Container";
+
 import { groupDecorator } from "./group";
 
 describe( "groupDecorator", ():void => {
