@@ -1,3 +1,5 @@
+@import "variables";
+
 .main-container {
 	position: relative;
 	top: 76px;
@@ -17,49 +19,71 @@
 		-webkit-box-flex: 0;
 		flex: 0 0 auto;
 
-		transition: transform 0.5s ease-in-out;
-		transform: translateX(-100%);
-
-		&.visible {
-			transform: translateX(0);
-		}
+		transition: width $sidebar-transition-params;
 	}
 
 	&__content {
 		-webkit-box-flex: 1;
 		flex: 0 0 auto;
 
+		position: relative;
 		width: 100%;
-		transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+
+		transition: width $sidebar-transition-params;
 	}
 
-	&__affected {
-		transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
+	&__location {
+		transition: width $sidebar-transition-params, transform $sidebar-transition-params;
+		border-right: none !important;
 	}
 
-	&__menu:not(.visible) + &__content {
-		transform: translateX(-350px);
+	.dimmer {
+		display: none;
+		position: absolute;
+		top: 0;
+
+		height: 100%;
+		width: 100%;
+		z-index: 1000;
+
+		background-color: rgba( 0, 0, 0, .65);
+		transition: opacity $sidebar-transition-params;
 	}
 
-	&__menu.visible + &__content > &__affected {
+	/**
+		Animations
+	 */
+
+	&__menu:not(.visible) {
+		width: 0;
+	}
+	&__menu.visible + &__content {
+		width: calc(100% - #{$sidebar-width});
+	}
+	&__menu.visible + &__content > &__location {
 		width: calc(100% + 101px);
 		transform: translateX(-100px);
 	}
 
-	@media (min-width: 768px) {
-		&__menu.visible + &__content {
-			width: calc(100% - 350px);
-		}
-	}
-
 	@media (max-width: 767px) {
 		&__menu.in-mobile {
-			transform: translateX(-100%);
+			width: 0;
 		}
-		&__menu.in-mobile + &__content {
-			transform: translateX(-350px);
+
+		&__content {
+			width: 100% !important;
 		}
-		&__menu.in-mobile + &__content > &__affected {
+		&__menu:not(.in-mobile) + &__content {
+			& > div {
+				overflow-y: hidden !important;
+			}
+
+			.dimmer {
+				display: block;
+			}
+		}
+
+		&__menu.in-mobile + &__content > &__location {
 			width: 100%;
 			transform: translateX(0);
 		}

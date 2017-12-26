@@ -1,7 +1,9 @@
+@import "variables";
+
 @import "left-menu/module-header";
 
 .left-menu {
-	width: 350px;
+	width: $sidebar-width;
 
 	& > .ui.vertical.attached.menu {
 		margin: 0;
