@@ -2,10 +2,11 @@ import { Token } from "../tokens/Token";
 import { StringLiteral } from "../tokens/StringLiteral";
 import {
 	OPEN_IRI,
-	CLOSE_IRI
+	CLOSE_IRI,
 } from "../patterns/tokens";
+
 export function isAbsolute( iri:string ):boolean {
-	return iri.indexOf( ":" ) !== - 1
+	return iri.indexOf( ":" ) !== - 1;
 }
 
 export function hasProtocol( iri:string ):boolean {
@@ -20,12 +21,18 @@ export function isIRI( iri:string ):boolean {
 	return hasProtocol( iri ) || ! isAbsolute( iri );
 }
 
+const bNodeRegex:RegExp = /^_:/;
 
-let prefixRegex:RegExp = /([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?:/;
-let prefixNormalizeRegex:RegExp = /([_~.\-!$&'|()*+,;=/?#@%])/g;
+export function isBNodeLabel( label:string ):boolean {
+	return bNodeRegex.test( label );
+}
+
+const prefixRegex:RegExp = /([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?:/;
+const softPrefixRegex:RegExp = /^(?!_:)[^]*?:/;
+const prefixNormalizeRegex:RegExp = /([_~.\-!$&'|()*+,;=/?#@%])/g;
 
 export function isPrefixed( iri:string ):boolean {
-	return ! ! iri.match( prefixRegex ) && ! hasProtocol( iri );
+	return softPrefixRegex.test( iri ) && ! hasProtocol( iri );
 }
 
 export function getPrefixedParts( iri:string ):[ string, string ] {

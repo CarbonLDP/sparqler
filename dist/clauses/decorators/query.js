@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container_1 = require("sparqler/clauses/Container");
-var decorators_1 = require("sparqler/clauses/decorators");
-var utils_1 = require("sparqler/clauses/utils");
-var IRIResolver_1 = require("sparqler/iri/IRIResolver");
-var tokens_1 = require("sparqler/patterns/tokens");
-var tokens_2 = require("sparqler/tokens");
+var Container_1 = require("./../Container");
+var _1 = require("./");
+var utils_1 = require("./../utils");
+var IRIResolver_1 = require("./../../iri/IRIResolver");
+var tokens_1 = require("./../../patterns/tokens");
+var tokens_2 = require("./../../tokens");
 function base(iri) {
     var tokens = [tokens_1.BASE, tokens_1.OPEN_IRI, new tokens_2.StringLiteral(iri), tokens_1.CLOSE_IRI];
     var container = new Container_1.Container(this, tokens);
@@ -24,7 +24,7 @@ function prefix(name, iri) {
     return queryDecorator(container, {});
 }
 function queryDecorator(container, object) {
-    return utils_1.genericDecorator({ base: base, vocab: vocab, prefix: prefix }, container, decorators_1.selectDecorator(container, object));
+    return utils_1.genericDecorator({ base: base, vocab: vocab, prefix: prefix }, container, _1.selectDecorator(container, object));
 }
 exports.queryDecorator = queryDecorator;
 

@@ -1,8 +1,8 @@
-import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { MultipleValuesPattern, MultipleValuesPatternMore, SingleValuesPattern, SingleValuesPatternMore, SupportedNativeTypes, Undefined } from "sparqler/patterns";
-import { NotTriplesPattern } from "sparqler/patterns/notTriples";
-import { Literal, Resource, Variable } from "sparqler/patterns/triples";
-import { Token } from "sparqler/tokens";
+import { IRIResolver } from "./../../iri/IRIResolver";
+import { MultipleValuesPattern, MultipleValuesPatternMore, SingleValuesPattern, SingleValuesPatternMore, SupportedNativeTypes, Undefined } from "./..";
+import { NotTriplesPattern } from "./";
+import { Literal, Resource, Variable } from "./../triples";
+import { Token } from "./../../tokens";
 export declare class ValuesPattern extends NotTriplesPattern implements SingleValuesPattern, MultipleValuesPattern {
     private resolver;
     private length;

@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var clauses_1 = require("sparqler/clauses");
-var Container_1 = require("sparqler/clauses/Container");
-var IRIResolver_1 = require("sparqler/iri/IRIResolver");
-var patterns_1 = require("sparqler/patterns");
-var tokens_1 = require("sparqler/patterns/tokens");
-var triples_1 = require("sparqler/patterns/triples");
-var ObjectPattern_1 = require("sparqler/utils/ObjectPattern");
+var __1 = require("./..");
+var Container_1 = require("./../Container");
+var IRIResolver_1 = require("./../../iri/IRIResolver");
+var patterns_1 = require("./../../patterns");
+var tokens_1 = require("./../../patterns/tokens");
+var triples_1 = require("./../../patterns/triples");
+var ObjectPattern_1 = require("./../../utils/ObjectPattern");
 function values(variableOrVariables, valuesOrBuilder) {
     var isSingle = !Array.isArray(variableOrVariables);
     var variables = (isSingle ?
@@ -43,7 +43,7 @@ function values(variableOrVariables, valuesOrBuilder) {
     return this._finishDecorator(container, {});
 }
 function valuesDecorator(container, object) {
-    return clauses_1.genericDecorator({ values: values }, container, object);
+    return __1.genericDecorator({ values: values }, container, object);
 }
 exports.valuesDecorator = valuesDecorator;
 

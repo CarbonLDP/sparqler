@@ -1,5 +1,5 @@
-import { IRIResolver } from "sparqler/iri/IRIResolver";
-import { Token } from "sparqler/tokens";
+import { IRIResolver } from "./../../iri/IRIResolver";
+import { Token } from "./../../tokens";
 import { TriplesSubject } from "./TriplesSubject";
 export declare abstract class Literal extends TriplesSubject {
     protected value: string;

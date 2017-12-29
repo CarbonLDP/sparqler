@@ -5,6 +5,7 @@ const del = require( "del" );
 const gulp = require( "gulp" );
 const gulpUtil = require( "gulp-util" );
 const runSequence = require( "run-sequence" );
+const replace = require( "gulp-replace" );
 
 const karma = require( "karma" );
 const jasmine = require( "gulp-jasmine" );
@@ -72,6 +73,11 @@ gulp.task( "compile:typescript", () => {
 	} );
 
 	let tsResults = gulp.src( config.source.typescript )
+		.pipe( replace( /(import[\s\S]*?from +")sparqler\/(.*?)(";)/gm, function( _match, $1, $2, $3 ) {
+			const fileDir = path.dirname( this.file.relative );
+			const relativePath = path.relative( fileDir, $2 );
+			return `${ $1 }./${ relativePath }${ $3 }`;
+		} ) )
 		.pipe( sourcemaps.init() )
 		.pipe( tsProject() );
 

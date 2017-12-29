@@ -1,19 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container_1 = require("sparqler/clauses/Container");
-var decorators_1 = require("sparqler/clauses/decorators");
-var utils_1 = require("sparqler/clauses/utils");
-var tokens_1 = require("sparqler/patterns/tokens");
-var tokens_2 = require("sparqler/tokens");
+var Container_1 = require("./../Container");
+var _1 = require("./");
+var utils_1 = require("./../utils");
+var tokens_1 = require("./../../patterns/tokens");
+var tokens_2 = require("./../../tokens");
 function _select(self, tokens, variables) {
     if (variables && variables.length === 0)
         throw new Error("Need to provide al least one variable.");
     if (variables)
         variables.forEach(function (variable) { return tokens.push(tokens_1.VAR_SYMBOL, new tokens_2.StringLiteral(variable)); });
     var container = new Container_1.Container(self, tokens);
-    if (self._finishDecorator === decorators_1.subFinishDecorator)
-        return decorators_1.subWhereDecorator(container, {});
-    return decorators_1.fromDecorator(container, {});
+    if (self._finishDecorator === _1.subFinishDecorator)
+        return _1.subWhereDecorator(container, {});
+    return _1.fromDecorator(container, {});
 }
 function select() {
     var variables = [];

@@ -10,9 +10,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var tokens_1 = require("sparqler/patterns/tokens");
-var tokens_2 = require("sparqler/tokens");
-var ObjectPattern_1 = require("sparqler/utils/ObjectPattern");
+var tokens_1 = require("./../tokens");
+var tokens_2 = require("./../../tokens");
+var ObjectPattern_1 = require("./../../utils/ObjectPattern");
 var TriplesSubject_1 = require("./TriplesSubject");
 var Literal = (function (_super) {
     __extends(Literal, _super);

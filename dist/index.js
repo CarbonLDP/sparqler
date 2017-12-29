@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container_1 = require("sparqler/clauses/Container");
-var decorators_1 = require("sparqler/clauses/decorators");
+var Container_1 = require("./clauses/Container");
+var decorators_1 = require("./clauses/decorators");
 var SPARQLER = (function () {
     function SPARQLER(finishDecorator) {
         var container = new Container_1.Container(finishDecorator);

@@ -1,5 +1,5 @@
-import { FinishClause, QueryClause } from "sparqler/clauses/interfaces";
-import { Container } from "sparqler/clauses/Container";
+import { FinishClause, QueryClause } from "./clauses/interfaces";
+import { Container } from "./clauses/Container";
 export interface FinishDecorator<T> extends Function {
     <W extends object>(container: Container<T & FinishClause>, object: W): T & W & FinishClause;
 }
