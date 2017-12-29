@@ -4,13 +4,25 @@
     {% for constructorDoc in constuctorDocs %}
         {{ memberCode.constructor( doc, constructorDoc ) }}
         {{ constructorDoc.description | marked }}
-        {{ parameters(doc, constructorDoc) }}
+        {{ parameters( doc, constructorDoc ) }}
         {% if not loop.last %}
             <div class="ui section divider"></div>
         {% endif %}
     {% endfor %}
 {% else %}
-    {# TODO: Check if a constructor is inheried #}
-    {{ memberCode.constructor( doc, { parameters:[] } ) }}
+    {% set parent = doc.extendsClauses[ 0 ].doc if doc.extendsClauses | length %}
+    {% if parent %}
+        {% set constuctorDocs = parent.constructorDoc.overloads if parent.constructorDoc.overloads | length else [ parent.constructorDoc ] %}
+        {% for constructorDoc in constuctorDocs %}
+            {{ memberCode.constructor( doc, constructorDoc ) }}
+            {{ constructorDoc.description | marked }}
+            {{ parameters( parent, constructorDoc ) }}
+            {% if not loop.last %}
+                <div class="ui section divider"></div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {{ memberCode.constructor( doc, { parameters:[] } ) }}
+    {% endif %}
 {% endif %}
 

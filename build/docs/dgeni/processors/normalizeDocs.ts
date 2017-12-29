@@ -64,6 +64,11 @@ export class NormalizeDocs implements Processor {
 		if( doc.statics ) doc.statics
 			.filter( isMethod )
 			.forEach( this._normalizeFunctionLike, this );
+
+		if( doc.extendsClauses.length )
+			doc.extendsClauses.forEach( info =>
+				this._normalizeClass( info.doc as ClassExportDoc ),
+			);
 	}
 
 	_normalizeInterface( doc:InterfaceExportDoc ):void {
