@@ -14,4 +14,22 @@ $( document ).ready( function() {
 			;
 		}
 	} );
+
+	// Search behaviour
+	$( ".js-search" )
+		.search( {
+			source: window._searchSource,
+			searchFields: [
+				"title"
+			],
+			selectFirstResult: true,
+			searchFullText: false,
+			regExp: {
+				escape: /[\-\[\]\/{}()*+?.\\^$|]/g,
+				beginsWith: "(.*)"
+			},
+			onSelect: function( result ) {
+				window.location = result.url;
+			}
+		} );
 } );
