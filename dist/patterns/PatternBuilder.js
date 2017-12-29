@@ -1,10 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container_1 = require("../clauses/Container");
-var select_1 = require("../clauses/decorators/select");
-var subFinish_1 = require("../clauses/decorators/subFinish");
-var StringLiteral_1 = require("../tokens/StringLiteral");
-var Patterns_1 = require("../utils/Patterns");
+var Container_1 = require("./../clauses/Container");
+var decorators_1 = require("./../clauses/decorators");
 var NotTriplesPattern_1 = require("./notTriples/NotTriplesPattern");
 var ValuesPattern_1 = require("./notTriples/ValuesPattern");
 var tokens_1 = require("./tokens");
@@ -13,10 +10,12 @@ var Collection_1 = require("./triples/Collection");
 var Literals_1 = require("./triples/Literals");
 var Resource_1 = require("./triples/Resource");
 var Variable_1 = require("./triples/Variable");
+var StringLiteral_1 = require("./../tokens/StringLiteral");
+var Patterns_1 = require("./../utils/Patterns");
 var PatternBuilder = (function () {
     function PatternBuilder(iriResolver) {
         this.iriResolver = iriResolver;
-        select_1.selectDecorator(new Container_1.Container(subFinish_1.subFinishDecorator), this);
+        decorators_1.selectDecorator(new Container_1.Container(decorators_1.subFinishDecorator), this);
     }
     Object.defineProperty(PatternBuilder, "undefined", {
         get: function () { return "UNDEF"; },

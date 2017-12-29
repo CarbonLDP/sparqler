@@ -1,7 +1,7 @@
-import { BlankNode, BooleanLiteral, Collection, Literal, NumericLiteral, RDFLiteral, Resource, Variable } from "../patterns/triples";
-import { Token } from "../tokens";
-import { NotTriplesPattern } from "./notTriples/NotTriplesPattern";
-import { Undefined } from "./PatternBuilder";
+import { Undefined } from "./";
+import { NotTriplesPattern } from "./notTriples";
+import { BlankNode, BooleanLiteral, Collection, Literal, NumericLiteral, RDFLiteral, Resource, Variable } from "./triples";
+import { Token } from "./../tokens";
 export interface ElementPattern {
     getSelfTokens(): Token[];
 }

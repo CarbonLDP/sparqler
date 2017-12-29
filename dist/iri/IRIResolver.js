@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var tokens_1 = require("../patterns/tokens");
-var tokens_2 = require("../tokens");
 var utils_1 = require("./utils");
+var tokens_1 = require("./../patterns/tokens");
+var tokens_2 = require("./../tokens");
 var IRIResolver = (function () {
     function IRIResolver(base, vocab) {
         var _newTarget = this.constructor;

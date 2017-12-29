@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var tokens_1 = require("../tokens");
+var tokens_1 = require("./../tokens");
 var TriplesPattern_1 = require("./TriplesPattern");
 var BlankNode = (function (_super) {
     __extends(BlankNode, _super);

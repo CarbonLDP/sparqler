@@ -1,7 +1,7 @@
-import { IRIResolver } from "../../iri/IRIResolver";
-import { Literal, Resource, Variable } from "../../patterns/triples";
-import { Token } from "../../tokens";
-import { ElementPattern, GraphPattern, SupportedNativeTypes, TriplesNodePattern, TriplesSameSubject, TriplesSameSubjectMore } from "../interfaces";
+import { IRIResolver } from "./../../iri/IRIResolver";
+import { ElementPattern, GraphPattern, SupportedNativeTypes, TriplesNodePattern, TriplesSameSubject, TriplesSameSubjectMore } from "./..";
+import { Literal, Resource, Variable } from "./";
+import { Token } from "./../../tokens";
 export declare abstract class TriplesPattern<T extends GraphPattern> implements TriplesSameSubject<T>, ElementPattern {
     protected abstract elementTokens: Token[];
     protected patternTokens: Token[];

@@ -1,6 +1,6 @@
-import { Token } from "../../tokens/Token";
-import { TriplesNodePattern } from "../interfaces";
+import { TriplesNodePattern } from "./..";
 import { TriplesPattern } from "./TriplesPattern";
+import { Token } from "./../../tokens";
 export declare class BlankNode extends TriplesPattern<TriplesNodePattern> {
     protected elementTokens: Token[];
     getSelfTokens(): Token[];

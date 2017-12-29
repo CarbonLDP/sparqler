@@ -1,6 +1,6 @@
 {
   "name": "sparqler",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "registry": "npm",
   "description": "SPARQL query buildER for JavaScript/TypeScript",
   "repository": {
@@ -51,6 +51,7 @@
     "gulp-imagemin": "^3.4.0",
     "gulp-jasmine": "^2.4.2",
     "gulp-json-editor": "2.2.1",
+    "gulp-replace": "^0.6.1",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-typescript": "^3.2.3",
     "gulp-util": "^3.0.8",

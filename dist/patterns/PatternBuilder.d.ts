@@ -1,5 +1,5 @@
-import { SubSelectClause, SubWhereClause } from "../clauses/interfaces";
-import { IRIResolver } from "../iri/IRIResolver";
+import { SubSelectClause, SubWhereClause } from "./../clauses/interfaces";
+import { IRIResolver } from "./../iri/IRIResolver";
 import { GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "./interfaces";
 import { NotTriplesPattern } from "./notTriples/NotTriplesPattern";
 import { BlankNode } from "./triples/BlankNode";

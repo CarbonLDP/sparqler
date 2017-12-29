@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var tokens_1 = require("../../tokens");
-var ObjectPattern_1 = require("../../utils/ObjectPattern");
-var tokens_2 = require("../tokens");
+var tokens_1 = require("./../tokens");
+var tokens_2 = require("./../../tokens");
+var ObjectPattern_1 = require("./../../utils/ObjectPattern");
 var TriplesPattern = (function () {
     function TriplesPattern(resolver) {
         this.resolver = resolver;
@@ -21,7 +21,7 @@ var TriplesPattern = (function () {
         this.interfaces = {
             addPattern: {
                 and: function (property, objects) {
-                    _this.patternTokens.push(tokens_2.SAME_SUBJECT_SEPARATOR);
+                    _this.patternTokens.push(tokens_1.SAME_SUBJECT_SEPARATOR);
                     return _this._addPattern(property, objects);
                 },
             },
@@ -36,7 +36,7 @@ var TriplesPattern = (function () {
         objects.forEach(function (value, index, array) {
             tokens.push.apply(tokens, ObjectPattern_1.serialize(value));
             if (index < array.length - 1)
-                tokens.push(tokens_2.SAME_PROPERTY_SEPARATOR);
+                tokens.push(tokens_1.SAME_PROPERTY_SEPARATOR);
         });
         (_a = this.patternTokens).push.apply(_a, tokens);
         return Object.assign({}, this.interfaces.addPattern, this.interfaces.graphPattern);
@@ -58,10 +58,10 @@ var TriplesPattern = (function () {
             if (!part)
                 return array;
             if (TriplesPattern.PATH_OPERATORS.indexOf(part) !== -1) {
-                array.push(new tokens_1.Operator(part));
+                array.push(new tokens_2.Operator(part));
             }
             else if (part === "a") {
-                array.push(new tokens_1.StringLiteral(part));
+                array.push(new tokens_2.StringLiteral(part));
             }
             else {
                 if (part.startsWith("<") && part.endsWith(">"))
@@ -70,10 +70,10 @@ var TriplesPattern = (function () {
             }
             return array;
         }, []);
-        if (tokens[0] instanceof tokens_1.Operator)
-            tokens.unshift(new tokens_1.LeftSymbol(""));
-        if (tokens[tokens.length - 1] instanceof tokens_1.Operator)
-            tokens.push(new tokens_1.RightSymbol(""));
+        if (tokens[0] instanceof tokens_2.Operator)
+            tokens.unshift(new tokens_2.LeftSymbol(""));
+        if (tokens[tokens.length - 1] instanceof tokens_2.Operator)
+            tokens.push(new tokens_2.RightSymbol(""));
         return tokens;
     };
     TriplesPattern.PATH_OPERATORS = ["|", "/", "^", "?", "*", "+", "!", "(", ")"];

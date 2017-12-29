@@ -135,6 +135,26 @@ describe( "Module Utils", ():void => {
 
 	} );
 
+	describe( "isBNodeLabel", ():void => {
+
+		it( "should exists", ():void => {
+			expect( Utils.isBNodeLabel ).toBeDefined();
+			expect( Utils.isBNodeLabel ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should return true when the string starts with `_:`", ():void => {
+			expect( Utils.isBNodeLabel( "_:label" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:another-label" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:1234" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:_" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:_-" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:_-_" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:_-a1_" ) ).toBe( true );
+			expect( Utils.isBNodeLabel( "_:@#%" ) ).toBe( true );
+		} );
+
+	} );
+
 	describe( "isPrefixed()", ():void => {
 
 		it( "Exists", ():void => {
@@ -156,6 +176,12 @@ describe( "Module Utils", ():void => {
 			expect( Utils.isPrefixed( "/another-relative-iri" ) ).toBe( false );
 			expect( Utils.isPrefixed( "/another-relative-iri/" ) ).toBe( false );
 			expect( Utils.isPrefixed( "" ) ).toBe( false );
+		} );
+
+		it( "should return false when is a blank node label", ():void => {
+			expect( Utils.isPrefixed( "_:label" ) ).toBe( false );
+			expect( Utils.isPrefixed( "_:_" ) ).toBe( false );
+			expect( Utils.isPrefixed( "_:" ) ).toBe( false );
 		} );
 
 		it( "A relative prefix is prefixed", ():void => {

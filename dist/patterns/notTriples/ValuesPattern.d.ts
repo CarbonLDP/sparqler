@@ -1,9 +1,8 @@
-import { IRIResolver } from "../../iri/IRIResolver";
-import { Literal, Resource, Variable } from "../../patterns/triples";
-import { Token } from "../../tokens";
-import { MultipleValuesPattern, MultipleValuesPatternMore, SingleValuesPattern, SingleValuesPatternMore, SupportedNativeTypes } from "../interfaces";
-import { Undefined } from "../PatternBuilder";
-import { NotTriplesPattern } from "./NotTriplesPattern";
+import { IRIResolver } from "./../../iri/IRIResolver";
+import { MultipleValuesPattern, MultipleValuesPatternMore, SingleValuesPattern, SingleValuesPatternMore, SupportedNativeTypes, Undefined } from "./..";
+import { NotTriplesPattern } from "./";
+import { Literal, Resource, Variable } from "./../triples";
+import { Token } from "./../../tokens";
 export declare class ValuesPattern extends NotTriplesPattern implements SingleValuesPattern, MultipleValuesPattern {
     private resolver;
     private length;
