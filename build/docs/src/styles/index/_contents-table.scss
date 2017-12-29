@@ -1,15 +1,24 @@
 .contents-table {
 
 	&__module {
-		margin: 5px 0 15px;
+		margin-top: 1em;
 
-		&:last-child {
-			margin-bottom: 0;
+		& > .content {
+			margin-top: .25em;
 		}
 	}
 
 	& > div:last-child {
 		border-bottom: none !important;
+	}
+
+	.contents-item {
+		&__icon {
+			display: table-cell !important;
+		}
+
+		&__text {
+		}
 	}
 
 }

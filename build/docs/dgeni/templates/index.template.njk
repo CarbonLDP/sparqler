@@ -10,7 +10,7 @@
         <a class="info-cards__card" href="{{ main.id }}">
             <div class="ui icon message">
                 <i class="student icon"></i>
-                <div class="content">Getting Started</div>
+                <div class="content">Main Class</div>
             </div>
         </a>
         <a class="info-cards__card" href="https://carbonldp.com/documentation/javascript-sdk/querying/">
@@ -30,8 +30,8 @@
     <h2 class="doc-content__title">Table of Contents</h2>
     <div class="ui celled list contents-table">
         {% for moduleDoc in doc.navigationDocs %}
-            <div class="item">
-                <div class="content contents-table__module">
+            <div class="item contents-table__module">
+                <div class="content">
                     <a class="item" href="/{{ moduleDoc.id }}">
                         {%- set module -%}
                             import {} from "SPARQLER{{ '/' + moduleDoc.id if moduleDoc.name !== 'index' }}"
@@ -40,9 +40,15 @@
                     </a>
                     <div class="list">
                         {% for exported in moduleDoc.exports -%}
-                            <div class="item">
-                                <i class="icon"></i>
-                                <div class="content">
+                            <div class="item contents-item">
+                                {% set color = 'purple' if exported.docType === 'module'     else color %}
+                                {% set color = 'orange' if exported.docType === 'interface'  else color %}
+                                {% set color = 'blue'   if exported.docType === 'class'      else color %}
+                                {% set color = 'teal'   if exported.docType === 'function'   else color %}
+                                {% set color = 'green'  if exported.docType === 'enum'       else color %}
+                                {% set color = 'yellow' if exported.docType === 'type-alias' else color %}
+                                <span class="ui horizontal {{ color }} icon label contents-item__icon">{{ exported.docType | first | capitalize }}</span>
+                                <div class="content contents-item__text">
                                     <a href="/{{ exported.id }}">{{ exported.name }}</a>
                                 </div>
                             </div>
