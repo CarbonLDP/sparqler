@@ -10,5 +10,5 @@ marked.setOptions( {
 marked.Renderer.prototype.code = function( code, lang ):string {
 	const codeHTML:string = this.options.highlight( code, lang );
 	const className:string = `${ this.options.langPrefix }${ lang || "*" }`;
-	return `<div class="example-code"><pre class="${ className }"><code>${ codeHTML }</code></pre></div>`;
+	return `<div class="highlight-darcula"><pre class="${ className }"><code>${ codeHTML }</code></pre></div>`;
 };

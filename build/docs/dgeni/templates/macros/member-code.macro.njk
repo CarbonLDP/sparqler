@@ -1,6 +1,6 @@
 {% macro base( memberString, doc ) %}
     <div class="member-code">
-        <code class="member-code__code language-typescript">{{ memberString | highlight('typescript', doc) }}</code>
+        <code class="highlight language-typescript">{{ memberString | highlight('typescript', doc) }}</code>
     </div>
 {% endmacro %}
 

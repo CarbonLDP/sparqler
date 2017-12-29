@@ -27,5 +27,29 @@
         </a>
     </div>
 
-    <h2 class="doc-content__title">API Reference</h2>
+    <h2 class="doc-content__title">Table of Contents</h2>
+    <div class="ui celled list contents-table">
+        {% for moduleDoc in doc.navigationDocs %}
+            <div class="item">
+                <div class="content contents-table__module">
+                    <a class="item" href="/{{ moduleDoc.id }}">
+                        {%- set module -%}
+                            import {} from "SPARQLER{{ '/' + moduleDoc.id if moduleDoc.name !== 'index' }}"
+                        {%- endset %}
+                        <code class="highlight language-typescript">{{ module | highlight('typescript', doc) }}</code>
+                    </a>
+                    <div class="list">
+                        {% for exported in moduleDoc.exports -%}
+                            <div class="item">
+                                <i class="icon"></i>
+                                <div class="content">
+                                    <a href="/{{ exported.id }}">{{ exported.name }}</a>
+                                </div>
+                            </div>
+                        {%- endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

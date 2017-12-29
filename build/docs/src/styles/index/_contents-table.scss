@@ -1,0 +1,15 @@
+.contents-table {
+
+	&__module {
+		margin: 5px 0 15px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	& > div:last-child {
+		border-bottom: none !important;
+	}
+
+}
