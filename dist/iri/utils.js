@@ -18,14 +18,16 @@ function isIRI(iri) {
     return hasProtocol(iri) || !isAbsolute(iri);
 }
 exports.isIRI = isIRI;
+var bNodeRegex = /^_:/;
 function isBNodeLabel(label) {
-    return /^_:/.test(label);
+    return bNodeRegex.test(label);
 }
 exports.isBNodeLabel = isBNodeLabel;
 var prefixRegex = /([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?:/;
+var softPrefixRegex = /^(?!_:)[^]*?:/;
 var prefixNormalizeRegex = /([_~.\-!$&'|()*+,;=/?#@%])/g;
 function isPrefixed(iri) {
-    return /^(?!_:)[^]*?:/.test(iri) && !hasProtocol(iri);
+    return softPrefixRegex.test(iri) && !hasProtocol(iri);
 }
 exports.isPrefixed = isPrefixed;
 function getPrefixedParts(iri) {
