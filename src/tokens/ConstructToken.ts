@@ -2,9 +2,9 @@ import {
 	PatternToken,
 	SolutionModifier,
 	TripleToken,
-} from "sparqler/tokens";
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { joinPatterns } from "sparqler/tokens/utils";
+} from "./";
+import { TokenNode } from "./TokenNode";
+import { joinPatterns } from "./utils";
 
 export class ConstructToken implements TokenNode {
 	readonly token:"construct" = "construct";

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var iri_1 = require("./../iri");
+var iri_1 = require("../iri");
 var BooleanToken_1 = require("./BooleanToken");
 var IRIToken_1 = require("./IRIToken");
 var LanguageToken_1 = require("./LanguageToken");

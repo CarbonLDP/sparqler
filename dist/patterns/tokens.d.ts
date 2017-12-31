@@ -1,4 +1,8 @@
-import { Identifier, LeftSymbol, NewLineSymbol, Operator, RightSymbol } from "./../tokens";
+import { Identifier } from "../tokens/Identifier";
+import { LeftSymbol } from "../tokens/LeftSymbol";
+import { NewLineSymbol } from "../tokens/NewLineSymbol";
+import { Operator } from "../tokens/Operator";
+import { RightSymbol } from "../tokens/RightSymbol";
 export declare const VAR_SYMBOL: LeftSymbol;
 export declare const PREFIX_SYMBOL: Operator;
 export declare const OFF_TYPE: Operator;

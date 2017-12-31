@@ -1,18 +1,19 @@
 import {
 	PatternToken,
 	SolutionModifier,
-} from "sparqler/tokens";
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { LimitToken } from "sparqler/tokens/LimitToken";
-import { OffsetToken } from "sparqler/tokens/OffsetToken";
-import { OptionalToken } from "sparqler/tokens/OptionalToken";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
-import { SubjectToken } from "sparqler/tokens/SubjectToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+} from "./";
 
 import * as Module from "./ConstructToken";
 import { ConstructToken } from "./ConstructToken";
+
+import { IRIToken } from "./IRIToken";
+import { LimitToken } from "./LimitToken";
+import { OffsetToken } from "./OffsetToken";
+import { OptionalToken } from "./OptionalToken";
+import { PredicateToken } from "./PredicateToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
+import { SubjectToken } from "./SubjectToken";
+import { VariableToken } from "./VariableToken";
 
 describe( "Module ConstructToken", ():void => {
 

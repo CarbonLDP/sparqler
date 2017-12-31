@@ -1,4 +1,4 @@
-import { Token } from "./../tokens";
+import { Token } from "../tokens/Token";
 export declare type PrefixMap = Map<string, boolean>;
 export declare class IRIResolver {
     readonly _prefixes: PrefixMap;

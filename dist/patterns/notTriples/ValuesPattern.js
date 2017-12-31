@@ -10,9 +10,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var _1 = require("./");
-var tokens_1 = require("./../tokens");
-var ObjectPattern_1 = require("./../../utils/ObjectPattern");
+var ObjectPattern_1 = require("../../utils/ObjectPattern");
+var tokens_1 = require("../tokens");
+var NotTriplesPattern_1 = require("./NotTriplesPattern");
 var ValuesPattern = (function (_super) {
     __extends(ValuesPattern, _super);
     function ValuesPattern(resolver, variables) {
@@ -75,7 +75,7 @@ var ValuesPattern = (function (_super) {
         };
     };
     return ValuesPattern;
-}(_1.NotTriplesPattern));
+}(NotTriplesPattern_1.NotTriplesPattern));
 exports.ValuesPattern = ValuesPattern;
 exports.default = ValuesPattern;
 

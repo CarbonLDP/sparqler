@@ -1,9 +1,9 @@
 import {
 	PatternToken,
 	VariableOrIRI,
-} from "sparqler/tokens";
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { joinPatterns } from "sparqler/tokens/utils";
+} from "./";
+import { TokenNode } from "./TokenNode";
+import { joinPatterns } from "./utils";
 
 export class GraphToken implements TokenNode {
 	readonly token:"graph" = "graph";

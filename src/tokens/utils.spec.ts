@@ -1,11 +1,12 @@
-import { PatternToken } from "sparqler/tokens";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
-import { SelectToken } from "sparqler/tokens/SelectToken";
-import { SubjectToken } from "sparqler/tokens/SubjectToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+import { PatternToken } from "./";
+import { PredicateToken } from "./PredicateToken";
+import { SelectToken } from "./SelectToken";
+import { SubjectToken } from "./SubjectToken";
 
 import * as Module from "./utils";
 import { joinPatterns } from "./utils";
+
+import { VariableToken } from "./VariableToken";
 
 describe( "Module utils", ():void => {
 

@@ -1,17 +1,18 @@
 import {
 	PatternToken,
 	SolutionModifier,
-} from "sparqler/tokens";
-import { LimitToken } from "sparqler/tokens/LimitToken";
-import { OffsetToken } from "sparqler/tokens/OffsetToken";
-import { OptionalToken } from "sparqler/tokens/OptionalToken";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
-import { SubjectToken } from "sparqler/tokens/SubjectToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+} from "./";
+import { LimitToken } from "./LimitToken";
+import { OffsetToken } from "./OffsetToken";
+import { OptionalToken } from "./OptionalToken";
+import { PredicateToken } from "./PredicateToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
 
 import * as Module from "./SelectToken";
 import { SelectToken } from "./SelectToken";
+
+import { SubjectToken } from "./SubjectToken";
+import { VariableToken } from "./VariableToken";
 
 describe( "Module SelectToken", ():void => {
 

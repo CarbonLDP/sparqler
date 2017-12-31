@@ -1,7 +1,7 @@
-import { TermToken } from "sparqler/tokens";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+import { TermToken } from "./";
+import { PredicateToken } from "./PredicateToken";
+import { TokenNode } from "./TokenNode";
+import { VariableToken } from "./VariableToken";
 
 export class SubjectToken implements TokenNode {
 	readonly token:"subject" = "subject";

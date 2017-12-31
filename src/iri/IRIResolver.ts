@@ -1,8 +1,6 @@
 import { PREFIX_SYMBOL } from "../patterns/tokens";
-import {
-	StringLiteral,
-	Token,
-} from "../tokens";
+import { StringLiteral } from "../tokens/StringLiteral";
+import { Token } from "../tokens/Token";
 import {
 	getPrefixedParts,
 	isPrefixed,

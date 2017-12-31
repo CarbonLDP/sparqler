@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var __1 = require("./..");
-var tokens_1 = require("./../../patterns/tokens");
-var tokens_2 = require("./../../tokens");
+var _1 = require("../");
+var tokens_1 = require("../../patterns/tokens");
+var tokens_2 = require("../../tokens");
 function toCompactString() {
     var tokens = this._tokens
         .filter(function (token) { return token !== tokens_1.WHERE; });
@@ -64,13 +64,13 @@ function toPrettyString() {
         }
         else if ([tokens_1.CLOSE_MULTI_LIST].indexOf(token) !== -1) {
             if (nextToken && !(nextToken instanceof tokens_2.NewLineSymbol)) {
-                var parent = actual;
-                while ([tokens_1.OPEN_MULTI_BLOCK, tokens_1.OPEN_MULTI_BN, tokens_1.OPEN_MULTI_LIST].indexOf(parent.token) === -1)
-                    parent = stack.pop();
-                stack.push(parent);
+                var parent_1 = actual;
+                while ([tokens_1.OPEN_MULTI_BLOCK, tokens_1.OPEN_MULTI_BN, tokens_1.OPEN_MULTI_LIST].indexOf(parent_1.token) === -1)
+                    parent_1 = stack.pop();
+                stack.push(parent_1);
                 actual = {
                     token: token,
-                    indentation: parent.indentation + 4,
+                    indentation: parent_1.indentation + 4,
                     subject: 0,
                     property: 0,
                     spaces: 1,
@@ -78,14 +78,14 @@ function toPrettyString() {
             }
         }
         else if ([tokens_1.SAME_SUBJECT_SEPARATOR, tokens_1.SAME_PROPERTY_SEPARATOR, tokens_1.CLOSE_MULTI_LIST].indexOf(token) !== -1) {
-            var parent = actual;
-            while ([tokens_1.OPEN_MULTI_BLOCK, tokens_1.OPEN_MULTI_BN, tokens_1.OPEN_MULTI_LIST, tokens_1.CLOSE_MULTI_LIST, tokens_1.CLOSE_MULTI_BN].indexOf(parent.token) === -1)
-                parent = stack.pop();
-            stack.push(parent);
+            var parent_2 = actual;
+            while ([tokens_1.OPEN_MULTI_BLOCK, tokens_1.OPEN_MULTI_BN, tokens_1.OPEN_MULTI_LIST, tokens_1.CLOSE_MULTI_LIST, tokens_1.CLOSE_MULTI_BN].indexOf(parent_2.token) === -1)
+                parent_2 = stack.pop();
+            stack.push(parent_2);
             if (token === tokens_1.SAME_SUBJECT_SEPARATOR) {
                 actual = {
                     token: token,
-                    indentation: parent.indentation + actual.subject,
+                    indentation: parent_2.indentation + actual.subject,
                     subject: actual.subject,
                     property: 0,
                     spaces: 1,
@@ -94,7 +94,7 @@ function toPrettyString() {
             else if (token === tokens_1.SAME_PROPERTY_SEPARATOR) {
                 actual = {
                     token: token,
-                    indentation: parent.indentation + actual.subject + actual.property,
+                    indentation: parent_2.indentation + actual.subject + actual.property,
                     subject: actual.subject,
                     property: actual.property,
                     spaces: 2,
@@ -130,7 +130,7 @@ function toPrettyString() {
     }, "");
 }
 function finishDecorator(container, object) {
-    return __1.genericDecorator({
+    return _1.genericDecorator({
         toCompactString: toCompactString,
         toPrettyString: toPrettyString,
         toString: toPrettyString,

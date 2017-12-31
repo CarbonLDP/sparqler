@@ -1,5 +1,5 @@
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+import { TokenNode } from "./TokenNode";
+import { VariableToken } from "./VariableToken";
 
 export class OrderToken implements TokenNode {
 	readonly token:"order" = "order";

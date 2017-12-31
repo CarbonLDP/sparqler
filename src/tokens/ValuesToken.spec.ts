@@ -1,10 +1,11 @@
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { LiteralToken } from "sparqler/tokens/LiteralToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+import { IRIToken } from "./IRIToken";
+import { LiteralToken } from "./LiteralToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
 
 import * as Module from "./ValuesToken";
 import { ValuesToken } from "./ValuesToken";
+
+import { VariableToken } from "./VariableToken";
 
 describe( "Module ValuesToken", ():void => {
 

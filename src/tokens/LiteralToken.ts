@@ -1,5 +1,4 @@
-import { isPrefixed } from "sparqler/iri";
-
+import { isPrefixed } from "../iri";
 import { BooleanToken } from "./BooleanToken";
 import { IRIToken } from "./IRIToken";
 import { LanguageToken } from "./LanguageToken";

@@ -1,10 +1,10 @@
 import {
 	PatternToken,
 	SolutionModifier,
-} from "sparqler/tokens";
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { VariableToken } from "sparqler/tokens/VariableToken";
-import { joinPatterns } from "sparqler/tokens/utils";
+} from "./";
+import { TokenNode } from "./TokenNode";
+import { joinPatterns } from "./utils";
+import { VariableToken } from "./VariableToken";
 
 export class SelectToken implements TokenNode {
 	readonly token:"select" = "select";

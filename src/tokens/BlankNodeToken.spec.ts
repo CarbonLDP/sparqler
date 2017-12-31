@@ -1,5 +1,3 @@
-import * as IRIUtilsModule from "sparqler/iri/utils";
-
 import * as Module from "./BlankNodeToken";
 import { BlankNodeToken } from "./BlankNodeToken";
 

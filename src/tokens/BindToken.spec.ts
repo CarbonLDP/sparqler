@@ -1,7 +1,7 @@
-import { VariableToken } from "sparqler/tokens/VariableToken";
-
 import * as Module from "./BindToken";
 import { BindToken } from "./BindToken";
+
+import { VariableToken } from "./VariableToken";
 
 describe( "Module BindToken", ():void => {
 

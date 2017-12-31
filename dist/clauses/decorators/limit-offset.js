@@ -10,11 +10,11 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container_1 = require("./../Container");
+var tokens_1 = require("../../patterns/tokens");
+var tokens_2 = require("../../tokens");
+var Container_1 = require("../Container");
+var utils_1 = require("../utils");
 var values_1 = require("./values");
-var utils_1 = require("./../utils");
-var tokens_1 = require("./../../patterns/tokens");
-var tokens_2 = require("./../../tokens");
 var CurrentMethod;
 (function (CurrentMethod) {
     CurrentMethod[CurrentMethod["LIMIT"] = 0] = "LIMIT";
@@ -41,7 +41,6 @@ function limit(limit) {
     var container = new LimitOffsetContainer(this, tokens, CurrentMethod.LIMIT);
     return this._finishDecorator(container, offsetDecorator(container, {}));
 }
-exports.limit = limit;
 function offset(offset) {
     var tokens = [tokens_1.OFFSET, new tokens_2.NumberLiteral(offset)];
     if (this._limitUsed) {
@@ -51,7 +50,6 @@ function offset(offset) {
     var container = new LimitOffsetContainer(this, tokens, CurrentMethod.OFFSET);
     return this._finishDecorator(container, limitDecorator(container, {}));
 }
-exports.offset = offset;
 function limitDecorator(container, object) {
     return utils_1.genericDecorator({ limit: limit }, container, values_1.valuesDecorator(container, object));
 }

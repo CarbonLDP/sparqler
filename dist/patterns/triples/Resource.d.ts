@@ -1,5 +1,5 @@
-import { IRIResolver } from "./../../iri/IRIResolver";
-import { Token } from "./../../tokens";
+import { IRIResolver } from "../../iri/IRIResolver";
+import { Token } from "../../tokens/Token";
 import { TriplesSubject } from "./TriplesSubject";
 export declare class Resource extends TriplesSubject {
     protected elementTokens: Token[];

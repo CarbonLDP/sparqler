@@ -1,4 +1,4 @@
-import { isPrefixed } from "sparqler/iri/utils";
+import { isPrefixed } from "../iri/utils";
 import { TokenNode } from "./TokenNode";
 
 const NAMESPACE_REGEX:RegExp = /^([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?$/;

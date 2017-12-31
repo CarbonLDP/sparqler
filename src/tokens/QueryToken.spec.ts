@@ -1,12 +1,13 @@
-import { BaseToken } from "sparqler/tokens/BaseToken";
-import { ConstructToken } from "sparqler/tokens/ConstructToken";
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { PrefixToken } from "sparqler/tokens/PrefixToken";
-import { ValuesToken } from "sparqler/tokens/ValuesToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+import { BaseToken } from "./BaseToken";
+import { ConstructToken } from "./ConstructToken";
+import { IRIToken } from "./IRIToken";
+import { PrefixToken } from "./PrefixToken";
 
 import * as Module from "./QueryToken";
 import { QueryToken } from "./QueryToken";
+
+import { ValuesToken } from "./ValuesToken";
+import { VariableToken } from "./VariableToken";
 
 describe( "Module QueryToken", ():void => {
 

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var tokens_1 = require("../patterns/tokens");
+var StringLiteral_1 = require("../tokens/StringLiteral");
 var utils_1 = require("./utils");
-var tokens_1 = require("./../patterns/tokens");
-var tokens_2 = require("./../tokens");
 var IRIResolver = (function () {
     function IRIResolver(base, vocab) {
         var _newTarget = this.constructor;
@@ -21,7 +21,7 @@ var IRIResolver = (function () {
             var used = this._prefixes.get(prefix);
             if (used === void 0)
                 throw new Error("The used prefix has not been declared");
-            tokens = [new tokens_2.StringLiteral(prefix), tokens_1.PREFIX_SYMBOL, new tokens_2.StringLiteral(prefixIRI)];
+            tokens = [new StringLiteral_1.StringLiteral(prefix), tokens_1.PREFIX_SYMBOL, new StringLiteral_1.StringLiteral(prefixIRI)];
             if (!used)
                 this._prefixes.set(prefix, true);
         }

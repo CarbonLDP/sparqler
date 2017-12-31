@@ -1,13 +1,14 @@
-import { BlankNodeToken } from "sparqler/tokens/BlankNodeToken";
-import { TermToken } from "sparqler/tokens/index";
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { LiteralToken } from "sparqler/tokens/LiteralToken";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+import { BlankNodeToken } from "./BlankNodeToken";
+import { TermToken } from "./index";
+import { IRIToken } from "./IRIToken";
+import { LiteralToken } from "./LiteralToken";
+import { PredicateToken } from "./PredicateToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
 
 import * as Module from "./SubjectToken";
 import { SubjectToken } from "./SubjectToken";
+
+import { VariableToken } from "./VariableToken";
 
 describe( "Module SubjectToken", ():void => {
 

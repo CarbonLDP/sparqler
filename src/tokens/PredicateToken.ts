@@ -1,8 +1,8 @@
 import {
 	ObjectToken,
 	VariableOrIRI,
-} from "sparqler/tokens";
-import { TokenNode } from "sparqler/tokens/TokenNode";
+} from "./";
+import { TokenNode } from "./TokenNode";
 
 export class PredicateToken implements TokenNode {
 	readonly token:"predicate" = "predicate";

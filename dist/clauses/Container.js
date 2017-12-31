@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var IRIResolver_1 = require("../iri/IRIResolver");
 var finish_1 = require("./decorators/finish");
 var subFinish_1 = require("./decorators/subFinish");
-var IRIResolver_1 = require("./../iri/IRIResolver");
 var Container = (function () {
     function Container(containerOrFunction, newTokens, iriResolver) {
         var _newTarget = this.constructor;

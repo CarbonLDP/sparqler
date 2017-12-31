@@ -1,7 +1,7 @@
-import { IRIToken } from "sparqler/tokens/IRIToken";
-
 import * as Module from "./BaseToken";
 import { BaseToken } from "./BaseToken";
+
+import { IRIToken } from "./IRIToken";
 
 describe( "Module BaseToken", ():void => {
 

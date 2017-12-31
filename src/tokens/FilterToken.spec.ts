@@ -1,5 +1,3 @@
-import { BindToken } from "sparqler/tokens/BindToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
 import * as Module from "./FilterToken";
 import { FilterToken } from "./FilterToken";
 

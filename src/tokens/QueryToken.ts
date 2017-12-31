@@ -1,8 +1,8 @@
-import { BaseToken } from "sparqler/tokens/BaseToken";
-import { ConstructToken } from "sparqler/tokens/ConstructToken";
-import { PrefixToken } from "sparqler/tokens/PrefixToken";
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { ValuesToken } from "sparqler/tokens/ValuesToken";
+import { BaseToken } from "./BaseToken";
+import { ConstructToken } from "./ConstructToken";
+import { PrefixToken } from "./PrefixToken";
+import { TokenNode } from "./TokenNode";
+import { ValuesToken } from "./ValuesToken";
 
 export class QueryToken implements TokenNode {
 	readonly token:"query" = "query";

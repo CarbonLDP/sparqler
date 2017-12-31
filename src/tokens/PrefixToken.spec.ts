@@ -1,4 +1,4 @@
-import { IRIToken } from "sparqler/tokens/IRIToken";
+import { IRIToken } from "./IRIToken";
 
 import * as Module from "./PrefixToken";
 import { PrefixToken } from "./PrefixToken";

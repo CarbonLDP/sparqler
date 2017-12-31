@@ -1,5 +1,5 @@
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { TokenNode } from "sparqler/tokens/TokenNode";
+import { IRIToken } from "./IRIToken";
+import { TokenNode } from "./TokenNode";
 
 export class BaseToken implements TokenNode {
 	readonly token:"base" = "base";

@@ -1,4 +1,4 @@
-import { PatternToken } from "sparqler/tokens";
+import { PatternToken } from "./";
 
 export const joinPatterns = ( patterns:PatternToken[] ):string => {
 	return patterns

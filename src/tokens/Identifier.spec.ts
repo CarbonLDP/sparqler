@@ -1,15 +1,16 @@
 import * as IdentifierModule from "./Identifier";
 import Identifier from "./Identifier";
-import {
-	Token,
-	TokenFormat
-} from "./Token";
+
 import { LeftSymbol } from "./LeftSymbol";
-import { RightSymbol } from "./RightSymbol";
 import { NewLineSymbol } from "./NewLineSymbol";
 import { NumberLiteral } from "./NumberLiteral";
 import { Operator } from "./Operator";
+import { RightSymbol } from "./RightSymbol";
 import { StringLiteral } from "./StringLiteral";
+import {
+	Token,
+	TokenFormat,
+} from "./Token";
 
 describe( "Module Tokens/Identifier", ():void => {
 

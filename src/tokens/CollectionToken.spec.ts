@@ -1,11 +1,12 @@
-import { LiteralToken } from "sparqler/tokens";
-import { BlankNodeToken } from "sparqler/tokens/BlankNodeToken";
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+import { BlankNodeToken } from "./BlankNodeToken";
 
 import * as Module from "./CollectionToken";
 import { CollectionToken } from "./CollectionToken";
+
+import { IRIToken } from "./IRIToken";
+import { LiteralToken } from "./LiteralToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
+import { VariableToken } from "./VariableToken";
 
 describe( "Module BooleanToken", ():void => {
 
