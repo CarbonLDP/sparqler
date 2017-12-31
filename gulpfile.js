@@ -55,7 +55,7 @@ gulp.task( "default", [ "build" ] );
 gulp.task( "build", ( done ) => {
 	runSequence(
 		"clean:dist",
-		[ "bundle", "compile:typescript", "prepare:npm-package" ],
+		[ "bundle", "compile:typescript", "prepare:npm-package", "docs:build|prod" ],
 		done
 	);
 } );
