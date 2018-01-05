@@ -80,11 +80,6 @@ gulp.task( "compile:typescript", () => {
 	} );
 
 	let tsResults = gulp.src( config.source.typescript )
-		.pipe( replace( /(import[\s\S]*?from +")sparqler\/(.*?)(";)/gm, function( _match, $1, $2, $3 ) {
-			const fileDir = path.dirname( this.file.relative );
-			const relativePath = path.relative( fileDir, $2 );
-			return `${ $1 }./${ relativePath }${ $3 }`;
-		} ) )
 		.pipe( sourcemaps.init() )
 		.pipe( tsProject() )
 	;
@@ -255,9 +250,10 @@ gulp.task( "docs:bundle", [ "docs:clean-bundle" ], ( done ) => {
 gulp.task( "docs:html-replace", () => {
 	return gulp.src( "docs/**/*.html" )
 		.pipe( htmlReplace( {
-			"css": "styles/styles.min.css",
+			"css": "assets/styles.min.css",
 			"js": "scripts/bundle.min.js"
 		} ) )
+		.pipe( replace( /<(?!base)([^>]*?)href="(\/)([^*]*?)"([?>]*?)>/gm, `<$1href="$3"$4>` ) )
 		.pipe( gulp.dest( "docs/" ) );
 } );
 

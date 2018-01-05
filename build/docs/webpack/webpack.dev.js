@@ -5,7 +5,7 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 const SRC_DIR = path.resolve( __dirname, '../src/' );
 const DIST_DIR = path.resolve( __dirname, '../../../docs/' );
 
-const extractCSS = new ExtractTextPlugin( 'styles/styles.css' );
+const extractCSS = new ExtractTextPlugin( 'assets/styles.css' );
 
 module.exports = {
 	entry: {
@@ -39,7 +39,7 @@ module.exports = {
 						loader: 'url-loader',
 						query: {
 							limit: 1024,
-							name: '/fonts/[name].[ext]',
+							name: '/assets/[name].[ext]',
 						},
 					},
 				],
