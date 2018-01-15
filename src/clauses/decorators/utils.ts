@@ -1,4 +1,4 @@
-import { Container } from "./Container";
+import { Container } from "../Container";
 
 /**
  * Interface to represents the functions to bind by the {@link genericDecorator}.

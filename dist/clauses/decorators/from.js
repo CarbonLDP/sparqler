@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var IRIResolver_1 = require("../../iri/IRIResolver");
 var tokens_1 = require("../../patterns/tokens");
 var Container_1 = require("../Container");
-var utils_1 = require("../utils");
+var utils_1 = require("./utils");
 var where_1 = require("./where");
 function _from(self, tokens, iri) {
     var iriResolver = new IRIResolver_1.IRIResolver(self._iriResolver);

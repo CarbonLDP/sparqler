@@ -9,7 +9,7 @@ import {
 	FinishClause,
 	FromClause,
 } from "../interfaces";
-import { genericDecorator } from "../utils";
+import { genericDecorator } from "./utils";
 import { whereDecorator } from "./where";
 
 /**

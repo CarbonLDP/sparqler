@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var _1 = require("../");
 var tokens_1 = require("../../patterns/tokens");
 var tokens_2 = require("../../tokens");
+var utils_1 = require("./utils");
 function toCompactString() {
     var tokens = this._tokens
         .filter(function (token) { return token !== tokens_1.WHERE; });
@@ -130,7 +130,7 @@ function toPrettyString() {
     }, "");
 }
 function finishDecorator(container, object) {
-    return _1.genericDecorator({
+    return utils_1.genericDecorator({
         toCompactString: toCompactString,
         toPrettyString: toPrettyString,
         toString: toPrettyString,

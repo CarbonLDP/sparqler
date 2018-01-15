@@ -6,7 +6,7 @@ var tokens_1 = require("../../patterns/tokens");
 var triples_1 = require("../../patterns/triples");
 var ObjectPattern_1 = require("../../utils/ObjectPattern");
 var Container_1 = require("../Container");
-var utils_1 = require("../utils");
+var utils_1 = require("./utils");
 function values(variableOrVariables, valuesOrBuilder) {
     var isSingle = !Array.isArray(variableOrVariables);
     var variables = (isSingle ?

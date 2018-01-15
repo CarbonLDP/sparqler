@@ -18,7 +18,7 @@ import {
 	SubSelectClause,
 	SubWhereClause,
 } from "../interfaces";
-import { genericDecorator } from "../utils";
+import { genericDecorator } from "./utils";
 import { fromDecorator } from "./from";
 import { subFinishDecorator } from "./subFinish";
 import { subWhereDecorator } from "./where";

@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tokens_1 = require("../../patterns/tokens");
 var tokens_2 = require("../../tokens");
 var Container_1 = require("../Container");
-var utils_1 = require("../utils");
+var utils_1 = require("./utils");
 var values_1 = require("./values");
 var CurrentMethod;
 (function (CurrentMethod) {

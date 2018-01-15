@@ -15,7 +15,7 @@ import {
 	FinishClause,
 	QueryClause,
 } from "../interfaces";
-import { genericDecorator } from "../utils";
+import { genericDecorator } from "./utils";
 import { selectDecorator } from "./select";
 
 /**

@@ -10,7 +10,7 @@ import {
 	OrderClause,
 	SubFinishClause,
 } from "../interfaces";
-import { genericDecorator } from "../utils";
+import { genericDecorator } from "./utils";
 import { orderDecorator } from "./order";
 
 /**

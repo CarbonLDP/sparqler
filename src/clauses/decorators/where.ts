@@ -12,7 +12,7 @@ import {
 	SubWhereClause,
 	WhereClause,
 } from "../interfaces";
-import { genericDecorator } from "../utils";
+import { genericDecorator } from "./utils";
 import { groupDecorator } from "./group";
 
 /**

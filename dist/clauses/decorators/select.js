@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tokens_1 = require("../../patterns/tokens");
 var tokens_2 = require("../../tokens");
 var Container_1 = require("../Container");
-var utils_1 = require("../utils");
+var utils_1 = require("./utils");
 var from_1 = require("./from");
 var subFinish_1 = require("./subFinish");
 var where_1 = require("./where");

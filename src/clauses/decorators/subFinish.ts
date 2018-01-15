@@ -5,7 +5,7 @@ import {
 import { Token } from "../../tokens";
 import { Container } from "../Container";
 import { SubFinishClause } from "../interfaces";
-import { genericDecorator } from "../utils";
+import { genericDecorator } from "./utils";
 
 /**
  * Returns the tokens of the that represent all the subSelect clause

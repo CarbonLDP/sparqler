@@ -5,7 +5,7 @@ var PatternBuilder_1 = require("../../patterns/PatternBuilder");
 var tokens_1 = require("../../patterns/tokens");
 var Patterns_1 = require("../../utils/Patterns");
 var Container_1 = require("../Container");
-var utils_1 = require("../utils");
+var utils_1 = require("./utils");
 var group_1 = require("./group");
 function subWhere(patterns) {
     var tokens = [tokens_1.WHERE].concat(Patterns_1.getBlockTokens(patterns));

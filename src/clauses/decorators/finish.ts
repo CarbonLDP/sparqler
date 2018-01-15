@@ -1,7 +1,6 @@
 import {
 	Container,
 	FinishClause,
-	genericDecorator,
 } from "../";
 import {
 	BASE,
@@ -24,6 +23,7 @@ import {
 	Token,
 	TokenFormat,
 } from "../../tokens";
+import { genericDecorator } from "./utils";
 
 /**
  * Constructs a compact SPARQL query string.

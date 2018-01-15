@@ -13,7 +13,7 @@ import {
 	HavingClause,
 	SubFinishClause,
 } from "../interfaces";
-import { genericDecorator } from "../utils";
+import { genericDecorator } from "./utils";
 import { havingDecorator } from "./having";
 
 /**

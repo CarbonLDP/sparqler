@@ -26,7 +26,7 @@ import {
 	SubFinishClause,
 	ValuesClause,
 } from "../interfaces";
-import { genericDecorator } from "../utils";
+import { genericDecorator } from "./utils";
 
 type PossibleTypes = SupportedNativeTypes | Resource | Literal | Undefined;
 
