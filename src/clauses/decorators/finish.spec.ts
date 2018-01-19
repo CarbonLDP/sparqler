@@ -198,7 +198,7 @@ describe( "FinishClause", ():void => {
 			const finishClause:FinishClause = finishDecorator( container, {} );
 
 			const compactString:string = finishClause.toCompactString();
-			expect( compactString ).toEqual( "BASE<http://example.com/last-base/>" );
+			expect( compactString ).toEqual( "BASE <http://example.com/last-base/>\n" );
 		} );
 
 		it( "should put BASE statement at first of all", ():void => {
@@ -216,7 +216,7 @@ describe( "FinishClause", ():void => {
 
 			const compactString:string = finishClause.toCompactString();
 			expect( compactString ).toEqual( "" +
-				"BASE<http://example.com/last-base/>" +
+				"BASE <http://example.com/last-base/>\n " +
 				"PREFIX prefix-1:<http://example.com/prefix-1#>" +
 				"PREFIX prefix-2:<http://example.com/prefix-2#>",
 			);
