@@ -213,6 +213,7 @@ gulp.task( "docs:clean-html", () => {
 } );
 
 gulp.task( "docs:generate-html", [ "docs:clean-html" ], () => {
+	require( "ts-node/register" );
 	const dgeni = new Dgeni( [ require( "./build/docs/dgeni" ) ] );
 	return dgeni.generate();
 } );
