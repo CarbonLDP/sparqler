@@ -278,7 +278,7 @@ describe( "queryDecorator", ():void => {
 				expect( container._iriResolver ).toEqual( iriResolverCopy );
 				expect( container._iriResolver ).toBe( originalIRIResolver );
 			} );
-			
+
 			it( "should store prefix in IRIResolver", ():void => {
 				const container:Container = new Container();
 				const queryClause:QueryClause = queryDecorator( container, {} );
@@ -310,6 +310,28 @@ describe( "queryDecorator", ():void => {
 				] ) );
 			} );
 
+			it( "should replace existing prefix in IRIResolver", ():void => {
+				const container:Container = new Container();
+				const queryClause:QueryClause = queryDecorator( container, {} );
+
+				let newContainer:Container = void 0;
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					return newContainer = new Container( ...args );
+				} );
+
+				queryClause.prefix( "ex", "http://example.com/prefix#" );
+				expect( spy ).toHaveBeenCalledTimes( 1 );
+				expect( newContainer._iriResolver._prefixes ).toEqual( new Map( [
+					[ "ex", false ],
+				] ) );
+
+				queryClause.prefix( "ex", "http://example.com/another-prefix#" );
+				expect( spy ).toHaveBeenCalledTimes( 2 );
+				expect( newContainer._iriResolver._prefixes ).toEqual( new Map( [
+					[ "ex", false ],
+				] ) );
+			} );
+
 			it( "should construct `prefix` tokens", ():void => {
 				const container:Container = new Container();
 				const queryClause:QueryClause = queryDecorator( container, {} );
@@ -332,6 +354,26 @@ describe( "queryDecorator", ():void => {
 				expect( newContainer._tokens ).toEqual( [
 					PREFIX,
 					new StringLiteral( "ex2" ), PREFIX_SYMBOL,
+					OPEN_IRI, new StringLiteral( "http://example.com/another-prefix#" ), CLOSE_IRI,
+				] );
+			} );
+
+			it( "should replace existing prefix in tokens", ():void => {
+				const container:Container = new Container();
+				const queryClause:QueryClause = queryDecorator( container, {} );
+
+				let newContainer:Container = void 0;
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
+					return newContainer = new Container( ...args );
+				} );
+
+				queryClause
+					.prefix( "ex", "http://example.com/prefix#" )
+					.prefix( "ex", "http://example.com/another-prefix#" );
+				expect( spy ).toHaveBeenCalledTimes( 2 );
+				expect( newContainer._tokens ).toEqual( [
+					PREFIX,
+					new StringLiteral( "ex" ), PREFIX_SYMBOL,
 					OPEN_IRI, new StringLiteral( "http://example.com/another-prefix#" ), CLOSE_IRI,
 				] );
 			} );
