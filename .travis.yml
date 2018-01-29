@@ -5,7 +5,6 @@ node_js:
 
 dist: trusty
 
-# TODO: Workaround: travis-ci/travis-ci#8836
 sudo: required
 addons:
   chrome: stable
