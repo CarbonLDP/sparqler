@@ -8,3 +8,4 @@ export * from "./order";
 export * from "./query";
 export * from "./select";
 export * from "./where";
+export * from "./utils";

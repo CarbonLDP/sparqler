@@ -20,6 +20,7 @@ import {
 } from "../../patterns/tokens";
 import {
 	NewLineSymbol,
+	StringLiteral,
 	Token,
 	TokenFormat,
 } from "../../tokens";
@@ -55,8 +56,15 @@ function toCompactString( this:Container<FinishClause> ):string {
 	}
 
 	// Add the last base as first element
-	if( baseTokens )
-		tokens.unshift( ...baseTokens );
+	if( baseTokens ) {
+		// tokens.unshift( ...baseTokens );
+		// TODO: Workaround on Stardog error parser
+		const baseString:string = baseTokens.reduce( ( res, token, index, thisArray ) => {
+			let nextToken:Token = thisArray[ index + 1 ];
+			return res + token.getTokenValue( TokenFormat.PRETTY, nextToken );
+		}, "" ) + "\n";
+		tokens.unshift( new StringLiteral( baseString ) );
+	}
 
 	return tokens.reduce( ( res, token, index, thisArray ) => {
 		let nextToken:Token = thisArray[ index + 1 ];

@@ -189,6 +189,23 @@ __export(__webpack_require__(62));
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+function genericDecorator(properties, container, object) {
+    for (var _i = 0, _a = Object.keys(properties); _i < _a.length; _i++) {
+        var key = _a[_i];
+        properties[key] = properties[key].bind(container);
+    }
+    return Object.assign(object, properties);
+}
+exports.genericDecorator = genericDecorator;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 var IRIResolver_1 = __webpack_require__(5);
 var finish_1 = __webpack_require__(21);
 var subFinish_1 = __webpack_require__(13);
@@ -215,23 +232,6 @@ var Container = (function () {
 }());
 exports.Container = Container;
 exports.default = Container;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function genericDecorator(properties, container, object) {
-    for (var _i = 0, _a = Object.keys(properties); _i < _a.length; _i++) {
-        var key = _a[_i];
-        properties[key] = properties[key].bind(container);
-    }
-    return Object.assign(object, properties);
-}
-exports.genericDecorator = genericDecorator;
 
 
 /***/ }),
@@ -590,7 +590,7 @@ exports.joinPatterns = function (patterns) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var tokens_1 = __webpack_require__(0);
-var utils_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 function getPattern() {
     return [tokens_1.OPEN_MULTI_BLOCK].concat(this._tokens, [tokens_1.CLOSE_MULTI_BLOCK]);
 }
@@ -838,8 +838,8 @@ var IRIResolver_1 = __webpack_require__(5);
 var PatternBuilder_1 = __webpack_require__(19);
 var tokens_1 = __webpack_require__(0);
 var Patterns_1 = __webpack_require__(29);
-var Container_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var Container_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 var group_1 = __webpack_require__(36);
 function subWhere(patterns) {
     var tokens = [tokens_1.WHERE].concat(Patterns_1.getBlockTokens(patterns));
@@ -870,7 +870,7 @@ exports.subWhereDecorator = subWhereDecorator;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container_1 = __webpack_require__(2);
+var Container_1 = __webpack_require__(3);
 var select_1 = __webpack_require__(20);
 var subFinish_1 = __webpack_require__(13);
 var StringLiteral_1 = __webpack_require__(7);
@@ -995,8 +995,8 @@ exports.default = PatternBuilder;
 Object.defineProperty(exports, "__esModule", { value: true });
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
-var Container_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var Container_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 var from_1 = __webpack_require__(28);
 var subFinish_1 = __webpack_require__(13);
 var where_1 = __webpack_require__(18);
@@ -1062,7 +1062,7 @@ exports.selectDecorator = selectDecorator;
 Object.defineProperty(exports, "__esModule", { value: true });
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
-var utils_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 function toCompactString() {
     var tokens = this._tokens
         .filter(function (token) { return token !== tokens_1.WHERE; });
@@ -1081,8 +1081,13 @@ function toCompactString() {
             --index;
         }
     }
-    if (baseTokens)
-        tokens.unshift.apply(tokens, baseTokens);
+    if (baseTokens) {
+        var baseString = baseTokens.reduce(function (res, token, index, thisArray) {
+            var nextToken = thisArray[index + 1];
+            return res + token.getTokenValue(tokens_2.TokenFormat.PRETTY, nextToken);
+        }, "") + "\n";
+        tokens.unshift(new tokens_2.StringLiteral(baseString));
+    }
     return tokens.reduce(function (res, token, index, thisArray) {
         var nextToken = thisArray[index + 1];
         if (nextToken === tokens_1.EMPTY_SEPARATOR)
@@ -1355,8 +1360,8 @@ exports.StringToken = StringToken;
 Object.defineProperty(exports, "__esModule", { value: true });
 var IRIResolver_1 = __webpack_require__(5);
 var tokens_1 = __webpack_require__(0);
-var Container_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var Container_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 var where_1 = __webpack_require__(18);
 function _from(self, tokens, iri) {
     var iriResolver = new IRIResolver_1.IRIResolver(self._iriResolver);
@@ -1689,8 +1694,8 @@ exports.default = Variable;
 Object.defineProperty(exports, "__esModule", { value: true });
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
-var Container_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var Container_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 var having_1 = __webpack_require__(37);
 function groupBy(rawCondition) {
     var tokens = [tokens_1.GROUP, tokens_1.BY, new tokens_2.StringLiteral(rawCondition)];
@@ -1712,8 +1717,8 @@ exports.groupDecorator = groupDecorator;
 Object.defineProperty(exports, "__esModule", { value: true });
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
-var Container_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var Container_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 var order_1 = __webpack_require__(38);
 function having(rawCondition) {
     var tokens = [tokens_1.HAVING, new tokens_2.StringLiteral(rawCondition)];
@@ -1735,8 +1740,8 @@ exports.havingDecorator = havingDecorator;
 Object.defineProperty(exports, "__esModule", { value: true });
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
-var Container_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var Container_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 var limit_offset_1 = __webpack_require__(39);
 function orderBy(rawCondition) {
     var tokens = [tokens_1.ORDER, tokens_1.BY, new tokens_2.StringLiteral(rawCondition)];
@@ -1768,8 +1773,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
-var Container_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var Container_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 var values_1 = __webpack_require__(66);
 var CurrentMethod;
 (function (CurrentMethod) {
@@ -1840,7 +1845,7 @@ module.exports = index_1.SPARQLER;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container_1 = __webpack_require__(2);
+var Container_1 = __webpack_require__(3);
 var decorators_1 = __webpack_require__(63);
 var SPARQLER = (function () {
     function SPARQLER(finishDecorator) {
@@ -2498,6 +2503,7 @@ __export(__webpack_require__(38));
 __export(__webpack_require__(68));
 __export(__webpack_require__(20));
 __export(__webpack_require__(18));
+__export(__webpack_require__(2));
 
 
 /***/ }),
@@ -2614,8 +2620,8 @@ var PatternBuilder_1 = __webpack_require__(19);
 var tokens_1 = __webpack_require__(0);
 var triples_1 = __webpack_require__(67);
 var ObjectPattern_1 = __webpack_require__(9);
-var Container_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var Container_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 function values(variableOrVariables, valuesOrBuilder) {
     var isSingle = !Array.isArray(variableOrVariables);
     var variables = (isSingle ?
@@ -2686,8 +2692,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var IRIResolver_1 = __webpack_require__(5);
 var tokens_1 = __webpack_require__(0);
 var tokens_2 = __webpack_require__(1);
-var Container_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var Container_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(2);
 var select_1 = __webpack_require__(20);
 function base(iri) {
     var tokens = [tokens_1.BASE, tokens_1.OPEN_IRI, new tokens_2.StringLiteral(iri), tokens_1.CLOSE_IRI];
@@ -2701,9 +2707,15 @@ function vocab(iri) {
 }
 function prefix(name, iri) {
     var iriResolver = new IRIResolver_1.IRIResolver(this._iriResolver);
+    var previousIndex = iriResolver._prefixes.has(name) ?
+        this._tokens.findIndex(function (token) { return token instanceof tokens_2.StringLiteral && token["value"] === name; }) :
+        -1;
     iriResolver._prefixes.set(name, false);
     var tokens = [tokens_1.PREFIX, new tokens_2.StringLiteral(name), tokens_1.PREFIX_SYMBOL, tokens_1.OPEN_IRI, new tokens_2.StringLiteral(iri), tokens_1.CLOSE_IRI];
     var container = new Container_1.Container(this, tokens, iriResolver);
+    if (previousIndex !== -1) {
+        container._tokens.splice(previousIndex - 1, 6);
+    }
     return queryDecorator(container, {});
 }
 function queryDecorator(container, object) {

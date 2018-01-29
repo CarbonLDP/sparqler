@@ -13,5 +13,6 @@ __export(require("./order"));
 __export(require("./query"));
 __export(require("./select"));
 __export(require("./where"));
+__export(require("./utils"));
 
 //# sourceMappingURL=index.js.map
