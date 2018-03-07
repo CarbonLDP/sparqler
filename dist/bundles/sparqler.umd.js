@@ -2151,7 +2151,12 @@ var SelectToken = (function () {
         var _a;
     };
     SelectToken.prototype.toString = function () {
-        var query = "SELECT " + this.variables.join(" ") + " WHERE { " + utils_1.joinPatterns(this.patterns) + " }";
+        var query = "SELECT";
+        if (this.modifier)
+            query += " " + this.modifier;
+        if (this.variables.length)
+            query += " " + this.variables.join(" ");
+        query += " WHERE { " + utils_1.joinPatterns(this.patterns) + " }";
         if (this.modifiers.length)
             query += " " + this.modifiers.join(" ");
         return query;

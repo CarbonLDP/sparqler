@@ -37,7 +37,13 @@ export class SelectToken implements TokenNode {
 	}
 
 	toString():string {
-		let query:string = `SELECT ${ this.variables.join( " " ) } WHERE { ${ joinPatterns( this.patterns ) } }`;
+		let query:string = `SELECT`;
+
+		if( this.modifier ) query += ` ${ this.modifier }`;
+		if( this.variables.length ) query += ` ${ this.variables.join( " " ) }`;
+
+		query += ` WHERE { ${ joinPatterns( this.patterns ) } }`;
+
 		if( this.modifiers.length ) query += ` ${ this.modifiers.join( " " ) }`;
 
 		return query;
