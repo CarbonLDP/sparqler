@@ -8,11 +8,14 @@ import { joinPatterns } from "sparqler/tokens/utils";
 
 export class SelectToken implements TokenNode {
 	readonly token:"select" = "select";
+	readonly modifier?:"DISTINCT" | "REDUCED";
 	readonly variables:VariableToken[];
 	readonly patterns:PatternToken[];
 	readonly modifiers:SolutionModifier[];
 
-	constructor() {
+	constructor( modifier?:"DISTINCT" | "REDUCED" ) {
+		this.modifier = modifier;
+
 		this.variables = [];
 		this.patterns = [];
 		this.modifiers = [];

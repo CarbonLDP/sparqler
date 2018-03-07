@@ -2147,8 +2147,9 @@ exports.ConstructToken = ConstructToken;
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(11);
 var SelectToken = (function () {
-    function SelectToken() {
+    function SelectToken(modifier) {
         this.token = "select";
+        this.modifier = modifier;
         this.variables = [];
         this.patterns = [];
         this.modifiers = [];

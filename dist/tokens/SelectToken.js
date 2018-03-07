@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = require("./utils");
 var SelectToken = (function () {
-    function SelectToken() {
+    function SelectToken(modifier) {
         this.token = "select";
+        this.modifier = modifier;
         this.variables = [];
         this.patterns = [];
         this.modifiers = [];

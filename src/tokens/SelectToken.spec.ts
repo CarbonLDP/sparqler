@@ -35,6 +35,21 @@ describe( "Module SelectToken", ():void => {
 				expect( token ).toEqual( jasmine.any( SelectToken ) );
 			} );
 
+			it( "should not assign modifier if not provided", ():void => {
+				const token:SelectToken = new SelectToken();
+				expect( token.modifier ).toBeUndefined();
+			} );
+
+			it( "should assign the modifier `DISTINCT`", ():void => {
+				const token:SelectToken = new SelectToken( "DISTINCT" );
+				expect( token.modifier ).toBe( "DISTINCT" );
+			} );
+
+			it( "should assign the modifier `REDUCED`", ():void => {
+				const token:SelectToken = new SelectToken( "REDUCED" );
+				expect( token.modifier ).toBe( "REDUCED" );
+			} );
+
 			it( "should initialize variables", ():void => {
 				const token:SelectToken = new SelectToken();
 				expect( token.variables ).toEqual( [] );
