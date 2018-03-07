@@ -155,8 +155,8 @@ describe( "selectDecorator", ():void => {
 				const selectClause:SelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				selectClause.select( "a" );
@@ -225,8 +225,8 @@ describe( "selectDecorator", ():void => {
 				const selectClause:SelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				selectClause.selectDistinct( "a" );
@@ -295,8 +295,8 @@ describe( "selectDecorator", ():void => {
 				const selectClause:SelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				selectClause.selectReduced( "a" );
@@ -358,8 +358,8 @@ describe( "selectDecorator", ():void => {
 				const selectClause:SelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				selectClause.selectAll();
@@ -419,8 +419,8 @@ describe( "selectDecorator", ():void => {
 				const selectClause:SelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				selectClause.selectAllDistinct();
@@ -480,8 +480,8 @@ describe( "selectDecorator", ():void => {
 				const selectClause:SelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				selectClause.selectAllReduced();
@@ -554,8 +554,8 @@ describe( "selectDecorator", ():void => {
 				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				subSelect.select( "a" );
@@ -626,8 +626,8 @@ describe( "selectDecorator", ():void => {
 				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				subSelect.selectDistinct( "a" );
@@ -698,8 +698,8 @@ describe( "selectDecorator", ():void => {
 				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				subSelect.selectReduced( "a" );
@@ -763,8 +763,8 @@ describe( "selectDecorator", ():void => {
 				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				subSelect.selectAll();
@@ -826,8 +826,8 @@ describe( "selectDecorator", ():void => {
 				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				subSelect.selectAllDistinct();
@@ -889,8 +889,8 @@ describe( "selectDecorator", ():void => {
 				const subSelect:SubSelectClause = selectDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				subSelect.selectAllReduced();

@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = require("./../Container");
 var _1 = require("./");
-var utils_1 = require("./../utils");
 var IRIResolver_1 = require("./../../iri/IRIResolver");
 var tokens_1 = require("./../../patterns/tokens");
 function _from(self, tokens, iri) {
@@ -18,7 +17,10 @@ function fromNamed(iri) {
     return _from(this, [tokens_1.FROM, tokens_1.NAMED], iri);
 }
 function fromDecorator(container, object) {
-    return utils_1.genericDecorator({ from: from, fromNamed: fromNamed }, container, _1.whereDecorator(container, object));
+    return Object.assign(_1.whereDecorator(container, object), {
+        from: from.bind(container),
+        fromNamed: fromNamed.bind(container),
+    });
 }
 exports.fromDecorator = fromDecorator;
 

@@ -4,7 +4,6 @@ import {
 } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
 import { whereDecorator } from "sparqler/clauses/decorators";
-import { genericDecorator } from "sparqler/clauses/utils";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	FROM,
@@ -61,5 +60,8 @@ function fromNamed<T extends FinishClause>( this:Container<T>, iri:string ):From
  * @returns The same object provided that has been decorated.
  */
 export function fromDecorator<T extends FinishClause, W extends object>( container:Container<T>, object:W ):W & FromClause<T> {
-	return genericDecorator( { from, fromNamed }, container, whereDecorator<T, W>( container, object ) );
+	return Object.assign( whereDecorator( container, object ), {
+		from: from.bind( container ),
+		fromNamed: fromNamed.bind( container ),
+	} );
 }

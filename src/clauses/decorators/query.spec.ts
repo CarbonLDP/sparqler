@@ -126,8 +126,8 @@ describe( "queryDecorator", ():void => {
 				const queryClause:QueryClause = queryDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				queryClause.base( "http://example.com/base/" );
@@ -199,8 +199,8 @@ describe( "queryDecorator", ():void => {
 				const queryClause:QueryClause = queryDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				queryClause.vocab( "http://example.com/vocab#" );
@@ -217,8 +217,8 @@ describe( "queryDecorator", ():void => {
 				const queryClause:QueryClause = queryDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				queryClause.vocab( "http://example.com/vocab#" );
@@ -284,8 +284,8 @@ describe( "queryDecorator", ():void => {
 				const queryClause:QueryClause = queryDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				queryClause.prefix( "ex", "http://example.com/prefix#" );
@@ -315,8 +315,8 @@ describe( "queryDecorator", ():void => {
 				const queryClause:QueryClause = queryDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				queryClause.prefix( "ex", "http://example.com/prefix#" );
@@ -337,8 +337,8 @@ describe( "queryDecorator", ():void => {
 				const queryClause:QueryClause = queryDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				queryClause.prefix( "ex", "http://example.com/prefix#" );
@@ -363,8 +363,8 @@ describe( "queryDecorator", ():void => {
 				const queryClause:QueryClause = queryDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				queryClause

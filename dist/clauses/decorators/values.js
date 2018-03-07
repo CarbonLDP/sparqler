@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var __1 = require("./..");
 var Container_1 = require("./../Container");
 var IRIResolver_1 = require("./../../iri/IRIResolver");
 var patterns_1 = require("./../../patterns");
@@ -43,7 +42,9 @@ function values(variableOrVariables, valuesOrBuilder) {
     return this._finishDecorator(container, {});
 }
 function valuesDecorator(container, object) {
-    return __1.genericDecorator({ values: values }, container, object);
+    return Object.assign(object, {
+        values: values.bind(container),
+    });
 }
 exports.valuesDecorator = valuesDecorator;
 

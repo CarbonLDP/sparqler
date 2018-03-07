@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = require("./../Container");
 var _1 = require("./");
-var utils_1 = require("./../utils");
 var IRIResolver_1 = require("./../../iri/IRIResolver");
 var tokens_1 = require("./../../patterns/tokens");
 var tokens_2 = require("./../../tokens");
@@ -30,7 +29,11 @@ function prefix(name, iri) {
     return queryDecorator(container, {});
 }
 function queryDecorator(container, object) {
-    return utils_1.genericDecorator({ base: base, vocab: vocab, prefix: prefix }, container, _1.selectDecorator(container, object));
+    return Object.assign(_1.selectDecorator(container, object), {
+        base: base.bind(container),
+        vocab: vocab.bind(container),
+        prefix: prefix.bind(container),
+    });
 }
 exports.queryDecorator = queryDecorator;
 

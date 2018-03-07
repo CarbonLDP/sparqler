@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = require("./../Container");
 var _1 = require("./");
-var utils_1 = require("./../utils");
 var tokens_1 = require("./../../patterns/tokens");
 var tokens_2 = require("./../../tokens");
 function groupBy(rawCondition) {
@@ -11,7 +10,9 @@ function groupBy(rawCondition) {
     return this._finishDecorator(container, _1.havingDecorator(container, {}));
 }
 function groupDecorator(container, object) {
-    return utils_1.genericDecorator({ groupBy: groupBy }, container, _1.havingDecorator(container, object));
+    return Object.assign(_1.havingDecorator(container, object), {
+        groupBy: groupBy.bind(container),
+    });
 }
 exports.groupDecorator = groupDecorator;
 

@@ -126,9 +126,9 @@ describe( "whereDecorator", ():void => {
 				const whereClause:WhereClause = whereDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					if( arg1 === subFinishDecorator ) spy.calls.reset();
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				whereClause.where( _ => [] );
@@ -145,9 +145,9 @@ describe( "whereDecorator", ():void => {
 				const whereClause:WhereClause = whereDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					if( arg1 === subFinishDecorator ) spy.calls.reset();
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				class MockToken extends Token {
@@ -179,9 +179,9 @@ describe( "whereDecorator", ():void => {
 				const whereClause:WhereClause = whereDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					if( args.length > 0 && args[  0 ] === subFinishDecorator ) spy.calls.reset();
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					if( arg1 === subFinishDecorator ) spy.calls.reset();
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				class MockToken extends Token {
@@ -308,8 +308,8 @@ describe( "subWhereDecorator", ():void => {
 				const whereClause:SubWhereClause = subWhereDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				whereClause.where( [] );
@@ -326,8 +326,8 @@ describe( "subWhereDecorator", ():void => {
 				const whereClause:SubWhereClause = subWhereDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				class MockToken extends Token {
@@ -359,8 +359,8 @@ describe( "subWhereDecorator", ():void => {
 				const whereClause:SubWhereClause = subWhereDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				class MockToken extends Token {

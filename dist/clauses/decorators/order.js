@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = require("./../Container");
 var _1 = require("./");
-var utils_1 = require("./../utils");
 var tokens_1 = require("./../../patterns/tokens");
 var tokens_2 = require("./../../tokens");
 function orderBy(rawCondition) {
@@ -12,7 +11,9 @@ function orderBy(rawCondition) {
 }
 exports.orderBy = orderBy;
 function orderDecorator(container, object) {
-    return utils_1.genericDecorator({ orderBy: orderBy }, container, _1.limitOffsetDecorator(container, object));
+    return Object.assign(_1.limitOffsetDecorator(container, object), {
+        orderBy: orderBy.bind(container),
+    });
 }
 exports.orderDecorator = orderDecorator;
 

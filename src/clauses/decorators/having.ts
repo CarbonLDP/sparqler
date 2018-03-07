@@ -6,7 +6,6 @@ import {
 	OrderClause,
 	SubFinishClause,
 } from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
 import { HAVING } from "sparqler/patterns/tokens";
 import {
 	StringLiteral,
@@ -30,6 +29,8 @@ function having<T extends FinishClause | SubFinishClause>( this:Container<T>, ra
 	return this._finishDecorator<OrderClause<T>>( container, orderDecorator<T, {}>( container, {} ) );
 }
 
+// having( rawCondition:string ):OrderClause<T> & T;
+
 /**
  * Decorator that binds the HavingClause methods to a container and adds them
  * to the provided object.
@@ -39,5 +40,7 @@ function having<T extends FinishClause | SubFinishClause>( this:Container<T>, ra
  * @returns The same object provided that has been decorated.
  */
 export function havingDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & HavingClause<T> {
-	return genericDecorator( { having }, container, orderDecorator<T, W>( container, object ) );
+	return Object.assign( orderDecorator<T, W>( container, object ), {
+		having: having.bind( container ),
+	} );
 }

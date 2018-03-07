@@ -12,7 +12,6 @@ import {
 	SubSelectClause,
 	SubWhereClause,
 } from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
 import {
 	ALL,
 	DISTINCT,
@@ -135,12 +134,12 @@ export function selectDecorator<T extends FinishClause, W extends object>( conta
  */
 export function selectDecorator<W extends object>( container:Container<SubFinishClause>, object:W ):W & SubSelectClause;
 export function selectDecorator<T extends FinishClause, W extends object>( container:Container<T | SubFinishClause>, object:W ):W & (SelectClause<T> | SubSelectClause) {
-	return genericDecorator( {
-		select,
-		selectDistinct,
-		selectReduced,
-		selectAll,
-		selectAllDistinct,
-		selectAllReduced,
-	}, container, object );
+	return Object.assign( object, {
+		select: select.bind( container ),
+		selectDistinct: selectDistinct.bind( container ),
+		selectReduced: selectReduced.bind( container ),
+		selectAll: selectAll.bind( container ),
+		selectAllDistinct: selectAllDistinct.bind( container ),
+		selectAllReduced: selectAllReduced.bind( container ),
+	} );
 }

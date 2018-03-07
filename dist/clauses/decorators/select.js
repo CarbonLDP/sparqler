@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = require("./../Container");
 var _1 = require("./");
-var utils_1 = require("./../utils");
 var tokens_1 = require("./../../patterns/tokens");
 var tokens_2 = require("./../../tokens");
 function _select(self, tokens, variables) {
@@ -46,14 +45,14 @@ function selectAllReduced() {
     return _select(this, [tokens_1.SELECT, tokens_1.REDUCED, tokens_1.ALL]);
 }
 function selectDecorator(container, object) {
-    return utils_1.genericDecorator({
-        select: select,
-        selectDistinct: selectDistinct,
-        selectReduced: selectReduced,
-        selectAll: selectAll,
-        selectAllDistinct: selectAllDistinct,
-        selectAllReduced: selectAllReduced,
-    }, container, object);
+    return Object.assign(object, {
+        select: select.bind(container),
+        selectDistinct: selectDistinct.bind(container),
+        selectReduced: selectReduced.bind(container),
+        selectAll: selectAll.bind(container),
+        selectAllDistinct: selectAllDistinct.bind(container),
+        selectAllReduced: selectAllReduced.bind(container),
+    });
 }
 exports.selectDecorator = selectDecorator;
 

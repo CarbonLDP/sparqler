@@ -1,7 +1,6 @@
 import {
 	Container,
 	FinishClause,
-	genericDecorator,
 } from "sparqler/clauses";
 import {
 	BASE,
@@ -57,7 +56,6 @@ function toCompactString( this:Container<FinishClause> ):string {
 
 	// Add the last base as first element
 	if( baseTokens ) {
-		// tokens.unshift( ...baseTokens );
 		// TODO: Workaround on Stardog error parser
 		const baseString:string = baseTokens.reduce( ( res, token, index, thisArray ) => {
 			let nextToken:Token = thisArray[ index + 1 ];
@@ -198,9 +196,9 @@ function toPrettyString( this:Container<FinishClause> ):string {
  * @returns The same object provided that has been decorated.
  */
 export function finishDecorator<W extends object>( container:Container<FinishClause>, object:W ):W & FinishClause {
-	return genericDecorator( {
-		toCompactString,
-		toPrettyString,
-		toString: toPrettyString,
-	}, container, object );
+	return Object.assign( object, {
+		toCompactString: toCompactString.bind( container ),
+		toPrettyString: toPrettyString.bind( container ),
+		toString: toPrettyString.bind( container ),
+	} );
 }

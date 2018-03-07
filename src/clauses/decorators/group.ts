@@ -6,7 +6,6 @@ import {
 } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
 import { havingDecorator } from "sparqler/clauses/decorators";
-import { genericDecorator } from "sparqler/clauses/utils";
 import {
 	BY,
 	GROUP,
@@ -39,5 +38,7 @@ function groupBy<T extends FinishClause | SubFinishClause>( this:Container<T>, r
  * @returns The same object provided that has been decorated.
  */
 export function groupDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & GroupClause<T> {
-	return genericDecorator( { groupBy }, container, havingDecorator<T, W>( container, object ) );
+	return Object.assign( havingDecorator( container, object ), {
+		groupBy: groupBy.bind( container ),
+	} );
 }
