@@ -7,7 +7,6 @@ import {
 	SubWhereClause,
 	WhereClause,
 } from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	GraphPattern,
@@ -62,7 +61,9 @@ function where<T extends FinishClause>( this:Container<T>, patternFunction:( bui
  * @returns The same object provided that has been decorated.
  */
 export function whereDecorator<T extends FinishClause, W extends object>( container:Container<T>, object:W ):W & WhereClause<T> {
-	return genericDecorator( { where }, container, object );
+	return Object.assign( object, {
+		where: where.bind( container ),
+	} );
 }
 
 /**
@@ -74,5 +75,7 @@ export function whereDecorator<T extends FinishClause, W extends object>( contai
  * @returns The same object provided that has been decorated.
  */
 export function subWhereDecorator<T extends SubFinishClause, W extends object>( container:Container<T>, object:W ):W & SubWhereClause {
-	return genericDecorator( { where: subWhere }, container, object );
+	return Object.assign( object, {
+		where: subWhere.bind( container ),
+	} );
 }

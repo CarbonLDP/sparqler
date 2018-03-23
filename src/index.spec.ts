@@ -57,8 +57,8 @@ describe( "SPARQLER", ():void => {
 		};
 
 		let container:Container = void 0;
-		const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-			return container = new Container( ...args );
+		const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+			return container = new Container( arg1, arg2, ...args );
 		} );
 
 		type CustomFinish = MyFinish & FinishClause;

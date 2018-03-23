@@ -6,7 +6,6 @@ import {
 	OrderClause,
 	SubFinishClause,
 } from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
 import {
 	BY,
 	ORDER,
@@ -42,5 +41,8 @@ export function orderBy<T extends FinishClause | SubFinishClause>( this:Containe
  * @returns The same object provided that has been decorated.
  */
 export function orderDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & OrderClause<T> {
-	return genericDecorator( { orderBy }, container, limitOffsetDecorator<T, W>( container, object ) );
+	return Object.assign( limitOffsetDecorator<T, W>( container, object ), {
+			orderBy: orderBy.bind( container ),
+		},
+	);
 }

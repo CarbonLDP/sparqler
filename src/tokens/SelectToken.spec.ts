@@ -35,6 +35,21 @@ describe( "Module SelectToken", ():void => {
 				expect( token ).toEqual( jasmine.any( SelectToken ) );
 			} );
 
+			it( "should not assign modifier if not provided", ():void => {
+				const token:SelectToken = new SelectToken();
+				expect( token.modifier ).toBeUndefined();
+			} );
+
+			it( "should assign the modifier `DISTINCT`", ():void => {
+				const token:SelectToken = new SelectToken( "DISTINCT" );
+				expect( token.modifier ).toBe( "DISTINCT" );
+			} );
+
+			it( "should assign the modifier `REDUCED`", ():void => {
+				const token:SelectToken = new SelectToken( "REDUCED" );
+				expect( token.modifier ).toBe( "REDUCED" );
+			} );
+
 			it( "should initialize variables", ():void => {
 				const token:SelectToken = new SelectToken();
 				expect( token.variables ).toEqual( [] );
@@ -213,7 +228,19 @@ describe( "Module SelectToken", ():void => {
 			it( "should print the base SPARQL select", ():void => {
 				const token:SelectToken = new SelectToken();
 
-				expect( token.toString() ).toEqual( "SELECT  WHERE {  }" );
+				expect( token.toString() ).toEqual( "SELECT WHERE {  }" );
+			} );
+
+			it( "should print the base SPARQL select with modifier `DISTINCT`", ():void => {
+				const token:SelectToken = new SelectToken( "DISTINCT" );
+
+				expect( token.toString() ).toEqual( "SELECT DISTINCT WHERE {  }" );
+			} );
+
+			it( "should print the base SPARQL select with modifier `REDUCED`", ():void => {
+				const token:SelectToken = new SelectToken( "REDUCED" );
+
+				expect( token.toString() ).toEqual( "SELECT REDUCED WHERE {  }" );
 			} );
 
 			it( "should print the SPARQL select with variables", ():void => {
@@ -245,7 +272,7 @@ describe( "Module SelectToken", ():void => {
 				;
 
 				expect( token.toString() ).toEqual( "" +
-					"SELECT  " +
+					"SELECT " +
 					"WHERE { " +
 					"" + "?subj a ex:Resource. " +
 					"" + "OPTIONAL { " +
@@ -262,7 +289,7 @@ describe( "Module SelectToken", ():void => {
 				;
 
 				expect( token.toString() ).toEqual( "" +
-					"SELECT  " +
+					"SELECT " +
 					"WHERE {  } " +
 					"LIMIT 10 " +
 					"OFFSET 0",

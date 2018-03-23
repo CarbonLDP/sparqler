@@ -1,7 +1,4 @@
-import {
-	genericDecorator,
-	ValuesClause,
-} from "sparqler/clauses";
+import { ValuesClause, } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
 import {
 	FinishClause,
@@ -122,5 +119,7 @@ function values<T extends FinishClause | SubFinishClause>( this:Container<T>, va
  * @returns The same object provided that has been decorated.
  */
 export function valuesDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & ValuesClause<T> {
-	return genericDecorator( { values }, container, object );
+	return Object.assign( object, {
+		values: values.bind( container ),
+	} );
 }

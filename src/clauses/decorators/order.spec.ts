@@ -86,8 +86,8 @@ describe( "orderDecorator", ():void => {
 				const orderClause:OrderClause = orderDecorator( container, {} );
 
 				let newContainer:Container = void 0;
-				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( ...args ) => {
-					return newContainer = new Container( ...args );
+				const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
+					return newContainer = new Container( arg1, arg2, ...args );
 				} );
 
 				orderClause.orderBy( "?a" );

@@ -8,11 +8,14 @@ import { joinPatterns } from "sparqler/tokens/utils";
 
 export class SelectToken implements TokenNode {
 	readonly token:"select" = "select";
+	readonly modifier?:"DISTINCT" | "REDUCED";
 	readonly variables:VariableToken[];
 	readonly patterns:PatternToken[];
 	readonly modifiers:SolutionModifier[];
 
-	constructor() {
+	constructor( modifier?:"DISTINCT" | "REDUCED" ) {
+		this.modifier = modifier;
+
 		this.variables = [];
 		this.patterns = [];
 		this.modifiers = [];
@@ -34,7 +37,13 @@ export class SelectToken implements TokenNode {
 	}
 
 	toString():string {
-		let query:string = `SELECT ${ this.variables.join( " " ) } WHERE { ${ joinPatterns( this.patterns ) } }`;
+		let query:string = `SELECT`;
+
+		if( this.modifier ) query += ` ${ this.modifier }`;
+		if( this.variables.length ) query += ` ${ this.variables.join( " " ) }`;
+
+		query += ` WHERE { ${ joinPatterns( this.patterns ) } }`;
+
 		if( this.modifiers.length ) query += ` ${ this.modifiers.join( " " ) }`;
 
 		return query;

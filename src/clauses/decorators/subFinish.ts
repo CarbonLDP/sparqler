@@ -1,6 +1,5 @@
 import { SubFinishClause } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
-import { genericDecorator } from "sparqler/clauses/utils";
 import {
 	CLOSE_MULTI_BLOCK,
 	OPEN_MULTI_BLOCK,
@@ -26,5 +25,7 @@ function getPattern( this:Container<SubFinishClause> ):Token[] {
  * @returns The same object provided that has been decorated.
  */
 export function subFinishDecorator<W extends object>( container:Container<SubFinishClause>, object:W ):W & SubFinishClause {
-	return genericDecorator( { getPattern }, container, object );
+	return Object.assign( object, {
+		getPattern: getPattern.bind( container ),
+	} );
 }

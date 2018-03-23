@@ -8,7 +8,6 @@ import {
 	OffsetClause,
 	SubFinishClause,
 } from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
 import {
 	LIMIT,
 	OFFSET,
@@ -110,7 +109,9 @@ export function offset<T extends FinishClause | SubFinishClause>( this:LimitOffs
  * @returns The same object provided that has been decorated.
  */
 export function limitDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & LimitClause<T & ValuesClause<T>> & ValuesClause<T> {
-	return genericDecorator( { limit }, container, valuesDecorator( container, object ) );
+	return Object.assign( valuesDecorator( container, object ), {
+		limit: limit.bind( container ),
+	} );
 }
 
 /**
@@ -122,7 +123,9 @@ export function limitDecorator<T extends FinishClause | SubFinishClause, W exten
  * @returns The same object provided that has been decorated.
  */
 export function offsetDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & OffsetClause<T & ValuesClause<T>> & ValuesClause<T> {
-	return genericDecorator( { offset }, container, valuesDecorator( container, object ) );
+	return Object.assign( valuesDecorator( container, object ), {
+		offset: offset.bind( container ),
+	} );
 }
 
 /**
@@ -134,8 +137,8 @@ export function offsetDecorator<T extends FinishClause | SubFinishClause, W exte
  * @returns The same object provided that has been decorated.
  */
 export function limitOffsetDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & LimitOffsetClause<T> {
-	return genericDecorator( {
-		limit: limit as ( limit:number ) => OffsetClause<T & ValuesClause<T>> & ValuesClause<T> & T,
-		offset: offset as ( offset:number ) => LimitClause<T & ValuesClause<T>> & ValuesClause<T> & T,
-	}, container, valuesDecorator( container, object ) );
+	return Object.assign( valuesDecorator( container, object ), {
+		limit: limit.bind( container ),
+		offset: offset.bind( container ),
+	} );
 }

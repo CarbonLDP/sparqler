@@ -4,7 +4,6 @@ import {
 	FinishClause,
 	QueryClause,
 } from "sparqler/clauses/interfaces";
-import { genericDecorator } from "sparqler/clauses/utils";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	BASE,
@@ -87,5 +86,9 @@ function prefix<T extends FinishClause>( this:Container<T>, name:string, iri:str
  * @returns The same object provided that has been decorated.
  */
 export function queryDecorator<T extends FinishClause, W extends object>( container:Container<T>, object:W ):W & QueryClause<T> {
-	return genericDecorator( { base, vocab, prefix }, container, selectDecorator<T, W>( container, object ) );
+	return Object.assign( selectDecorator( container, object ), {
+		base: base.bind( container ),
+		vocab: vocab.bind( container ),
+		prefix: prefix.bind( container ),
+	} );
 }
