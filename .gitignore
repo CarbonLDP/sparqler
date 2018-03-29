@@ -4,10 +4,17 @@
 # Source files
 src/**/*.js
 src/**/*.map
+
 playground/**/*.js
 playground/**/*.map
+
 build/**/*.js
 build/**/*.map
+
+tools/**/*.js
+tools/**/*.map
+
+gulpfile.js
 
 # NPM
 **/node_modules/
