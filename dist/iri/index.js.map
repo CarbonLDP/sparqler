@@ -1,1 +1,0 @@
-{"version":3,"sources":["iri/index.ts"],"names":[],"mappings":";;;;;AAAA,mCAA8B;AAE9B,6BAAwB","file":"index.js","sourcesContent":["export * from \"./IRIResolver\";\n\nexport * from \"./utils\";\n"]}
