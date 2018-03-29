@@ -1,0 +1,29 @@
+{
+  "name": "sparqler",
+  "version": "0.4.0",
+  "registry": "npm",
+  "description": "SPARQL query buildER for JavaScript/TypeScript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarbonLDP/sparqler.git"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/CarbonLDP/sparqler/issues"
+  },
+  "homepage": "https://github.com/CarbonLDP/sparqler#README",
+  "contributors": [{
+    "name": "Rodolfo Aguirre",
+    "email": "rodolfo.aguirre@base22.com"
+  }, {
+    "name": "Miguel Aragón",
+    "email": "miguel.aragon@base22.com"
+  }],
+  "main": ".cjs/index.js",
+  "module": ".esm5/index.js",
+  "es2015": ".esm2015/index.js",
+  "typings": "dist/index.d.ts",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

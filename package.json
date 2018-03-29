@@ -22,7 +22,9 @@
       "email": "miguel.aragon@base22.com"
     }
   ],
-  "main": "dist/index.js",
+  "main": "dist/.cjs/index.js",
+  "module": "dist/.esm5/index.js",
+  "es2015": "dist/.esm2015/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "node_modules/.bin/gulp build",

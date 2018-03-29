@@ -3,7 +3,7 @@ import { build } from "./tools/gulp/build";
 export default build;
 
 export {
-	build
+	build,
 } from "./tools/gulp/build";
 
 export {
@@ -16,3 +16,10 @@ export {
 	bundle,
 	bundleUMD,
 } from "./tools/gulp/rollup"
+
+export {
+	preparePackage,
+	copyMarkdowns,
+	copyPackage,
+	cleanUMDs,
+} from "./tools/gulp/packages";

@@ -39,8 +39,7 @@ const umdBundler = tasker( async () => {
 	} );
 } );
 
-
 export const bundleUMD = umdBundler( "bundleUMD" );
+
+
 export const bundle = gulp.series( buildESM5, bundleUMD );
-
-

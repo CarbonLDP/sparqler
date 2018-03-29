@@ -9,9 +9,11 @@ import {
 	cleaner,
 	CONFIG
 } from "./common";
+import { preparePackage } from "./packages";
 
 
 export const cleanDist = cleaner( CONFIG.dist.dir )( "cleanDist" );
+
 
 export const build = gulp.series(
 	cleanDist,
@@ -19,5 +21,6 @@ export const build = gulp.series(
 		buildCJS,
 		buildESM2015,
 		bundle,
-	)
+	),
+	preparePackage,
 );
