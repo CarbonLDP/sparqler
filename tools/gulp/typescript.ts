@@ -10,12 +10,8 @@ import {
 	tasker,
 } from "./common";
 
-
-const compiler = ( dist:string, module:"es2015" | "es5" | "commonjs", target:"es2015" | "es5" ) => tasker( () => {
-	const tsProject = ts.createProject( "tsconfig.json", {
-		module,
-		target,
-	} );
+const compiler = ( dist:string, options:ts.Settings ) => tasker( () => {
+	const tsProject = ts.createProject( "tsconfig.json", options );
 
 	const tsResults = gulp.src( CONFIG.src.files )
 		.pipe( replace( /(import[\s\S]*?from +")sparqler\/(.*?)(";)/gm, function( match, $1, $2, $3 ) {
@@ -28,29 +24,26 @@ const compiler = ( dist:string, module:"es2015" | "es5" | "commonjs", target:"es
 	;
 
 	return tsResults.js
-		.pipe( sourcemaps.write( "." ) )
+		.pipe( sourcemaps.write( ".", { sourceRoot: "../src" } ) )
 		.pipe( gulp.dest( dist ) )
 		;
 } );
 
+const baseSettings:ts.Settings = {
+	module: "es2015",
+	target: "es5",
+	importHelpers: true,
 
-export const compileESM2015 = gulp.series(
-	cleaner( CONFIG.dist.esm2015 )( "cleanESM2015" ),
-	compiler( CONFIG.dist.esm2015, "es2015", "es2015" )( "compileESM2015" ),
-);
+};
 
-export const compileESM5 = gulp.series(
-	cleaner( CONFIG.dist.esm5 )( "cleanESM5" ),
-	compiler( CONFIG.dist.esm5, "es2015", "es5" )( "compileESM5" ),
-);
+export const cleanESM5 = cleaner( CONFIG.dist.esm5 )( "cleanESM5" );
+export const compileESM5 = compiler( CONFIG.dist.esm5, { ...baseSettings } )( "compileESM5" );
+export const buildESM5 = gulp.series( cleanESM5, compileESM5 );
 
-export const compileCJS = gulp.series(
-	cleaner( CONFIG.dist.cjs )( "cleanCJS" ),
-	compiler( CONFIG.dist.cjs, "commonjs", "es5" )( "compileCJS" ),
-);
+export const cleanESM2015 = cleaner( CONFIG.dist.esm2015 )( "cleanESM2015" );
+export const compileESM2015 = compiler( CONFIG.dist.esm2015, { ...baseSettings, target: "es2015" } )( "compileESM2015" );
+export const buildESM2015 = gulp.series( cleanESM2015, compileESM2015, );
 
-export const compileAll = gulp.parallel(
-	compileCJS,
-	compileESM2015,
-	compileESM5,
-);
+export const cleanCJS = cleaner( CONFIG.dist.cjs )( "cleanCJS" );
+export const compileCJS = compiler( CONFIG.dist.cjs, { ...baseSettings, module: "commonjs" } )( "compileCJS" );
+export const buildCJS = gulp.series( cleanESM5, compileCJS, );

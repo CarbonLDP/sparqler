@@ -7,7 +7,7 @@ export interface TaskFn extends Function {
 
 
 export const tasker = <T extends TaskFn>( fn?:T ) => ( name?:string ) => {
-	if( typeof name !== "string" ) return fn.call( this, name );
+	if( typeof name !== "string" ) return fn.call( null, name );
 
 	fn.displayName = name;
 	return fn;
@@ -24,12 +24,14 @@ const PATHS = {
 			`${ SRC }**/*.ts`,
 			`!${ SRC }**/*.spec.ts`,
 		],
+		bundle: `${ SRC }umd.ts`,
 	},
 	dist: {
 		dir: DIST,
 		esm2015: `${ DIST }.esm2015/`,
 		esm5: `${ DIST }.esm5/`,
 		cjs: `${ DIST }.cjs/`,
+		bundle: `${ DIST }bundles/`
 	},
 };
 

@@ -28,7 +28,9 @@
     "build": "node_modules/.bin/gulp build",
     "test": "node_modules/.bin/gulp test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "tslib": "^1.9.0"
+  },
   "devDependencies": {
     "@types/del": "^3.0.1",
     "@types/gulp-sourcemaps": "0.0.32",
@@ -37,7 +39,7 @@
     "@types/webpack-env": "^1.13.5",
     "awesome-typescript-loader": "^3.5.0",
     "del": "3.0.0",
-    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp": "^4.0.0",
     "gulp-filter": "5.0.1",
     "gulp-jasmine": "^2.4.2",
     "gulp-json-editor": "2.2.1",
@@ -57,8 +59,8 @@
     "karma-typescript": "^3.0.12",
     "karma-webpack": "^2.0.13",
     "rollup": "^0.57.1",
+    "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-resolve": "0.0.1-predev.1",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "run-sequence": "2.2.0",
     "source-map-support": "^0.5.3",

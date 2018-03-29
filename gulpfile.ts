@@ -5,10 +5,14 @@ export default build;
 export {
 	build
 } from "./tools/gulp/build";
+
 export {
-	compileAll,
-	compileCJS,
-	compileESM2015,
-	compileESM5,
+	buildCJS,
+	buildESM2015,
+	buildESM5,
 } from "./tools/gulp/typescript";
 
+export {
+	bundle,
+	bundleUMD,
+} from "./tools/gulp/rollup"
