@@ -21,5 +21,6 @@ export {
 	preparePackage,
 	copyMarkdowns,
 	copyPackage,
+	makeDirPackages,
 	cleanUMDs,
 } from "./tools/gulp/packages";
