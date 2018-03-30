@@ -24,3 +24,10 @@ export {
 	copyPackage,
 	makeDirPackages,
 } from "./tools/gulp/packages";
+
+export {
+	test,
+	testBrowser,
+	testNode,
+	testWatch,
+} from "./tools/gulp/tests";
