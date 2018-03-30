@@ -6,10 +6,7 @@ import glob from "glob";
 import del from "del";
 import fs from "fs";
 
-import {
-	cleaner,
-	CONFIG
-} from "./common";
+import { CONFIG } from "./common";
 
 
 export function copyMarkdowns() {
@@ -39,15 +36,6 @@ export function copyPackage() {
 		} ) )
 		.pipe( gulp.dest( CONFIG.dist.dir ) );
 }
-
-export const cleanUMDs = gulp.parallel(
-	cleaner( `${ CONFIG.dist.cjs }umd.js` )( "clean:umd-cjs" ),
-	cleaner( `${ CONFIG.dist.cjs }umd.js.map` )( "clean:umd_map-cjs" ),
-	cleaner( `${ CONFIG.dist.esm5 }umd.js` )( "clean:umd-esm5" ),
-	cleaner( `${ CONFIG.dist.esm5 }umd.js.map` )( "clean:umd_map-esm5" ),
-	cleaner( `${ CONFIG.dist.esm2015 }umd.js` )( "clean:umd-esm2015" ),
-	cleaner( `${ CONFIG.dist.esm2015 }umd.js.map` )( "clean:umd_map-esm2015" )
-);
 
 
 export async function makeDirPackages() {
@@ -84,6 +72,5 @@ export async function makeDirPackages() {
 export const preparePackage = gulp.parallel(
 	copyMarkdowns,
 	copyPackage,
-	cleanUMDs,
 	makeDirPackages,
 );

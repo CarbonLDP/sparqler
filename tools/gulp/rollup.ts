@@ -1,18 +1,20 @@
 import path from "path";
+
 import gulp from "gulp";
 import { rollup } from "rollup";
 import replace from "rollup-plugin-replace";
 import resolve from "rollup-plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
 
+import { CONFIG, } from "./common";
 import {
-	CONFIG,
-	tasker
-} from "./common";
-import { buildESM5 } from "./typescript";
+	cleanESM5,
+	cleanESM5UMD,
+	compileESM5,
+} from "./typescript";
 
 
-const umdBundler = tasker( async () => {
+export async function bundleUMD() {
 	const distBundle:string = `${ CONFIG.dist.esm5 }${ path.basename( CONFIG.src.bundle, ".ts" ) }.js`;
 
 	const bundle = await rollup( {
@@ -37,9 +39,12 @@ const umdBundler = tasker( async () => {
 		name: "sparqler",
 		sourcemap: true,
 	} );
-} );
-
-export const bundleUMD = umdBundler( "bundleUMD" );
+}
 
 
-export const bundle = gulp.series( buildESM5, bundleUMD );
+export const bundle = gulp.series(
+	cleanESM5,
+	compileESM5,
+	bundleUMD,
+	cleanESM5UMD,
+);

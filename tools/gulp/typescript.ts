@@ -13,7 +13,12 @@ import {
 const compiler = ( dist:string, options:ts.Settings ) => tasker( () => {
 	const tsProject = ts.createProject( "tsconfig.json", options );
 
-	const tsResults = gulp.src( CONFIG.src.files )
+	const files = [
+		...CONFIG.src.files,
+		...dist !== CONFIG.dist.esm5 ? [ `!${ CONFIG.src.bundle }` ] : []
+	];
+
+	const tsResults = gulp.src( files )
 		.pipe( replace( /(import[\s\S]*?from +")sparqler\/(.*?)(";)/gm, function( match, $1, $2, $3 ) {
 			const fileDir = path.dirname( this.file.relative );
 			const relativePath = path.relative( fileDir, $2 );
@@ -33,12 +38,12 @@ const baseSettings:ts.Settings = {
 	module: "es2015",
 	target: "es5",
 	importHelpers: true,
-
 };
 
 export const cleanESM5 = cleaner( CONFIG.dist.esm5 )( "cleanESM5" );
 export const compileESM5 = compiler( CONFIG.dist.esm5, { ...baseSettings } )( "compileESM5" );
-export const buildESM5 = gulp.series( cleanESM5, compileESM5 );
+export const cleanESM5UMD = cleaner( [ `${ CONFIG.dist.esm5 }umd.js`, `${ CONFIG.dist.esm5 }umd.js.map` ] )( "clean:esm5-umd" );
+export const buildESM5 = gulp.series( cleanESM5, compileESM5, cleanESM5UMD );
 
 export const cleanESM2015 = cleaner( CONFIG.dist.esm2015 )( "cleanESM2015" );
 export const compileESM2015 = compiler( CONFIG.dist.esm2015, { ...baseSettings, target: "es2015" } )( "compileESM2015" );

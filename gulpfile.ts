@@ -22,5 +22,4 @@ export {
 	copyMarkdowns,
 	copyPackage,
 	makeDirPackages,
-	cleanUMDs,
 } from "./tools/gulp/packages";
