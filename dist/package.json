@@ -22,7 +22,7 @@
   "main": ".cjs/index.js",
   "module": ".esm5/index.js",
   "es2015": ".esm2015/index.js",
-  "typings": "dist/index.d.ts",
+  "typings": ".types/index.d.ts",
   "dependencies": {
     "tslib": "^1.9.0"
   }

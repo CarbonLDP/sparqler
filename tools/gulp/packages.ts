@@ -24,6 +24,7 @@ export function copyPackage() {
 	const mainDir:string = path.basename( CONFIG.dist.cjs );
 	const moduleDir:string = path.basename( CONFIG.dist.esm5 );
 	const es2015Dir:string = path.basename( CONFIG.dist.esm2015 );
+	const typesDir:string = path.basename( CONFIG.dist.types );
 
 	return gulp.src( "package.json" )
 		.pipe( jsonEditor( {
@@ -33,6 +34,7 @@ export function copyPackage() {
 			main: `${ mainDir }/index.js`,
 			module: `${ moduleDir }/index.js`,
 			es2015: `${ es2015Dir }/index.js`,
+			typings: `${ typesDir }/index.d.ts`,
 		} ) )
 		.pipe( gulp.dest( CONFIG.dist.dir ) );
 }
@@ -56,12 +58,14 @@ export async function makeDirPackages() {
 		const mainDir:string = `${ path.basename( CONFIG.dist.cjs ) }/${ dir }`;
 		const moduleDir:string = `${ path.basename( CONFIG.dist.esm5 ) }/${ dir }`;
 		const es2015Dir:string = `${ path.basename( CONFIG.dist.esm2015 ) }/${ dir }`;
+		const typesDir:string = `${ path.basename( CONFIG.dist.types ) }/${ dir }`;
 
 		const body = JSON.stringify( {
 			name: `sparqler/${ dir }`,
 			main: `${ path.relative( dir, mainDir ) }/index.js`,
 			module: `${ path.relative( dir, moduleDir ) }/index.js`,
 			es2015: `${ path.relative( dir, es2015Dir ) }/index.js`,
+			typings: `${ path.relative( dir, typesDir ) }/index.d.ts`,
 		}, null, 2 );
 
 		fs.writeFileSync( `${ currentDir }package.json`, body );

@@ -52,3 +52,33 @@ export const buildESM2015 = gulp.series( cleanESM2015, compileESM2015, );
 export const cleanCJS = cleaner( CONFIG.dist.cjs )( "cleanCJS" );
 export const compileCJS = compiler( CONFIG.dist.cjs, { ...baseSettings, module: "commonjs" } )( "compileCJS" );
 export const buildCJS = gulp.series( cleanESM5, compileCJS, );
+
+
+export function generateTypes() {
+	const tsProject = ts.createProject( "tsconfig.json", {
+		target: "es2015",
+		module: "es2015",
+		declaration: true,
+	} );
+
+	const files = [
+		...CONFIG.src.files,
+		`!${ CONFIG.src.bundle }`,
+	];
+
+	const tsResults = gulp.src( files )
+		.pipe( replace( /(import[\s\S]*?from +")sparqler\/(.*?)(";)/gm, function( match, $1, $2, $3 ) {
+			const fileDir = path.dirname( this.file.relative );
+			const relativePath = path.relative( fileDir, $2 );
+			return `${ $1 }./${ relativePath }${ $3 }`;
+		} ) )
+		.pipe( tsProject() )
+	;
+
+	return tsResults.dts
+		.pipe( gulp.dest( CONFIG.dist.types ) )
+		;
+}
+
+export const cleanTypes = cleaner( CONFIG.dist.types )( "cleanTypes" );
+export const buildTypes = gulp.series( cleanTypes, generateTypes );

@@ -2,5 +2,6 @@
   "name": "sparqler/patterns/",
   "main": "../.cjs/patterns/index.js",
   "module": "../.esm5/patterns/index.js",
-  "es2015": "../.esm2015/patterns/index.js"
+  "es2015": "../.esm2015/patterns/index.js",
+  "typings": "../.types/patterns/index.d.ts"
 }

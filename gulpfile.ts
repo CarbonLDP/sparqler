@@ -10,6 +10,7 @@ export {
 	buildCJS,
 	buildESM2015,
 	buildESM5,
+	buildTypes,
 } from "./tools/gulp/typescript";
 
 export {

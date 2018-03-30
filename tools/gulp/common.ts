@@ -31,7 +31,8 @@ const PATHS = {
 		esm2015: `${ DIST }.esm2015/`,
 		esm5: `${ DIST }.esm5/`,
 		cjs: `${ DIST }.cjs/`,
-		bundle: `${ DIST }bundles/`
+		bundle: `${ DIST }bundles/`,
+		types: `${ DIST }.types/`,
 	},
 };
 

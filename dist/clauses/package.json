@@ -2,5 +2,6 @@
   "name": "sparqler/clauses/",
   "main": "../.cjs/clauses/index.js",
   "module": "../.esm5/clauses/index.js",
-  "es2015": "../.esm2015/clauses/index.js"
+  "es2015": "../.esm2015/clauses/index.js",
+  "typings": "../.types/clauses/index.d.ts"
 }

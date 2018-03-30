@@ -2,5 +2,6 @@
   "name": "sparqler/patterns/triples/",
   "main": "../../.cjs/patterns/triples/index.js",
   "module": "../../.esm5/patterns/triples/index.js",
-  "es2015": "../../.esm2015/patterns/triples/index.js"
+  "es2015": "../../.esm2015/patterns/triples/index.js",
+  "typings": "../../.types/patterns/triples/index.d.ts"
 }

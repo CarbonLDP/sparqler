@@ -2,5 +2,6 @@
   "name": "sparqler/clauses/decorators/",
   "main": "../../.cjs/clauses/decorators/index.js",
   "module": "../../.esm5/clauses/decorators/index.js",
-  "es2015": "../../.esm2015/clauses/decorators/index.js"
+  "es2015": "../../.esm2015/clauses/decorators/index.js",
+  "typings": "../../.types/clauses/decorators/index.d.ts"
 }
