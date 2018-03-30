@@ -41,17 +41,17 @@ const baseSettings:ts.Settings = {
 };
 
 export const cleanESM5 = cleaner( CONFIG.dist.esm5 )( "cleanESM5" );
-export const compileESM5 = compiler( CONFIG.dist.esm5, { ...baseSettings } )( "compileESM5" );
+export const generateESM5 = compiler( CONFIG.dist.esm5, { ...baseSettings } )( "generateESM5" );
 export const cleanESM5UMD = cleaner( [ `${ CONFIG.dist.esm5 }umd.js`, `${ CONFIG.dist.esm5 }umd.js.map` ] )( "clean:esm5-umd" );
-export const buildESM5 = gulp.series( cleanESM5, compileESM5, cleanESM5UMD );
+export const buildESM5 = gulp.series( cleanESM5, generateESM5, cleanESM5UMD );
 
 export const cleanESM2015 = cleaner( CONFIG.dist.esm2015 )( "cleanESM2015" );
-export const compileESM2015 = compiler( CONFIG.dist.esm2015, { ...baseSettings, target: "es2015" } )( "compileESM2015" );
-export const buildESM2015 = gulp.series( cleanESM2015, compileESM2015, );
+export const generateESM2015 = compiler( CONFIG.dist.esm2015, { ...baseSettings, target: "es2015" } )( "generateESM2015" );
+export const buildESM2015 = gulp.series( cleanESM2015, generateESM2015, );
 
 export const cleanCJS = cleaner( CONFIG.dist.cjs )( "cleanCJS" );
-export const compileCJS = compiler( CONFIG.dist.cjs, { ...baseSettings, module: "commonjs" } )( "compileCJS" );
-export const buildCJS = gulp.series( cleanESM5, compileCJS, );
+export const generateCJS = compiler( CONFIG.dist.cjs, { ...baseSettings, module: "commonjs" } )( "generateCJS" );
+export const buildCJS = gulp.series( cleanESM5, generateCJS, );
 
 
 export function generateTypes() {

@@ -10,7 +10,7 @@ import { CONFIG, } from "./common";
 import {
 	cleanESM5,
 	cleanESM5UMD,
-	compileESM5,
+	generateESM5,
 } from "./typescript";
 
 
@@ -44,7 +44,7 @@ export async function bundleUMD() {
 
 export const bundle = gulp.series(
 	cleanESM5,
-	compileESM5,
+	generateESM5,
 	bundleUMD,
 	cleanESM5UMD,
 );
