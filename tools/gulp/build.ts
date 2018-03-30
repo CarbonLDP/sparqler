@@ -3,9 +3,9 @@ import fs from "fs";
 import gulp from "gulp";
 
 import {
-	buildCJS,
-	buildESM2015,
-	buildTypes,
+	generateCJS,
+	generateESM2015,
+	generateTypes,
 } from "./typescript";
 import { bundle } from "./rollup";
 import {
@@ -26,9 +26,9 @@ export const build = gulp.series(
 	cleanDist,
 	createDist,
 	gulp.parallel(
-		buildCJS,
-		buildESM2015,
-		buildTypes,
+		generateCJS,
+		generateESM2015,
+		generateTypes,
 		bundle,
 		preparePackage,
 	),

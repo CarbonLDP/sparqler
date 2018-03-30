@@ -1,3 +1,5 @@
+import path from "path";
+
 import del from "del";
 import gulp from "gulp";
 
@@ -15,7 +17,7 @@ const DIST:string = "dist/";
 
 const PATHS = {
 	src: {
-		dir: SRC,
+		dir: path.resolve( SRC ),
 		files: [
 			`${ SRC }**/*.ts`,
 			`!${ SRC }**/*.spec.ts`,
@@ -23,12 +25,12 @@ const PATHS = {
 		bundle: `${ SRC }umd.ts`,
 	},
 	dist: {
-		dir: DIST,
+		dir: path.resolve( DIST ),
 		esm2015: `${ DIST }.esm2015/`,
 		esm5: `${ DIST }.esm5/`,
-		cjs: `${ DIST }.cjs/`,
+		cjs: `${ DIST }`,
 		bundle: `${ DIST }bundles/`,
-		types: `${ DIST }.types/`,
+		types: `${ DIST }`,
 	},
 };
 

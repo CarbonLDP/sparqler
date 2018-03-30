@@ -12,17 +12,20 @@
     "url": "https://github.com/CarbonLDP/sparqler/issues"
   },
   "homepage": "https://github.com/CarbonLDP/sparqler#README",
-  "contributors": [{
-    "name": "Rodolfo Aguirre",
-    "email": "rodolfo.aguirre@base22.com"
-  }, {
-    "name": "Miguel Aragón",
-    "email": "miguel.aragon@base22.com"
-  }],
-  "main": ".cjs/index.js",
+  "contributors": [
+    {
+      "name": "Rodolfo Aguirre",
+      "email": "rodolfo.aguirre@base22.com"
+    },
+    {
+      "name": "Miguel Aragón",
+      "email": "miguel.aragon@base22.com"
+    }
+  ],
+  "main": "index.js",
   "module": ".esm5/index.js",
   "es2015": ".esm2015/index.js",
-  "typings": ".types/index.d.ts",
+  "typings": "index.d.ts",
   "dependencies": {
     "tslib": "^1.9.0"
   }

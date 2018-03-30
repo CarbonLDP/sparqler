@@ -1,7 +1,7 @@
 {
-  "name": "sparqler/tokens/",
-  "main": "../.cjs/tokens/index.js",
+  "name": "sparqler/tokens",
+  "main": "index.js",
   "module": "../.esm5/tokens/index.js",
   "es2015": "../.esm2015/tokens/index.js",
-  "typings": "../.types/tokens/index.d.ts"
+  "typings": "index.d.ts"
 }

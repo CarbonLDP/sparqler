@@ -1,7 +1,7 @@
 {
-  "name": "sparqler/clauses/",
-  "main": "../.cjs/clauses/index.js",
+  "name": "sparqler/clauses",
+  "main": "index.js",
   "module": "../.esm5/clauses/index.js",
   "es2015": "../.esm2015/clauses/index.js",
-  "typings": "../.types/clauses/index.d.ts"
+  "typings": "index.d.ts"
 }

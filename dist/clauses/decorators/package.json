@@ -1,7 +1,7 @@
 {
-  "name": "sparqler/clauses/decorators/",
-  "main": "../../.cjs/clauses/decorators/index.js",
+  "name": "sparqler/clauses/decorators",
+  "main": "index.js",
   "module": "../../.esm5/clauses/decorators/index.js",
   "es2015": "../../.esm2015/clauses/decorators/index.js",
-  "typings": "../../.types/clauses/decorators/index.d.ts"
+  "typings": "index.d.ts"
 }

@@ -1,7 +1,7 @@
 {
-  "name": "sparqler/iri/",
-  "main": "../.cjs/iri/index.js",
+  "name": "sparqler/iri",
+  "main": "index.js",
   "module": "../.esm5/iri/index.js",
   "es2015": "../.esm2015/iri/index.js",
-  "typings": "../.types/iri/index.d.ts"
+  "typings": "index.d.ts"
 }
