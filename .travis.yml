@@ -10,8 +10,8 @@ addons:
   chrome: stable
 
 install:
-  npm i npm@^5.7 -g
-  npm ci
+  - npm i npm@^5.7 -g
+  - npm ci
 
 script:
   - npm test
