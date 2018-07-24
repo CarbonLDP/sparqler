@@ -9,6 +9,8 @@ import {
 	CLOSE_MULTI_LIST,
 	EMPTY_SEPARATOR,
 	GRAPH_PATTERN_SEPARATOR,
+	LIMIT,
+	OFFSET,
 	OPEN_MULTI_BLOCK,
 	OPEN_MULTI_BN,
 	OPEN_MULTI_LIST,
@@ -64,11 +66,26 @@ function toCompactString( this:Container<FinishClause> ):string {
 		tokens.unshift( new StringLiteral( baseString ) );
 	}
 
+	let addSpace:boolean = false;
 	return tokens.reduce( ( res, token, index, thisArray ) => {
 		let nextToken:Token = thisArray[ index + 1 ];
 
 		if( nextToken === EMPTY_SEPARATOR ) nextToken = thisArray[ index + 2 ];
-		return res + token.getTokenValue( TokenFormat.COMPACT, nextToken );
+
+		if( token === LIMIT || token === OFFSET ) {
+			addSpace = true;
+			return res + token.getTokenValue() + " ";
+		}
+
+
+		let tokenStr = token.getTokenValue( TokenFormat.COMPACT, nextToken );
+
+		if( addSpace ) {
+			tokenStr += " ";
+			addSpace = false;
+		}
+
+		return res + tokenStr;
 	}, "" );
 }
 

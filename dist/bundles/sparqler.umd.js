@@ -806,11 +806,21 @@ function toCompactString() {
         }, "") + "\n";
         tokens.unshift(new tokens_2.StringLiteral(baseString));
     }
+    var addSpace = false;
     return tokens.reduce(function (res, token, index, thisArray) {
         var nextToken = thisArray[index + 1];
         if (nextToken === tokens_1.EMPTY_SEPARATOR)
             nextToken = thisArray[index + 2];
-        return res + token.getTokenValue(tokens_2.TokenFormat.COMPACT, nextToken);
+        if (token === tokens_1.LIMIT || token === tokens_1.OFFSET) {
+            addSpace = true;
+            return res + token.getTokenValue() + " ";
+        }
+        var tokenStr = token.getTokenValue(tokens_2.TokenFormat.COMPACT, nextToken);
+        if (addSpace) {
+            tokenStr += " ";
+            addSpace = false;
+        }
+        return res + tokenStr;
     }, "");
 }
 function toPrettyString() {

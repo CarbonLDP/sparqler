@@ -1,4 +1,4 @@
-import SPARQLER from "../src";
+import SPARQLER from "../dist";
 
 const startTime:[ number, number ] = process.hrtime();
 
@@ -128,6 +128,7 @@ const finishQuery = builder
 	} )
 
 	.limit( 2 )
+	.offset( 5 )
 	.values( "var1", [ "value1", "value2" ] );
 
 let difference:number[] = process.hrtime( startTime );
