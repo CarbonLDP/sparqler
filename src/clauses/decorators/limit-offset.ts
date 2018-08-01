@@ -1,13 +1,13 @@
 import { ValuesClause } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
 import { valuesDecorator } from "sparqler/clauses/decorators/values";
+import { FinishClause } from "sparqler/clauses/FinishClause";
 import {
-	FinishClause,
-	LimitClause,
-	LimitOffsetClause,
-	OffsetClause,
 	SubFinishClause,
 } from "sparqler/clauses/interfaces";
+import { LimitClause } from "sparqler/clauses/LimitClause";
+import { LimitOffsetClause } from "sparqler/clauses/LimitOffsetClause";
+import { OffsetClause } from "sparqler/clauses/OffsetClause";
 import {
 	LIMIT,
 	OFFSET,

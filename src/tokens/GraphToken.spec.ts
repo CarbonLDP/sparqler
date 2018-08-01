@@ -1,4 +1,4 @@
-import { PatternToken } from "sparqler/tokens/index";
+import { PatternToken } from "sparqler/tokens/PatternToken";
 import { OptionalToken } from "sparqler/tokens/OptionalToken";
 import { PredicateToken } from "sparqler/tokens/PredicateToken";
 import { SubjectToken } from "sparqler/tokens/SubjectToken";

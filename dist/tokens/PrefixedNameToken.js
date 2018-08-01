@@ -4,6 +4,7 @@ var utils_1 = require("./../iri/utils");
 var NAMESPACE_REGEX = /^([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?$/;
 var PrefixedNameToken = (function () {
     function PrefixedNameToken(prefixedOrNamespace, localName) {
+        var _a;
         this.token = "prefixedName";
         var namespace = prefixedOrNamespace;
         if (localName === void 0) {
@@ -23,7 +24,6 @@ var PrefixedNameToken = (function () {
         if (ln2)
             preSanitation += ln3.replace(/([.])/g, "\\$1");
         this.localName = preSanitation.replace(/([~!$&'|()*+,;=/?#@%])/g, "\\$1");
-        var _a;
     }
     PrefixedNameToken.prototype.toString = function () {
         return this.namespace + ":" + this.localName;

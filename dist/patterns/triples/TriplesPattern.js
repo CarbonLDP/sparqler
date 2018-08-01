@@ -29,6 +29,7 @@ var TriplesPattern = (function () {
     };
     ;
     TriplesPattern.prototype._addPattern = function (property, objects) {
+        var _a;
         var tokens = (typeof property === "string")
             ? this._resolvePath(property)
             : property.getSelfTokens();
@@ -40,7 +41,6 @@ var TriplesPattern = (function () {
         });
         (_a = this.patternTokens).push.apply(_a, tokens);
         return Object.assign({}, this.interfaces.addPattern, this.interfaces.graphPattern);
-        var _a;
     };
     TriplesPattern.prototype._resolvePath = function (propertyPath) {
         var _this = this;

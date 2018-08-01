@@ -1,7 +1,7 @@
 import { finishDecorator as originalFinishDecorator } from "sparqler/clauses/decorators/finish";
 import { subFinishDecorator } from "sparqler/clauses/decorators/subFinish";
+import { FinishClause } from "sparqler/clauses/FinishClause";
 import {
-	FinishClause,
 	SubFinishClause,
 } from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
@@ -50,7 +50,7 @@ export class Container<T extends FinishClause | SubFinishClause = FinishClause> 
 	 *
 	 * @param finishDecorator The finish decorated to be used in the container.
 	 */
-	constructor( finishDecorator:FinishDecorator<T> );
+	constructor( finishDecorator?:FinishDecorator<T> );
 	/**
 	 * Creates a container copping the data of the previous container provided.
 	 *

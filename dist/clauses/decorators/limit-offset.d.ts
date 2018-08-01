@@ -1,10 +1,14 @@
 import { ValuesClause } from "./..";
 import { Container } from "./../Container";
-import { FinishClause, LimitClause, LimitOffsetClause, OffsetClause, SubFinishClause } from "./../interfaces";
+import { FinishClause } from "./../FinishClause";
+import { SubFinishClause } from "./../interfaces";
+import { LimitClause } from "./../LimitClause";
+import { LimitOffsetClause } from "./../LimitOffsetClause";
+import { OffsetClause } from "./../OffsetClause";
 import { Token } from "./../../tokens";
 export declare enum CurrentMethod {
     LIMIT = 0,
-    OFFSET = 1,
+    OFFSET = 1
 }
 export declare class LimitOffsetContainer<T extends FinishClause | SubFinishClause = FinishClause> extends Container<T> {
     readonly _limitUsed: boolean;

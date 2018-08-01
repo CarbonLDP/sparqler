@@ -1,4 +1,4 @@
-import SPARQLER from "../src";
+import SPARQLER from "../dist";
 
 const startTime:[ number, number ] = process.hrtime();
 

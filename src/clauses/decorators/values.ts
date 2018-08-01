@@ -1,7 +1,7 @@
 import { ValuesClause, } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
+import { FinishClause } from "sparqler/clauses/FinishClause";
 import {
-	FinishClause,
 	SubFinishClause,
 } from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";

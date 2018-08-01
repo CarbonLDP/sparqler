@@ -1,26 +1,28 @@
-import {
-	PatternToken,
-	VariableOrIRI,
-} from "sparqler/tokens";
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { joinPatterns } from "sparqler/tokens/utils";
+import { VariableOrIRI } from "sparqler/tokens";
+import { GroupPatternToken } from "./GroupPatternToken";
+import { PatternToken } from "./PatternToken";
+import { TokenNode } from "./TokenNode";
+
 
 export class GraphToken implements TokenNode {
 	readonly token:"graph" = "graph";
+
 	readonly graph:VariableOrIRI;
-	readonly patterns:PatternToken[];
+	readonly groupPattern:GroupPatternToken;
 
 	constructor( graph:VariableOrIRI ) {
 		this.graph = graph;
-		this.patterns = [];
+		this.groupPattern = new GroupPatternToken();
 	}
 
+
 	addPattern( ...pattern:PatternToken[] ):this {
-		this.patterns.push( ...pattern );
+		this.groupPattern.patterns.push( ...pattern );
 		return this;
 	}
 
+
 	toString():string {
-		return `GRAPH ${ this.graph } { ${ joinPatterns( this.patterns ) } }`;
+		return `GRAPH ${ this.graph } ${ this.groupPattern }`;
 	}
 }

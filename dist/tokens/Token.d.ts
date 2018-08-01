@@ -3,7 +3,7 @@ export declare const SPACE_SEPARATOR: string;
 export declare const NEW_LINE_SEPARATOR: string;
 export declare enum TokenFormat {
     PRETTY = 0,
-    COMPACT = 1,
+    COMPACT = 1
 }
 export declare abstract class Token {
     protected value: string;

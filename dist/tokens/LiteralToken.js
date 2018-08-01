@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var iri_1 = require("./../iri");
+var utils_1 = require("../iri/utils");
 var BooleanToken_1 = require("./BooleanToken");
 var IRIToken_1 = require("./IRIToken");
 var LanguageToken_1 = require("./LanguageToken");
@@ -16,7 +16,7 @@ var LiteralToken = (function () {
     }
     LiteralToken.prototype.setValue = function (value) {
         if (this.value && this.value.value === value)
-            return;
+            return this;
         this.value = typeof value === "boolean" ? new BooleanToken_1.BooleanToken(value) :
             typeof value === "number" ? new NumberToken_1.NumberToken(value) :
                 new StringToken_1.StringToken(value);
@@ -27,7 +27,7 @@ var LiteralToken = (function () {
             throw new Error("Must set a value before a type.");
         if (this.value.token !== "string")
             this.value = new StringToken_1.StringToken("" + this.value);
-        this.type = typeof type === "string" ? iri_1.isPrefixed(type) ?
+        this.type = typeof type === "string" ? utils_1.isPrefixed(type) ?
             new PrefixedNameToken_1.PrefixedNameToken(type) : new IRIToken_1.IRIToken(type) : type;
         return this;
     };

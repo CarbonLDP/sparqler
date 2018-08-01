@@ -1,12 +1,10 @@
-import {
-	PatternToken,
-	SolutionModifier,
-} from "sparqler/tokens";
+import { PatternToken, } from "sparqler/tokens";
 import { LimitToken } from "sparqler/tokens/LimitToken";
 import { OffsetToken } from "sparqler/tokens/OffsetToken";
 import { OptionalToken } from "sparqler/tokens/OptionalToken";
 import { PredicateToken } from "sparqler/tokens/PredicateToken";
 import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
+import { SolutionModifierToken } from "sparqler/tokens/SolutionModifierToken";
 import { SubjectToken } from "sparqler/tokens/SubjectToken";
 import { VariableToken } from "sparqler/tokens/VariableToken";
 
@@ -57,7 +55,7 @@ describe( "Module SelectToken", ():void => {
 
 			it( "should initialize patterns", ():void => {
 				const token:SelectToken = new SelectToken();
-				expect( token.patterns ).toEqual( [] );
+				expect( token.where ).toEqual( [] );
 			} );
 
 			it( "should initialize modifiers", ():void => {
@@ -133,7 +131,7 @@ describe( "Module SelectToken", ():void => {
 				const pattern:PatternToken = new SubjectToken( new VariableToken( "pattern" ) );
 				token.addPattern( pattern );
 
-				expect( token.patterns ).toEqual( [ pattern ] );
+				expect( token.where ).toEqual( [ pattern ] );
 			} );
 
 			it( "should add multiple patterns", ():void => {
@@ -143,7 +141,7 @@ describe( "Module SelectToken", ():void => {
 				const pattern2:PatternToken = new OptionalToken();
 				token.addPattern( pattern1, pattern2 );
 
-				expect( token.patterns ).toEqual( [ pattern1, pattern2 ] );
+				expect( token.where ).toEqual( [ pattern1, pattern2 ] );
 			} );
 
 			it( "should append patterns", ():void => {
@@ -155,7 +153,7 @@ describe( "Module SelectToken", ():void => {
 				const newPattern:PatternToken = new OptionalToken();
 				token.addPattern( newPattern );
 
-				expect( token.patterns ).toEqual( [ firstPattern, newPattern ] );
+				expect( token.where ).toEqual( [ firstPattern, newPattern ] );
 			} );
 
 			it( "should return itself", ():void => {
@@ -179,7 +177,7 @@ describe( "Module SelectToken", ():void => {
 			it( "should add single modifier", ():void => {
 				const token:SelectToken = new SelectToken();
 
-				const modifier:SolutionModifier = new LimitToken( 10 );
+				const modifier:SolutionModifierToken = new LimitToken( 10 );
 				token.addModifier( modifier );
 
 				expect( token.modifiers ).toEqual( [ modifier ] );
@@ -188,8 +186,8 @@ describe( "Module SelectToken", ():void => {
 			it( "should add multiple modifiers", ():void => {
 				const token:SelectToken = new SelectToken();
 
-				const modifier1:SolutionModifier = new LimitToken( 10 );
-				const modifier2:SolutionModifier = new OffsetToken( 0 );
+				const modifier1:SolutionModifierToken = new LimitToken( 10 );
+				const modifier2:SolutionModifierToken = new OffsetToken( 0 );
 				token.addModifier( modifier1, modifier2 );
 
 				expect( token.modifiers ).toEqual( [ modifier1, modifier2 ] );
@@ -198,10 +196,10 @@ describe( "Module SelectToken", ():void => {
 			it( "should append modifiers", ():void => {
 				const token:SelectToken = new SelectToken();
 
-				const firstModifier:SolutionModifier = new LimitToken( 10 );
+				const firstModifier:SolutionModifierToken = new LimitToken( 10 );
 				token.addModifier( firstModifier );
 
-				const newModifier:SolutionModifier = new OffsetToken( 0 );
+				const newModifier:SolutionModifierToken = new OffsetToken( 0 );
 				token.addModifier( newModifier );
 
 				expect( token.modifiers ).toEqual( [ firstModifier, newModifier ] );
@@ -210,7 +208,7 @@ describe( "Module SelectToken", ():void => {
 			it( "should return itself", ():void => {
 				const token:SelectToken = new SelectToken();
 
-				const modifier:SolutionModifier = new LimitToken( 10 );
+				const modifier:SolutionModifierToken = new LimitToken( 10 );
 				const returned:SelectToken = token.addModifier( modifier );
 
 				expect( returned ).toBe( token );

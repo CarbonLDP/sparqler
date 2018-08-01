@@ -1,21 +1,25 @@
-import { PatternToken } from "sparqler/tokens";
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { joinPatterns } from "sparqler/tokens/utils";
+import { GroupPatternToken } from "./GroupPatternToken";
+import { PatternToken } from "./PatternToken";
+import { TokenNode } from "./TokenNode";
+
 
 export class OptionalToken implements TokenNode {
 	readonly token:"optional" = "optional";
-	readonly patterns:PatternToken[];
+
+	readonly groupPattern:GroupPatternToken;
 
 	constructor() {
-		this.patterns = [];
+		this.groupPattern = new GroupPatternToken();
 	}
 
+
 	addPattern( ...pattern:PatternToken[] ):this {
-		this.patterns.push( ...pattern );
+		this.groupPattern.patterns.push( ...pattern );
 		return this;
 	}
 
+
 	toString():string {
-		return `OPTIONAL { ${ joinPatterns( this.patterns ) } }`;
+		return `OPTIONAL ${ this.groupPattern }`;
 	}
 }

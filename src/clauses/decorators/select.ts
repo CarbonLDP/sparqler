@@ -4,14 +4,14 @@ import {
 	subFinishDecorator,
 	subWhereDecorator,
 } from "sparqler/clauses/decorators";
+import { FinishClause } from "sparqler/clauses/FinishClause";
+import { FromClause } from "sparqler/clauses/FormClause";
 import {
-	FinishClause,
-	FromClause,
-	SelectClause,
 	SubFinishClause,
 	SubSelectClause,
 	SubWhereClause,
 } from "sparqler/clauses/interfaces";
+import { SelectClause } from "sparqler/clauses/SelectClause";
 import {
 	ALL,
 	DISTINCT,

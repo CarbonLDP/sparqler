@@ -1,15 +1,8 @@
-import { PatternToken, SolutionModifier } from "./";
-import { TokenNode } from "./TokenNode";
-import { VariableToken } from "./VariableToken";
-export declare class SelectToken implements TokenNode {
+import { CommonSelectToken } from "./CommonSelectToken";
+import { FromToken } from "./FromToken";
+export declare class SelectToken extends CommonSelectToken {
     readonly token: "select";
-    readonly modifier?: "DISTINCT" | "REDUCED";
-    readonly variables: VariableToken[];
-    readonly patterns: PatternToken[];
-    readonly modifiers: SolutionModifier[];
-    constructor(modifier?: "DISTINCT" | "REDUCED");
-    addVariable(...variables: VariableToken[]): this;
-    addPattern(...patterns: PatternToken[]): this;
-    addModifier(...modifier: SolutionModifier[]): this;
+    readonly dataset?: FromToken;
+    constructor(modifier?: "DISTINCT" | "REDUCED", dataset?: FromToken);
     toString(): string;
 }

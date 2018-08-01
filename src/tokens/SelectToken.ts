@@ -1,48 +1,25 @@
-import {
-	PatternToken,
-	SolutionModifier,
-} from "sparqler/tokens";
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { VariableToken } from "sparqler/tokens/VariableToken";
-import { joinPatterns } from "sparqler/tokens/utils";
+import { CommonSelectToken } from "./CommonSelectToken";
+import { FromToken } from "./FromToken";
 
-export class SelectToken implements TokenNode {
+
+export class SelectToken extends CommonSelectToken {
 	readonly token:"select" = "select";
-	readonly modifier?:"DISTINCT" | "REDUCED";
-	readonly variables:VariableToken[];
-	readonly patterns:PatternToken[];
-	readonly modifiers:SolutionModifier[];
 
-	constructor( modifier?:"DISTINCT" | "REDUCED" ) {
-		this.modifier = modifier;
+	readonly dataset?:FromToken;
 
-		this.variables = [];
-		this.patterns = [];
-		this.modifiers = [];
+	constructor( modifier?:"DISTINCT" | "REDUCED", dataset?:FromToken ) {
+		super( modifier );
+
+		this.dataset = dataset;
 	}
 
-	addVariable( ...variables:VariableToken[] ):this {
-		this.variables.push( ...variables );
-		return this;
-	}
-
-	addPattern( ...patterns:PatternToken[] ):this {
-		this.patterns.push( ...patterns );
-		return this;
-	}
-
-	addModifier( ...modifier:SolutionModifier[] ):this {
-		this.modifiers.push( ...modifier );
-		return this;
-	}
 
 	toString():string {
-		let query:string = `SELECT`;
+		let query:string = super.toString();
 
-		if( this.modifier ) query += ` ${ this.modifier }`;
-		if( this.variables.length ) query += ` ${ this.variables.join( " " ) }`;
+		if( this.dataset ) query += ` ${ this.dataset }`;
 
-		query += ` WHERE { ${ joinPatterns( this.patterns ) } }`;
+		query += ` ${ this.where }`;
 
 		if( this.modifiers.length ) query += ` ${ this.modifiers.join( " " ) }`;
 

@@ -16,6 +16,7 @@ var ObjectPattern_1 = require("./../../utils/ObjectPattern");
 var ValuesPattern = (function (_super) {
     __extends(ValuesPattern, _super);
     function ValuesPattern(resolver, variables) {
+        var _a;
         var _this = _super.call(this, [tokens_1.VALUES]) || this;
         _this.init();
         _this.resolver = resolver;
@@ -26,13 +27,12 @@ var ValuesPattern = (function (_super) {
         else {
             _this.patternTokens.push(tokens_1.OPEN_SINGLE_LIST);
             variables.forEach(function (variable) {
-                return (_a = _this.patternTokens).push.apply(_a, variable.getSelfTokens());
                 var _a;
+                return (_a = _this.patternTokens).push.apply(_a, variable.getSelfTokens());
             });
             _this.patternTokens.push(tokens_1.CLOSE_SINGLE_LIST, tokens_1.OPEN_MULTI_BLOCK);
         }
         return _this;
-        var _a;
     }
     ValuesPattern.prototype.has = function () {
         var _this = this;
@@ -40,6 +40,7 @@ var ValuesPattern = (function (_super) {
         for (var _i = 0; _i < arguments.length; _i++) {
             values[_i] = arguments[_i];
         }
+        var _a;
         if (this.length !== values.length)
             throw new Error("InvalidArgumentError: The number of variables and values are different.");
         if (this.length === 1) {
@@ -48,13 +49,12 @@ var ValuesPattern = (function (_super) {
         else {
             this.patternTokens.push(tokens_1.OPEN_SINGLE_LIST);
             values.forEach(function (value) {
-                return (_a = _this.patternTokens).push.apply(_a, ObjectPattern_1.serialize(value));
                 var _a;
+                return (_a = _this.patternTokens).push.apply(_a, ObjectPattern_1.serialize(value));
             });
             this.patternTokens.push(tokens_1.CLOSE_SINGLE_LIST);
         }
         return this.interfaces.addPattern;
-        var _a;
     };
     ValuesPattern.prototype.getPattern = function () {
         if (this.length === 1) {

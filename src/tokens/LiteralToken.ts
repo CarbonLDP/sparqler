@@ -1,4 +1,4 @@
-import { isPrefixed } from "sparqler/iri";
+import { isPrefixed } from "../iri/utils";
 
 import { BooleanToken } from "./BooleanToken";
 import { IRIToken } from "./IRIToken";
@@ -8,8 +8,10 @@ import { PrefixedNameToken } from "./PrefixedNameToken";
 import { StringToken } from "./StringToken";
 import { TokenNode } from "./TokenNode";
 
+
 export class LiteralToken implements TokenNode {
 	readonly token:"literal" = "literal";
+
 	value?:NumberToken | BooleanToken | StringToken;
 	type?:IRIToken | PrefixedNameToken;
 	language?:LanguageToken;
@@ -19,8 +21,10 @@ export class LiteralToken implements TokenNode {
 		this.setValue( value );
 	}
 
+
 	setValue( value:boolean | number | string ):this {
-		if( this.value && this.value.value === value ) return;
+		if( this.value && this.value.value === value )
+			return this;
 
 		this.value = typeof  value === "boolean" ? new BooleanToken( value ) :
 			typeof value === "number" ? new NumberToken( value ) :
@@ -46,6 +50,7 @@ export class LiteralToken implements TokenNode {
 
 		return this;
 	}
+
 
 	toString():string {
 		if( this.language ) return `${ this.value }${ this.language }`;

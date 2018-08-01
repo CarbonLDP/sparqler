@@ -1,54 +1,35 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = require("./utils");
-var SelectToken = (function () {
-    function SelectToken(modifier) {
-        this.token = "select";
-        this.modifier = modifier;
-        this.variables = [];
-        this.patterns = [];
-        this.modifiers = [];
+var CommonSelectToken_1 = require("./CommonSelectToken");
+var SelectToken = (function (_super) {
+    __extends(SelectToken, _super);
+    function SelectToken(modifier, dataset) {
+        var _this = _super.call(this, modifier) || this;
+        _this.token = "select";
+        _this.dataset = dataset;
+        return _this;
     }
-    SelectToken.prototype.addVariable = function () {
-        var variables = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            variables[_i] = arguments[_i];
-        }
-        (_a = this.variables).push.apply(_a, variables);
-        return this;
-        var _a;
-    };
-    SelectToken.prototype.addPattern = function () {
-        var patterns = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            patterns[_i] = arguments[_i];
-        }
-        (_a = this.patterns).push.apply(_a, patterns);
-        return this;
-        var _a;
-    };
-    SelectToken.prototype.addModifier = function () {
-        var modifier = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            modifier[_i] = arguments[_i];
-        }
-        (_a = this.modifiers).push.apply(_a, modifier);
-        return this;
-        var _a;
-    };
     SelectToken.prototype.toString = function () {
-        var query = "SELECT";
-        if (this.modifier)
-            query += " " + this.modifier;
-        if (this.variables.length)
-            query += " " + this.variables.join(" ");
-        query += " WHERE { " + utils_1.joinPatterns(this.patterns) + " }";
+        var query = _super.prototype.toString.call(this);
+        if (this.dataset)
+            query += " " + this.dataset;
+        query += " " + this.where;
         if (this.modifiers.length)
             query += " " + this.modifiers.join(" ");
         return query;
     };
     return SelectToken;
-}());
+}(CommonSelectToken_1.CommonSelectToken));
 exports.SelectToken = SelectToken;
 
 //# sourceMappingURL=SelectToken.js.map

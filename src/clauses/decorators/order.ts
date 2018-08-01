@@ -1,11 +1,11 @@
 import { Container } from "sparqler/clauses/Container";
 import { limitOffsetDecorator } from "sparqler/clauses/decorators";
+import { FinishClause } from "sparqler/clauses/FinishClause";
 import {
-	FinishClause,
-	LimitOffsetClause,
-	OrderClause,
 	SubFinishClause,
 } from "sparqler/clauses/interfaces";
+import { LimitOffsetClause } from "sparqler/clauses/LimitOffsetClause";
+import { OrderClause } from "sparqler/clauses/OrderClause";
 import {
 	BY,
 	ORDER,

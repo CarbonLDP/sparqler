@@ -34,7 +34,7 @@ describe( "Module QueryToken", ():void => {
 				const construct:ConstructToken = new ConstructToken();
 				const token:QueryToken = new QueryToken( construct );
 
-				expect( token.query ).toBe( construct );
+				expect( token.queryClause ).toBe( construct );
 			} );
 
 			it( "should not assign values if no provided", ():void => {

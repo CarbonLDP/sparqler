@@ -16,6 +16,6 @@ export declare class ValuesPattern extends NotTriplesPattern implements SingleVa
     has(value: Undefined): SingleValuesPatternMore;
     has(...values: (SupportedNativeTypes | Resource | Literal | Undefined)[]): MultipleValuesPatternMore;
     getPattern(): Token[];
-    private init();
+    private init;
 }
 export default ValuesPattern;

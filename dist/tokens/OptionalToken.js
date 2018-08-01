@@ -1,22 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = require("./utils");
+var GroupPatternToken_1 = require("./GroupPatternToken");
 var OptionalToken = (function () {
     function OptionalToken() {
         this.token = "optional";
-        this.patterns = [];
+        this.groupPattern = new GroupPatternToken_1.GroupPatternToken();
     }
     OptionalToken.prototype.addPattern = function () {
         var pattern = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             pattern[_i] = arguments[_i];
         }
-        (_a = this.patterns).push.apply(_a, pattern);
-        return this;
         var _a;
+        (_a = this.groupPattern.patterns).push.apply(_a, pattern);
+        return this;
     };
     OptionalToken.prototype.toString = function () {
-        return "OPTIONAL { " + utils_1.joinPatterns(this.patterns) + " }";
+        return "OPTIONAL " + this.groupPattern;
     };
     return OptionalToken;
 }());

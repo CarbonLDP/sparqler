@@ -2,8 +2,8 @@ import { Container } from "sparqler/clauses/Container";
 import { selectDecorator } from "sparqler/clauses/decorators";
 import {
 	FinishClause,
-	QueryClause,
-} from "sparqler/clauses/interfaces";
+	} from "sparqler/clauses/FinishClause";
+import { QueryClause } from "sparqler/clauses/QueryClause";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	BASE,
