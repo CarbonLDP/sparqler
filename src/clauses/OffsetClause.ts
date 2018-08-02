@@ -33,7 +33,7 @@ function getOffsetFn<C extends Container2<QueryToken | SubSelectToken>, T extend
 
 
 export const OffsetClause = {
-	create<C extends Container2<QueryToken | SubSelectToken>, T extends object, O extends object>( genericFactory:ClauseFactory<C, T>, container:C, object:O ):O & OffsetClause<T> {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends object, O extends object>( genericFactory:ClauseFactory<C, T>, container:C, object:O ):O & OffsetClause<T> {
 		return Object.assign( object, {
 			offset: getOffsetFn( genericFactory, container ),
 		} );

@@ -1,16 +1,20 @@
-import { FinishClause } from "sparqler/clauses/FinishClause";
-import { PatternBuilder, SupportedNativeTypes, Undefined } from "sparqler/patterns";
-import { Literal, Resource } from "sparqler/patterns/triples";
-import { QueryToken, ValuesToken, VariableToken } from "sparqler/tokens";
-
 import { IRIResolver2 } from "../iri/IRIResolver2";
 
-import { SubSelectToken } from "../tokens/SubSelectToken";
+import { PatternBuilder2 } from "../patterns/PatternBuilder2";
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
+import { Literal } from "../patterns/triplePatterns/Literal";
+import { Resource } from "../patterns/triplePatterns/Resource";
+import { Undefined } from "../patterns/Undefined";
+import { convertValue } from "../patterns/utils";
 
-import { convertValue } from "../utils/ObjectPattern";
+import { QueryToken } from "../tokens/QueryToken";
+import { SubSelectToken } from "../tokens/SubSelectToken";
+import { ValuesToken } from "../tokens/ValuesToken";
+import { VariableToken } from "../tokens/VariableToken";
 
 import { ClauseFactory } from "./ClauseFactory";
 import { Container2 } from "./Container2";
+import { FinishClause } from "./FinishClause";
 import { SubFinishClause } from "./interfaces";
 import { cloneElement } from "./utils";
 
@@ -35,7 +39,7 @@ export interface ValuesClause<T extends FinishClause | SubFinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variable:string, valuesBuilder:( builder:PatternBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
+	values( variable:string, valuesBuilder:( builder:PatternBuilder2 ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
 
 	/**
 	 * Set the values of multiple variables to be combined into the results
@@ -58,17 +62,17 @@ export interface ValuesClause<T extends FinishClause | SubFinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variables:string[], valuesBuilder:( builder:PatternBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
+	values( variables:string[], valuesBuilder:( builder:PatternBuilder2 ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
 }
 
 
-type Values = SupportedNativeTypes | Resource | Literal | Undefined;
+type Values = SupportedNativeTypes | Resource | Literal | "UNDEF";
 
 type ValuesOrBuilder =
 	| (SupportedNativeTypes | SupportedNativeTypes[])
 	| (SupportedNativeTypes[] | SupportedNativeTypes[][])
-	| (( builder:PatternBuilder ) => Values | Values[])
-	| (( builder:PatternBuilder ) => Values[] | Values[][])
+	| (( builder:PatternBuilder2 ) => Values | Values[])
+	| (( builder:PatternBuilder2 ) => Values[] | Values[][])
 	;
 
 function _normalizeVariables( variableOrVariables:string | string[] ):VariableToken[] {
@@ -80,8 +84,7 @@ function _normalizeVariables( variableOrVariables:string | string[] ):VariableTo
 
 function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIResolver2 ):Values[][] {
 	const rawValues:Values | (Values | Values[])[] = typeof valuesOrBuilder === "function" ?
-		// FIXME
-		valuesOrBuilder( new PatternBuilder( iriResolver as any ) ) :
+		valuesOrBuilder( PatternBuilder2.create( iriResolver ) ) :
 		valuesOrBuilder;
 
 
@@ -97,8 +100,8 @@ function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIRe
 function createValuesFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:ClauseFactory<C, T>, container:C ):ValuesClause<T>[ "values" ] {
 	return ( variableOrVariables:string | string[], valuesOrBuilder:ValuesOrBuilder ) => {
 		const iriResolver:IRIResolver2 = new IRIResolver2( container.iriResolver );
-		const values:Values[][] = _normalizeRawValues( valuesOrBuilder, iriResolver );
 
+		const values:Values[][] = _normalizeRawValues( valuesOrBuilder, iriResolver );
 		const variables:VariableToken[] = _normalizeVariables( variableOrVariables );
 
 		const token:ValuesToken = new ValuesToken();
@@ -117,7 +120,7 @@ function createValuesFn<C extends Container2<QueryToken | SubSelectToken>, T ext
  * @todo
  */
 export const ValuesClause = {
-	create<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:ClauseFactory<C, T>, container:C, object:T ):T & ValuesClause<T> {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:ClauseFactory<C, T>, container:C, object:T ):T & ValuesClause<T> {
 		return Object.assign( object, {
 			values: createValuesFn( genericFactory, container ),
 		} );

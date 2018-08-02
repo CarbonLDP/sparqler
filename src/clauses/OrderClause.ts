@@ -34,7 +34,7 @@ function getOrderByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
 		const token:OrderToken = new OrderToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );
 
-		const limitOffsetClause:LimitOffsetClause<T> = LimitOffsetClause.create( genericFactory, newContainer, {} );
+		const limitOffsetClause:LimitOffsetClause<T> = LimitOffsetClause.createFrom( genericFactory, newContainer, {} );
 		return genericFactory( newContainer, limitOffsetClause );
 	};
 }
@@ -44,8 +44,8 @@ function getOrderByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
  * @todo
  */
 export const OrderClause = {
-	create<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & OrderClause<T> {
-		return LimitOffsetClause.create( genericFactory, container, Object.assign( object, {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & OrderClause<T> {
+		return LimitOffsetClause.createFrom( genericFactory, container, Object.assign( object, {
 			orderBy: getOrderByFn( genericFactory, container ),
 		} ) );
 	}

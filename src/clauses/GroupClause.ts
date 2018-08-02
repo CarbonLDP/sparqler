@@ -31,7 +31,7 @@ function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
 		const token:GroupToken = new GroupToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );
 
-		const havingClause:HavingClause<T> = HavingClause.create( genericFactory, newContainer, {} );
+		const havingClause:HavingClause<T> = HavingClause.createFrom( genericFactory, newContainer, {} );
 		return genericFactory( newContainer, havingClause );
 	}
 }
@@ -41,8 +41,8 @@ function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
  * @todo
  */
 export const GroupClause = {
-	create<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & GroupClause<T> {
-		return HavingClause.create( genericFactory, container, Object.assign( object, {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & GroupClause<T> {
+		return HavingClause.createFrom( genericFactory, container, Object.assign( object, {
 			groupBy: getGroupByFn( genericFactory, container ),
 		} ) );
 	},

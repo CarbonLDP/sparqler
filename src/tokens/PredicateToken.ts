@@ -1,11 +1,11 @@
-import {
-	ObjectToken,
-	VariableOrIRI,
-} from "sparqler/tokens";
-import { TokenNode } from "sparqler/tokens/TokenNode";
+import { ObjectToken } from "./ObjectToken";
+import { TokenNode } from "./TokenNode";
+import { VariableOrIRI } from "./VariableOrIRI";
+
 
 export class PredicateToken implements TokenNode {
 	readonly token:"predicate" = "predicate";
+
 	readonly predicate:VariableOrIRI | "a";
 	readonly objects:ObjectToken[];
 
@@ -14,10 +14,12 @@ export class PredicateToken implements TokenNode {
 		this.objects = [];
 	}
 
-	addObject( object:ObjectToken ):this {
-		this.objects.push( object );
+
+	addObject( ...object:ObjectToken[] ):this {
+		this.objects.push( ...object );
 		return this;
 	}
+
 
 	toString():string {
 		return `${ this.predicate } ${ this.objects.join( ", " ) }`;

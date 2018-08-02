@@ -19,7 +19,7 @@ export class IRIResolver2 {
 	/**
 	 * IRI to resolve relative RDF properties
 	 */
-	readonly _vocab:string;
+	readonly _vocab?:string;
 
 	/**
 	 * Creates a new empty instance of IRIResolver if no parameter is provided, but
@@ -64,7 +64,7 @@ export class IRIResolver2 {
 	resolvePrefixed( prefixedName:string ):PrefixedNameToken {
 		let token:PrefixedNameToken = new PrefixedNameToken( prefixedName );
 
-		const used:boolean = this._prefixes.get( token.namespace );
+		const used:boolean | undefined = this._prefixes.get( token.namespace );
 		if( used === void 0 ) throw new Error( `The prefix "${ token.namespace }" has not been declared.` );
 
 		if( ! used ) this._prefixes.set( token.namespace, true );

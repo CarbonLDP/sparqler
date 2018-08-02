@@ -1,6 +1,3 @@
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { LiteralToken } from "sparqler/tokens/LiteralToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
 import {
 	SupportedNativeTypes,
 	ElementPattern
@@ -44,22 +41,4 @@ export function serialize( object ):Token[] {
 export function addType( value:string, type:string ):Token[] {
 	if( type in XSD ) type = XSD[ type ];
 	return [ OPEN_QUOTE, new StringLiteral( value ), CLOSE_QUOTE, OFF_TYPE, OPEN_IRI, new StringLiteral( type ), CLOSE_IRI ];
-}
-
-
-export function convertValue( value:SupportedNativeTypes | ElementPattern ):IRIToken | PrefixedNameToken | LiteralToken | "UNDEF" {
-	if( value instanceof Date )
-		return new LiteralToken( value.toISOString() )
-			.setType( XSD.dateTime );
-
-	if( typeof value === "object" )
-		// FIXME: return value.getSelfTokens();
-		return "UNDEF";
-
-	if( typeof value === "string" ) {
-		if( value === "UNDEF" ) return value;
-		return new LiteralToken( value );
-	}
-
-	return new LiteralToken( value );
 }

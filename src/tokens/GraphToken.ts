@@ -1,4 +1,4 @@
-import { VariableOrIRI } from "sparqler/tokens";
+import { VariableOrIRI } from "./VariableOrIRI";
 import { GroupPatternToken } from "./GroupPatternToken";
 import { PatternToken } from "./PatternToken";
 import { TokenNode } from "./TokenNode";

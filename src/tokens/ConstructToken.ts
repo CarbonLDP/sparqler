@@ -1,4 +1,4 @@
-import { TripleToken } from "sparqler/tokens";
+import { TripleToken } from "./TripleToken";
 import { CommonQueryClauseToken } from "./CommonQueryClauseToken";
 
 

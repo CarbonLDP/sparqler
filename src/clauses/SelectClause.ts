@@ -94,7 +94,7 @@ function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( 
 		const queryToken:QueryToken = cloneElement( container.targetToken, { queryClause: query } );
 		const newContainer = cloneElement( container, { targetToken: queryToken } as Partial<C> );
 
-		return FromClause.create( genericFactory, newContainer, {} );
+		return FromClause.createFrom( genericFactory, newContainer, {} );
 	};
 }
 
@@ -103,8 +103,8 @@ function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( 
  * @todo
  */
 export const SelectClause = {
-	create<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & SelectClause<T> {
-		return WhereClause.create( genericFactory, container, Object.assign( object, {
+	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & SelectClause<T> {
+		return WhereClause.createFrom( genericFactory, container, Object.assign( object, {
 			select: getSelectFn( genericFactory, container ),
 			selectDistinct: getSelectFn( genericFactory, container, "DISTINCT" ),
 			selectReduced: getSelectFn( genericFactory, container, "REDUCED" ),

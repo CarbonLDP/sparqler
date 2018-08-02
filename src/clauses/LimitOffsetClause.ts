@@ -44,27 +44,27 @@ export interface LimitOffsetClause<T extends FinishClause | SubFinishClause> ext
 
 function _getLimitFactory<CONTAINER extends Container2<any>, T extends FinishClause | SubFinishClause>( valuesFactory:ClauseFactory<CONTAINER, ValuesClause<T> & T> ):ClauseFactory<CONTAINER, LimitClause<OffsetClause<ValuesClause<T> & T> & ValuesClause<T> & T>> {
 	const offsetValuesFactory:ClauseFactory<CONTAINER, OffsetClause<ValuesClause<T> & T>> = OffsetClause
-		.create.bind( null, valuesFactory );
+		.createFrom.bind( null, valuesFactory );
 
 	return ( container1, object1 ) => LimitClause
-		.create( ClauseFactory.createFrom( offsetValuesFactory, valuesFactory ), container1, object1 );
+		.createFrom( ClauseFactory.createFrom( offsetValuesFactory, valuesFactory ), container1, object1 );
 }
 
 function _getOffsetFactory<CONTAINER extends Container2<any>, T extends FinishClause | SubFinishClause>( valuesFactory:ClauseFactory<CONTAINER, ValuesClause<T> & T> ):ClauseFactory<CONTAINER, OffsetClause<LimitClause<ValuesClause<T> & T> & ValuesClause<T> & T>> {
 	const limitValuesFactory:ClauseFactory<CONTAINER, LimitClause<ValuesClause<T> & T>> = LimitClause
-		.create.bind( null, valuesFactory );
+		.createFrom.bind( null, valuesFactory );
 
 	return ( container1, object1 ) => OffsetClause
-		.create( ClauseFactory.createFrom( valuesFactory, limitValuesFactory ), container1, object1 );
+		.createFrom( ClauseFactory.createFrom( valuesFactory, limitValuesFactory ), container1, object1 );
 }
 
 /**
  * @todo
  */
 export const LimitOffsetClause = {
-	create<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<C, T>, container:C, object:O ):O & LimitOffsetClause<T> {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<C, T>, container:C, object:O ):O & LimitOffsetClause<T> {
 		const valuesFactory:ClauseFactory<C, ValuesClause<T>> = ValuesClause
-			.create.bind( null, genericFactory );
+			.createFrom.bind( null, genericFactory );
 
 		const genericAndValuesFactory = ClauseFactory.createFrom( genericFactory, valuesFactory );
 

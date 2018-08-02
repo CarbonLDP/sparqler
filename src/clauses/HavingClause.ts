@@ -34,7 +34,7 @@ function getHavingFn<C extends Container2<QueryToken | SubSelectToken>, T extend
 		const token:HavingToken = new HavingToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );
 
-		const orderClause:OrderClause<T> = OrderClause.create( genericFactory, newContainer, {} );
+		const orderClause:OrderClause<T> = OrderClause.createFrom( genericFactory, newContainer, {} );
 		return genericFactory( newContainer, orderClause );
 	}
 }
@@ -44,8 +44,8 @@ function getHavingFn<C extends Container2<QueryToken | SubSelectToken>, T extend
  * @todo
  */
 export const HavingClause = {
-	create<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & HavingClause<T> {
-		return OrderClause.create( genericFactory, container, Object.assign( object, {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & HavingClause<T> {
+		return OrderClause.createFrom( genericFactory, container, Object.assign( object, {
 			having: getHavingFn( genericFactory, container ),
 		} ) );
 	},

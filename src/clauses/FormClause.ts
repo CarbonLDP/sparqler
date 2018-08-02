@@ -63,7 +63,7 @@ function getFromFn<C extends Container2<QueryToken>, T extends FinishClause>( ge
 			targetToken: queryToken,
 		} as Partial<C> );
 
-		return FromClause.create( genericFactory, newContainer, {} );
+		return FromClause.createFrom( genericFactory, newContainer, {} );
 	}
 }
 
@@ -72,8 +72,8 @@ function getFromFn<C extends Container2<QueryToken>, T extends FinishClause>( ge
  * @todo
  */
 export const FromClause = {
-	create<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & FromClause<T> {
-		return WhereClause.create( genericFactory, container, Object.assign( object, {
+	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & FromClause<T> {
+		return WhereClause.createFrom( genericFactory, container, Object.assign( object, {
 			from: getFromFn( genericFactory, container ),
 			fromNamed: getFromFn( genericFactory, container, true ),
 		} ) );

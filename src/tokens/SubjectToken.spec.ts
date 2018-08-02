@@ -1,5 +1,5 @@
 import { BlankNodeToken } from "sparqler/tokens/BlankNodeToken";
-import { TermToken } from "sparqler/tokens/index";
+import { TermToken } from "sparqler/tokens/TermToken";
 import { IRIToken } from "sparqler/tokens/IRIToken";
 import { LiteralToken } from "sparqler/tokens/LiteralToken";
 import { PredicateToken } from "sparqler/tokens/PredicateToken";

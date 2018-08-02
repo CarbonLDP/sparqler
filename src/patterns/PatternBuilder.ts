@@ -1,12 +1,6 @@
 import { Container } from "sparqler/clauses/Container";
-import {
-	selectDecorator,
-	subFinishDecorator,
-} from "sparqler/clauses/decorators";
-import {
-	SubSelectClause,
-	SubWhereClause,
-} from "sparqler/clauses/interfaces";
+import { selectDecorator, subFinishDecorator, } from "sparqler/clauses/decorators";
+import { SubSelectClause, SubWhereClause, } from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	GraphPattern,
@@ -34,19 +28,13 @@ import {
 } from "sparqler/patterns/tokens";
 import { BlankNode } from "sparqler/patterns/triples/BlankNode";
 import { Collection } from "sparqler/patterns/triples/Collection";
-import {
-	BooleanLiteral,
-	Literal,
-	NumericLiteral,
-	RDFLiteral,
-} from "sparqler/patterns/triples/Literals";
+import { BooleanLiteral, Literal, NumericLiteral, RDFLiteral, } from "sparqler/patterns/triples/Literals";
 import { Resource } from "sparqler/patterns/triples/Resource";
 import { Variable } from "sparqler/patterns/triples/Variable";
+import { Undefined } from "sparqler/patterns/Undefined";
 import { StringLiteral } from "sparqler/tokens/StringLiteral";
 import { Token } from "sparqler/tokens/Token";
 import { getBlockTokens } from "sparqler/utils/Patterns";
-
-export type Undefined = "UNDEF";
 
 export class PatternBuilder implements TriplesPatternBuilder,
                                        NotTriplesPatternBuilder,

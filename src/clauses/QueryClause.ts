@@ -62,7 +62,7 @@ function base<T extends FinishClause>( this:QueryUnitContainer<T>, iri:string ):
 	const queryToken:QueryToken = cloneElement( this.targetToken, { prologues } );
 	const container:QueryUnitContainer<T> = cloneElement( this, { targetToken: queryToken } );
 
-	return QueryClauseFactory.create( container, {} );
+	return QueryClauseFactory.createFrom( container, {} );
 }
 
 /**
@@ -72,7 +72,7 @@ function vocab<T extends FinishClause>( this:QueryUnitContainer<T>, iri:string )
 	const iriResolver:IRIResolver2 = new IRIResolver2( this.iriResolver, iri );
 	const container:QueryUnitContainer<T> = cloneElement( this, { iriResolver } );
 
-	return QueryClauseFactory.create( container, {} );
+	return QueryClauseFactory.createFrom( container, {} );
 }
 
 /**
@@ -102,7 +102,7 @@ function prefix<T extends FinishClause>( this:QueryUnitContainer<T>, name:string
 		targetToken: queryToken,
 	} );
 
-	return QueryClauseFactory.create( container, {} );
+	return QueryClauseFactory.createFrom( container, {} );
 }
 
 
@@ -110,9 +110,9 @@ function prefix<T extends FinishClause>( this:QueryUnitContainer<T>, name:string
  * @todo Document
  */
 export const QueryClauseFactory = {
-	create<C extends QueryUnitContainer<SELECT>, SELECT extends FinishClause, T extends object>( container:C, object:T ):T & QueryClause<SELECT> {
+	createFrom<C extends QueryUnitContainer<SELECT>, SELECT extends FinishClause, T extends object>( container:C, object:T ):T & QueryClause<SELECT> {
 		const selectFactory:ClauseFactory<C, SelectClause<SELECT>> = SelectClause
-			.create.bind( null, container.selectFinishClauseFactory );
+			.createFrom.bind( null, container.selectFinishClauseFactory );
 
 		return ClauseFactory.createFrom(
 			selectFactory
