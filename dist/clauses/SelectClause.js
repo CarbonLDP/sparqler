@@ -17,12 +17,12 @@ function getSelectFn(genericFactory, container, modifier) {
         query.addVariable.apply(query, variables.map(function (x) { return x === "*" ? x : new VariableToken_1.VariableToken(x); }));
         var queryToken = utils_1.cloneElement(container.targetToken, { queryClause: query });
         var newContainer = utils_1.cloneElement(container, { targetToken: queryToken });
-        return FormClause_1.FromClause.create(genericFactory, newContainer, {});
+        return FormClause_1.FromClause.createFrom(genericFactory, newContainer, {});
     };
 }
 exports.SelectClause = {
-    create: function (genericFactory, container, object) {
-        return WhereClause_1.WhereClause.create(genericFactory, container, Object.assign(object, {
+    createFrom: function (genericFactory, container, object) {
+        return WhereClause_1.WhereClause.createFrom(genericFactory, container, Object.assign(object, {
             select: getSelectFn(genericFactory, container),
             selectDistinct: getSelectFn(genericFactory, container, "DISTINCT"),
             selectReduced: getSelectFn(genericFactory, container, "REDUCED"),

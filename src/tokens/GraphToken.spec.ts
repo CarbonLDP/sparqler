@@ -1,6 +1,6 @@
 import { PatternToken } from "sparqler/tokens/PatternToken";
 import { OptionalToken } from "sparqler/tokens/OptionalToken";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
+import { PropertyToken } from "sparqler/tokens/PropertyToken";
 import { SubjectToken } from "sparqler/tokens/SubjectToken";
 import * as Utils from "sparqler/tokens/utils";
 import { VariableToken } from "sparqler/tokens/VariableToken";
@@ -117,12 +117,12 @@ describe( "Module GraphToken", ():void => {
 				const graph:VariableToken = new VariableToken( "graph" );
 				const token:GraphToken = new GraphToken( graph )
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( "a" )
+						.addPredicate( new PropertyToken( "a" )
 							.addObject( new VariableToken( "obj1" ) ),
 						),
 					)
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( "a" )
+						.addPredicate( new PropertyToken( "a" )
 							.addObject( new VariableToken( "obj1" ) ),
 						),
 					)

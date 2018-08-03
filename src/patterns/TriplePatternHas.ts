@@ -1,99 +1,59 @@
+import { ClauseFactory } from "../clauses/ClauseFactory";
 import { Container2 } from "../clauses/Container2";
 import { cloneElement } from "../clauses/utils";
 
-import { PredicateToken } from "../tokens/PredicateToken";
-import { TermToken } from "../tokens/TermToken";
+import { ObjectToken } from "../tokens/ObjectToken";
+import { PropertyToken } from "../tokens/PropertyToken";
 import { TripleToken } from "../tokens/TripleToken";
-import { VariableOrIRI } from "../tokens/VariableOrIRI";
-import { VariableToken } from "../tokens/VariableToken";
+import { VariableOrIRIToken } from "../tokens/VariableOrIRIToken";
 
+import { GraphPattern } from "./GraphPattern";
 import { SupportedNativeTypes } from "./SupportedNativeTypes";
 import { TriplePattern } from "./TriplePattern";
+import { BlankNodeProperty } from "./triplePatterns/BlankNodeProperty";
+import { Collection } from "./triplePatterns/Collection";
 import { Literal } from "./triplePatterns/Literal";
 import { Resource } from "./triplePatterns/Resource";
 import { Variable } from "./triplePatterns/Variable";
-import { convertValue } from "./utils";
+import { _resolvePath, convertValue } from "./utils";
 
 
 /**
  * @todo
  */
-export interface TriplePatternHas<T extends VariableToken | TermToken> extends TriplePattern<T> {
+export interface TriplePatternHas<T extends ObjectToken> extends TriplePattern<T> {
+	has( property:Variable | Resource | "a" | string, object:SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty ):TriplePatternAnd<T>;
+	has( property:Variable | Resource | "a" | string, objects:(SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty)[] ):TriplePatternAnd<T>;
+}
+
+/**
+ * @todo
+ */
+export interface TriplePatternAnd<T extends ObjectToken> extends TriplePattern<T>, GraphPattern<TripleToken<T>> {
 	// TODO: Add Collection
-	has( property:string | Variable | Resource, object:SupportedNativeTypes | Resource | Variable | Literal ):TriplePatternAnd<T>;
-	has( property:string | Variable | Resource, objects:(SupportedNativeTypes | Resource | Variable | Literal)[] ):TriplePatternAnd<T>;
+	and( property:Variable | Resource | "a" | string, object:SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty ):TriplePatternAnd<T>;
+	and( property:Variable | Resource | "a" | string, objects:(SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty)[] ):TriplePatternAnd<T>;
 }
+
+
+type Objects = SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty;
 
 /**
  * @todo
  */
-export interface TriplePatternAnd<T extends VariableToken | TermToken> extends TriplePattern<T> {
-	// TODO: Add Collection
-	and( property:string | Variable | Resource, object:SupportedNativeTypes | Resource | Variable | Literal ):TriplePatternAnd<T>;
-	and( property:string | Variable | Resource, objects:(SupportedNativeTypes | Resource | Variable | Literal)[] ):TriplePatternAnd<T>;
-}
-
-
-type Objects = SupportedNativeTypes | Resource | Variable | Literal;
-const PATH_OPERATORS:string[] = [ "|", "/", "^", "?", "*", "+", "!", "(", ")" ];
-
-// TODO: Remove `a` and Implement Path tokens
-function _resolvePath( container:Container2<TripleToken>, propertyPath:string ):"a" {
-	propertyPath
-		.split( /(<.*?>)/ )
-		.reduce( ( array:string[], part:string ) => {
-			// Is an IRI
-			if( part.startsWith( "<" ) ) {
-				array.push( part );
-			}
-
-			// Everything else
-			else {
-				array.push( ...part.split( /([|/^?*+!()])/ ) )
-			}
-
-			return array;
-		}, [] )
-		.forEach( ( part:string ) => {
-			if( ! part ) return;
-
-			// Operators
-			if( PATH_OPERATORS.indexOf( part ) !== - 1 ) {
-			}
-
-			// "a" keyword
-			else if( part === "a" ) {
-			}
-
-			// IRI or prefix
-			else {
-				// Remove IRI tags
-				if( part.startsWith( "<" ) && part.endsWith( ">" ) ) part = part.slice( 1, - 1 );
-
-				// Register prefix it prefixed
-				container.iriResolver.resolve( part, true );
-			}
-		} );
-
-	return propertyPath as "a";
-}
-
-/**
- * @todo
- */
-function getHasFn<T extends VariableToken | TermToken, C extends Container2<TripleToken<T>>>( container:C ):TriplePatternHas<T>[ "has" ] {
+function getHasFn<T extends ObjectToken, C extends Container2<TripleToken<T>>>( container:C ):TriplePatternHas<T>[ "has" ] {
 	return ( property:string | Variable | Resource, objects:Objects | Objects[] ) => {
-		const token:VariableOrIRI | "a" = (typeof property === "string")
+		const verbToken:VariableOrIRIToken | "a" = (typeof property === "string")
 			? _resolvePath( container, property )
 			: property.getSubject();
 
-		const predicate = new PredicateToken( token );
+		const propertyToken:PropertyToken = new PropertyToken( verbToken );
 
 		objects = Array.isArray( objects ) ? objects : [ objects ];
-		predicate.addObject( ...objects.map( convertValue ) );
+		propertyToken.addObject( ...objects.map( convertValue ) );
 
-		const predicates = container.targetToken.predicates.concat( predicate );
-		const targetToken = cloneElement( container.targetToken, { predicates } );
+		const properties = container.targetToken.properties.concat( propertyToken );
+		const targetToken = cloneElement( container.targetToken, { properties } );
 
 		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
 		return TriplePatternAnd.createFrom<T, C, {}>( newContainer, {} );
@@ -105,7 +65,7 @@ function getHasFn<T extends VariableToken | TermToken, C extends Container2<Trip
  * @todo
  */
 export const TriplePatternHas = {
-	createFrom<T extends VariableToken | TermToken, C extends Container2<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePatternHas<T> {
+	createFrom<T extends ObjectToken, C extends Container2<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePatternHas<T> {
 		return TriplePattern.createFrom( container, Object.assign( object, {
 			has: getHasFn<T, C>( container ),
 		} ) );
@@ -116,8 +76,11 @@ export const TriplePatternHas = {
  * @todo
  */
 export const TriplePatternAnd = {
-	createFrom<T extends VariableToken | TermToken, C extends Container2<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePatternAnd<T> {
-		return TriplePattern.createFrom( container, Object.assign( object, {
+	createFrom<T extends ObjectToken, C extends Container2<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePatternAnd<T> {
+		return ClauseFactory.createFrom<C, GraphPattern<TripleToken<T>>, TriplePattern<T>>(
+			GraphPattern.createFrom,
+			TriplePattern.createFrom,
+		)( container, Object.assign( object, {
 			and: getHasFn<T, C>( container ),
 		} ) );
 	}

@@ -9,5 +9,5 @@ export interface GroupClause<T extends FinishClause | SubFinishClause> extends H
     groupBy(rawCondition: string): HavingClause<T> & T;
 }
 export declare const GroupClause: {
-    create<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause | SubFinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & GroupClause<T>;
+    createFrom<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause | SubFinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & GroupClause<T>;
 };

@@ -1,12 +1,12 @@
-import { TermToken } from "./";
-import { PredicateToken } from "./PredicateToken";
+import { PropertyToken } from "./PropertyToken";
 import { TokenNode } from "./TokenNode";
-import { VariableToken } from "./VariableToken";
-export declare class SubjectToken implements TokenNode {
+import { TripleNodeToken } from "./TripleNodeToken";
+import { VariableOrTermToken } from "./VariableOrTermToken";
+export declare class SubjectToken<T extends VariableOrTermToken | TripleNodeToken = VariableOrTermToken | TripleNodeToken> implements TokenNode {
     readonly token: "subject";
-    readonly subject: VariableToken | TermToken;
-    readonly predicates: PredicateToken[];
-    constructor(subject: VariableToken | TermToken);
-    addPredicate(predicate: PredicateToken): this;
+    readonly subject: T;
+    readonly properties: PropertyToken[];
+    constructor(subject: T);
+    addPredicate(predicate: PropertyToken): this;
     toString(): string;
 }

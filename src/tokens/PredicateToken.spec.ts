@@ -3,8 +3,8 @@ import { LiteralToken } from "sparqler/tokens/LiteralToken";
 import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
 import { VariableToken } from "sparqler/tokens/VariableToken";
 
-import * as Module from "./PredicateToken";
-import { PredicateToken } from "./PredicateToken";
+import * as Module from "./PropertyToken";
+import { PropertyToken } from "./PropertyToken";
 
 describe( "Module PredicateToken", ():void => {
 
@@ -16,62 +16,62 @@ describe( "Module PredicateToken", ():void => {
 	describe( "PredicateToken", ():void => {
 
 		it( "should exists", ():void => {
-			expect( PredicateToken ).toBeDefined();
-			expect( PredicateToken ).toEqual( jasmine.any( Function ) );
+			expect( PropertyToken ).toBeDefined();
+			expect( PropertyToken ).toEqual( jasmine.any( Function ) );
 		} );
 
 		it( "should accept and store IRI predicates", ():void => {
 			const predicate:IRIToken = new IRIToken( "http://example.com/" );
-			const token:PredicateToken = new PredicateToken( predicate );
+			const token:PropertyToken = new PropertyToken( predicate );
 
 			expect( token ).toBeDefined();
-			expect( token.predicate ).toBe( predicate );
+			expect( token.verb ).toBe( predicate );
 		} );
 
 		it( "should accept and store prefixedName predicates", ():void => {
 			const predicate:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
-			const token:PredicateToken = new PredicateToken( predicate );
+			const token:PropertyToken = new PropertyToken( predicate );
 
 			expect( token ).toBeDefined();
-			expect( token.predicate ).toBe( predicate );
+			expect( token.verb ).toBe( predicate );
 		} );
 
 		it( "should accept and store `a` predicates", ():void => {
-			const token:PredicateToken = new PredicateToken( "a" );
+			const token:PropertyToken = new PropertyToken( "a" );
 
 			expect( token ).toBeDefined();
-			expect( token.predicate ).toBe( "a" );
+			expect( token.verb ).toBe( "a" );
 		} );
 
 		it( "should initialize objects tokens", ():void => {
 			const iriPredicate:IRIToken = new IRIToken( "http://example.com/" );
-			expect( new PredicateToken( iriPredicate ).objects ).toEqual( [] );
+			expect( new PropertyToken( iriPredicate ).objects ).toEqual( [] );
 
 			const prefixedPredicate:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
-			expect( new PredicateToken( prefixedPredicate ).objects ).toEqual( [] );
+			expect( new PropertyToken( prefixedPredicate ).objects ).toEqual( [] );
 
-			expect( new PredicateToken( "a" ).objects ).toEqual( [] );
+			expect( new PropertyToken( "a" ).objects ).toEqual( [] );
 		} );
 
 		it( "should assign the `predicate` as token name", ():void => {
 			const iriPredicate:IRIToken = new IRIToken( "http://example.com/" );
-			expect( new PredicateToken( iriPredicate ).token ).toBe( "predicate" );
+			expect( new PropertyToken( iriPredicate ).token ).toBe( "predicate" );
 
 			const prefixedPredicate:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
-			expect( new PredicateToken( prefixedPredicate ).token ).toBe( "predicate" );
+			expect( new PropertyToken( prefixedPredicate ).token ).toBe( "predicate" );
 
-			expect( new PredicateToken( "a" ).token ).toBe( "predicate" );
+			expect( new PropertyToken( "a" ).token ).toBe( "predicate" );
 		} );
 
 		describe( "PredicateToken.addObject", ():void => {
 
 			it( "should exists", ():void => {
-				expect( PredicateToken.prototype.addObject ).toBeDefined();
-				expect( PredicateToken.prototype.addObject ).toEqual( jasmine.any( Function ) );
+				expect( PropertyToken.prototype.addObject ).toBeDefined();
+				expect( PropertyToken.prototype.addObject ).toEqual( jasmine.any( Function ) );
 			} );
 
 			it( "should add the objects provided", ():void => {
-				const token:PredicateToken = new PredicateToken( "a" );
+				const token:PropertyToken = new PropertyToken( "a" );
 
 				const variable:VariableToken = new VariableToken( "variable" );
 				token.addObject( variable );
@@ -87,10 +87,10 @@ describe( "Module PredicateToken", ():void => {
 			} );
 
 			it( "should return itself", ():void => {
-				const token:PredicateToken = new PredicateToken( "a" );
+				const token:PropertyToken = new PropertyToken( "a" );
 				const variable:VariableToken = new VariableToken( "variable" );
 
-				const returned:PredicateToken = token.addObject( variable );
+				const returned:PropertyToken = token.addObject( variable );
 				expect( returned ).toBe( token );
 			} );
 
@@ -99,13 +99,13 @@ describe( "Module PredicateToken", ():void => {
 		describe( "PredicateToken.toString", ():void => {
 
 			it( "should override toString method", ():void => {
-				expect( PredicateToken.prototype.toString ).toBeDefined();
-				expect( PredicateToken.prototype.toString ).not.toBe( Object.prototype.toString );
+				expect( PropertyToken.prototype.toString ).toBeDefined();
+				expect( PropertyToken.prototype.toString ).not.toBe( Object.prototype.toString );
 			} );
 
 			it( "should return a single predicate - object", ():void => {
 				const helper = ( predicate:VariableToken | IRIToken | "a", object:any, string:string ) => {
-					const token:PredicateToken = new PredicateToken( predicate ).addObject( object );
+					const token:PropertyToken = new PropertyToken( predicate ).addObject( object );
 					expect( token.toString() ).toBe( string );
 				};
 
@@ -121,7 +121,7 @@ describe( "Module PredicateToken", ():void => {
 
 			it( "should return predicate - multiple objects", ():void => {
 				const helper = ( predicate:VariableToken | IRIToken | "a", objects:any[], string:string ) => {
-					const token:PredicateToken = new PredicateToken( predicate );
+					const token:PropertyToken = new PropertyToken( predicate );
 					for( const object of objects ) token.addObject( object );
 					expect( token.toString() ).toBe( string );
 				};

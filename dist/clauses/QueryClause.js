@@ -13,12 +13,12 @@ function base(iri) {
         .prologues.concat(token);
     var queryToken = utils_1.cloneElement(this.targetToken, { prologues: prologues });
     var container = utils_1.cloneElement(this, { targetToken: queryToken });
-    return exports.QueryClauseFactory.create(container, {});
+    return exports.QueryClauseFactory.createFrom(container, {});
 }
 function vocab(iri) {
     var iriResolver = new IRIResolver2_1.IRIResolver2(this.iriResolver, iri);
     var container = utils_1.cloneElement(this, { iriResolver: iriResolver });
-    return exports.QueryClauseFactory.create(container, {});
+    return exports.QueryClauseFactory.createFrom(container, {});
 }
 function prefix(name, iri) {
     var iriResolver = new IRIResolver2_1.IRIResolver2(this.iriResolver);
@@ -36,12 +36,12 @@ function prefix(name, iri) {
         iriResolver: iriResolver,
         targetToken: queryToken,
     });
-    return exports.QueryClauseFactory.create(container, {});
+    return exports.QueryClauseFactory.createFrom(container, {});
 }
 exports.QueryClauseFactory = {
-    create: function (container, object) {
+    createFrom: function (container, object) {
         var selectFactory = SelectClause_1.SelectClause
-            .create.bind(null, container.selectFinishClauseFactory);
+            .createFrom.bind(null, container.selectFinishClauseFactory);
         return ClauseFactory_1.ClauseFactory.createFrom(selectFactory)(container, Object.assign(object, {
             base: base.bind(container),
             vocab: vocab.bind(container),

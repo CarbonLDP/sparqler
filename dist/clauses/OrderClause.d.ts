@@ -9,5 +9,5 @@ export interface OrderClause<T extends FinishClause | SubFinishClause> extends L
     orderBy(rawCondition: string): LimitOffsetClause<T> & T;
 }
 export declare const OrderClause: {
-    create<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause | SubFinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & OrderClause<T>;
+    createFrom<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause | SubFinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & OrderClause<T>;
 };

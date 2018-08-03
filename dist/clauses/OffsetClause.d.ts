@@ -6,5 +6,5 @@ export interface OffsetClause<T extends object> {
     offset(offset: number): T;
 }
 export declare const OffsetClause: {
-    create<C extends Container2<SubSelectToken | QueryToken>, T extends object, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & OffsetClause<T>;
+    createFrom<C extends Container2<SubSelectToken | QueryToken>, T extends object, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & OffsetClause<T>;
 };

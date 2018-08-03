@@ -2,7 +2,7 @@ import { BlankNodeToken } from "sparqler/tokens/BlankNodeToken";
 import { TermToken } from "sparqler/tokens/TermToken";
 import { IRIToken } from "sparqler/tokens/IRIToken";
 import { LiteralToken } from "sparqler/tokens/LiteralToken";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
+import { PropertyToken } from "sparqler/tokens/PropertyToken";
 import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
 import { VariableToken } from "sparqler/tokens/VariableToken";
 
@@ -65,13 +65,13 @@ describe( "Module SubjectToken", ():void => {
 
 		it( "should initialize predicate tokens", ():void => {
 			const variableSubject:VariableToken = new VariableToken( "variable" );
-			expect( new SubjectToken( variableSubject ).predicates ).toEqual( [] );
+			expect( new SubjectToken( variableSubject ).properties ).toEqual( [] );
 
 			const iriSubject:IRIToken = new IRIToken( "http://example.com/" );
-			expect( new SubjectToken( iriSubject ).predicates ).toEqual( [] );
+			expect( new SubjectToken( iriSubject ).properties ).toEqual( [] );
 
 			const prefixedSubject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
-			expect( new SubjectToken( prefixedSubject ).predicates ).toEqual( [] );
+			expect( new SubjectToken( prefixedSubject ).properties ).toEqual( [] );
 		} );
 
 		it( "should assign the `subject` as token name", ():void => {
@@ -95,25 +95,25 @@ describe( "Module SubjectToken", ():void => {
 			it( "should add the predicates provided", ():void => {
 				const token:SubjectToken = new SubjectToken( new VariableToken( "subject" ) );
 
-				const predicate1:PredicateToken = new PredicateToken( new VariableToken( "predicate1" ) )
+				const predicate1:PropertyToken = new PropertyToken( new VariableToken( "predicate1" ) )
 					.addObject( new VariableToken( "object1" ) );
 				token.addPredicate( predicate1 );
-				expect( token.predicates ).toEqual( [ predicate1 ] );
+				expect( token.properties ).toEqual( [ predicate1 ] );
 
-				const predicate2:PredicateToken = new PredicateToken( new VariableToken( "predicate2" ) )
+				const predicate2:PropertyToken = new PropertyToken( new VariableToken( "predicate2" ) )
 					.addObject( new VariableToken( "object3" ) );
 				token.addPredicate( predicate2 );
-				expect( token.predicates ).toEqual( [ predicate1, predicate2 ] );
+				expect( token.properties ).toEqual( [ predicate1, predicate2 ] );
 
-				const predicate3:PredicateToken = new PredicateToken( new PrefixedNameToken( "ex:property" ) )
+				const predicate3:PropertyToken = new PropertyToken( new PrefixedNameToken( "ex:property" ) )
 					.addObject( new LiteralToken( "literal" ) );
 				token.addPredicate( predicate3 );
-				expect( token.predicates ).toEqual( [ predicate1, predicate2, predicate3 ] );
+				expect( token.properties ).toEqual( [ predicate1, predicate2, predicate3 ] );
 			} );
 
 			it( "should return itself", ():void => {
 				const token:SubjectToken = new SubjectToken( new VariableToken( "subject" ) );
-				const predicate:PredicateToken = new PredicateToken( new VariableToken( "predicate" ) )
+				const predicate:PropertyToken = new PropertyToken( new VariableToken( "predicate" ) )
 					.addObject( new VariableToken( "object" ) );
 
 				const returned:SubjectToken = token.addPredicate( predicate );
@@ -130,7 +130,7 @@ describe( "Module SubjectToken", ():void => {
 			} );
 
 			it( "should return a single subject - predicate", ():void => {
-				const helper = ( subject:VariableToken | TermToken, predicate:PredicateToken, string:string ) => {
+				const helper = ( subject:VariableToken | TermToken, predicate:PropertyToken, string:string ) => {
 					const token:SubjectToken = new SubjectToken( subject ).addPredicate( predicate );
 					expect( token.toString() ).toBe( string );
 				};
@@ -138,7 +138,7 @@ describe( "Module SubjectToken", ():void => {
 				const variable:VariableToken = new VariableToken( "variable" );
 
 
-				const predicate1:PredicateToken = new PredicateToken( new VariableToken( "predicate1" ) )
+				const predicate1:PropertyToken = new PropertyToken( new VariableToken( "predicate1" ) )
 					.addObject( new VariableToken( "object1" ) );
 				helper( variable, predicate1, "?variable ?predicate1 ?object1" );
 
@@ -150,13 +150,13 @@ describe( "Module SubjectToken", ():void => {
 
 				helper( iri, predicate1, "<http://example.com/ns#property> ?predicate1 ?object1, ?object2" );
 
-				const predicate2:PredicateToken = new PredicateToken( new PrefixedNameToken( "ex:property" ) )
+				const predicate2:PropertyToken = new PropertyToken( new PrefixedNameToken( "ex:property" ) )
 					.addObject( new LiteralToken( "literal" ) );
 				helper( iri, predicate2, `<http://example.com/ns#property> ex:property "literal"` );
 			} );
 
 			it( "should return subject - multiple predicates", ():void => {
-				const helper = ( subject:VariableToken | TermToken, predicates:PredicateToken[], string:string ) => {
+				const helper = ( subject:VariableToken | TermToken, predicates:PropertyToken[], string:string ) => {
 					const token:SubjectToken = new SubjectToken( subject );
 					for( const predicate of predicates ) token.addPredicate( predicate );
 					expect( token.toString() ).toBe( string );
@@ -165,9 +165,9 @@ describe( "Module SubjectToken", ():void => {
 				const variable:VariableToken = new VariableToken( "variable" );
 
 
-				const predicate1:PredicateToken = new PredicateToken( new VariableToken( "predicate1" ) )
+				const predicate1:PropertyToken = new PropertyToken( new VariableToken( "predicate1" ) )
 					.addObject( new VariableToken( "object" ) );
-				const predicate2:PredicateToken = new PredicateToken( new PrefixedNameToken( "ex:property" ) )
+				const predicate2:PropertyToken = new PropertyToken( new PrefixedNameToken( "ex:property" ) )
 					.addObject( new LiteralToken( "literal" ) );
 				helper(
 					variable,
@@ -191,7 +191,7 @@ describe( "Module SubjectToken", ():void => {
 					[ predicate1, predicate2 ],
 					`<http://example.com/ns#property> ?predicate1 ?object, ?object2; ex:property "literal", "literal-2"`,
 				);
-				const predicate3:PredicateToken = new PredicateToken( "a" )
+				const predicate3:PropertyToken = new PropertyToken( "a" )
 					.addObject( new IRIToken( "http://example.con/ns#Class" ) );
 				helper(
 					iri,

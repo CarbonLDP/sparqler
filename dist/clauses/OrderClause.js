@@ -7,13 +7,13 @@ function getOrderByFn(genericFactory, container) {
     return function (rawCondition) {
         var token = new OrderToken_1.OrderToken(rawCondition);
         var newContainer = SolutionModifierClause_1.cloneSolutionModifierContainer(container, token);
-        var limitOffsetClause = LimitOffsetClause_1.LimitOffsetClause.create(genericFactory, newContainer, {});
+        var limitOffsetClause = LimitOffsetClause_1.LimitOffsetClause.createFrom(genericFactory, newContainer, {});
         return genericFactory(newContainer, limitOffsetClause);
     };
 }
 exports.OrderClause = {
-    create: function (genericFactory, container, object) {
-        return LimitOffsetClause_1.LimitOffsetClause.create(genericFactory, container, Object.assign(object, {
+    createFrom: function (genericFactory, container, object) {
+        return LimitOffsetClause_1.LimitOffsetClause.createFrom(genericFactory, container, Object.assign(object, {
             orderBy: getOrderByFn(genericFactory, container),
         }));
     }

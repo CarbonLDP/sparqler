@@ -19,7 +19,7 @@ export * from "./LiteralToken";
 export * from "./StringToken";
 export * from "./ValuesToken";
 export * from "./SubjectToken";
-export * from "./PredicateToken";
+export * from "./PropertyToken";
 export * from "./OptionalToken";
 export * from "./GraphToken";
 export * from "./BindToken";
@@ -34,7 +34,7 @@ export * from "./OffsetToken";
 export * from "./QueryToken";
 export * from "./CollectionToken";
 
-export { VariableOrIRI } from "./VariableOrIRI";
+export { VariableOrIRIToken } from "./VariableOrIRIToken";
 export { TermToken } from "./TermToken";
 export { TripleToken } from "./TripleToken";
 export { NotTripleToken } from "./NotTripleToken";

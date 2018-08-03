@@ -7,5 +7,5 @@ export interface QueryClause<T extends FinishClause> extends SelectClause<T> {
     prefix(name: string, iri: string): QueryClause<T>;
 }
 export declare const QueryClauseFactory: {
-    create<C extends QueryUnitContainer<SELECT>, SELECT extends FinishClause, T extends object>(container: C, object: T): T & QueryClause<SELECT>;
+    createFrom<C extends QueryUnitContainer<SELECT>, SELECT extends FinishClause, T extends object>(container: C, object: T): T & QueryClause<SELECT>;
 };

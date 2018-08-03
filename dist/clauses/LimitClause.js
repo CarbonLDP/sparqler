@@ -10,7 +10,7 @@ function getLimitFn(genericFactory, container) {
     };
 }
 exports.LimitClause = {
-    create: function (genericFactory, container, object) {
+    createFrom: function (genericFactory, container, object) {
         return Object.assign(object, {
             limit: getLimitFn(genericFactory, container),
         });

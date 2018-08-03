@@ -1,6 +1,6 @@
 import { IRIResolver2 } from "../iri/IRIResolver2";
 
-import { Pattern } from "../patterns/Pattern";
+import { GraphPattern } from "../patterns/GraphPattern";
 import { PatternBuilder2 } from "../patterns/PatternBuilder2";
 
 import { PatternToken } from "../tokens/PatternToken";
@@ -27,12 +27,12 @@ export interface WhereClause<T extends FinishClause> {
 	 * array of patterns to match.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	where( patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ):GroupClause<T> & T;
+	where( patternFunction:( builder:PatternBuilder2 ) => GraphPattern | GraphPattern[] ):GroupClause<T> & T;
 }
 
-function _getPatterns( iriResolver:IRIResolver2, patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ):PatternToken[] {
-	const patternOrPatterns:Pattern | Pattern[] = patternFunction( PatternBuilder2.create( iriResolver ) );
-	const patterns:Pattern[] = Array.isArray( patternOrPatterns ) ? patternOrPatterns : [ patternOrPatterns ];
+function _getPatterns( iriResolver:IRIResolver2, patternFunction:( builder:PatternBuilder2 ) => GraphPattern | GraphPattern[] ):PatternToken[] {
+	const patternOrPatterns:GraphPattern | GraphPattern[] = patternFunction( PatternBuilder2.create( iriResolver ) );
+	const patterns:GraphPattern[] = Array.isArray( patternOrPatterns ) ? patternOrPatterns : [ patternOrPatterns ];
 
 	return patterns.map( x => x.getPattern() );
 }
@@ -41,7 +41,7 @@ function _getPatterns( iriResolver:IRIResolver2, patternFunction:( builder:Patte
  * @todo
  */
 function getWhereFn<C extends Container2<QueryToken>, T extends FinishClause>( genericFactory:ClauseFactory<C, T>, container:C ):WhereClause<T>[ "where" ] {
-	return ( patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ) => {
+	return ( patternFunction:( builder:PatternBuilder2 ) => GraphPattern | GraphPattern[] ) => {
 		const iriResolver:IRIResolver2 = new IRIResolver2( container.iriResolver );
 		const patterns:PatternToken[] = _getPatterns( iriResolver, patternFunction );
 

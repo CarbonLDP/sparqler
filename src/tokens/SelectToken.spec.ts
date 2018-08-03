@@ -2,7 +2,7 @@ import { PatternToken, } from "sparqler/tokens";
 import { LimitToken } from "sparqler/tokens/LimitToken";
 import { OffsetToken } from "sparqler/tokens/OffsetToken";
 import { OptionalToken } from "sparqler/tokens/OptionalToken";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
+import { PropertyToken } from "sparqler/tokens/PropertyToken";
 import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
 import { SolutionModifierToken } from "sparqler/tokens/SolutionModifierToken";
 import { SubjectToken } from "sparqler/tokens/SubjectToken";
@@ -256,13 +256,13 @@ describe( "Module SelectToken", ():void => {
 			it( "should print the SPARQL select with patterns", ():void => {
 				const token:SelectToken = new SelectToken()
 					.addPattern( new SubjectToken( new VariableToken( "subj" ) )
-						.addPredicate( new PredicateToken( "a" )
+						.addPredicate( new PropertyToken( "a" )
 							.addObject( new PrefixedNameToken( "ex:Resource" ) ),
 						),
 					)
 					.addPattern( new OptionalToken()
 						.addPattern( new SubjectToken( new VariableToken( "subj" ) )
-							.addPredicate( new PredicateToken( "a" )
+							.addPredicate( new PropertyToken( "a" )
 								.addObject( new VariableToken( "obj" ) ),
 							),
 						),

@@ -5,8 +5,13 @@ var CollectionToken = (function () {
         this.token = "collection";
         this.objects = [];
     }
-    CollectionToken.prototype.addObject = function (object) {
-        this.objects.push(object);
+    CollectionToken.prototype.addObject = function () {
+        var object = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            object[_i] = arguments[_i];
+        }
+        var _a;
+        (_a = this.objects).push.apply(_a, object);
         return this;
     };
     CollectionToken.prototype.toString = function () {

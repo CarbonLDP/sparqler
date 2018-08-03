@@ -1,6 +1,5 @@
+import { ObjectToken } from "sparqler/tokens/ObjectToken";
 import { SubjectToken } from "./SubjectToken";
-import { TermToken } from "./TermToken";
-import { VariableToken } from "./VariableToken";
 
 
-export type TripleToken<T extends VariableToken | TermToken = VariableToken | TermToken> = SubjectToken<T>;
+export type TripleToken<T extends ObjectToken = ObjectToken> = SubjectToken<T>;

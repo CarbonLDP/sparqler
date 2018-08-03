@@ -3,4 +3,4 @@ import { PrefixedNameToken } from "./PrefixedNameToken";
 import { VariableToken } from "./VariableToken";
 
 
-export type VariableOrIRI = VariableToken | IRIToken | PrefixedNameToken;
+export type VariableOrIRIToken = VariableToken | IRIToken | PrefixedNameToken;

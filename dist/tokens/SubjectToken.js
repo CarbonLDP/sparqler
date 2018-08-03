@@ -4,14 +4,14 @@ var SubjectToken = (function () {
     function SubjectToken(subject) {
         this.token = "subject";
         this.subject = subject;
-        this.predicates = [];
+        this.properties = [];
     }
     SubjectToken.prototype.addPredicate = function (predicate) {
-        this.predicates.push(predicate);
+        this.properties.push(predicate);
         return this;
     };
     SubjectToken.prototype.toString = function () {
-        return this.subject + " " + this.predicates.join("; ");
+        return this.subject + " " + this.properties.join("; ");
     };
     return SubjectToken;
 }());

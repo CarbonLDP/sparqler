@@ -7,7 +7,7 @@ import { Collection } from "./triples/Collection";
 import { BooleanLiteral, Literal, NumericLiteral, RDFLiteral } from "./triples/Literals";
 import { Resource } from "./triples/Resource";
 import { Variable } from "./triples/Variable";
-export declare type Undefined = "UNDEF";
+import { Undefined } from "./Undefined";
 export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder, SubSelectClause {
     static readonly undefined: Undefined;
     readonly undefined: Undefined;

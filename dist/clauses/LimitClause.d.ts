@@ -6,5 +6,5 @@ export interface LimitClause<T extends object> {
     limit(limit: number): T;
 }
 export declare const LimitClause: {
-    create<C extends Container2<SubSelectToken | QueryToken>, T extends object, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & LimitClause<T>;
+    createFrom<C extends Container2<SubSelectToken | QueryToken>, T extends object, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & LimitClause<T>;
 };

@@ -22,7 +22,7 @@ __export(require("./LiteralToken"));
 __export(require("./StringToken"));
 __export(require("./ValuesToken"));
 __export(require("./SubjectToken"));
-__export(require("./PredicateToken"));
+__export(require("./PropertyToken"));
 __export(require("./OptionalToken"));
 __export(require("./GraphToken"));
 __export(require("./BindToken"));

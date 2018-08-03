@@ -12,5 +12,5 @@ export interface SelectClause<T extends FinishClause> {
     selectAllReduced(): FromClause<T>;
 }
 export declare const SelectClause: {
-    create<C extends Container2<QueryToken>, T extends FinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & SelectClause<T>;
+    createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & SelectClause<T>;
 };

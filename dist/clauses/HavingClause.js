@@ -7,13 +7,13 @@ function getHavingFn(genericFactory, container) {
     return function (rawCondition) {
         var token = new HavingToken_1.HavingToken(rawCondition);
         var newContainer = SolutionModifierClause_1.cloneSolutionModifierContainer(container, token);
-        var orderClause = OrderClause_1.OrderClause.create(genericFactory, newContainer, {});
+        var orderClause = OrderClause_1.OrderClause.createFrom(genericFactory, newContainer, {});
         return genericFactory(newContainer, orderClause);
     };
 }
 exports.HavingClause = {
-    create: function (genericFactory, container, object) {
-        return OrderClause_1.OrderClause.create(genericFactory, container, Object.assign(object, {
+    createFrom: function (genericFactory, container, object) {
+        return OrderClause_1.OrderClause.createFrom(genericFactory, container, Object.assign(object, {
             having: getHavingFn(genericFactory, container),
         }));
     },

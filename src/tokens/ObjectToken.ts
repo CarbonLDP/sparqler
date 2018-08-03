@@ -1,6 +1,5 @@
-import { CollectionToken } from "./CollectionToken";
-import { TermToken } from "./TermToken";
-import { VariableToken } from "./VariableToken";
+import { TripleNodeToken } from "./TripleNodeToken";
+import { VariableOrTermToken } from "./VariableOrTermToken";
 
 
-export type ObjectToken = VariableToken | TermToken | CollectionToken;
+export type ObjectToken = VariableOrTermToken | TripleNodeToken;

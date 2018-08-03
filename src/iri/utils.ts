@@ -35,8 +35,8 @@ export function isPrefixed( iri:string ):boolean {
 	return softPrefixRegex.test( iri ) && ! hasProtocol( iri );
 }
 
-export function getPrefixedParts( iri:string ):[ string, string ] {
-	let parts:RegExpExecArray = prefixRegex.exec( iri );
+export function getPrefixedParts( iri:string ):[ string, string ] | null {
+	let parts:RegExpExecArray | null = prefixRegex.exec( iri );
 	if( parts === null || hasProtocol( iri ) ) return null;
 
 	let prefix:string = parts[ 1 ] || "";

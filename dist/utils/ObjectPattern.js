@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var LiteralToken_1 = require("./../tokens/LiteralToken");
 var XSD = require("./XSD");
 var StringLiteral_1 = require("../tokens/StringLiteral");
 var tokens_1 = require("../patterns/tokens");
@@ -29,19 +28,5 @@ function addType(value, type) {
     return [tokens_1.OPEN_QUOTE, new StringLiteral_1.StringLiteral(value), tokens_1.CLOSE_QUOTE, tokens_1.OFF_TYPE, tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(type), tokens_1.CLOSE_IRI];
 }
 exports.addType = addType;
-function convertValue(value) {
-    if (value instanceof Date)
-        return new LiteralToken_1.LiteralToken(value.toISOString())
-            .setType(XSD.dateTime);
-    if (typeof value === "object")
-        return "UNDEF";
-    if (typeof value === "string") {
-        if (value === "UNDEF")
-            return value;
-        return new LiteralToken_1.LiteralToken(value);
-    }
-    return new LiteralToken_1.LiteralToken(value);
-}
-exports.convertValue = convertValue;
 
 //# sourceMappingURL=ObjectPattern.js.map

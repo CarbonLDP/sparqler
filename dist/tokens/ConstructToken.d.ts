@@ -1,4 +1,4 @@
-import { TripleToken } from "./";
+import { TripleToken } from "./TripleToken";
 import { CommonQueryClauseToken } from "./CommonQueryClauseToken";
 export declare class ConstructToken extends CommonQueryClauseToken {
     readonly token: "construct";

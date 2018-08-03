@@ -1,28 +1,28 @@
-import { PredicateToken } from "./PredicateToken";
-import { TermToken } from "./TermToken";
+import { PropertyToken } from "./PropertyToken";
 import { TokenNode } from "./TokenNode";
-import { VariableToken } from "./VariableToken";
+import { TripleNodeToken } from "./TripleNodeToken";
+import { VariableOrTermToken } from "./VariableOrTermToken";
 
 
-export class SubjectToken<T extends VariableToken | TermToken = VariableToken | TermToken> implements TokenNode {
+export class SubjectToken<T extends VariableOrTermToken | TripleNodeToken = VariableOrTermToken | TripleNodeToken> implements TokenNode {
 	readonly token:"subject" = "subject";
 
 	readonly subject:T;
-	readonly predicates:PredicateToken[];
+	readonly properties:PropertyToken[];
 
 	constructor( subject:T ) {
 		this.subject = subject;
-		this.predicates = [];
+		this.properties = [];
 	}
 
 
-	addPredicate( predicate:PredicateToken ):this {
-		this.predicates.push( predicate );
+	addPredicate( predicate:PropertyToken ):this {
+		this.properties.push( predicate );
 		return this;
 	}
 
 
 	toString():string {
-		return `${ this.subject } ${ this.predicates.join( "; " ) }`;
+		return `${ this.subject } ${ this.properties.join( "; " ) }`;
 	}
 }

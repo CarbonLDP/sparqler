@@ -5,7 +5,7 @@ import { IRIToken } from "sparqler/tokens/IRIToken";
 import { LimitToken } from "sparqler/tokens/LimitToken";
 import { OffsetToken } from "sparqler/tokens/OffsetToken";
 import { OptionalToken } from "sparqler/tokens/OptionalToken";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
+import { PropertyToken } from "sparqler/tokens/PropertyToken";
 import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
 import { SolutionModifierToken } from "sparqler/tokens/SolutionModifierToken";
 import { SubjectToken } from "sparqler/tokens/SubjectToken";
@@ -215,29 +215,29 @@ describe( "Module ConstructToken", ():void => {
 			it( "should print the SPARQL construct without modifiers", ():void => {
 				const token:ConstructToken = new ConstructToken()
 					.addTriple( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( "a" )
+						.addPredicate( new PropertyToken( "a" )
 							.addObject( new VariableToken( "obj1" ) ),
 						),
 					)
 					.addTriple( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( new PrefixedNameToken( "ex", "property" ) )
+						.addPredicate( new PropertyToken( new PrefixedNameToken( "ex", "property" ) )
 							.addObject( new VariableToken( "obj2" ) ),
 						),
 					)
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( "a" )
+						.addPredicate( new PropertyToken( "a" )
 							.addObject( new PrefixedNameToken( "ex:Resource" ) ),
 						),
 					)
 					.addPattern( new OptionalToken()
 						.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-							.addPredicate( new PredicateToken( "a" )
+							.addPredicate( new PropertyToken( "a" )
 								.addObject( new VariableToken( "obj1" ) ),
 							),
 						),
 					)
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( new PrefixedNameToken( "ex", "property" ) )
+						.addPredicate( new PropertyToken( new PrefixedNameToken( "ex", "property" ) )
 							.addObject( new VariableToken( "obj2" ) ),
 						),
 					)
@@ -261,29 +261,29 @@ describe( "Module ConstructToken", ():void => {
 			it( "should print the SPARQL construct with modifiers", ():void => {
 				const token:ConstructToken = new ConstructToken()
 					.addTriple( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( "a" )
+						.addPredicate( new PropertyToken( "a" )
 							.addObject( new VariableToken( "obj1" ) ),
 						),
 					)
 					.addTriple( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( new PrefixedNameToken( "ex", "property" ) )
+						.addPredicate( new PropertyToken( new PrefixedNameToken( "ex", "property" ) )
 							.addObject( new VariableToken( "obj2" ) ),
 						),
 					)
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( "a" )
+						.addPredicate( new PropertyToken( "a" )
 							.addObject( new PrefixedNameToken( "ex:Resource" ) ),
 						),
 					)
 					.addPattern( new OptionalToken()
 						.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-							.addPredicate( new PredicateToken( "a" )
+							.addPredicate( new PropertyToken( "a" )
 								.addObject( new VariableToken( "obj1" ) ),
 							),
 						),
 					)
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( new PrefixedNameToken( "ex", "property" ) )
+						.addPredicate( new PropertyToken( new PrefixedNameToken( "ex", "property" ) )
 							.addObject( new VariableToken( "obj2" ) ),
 						),
 					)

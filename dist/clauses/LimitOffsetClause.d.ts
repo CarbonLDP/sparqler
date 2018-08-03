@@ -10,5 +10,5 @@ import { ValuesClause } from "./ValuesClause";
 export interface LimitOffsetClause<T extends FinishClause | SubFinishClause> extends LimitClause<OffsetClause<ValuesClause<T> & T> & ValuesClause<T> & T>, OffsetClause<LimitClause<ValuesClause<T> & T> & ValuesClause<T> & T>, ValuesClause<T> {
 }
 export declare const LimitOffsetClause: {
-    create<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause | SubFinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & LimitOffsetClause<T>;
+    createFrom<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause | SubFinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & LimitOffsetClause<T>;
 };

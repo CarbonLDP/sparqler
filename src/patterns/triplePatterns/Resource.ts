@@ -7,4 +7,4 @@ import { TriplePatternHas } from "../TriplePatternHas";
 /**
  * @todo
  */
-export interface Resource extends TriplePatternHas<IRIToken | PrefixedNameToken> {};
+export interface Resource extends TriplePatternHas<IRIToken | PrefixedNameToken> {}

@@ -7,13 +7,13 @@ function getGroupByFn(genericFactory, container) {
     return function (rawCondition) {
         var token = new GroupToken_1.GroupToken(rawCondition);
         var newContainer = SolutionModifierClause_1.cloneSolutionModifierContainer(container, token);
-        var havingClause = HavingClause_1.HavingClause.create(genericFactory, newContainer, {});
+        var havingClause = HavingClause_1.HavingClause.createFrom(genericFactory, newContainer, {});
         return genericFactory(newContainer, havingClause);
     };
 }
 exports.GroupClause = {
-    create: function (genericFactory, container, object) {
-        return HavingClause_1.HavingClause.create(genericFactory, container, Object.assign(object, {
+    createFrom: function (genericFactory, container, object) {
+        return HavingClause_1.HavingClause.createFrom(genericFactory, container, Object.assign(object, {
             groupBy: getGroupByFn(genericFactory, container),
         }));
     },

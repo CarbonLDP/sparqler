@@ -1,4 +1,4 @@
-import { VariableOrIRI } from "./VariableOrIRI";
+import { VariableOrIRIToken } from "./VariableOrIRIToken";
 import { GroupPatternToken } from "./GroupPatternToken";
 import { PatternToken } from "./PatternToken";
 import { TokenNode } from "./TokenNode";
@@ -7,10 +7,10 @@ import { TokenNode } from "./TokenNode";
 export class GraphToken implements TokenNode {
 	readonly token:"graph" = "graph";
 
-	readonly graph:VariableOrIRI;
+	readonly graph:VariableOrIRIToken;
 	readonly groupPattern:GroupPatternToken;
 
-	constructor( graph:VariableOrIRI ) {
+	constructor( graph:VariableOrIRIToken ) {
 		this.graph = graph;
 		this.groupPattern = new GroupPatternToken();
 	}

@@ -9,5 +9,5 @@ export interface HavingClause<T extends FinishClause | SubFinishClause> extends 
     having(rawCondition: string): OrderClause<T> & T;
 }
 export declare const HavingClause: {
-    create<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause | SubFinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & HavingClause<T>;
+    createFrom<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause | SubFinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & HavingClause<T>;
 };

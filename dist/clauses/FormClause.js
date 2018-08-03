@@ -18,12 +18,12 @@ function getFromFn(genericFactory, container, named) {
             iriResolver: iriResolver,
             targetToken: queryToken,
         });
-        return exports.FromClause.create(genericFactory, newContainer, {});
+        return exports.FromClause.createFrom(genericFactory, newContainer, {});
     };
 }
 exports.FromClause = {
-    create: function (genericFactory, container, object) {
-        return WhereClause_1.WhereClause.create(genericFactory, container, Object.assign(object, {
+    createFrom: function (genericFactory, container, object) {
+        return WhereClause_1.WhereClause.createFrom(genericFactory, container, Object.assign(object, {
             from: getFromFn(genericFactory, container),
             fromNamed: getFromFn(genericFactory, container, true),
         }));

@@ -10,7 +10,7 @@ function getOffsetFn(genericFactory, container) {
     };
 }
 exports.OffsetClause = {
-    create: function (genericFactory, container, object) {
+    createFrom: function (genericFactory, container, object) {
         return Object.assign(object, {
             offset: getOffsetFn(genericFactory, container),
         });

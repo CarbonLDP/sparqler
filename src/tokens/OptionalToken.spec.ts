@@ -1,5 +1,5 @@
 import { PatternToken } from "sparqler/tokens/PatternToken";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
+import { PropertyToken } from "sparqler/tokens/PropertyToken";
 import { SubjectToken } from "sparqler/tokens/SubjectToken";
 import * as Utils from "sparqler/tokens/utils";
 import { VariableToken } from "sparqler/tokens/VariableToken";
@@ -108,12 +108,12 @@ describe( "Module OptionalToken", ():void => {
 
 				const token:OptionalToken = new OptionalToken()
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( "a" )
+						.addPredicate( new PropertyToken( "a" )
 							.addObject( new VariableToken( "obj1" ) ),
 						),
 					)
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-						.addPredicate( new PredicateToken( "a" )
+						.addPredicate( new PropertyToken( "a" )
 							.addObject( new VariableToken( "obj1" ) ),
 						),
 					)
