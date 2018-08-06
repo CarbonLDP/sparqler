@@ -31,14 +31,11 @@ export interface MultipleValuesPatternAnd extends NotTriplePattern<ValuesToken> 
  */
 function getHasFn<C extends Container2<ValuesToken>>( container:C ):MultipleValuesPattern[ "has" ] {
 	return ( ...values:(SupportedNativeTypes | Resource | Literal | Undefined)[] ) => {
+		if( values.length !== container.targetToken.variables.length )
+			throw new Error( "The number of values are different from the number of variables." );
+
 		const parsedValues = container.targetToken.values.slice();
-
-		for( let i = 0; i < parsedValues.length; i ++ ) {
-			if( parsedValues.length <= i ) parsedValues.push( [] );
-
-			parsedValues[ i ] = parsedValues[ i ]
-				.concat( convertValue( values[ i ] ) );
-		}
+		parsedValues.push( values.map( convertValue ) );
 
 		const targetToken = cloneElement( container.targetToken, { values: parsedValues } );
 		const newContainer = cloneElement( container, { targetToken } as Partial<C> );

@@ -8,7 +8,6 @@ import { VariableToken } from "../tokens/VariableToken";
 
 import { FinishClause } from "./FinishClause";
 import { FromClause } from "./FormClause";
-import { WhereClause } from "./WhereClause";
 
 
 /**
@@ -85,15 +84,18 @@ export interface SelectClause<T extends FinishClause> {
  *
  * @private
  */
-function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, modifier?:"DISTINCT" | "REDUCED" ):SelectClause<T>[ "select" ] {
+function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container2<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED" ):SelectClause<T>[ "select" ] {
 	return ( ...variables:string[] ) => {
 		if( variables && variables.length === 0 ) throw new Error( "Need to provide al least one variable." );
 
-		const query:SelectToken = new SelectToken( modifier );
-		query.addVariable( ...variables.map( x => x === "*" ? x : new VariableToken( x ) ) );
+		const queryClause:SelectToken = new SelectToken( modifier );
+		queryClause.addVariable( ...variables.map( x => x === "*" ? x : new VariableToken( x ) ) );
 
-		const queryToken:QueryToken = cloneElement( container.targetToken, { queryClause: query } );
-		const newContainer = cloneElement( container, { targetToken: queryToken } as Partial<C> );
+		const queryToken:QueryToken<SelectToken> = cloneElement( container.targetToken, { queryClause } );
+		const newContainer:Container2<QueryToken<SelectToken>> = new Container2( {
+			iriResolver: container.iriResolver,
+			targetToken: queryToken,
+		} );
 
 		return FromClause.createFrom( genericFactory, newContainer, {} );
 	};
@@ -104,14 +106,14 @@ function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( 
  * @todo
  */
 export const SelectClause = {
-	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & SelectClause<T> {
-		return WhereClause.createFrom( genericFactory, container, Object.assign( object, {
+	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<Container2<QueryToken<SelectToken>>, T>, container:C, object:O ):O & SelectClause<T> {
+		return Object.assign( object, {
 			select: getSelectFn( genericFactory, container ),
 			selectDistinct: getSelectFn( genericFactory, container, "DISTINCT" ),
 			selectReduced: getSelectFn( genericFactory, container, "REDUCED" ),
 			selectAll: () => getSelectFn( genericFactory, container )( "*" ),
 			selectAllDistinct: () => getSelectFn( genericFactory, container, "DISTINCT" )( "*" ),
 			selectAllReduced: () => getSelectFn( genericFactory, container, "REDUCED" )( "*" ),
-		} ) );
+		} );
 	},
 };

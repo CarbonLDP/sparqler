@@ -7,11 +7,10 @@ import { SubSelectToken } from "../tokens/SubSelectToken";
 
 import { FinishClause } from "./FinishClause";
 import { HavingClause } from "./HavingClause";
-import { SubFinishClause } from "./interfaces";
 import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
 
 
-export interface GroupClause<T extends FinishClause | SubFinishClause> extends HavingClause<T> {
+export interface GroupClause<T extends FinishClause> extends HavingClause<T> {
 	/**
 	 * Set a condition to be divide the solutions returned by the query
 	 * into one or more groups.
@@ -27,7 +26,7 @@ export interface GroupClause<T extends FinishClause | SubFinishClause> extends H
 /**
  * @todo
  */
-function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:Factory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
+function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
 	return ( rawCondition:string ) => {
 		const token:GroupToken = new GroupToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );
@@ -42,7 +41,7 @@ function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
  * @todo
  */
 export const GroupClause = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & GroupClause<T> {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & GroupClause<T> {
 		return HavingClause.createFrom( genericFactory, container, Object.assign( object, {
 			groupBy: getGroupByFn( genericFactory, container ),
 		} ) );

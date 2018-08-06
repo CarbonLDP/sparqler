@@ -1,10 +1,10 @@
+import { SelectToken } from "sparqler/tokens";
 import { Container2 } from "../data/Container2";
 import { Factory } from "../data/Factory";
 import { IRIResolver2 } from "../data/IRIResolver2";
 import { cloneElement } from "../data/utils";
 
 import { FromToken } from "../tokens/FromToken";
-import { QueryClauseToken } from "../tokens/QueryClauseToken";
 import { QueryToken } from "../tokens/QueryToken";
 
 import { FinishClause } from "./FinishClause";
@@ -46,18 +46,15 @@ export interface FromClause<T extends FinishClause> extends WhereClause<T> {
  *
  * @private
  */
-function getFromFn<C extends Container2<QueryToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, named?:boolean ):FromClause<T>[ "from" ] {
+function getFromFn<C extends Container2<QueryToken<SelectToken>>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, named?:boolean ):FromClause<T>[ "from" ] {
 	return ( iri:string ) => {
 		const iriResolver:IRIResolver2 = new IRIResolver2( container.iriResolver );
 
-		let query:QueryClauseToken = container.targetToken.queryClause;
-		if( query.token !== "select" ) throw new Error( "Does not exists a SELECT token to add the FROM data." );
-
-		query = cloneElement( query, {
+		const queryClause = cloneElement( container.targetToken.queryClause, {
 			dataset: new FromToken( iriResolver.resolve( iri ), named )
 		} );
 
-		const queryToken:QueryToken = cloneElement( container.targetToken, { queryClause: query } );
+		const queryToken:QueryToken = cloneElement( container.targetToken, { queryClause } );
 		const newContainer = cloneElement( container, {
 			iriResolver,
 			targetToken: queryToken,
@@ -72,7 +69,7 @@ function getFromFn<C extends Container2<QueryToken>, T extends FinishClause>( ge
  * @todo
  */
 export const FromClause = {
-	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & FromClause<T> {
+	createFrom<C extends Container2<QueryToken<SelectToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & FromClause<T> {
 		return WhereClause.createFrom( genericFactory, container, Object.assign( object, {
 			from: getFromFn( genericFactory, container ),
 			fromNamed: getFromFn( genericFactory, container, true ),

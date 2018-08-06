@@ -24,7 +24,7 @@ function getWithTypeFn<C extends Container2<SubjectToken<LiteralToken>>>( contai
 	return type => {
 		if( type in XSD ) type = (XSD as any)[ type ];
 		const subject = cloneElement( container.targetToken.subject )
-			.setType( container.iriResolver.resolve( type ) );
+			.setType( container.iriResolver.resolve( type, true ) );
 
 		const targetToken = cloneElement( container.targetToken, { subject } );
 		const newContainer = cloneElement( container, { targetToken } as Partial<C> );

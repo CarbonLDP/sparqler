@@ -7,6 +7,7 @@ import { PatternBuilder2 } from "../patterns/PatternBuilder2";
 import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 import { Literal } from "../patterns/triplePatterns/Literal";
 import { Resource } from "../patterns/triplePatterns/Resource";
+import { Variable } from "../patterns/triplePatterns/Variable";
 import { Undefined } from "../patterns/Undefined";
 import { convertValue } from "../patterns/utils";
 
@@ -16,10 +17,9 @@ import { ValuesToken } from "../tokens/ValuesToken";
 import { VariableToken } from "../tokens/VariableToken";
 
 import { FinishClause } from "./FinishClause";
-import { SubFinishClause } from "./interfaces";
 
 
-export interface ValuesClause<T extends FinishClause | SubFinishClause> {
+export interface ValuesClause<T extends FinishClause> {
 	/**
 	 * Set the values of a variable to be combined into the results query.
 	 *
@@ -27,7 +27,7 @@ export interface ValuesClause<T extends FinishClause | SubFinishClause> {
 	 * @param values The values to be combined.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variable:string, values:SupportedNativeTypes | SupportedNativeTypes[] ):T;
+	values( variable:string | Variable, values:SupportedNativeTypes | SupportedNativeTypes[] ):T;
 
 	/**
 	 * Set the values of a variable to be combined into the results query.
@@ -39,7 +39,7 @@ export interface ValuesClause<T extends FinishClause | SubFinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variable:string, valuesBuilder:( builder:PatternBuilder2 ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
+	values( variable:string | Variable, valuesBuilder:( builder:PatternBuilder2 ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
 
 	/**
 	 * Set the values of multiple variables to be combined into the results
@@ -49,7 +49,7 @@ export interface ValuesClause<T extends FinishClause | SubFinishClause> {
 	 * @param values The values to be combined.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variables:string[], values:SupportedNativeTypes[] | SupportedNativeTypes[][] ):T;
+	values( variables:(string | Variable)[], values:SupportedNativeTypes[] | SupportedNativeTypes[][] ):T;
 
 	/**
 	 * Set the values of multiple variables to be combined into the results
@@ -62,7 +62,7 @@ export interface ValuesClause<T extends FinishClause | SubFinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variables:string[], valuesBuilder:( builder:PatternBuilder2 ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
+	values( variables:(string | Variable)[], valuesBuilder:( builder:PatternBuilder2 ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
 }
 
 
@@ -75,33 +75,41 @@ type ValuesOrBuilder =
 	| (( builder:PatternBuilder2 ) => Values[] | Values[][])
 	;
 
-function _normalizeVariables( variableOrVariables:string | string[] ):VariableToken[] {
-	if( Array.isArray( variableOrVariables ) )
-		return variableOrVariables.map( x => new VariableToken( x ) );
+function _normalizeVariables( variableOrVariables:string | Variable | (string | Variable)[] ):VariableToken[] {
+	const variables = Array.isArray( variableOrVariables ) ? variableOrVariables : [ variableOrVariables ];
 
-	return [ new VariableToken( variableOrVariables ) ];
-}
-
-function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIResolver2 ):Values[][] {
-	const rawValues:Values | (Values | Values[])[] = typeof valuesOrBuilder === "function" ?
-		valuesOrBuilder( PatternBuilder2.create( iriResolver ) ) :
-		valuesOrBuilder;
-
-
-	if( ! Array.isArray( rawValues ) )
-		return [ [ rawValues ] ];
-
-	return rawValues.map( rawValue => {
-		if( Array.isArray( rawValue ) ) return rawValue;
-		return [ rawValue ];
+	return variables.map( x => {
+		if( typeof x === "string" ) return new VariableToken( x );
+		return x.getSubject();
 	} );
 }
 
-function createValuesFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:Factory<C, T>, container:C ):ValuesClause<T>[ "values" ] {
-	return ( variableOrVariables:string | string[], valuesOrBuilder:ValuesOrBuilder ) => {
+function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIResolver2, isSingle:boolean ):Values[][] {
+	let rawValues:Values | (Values | Values[])[] = typeof valuesOrBuilder === "function" ?
+		valuesOrBuilder( PatternBuilder2.create( iriResolver ) ) :
+		valuesOrBuilder;
+
+	// When single variable
+	if( ! Array.isArray( rawValues ) )
+		return [ [ rawValues ] ];
+
+	if( isSingle )
+		rawValues.map( value => [ value ] );
+
+
+	// When multiple variables
+	if( rawValues.some( Array.isArray ) )
+		return rawValues as Values[][];
+
+	return [ rawValues as Values[] ];
+}
+
+function createValuesFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):ValuesClause<T>[ "values" ] {
+	return ( variableOrVariables:string | Variable | (string | Variable)[], valuesOrBuilder:ValuesOrBuilder ) => {
 		const iriResolver:IRIResolver2 = new IRIResolver2( container.iriResolver );
 
-		const values:Values[][] = _normalizeRawValues( valuesOrBuilder, iriResolver );
+		const isSingle:boolean = ! Array.isArray( variableOrVariables );
+		const values:Values[][] = _normalizeRawValues( valuesOrBuilder, iriResolver, isSingle );
 		const variables:VariableToken[] = _normalizeVariables( variableOrVariables );
 
 		const token:ValuesToken = new ValuesToken();
@@ -120,7 +128,7 @@ function createValuesFn<C extends Container2<QueryToken | SubSelectToken>, T ext
  * @todo
  */
 export const ValuesClause = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:Factory<C, T>, container:C, object:T ):T & ValuesClause<T> {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, object:T ):T & ValuesClause<T> {
 		return Object.assign( object, {
 			values: createValuesFn( genericFactory, container ),
 		} );

@@ -6,12 +6,11 @@ import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
 import { FinishClause } from "./FinishClause";
-import { SubFinishClause } from "./interfaces";
 import { LimitOffsetClause } from "./LimitOffsetClause";
 import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
 
 
-export interface OrderClause<T extends FinishClause | SubFinishClause> extends LimitOffsetClause<T> {
+export interface OrderClause<T extends FinishClause> extends LimitOffsetClause<T> {
 	/**
 	 * Set a condition to be used as the order of the sequence of solutions the
 	 * query will retrieve.
@@ -30,7 +29,7 @@ export interface OrderClause<T extends FinishClause | SubFinishClause> extends L
 /**
  * @todo
  */
-function getOrderByFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:Factory<C, T>, container:C ):OrderClause<T>[ "orderBy" ] {
+function getOrderByFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):OrderClause<T>[ "orderBy" ] {
 	return ( rawCondition:string ) => {
 		const token:OrderToken = new OrderToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );
@@ -45,7 +44,7 @@ function getOrderByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
  * @todo
  */
 export const OrderClause = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & OrderClause<T> {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & OrderClause<T> {
 		return LimitOffsetClause.createFrom( genericFactory, container, Object.assign( object, {
 			orderBy: getOrderByFn( genericFactory, container ),
 		} ) );

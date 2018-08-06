@@ -5,14 +5,14 @@ import { TokenNode } from "./TokenNode";
 import { ValuesToken } from "./ValuesToken";
 
 
-export class QueryToken implements TokenNode {
+export class QueryToken<T extends QueryClauseToken | undefined = QueryClauseToken | undefined> implements TokenNode {
 	readonly token:"query" = "query";
 
 	readonly prologues:(BaseToken | PrefixToken)[];
-	readonly queryClause:QueryClauseToken;
+	readonly queryClause:T;
 	readonly values?:ValuesToken;
 
-	constructor( query:QueryClauseToken, values?:ValuesToken ) {
+	constructor( query:T, values?:ValuesToken ) {
 		this.prologues = [];
 		this.queryClause = query;
 		this.values = values;

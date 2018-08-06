@@ -35,7 +35,7 @@ const PATH_OPERATORS:string[] = [ "|", "/", "^", "?", "*", "+", "!", "(", ")" ];
 
 // TODO: Remove `a` and Implement Path tokens
 export function _resolvePath( container:Container2<TokenNode>, propertyPath:string ):"a" {
-	propertyPath
+	const parsedPath:string = propertyPath
 		.split( /(<.*?>)/ )
 		.reduce( ( array:string[], part:string ) => {
 			// Is an IRI
@@ -50,15 +50,17 @@ export function _resolvePath( container:Container2<TokenNode>, propertyPath:stri
 
 			return array;
 		}, [] )
-		.forEach( ( part:string ) => {
+		.map( ( part:string ) => {
 			if( ! part ) return;
 
 			// Operators
 			if( PATH_OPERATORS.indexOf( part ) !== - 1 ) {
+				return part;
 			}
 
 			// "a" keyword
 			else if( part === "a" ) {
+				return part;
 			}
 
 			// IRI or prefix
@@ -67,9 +69,10 @@ export function _resolvePath( container:Container2<TokenNode>, propertyPath:stri
 				if( part.startsWith( "<" ) && part.endsWith( ">" ) ) part = part.slice( 1, - 1 );
 
 				// Register prefix it prefixed
-				container.iriResolver.resolve( part, true );
+				return container.iriResolver.resolve( part, true );
 			}
-		} );
+		} )
+		.join( "" );
 
-	return propertyPath as "a";
+	return parsedPath as "a";
 }

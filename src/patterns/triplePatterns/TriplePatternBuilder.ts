@@ -1,4 +1,5 @@
 import { Container2 } from "../../data/Container2";
+import { Factory } from "../../data/Factory";
 
 import { BlankNodePropretyToken } from "../../tokens/BlankNodePropretyToken";
 import { BlankNodeToken } from "../../tokens/BlankNodeToken";
@@ -12,6 +13,7 @@ import { TokenNode } from "../../tokens/TokenNode";
 import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
+import { Pattern } from "../Pattern";
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
 import { convertValue } from "../utils";
 import { BlankNode } from "./BlankNode";
@@ -56,6 +58,14 @@ function _getPattern<C extends Container2<TokenNode>, T extends ObjectToken>( co
 	return TriplePatternHas.createFrom( patternContainer, {} );
 }
 
+function _getReadyPattern<C extends Container2<TokenNode>, T extends ObjectToken>( container:C, token:T ):TriplePatternHas<T> & Pattern<TripleToken<T>> {
+	const patternContainer = _getPatternContainer( container, token );
+	return Factory.createFrom<typeof patternContainer, TriplePatternHas<T>, Pattern<TripleToken<T>>>(
+		TriplePatternHas.createFrom,
+		Pattern.createFrom,
+	)( patternContainer, {} );
+}
+
 function getResourceFn<C extends Container2<TokenNode>>( container:C ):TriplePatternBuilder[ "resource" ] {
 	return iri => {
 		const token:IRIToken | PrefixedNameToken = container.iriResolver.resolve( iri );
@@ -84,7 +94,7 @@ function getLiteralFn<C extends Container2<TokenNode>>( container:C ):TriplePatt
 	return ( value:string | number | boolean ):any => {
 		const token:LiteralToken = new LiteralToken( value );
 
-		if( typeof value === "string" )
+		if( typeof value !== "string" )
 			return _getPattern( container, token ) as Literal;
 
 		const patternContainer = _getPatternContainer( container, token );
@@ -99,7 +109,7 @@ function getCollectionFn<C extends Container2<TokenNode>>( container:C ):TripleP
 	return ( ...values:Values[] ) => {
 		const token:CollectionToken = new CollectionToken()
 			.addObject( ...values.map( convertValue ) );
-		return _getPattern( container, token );
+		return _getReadyPattern( container, token );
 	}
 }
 
@@ -118,7 +128,7 @@ function getBlankNodePropertyFn<C extends Container2<TokenNode>>( container:C ):
 		if( token.properties.length < 1 )
 			throw new Error( "At least one property must be specified with the provided BlankNodeBuilder." );
 
-		return _getPattern( container, token );
+		return _getReadyPattern( container, token );
 	}
 }
 

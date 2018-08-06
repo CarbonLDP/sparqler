@@ -23,6 +23,11 @@ export class SubjectToken<T extends VariableOrTermToken | TripleNodeToken = Vari
 
 
 	toString():string {
-		return `${ this.subject } ${ this.properties.join( "; " ) }`;
+		let query:string = `${ this.subject }`;
+
+		if( this.properties.length )
+			query += ` ${ this.properties.join( "; " ) }`;
+
+		return query;
 	}
 }

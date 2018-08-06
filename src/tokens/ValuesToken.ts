@@ -30,7 +30,7 @@ export class ValuesToken implements TokenNode {
 			`( ${ this.variables.join( " " ) } )` : "()";
 
 		const values:any[] = this.variables.length ? this.variables.length === 1 ? this.values[ 0 ] :
-			this.values.map( varValues => `( ${ varValues.join( " " ) } )` ) : [ "()" ];
+			this.values.map( values => `( ${ values.join( " " ) } )` ) : [ "()" ];
 
 		return `VALUES ${ variables } { ${ values.join( " " ) } }`;
 	}
