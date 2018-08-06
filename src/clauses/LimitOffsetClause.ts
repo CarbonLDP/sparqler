@@ -1,10 +1,10 @@
-import { FinishClause } from "sparqler/clauses/FinishClause";
-import { SubSelectToken } from "sparqler/tokens/SubSelectToken";
-import { GroupPatternToken } from "../tokens/GroupPatternToken";
-import { QueryToken } from "../tokens/QueryToken";
+import { Container2 } from "../data/Container2";
+import { Factory } from "../data/Factory";
 
-import { ClauseFactory } from "./ClauseFactory";
-import { Container2 } from "./Container2";
+import { QueryToken } from "../tokens/QueryToken";
+import { SubSelectToken } from "../tokens/SubSelectToken";
+
+import { FinishClause } from "./FinishClause";
 import { SubFinishClause } from "./interfaces";
 import { LimitClause } from "./LimitClause";
 import { OffsetClause } from "./OffsetClause";
@@ -42,33 +42,33 @@ export interface LimitOffsetClause<T extends FinishClause | SubFinishClause> ext
                                                                                      ValuesClause<T> {}
 
 
-function _getLimitFactory<CONTAINER extends Container2<any>, T extends FinishClause | SubFinishClause>( valuesFactory:ClauseFactory<CONTAINER, ValuesClause<T> & T> ):ClauseFactory<CONTAINER, LimitClause<OffsetClause<ValuesClause<T> & T> & ValuesClause<T> & T>> {
-	const offsetValuesFactory:ClauseFactory<CONTAINER, OffsetClause<ValuesClause<T> & T>> = OffsetClause
+function _getLimitFactory<CONTAINER extends Container2<any>, T extends FinishClause | SubFinishClause>( valuesFactory:Factory<CONTAINER, ValuesClause<T> & T> ):Factory<CONTAINER, LimitClause<OffsetClause<ValuesClause<T> & T> & ValuesClause<T> & T>> {
+	const offsetValuesFactory:Factory<CONTAINER, OffsetClause<ValuesClause<T> & T>> = OffsetClause
 		.createFrom.bind( null, valuesFactory );
 
 	return ( container1, object1 ) => LimitClause
-		.createFrom( ClauseFactory.createFrom( offsetValuesFactory, valuesFactory ), container1, object1 );
+		.createFrom( Factory.createFrom( offsetValuesFactory, valuesFactory ), container1, object1 );
 }
 
-function _getOffsetFactory<CONTAINER extends Container2<any>, T extends FinishClause | SubFinishClause>( valuesFactory:ClauseFactory<CONTAINER, ValuesClause<T> & T> ):ClauseFactory<CONTAINER, OffsetClause<LimitClause<ValuesClause<T> & T> & ValuesClause<T> & T>> {
-	const limitValuesFactory:ClauseFactory<CONTAINER, LimitClause<ValuesClause<T> & T>> = LimitClause
+function _getOffsetFactory<CONTAINER extends Container2<any>, T extends FinishClause | SubFinishClause>( valuesFactory:Factory<CONTAINER, ValuesClause<T> & T> ):Factory<CONTAINER, OffsetClause<LimitClause<ValuesClause<T> & T> & ValuesClause<T> & T>> {
+	const limitValuesFactory:Factory<CONTAINER, LimitClause<ValuesClause<T> & T>> = LimitClause
 		.createFrom.bind( null, valuesFactory );
 
 	return ( container1, object1 ) => OffsetClause
-		.createFrom( ClauseFactory.createFrom( valuesFactory, limitValuesFactory ), container1, object1 );
+		.createFrom( Factory.createFrom( valuesFactory, limitValuesFactory ), container1, object1 );
 }
 
 /**
  * @todo
  */
 export const LimitOffsetClause = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<C, T>, container:C, object:O ):O & LimitOffsetClause<T> {
-		const valuesFactory:ClauseFactory<C, ValuesClause<T>> = ValuesClause
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & LimitOffsetClause<T> {
+		const valuesFactory:Factory<C, ValuesClause<T>> = ValuesClause
 			.createFrom.bind( null, genericFactory );
 
-		const genericAndValuesFactory = ClauseFactory.createFrom( genericFactory, valuesFactory );
+		const genericAndValuesFactory = Factory.createFrom( genericFactory, valuesFactory );
 
-		return ClauseFactory.createFrom(
+		return Factory.createFrom(
 			_getLimitFactory<C, T>( genericAndValuesFactory ),
 			_getOffsetFactory<C, T>( genericAndValuesFactory ),
 			valuesFactory

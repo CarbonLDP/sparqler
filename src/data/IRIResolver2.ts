@@ -1,5 +1,8 @@
-import { isPrefixed, isRelative, } from "sparqler/iri/utils";
-import { IRIToken, PrefixedNameToken, } from "sparqler/tokens";
+import { isPrefixed, isRelative } from "../iri/utils";
+
+import { IRIToken } from "../tokens/IRIToken";
+import { PrefixedNameToken, } from "../tokens/PrefixedNameToken";
+
 
 /**
  * Map type of the stored prefixes used by {@link IRIResolver}.

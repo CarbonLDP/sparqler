@@ -1,4 +1,4 @@
-import { Container2 } from "../../clauses/Container2";
+import { Container2 } from "../../data/Container2";
 
 import { GroupPatternToken } from "../../tokens/GroupPatternToken";
 import { UnionPatternToken } from "../../tokens/UnionPatternToken";

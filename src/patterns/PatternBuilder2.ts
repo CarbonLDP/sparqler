@@ -1,7 +1,6 @@
-import { ClauseFactory } from "../clauses/ClauseFactory";
-import { Container2 } from "../clauses/Container2";
-
-import { IRIResolver2 } from "../iri/IRIResolver2";
+import { Container2 } from "../data/Container2";
+import { Factory } from "../data/Factory";
+import { IRIResolver2 } from "../data/IRIResolver2";
 
 import { TokenNode } from "../tokens/TokenNode";
 
@@ -31,7 +30,7 @@ export const PatternBuilder2 = {
 	},
 
 	createFrom<C extends Container2<TokenNode>, O extends object>( container:C, object:O ):O & PatternBuilder2 {
-		return ClauseFactory.createFrom(
+		return Factory.createFrom(
 			TriplePatternBuilder.createFrom,
 			NotTriplePatternBuilder.createFrom
 		)( container, object );

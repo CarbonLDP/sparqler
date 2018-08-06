@@ -1,6 +1,6 @@
-import { ClauseFactory } from "../clauses/ClauseFactory";
-import { Container2 } from "../clauses/Container2";
-import { cloneElement } from "../clauses/utils";
+import { Container2 } from "../data/Container2";
+import { Factory } from "../data/Factory";
+import { cloneElement } from "../data/utils";
 
 import { ObjectToken } from "../tokens/ObjectToken";
 import { PropertyToken } from "../tokens/PropertyToken";
@@ -77,8 +77,8 @@ export const TriplePatternHas = {
  */
 export const TriplePatternAnd = {
 	createFrom<T extends ObjectToken, C extends Container2<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePatternAnd<T> {
-		return ClauseFactory.createFrom<C, Pattern<TripleToken<T>>, TriplePattern<T>>(
-			GraphPattern.createFrom,
+		return Factory.createFrom<C, Pattern<TripleToken<T>>, TriplePattern<T>>(
+			Pattern.createFrom,
 			TriplePattern.createFrom,
 		)( container, Object.assign( object, {
 			and: getHasFn<T, C>( container ),

@@ -1,8 +1,8 @@
-import { Container2 } from "sparqler/clauses/Container2";
-import { _resolvePath, convertValue } from "sparqler/patterns/utils";
-import { BlankNodePropretyToken } from "sparqler/tokens/BlankNodePropretyToken";
-import { PropertyToken } from "sparqler/tokens/PropertyToken";
-import { VariableOrIRIToken } from "sparqler/tokens/VariableOrIRIToken";
+import { Container2 } from "../data/Container2";
+
+import { BlankNodePropretyToken } from "../tokens/BlankNodePropretyToken";
+import { PropertyToken } from "../tokens/PropertyToken";
+import { VariableOrIRIToken } from "../tokens/VariableOrIRIToken";
 import { SupportedNativeTypes } from "./SupportedNativeTypes";
 
 import { BlankNodeProperty } from "./triplePatterns/BlankNodeProperty";
@@ -10,6 +10,7 @@ import { Collection } from "./triplePatterns/Collection";
 import { Literal } from "./triplePatterns/Literal";
 import { Resource } from "./triplePatterns/Resource";
 import { Variable } from "./triplePatterns/Variable";
+import { _resolvePath, convertValue } from "./utils";
 
 
 /**

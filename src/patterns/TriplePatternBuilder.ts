@@ -1,4 +1,4 @@
-import { Container2 } from "../clauses/Container2";
+import { Container2 } from "../data/Container2";
 
 import { BlankNodePropretyToken } from "../tokens/BlankNodePropretyToken";
 import { BlankNodeToken } from "../tokens/BlankNodeToken";

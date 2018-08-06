@@ -1,4 +1,7 @@
-import { IRIResolver2 } from "../iri/IRIResolver2";
+import { Container2 } from "../data/Container2";
+import { Factory } from "../data/Factory";
+import { IRIResolver2 } from "../data/IRIResolver2";
+import { cloneElement } from "../data/utils";
 
 import { PatternBuilder2 } from "../patterns/PatternBuilder2";
 import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
@@ -12,11 +15,8 @@ import { SubSelectToken } from "../tokens/SubSelectToken";
 import { ValuesToken } from "../tokens/ValuesToken";
 import { VariableToken } from "../tokens/VariableToken";
 
-import { ClauseFactory } from "./ClauseFactory";
-import { Container2 } from "./Container2";
 import { FinishClause } from "./FinishClause";
 import { SubFinishClause } from "./interfaces";
-import { cloneElement } from "./utils";
 
 
 export interface ValuesClause<T extends FinishClause | SubFinishClause> {
@@ -97,7 +97,7 @@ function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIRe
 	} );
 }
 
-function createValuesFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:ClauseFactory<C, T>, container:C ):ValuesClause<T>[ "values" ] {
+function createValuesFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:Factory<C, T>, container:C ):ValuesClause<T>[ "values" ] {
 	return ( variableOrVariables:string | string[], valuesOrBuilder:ValuesOrBuilder ) => {
 		const iriResolver:IRIResolver2 = new IRIResolver2( container.iriResolver );
 
@@ -120,7 +120,7 @@ function createValuesFn<C extends Container2<QueryToken | SubSelectToken>, T ext
  * @todo
  */
 export const ValuesClause = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:ClauseFactory<C, T>, container:C, object:T ):T & ValuesClause<T> {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:Factory<C, T>, container:C, object:T ):T & ValuesClause<T> {
 		return Object.assign( object, {
 			values: createValuesFn( genericFactory, container ),
 		} );

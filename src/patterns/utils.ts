@@ -1,4 +1,4 @@
-import { Container2 } from "../clauses/Container2";
+import { Container2 } from "../data/Container2";
 
 import { LiteralToken } from "../tokens/LiteralToken";
 import { ObjectToken } from "../tokens/ObjectToken";

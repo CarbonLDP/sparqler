@@ -1,10 +1,10 @@
+import { Container2 } from "../data/Container2";
+import { cloneElement } from "../data/utils";
+
 import { QueryClauseToken } from "../tokens/QueryClauseToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SolutionModifierToken } from "../tokens/SolutionModifierToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
-
-import { Container2 } from "./Container2";
-import { cloneElement } from "./utils";
 
 
 export function cloneSolutionModifierContainer<C extends Container2<QueryToken | SubSelectToken>>( container:C, token:SolutionModifierToken ):C {

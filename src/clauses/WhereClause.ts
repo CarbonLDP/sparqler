@@ -1,4 +1,7 @@
-import { IRIResolver2 } from "../iri/IRIResolver2";
+import { Container2 } from "../data/Container2";
+import { Factory } from "../data/Factory";
+import { IRIResolver2 } from "../data/IRIResolver2";
+import { cloneElement } from "../data/utils";
 
 import { Pattern } from "../patterns/Pattern";
 import { PatternBuilder2 } from "../patterns/PatternBuilder2";
@@ -7,11 +10,8 @@ import { PatternToken } from "../tokens/PatternToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { WhereToken } from "../tokens/WhereToken";
 
-import { ClauseFactory } from "./ClauseFactory";
-import { Container2 } from "./Container2";
 import { FinishClause } from "./FinishClause";
 import { GroupClause } from "./GroupClause";
-import { cloneElement } from "./utils";
 
 
 export interface WhereClause<T extends FinishClause> {
@@ -40,7 +40,7 @@ function _getPatterns( iriResolver:IRIResolver2, patternFunction:( builder:Patte
 /**
  * @todo
  */
-function getWhereFn<C extends Container2<QueryToken>, T extends FinishClause>( genericFactory:ClauseFactory<C, T>, container:C ):WhereClause<T>[ "where" ] {
+function getWhereFn<C extends Container2<QueryToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):WhereClause<T>[ "where" ] {
 	return ( patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ) => {
 		const iriResolver:IRIResolver2 = new IRIResolver2( container.iriResolver );
 		const patterns:PatternToken[] = _getPatterns( iriResolver, patternFunction );
@@ -61,7 +61,7 @@ function getWhereFn<C extends Container2<QueryToken>, T extends FinishClause>( g
  * @todo
  */
 export const WhereClause = {
-	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & WhereClause<T> {
+	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & WhereClause<T> {
 		return Object.assign( object, {
 			where: getWhereFn( genericFactory, container ),
 		} );

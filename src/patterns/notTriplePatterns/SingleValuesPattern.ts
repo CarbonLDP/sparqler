@@ -1,14 +1,14 @@
-import { Container2 } from "../../clauses/Container2";
-import { cloneElement } from "../../clauses/utils";
+import { Container2 } from "../../data/Container2";
+import { cloneElement } from "../../data/utils";
 
 import { ValuesToken } from "../../tokens/ValuesToken";
-
-import { NotTriplePattern } from "./NotTriplePattern";
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";
 import { Undefined } from "../Undefined";
 import { convertValue } from "../utils";
+
+import { NotTriplePattern } from "./NotTriplePattern";
 
 
 /**

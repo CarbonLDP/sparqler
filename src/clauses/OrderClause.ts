@@ -1,10 +1,11 @@
-import { FinishClause } from "sparqler/clauses/FinishClause";
+import { Container2 } from "../data/Container2";
+import { Factory } from "../data/Factory";
+
 import { OrderToken } from "../tokens/OrderToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
-import { ClauseFactory } from "./ClauseFactory";
-import { Container2 } from "./Container2";
+import { FinishClause } from "./FinishClause";
 import { SubFinishClause } from "./interfaces";
 import { LimitOffsetClause } from "./LimitOffsetClause";
 import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
@@ -29,7 +30,7 @@ export interface OrderClause<T extends FinishClause | SubFinishClause> extends L
 /**
  * @todo
  */
-function getOrderByFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:ClauseFactory<C, T>, container:C ):OrderClause<T>[ "orderBy" ] {
+function getOrderByFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:Factory<C, T>, container:C ):OrderClause<T>[ "orderBy" ] {
 	return ( rawCondition:string ) => {
 		const token:OrderToken = new OrderToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );
@@ -44,7 +45,7 @@ function getOrderByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
  * @todo
  */
 export const OrderClause = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & OrderClause<T> {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & OrderClause<T> {
 		return LimitOffsetClause.createFrom( genericFactory, container, Object.assign( object, {
 			orderBy: getOrderByFn( genericFactory, container ),
 		} ) );

@@ -1,10 +1,11 @@
-import { FinishClause } from "sparqler/clauses/FinishClause";
+import { Container2 } from "../data/Container2";
+import { Factory } from "../data/Factory";
+
 import { GroupToken } from "../tokens/GroupToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
-import { ClauseFactory } from "./ClauseFactory";
-import { Container2 } from "./Container2";
+import { FinishClause } from "./FinishClause";
 import { HavingClause } from "./HavingClause";
 import { SubFinishClause } from "./interfaces";
 import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
@@ -26,7 +27,7 @@ export interface GroupClause<T extends FinishClause | SubFinishClause> extends H
 /**
  * @todo
  */
-function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:ClauseFactory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
+function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause>( genericFactory:Factory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
 	return ( rawCondition:string ) => {
 		const token:GroupToken = new GroupToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );
@@ -41,7 +42,7 @@ function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
  * @todo
  */
 export const GroupClause = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & GroupClause<T> {
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause | SubFinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & GroupClause<T> {
 		return HavingClause.createFrom( genericFactory, container, Object.assign( object, {
 			groupBy: getGroupByFn( genericFactory, container ),
 		} ) );

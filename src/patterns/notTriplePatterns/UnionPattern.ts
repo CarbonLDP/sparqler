@@ -1,5 +1,5 @@
-import { Container2 } from "../../clauses/Container2";
-import { cloneElement } from "../../clauses/utils";
+import { Container2 } from "../../data/Container2";
+import { cloneElement } from "../../data/utils";
 
 import { GroupPatternToken } from "../../tokens/GroupPatternToken";
 import { UnionPatternToken } from "../../tokens/UnionPatternToken";

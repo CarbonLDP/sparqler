@@ -1,16 +1,21 @@
-import { ClauseFactory } from "sparqler/clauses/ClauseFactory";
-import { FinishClause } from "sparqler/clauses/FinishClause";
-import { SubFinishClause } from "sparqler/clauses/interfaces";
-import { IRIResolver2 } from "sparqler/iri/IRIResolver2";
-import { TokenNode } from "sparqler/tokens";
+import { TokenNode } from "../tokens/TokenNode";
+
+import { IRIResolver2 } from "./IRIResolver2";
 
 
+/**
+ * @todo
+ */
 export interface ContainerData<TOKEN extends TokenNode> {
 	iriResolver:IRIResolver2;
 
 	targetToken:TOKEN;
 }
 
+
+/**
+ * @todo
+ */
 export class Container2<TOKEN extends TokenNode> implements ContainerData<TOKEN> {
 	readonly iriResolver:IRIResolver2;
 

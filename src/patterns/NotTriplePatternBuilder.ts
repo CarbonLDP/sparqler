@@ -1,4 +1,4 @@
-import { Container2 } from "../clauses/Container2";
+import { Container2 } from "../data/Container2";
 
 import { BindToken } from "../tokens/BindToken";
 import { FilterToken } from "../tokens/FilterToken";

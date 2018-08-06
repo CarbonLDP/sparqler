@@ -1,15 +1,15 @@
-import { IRIResolver2 } from "../iri/IRIResolver2";
+import { Factory } from "../data/Factory";
+import { IRIResolver2 } from "../data/IRIResolver2";
+import { QueryUnitContainer } from "../data/QueryUnitContainer";
+import { cloneElement } from "../data/utils";
 
 import { BaseToken } from "../tokens/BaseToken";
 import { IRIToken } from "../tokens/IRIToken";
 import { PrefixToken } from "../tokens/PrefixToken";
 import { QueryToken } from "../tokens/QueryToken";
 
-import { ClauseFactory } from "./ClauseFactory";
 import { FinishClause } from "./FinishClause";
-import { QueryUnitContainer } from "./QueryUnitContainer";
 import { SelectClause } from "./SelectClause";
-import { cloneElement } from "./utils";
 
 
 /**
@@ -111,10 +111,10 @@ function prefix<T extends FinishClause>( this:QueryUnitContainer<T>, name:string
  */
 export const QueryClauseFactory = {
 	createFrom<C extends QueryUnitContainer<SELECT>, SELECT extends FinishClause, T extends object>( container:C, object:T ):T & QueryClause<SELECT> {
-		const selectFactory:ClauseFactory<C, SelectClause<SELECT>> = SelectClause
+		const selectFactory:Factory<C, SelectClause<SELECT>> = SelectClause
 			.createFrom.bind( null, container.selectFinishClauseFactory );
 
-		return ClauseFactory.createFrom(
+		return Factory.createFrom(
 			selectFactory
 		)( container, Object.assign( object, {
 			base: base.bind( container ),

@@ -1,12 +1,13 @@
+import { Container2 } from "../data/Container2";
+import { Factory } from "../data/Factory";
+import { cloneElement } from "../data/utils";
+
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
 import { VariableToken } from "../tokens/VariableToken";
 
-import { ClauseFactory } from "./ClauseFactory";
-import { Container2 } from "./Container2";
 import { FinishClause } from "./FinishClause";
 import { FromClause } from "./FormClause";
-import { cloneElement } from "./utils";
 import { WhereClause } from "./WhereClause";
 
 
@@ -84,7 +85,7 @@ export interface SelectClause<T extends FinishClause> {
  *
  * @private
  */
-function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( genericFactory:ClauseFactory<C, T>, container:C, modifier?:"DISTINCT" | "REDUCED" ):SelectClause<T>[ "select" ] {
+function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, modifier?:"DISTINCT" | "REDUCED" ):SelectClause<T>[ "select" ] {
 	return ( ...variables:string[] ) => {
 		if( variables && variables.length === 0 ) throw new Error( "Need to provide al least one variable." );
 
@@ -103,7 +104,7 @@ function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( 
  * @todo
  */
 export const SelectClause = {
-	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:ClauseFactory<typeof container, T>, container:C, object:O ):O & SelectClause<T> {
+	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & SelectClause<T> {
 		return WhereClause.createFrom( genericFactory, container, Object.assign( object, {
 			select: getSelectFn( genericFactory, container ),
 			selectDistinct: getSelectFn( genericFactory, container, "DISTINCT" ),
