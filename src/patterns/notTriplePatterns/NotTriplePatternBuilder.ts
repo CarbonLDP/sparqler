@@ -1,31 +1,32 @@
-import { Container2 } from "../data/Container2";
+import { Container2 } from "../../data/Container2";
 
-import { BindToken } from "../tokens/BindToken";
-import { FilterToken } from "../tokens/FilterToken";
-import { GraphToken } from "../tokens/GraphToken";
-import { GroupPatternToken } from "../tokens/GroupPatternToken";
-import { MinusPatternToken } from "../tokens/MinusPatternToken";
-import { NotTripleToken } from "../tokens/NotTripleToken";
-import { OptionalToken } from "../tokens/OptionalToken";
-import { ServicePatternToken } from "../tokens/ServicePatternToken";
-import { TokenNode } from "../tokens/TokenNode";
-import { ValuesToken } from "../tokens/ValuesToken";
-import { VariableToken } from "../tokens/VariableToken";
+import { BindToken } from "../../tokens/BindToken";
+import { FilterToken } from "../../tokens/FilterToken";
+import { GraphToken } from "../../tokens/GraphToken";
+import { GroupPatternToken } from "../../tokens/GroupPatternToken";
+import { MinusPatternToken } from "../../tokens/MinusPatternToken";
+import { NotTripleToken } from "../../tokens/NotTripleToken";
+import { OptionalToken } from "../../tokens/OptionalToken";
+import { ServicePatternToken } from "../../tokens/ServicePatternToken";
+import { TokenNode } from "../../tokens/TokenNode";
+import { ValuesToken } from "../../tokens/ValuesToken";
+import { VariableToken } from "../../tokens/VariableToken";
 
-import { BindPattern } from "./notTriplePatterns/BindPattern";
-import { FilterPattern } from "./notTriplePatterns/FilterPattern";
-import { GraphPattern } from "./notTriplePatterns/GraphPattern";
-import { GroupPattern } from "./notTriplePatterns/GroupPattern";
-import { MinusPattern } from "./notTriplePatterns/MinusPattern";
-import { MultipleValuesPattern } from "./notTriplePatterns/MultipleValuesPattern";
-import { NotTriplePattern } from "./notTriplePatterns/NotTriplePattern";
-import { OptionalPattern } from "./notTriplePatterns/OptionalPattern";
-import { ServicePattern } from "./notTriplePatterns/ServicePattern";
-import { SingleValuesPattern } from "./notTriplePatterns/SingleValuesPattern";
-import { Pattern } from "./Pattern";
-import { Resource } from "./triplePatterns/Resource";
-import { Variable } from "./triplePatterns/Variable";
-import { Undefined } from "./Undefined";
+import { Pattern } from "../Pattern";
+import { Resource } from "../triplePatterns/Resource";
+import { Variable } from "../triplePatterns/Variable";
+import { Undefined } from "../Undefined";
+
+import { BindPattern } from "./BindPattern";
+import { FilterPattern } from "./FilterPattern";
+import { GraphPattern } from "./GraphPattern";
+import { GroupPattern } from "./GroupPattern";
+import { MinusPattern } from "./MinusPattern";
+import { MultipleValuesPattern } from "./MultipleValuesPattern";
+import { NotTriplePattern } from "./NotTriplePattern";
+import { OptionalPattern } from "./OptionalPattern";
+import { ServicePattern } from "./ServicePattern";
+import { SingleValuesPattern } from "./SingleValuesPattern";
 
 
 /**
