@@ -1,16 +1,17 @@
-import { Container2 } from "../data/Container2";
+import { Container2 } from "../../data/Container2";
 
-import { BlankNodePropretyToken } from "../tokens/BlankNodePropretyToken";
-import { PropertyToken } from "../tokens/PropertyToken";
-import { VariableOrIRIToken } from "../tokens/VariableOrIRIToken";
-import { SupportedNativeTypes } from "./SupportedNativeTypes";
+import { BlankNodePropretyToken } from "../../tokens/BlankNodePropretyToken";
+import { PropertyToken } from "../../tokens/PropertyToken";
+import { VariableOrIRIToken } from "../../tokens/VariableOrIRIToken";
 
-import { BlankNodeProperty } from "./triplePatterns/BlankNodeProperty";
-import { Collection } from "./triplePatterns/Collection";
-import { Literal } from "./triplePatterns/Literal";
-import { Resource } from "./triplePatterns/Resource";
-import { Variable } from "./triplePatterns/Variable";
-import { _resolvePath, convertValue } from "./utils";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
+import { _resolvePath, convertValue } from "../utils";
+
+import { BlankNodeProperty } from "./BlankNodeProperty";
+import { Collection } from "./Collection";
+import { Literal } from "./Literal";
+import { Resource } from "./Resource";
+import { Variable } from "./Variable";
 
 
 /**

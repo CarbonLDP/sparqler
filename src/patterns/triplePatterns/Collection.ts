@@ -1,6 +1,6 @@
 import { CollectionToken } from "../../tokens/CollectionToken";
 
-import { TriplePatternHas } from "../TriplePatternHas";
+import { TriplePatternHas } from "./TriplePatternHas";
 
 
 /**

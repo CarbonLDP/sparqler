@@ -1,6 +1,6 @@
 import { LiteralToken } from "../../tokens/LiteralToken";
 
-import { TriplePatternHas } from "../TriplePatternHas";
+import { TriplePatternHas } from "./TriplePatternHas";
 
 
 /**

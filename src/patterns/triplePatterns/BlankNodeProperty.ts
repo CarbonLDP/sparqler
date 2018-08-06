@@ -1,5 +1,6 @@
 import { BlankNodePropretyToken } from "../../tokens/BlankNodePropretyToken";
-import { TriplePatternHas } from "../TriplePatternHas";
+
+import { TriplePatternHas } from "./TriplePatternHas";
 
 
 /**

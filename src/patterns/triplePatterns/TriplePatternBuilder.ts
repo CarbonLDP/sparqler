@@ -1,28 +1,28 @@
-import { Container2 } from "../data/Container2";
+import { Container2 } from "../../data/Container2";
 
-import { BlankNodePropretyToken } from "../tokens/BlankNodePropretyToken";
-import { BlankNodeToken } from "../tokens/BlankNodeToken";
-import { CollectionToken } from "../tokens/CollectionToken";
-import { IRIToken } from "../tokens/IRIToken";
-import { LiteralToken } from "../tokens/LiteralToken";
-import { ObjectToken } from "../tokens/ObjectToken";
-import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
-import { SubjectToken } from "../tokens/SubjectToken";
-import { TokenNode } from "../tokens/TokenNode";
-import { TripleToken } from "../tokens/TripleToken";
-import { VariableToken } from "../tokens/VariableToken";
+import { BlankNodePropretyToken } from "../../tokens/BlankNodePropretyToken";
+import { BlankNodeToken } from "../../tokens/BlankNodeToken";
+import { CollectionToken } from "../../tokens/CollectionToken";
+import { IRIToken } from "../../tokens/IRIToken";
+import { LiteralToken } from "../../tokens/LiteralToken";
+import { ObjectToken } from "../../tokens/ObjectToken";
+import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
+import { SubjectToken } from "../../tokens/SubjectToken";
+import { TokenNode } from "../../tokens/TokenNode";
+import { TripleToken } from "../../tokens/TripleToken";
+import { VariableToken } from "../../tokens/VariableToken";
+
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
+import { convertValue } from "../utils";
+import { BlankNode } from "./BlankNode";
 import { BlankNodeBuilder } from "./BlankNodeBuilder";
-
-import { SupportedNativeTypes } from "./SupportedNativeTypes";
+import { BlankNodeProperty } from "./BlankNodeProperty";
+import { Collection } from "./Collection";
+import { Literal } from "./Literal";
+import { RDFLiteral } from "./RDFLiteral";
+import { Resource } from "./Resource";
 import { TriplePatternHas } from "./TriplePatternHas";
-import { BlankNode } from "./triplePatterns/BlankNode";
-import { BlankNodeProperty } from "./triplePatterns/BlankNodeProperty";
-import { Collection } from "./triplePatterns/Collection";
-import { Literal } from "./triplePatterns/Literal";
-import { RDFLiteral } from "./triplePatterns/RDFLiteral";
-import { Resource } from "./triplePatterns/Resource";
-import { Variable } from "./triplePatterns/Variable";
-import { convertValue } from "./utils";
+import { Variable } from "./Variable";
 
 
 /**

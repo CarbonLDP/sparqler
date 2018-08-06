@@ -1,21 +1,21 @@
-import { Container2 } from "../data/Container2";
-import { Factory } from "../data/Factory";
-import { cloneElement } from "../data/utils";
+import { Container2 } from "../../data/Container2";
+import { Factory } from "../../data/Factory";
+import { cloneElement } from "../../data/utils";
 
-import { ObjectToken } from "../tokens/ObjectToken";
-import { PropertyToken } from "../tokens/PropertyToken";
-import { TripleToken } from "../tokens/TripleToken";
-import { VariableOrIRIToken } from "../tokens/VariableOrIRIToken";
+import { ObjectToken } from "../../tokens/ObjectToken";
+import { PropertyToken } from "../../tokens/PropertyToken";
+import { TripleToken } from "../../tokens/TripleToken";
+import { VariableOrIRIToken } from "../../tokens/VariableOrIRIToken";
 
-import { Pattern } from "./Pattern";
-import { SupportedNativeTypes } from "./SupportedNativeTypes";
+import { Pattern } from "../Pattern";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
+import { _resolvePath, convertValue } from "../utils";
+import { BlankNodeProperty } from "./BlankNodeProperty";
+import { Collection } from "./Collection";
+import { Literal } from "./Literal";
+import { Resource } from "./Resource";
 import { TriplePattern } from "./TriplePattern";
-import { BlankNodeProperty } from "./triplePatterns/BlankNodeProperty";
-import { Collection } from "./triplePatterns/Collection";
-import { Literal } from "./triplePatterns/Literal";
-import { Resource } from "./triplePatterns/Resource";
-import { Variable } from "./triplePatterns/Variable";
-import { _resolvePath, convertValue } from "./utils";
+import { Variable } from "./Variable";
 
 
 /**

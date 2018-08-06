@@ -1,6 +1,6 @@
 import { BlankNodeToken } from "../../tokens/BlankNodeToken";
 
-import { TriplePatternHas } from "../TriplePatternHas";
+import { TriplePatternHas } from "./TriplePatternHas";
 
 
 /**

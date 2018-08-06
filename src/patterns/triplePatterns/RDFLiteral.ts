@@ -6,8 +6,8 @@ import { SubjectToken } from "../../tokens/SubjectToken";
 
 import * as XSD from "../../utils/XSD";
 
-import { TriplePatternHas } from "../TriplePatternHas";
 import { Literal } from "./Literal";
+import { TriplePatternHas } from "./TriplePatternHas";
 
 
 /**

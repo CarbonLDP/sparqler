@@ -5,7 +5,7 @@ import { IRIResolver2 } from "../data/IRIResolver2";
 import { TokenNode } from "../tokens/TokenNode";
 
 import { NotTriplePatternBuilder } from "./NotTriplePatternBuilder";
-import { TriplePatternBuilder } from "./TriplePatternBuilder";
+import { TriplePatternBuilder } from "./triplePatterns/TriplePatternBuilder";
 
 
 /**

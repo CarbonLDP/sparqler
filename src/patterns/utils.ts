@@ -9,7 +9,7 @@ import { VariableToken } from "../tokens/VariableToken";
 import * as XSD from "../utils/XSD";
 
 import { SupportedNativeTypes } from "./SupportedNativeTypes";
-import { TriplePattern } from "./TriplePattern";
+import { TriplePattern } from "./triplePatterns/TriplePattern";
 
 
 export function convertValue( value:"UNDEF" ):"UNDEF";
