@@ -7,7 +7,7 @@ import { PropertyToken } from "../tokens/PropertyToken";
 import { TripleToken } from "../tokens/TripleToken";
 import { VariableOrIRIToken } from "../tokens/VariableOrIRIToken";
 
-import { GraphPattern } from "./GraphPattern";
+import { Pattern } from "./Pattern";
 import { SupportedNativeTypes } from "./SupportedNativeTypes";
 import { TriplePattern } from "./TriplePattern";
 import { BlankNodeProperty } from "./triplePatterns/BlankNodeProperty";
@@ -29,7 +29,7 @@ export interface TriplePatternHas<T extends ObjectToken> extends TriplePattern<T
 /**
  * @todo
  */
-export interface TriplePatternAnd<T extends ObjectToken> extends TriplePattern<T>, GraphPattern<TripleToken<T>> {
+export interface TriplePatternAnd<T extends ObjectToken> extends TriplePattern<T>, Pattern<TripleToken<T>> {
 	// TODO: Add Collection
 	and( property:Variable | Resource | "a" | string, object:SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty ):TriplePatternAnd<T>;
 	and( property:Variable | Resource | "a" | string, objects:(SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty)[] ):TriplePatternAnd<T>;
@@ -77,7 +77,7 @@ export const TriplePatternHas = {
  */
 export const TriplePatternAnd = {
 	createFrom<T extends ObjectToken, C extends Container2<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePatternAnd<T> {
-		return ClauseFactory.createFrom<C, GraphPattern<TripleToken<T>>, TriplePattern<T>>(
+		return ClauseFactory.createFrom<C, Pattern<TripleToken<T>>, TriplePattern<T>>(
 			GraphPattern.createFrom,
 			TriplePattern.createFrom,
 		)( container, Object.assign( object, {
