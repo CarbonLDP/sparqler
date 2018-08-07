@@ -1,10 +1,10 @@
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { LiteralToken } from "sparqler/tokens/LiteralToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
-
+import { IRIToken } from "./IRIToken";
+import { LiteralToken } from "./LiteralToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
 import * as Module from "./PropertyToken";
 import { PropertyToken } from "./PropertyToken";
+import { VariableToken } from "./VariableToken";
+
 
 describe( "Module PredicateToken", ():void => {
 
@@ -55,12 +55,12 @@ describe( "Module PredicateToken", ():void => {
 
 		it( "should assign the `predicate` as token name", ():void => {
 			const iriPredicate:IRIToken = new IRIToken( "http://example.com/" );
-			expect( new PropertyToken( iriPredicate ).token ).toBe( "predicate" );
+			expect( new PropertyToken( iriPredicate ).token ).toBe( "property" );
 
 			const prefixedPredicate:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
-			expect( new PropertyToken( prefixedPredicate ).token ).toBe( "predicate" );
+			expect( new PropertyToken( prefixedPredicate ).token ).toBe( "property" );
 
-			expect( new PropertyToken( "a" ).token ).toBe( "predicate" );
+			expect( new PropertyToken( "a" ).token ).toBe( "property" );
 		} );
 
 		describe( "PredicateToken.addObject", ():void => {

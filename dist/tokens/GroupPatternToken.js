@@ -6,7 +6,7 @@ var GroupPatternToken = (function () {
         this.patterns = [];
     }
     GroupPatternToken.prototype.toString = function () {
-        return this.patterns.join(". ");
+        return "{ " + this.patterns.join(". ") + " }";
     };
     return GroupPatternToken;
 }());

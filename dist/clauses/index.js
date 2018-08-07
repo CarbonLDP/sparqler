@@ -4,6 +4,8 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./Container"));
+var QueryClause_1 = require("sparqler/clauses/QueryClause");
+exports.QueryClause = QueryClause_1.QueryClause;
 var SelectClause_1 = require("sparqler/clauses/SelectClause");
 exports.SelectClause = SelectClause_1.SelectClause;
 var FormClause_1 = require("sparqler/clauses/FormClause");
@@ -24,5 +26,7 @@ var OffsetClause_1 = require("sparqler/clauses/OffsetClause");
 exports.OffsetClause = OffsetClause_1.OffsetClause;
 var ValuesClause_1 = require("sparqler/clauses/ValuesClause");
 exports.ValuesClause = ValuesClause_1.ValuesClause;
+var FinishClause_1 = require("sparqler/clauses/FinishClause");
+exports.FinishClause = FinishClause_1.FinishClause;
 
 //# sourceMappingURL=index.js.map

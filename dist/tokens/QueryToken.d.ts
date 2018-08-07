@@ -3,12 +3,12 @@ import { PrefixToken } from "./PrefixToken";
 import { QueryClauseToken } from "./QueryClauseToken";
 import { TokenNode } from "./TokenNode";
 import { ValuesToken } from "./ValuesToken";
-export declare class QueryToken implements TokenNode {
+export declare class QueryToken<T extends QueryClauseToken | undefined = QueryClauseToken | undefined> implements TokenNode {
     readonly token: "query";
     readonly prologues: (BaseToken | PrefixToken)[];
-    readonly queryClause: QueryClauseToken;
+    readonly queryClause: T;
     readonly values?: ValuesToken;
-    constructor(query: QueryClauseToken, values?: ValuesToken);
+    constructor(query: T, values?: ValuesToken);
     addPrologues(...prologues: (BaseToken | PrefixToken)[]): this;
     toString(): string;
 }

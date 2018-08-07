@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = require("./utils");
+var utils_1 = require("../data/utils");
 function cloneSolutionModifierContainer(container, token) {
     var targetToken = container.targetToken.token === "query" ?
         _cloneFromQuery(container.targetToken, token) :

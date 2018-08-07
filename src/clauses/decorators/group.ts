@@ -3,7 +3,7 @@ import {
 	GroupClause,
 	HavingClause,
 	SubFinishClause,
-} from "sparqler/clauses";
+} from "sparqler/clauses/interfaces";
 import { Container } from "sparqler/clauses/Container";
 import { havingDecorator } from "sparqler/clauses/decorators";
 import {

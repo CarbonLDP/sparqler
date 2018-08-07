@@ -1,9 +1,9 @@
+import Container from "sparqler/clauses/Container";
 import {
-	Container,
 	FinishClause,
 	SubFinishClause,
 	ValuesClause,
-} from "sparqler/clauses";
+} from "sparqler/clauses/interfaces";
 import * as ContainerModule from "sparqler/clauses/Container";
 import { subFinishDecorator } from "sparqler/clauses/decorators";
 import { valuesDecorator } from "sparqler/clauses/decorators/values";

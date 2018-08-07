@@ -1,7 +1,7 @@
+import Container from "sparqler/clauses/Container";
 import {
-	Container,
 	QueryClause,
-} from "sparqler/clauses";
+} from "sparqler/clauses/interfaces";
 import * as ContainerModule from "sparqler/clauses/Container";
 import { queryDecorator } from "sparqler/clauses/decorators";
 import { IRIResolver } from "sparqler/iri";

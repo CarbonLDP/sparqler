@@ -19,7 +19,7 @@ var ValuesToken = (function () {
         var variables = this.variables.length ? this.variables.length === 1 ? this.variables.join(" ") :
             "( " + this.variables.join(" ") + " )" : "()";
         var values = this.variables.length ? this.variables.length === 1 ? this.values[0] :
-            this.values.map(function (varValues) { return "( " + varValues.join(" ") + " )"; }) : ["()"];
+            this.values.map(function (values) { return "( " + values.join(" ") + " )"; }) : ["()"];
         return "VALUES " + variables + " { " + values.join(" ") + " }";
     };
     return ValuesToken;

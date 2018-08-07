@@ -1,12 +1,12 @@
-import { PatternToken } from "sparqler/tokens/PatternToken";
-import { OptionalToken } from "sparqler/tokens/OptionalToken";
-import { PropertyToken } from "sparqler/tokens/PropertyToken";
-import { SubjectToken } from "sparqler/tokens/SubjectToken";
-import * as Utils from "sparqler/tokens/utils";
-import { VariableToken } from "sparqler/tokens/VariableToken";
-
 import * as Module from "./GraphToken";
 import { GraphToken } from "./GraphToken";
+import { GroupPatternToken } from "./GroupPatternToken";
+import { OptionalToken } from "./OptionalToken";
+import { PatternToken } from "./PatternToken";
+import { PropertyToken } from "./PropertyToken";
+import { SubjectToken } from "./SubjectToken";
+import { VariableToken } from "./VariableToken";
+
 
 describe( "Module GraphToken", ():void => {
 
@@ -37,9 +37,9 @@ describe( "Module GraphToken", ():void => {
 				expect( token.graph ).toBe( graph );
 			} );
 
-			it( "should initialize the patterns", ():void => {
+			it( "should initialize the groupPattern", ():void => {
 				const token:GraphToken = new GraphToken( null );
-				expect( token.patterns ).toEqual( [] );
+				expect( token.groupPattern ).toEqual( jasmine.any( GroupPatternToken ) );
 			} );
 
 			it( "should assign `graph` as token name", ():void => {
@@ -62,7 +62,7 @@ describe( "Module GraphToken", ():void => {
 				const pattern:PatternToken = new SubjectToken( new VariableToken( "pattern" ) );
 				token.addPattern( pattern );
 
-				expect( token.patterns ).toEqual( [ pattern ] );
+				expect( token.groupPattern.patterns ).toEqual( [ pattern ] );
 			} );
 
 			it( "should add multiple patterns", ():void => {
@@ -72,7 +72,7 @@ describe( "Module GraphToken", ():void => {
 				const pattern2:PatternToken = new OptionalToken();
 				token.addPattern( pattern1, pattern2 );
 
-				expect( token.patterns ).toEqual( [ pattern1, pattern2 ] );
+				expect( token.groupPattern.patterns ).toEqual( [ pattern1, pattern2 ] );
 			} );
 
 			it( "should append patterns", ():void => {
@@ -84,7 +84,7 @@ describe( "Module GraphToken", ():void => {
 				const newPattern:PatternToken = new OptionalToken();
 				token.addPattern( newPattern );
 
-				expect( token.patterns ).toEqual( [ firstPattern, newPattern ] );
+				expect( token.groupPattern.patterns ).toEqual( [ firstPattern, newPattern ] );
 			} );
 
 			it( "should return itself", ():void => {
@@ -112,8 +112,6 @@ describe( "Module GraphToken", ():void => {
 			} );
 
 			it( "should return the SPARQL optional statement using joinPatterns function", ():void => {
-				const spy:jasmine.Spy = spyOn( Utils, "joinPatterns" ).and.callThrough();
-
 				const graph:VariableToken = new VariableToken( "graph" );
 				const token:GraphToken = new GraphToken( graph )
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
@@ -129,7 +127,6 @@ describe( "Module GraphToken", ():void => {
 				;
 
 				expect( token.toString() ).toBe( "GRAPH ?graph { ?subj1 a ?obj1. ?subj1 a ?obj1 }" );
-				expect( spy ).toHaveBeenCalled();
 			} );
 
 		} );

@@ -1,8 +1,8 @@
+import Container from "sparqler/clauses/Container";
 import {
-	Container,
 	FinishClause,
 	LimitOffsetClause,
-} from "sparqler/clauses";
+} from "sparqler/clauses/interfaces";
 import {
 	CurrentMethod,
 	finishDecorator,

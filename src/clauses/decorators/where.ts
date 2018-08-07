@@ -1,12 +1,12 @@
 import { SubFinishClause } from "sparqler/clauses";
 import { Container } from "sparqler/clauses/Container";
 import { groupDecorator } from "sparqler/clauses/decorators";
-import { FinishClause } from "sparqler/clauses/FinishClause";
-import { GroupClause } from "sparqler/clauses/GroupClause";
+import { FinishClause } from "sparqler/clauses/interfaces";
+import { GroupClause } from "sparqler/clauses/interfaces";
 import {
 	SubWhereClause,
 	} from "sparqler/clauses/interfaces";
-import { WhereClause } from "sparqler/clauses/WhereClause";
+import { WhereClause } from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	GraphPattern,

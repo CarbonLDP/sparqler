@@ -1,6 +1,6 @@
-import { ValuesClause, } from "sparqler/clauses";
+import { ValuesClause, } from "sparqler/clauses/interfaces";
 import { Container } from "sparqler/clauses/Container";
-import { FinishClause } from "sparqler/clauses/FinishClause";
+import { FinishClause } from "sparqler/clauses/interfaces";
 import {
 	SubFinishClause,
 } from "sparqler/clauses/interfaces";

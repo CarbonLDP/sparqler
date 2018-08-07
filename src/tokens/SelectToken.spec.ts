@@ -1,15 +1,16 @@
-import { PatternToken, } from "sparqler/tokens";
-import { LimitToken } from "sparqler/tokens/LimitToken";
-import { OffsetToken } from "sparqler/tokens/OffsetToken";
-import { OptionalToken } from "sparqler/tokens/OptionalToken";
-import { PropertyToken } from "sparqler/tokens/PropertyToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
-import { SolutionModifierToken } from "sparqler/tokens/SolutionModifierToken";
-import { SubjectToken } from "sparqler/tokens/SubjectToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
-
+import { LimitToken } from "./LimitToken";
+import { OffsetToken } from "./OffsetToken";
+import { OptionalToken } from "./OptionalToken";
+import { PatternToken } from "./PatternToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
+import { PropertyToken } from "./PropertyToken";
 import * as Module from "./SelectToken";
 import { SelectToken } from "./SelectToken";
+import { SolutionModifierToken } from "./SolutionModifierToken";
+import { SubjectToken } from "./SubjectToken";
+import { VariableToken } from "./VariableToken";
+import { WhereToken } from "./WhereToken";
+
 
 describe( "Module SelectToken", ():void => {
 
@@ -53,9 +54,9 @@ describe( "Module SelectToken", ():void => {
 				expect( token.variables ).toEqual( [] );
 			} );
 
-			it( "should initialize patterns", ():void => {
+			it( "should initialize where", ():void => {
 				const token:SelectToken = new SelectToken();
-				expect( token.where ).toEqual( [] );
+				expect( token.where ).toEqual( jasmine.any( WhereToken ) );
 			} );
 
 			it( "should initialize modifiers", ():void => {
@@ -131,7 +132,7 @@ describe( "Module SelectToken", ():void => {
 				const pattern:PatternToken = new SubjectToken( new VariableToken( "pattern" ) );
 				token.addPattern( pattern );
 
-				expect( token.where ).toEqual( [ pattern ] );
+				expect( token.where.groupPattern.patterns ).toEqual( [ pattern ] );
 			} );
 
 			it( "should add multiple patterns", ():void => {
@@ -141,7 +142,7 @@ describe( "Module SelectToken", ():void => {
 				const pattern2:PatternToken = new OptionalToken();
 				token.addPattern( pattern1, pattern2 );
 
-				expect( token.where ).toEqual( [ pattern1, pattern2 ] );
+				expect( token.where.groupPattern.patterns ).toEqual( [ pattern1, pattern2 ] );
 			} );
 
 			it( "should append patterns", ():void => {
@@ -153,7 +154,7 @@ describe( "Module SelectToken", ():void => {
 				const newPattern:PatternToken = new OptionalToken();
 				token.addPattern( newPattern );
 
-				expect( token.where ).toEqual( [ firstPattern, newPattern ] );
+				expect( token.where.groupPattern.patterns ).toEqual( [ firstPattern, newPattern ] );
 			} );
 
 			it( "should return itself", ():void => {

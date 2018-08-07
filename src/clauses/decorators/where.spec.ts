@@ -1,11 +1,11 @@
+import Container from "sparqler/clauses/Container";
 import {
-	Container,
 	FinishClause,
 	GroupClause,
 	SubFinishClause,
 	SubWhereClause,
 	WhereClause,
-} from "sparqler/clauses";
+} from "sparqler/clauses/interfaces";
 import * as ContainerModule from "sparqler/clauses/Container";
 import {
 	subFinishDecorator,

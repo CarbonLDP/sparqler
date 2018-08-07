@@ -1,10 +1,10 @@
-import { ValuesClause } from "./..";
+import { ValuesClause } from "./../interfaces";
 import { Container } from "./../Container";
-import { FinishClause } from "./../FinishClause";
+import { FinishClause } from "./../interfaces";
 import { SubFinishClause } from "./../interfaces";
-import { LimitClause } from "./../LimitClause";
-import { LimitOffsetClause } from "./../LimitOffsetClause";
-import { OffsetClause } from "./../OffsetClause";
+import { LimitClause } from "./../interfaces";
+import { LimitOffsetClause } from "./../interfaces";
+import { OffsetClause } from "./../interfaces";
 import { Token } from "./../../tokens";
 export declare enum CurrentMethod {
     LIMIT = 0,

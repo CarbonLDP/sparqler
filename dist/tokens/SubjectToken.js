@@ -11,7 +11,10 @@ var SubjectToken = (function () {
         return this;
     };
     SubjectToken.prototype.toString = function () {
-        return this.subject + " " + this.properties.join("; ");
+        var query = "" + this.subject;
+        if (this.properties.length)
+            query += " " + this.properties.join("; ");
+        return query;
     };
     return SubjectToken;
 }());

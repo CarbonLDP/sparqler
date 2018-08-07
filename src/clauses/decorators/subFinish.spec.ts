@@ -1,7 +1,7 @@
+import Container from "sparqler/clauses/Container";
 import {
-	Container,
 	SubFinishClause,
-} from "sparqler/clauses";
+} from "sparqler/clauses/interfaces";
 import { subFinishDecorator } from "sparqler/clauses/decorators";
 import {
 	CLOSE_MULTI_BLOCK,

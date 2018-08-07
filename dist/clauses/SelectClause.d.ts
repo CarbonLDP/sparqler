@@ -1,6 +1,7 @@
+import { Container2 } from "../data/Container2";
+import { Factory } from "../data/Factory";
 import { QueryToken } from "../tokens/QueryToken";
-import { ClauseFactory } from "./ClauseFactory";
-import { Container2 } from "./Container2";
+import { SelectToken } from "../tokens/SelectToken";
 import { FinishClause } from "./FinishClause";
 import { FromClause } from "./FormClause";
 export interface SelectClause<T extends FinishClause> {
@@ -12,5 +13,5 @@ export interface SelectClause<T extends FinishClause> {
     selectAllReduced(): FromClause<T>;
 }
 export declare const SelectClause: {
-    createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>(genericFactory: ClauseFactory<C, T>, container: C, object: O): O & SelectClause<T>;
+    createFrom<C extends Container2<QueryToken<import("sparqler/tokens/QueryClauseToken").QueryClauseToken>>, T extends FinishClause, O extends object>(genericFactory: Factory<Container2<QueryToken<SelectToken>>, T>, container: C, object: O): O & SelectClause<T>;
 };

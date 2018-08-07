@@ -5,13 +5,13 @@ import {
 	subWhereDecorator,
 } from "sparqler/clauses/decorators";
 import { FinishClause } from "sparqler/clauses/FinishClause";
-import { FromClause } from "sparqler/clauses/FormClause";
+import { FromClause } from "sparqler/clauses/interfaces";
 import {
 	SubFinishClause,
 	SubSelectClause,
 	SubWhereClause,
 } from "sparqler/clauses/interfaces";
-import { SelectClause } from "sparqler/clauses/SelectClause";
+import { SelectClause } from "sparqler/clauses/interfaces";
 import {
 	ALL,
 	DISTINCT,

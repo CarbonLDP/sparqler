@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var IRIResolver2_1 = require("../iri/IRIResolver2");
+var IRIResolver2_1 = require("../data/IRIResolver2");
+var utils_1 = require("../data/utils");
 var PatternBuilder2_1 = require("../patterns/PatternBuilder2");
 var WhereToken_1 = require("../tokens/WhereToken");
 var GroupClause_1 = require("./GroupClause");
-var utils_1 = require("./utils");
 function _getPatterns(iriResolver, patternFunction) {
     var patternOrPatterns = patternFunction(PatternBuilder2_1.PatternBuilder2.create(iriResolver));
     var patterns = Array.isArray(patternOrPatterns) ? patternOrPatterns : [patternOrPatterns];

@@ -1,11 +1,11 @@
+import Container from "sparqler/clauses/Container";
 import {
-	Container,
 	FromClause,
 	SelectClause,
 	SubFinishClause,
 	SubSelectClause,
 	SubWhereClause,
-} from "sparqler/clauses";
+} from "sparqler/clauses/interfaces";
 import * as ContainerModule from "sparqler/clauses/Container";
 import {
 	selectDecorator,

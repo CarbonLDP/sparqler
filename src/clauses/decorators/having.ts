@@ -1,11 +1,11 @@
 import { Container } from "sparqler/clauses/Container";
 import { orderDecorator } from "sparqler/clauses/decorators";
-import { FinishClause } from "sparqler/clauses/FinishClause";
-import { HavingClause } from "sparqler/clauses/HavingClause";
+import { FinishClause } from "sparqler/clauses/interfaces";
+import { HavingClause } from "sparqler/clauses/interfaces";
 import {
 	SubFinishClause,
 } from "sparqler/clauses/interfaces";
-import { OrderClause } from "sparqler/clauses/OrderClause";
+import { OrderClause } from "sparqler/clauses/interfaces";
 import { HAVING } from "sparqler/patterns/tokens";
 import {
 	StringLiteral,

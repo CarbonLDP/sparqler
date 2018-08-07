@@ -13,6 +13,6 @@ export class GroupPatternToken implements TokenNode {
 
 
 	toString() {
-		return `{ ${ this.patterns.join( " . " ) } }`;
+		return `{ ${ this.patterns.join( ". " ) } }`;
 	}
 }

@@ -1,7 +1,7 @@
+import Container from "sparqler/clauses/Container";
 import {
-	Container,
 	OrderClause,
-} from "sparqler/clauses";
+} from "sparqler/clauses/interfaces";
 import * as ContainerModule from "sparqler/clauses/Container";
 import { orderDecorator } from "sparqler/clauses/decorators";
 import {

@@ -1,15 +1,14 @@
-import {
-	PatternToken,
-	} from "sparqler/PatternToken";
 import { IRIToken } from "sparqler/tokens/IRIToken";
 import { LimitToken } from "sparqler/tokens/LimitToken";
 import { OffsetToken } from "sparqler/tokens/OffsetToken";
 import { OptionalToken } from "sparqler/tokens/OptionalToken";
+import { PatternToken } from "sparqler/tokens/PatternToken";
 import { PropertyToken } from "sparqler/tokens/PropertyToken";
 import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
 import { SolutionModifierToken } from "sparqler/tokens/SolutionModifierToken";
 import { SubjectToken } from "sparqler/tokens/SubjectToken";
 import { VariableToken } from "sparqler/tokens/VariableToken";
+import { WhereToken } from "sparqler/tokens/WhereToken";
 
 import * as Module from "./ConstructToken";
 import { ConstructToken } from "./ConstructToken";
@@ -41,9 +40,9 @@ describe( "Module ConstructToken", ():void => {
 				expect( token.triples ).toEqual( [] );
 			} );
 
-			it( "should initialize patterns", ():void => {
+			it( "should initialize where", ():void => {
 				const token:ConstructToken = new ConstructToken();
-				expect( token.where ).toEqual( [] );
+				expect( token.where ).toEqual( jasmine.any( WhereToken ) );
 			} );
 
 			it( "should initialize modifiers", ():void => {
@@ -120,7 +119,7 @@ describe( "Module ConstructToken", ():void => {
 				const pattern:PatternToken = new SubjectToken( new VariableToken( "pattern" ) );
 				token.addPattern( pattern );
 
-				expect( token.where ).toEqual( [ pattern ] );
+				expect( token.where.groupPattern.patterns ).toEqual( [ pattern ] );
 			} );
 
 			it( "should add multiple patterns", ():void => {
@@ -130,7 +129,7 @@ describe( "Module ConstructToken", ():void => {
 				const pattern2:PatternToken = new OptionalToken();
 				token.addPattern( pattern1, pattern2 );
 
-				expect( token.where ).toEqual( [ pattern1, pattern2 ] );
+				expect( token.where.groupPattern.patterns ).toEqual( [ pattern1, pattern2 ] );
 			} );
 
 			it( "should append patterns", ():void => {
@@ -142,7 +141,7 @@ describe( "Module ConstructToken", ():void => {
 				const newPattern:PatternToken = new OptionalToken();
 				token.addPattern( newPattern );
 
-				expect( token.where ).toEqual( [ firstPattern, newPattern ] );
+				expect( token.where.groupPattern.patterns ).toEqual( [ firstPattern, newPattern ] );
 			} );
 
 			it( "should return itself", ():void => {

@@ -1,21 +1,10 @@
 import { Container } from "sparqler/clauses/Container";
 import { selectDecorator } from "sparqler/clauses/decorators";
-import {
-	FinishClause,
-	} from "sparqler/clauses/FinishClause";
-import { QueryClause } from "sparqler/clauses/QueryClause";
+import { FinishClause, } from "sparqler/clauses/FinishClause";
+import { QueryClause } from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
-import {
-	BASE,
-	CLOSE_IRI,
-	OPEN_IRI,
-	PREFIX,
-	PREFIX_SYMBOL,
-} from "sparqler/patterns/tokens";
-import {
-	StringLiteral,
-	Token,
-} from "sparqler/tokens";
+import { BASE, CLOSE_IRI, OPEN_IRI, PREFIX, PREFIX_SYMBOL, } from "sparqler/patterns/tokens";
+import { StringLiteral, Token, } from "sparqler/tokens";
 
 /**
  * Add a base IRI the query uses to resolve any relative IRIs.
