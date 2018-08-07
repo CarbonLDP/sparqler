@@ -33,8 +33,6 @@ import { Variable } from "./Variable";
 export interface TriplePatternBuilder {
 	resource( iri:string ):Resource;
 
-	blankNode( label?:string ):BlankNode;
-
 	var( name:string ):Variable;
 
 	literal( value:string ):RDFLiteral;
@@ -42,7 +40,8 @@ export interface TriplePatternBuilder {
 
 	collection( ...values:(SupportedNativeTypes | Resource | BlankNode | Variable | Literal | Collection | BlankNodeProperty)[] ):Collection;
 
-	blankNodeProperty( builderFn:( blankNodeBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty;
+	blankNode( label?:string ):BlankNode;
+	blankNode( builderFn:( blankNodeBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty;
 }
 
 
@@ -69,16 +68,6 @@ function _getReadyPattern<C extends Container2<TokenNode>, T extends ObjectToken
 function getResourceFn<C extends Container2<TokenNode>>( container:C ):TriplePatternBuilder[ "resource" ] {
 	return iri => {
 		const token:IRIToken | PrefixedNameToken = container.iriResolver.resolve( iri );
-		return _getPattern( container, token );
-	}
-}
-
-function getBlankNodeFn<C extends Container2<TokenNode>>( container:C ):TriplePatternBuilder[ "blankNode" ] {
-	return ( label?:string ) => {
-		if( label && ! label.startsWith( "_:" ) )
-			label = "_:" + label;
-
-		const token:BlankNodeToken = new BlankNodeToken( label );
 		return _getPattern( container, token );
 	}
 }
@@ -113,25 +102,39 @@ function getCollectionFn<C extends Container2<TokenNode>>( container:C ):TripleP
 	}
 }
 
-function getBlankNodePropertyFn<C extends Container2<TokenNode>>( container:C ):TriplePatternBuilder[ "blankNodeProperty" ] {
-	return ( builderFn:( blankNodeBuilder:BlankNodeBuilder ) => any ) => {
-		const token:BlankNodePropretyToken = new BlankNodePropretyToken();
+function _getBlankNode<C extends Container2<TokenNode>>( container:C, label?:string ):BlankNode {
+	if( label && ! label.startsWith( "_:" ) )
+		label = "_:" + label;
 
-		const newContainer:Container2<BlankNodePropretyToken> = new Container2( {
-			iriResolver: container.iriResolver,
-			targetToken: token,
-		} );
-
-		const builder:BlankNodeBuilder = BlankNodeBuilder.createFrom( newContainer, {} );
-		builderFn( builder );
-
-		if( token.properties.length < 1 )
-			throw new Error( "At least one property must be specified with the provided BlankNodeBuilder." );
-
-		return _getReadyPattern( container, token );
-	}
+	const token:BlankNodeToken = new BlankNodeToken( label );
+	return _getPattern( container, token );
 }
 
+function _getBlankNodeProperty<C extends Container2<TokenNode>>( container:C, builderFn:( blankNodeBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty {
+	const token:BlankNodePropretyToken = new BlankNodePropretyToken();
+
+	const newContainer:Container2<BlankNodePropretyToken> = new Container2( {
+		iriResolver: container.iriResolver,
+		targetToken: token,
+	} );
+
+	const builder:BlankNodeBuilder = BlankNodeBuilder.createFrom( newContainer, {} );
+	builderFn( builder );
+
+	if( token.properties.length < 1 )
+		throw new Error( "At least one property must be specified with the provided BlankNodeBuilder." );
+
+	return _getReadyPattern( container, token );
+}
+
+function getBlankNodeFn<C extends Container2<TokenNode>>( container:C ):TriplePatternBuilder[ "blankNode" ] {
+	return ( labelOrBuilderFn ):any => {
+		if( typeof labelOrBuilderFn === "function" )
+			return _getBlankNodeProperty( container, labelOrBuilderFn );
+
+		return _getBlankNode( container, labelOrBuilderFn );
+	};
+}
 
 /**
  * @todo
@@ -140,11 +143,10 @@ export const TriplePatternBuilder = {
 	createFrom<C extends Container2<TokenNode>, O extends object>( container:C, object:O ):O & TriplePatternBuilder {
 		return Object.assign( object, {
 			resource: getResourceFn( container ),
-			blankNode: getBlankNodeFn( container ),
 			var: getVarFn( container ),
 			literal: getLiteralFn( container ),
 			collection: getCollectionFn( container ),
-			blankNodeProperty: getBlankNodePropertyFn( container ),
+			blankNode: getBlankNodeFn( container ),
 		} );
 	},
 };

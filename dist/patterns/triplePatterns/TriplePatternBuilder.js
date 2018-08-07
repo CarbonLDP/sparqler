@@ -33,14 +33,6 @@ function getResourceFn(container) {
         return _getPattern(container, token);
     };
 }
-function getBlankNodeFn(container) {
-    return function (label) {
-        if (label && !label.startsWith("_:"))
-            label = "_:" + label;
-        var token = new BlankNodeToken_1.BlankNodeToken(label);
-        return _getPattern(container, token);
-    };
-}
 function getVarFn(container) {
     return function (name) {
         var token = new VariableToken_1.VariableToken(name);
@@ -67,29 +59,39 @@ function getCollectionFn(container) {
         return _getReadyPattern(container, token);
     };
 }
-function getBlankNodePropertyFn(container) {
-    return function (builderFn) {
-        var token = new BlankNodePropretyToken_1.BlankNodePropretyToken();
-        var newContainer = new Container2_1.Container2({
-            iriResolver: container.iriResolver,
-            targetToken: token,
-        });
-        var builder = BlankNodeBuilder_1.BlankNodeBuilder.createFrom(newContainer, {});
-        builderFn(builder);
-        if (token.properties.length < 1)
-            throw new Error("At least one property must be specified with the provided BlankNodeBuilder.");
-        return _getReadyPattern(container, token);
+function getBlankNode(container, label) {
+    if (label && !label.startsWith("_:"))
+        label = "_:" + label;
+    var token = new BlankNodeToken_1.BlankNodeToken(label);
+    return _getPattern(container, token);
+}
+function getBlankNodeProperty(container, builderFn) {
+    var token = new BlankNodePropretyToken_1.BlankNodePropretyToken();
+    var newContainer = new Container2_1.Container2({
+        iriResolver: container.iriResolver,
+        targetToken: token,
+    });
+    var builder = BlankNodeBuilder_1.BlankNodeBuilder.createFrom(newContainer, {});
+    builderFn(builder);
+    if (token.properties.length < 1)
+        throw new Error("At least one property must be specified with the provided BlankNodeBuilder.");
+    return _getReadyPattern(container, token);
+}
+function getBlankNodeFn(container) {
+    return function (labelOrBuilderFn) {
+        if (typeof labelOrBuilderFn === "function")
+            return getBlankNodeProperty(container, labelOrBuilderFn);
+        return getBlankNode(container, labelOrBuilderFn);
     };
 }
 exports.TriplePatternBuilder = {
     createFrom: function (container, object) {
         return Object.assign(object, {
             resource: getResourceFn(container),
-            blankNode: getBlankNodeFn(container),
             var: getVarFn(container),
             literal: getLiteralFn(container),
             collection: getCollectionFn(container),
-            blankNodeProperty: getBlankNodePropertyFn(container),
+            blankNode: getBlankNodeFn(container),
         });
     },
 };
