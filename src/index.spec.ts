@@ -1,13 +1,8 @@
-import {
-	Container,
-	FinishClause,
-} from "sparqler/clauses";
-import * as ContainerModule from "sparqler/clauses/Container";
-import { finishDecorator } from "sparqler/clauses/decorators";
-import DefaultExport, {
-	FinishDecorator,
-	SPARQLER,
-} from "sparqler/index";
+import { QueryClause } from "sparqler/clauses";
+import { FinishClause } from "./clauses/FinishClause";
+
+import DefaultExport, { FinishFactory, SPARQLER } from "./index";
+
 
 describe( "SPARQLER", ():void => {
 
@@ -27,10 +22,11 @@ describe( "SPARQLER", ():void => {
 		expect( sparqler ).toEqual( jasmine.any( SPARQLER ) );
 	} );
 
+
 	it( "should be a QueryClause object", ():void => {
 		const sparqler:SPARQLER = new SPARQLER();
 
-		expect( sparqler ).toEqual( jasmine.objectContaining( {
+		expect( sparqler ).toEqual( jasmine.objectContaining<QueryClause<any>>( {
 			base: jasmine.any( Function ),
 			vocab: jasmine.any( Function ),
 			prefix: jasmine.any( Function ),
@@ -45,29 +41,26 @@ describe( "SPARQLER", ():void => {
 		} ) );
 	} );
 
-	it( "should accept a custom finish decorator", ():void => {
-		interface MyFinish {
+
+	it( "should accept a custom SELECT finish decorator", ():void => {
+		interface MyFinish extends FinishClause {
 			customFinish:Function;
 		}
 
-		const customFinishDecorator:FinishDecorator<MyFinish> = ( container, object ) => {
-			return finishDecorator( container, Object.assign( object, {
+		const customSelectFinish:FinishFactory<MyFinish> = ( container, object ) => {
+			return FinishClause.createFrom( container, Object.assign( object, {
 				customFinish: () => {},
 			} ) );
 		};
 
-		let container:Container = void 0;
-		const spy:jasmine.Spy = spyOn( ContainerModule, "Container" ).and.callFake( ( arg1, arg2, ...args ) => {
-			return container = new Container( arg1, arg2, ...args );
-		} );
-
 		type CustomFinish = MyFinish & FinishClause;
-		const sparqler:SPARQLER<CustomFinish> = new SPARQLER<CustomFinish>( customFinishDecorator );
-		expect( spy ).toHaveBeenCalledTimes( 1 );
-		expect( container._finishDecorator ).toBe( customFinishDecorator );
+		const sparqler:SPARQLER<CustomFinish> = new SPARQLER<CustomFinish>( customSelectFinish );
 
-		const customFinish:CustomFinish = sparqler.selectAll().where( () => [] );
-		expect( customFinish ).toEqual( jasmine.objectContaining( {
+		const customFinish:CustomFinish = sparqler
+			.selectAll()
+			.where( () => [] );
+
+		expect( customFinish ).toEqual( jasmine.objectContaining<CustomFinish>( {
 			customFinish: jasmine.any( Function ),
 		} ) );
 	} );

@@ -27,4 +27,4 @@ exports.FromClause = {
     },
 };
 
-//# sourceMappingURL=FormClause.js.map
+//# sourceMappingURL=FromClause.js.map

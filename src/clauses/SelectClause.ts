@@ -7,7 +7,7 @@ import { SelectToken } from "../tokens/SelectToken";
 import { VariableToken } from "../tokens/VariableToken";
 
 import { FinishClause } from "./FinishClause";
-import { FromClause } from "./FormClause";
+import { FromClause } from "./FromClause";
 
 
 /**
@@ -111,9 +111,9 @@ export const SelectClause:{
 			select: getSelectFn( genericFactory, container ),
 			selectDistinct: getSelectFn( genericFactory, container, "DISTINCT" ),
 			selectReduced: getSelectFn( genericFactory, container, "REDUCED" ),
-			selectAll: () => getSelectFn( genericFactory, container )( "*" ),
-			selectAllDistinct: () => getSelectFn( genericFactory, container, "DISTINCT" )( "*" ),
-			selectAllReduced: () => getSelectFn( genericFactory, container, "REDUCED" )( "*" ),
+			selectAll: () => getSelectFn( genericFactory, container )(),
+			selectAllDistinct: () => getSelectFn( genericFactory, container, "DISTINCT" )(),
+			selectAllReduced: () => getSelectFn( genericFactory, container, "REDUCED" )(),
 		} );
 	},
 };

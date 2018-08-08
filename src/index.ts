@@ -1,39 +1,56 @@
-import { Container } from "sparqler/clauses/Container";
-import { queryDecorator } from "sparqler/clauses/decorators";
-import { FinishClause } from "sparqler/clauses/FinishClause";
-import { QueryClause as QueryClause2 } from "sparqler/clauses/QueryClause";
-import { QueryClause } from "sparqler/clauses/interfaces";
-import { Container2 } from "sparqler/data/Container2";
-import { Factory } from "sparqler/data/Factory";
-import { IRIResolver2 } from "sparqler/data/IRIResolver2";
-import { QueryUnitContainer } from "sparqler/data/QueryUnitContainer";
-import { QueryToken } from "sparqler/tokens";
+import { FinishClause } from "./clauses/FinishClause";
+import { QueryClause } from "./clauses/QueryClause";
+
+import { Container2 } from "./data/Container2";
+import { Factory } from "./data/Factory";
+import { IRIResolver2 } from "./data/IRIResolver2";
+import { QueryUnitContainer } from "./data/QueryUnitContainer";
+
+import { QueryToken } from "./tokens/QueryToken";
 
 
-export interface FinishDecorator<T> extends Function {
-	<W extends object>( container:Container<T & FinishClause>, object:W ):T & W & FinishClause;
-}
-
-export interface SPARQLER<T extends FinishClause = FinishClause> extends QueryClause<T> {}
-
-export class SPARQLER<T extends FinishClause = FinishClause> {
-
-	constructor( finishDecorator?:FinishDecorator<T> ) {
-		const container:Container<T> = new Container<T>( finishDecorator );
-		return queryDecorator<T, {}>( container, this );
-	}
-
-}
-
-export default SPARQLER;
-
-
+/**
+ * Alias for the finish factory function for the specified finish clause.
+ *
+ * The factory will receive the {@link Container2} with the final token
+ * data ({@link QueryToken}) of the constructed query.
+ *
+ * The factory function must return the extended {@link FinishClause}.
+ * The build it factory {@link FinishClause.createFrom} is recommended
+ * to be used internally so the expected behaviour applies with added
+ * custom functionality for the custom factory.
+ */
 export type FinishFactory<T extends FinishClause> = Factory<Container2<QueryToken>, T>;
 
-export interface SPARQLER2<SELECT extends FinishClause = FinishClause> extends QueryClause2<SELECT> {}
 
-export class SPARQLER2<SELECT extends FinishClause = FinishClause> {
-	constructor( finishSelectFactory:FinishFactory<SELECT> = FinishClause.createFrom as FinishFactory<SELECT> ) {
+
+/**
+ * Interface with the same name fo the SPARQLER class, that helps
+ * in the definition of the methods decorated by {@link QueryClause.createFrom}
+ */
+export interface SPARQLER<SELECT extends FinishClause = FinishClause> extends QueryClause<SELECT> {
+}
+
+/**
+ * Class that allows to create the SPARQL query builder.
+ *
+ * See {@link QueryClause} for know the methods available for
+ * construct the queries.
+ */
+export class SPARQLER<SELECT extends FinishClause = FinishClause> implements SPARQLER<SELECT> {
+
+	/**
+	 * Constructor that allows to create query builder with custom finish
+	 * methods specified by the factories provided if specified.
+	 *
+	 * If no custom factory specified {@link FinishClause.createFrom}
+	 * will be used instead.
+	 *
+	 * @param finishSelectFactory Factory for finishing a SELECT query.
+	 */
+	constructor(
+		finishSelectFactory:FinishFactory<SELECT> = FinishClause.createFrom as FinishFactory<SELECT>
+	) {
 
 		const container:QueryUnitContainer<SELECT> = new QueryUnitContainer( {
 			iriResolver: new IRIResolver2(),
@@ -41,6 +58,9 @@ export class SPARQLER2<SELECT extends FinishClause = FinishClause> {
 			selectFinishClauseFactory: finishSelectFactory,
 		} );
 
-		return QueryClause2.createFrom( container, this );
+		return QueryClause.createFrom( container, this );
 	}
+
 }
+
+export default SPARQLER;

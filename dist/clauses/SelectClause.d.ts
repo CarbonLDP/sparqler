@@ -3,7 +3,7 @@ import { Factory } from "../data/Factory";
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
 import { FinishClause } from "./FinishClause";
-import { FromClause } from "./FormClause";
+import { FromClause } from "./FromClause";
 export interface SelectClause<T extends FinishClause> {
     select(...variables: string[]): FromClause<T>;
     selectDistinct(...variables: string[]): FromClause<T>;

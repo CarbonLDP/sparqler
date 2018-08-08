@@ -2,7 +2,7 @@ export * from "./Container";
 export * from "./interfaces";
 export { QueryClause } from "./QueryClause";
 export { SelectClause } from "./SelectClause";
-export { FromClause } from "./FormClause";
+export { FromClause } from "./FromClause";
 export { WhereClause } from "./WhereClause";
 export { GroupClause } from "./GroupClause";
 export { HavingClause } from "./HavingClause";
