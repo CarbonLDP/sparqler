@@ -1,8 +1,10 @@
 import { Container2 } from "../data/Container2";
 import { LiteralToken } from "../tokens/LiteralToken";
+import { ObjectToken } from "../tokens/ObjectToken";
 import { TokenNode } from "../tokens/TokenNode";
 import { SupportedNativeTypes } from "./SupportedNativeTypes";
 import { TriplePattern } from "./triplePatterns/TriplePattern";
 export declare function convertValue(value: "UNDEF"): "UNDEF";
-export declare function convertValue<T extends TriplePattern<any> | SupportedNativeTypes>(value: T): T extends TriplePattern<infer TOKEN> ? TOKEN : LiteralToken;
+export declare function convertValue<T extends TriplePattern<X>, X extends ObjectToken>(value: T): X;
+export declare function convertValue<T extends SupportedNativeTypes>(value: T): LiteralToken;
 export declare function _resolvePath(container: Container2<TokenNode>, propertyPath: string): "a";

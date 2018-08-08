@@ -13,7 +13,8 @@ import { TriplePattern } from "./triplePatterns/TriplePattern";
 
 
 export function convertValue( value:"UNDEF" ):"UNDEF";
-export function convertValue<T extends TriplePattern<any> | SupportedNativeTypes>( value:T ):T extends TriplePattern<infer TOKEN> ? TOKEN : LiteralToken;
+export function convertValue<T extends TriplePattern<X>, X extends ObjectToken>( value:T ):X;
+export function convertValue<T extends SupportedNativeTypes>( value:T ):LiteralToken;
 export function convertValue( value:SupportedNativeTypes | TriplePattern<VariableToken | TermToken> ):ObjectToken | "UNDEF" {
 	if( value instanceof Date )
 		return new LiteralToken( value.toISOString() )

@@ -33,7 +33,7 @@ function getHasFn<C extends Container2<ValuesToken>>( container:C ):SingleValues
 	return value => {
 		const values = container.targetToken.values.slice();
 		if( ! values.length ) values.push( [] );
-		values[ 0 ] = values[ 0 ].concat( convertValue( value ) );
+		values[ 0 ] = values[ 0 ].concat( convertValue( value as SupportedNativeTypes ) );
 
 		const targetToken = cloneElement( container.targetToken, { values } );
 		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
