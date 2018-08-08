@@ -40,8 +40,10 @@ function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
 /**
  * @todo
  */
-export const GroupClause = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & GroupClause<T> {
+export const GroupClause:{
+	createFrom<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & GroupClause<T>;
+} = {
+	createFrom<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & GroupClause<T> {
 		return HavingClause.createFrom( genericFactory, container, Object.assign( object, {
 			groupBy: getGroupByFn( genericFactory, container ),
 		} ) );

@@ -103,7 +103,9 @@ function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( 
 /**
  * @todo
  */
-export const SelectClause = {
+export const SelectClause:{
+	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<Container2<QueryToken<SelectToken>>, T>, container:C, object:O ):O & SelectClause<T>;
+} = {
 	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<Container2<QueryToken<SelectToken>>, T>, container:C, object:O ):O & SelectClause<T> {
 		return Object.assign( object, {
 			select: getSelectFn( genericFactory, container ),

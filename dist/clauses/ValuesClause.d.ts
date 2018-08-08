@@ -16,5 +16,5 @@ export interface ValuesClause<T extends FinishClause> {
     values(variables: (string | Variable)[], valuesBuilder: (builder: PatternBuilder2) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][]): T;
 }
 export declare const ValuesClause: {
-    createFrom<C extends Container2<SubSelectToken | QueryToken<import("sparqler/tokens/QueryClauseToken").QueryClauseToken>>, T extends FinishClause>(genericFactory: Factory<C, T>, container: C, object: T): T & ValuesClause<T>;
+    createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause>(genericFactory: Factory<C, T>, container: C, object: T): T & ValuesClause<T>;
 };

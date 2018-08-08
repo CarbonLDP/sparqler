@@ -6,5 +6,5 @@ export interface LimitClause<T extends object> {
     limit(limit: number): T;
 }
 export declare const LimitClause: {
-    createFrom<C extends Container2<SubSelectToken | QueryToken<import("sparqler/tokens/QueryClauseToken").QueryClauseToken>>, T extends object, O extends object>(genericFactory: Factory<C, T>, container: C, object: O): O & LimitClause<T>;
+    createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends object, O extends object>(genericFactory: Factory<C, T>, container: C, object: O): O & LimitClause<T>;
 };

@@ -127,7 +127,9 @@ function createValuesFn<C extends Container2<QueryToken | SubSelectToken>, T ext
 /**
  * @todo
  */
-export const ValuesClause = {
+export const ValuesClause:{
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, object:T ):T & ValuesClause<T>
+} = {
 	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, object:T ):T & ValuesClause<T> {
 		return Object.assign( object, {
 			values: createValuesFn( genericFactory, container ),

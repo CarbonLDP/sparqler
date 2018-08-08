@@ -17,7 +17,7 @@ export function cloneSolutionModifierContainer<C extends Container2<QueryToken |
 
 function _cloneFromClause<T extends QueryClauseToken | SubSelectToken>( this:void, clauseToken:T, token:SolutionModifierToken ):T {
 	const modifiers:SolutionModifierToken[] = clauseToken.modifiers.concat( token );
-	return cloneElement( clauseToken, { modifiers } as any );
+	return cloneElement( clauseToken, { modifiers } as Partial<T> );
 }
 
 function _cloneFromQuery( this:void, queryToken:QueryToken, token:SolutionModifierToken ):QueryToken {

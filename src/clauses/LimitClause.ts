@@ -36,8 +36,10 @@ function getLimitFn<C extends Container2<QueryToken | SubSelectToken>, T extends
 /**
  * @todo
  */
-export const LimitClause = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends object, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & LimitClause<T> {
+export const LimitClause:{
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends object, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & LimitClause<T>;
+} = {
+	createFrom( genericFactory, container, object ) {
 		return Object.assign( object, {
 			limit: getLimitFn( genericFactory, container ),
 		} );

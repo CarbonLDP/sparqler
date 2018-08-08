@@ -60,7 +60,9 @@ function getWhereFn<C extends Container2<QueryToken>, T extends FinishClause>( g
 /**
  * @todo
  */
-export const WhereClause = {
+export const WhereClause:{
+	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & WhereClause<T>
+} = {
 	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & WhereClause<T> {
 		return Object.assign( object, {
 			where: getWhereFn( genericFactory, container ),

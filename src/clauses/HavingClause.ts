@@ -43,7 +43,9 @@ function getHavingFn<C extends Container2<QueryToken | SubSelectToken>, T extend
 /**
  * @todo
  */
-export const HavingClause = {
+export const HavingClause:{
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & HavingClause<T>;
+} = {
 	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & HavingClause<T> {
 		return OrderClause.createFrom( genericFactory, container, Object.assign( object, {
 			having: getHavingFn( genericFactory, container ),

@@ -37,8 +37,8 @@ import { ValuesClause } from "./ValuesClause";
  *      .offset( ... ) // Not possible
  */
 export interface LimitOffsetClause<T extends FinishClause> extends LimitClause<OffsetClause<ValuesClause<T> & T> & ValuesClause<T> & T>,
-                                                                                         OffsetClause<LimitClause<ValuesClause<T> & T> & ValuesClause<T> & T>,
-                                                                                         ValuesClause<T> {}
+                                                                   OffsetClause<LimitClause<ValuesClause<T> & T> & ValuesClause<T> & T>,
+                                                                   ValuesClause<T> {}
 
 
 function _getLimitFactory<CONTAINER extends Container2<any>, T extends FinishClause>( valuesFactory:Factory<CONTAINER, ValuesClause<T> & T> ):Factory<CONTAINER, LimitClause<OffsetClause<ValuesClause<T> & T> & ValuesClause<T> & T>> {
@@ -60,7 +60,9 @@ function _getOffsetFactory<CONTAINER extends Container2<any>, T extends FinishCl
 /**
  * @todo
  */
-export const LimitOffsetClause = {
+export const LimitOffsetClause:{
+	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & LimitOffsetClause<T>;
+} = {
 	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & LimitOffsetClause<T> {
 		const valuesFactory:Factory<C, ValuesClause<T>> = ValuesClause
 			.createFrom.bind( null, genericFactory );

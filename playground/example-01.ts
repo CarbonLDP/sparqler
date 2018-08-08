@@ -4,6 +4,10 @@ const startTime:[ number, number ] = process.hrtime();
 
 const builder = new SPARQLER();
 
+let difference:number[] = process.hrtime( startTime );
+let time:number = (difference[ 0 ] * 1e9 + difference[ 1 ]) / 1000000;
+console.log( "\n" + time + "ms\n" );
+
 const finishQuery = builder
 	.base( "https://carbonldp.base22.io/" )
 	.vocab( "https://carbonldp.base22.io/vocabulary/#" )
@@ -45,6 +49,9 @@ const finishQuery = builder
 			_.blankNode()
 				.has( "other", _.blankNode().has( "mmm", "ok..." ).and( "ok", "no" ) )
 				.and( "color", _.resource( "#asdf" ) ),
+			_.blankNode()
+				.has( "color", _.resource( "#asdf" ) )
+				.and( "mmm", "ok..." ).and( "ok", "no" ),
 			_.collection( "Ha!" ),
 			_.collection(
 				"some",
@@ -56,10 +63,8 @@ const finishQuery = builder
 			_.collection(
 				_.blankNode().has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ),
 			),
-			_.collection(
-				"some",
-				_.resource( ":some" ),
-			).has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ),
+			_.collection( "some", _.resource( ":some" ) )
+				.has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ),
 			_.resource( "son/" )
 				.has( "name", _.collection( "My name", _.blankNode().has( "address", "My address" ) ) ),
 			_.graph( "some", _.resource( "some" ).has( "yes", "no" ) ),
@@ -80,6 +85,11 @@ const finishQuery = builder
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			] ),
 			_.union( [
+				_.resource( "some" )
+					.has( "ex:yes", [ "yes", "maybe" ] )
+					.and( "ex:no", [ "mm", "no" ] ),
+			], [] ),
+			_.union( [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			], [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
@@ -95,6 +105,8 @@ const finishQuery = builder
 			_.values( _.var( "v" ) ).has( 1 ).and( 1.1 ).and( "some" ).and( _.undefined ),
 			_.values( _.var( "v1" ), _.var( "v2" ) ).has( 1, 2 ).and( _.undefined, _.literal( "nope" ) ).and( true, false ),
 			_.values().has(),
+			_.values().has().and(),
+			_.values(),
 
 			_.service( "a-service", _.resource( "some" ).has( "ex:property", "ex:object" ) ),
 			_.service( ":a-service", _.resource( "some" ).has( "ex:property", "ex:object" ) ),
@@ -130,26 +142,34 @@ const finishQuery = builder
 	.limit( 2 )
 	.values( "var1", [ "value1", "value2" ] );
 
-let difference:number[] = process.hrtime( startTime );
-let time:number = (difference[ 0 ] * 1e9 + difference[ 1 ]) / 1000000;
+difference = process.hrtime( startTime );
+time = (difference[ 0 ] * 1e9 + difference[ 1 ]) / 1000000;
 console.log( "\n" + time + "ms\n" );
 
-console.log( finishQuery.toPrettyString() );
-// finishQuery.toPrettyString();
+// console.log( finishQuery.toPrettyString() );
+finishQuery.toPrettyString();
 
 difference = process.hrtime( startTime );
 time = (difference[ 0 ] * 1e9 + difference[ 1 ]) / 1000000;
 console.log( "\n" + time + "ms\n" );
 
-console.log( finishQuery.toCompactString() );
-// finishQuery.toCompactString();
+// console.log( finishQuery.toCompactString() );
+finishQuery.toCompactString();
 
 difference = process.hrtime( startTime );
 time = (difference[ 0 ] * 1e9 + difference[ 1 ]) / 1000000;
 console.log( "\n" + time + "ms\n" );
 
+
+console.log( "---------" );
+const startTime2:[ number, number ] = process.hrtime();
 
 const builder2 = new SPARQLER2();
+
+let difference2:number[] = process.hrtime( startTime2 );
+let time2:number = (difference2[ 0 ] * 1e9 + difference2[ 1 ]) / 1000000;
+console.log( "\n" + time2 + "ms\n" );
+
 const finishQuery2 = builder2
 	.base( "https://carbonldp.base22.io/" )
 	.vocab( "https://carbonldp.base22.io/vocabulary/#" )
@@ -284,6 +304,20 @@ const finishQuery2 = builder2
 	.limit( 2 )
 	.values( "var1", [ "value1", "value2" ] );
 
+difference2 = process.hrtime( startTime2 );
+time2 = (difference2[ 0 ] * 1e9 + difference2[ 1 ]) / 1000000;
+console.log( "\n" + time2 + "ms\n" );
 
-console.log( finishQuery2.toPrettyString() );
-console.log( finishQuery2.toCompactString() );
+// console.log( finishQuery2.toPrettyString() );
+finishQuery2.toPrettyString();
+
+difference2 = process.hrtime( startTime2 );
+time2 = (difference2[ 0 ] * 1e9 + difference2[ 1 ]) / 1000000;
+console.log( "\n" + time2 + "ms\n" );
+
+// console.log( finishQuery2.toCompactString() );
+finishQuery2.toCompactString();
+
+difference2 = process.hrtime( startTime2 );
+time2 = (difference2[ 0 ] * 1e9 + difference2[ 1 ]) / 1000000;
+console.log( "\n" + time2 + "ms\n" );
