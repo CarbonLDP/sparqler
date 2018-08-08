@@ -19,9 +19,13 @@ var QueryToken = (function () {
     };
     QueryToken.prototype.toString = function (spaces) {
         var separator = printing_1.getSeparator(spaces);
-        var query = this.prologues.join(separator);
-        if (this.prologues.length)
-            query += separator;
+        var query = this.prologues
+            .map(function (prologue) {
+            if (prologue.token === "base")
+                return prologue + "\n";
+            return prologue + separator;
+        })
+            .join("");
         query += this.queryClause.toString(spaces);
         if (this.values)
             query += separator + this.values.toString(spaces);

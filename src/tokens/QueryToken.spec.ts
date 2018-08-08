@@ -134,7 +134,7 @@ describe( "Module QueryToken", ():void => {
 				;
 
 				expect( token.toString() ).toBe( "" +
-					"BASE <https://example.com/> " +
+					"BASE <https://example.com/>\n" +
 					"PREFIX ex: <https://example.com/ns#> " +
 					"CONSTRUCT {} " +
 					"{}" +

@@ -29,8 +29,14 @@ export class QueryToken<T extends QueryClauseToken | undefined = QueryClauseToke
 	toString( spaces?:number ):string {
 		const separator:string = getSeparator( spaces );
 
-		let query:string = this.prologues.join( separator );
-		if( this.prologues.length ) query += separator;
+		let query:string = this.prologues
+			.map( prologue => {
+				// TODO: Remove new line separator when resolved https://community.stardog.com/t/error-with-inline-sparql-base/1200
+				if( prologue.token === "base" )
+					return prologue + "\n";
+				return prologue + separator;
+			} )
+			.join( "" );
 
 		query += this.queryClause.toString( spaces );
 
