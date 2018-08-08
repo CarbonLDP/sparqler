@@ -11,6 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var CommonSelectToken_1 = require("./CommonSelectToken");
+var printing_1 = require("./printing");
 var SelectToken = (function (_super) {
     __extends(SelectToken, _super);
     function SelectToken(modifier, dataset) {
@@ -19,13 +20,14 @@ var SelectToken = (function (_super) {
         _this.dataset = dataset;
         return _this;
     }
-    SelectToken.prototype.toString = function () {
-        var query = _super.prototype.toString.call(this);
+    SelectToken.prototype.toString = function (spaces) {
+        var query = _super.prototype.toString.call(this, spaces);
+        var separator = printing_1.getSeparator(spaces);
         if (this.dataset)
-            query += " " + this.dataset;
-        query += " " + this.where;
+            query += separator + this.dataset;
+        query += separator + this.where.toString(spaces);
         if (this.modifiers.length)
-            query += " " + this.modifiers.join(" ");
+            query += separator + this.modifiers.join(separator);
         return query;
     };
     return SelectToken;

@@ -1,5 +1,6 @@
-import { TripleToken } from "./TripleToken";
 import { CommonQueryClauseToken } from "./CommonQueryClauseToken";
+import { getSeparator, getTokenContainerString } from "./printing";
+import { TripleToken } from "./TripleToken";
 
 
 export class ConstructToken extends CommonQueryClauseToken {
@@ -20,10 +21,21 @@ export class ConstructToken extends CommonQueryClauseToken {
 	}
 
 
-	toString():string {
-		let query:string = `CONSTRUCT { ${ this.triples.join( ". " ) } } ${ this.where }`;
+	// TODO: Implement pretty print
+	toString( spaces?:number ):string {
+		const triples:string = getTokenContainerString( {
+			spaces,
+			tags: { open: "{", close: "}" },
+			tokensSeparator: ".",
+			tokens: this.triples,
+		} );
 
-		if( this.modifiers.length ) query += ` ${ this.modifiers.join( " " ) }`;
+		const separator:string = getSeparator( spaces );
+		let query:string = `CONSTRUCT ` +
+			triples + separator +
+			this.where.toString( spaces );
+
+		if( this.modifiers.length ) query += separator + this.modifiers.join( separator );
 
 		return query;
 	}

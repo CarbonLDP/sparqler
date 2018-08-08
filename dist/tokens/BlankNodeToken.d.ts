@@ -3,5 +3,5 @@ export declare class BlankNodeToken implements TokenNode {
     readonly token: "blankNode";
     readonly label?: string;
     constructor(label?: string);
-    toString(): string;
+    toString(spaces?: number): string;
 }

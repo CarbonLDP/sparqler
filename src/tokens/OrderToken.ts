@@ -11,7 +11,7 @@ export class OrderToken implements TokenNode {
 		if( flow ) this.flow = flow;
 	}
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return "ORDER BY " + ( this.flow ?
 			`${ this.flow }( ${ this.condition } )` :
 			`${ this.condition }` );

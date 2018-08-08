@@ -52,7 +52,7 @@ export class LiteralToken implements TokenNode {
 	}
 
 
-	toString():string {
+	toString( spaces?:number ):string {
 		if( this.language ) return `${ this.value }${ this.language }`;
 		if( this.type ) return `${ this.value }^^${ this.type }`;
 		return `${ this.value }`;

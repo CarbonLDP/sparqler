@@ -3,5 +3,5 @@ export declare class HavingToken implements TokenNode {
     readonly token: "having";
     readonly rawCondition: string;
     constructor(rawCondition: string);
-    toString(): string;
+    toString(spaces?: number): string;
 }

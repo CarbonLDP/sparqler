@@ -103,10 +103,10 @@ function getValuesFn(container) {
         var token = new ValuesToken_1.ValuesToken();
         (_a = token.variables).push.apply(_a, variables.map(function (x) { return x.getSubject(); }));
         var patternContainer = _getPatternContainer(container, token);
-        if (variables.length > 1)
-            return MultipleValuesPattern_1.MultipleValuesPattern
+        if (variables.length === 1)
+            return SingleValuesPattern_1.SingleValuesPattern
                 .createFrom(patternContainer, {});
-        return SingleValuesPattern_1.SingleValuesPattern
+        return MultipleValuesPattern_1.MultipleValuesPattern
             .createFrom(patternContainer, {});
     };
 }

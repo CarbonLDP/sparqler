@@ -1,17 +1,17 @@
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { LimitToken } from "sparqler/tokens/LimitToken";
-import { OffsetToken } from "sparqler/tokens/OffsetToken";
-import { OptionalToken } from "sparqler/tokens/OptionalToken";
-import { PatternToken } from "sparqler/tokens/PatternToken";
-import { PropertyToken } from "sparqler/tokens/PropertyToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
-import { SolutionModifierToken } from "sparqler/tokens/SolutionModifierToken";
-import { SubjectToken } from "sparqler/tokens/SubjectToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
-import { WhereToken } from "sparqler/tokens/WhereToken";
-
 import * as Module from "./ConstructToken";
 import { ConstructToken } from "./ConstructToken";
+import { IRIToken } from "./IRIToken";
+import { LimitToken } from "./LimitToken";
+import { OffsetToken } from "./OffsetToken";
+import { OptionalToken } from "./OptionalToken";
+import { PatternToken } from "./PatternToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
+import { PropertyToken } from "./PropertyToken";
+import { SolutionModifierToken } from "./SolutionModifierToken";
+import { SubjectToken } from "./SubjectToken";
+import { VariableToken } from "./VariableToken";
+import { WhereToken } from "./WhereToken";
+
 
 describe( "Module ConstructToken", ():void => {
 
@@ -246,13 +246,54 @@ describe( "Module ConstructToken", ():void => {
 					"CONSTRUCT { " +
 					"" + "?subj1 a ?obj1. " +
 					"" + "?subj1 ex:property ?obj2 " +
-					"} " +
-					"WHERE { " +
+					"} { " +
 					"" + "?subj1 a ex:Resource. " +
-					"" + "OPTIONAL { " +
-					"" + "" + "?subj1 a ?obj1 " +
-					"" + "}. " +
+					"" + "OPTIONAL { ?subj1 a ?obj1 }. " +
 					"" + "?subj1 ex:property ?obj2 " +
+					"}",
+				);
+			} );
+
+			it( "should print the pretty SPARQL construct without modifiers", ():void => {
+				const token:ConstructToken = new ConstructToken()
+					.addTriple( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( "a" )
+							.addObject( new VariableToken( "obj1" ) ),
+						),
+					)
+					.addTriple( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( new PrefixedNameToken( "ex", "property" ) )
+							.addObject( new VariableToken( "obj2" ) ),
+						),
+					)
+					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( "a" )
+							.addObject( new PrefixedNameToken( "ex:Resource" ) ),
+						),
+					)
+					.addPattern( new OptionalToken()
+						.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
+							.addPredicate( new PropertyToken( "a" )
+								.addObject( new VariableToken( "obj1" ) ),
+							),
+						),
+					)
+					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( new PrefixedNameToken( "ex", "property" ) )
+							.addObject( new VariableToken( "obj2" ) ),
+						),
+					)
+				;
+
+				expect( token.toString( 0 ) ).toEqual( "" +
+					"CONSTRUCT {\n" +
+					"    ?subj1 a ?obj1.\n" +
+					"    ?subj1 ex:property ?obj2\n" +
+					"}\n" +
+					"WHERE {\n" +
+					"    ?subj1 a ex:Resource.\n" +
+					"    OPTIONAL { ?subj1 a ?obj1 }.\n" +
+					"    ?subj1 ex:property ?obj2\n" +
 					"}",
 				);
 			} );
@@ -294,15 +335,60 @@ describe( "Module ConstructToken", ():void => {
 					"CONSTRUCT { " +
 					"" + "?subj1 a ?obj1. " +
 					"" + "?subj1 ex:property ?obj2 " +
-					"} " +
-					"WHERE { " +
+					"} { " +
 					"" + "?subj1 a ex:Resource. " +
-					"" + "OPTIONAL { " +
-					"" + "" + "?subj1 a ?obj1 " +
-					"" + "}. " +
+					"" + "OPTIONAL { ?subj1 a ?obj1 }. " +
 					"" + "?subj1 ex:property ?obj2 " +
 					"} " +
 					"LIMIT 10 " +
+					"OFFSET 0",
+				);
+			} );
+
+			it( "should print the pretty SPARQL construct with modifiers", ():void => {
+				const token:ConstructToken = new ConstructToken()
+					.addTriple( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( "a" )
+							.addObject( new VariableToken( "obj1" ) ),
+						),
+					)
+					.addTriple( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( new PrefixedNameToken( "ex", "property" ) )
+							.addObject( new VariableToken( "obj2" ) ),
+						),
+					)
+					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( "a" )
+							.addObject( new PrefixedNameToken( "ex:Resource" ) ),
+						),
+					)
+					.addPattern( new OptionalToken()
+						.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
+							.addPredicate( new PropertyToken( "a" )
+								.addObject( new VariableToken( "obj1" ) ),
+							),
+						),
+					)
+					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( new PrefixedNameToken( "ex", "property" ) )
+							.addObject( new VariableToken( "obj2" ) ),
+						),
+					)
+					.addModifier( new LimitToken( 10 ) )
+					.addModifier( new OffsetToken( 0 ) )
+				;
+
+				expect( token.toString( 0 ) ).toEqual( "" +
+					"CONSTRUCT {\n" +
+					"    ?subj1 a ?obj1.\n" +
+					"    ?subj1 ex:property ?obj2\n" +
+					"}\n" +
+					"WHERE {\n" +
+					"    ?subj1 a ex:Resource.\n" +
+					"    OPTIONAL { ?subj1 a ?obj1 }.\n" +
+					"    ?subj1 ex:property ?obj2\n" +
+					"}\n" +
+					"LIMIT 10\n" +
 					"OFFSET 0",
 				);
 			} );

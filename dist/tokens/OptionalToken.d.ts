@@ -6,5 +6,5 @@ export declare class OptionalToken implements TokenNode {
     readonly groupPattern: GroupPatternToken;
     constructor();
     addPattern(...pattern: PatternToken[]): this;
-    toString(): string;
+    toString(spaces?: number): string;
 }

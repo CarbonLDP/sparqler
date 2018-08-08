@@ -23,10 +23,8 @@ export interface SubSelectPattern {
  */
 function getSelectFn<C extends Container2<TokenNode>>( container:C, modifier?:"DISTINCT" | "REDUCED" ):SubSelectPattern[ "select" ] {
 	return ( ...variables:string[] ) => {
-		if( variables && variables.length === 0 ) throw new Error( "Need to provide al least one variable." );
-
 		const targetToken:SubSelectToken = new SubSelectToken( modifier );
-		targetToken.addVariable( ...variables.map( x => x === "*" ? x : new VariableToken( x ) ) );
+		if( variables.length ) targetToken.addVariable( ...variables.map( x => new VariableToken( x ) ) );
 
 		const newContainer = new Container2( {
 			iriResolver: container.iriResolver,
@@ -46,9 +44,9 @@ export const SubSelectPattern = {
 			select: getSelectFn( container ),
 			selectDistinct: getSelectFn( container, "DISTINCT" ),
 			selectReduced: getSelectFn( container, "REDUCED" ),
-			selectAll: () => getSelectFn( container )( "*" ),
-			selectAllDistinct: () => getSelectFn( container, "DISTINCT" )( "*" ),
-			selectAllReduced: () => getSelectFn( container, "REDUCED" )( "*" ),
+			selectAll: () => getSelectFn( container )(),
+			selectAllDistinct: () => getSelectFn( container, "DISTINCT" )(),
+			selectAllReduced: () => getSelectFn( container, "REDUCED" )(),
 		} );
 	},
 };

@@ -1,4 +1,5 @@
 import { ObjectToken } from "./ObjectToken";
+import { getTokenContainerString } from "./printing";
 import { TokenNode } from "./TokenNode";
 
 
@@ -18,8 +19,11 @@ export class CollectionToken implements TokenNode {
 	}
 
 
-	toString():string {
-		if( ! this.objects.length ) return "()";
-		return `( ${ this.objects.join( " " ) } )`;
+	toString( spaces?:number ):string {
+		return getTokenContainerString( {
+			spaces,
+			tags: { open:"(", close: ")" },
+			tokens: this.objects,
+		} );
 	}
 }

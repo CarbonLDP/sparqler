@@ -11,7 +11,7 @@ export class MinusPatternToken implements TokenNode {
 	}
 
 
-	toString():string {
-		return `MINUS ${ this.groupPattern }`;
+	toString( spaces?:number ):string {
+		return `MINUS ${ this.groupPattern.toString( spaces ) }`;
 	}
 }

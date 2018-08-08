@@ -20,12 +20,12 @@ export class ServicePatternToken implements TokenNode {
 	}
 
 
-	toString():string {
+	toString( spaces?:number ):string {
 		let query:string = `SERVICE `;
 
 		if( this.modifier ) query += `SILENT `;
 
-		query += `${ this.resource } ${ this.groupPattern }`;
+		query += `${ this.resource } ${ this.groupPattern.toString( spaces ) }`;
 
 		return query;
 	}

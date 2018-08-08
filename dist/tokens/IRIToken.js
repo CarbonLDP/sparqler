@@ -5,7 +5,7 @@ var IRIToken = (function () {
         this.token = "iri";
         this.value = value;
     }
-    IRIToken.prototype.toString = function () {
+    IRIToken.prototype.toString = function (spaces) {
         return "<" + this.value + ">";
     };
     return IRIToken;

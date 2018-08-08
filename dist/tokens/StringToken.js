@@ -5,7 +5,7 @@ var StringToken = (function () {
         this.token = "string";
         this.value = value;
     }
-    StringToken.prototype.toString = function () {
+    StringToken.prototype.toString = function (spaces) {
         return "\"" + this.value + "\"";
     };
     return StringToken;

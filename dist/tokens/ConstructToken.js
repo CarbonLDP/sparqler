@@ -11,6 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var CommonQueryClauseToken_1 = require("./CommonQueryClauseToken");
+var printing_1 = require("./printing");
 var ConstructToken = (function (_super) {
     __extends(ConstructToken, _super);
     function ConstructToken() {
@@ -28,10 +29,19 @@ var ConstructToken = (function (_super) {
         (_a = this.triples).push.apply(_a, triple);
         return this;
     };
-    ConstructToken.prototype.toString = function () {
-        var query = "CONSTRUCT { " + this.triples.join(". ") + " } " + this.where;
+    ConstructToken.prototype.toString = function (spaces) {
+        var triples = printing_1.getTokenContainerString({
+            spaces: spaces,
+            tags: { open: "{", close: "}" },
+            tokensSeparator: ".",
+            tokens: this.triples,
+        });
+        var separator = printing_1.getSeparator(spaces);
+        var query = "CONSTRUCT " +
+            triples + separator +
+            this.where.toString(spaces);
         if (this.modifiers.length)
-            query += " " + this.modifiers.join(" ");
+            query += separator + this.modifiers.join(separator);
         return query;
     };
     return ConstructToken;

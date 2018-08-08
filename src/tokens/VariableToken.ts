@@ -12,7 +12,7 @@ export class VariableToken implements TokenNode {
 		this.name = name;
 	}
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return `?${ this.name }`;
 	}
 }

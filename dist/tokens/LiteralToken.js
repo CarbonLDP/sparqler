@@ -38,7 +38,7 @@ var LiteralToken = (function () {
         this.language = new LanguageToken_1.LanguageToken(language);
         return this;
     };
-    LiteralToken.prototype.toString = function () {
+    LiteralToken.prototype.toString = function (spaces) {
         if (this.language)
             return "" + this.value + this.language;
         if (this.type)

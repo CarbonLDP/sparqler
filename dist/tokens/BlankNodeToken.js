@@ -10,7 +10,7 @@ var BlankNodeToken = (function () {
             throw new Error("Invalid blank node label.");
         this.label = label;
     }
-    BlankNodeToken.prototype.toString = function () {
+    BlankNodeToken.prototype.toString = function (spaces) {
         if (this.label)
             return this.label;
         return "[]";

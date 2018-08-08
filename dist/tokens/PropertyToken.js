@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var printing_1 = require("./printing");
 var PropertyToken = (function () {
     function PropertyToken(verb) {
         this.token = "property";
@@ -15,8 +16,19 @@ var PropertyToken = (function () {
         (_a = this.objects).push.apply(_a, object);
         return this;
     };
-    PropertyToken.prototype.toString = function () {
-        return this.verb + " " + this.objects.join(", ");
+    PropertyToken.prototype.toString = function (spaces) {
+        var separator = printing_1.getSeparator(spaces);
+        var verb = "" + this.verb;
+        var objectSpaces = printing_1.addSpaces(spaces, verb.length + 1);
+        var objectIndent = printing_1.getIndentation(objectSpaces);
+        var objects = this.objects
+            .map(function (object) {
+            if (object.token === "collection" || object.token === "blankNodeProperty")
+                return object.toString(spaces);
+            return object.toString(objectSpaces);
+        })
+            .join("," + separator + objectIndent);
+        return verb + " " + objects;
     };
     return PropertyToken;
 }());

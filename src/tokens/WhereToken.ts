@@ -12,7 +12,8 @@ export class WhereToken implements TokenNode {
 	}
 
 
-	toString():string {
-		return `WHERE ${ this.groupPattern }`;
+	toString( spaces?:number ):string {
+		const identifier:string = spaces === void 0 ? "" : "WHERE ";
+		return identifier + this.groupPattern.toString( spaces );
 	}
 }

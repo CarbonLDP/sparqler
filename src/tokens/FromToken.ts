@@ -14,7 +14,7 @@ export class FromToken implements TokenNode {
 		this.named = named;
 	}
 
-	toString():string {
+	toString( spaces?:number ):string {
 		let str:string = `FROM `;
 
 		if( this.named ) str += `NAMED `;

@@ -1,5 +1,6 @@
 import { BaseToken } from "./BaseToken";
 import { PrefixToken } from "./PrefixToken";
+import { getSeparator } from "./printing";
 import { QueryClauseToken } from "./QueryClauseToken";
 import { TokenNode } from "./TokenNode";
 import { ValuesToken } from "./ValuesToken";
@@ -25,13 +26,15 @@ export class QueryToken<T extends QueryClauseToken | undefined = QueryClauseToke
 	}
 
 
-	toString():string {
-		let query:string = this.prologues.join( " " );
-		if( this.prologues.length ) query += " ";
+	toString( spaces?:number ):string {
+		const separator:string = getSeparator( spaces );
 
-		query += this.queryClause;
+		let query:string = this.prologues.join( separator );
+		if( this.prologues.length ) query += separator;
 
-		if( this.values ) query += ` ${ this.values }`;
+		query += this.queryClause.toString( spaces );
+
+		if( this.values ) query += separator + this.values.toString( spaces );
 
 		return query;
 	}

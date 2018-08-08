@@ -10,5 +10,5 @@ export declare class QueryToken<T extends QueryClauseToken | undefined = QueryCl
     readonly values?: ValuesToken;
     constructor(query: T, values?: ValuesToken);
     addPrologues(...prologues: (BaseToken | PrefixToken)[]): this;
-    toString(): string;
+    toString(spaces?: number): string;
 }

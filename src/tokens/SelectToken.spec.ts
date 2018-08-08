@@ -224,25 +224,43 @@ describe( "Module SelectToken", ():void => {
 				expect( SelectToken.prototype.toString ).toEqual( jasmine.any( Function ) );
 			} );
 
-			it( "should print the base SPARQL select", ():void => {
+			it( "should print the compact base SPARQL select", ():void => {
 				const token:SelectToken = new SelectToken();
 
-				expect( token.toString() ).toEqual( "SELECT WHERE {  }" );
+				expect( token.toString() ).toEqual( "SELECT * {}" );
 			} );
 
-			it( "should print the base SPARQL select with modifier `DISTINCT`", ():void => {
+			it( "should print the pretty base SPARQL select", ():void => {
+				const token:SelectToken = new SelectToken();
+
+				expect( token.toString( 0 ) ).toEqual( "SELECT *\nWHERE {}" );
+			} );
+
+			it( "should print the compact base SPARQL select with modifier `DISTINCT`", ():void => {
 				const token:SelectToken = new SelectToken( "DISTINCT" );
 
-				expect( token.toString() ).toEqual( "SELECT DISTINCT WHERE {  }" );
+				expect( token.toString() ).toEqual( "SELECT DISTINCT * {}" );
 			} );
 
-			it( "should print the base SPARQL select with modifier `REDUCED`", ():void => {
+			it( "should print the pretty base SPARQL select with modifier `DISTINCT`", ():void => {
+				const token:SelectToken = new SelectToken( "DISTINCT" );
+
+				expect( token.toString( 0 ) ).toEqual( "SELECT DISTINCT *\nWHERE {}" );
+			} );
+
+			it( "should print the compact base SPARQL select with modifier `REDUCED`", ():void => {
 				const token:SelectToken = new SelectToken( "REDUCED" );
 
-				expect( token.toString() ).toEqual( "SELECT REDUCED WHERE {  }" );
+				expect( token.toString() ).toEqual( "SELECT REDUCED * {}" );
 			} );
 
-			it( "should print the SPARQL select with variables", ():void => {
+			it( "should print the pretty base SPARQL select with modifier `REDUCED`", ():void => {
+				const token:SelectToken = new SelectToken( "REDUCED" );
+
+				expect( token.toString( 0 ) ).toEqual( "SELECT REDUCED *\nWHERE {}" );
+			} );
+
+			it( "should print the compact SPARQL select with variables", ():void => {
 				const token:SelectToken = new SelectToken()
 					.addVariable( new VariableToken( "subj" ) )
 					.addVariable( new VariableToken( "obj" ) )
@@ -250,11 +268,23 @@ describe( "Module SelectToken", ():void => {
 
 				expect( token.toString() ).toEqual( "" +
 					"SELECT ?subj ?obj " +
-					"WHERE {  }",
+					"{}",
 				);
 			} );
 
-			it( "should print the SPARQL select with patterns", ():void => {
+			it( "should print the pretty SPARQL select with variables", ():void => {
+				const token:SelectToken = new SelectToken()
+					.addVariable( new VariableToken( "subj" ) )
+					.addVariable( new VariableToken( "obj" ) )
+				;
+
+				expect( token.toString( 0 ) ).toEqual( "" +
+					"SELECT ?subj ?obj\n" +
+					"WHERE {}",
+				);
+			} );
+
+			it( "should print the compact SPARQL select with patterns", ():void => {
 				const token:SelectToken = new SelectToken()
 					.addPattern( new SubjectToken( new VariableToken( "subj" ) )
 						.addPredicate( new PropertyToken( "a" )
@@ -271,26 +301,63 @@ describe( "Module SelectToken", ():void => {
 				;
 
 				expect( token.toString() ).toEqual( "" +
-					"SELECT " +
-					"WHERE { " +
+					"SELECT * " +
+					"{ " +
 					"" + "?subj a ex:Resource. " +
-					"" + "OPTIONAL { " +
-					"" + "" + "?subj a ?obj " +
-					"" + "} " +
+					"" + "OPTIONAL { ?subj a ?obj } " +
 					"}",
 				);
 			} );
 
-			it( "should print the SPARQL select with modifiers", ():void => {
+			it( "should print the pretty SPARQL select with patterns", ():void => {
+				const token:SelectToken = new SelectToken()
+					.addPattern( new SubjectToken( new VariableToken( "subj" ) )
+						.addPredicate( new PropertyToken( "a" )
+							.addObject( new PrefixedNameToken( "ex:Resource" ) ),
+						),
+					)
+					.addPattern( new OptionalToken()
+						.addPattern( new SubjectToken( new VariableToken( "subj" ) )
+							.addPredicate( new PropertyToken( "a" )
+								.addObject( new VariableToken( "obj" ) ),
+							),
+						),
+					)
+				;
+
+				expect( token.toString( 0 ) ).toEqual( "" +
+					"SELECT *\n" +
+					"WHERE {\n" +
+					"    ?subj a ex:Resource.\n" +
+					"    OPTIONAL { ?subj a ?obj }\n" +
+					"}",
+				);
+			} );
+
+			it( "should print the compact SPARQL select with modifiers", ():void => {
 				const token:SelectToken = new SelectToken()
 					.addModifier( new LimitToken( 10 ) )
 					.addModifier( new OffsetToken( 0 ) )
 				;
 
 				expect( token.toString() ).toEqual( "" +
-					"SELECT " +
-					"WHERE {  } " +
+					"SELECT * " +
+					"{} " +
 					"LIMIT 10 " +
+					"OFFSET 0",
+				);
+			} );
+
+			it( "should print the pretty SPARQL select with modifiers", ():void => {
+				const token:SelectToken = new SelectToken()
+					.addModifier( new LimitToken( 10 ) )
+					.addModifier( new OffsetToken( 0 ) )
+				;
+
+				expect( token.toString( 0 ) ).toEqual( "" +
+					"SELECT *\n" +
+					"WHERE {}\n" +
+					"LIMIT 10\n" +
 					"OFFSET 0",
 				);
 			} );

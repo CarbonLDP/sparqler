@@ -7,5 +7,5 @@ export declare class PropertyToken implements TokenNode {
     readonly objects: ObjectToken[];
     constructor(verb: VariableOrIRIToken | "a");
     addObject(...object: ObjectToken[]): this;
-    toString(): string;
+    toString(spaces?: number): string;
 }

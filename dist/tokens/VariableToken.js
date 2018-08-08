@@ -8,7 +8,7 @@ var VariableToken = (function () {
             throw new Error("Invalid variable name");
         this.name = name;
     }
-    VariableToken.prototype.toString = function () {
+    VariableToken.prototype.toString = function (spaces) {
         return "?" + this.name;
     };
     return VariableToken;

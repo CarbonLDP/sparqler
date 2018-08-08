@@ -3,5 +3,5 @@ export declare class BooleanToken implements TokenNode {
     readonly token: "boolean";
     readonly value: boolean;
     constructor(value: boolean);
-    toString(): string;
+    toString(spaces?: number): string;
 }

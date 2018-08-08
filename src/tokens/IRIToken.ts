@@ -8,7 +8,7 @@ export class IRIToken implements TokenNode {
 		this.value = value;
 	}
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return `<${ this.value }>`;
 	}
 }

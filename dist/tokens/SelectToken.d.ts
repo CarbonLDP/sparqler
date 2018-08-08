@@ -4,5 +4,5 @@ export declare class SelectToken extends CommonSelectToken {
     readonly token: "select";
     readonly dataset?: FromToken;
     constructor(modifier?: "DISTINCT" | "REDUCED", dataset?: FromToken);
-    toString(): string;
+    toString(spaces?: number): string;
 }

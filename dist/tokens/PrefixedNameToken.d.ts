@@ -5,5 +5,5 @@ export declare class PrefixedNameToken implements TokenNode {
     readonly localName: string;
     constructor(prefixedName: string);
     constructor(namespace: string, localName: string);
-    toString(): string;
+    toString(spaces?: number): string;
 }

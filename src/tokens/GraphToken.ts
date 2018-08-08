@@ -22,7 +22,7 @@ export class GraphToken implements TokenNode {
 	}
 
 
-	toString():string {
-		return `GRAPH ${ this.graph } ${ this.groupPattern }`;
+	toString( spaces?:number ):string {
+		return `GRAPH ${ this.graph } ${ this.groupPattern.toString( spaces ) }`;
 	}
 }

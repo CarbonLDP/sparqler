@@ -100,10 +100,15 @@ describe( "Module OptionalToken", ():void => {
 
 			it( "should return the SPARQL empty optional statement", ():void => {
 				const token:OptionalToken = new OptionalToken();
-				expect( token.toString() ).toBe( "OPTIONAL {  }" );
+				expect( token.toString() ).toBe( "OPTIONAL {}" );
 			} );
 
-			it( "should return the SPARQL optional statement using joinPatterns function", ():void => {
+			it( "should return the pretty SPARQL empty optional statement", ():void => {
+				const token:OptionalToken = new OptionalToken();
+				expect( token.toString( 0 ) ).toBe( "OPTIONAL {}" );
+			} );
+
+			it( "should return the SPARQL optional statement with patterns", ():void => {
 				const token:OptionalToken = new OptionalToken()
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
 						.addPredicate( new PropertyToken( "a" )
@@ -117,7 +122,34 @@ describe( "Module OptionalToken", ():void => {
 					)
 				;
 
-				expect( token.toString() ).toBe( "OPTIONAL { ?subj1 a ?obj1. ?subj1 a ?obj1 }" );
+				expect( token.toString() ).toBe( "" +
+					"OPTIONAL { " +
+					"" + "?subj1 a ?obj1. " +
+					"" + "?subj1 a ?obj1 " +
+					"}"
+				);
+			} );
+
+			it( "should return the pretty SPARQL optional statement with patterns", ():void => {
+				const token:OptionalToken = new OptionalToken()
+					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( "a" )
+							.addObject( new VariableToken( "obj1" ) ),
+						),
+					)
+					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( "a" )
+							.addObject( new VariableToken( "obj1" ) ),
+						),
+					)
+				;
+
+				expect( token.toString( 0 ) ).toBe( "" +
+					"OPTIONAL {\n" +
+					"    ?subj1 a ?obj1.\n" +
+					"    ?subj1 a ?obj1\n" +
+					"}"
+				);
 			} );
 
 		} );

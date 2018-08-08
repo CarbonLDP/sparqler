@@ -6,8 +6,9 @@ var WhereToken = (function () {
         this.token = "where";
         this.groupPattern = new GroupPatternToken_1.GroupPatternToken();
     }
-    WhereToken.prototype.toString = function () {
-        return "WHERE " + this.groupPattern;
+    WhereToken.prototype.toString = function (spaces) {
+        var identifier = spaces === void 0 ? "" : "WHERE ";
+        return identifier + this.groupPattern.toString(spaces);
     };
     return WhereToken;
 }());

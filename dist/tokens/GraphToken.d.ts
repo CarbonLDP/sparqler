@@ -8,5 +8,5 @@ export declare class GraphToken implements TokenNode {
     readonly groupPattern: GroupPatternToken;
     constructor(graph: VariableOrIRIToken);
     addPattern(...pattern: PatternToken[]): this;
-    toString(): string;
+    toString(spaces?: number): string;
 }

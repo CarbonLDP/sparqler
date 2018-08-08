@@ -5,10 +5,11 @@ var UnionPatternToken = (function () {
         this.token = "unionPattern";
         this.groupPatterns = [];
     }
-    UnionPatternToken.prototype.toString = function () {
+    UnionPatternToken.prototype.toString = function (spaces) {
         return this
             .groupPatterns
-            .join("UNION ");
+            .map(function (x) { return x.toString(spaces); })
+            .join(" UNION ");
     };
     return UnionPatternToken;
 }());

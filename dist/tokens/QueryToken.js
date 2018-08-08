@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var printing_1 = require("./printing");
 var QueryToken = (function () {
     function QueryToken(query, values) {
         this.token = "query";
@@ -16,13 +17,14 @@ var QueryToken = (function () {
         (_a = this.prologues).push.apply(_a, prologues);
         return this;
     };
-    QueryToken.prototype.toString = function () {
-        var query = this.prologues.join(" ");
+    QueryToken.prototype.toString = function (spaces) {
+        var separator = printing_1.getSeparator(spaces);
+        var query = this.prologues.join(separator);
         if (this.prologues.length)
-            query += " ";
-        query += this.queryClause;
+            query += separator;
+        query += this.queryClause.toString(spaces);
         if (this.values)
-            query += " " + this.values;
+            query += separator + this.values.toString(spaces);
         return query;
     };
     return QueryToken;

@@ -6,7 +6,7 @@ var PrefixToken = (function () {
         this.namespace = namespace;
         this.iri = iri;
     }
-    PrefixToken.prototype.toString = function () {
+    PrefixToken.prototype.toString = function (spaces) {
         return "PREFIX " + this.namespace + ": " + this.iri;
     };
     return PrefixToken;

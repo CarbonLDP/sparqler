@@ -16,8 +16,8 @@ var GraphToken = (function () {
         (_a = this.groupPattern.patterns).push.apply(_a, pattern);
         return this;
     };
-    GraphToken.prototype.toString = function () {
-        return "GRAPH " + this.graph + " " + this.groupPattern;
+    GraphToken.prototype.toString = function (spaces) {
+        return "GRAPH " + this.graph + " " + this.groupPattern.toString(spaces);
     };
     return GraphToken;
 }());

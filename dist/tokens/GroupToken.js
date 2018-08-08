@@ -5,7 +5,7 @@ var GroupToken = (function () {
         this.token = "group";
         this.rawCondition = rawCondition;
     }
-    GroupToken.prototype.toString = function () {
+    GroupToken.prototype.toString = function (spaces) {
         return "GROUP BY " + this.rawCondition;
     };
     return GroupToken;

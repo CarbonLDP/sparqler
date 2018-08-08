@@ -5,5 +5,5 @@ export declare class BindToken implements TokenNode {
     readonly expression: string;
     readonly variable: VariableToken;
     constructor(expression: string, variable: VariableToken);
-    toString(): string;
+    toString(spaces?: number): string;
 }

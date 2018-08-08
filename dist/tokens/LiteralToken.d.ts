@@ -14,5 +14,5 @@ export declare class LiteralToken implements TokenNode {
     setValue(value: boolean | number | string): this;
     setType(type: string | IRIToken | PrefixedNameToken): this;
     setLanguage(language: string): this;
-    toString(): string;
+    toString(spaces?: number): string;
 }

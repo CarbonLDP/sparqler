@@ -10,10 +10,9 @@ function getSelectFn(container, modifier) {
         for (var _i = 0; _i < arguments.length; _i++) {
             variables[_i] = arguments[_i];
         }
-        if (variables && variables.length === 0)
-            throw new Error("Need to provide al least one variable.");
         var targetToken = new SubSelectToken_1.SubSelectToken(modifier);
-        targetToken.addVariable.apply(targetToken, variables.map(function (x) { return x === "*" ? x : new VariableToken_1.VariableToken(x); }));
+        if (variables.length)
+            targetToken.addVariable.apply(targetToken, variables.map(function (x) { return new VariableToken_1.VariableToken(x); }));
         var newContainer = new Container2_1.Container2({
             iriResolver: container.iriResolver,
             targetToken: targetToken
@@ -27,9 +26,9 @@ exports.SubSelectPattern = {
             select: getSelectFn(container),
             selectDistinct: getSelectFn(container, "DISTINCT"),
             selectReduced: getSelectFn(container, "REDUCED"),
-            selectAll: function () { return getSelectFn(container)("*"); },
-            selectAllDistinct: function () { return getSelectFn(container, "DISTINCT")("*"); },
-            selectAllReduced: function () { return getSelectFn(container, "REDUCED")("*"); },
+            selectAll: function () { return getSelectFn(container)(); },
+            selectAllDistinct: function () { return getSelectFn(container, "DISTINCT")(); },
+            selectAllReduced: function () { return getSelectFn(container, "REDUCED")(); },
         });
     },
 };

@@ -4,5 +4,5 @@ export declare class WhereToken implements TokenNode {
     token: "where";
     readonly groupPattern: GroupPatternToken;
     constructor();
-    toString(): string;
+    toString(spaces?: number): string;
 }

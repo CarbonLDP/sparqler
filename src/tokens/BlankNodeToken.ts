@@ -12,7 +12,7 @@ export class BlankNodeToken implements TokenNode {
 		this.label = label;
 	}
 
-	toString():string {
+	toString( spaces?:number ):string {
 		if( this.label ) return this.label;
 		return `[]`;
 	}

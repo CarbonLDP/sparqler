@@ -1,5 +1,5 @@
-import { BlankNodePropretyToken } from "./BlankNodePropretyToken";
+import { BlankNodePropertyToken } from "./BlankNodePropertyToken";
 import { CollectionToken } from "./CollectionToken";
 
 
-export type TripleNodeToken = CollectionToken | BlankNodePropretyToken;
+export type TripleNodeToken = CollectionToken | BlankNodePropertyToken;

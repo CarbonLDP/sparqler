@@ -4,5 +4,5 @@ export declare class MinusPatternToken implements TokenNode {
     readonly token: "minusPattern";
     readonly groupPattern: GroupPatternToken;
     constructor();
-    toString(): string;
+    toString(spaces?: number): string;
 }

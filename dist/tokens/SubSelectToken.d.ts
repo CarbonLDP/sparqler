@@ -4,5 +4,5 @@ export declare class SubSelectToken extends CommonSelectToken {
     readonly token: "subSelect";
     readonly values?: ValuesToken;
     constructor(modifier?: "DISTINCT" | "REDUCED", values?: ValuesToken);
-    toString(): string;
+    toString(spaces?: number): string;
 }

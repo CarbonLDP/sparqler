@@ -6,8 +6,8 @@ var MinusPatternToken = (function () {
         this.token = "minusPattern";
         this.groupPattern = new GroupPatternToken_1.GroupPatternToken();
     }
-    MinusPatternToken.prototype.toString = function () {
-        return "MINUS " + this.groupPattern;
+    MinusPatternToken.prototype.toString = function (spaces) {
+        return "MINUS " + this.groupPattern.toString(spaces);
     };
     return MinusPatternToken;
 }());

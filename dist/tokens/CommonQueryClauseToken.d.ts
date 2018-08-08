@@ -9,5 +9,5 @@ export declare abstract class CommonQueryClauseToken implements TokenNode {
     protected constructor();
     addPattern(...patterns: PatternToken[]): this;
     addModifier(...modifier: SolutionModifierToken[]): this;
-    abstract toString(): string;
+    abstract toString(spaces?: number): string;
 }

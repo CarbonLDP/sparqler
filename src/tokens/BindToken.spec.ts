@@ -1,7 +1,7 @@
-import { VariableToken } from "sparqler/tokens/VariableToken";
-
 import * as Module from "./BindToken";
 import { BindToken } from "./BindToken";
+import { VariableToken } from "./VariableToken";
+
 
 describe( "Module BindToken", ():void => {
 
@@ -67,7 +67,6 @@ describe( "Module BindToken", ():void => {
 					new VariableToken( "var" ),
 				).toString() ).toBe( "BIND(STR( ?number % 10 ) AS ?var)" );
 			} );
-
 
 		} );
 

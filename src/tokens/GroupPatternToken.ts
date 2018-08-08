@@ -1,4 +1,5 @@
-import { PatternToken } from "sparqler/tokens/PatternToken";
+import { PatternToken } from "./PatternToken";
+import { getTokenContainerString } from "./printing";
 import { TokenNode } from "./TokenNode";
 
 
@@ -12,7 +13,12 @@ export class GroupPatternToken implements TokenNode {
 	}
 
 
-	toString() {
-		return `{ ${ this.patterns.join( ". " ) } }`;
+	toString( spaces?:number ) {
+		return getTokenContainerString( {
+			spaces,
+			tags: { open: "{", close: "}" },
+			tokensSeparator: ".",
+			tokens: this.patterns,
+		} );
 	}
 }

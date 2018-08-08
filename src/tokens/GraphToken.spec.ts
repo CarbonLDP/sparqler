@@ -105,13 +105,19 @@ describe( "Module GraphToken", ():void => {
 				expect( GraphToken.prototype.toString ).toEqual( jasmine.any( Function ) );
 			} );
 
-			it( "should return the SPARQL empty optional statement", ():void => {
+			it( "should return the SPARQL empty graph statement", ():void => {
 				const graph:VariableToken = new VariableToken( "graph" );
 				const token:GraphToken = new GraphToken( graph );
-				expect( token.toString() ).toBe( "GRAPH ?graph {  }" );
+				expect( token.toString() ).toBe( "GRAPH ?graph {}" );
 			} );
 
-			it( "should return the SPARQL optional statement using joinPatterns function", ():void => {
+			it( "should return the pretty SPARQL empty graph statement", ():void => {
+				const graph:VariableToken = new VariableToken( "graph" );
+				const token:GraphToken = new GraphToken( graph );
+				expect( token.toString( 0 ) ).toBe( "GRAPH ?graph {}" );
+			} );
+
+			it( "should return the SPARQL graph statement with pattern", ():void => {
 				const graph:VariableToken = new VariableToken( "graph" );
 				const token:GraphToken = new GraphToken( graph )
 					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
@@ -126,7 +132,36 @@ describe( "Module GraphToken", ():void => {
 					)
 				;
 
-				expect( token.toString() ).toBe( "GRAPH ?graph { ?subj1 a ?obj1. ?subj1 a ?obj1 }" );
+				expect( token.toString() ).toBe( "" +
+					"GRAPH ?graph { " +
+					"" + "?subj1 a ?obj1. " +
+					"" + "?subj1 a ?obj1 " +
+					"}"
+				);
+			} );
+
+			it( "should return the pretty SPARQL graph statement with pattern", ():void => {
+				const graph:VariableToken = new VariableToken( "graph" );
+				const token:GraphToken = new GraphToken( graph )
+					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( "a" )
+							.addObject( new VariableToken( "obj1" ) ),
+						),
+					)
+					.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
+						.addPredicate( new PropertyToken( "a" )
+							.addObject( new VariableToken( "obj1" ) ),
+						),
+					)
+				;
+
+
+				expect( token.toString( 0 ) ).toBe( "" +
+					"GRAPH ?graph {\n" +
+					"    ?subj1 a ?obj1.\n" +
+					"    ?subj1 a ?obj1\n" +
+					"}"
+				);
 			} );
 
 		} );

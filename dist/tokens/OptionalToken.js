@@ -15,8 +15,8 @@ var OptionalToken = (function () {
         (_a = this.groupPattern.patterns).push.apply(_a, pattern);
         return this;
     };
-    OptionalToken.prototype.toString = function () {
-        return "OPTIONAL " + this.groupPattern;
+    OptionalToken.prototype.toString = function (spaces) {
+        return "OPTIONAL " + this.groupPattern.toString(spaces);
     };
     return OptionalToken;
 }());

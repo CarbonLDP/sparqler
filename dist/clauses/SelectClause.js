@@ -11,10 +11,9 @@ function getSelectFn(genericFactory, container, modifier) {
         for (var _i = 0; _i < arguments.length; _i++) {
             variables[_i] = arguments[_i];
         }
-        if (variables && variables.length === 0)
-            throw new Error("Need to provide al least one variable.");
         var queryClause = new SelectToken_1.SelectToken(modifier);
-        queryClause.addVariable.apply(queryClause, variables.map(function (x) { return x === "*" ? x : new VariableToken_1.VariableToken(x); }));
+        if (variables.length)
+            queryClause.addVariable.apply(queryClause, variables.map(function (x) { return new VariableToken_1.VariableToken(x); }));
         var queryToken = utils_1.cloneElement(container.targetToken, { queryClause: queryClause });
         var newContainer = new Container2_1.Container2({
             iriResolver: container.iriResolver,

@@ -5,7 +5,7 @@ var NumberToken = (function () {
         this.token = "number";
         this.value = value;
     }
-    NumberToken.prototype.toString = function () {
+    NumberToken.prototype.toString = function (spaces) {
         return "" + this.value;
     };
     return NumberToken;

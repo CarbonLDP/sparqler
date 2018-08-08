@@ -8,11 +8,11 @@ var ServicePatternToken = (function () {
         this.resource = resource;
         this.groupPattern = new GroupPatternToken_1.GroupPatternToken();
     }
-    ServicePatternToken.prototype.toString = function () {
+    ServicePatternToken.prototype.toString = function (spaces) {
         var query = "SERVICE ";
         if (this.modifier)
             query += "SILENT ";
-        query += this.resource + " " + this.groupPattern;
+        query += this.resource + " " + this.groupPattern.toString(spaces);
         return query;
     };
     return ServicePatternToken;

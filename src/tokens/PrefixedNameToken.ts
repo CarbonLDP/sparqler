@@ -25,12 +25,12 @@ export class PrefixedNameToken implements TokenNode {
 		let preSanitation:string = "";
 		if( ln1 ) preSanitation += ln1.replace( /([\-.])/g, "\\$1" );
 		if( ln2 ) preSanitation += ln2;
-		if( ln2 ) preSanitation += ln3.replace( /([.])/g, "\\$1" );
+		if( ln3 ) preSanitation += ln3.replace( /([.])/g, "\\$1" );
 
 		this.localName = preSanitation.replace( /([~!$&'|()*+,;=/?#@%])/g, "\\$1" );
 	}
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return `${ this.namespace }:${ this.localName }`;
 	}
 }

@@ -7,7 +7,7 @@ var FromToken = (function () {
         this.source = source;
         this.named = named;
     }
-    FromToken.prototype.toString = function () {
+    FromToken.prototype.toString = function (spaces) {
         var str = "FROM ";
         if (this.named)
             str += "NAMED ";

@@ -1,7 +1,7 @@
 import { Container2 } from "../../data/Container2";
 import { Factory } from "../../data/Factory";
 
-import { BlankNodePropretyToken } from "../../tokens/BlankNodePropretyToken";
+import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { BlankNodeToken } from "../../tokens/BlankNodeToken";
 import { CollectionToken } from "../../tokens/CollectionToken";
 import { IRIToken } from "../../tokens/IRIToken";
@@ -111,9 +111,9 @@ function _getBlankNode<C extends Container2<TokenNode>>( container:C, label?:str
 }
 
 function _getBlankNodeProperty<C extends Container2<TokenNode>>( container:C, builderFn:( blankNodeBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty {
-	const token:BlankNodePropretyToken = new BlankNodePropretyToken();
+	const token:BlankNodePropertyToken = new BlankNodePropertyToken();
 
-	const newContainer:Container2<BlankNodePropretyToken> = new Container2( {
+	const newContainer:Container2<BlankNodePropertyToken> = new Container2( {
 		iriResolver: container.iriResolver,
 		targetToken: token,
 	} );

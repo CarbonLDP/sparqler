@@ -6,7 +6,7 @@ export abstract class CommonSelectToken extends CommonQueryClauseToken {
 	abstract readonly token:string;
 
 	readonly modifier?:"DISTINCT" | "REDUCED";
-	readonly variables:("*" | VariableToken)[];
+	readonly variables:VariableToken[];
 
 	protected constructor( modifier?:"DISTINCT" | "REDUCED" ) {
 		super();
@@ -16,17 +16,20 @@ export abstract class CommonSelectToken extends CommonQueryClauseToken {
 	}
 
 
-	addVariable( ...variables:("*" | VariableToken)[] ):this {
+	addVariable( ...variables:VariableToken[] ):this {
 		this.variables.push( ...variables );
 		return this;
 	}
 
 
-	toString():string {
+	toString( spaces?:number ):string {
 		let query:string = `SELECT`;
 
 		if( this.modifier ) query += ` ${ this.modifier }`;
-		if( this.variables.length ) query += ` ${ this.variables.join( " " ) }`;
+
+		query += this.variables.length ?
+			` ${ this.variables.join( " " ) }` :
+			" *";
 
 		return query;
 	}

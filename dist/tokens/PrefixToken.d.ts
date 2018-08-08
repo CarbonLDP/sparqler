@@ -5,5 +5,5 @@ export declare class PrefixToken implements TokenNode {
     readonly namespace: string;
     readonly iri: IRIToken;
     constructor(namespace: string, iri: IRIToken);
-    toString(): string;
+    toString(spaces?: number): string;
 }

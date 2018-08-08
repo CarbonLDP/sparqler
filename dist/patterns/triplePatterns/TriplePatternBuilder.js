@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container2_1 = require("../../data/Container2");
 var Factory_1 = require("../../data/Factory");
-var BlankNodePropretyToken_1 = require("../../tokens/BlankNodePropretyToken");
+var BlankNodePropertyToken_1 = require("../../tokens/BlankNodePropertyToken");
 var BlankNodeToken_1 = require("../../tokens/BlankNodeToken");
 var CollectionToken_1 = require("../../tokens/CollectionToken");
 var LiteralToken_1 = require("../../tokens/LiteralToken");
@@ -59,14 +59,14 @@ function getCollectionFn(container) {
         return _getReadyPattern(container, token);
     };
 }
-function getBlankNode(container, label) {
+function _getBlankNode(container, label) {
     if (label && !label.startsWith("_:"))
         label = "_:" + label;
     var token = new BlankNodeToken_1.BlankNodeToken(label);
     return _getPattern(container, token);
 }
-function getBlankNodeProperty(container, builderFn) {
-    var token = new BlankNodePropretyToken_1.BlankNodePropretyToken();
+function _getBlankNodeProperty(container, builderFn) {
+    var token = new BlankNodePropertyToken_1.BlankNodePropertyToken();
     var newContainer = new Container2_1.Container2({
         iriResolver: container.iriResolver,
         targetToken: token,
@@ -80,8 +80,8 @@ function getBlankNodeProperty(container, builderFn) {
 function getBlankNodeFn(container) {
     return function (labelOrBuilderFn) {
         if (typeof labelOrBuilderFn === "function")
-            return getBlankNodeProperty(container, labelOrBuilderFn);
-        return getBlankNode(container, labelOrBuilderFn);
+            return _getBlankNodeProperty(container, labelOrBuilderFn);
+        return _getBlankNode(container, labelOrBuilderFn);
     };
 }
 exports.TriplePatternBuilder = {

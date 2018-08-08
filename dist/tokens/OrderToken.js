@@ -7,7 +7,7 @@ var OrderToken = (function () {
         if (flow)
             this.flow = flow;
     }
-    OrderToken.prototype.toString = function () {
+    OrderToken.prototype.toString = function (spaces) {
         return "ORDER BY " + (this.flow ?
             this.flow + "( " + this.condition + " )" :
             "" + this.condition);

@@ -5,5 +5,5 @@ export declare class CollectionToken implements TokenNode {
     readonly objects: ObjectToken[];
     constructor();
     addObject(...object: ObjectToken[]): this;
-    toString(): string;
+    toString(spaces?: number): string;
 }

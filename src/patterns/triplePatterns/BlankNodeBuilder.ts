@@ -1,6 +1,6 @@
 import { Container2 } from "../../data/Container2";
 
-import { BlankNodePropretyToken } from "../../tokens/BlankNodePropretyToken";
+import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { PropertyToken } from "../../tokens/PropertyToken";
 import { VariableOrIRIToken } from "../../tokens/VariableOrIRIToken";
 
@@ -36,7 +36,7 @@ type Objects = SupportedNativeTypes | Resource | Variable | Literal | Collection
 /**
  * @todo
  */
-function getHasFn<C extends Container2<BlankNodePropretyToken>>( container:C ):BlankNodeBuilder[ "has" ] {
+function getHasFn<C extends Container2<BlankNodePropertyToken>>( container:C ):BlankNodeBuilder[ "has" ] {
 	return ( property:string | Variable | Resource, objects:Objects | Objects[] ) => {
 		// TODO: Merge repeated code from TriplePatternHas
 		const verbToken:VariableOrIRIToken | "a" = (typeof property === "string")
@@ -60,7 +60,7 @@ function getHasFn<C extends Container2<BlankNodePropretyToken>>( container:C ):B
  * @todo
  */
 export const BlankNodeBuilder = {
-	createFrom<C extends Container2<BlankNodePropretyToken>, O extends object>( container:C, object:O ):O & BlankNodeBuilder {
+	createFrom<C extends Container2<BlankNodePropertyToken>, O extends object>( container:C, object:O ):O & BlankNodeBuilder {
 		return Object.assign( object, {
 			has: getHasFn( container ),
 		} );
@@ -71,7 +71,7 @@ export const BlankNodeBuilder = {
  * @todo
  */
 export const BlankNodeBuilderAnd = {
-	createFrom<C extends Container2<BlankNodePropretyToken>, O extends object>( container:C, object:O ):O & BlankNodeBuilderAnd {
+	createFrom<C extends Container2<BlankNodePropertyToken>, O extends object>( container:C, object:O ):O & BlankNodeBuilderAnd {
 		return Object.assign( object, {
 			and: getHasFn( container ),
 		} );

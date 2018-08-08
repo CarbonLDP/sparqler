@@ -11,7 +11,7 @@ export class HavingToken implements TokenNode {
 	}
 
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return `HAVING ${ this.rawCondition }`;
 	}
 }

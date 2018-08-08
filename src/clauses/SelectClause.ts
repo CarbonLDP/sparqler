@@ -86,10 +86,8 @@ export interface SelectClause<T extends FinishClause> {
  */
 function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container2<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED" ):SelectClause<T>[ "select" ] {
 	return ( ...variables:string[] ) => {
-		if( variables && variables.length === 0 ) throw new Error( "Need to provide al least one variable." );
-
 		const queryClause:SelectToken = new SelectToken( modifier );
-		queryClause.addVariable( ...variables.map( x => x === "*" ? x : new VariableToken( x ) ) );
+		if( variables.length ) queryClause.addVariable( ...variables.map( x => new VariableToken( x ) ) );
 
 		const queryToken:QueryToken<SelectToken> = cloneElement( container.targetToken, { queryClause } );
 		const newContainer:Container2<QueryToken<SelectToken>> = new Container2( {

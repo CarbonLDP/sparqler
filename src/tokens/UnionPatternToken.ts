@@ -15,10 +15,11 @@ export class UnionPatternToken implements TokenNode {
 	}
 
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return this
 			.groupPatterns
-			.join( `UNION ` )
+			.map( x => x.toString( spaces ) )
+			.join( ` UNION ` )
 			;
 	}
 }

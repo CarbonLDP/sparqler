@@ -12,7 +12,7 @@ var LanguageToken = (function () {
             throw new Error("Invalid language tag.");
         this.tag = tag;
     }
-    LanguageToken.prototype.toString = function () {
+    LanguageToken.prototype.toString = function (spaces) {
         return "@" + this.tag;
     };
     return LanguageToken;

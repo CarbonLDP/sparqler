@@ -165,11 +165,11 @@ function getValuesFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[
 
 		const patternContainer = _getPatternContainer( container, token );
 
-		if( variables.length > 1 )
-			return MultipleValuesPattern
+		if( variables.length === 1 )
+			return SingleValuesPattern
 				.createFrom( patternContainer, {} );
 
-		return SingleValuesPattern
+		return MultipleValuesPattern
 			.createFrom( patternContainer, {} );
 	}
 }

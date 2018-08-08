@@ -11,6 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var CommonSelectToken_1 = require("./CommonSelectToken");
+var printing_1 = require("./printing");
 var SubSelectToken = (function (_super) {
     __extends(SubSelectToken, _super);
     function SubSelectToken(modifier, values) {
@@ -19,14 +20,22 @@ var SubSelectToken = (function (_super) {
         _this.values = values;
         return _this;
     }
-    SubSelectToken.prototype.toString = function () {
-        var query = _super.prototype.toString.call(this);
-        query += " " + this.where;
+    SubSelectToken.prototype.toString = function (spaces) {
+        var subSpaces = printing_1.addSpaces(spaces, printing_1.INDENTATION_SPACES);
+        var subIndent = printing_1.getIndentation(subSpaces);
+        var separator = printing_1.getSeparator(spaces);
+        var query = _super.prototype.toString.call(this, spaces) + separator +
+            subIndent + this.where.toString(subSpaces);
         if (this.modifiers.length)
-            query += " " + this.modifiers.join(" ");
+            query += separator + this.modifiers
+                .map(function (x) { return subIndent + x; })
+                .join(separator);
         if (this.values)
-            query += " " + this.values;
-        return "{ " + query + " }";
+            query += separator + subIndent + this.values;
+        var indent = printing_1.getIndentation(spaces);
+        return "{" + separator + subIndent +
+            query + separator +
+            indent + "}";
     };
     return SubSelectToken;
 }(CommonSelectToken_1.CommonSelectToken));

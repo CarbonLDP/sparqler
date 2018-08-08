@@ -11,7 +11,7 @@ export class PrefixToken implements TokenNode {
 		this.iri = iri;
 	}
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return `PREFIX ${ this.namespace }: ${ this.iri }`;
 	}
 }

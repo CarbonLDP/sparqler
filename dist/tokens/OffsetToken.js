@@ -5,7 +5,7 @@ var OffsetToken = (function () {
         this.token = "offset";
         this.value = value;
     }
-    OffsetToken.prototype.toString = function () {
+    OffsetToken.prototype.toString = function (spaces) {
         return "OFFSET " + this.value;
     };
     return OffsetToken;

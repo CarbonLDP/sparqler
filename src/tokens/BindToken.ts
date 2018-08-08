@@ -1,8 +1,13 @@
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+import { TokenNode } from "./TokenNode";
+import { VariableToken } from "./VariableToken";
 
+
+/**
+ * @todo
+ */
 export class BindToken implements TokenNode {
 	readonly token:"bind" = "bind";
+
 	readonly expression:string;
 	readonly variable:VariableToken;
 
@@ -11,7 +16,8 @@ export class BindToken implements TokenNode {
 		this.variable = variable;
 	}
 
-	toString():string {
+
+	toString( spaces?:number ):string {
 		return `BIND(${ this.expression } AS ${ this.variable })`;
 	}
 }

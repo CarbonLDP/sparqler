@@ -5,7 +5,7 @@ var FilterToken = (function () {
         this.token = "filter";
         this.constraint = constraint;
     }
-    FilterToken.prototype.toString = function () {
+    FilterToken.prototype.toString = function (spaces) {
         return "FILTER( " + this.constraint + " )";
     };
     return FilterToken;

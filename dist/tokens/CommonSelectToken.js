@@ -28,12 +28,13 @@ var CommonSelectToken = (function (_super) {
         (_a = this.variables).push.apply(_a, variables);
         return this;
     };
-    CommonSelectToken.prototype.toString = function () {
+    CommonSelectToken.prototype.toString = function (spaces) {
         var query = "SELECT";
         if (this.modifier)
             query += " " + this.modifier;
-        if (this.variables.length)
-            query += " " + this.variables.join(" ");
+        query += this.variables.length ?
+            " " + this.variables.join(" ") :
+            " *";
         return query;
     };
     return CommonSelectToken;

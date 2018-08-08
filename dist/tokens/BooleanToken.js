@@ -5,7 +5,7 @@ var BooleanToken = (function () {
         this.token = "boolean";
         this.value = value;
     }
-    BooleanToken.prototype.toString = function () {
+    BooleanToken.prototype.toString = function (spaces) {
         return "" + this.value;
     };
     return BooleanToken;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var printing_1 = require("./printing");
 var CollectionToken = (function () {
     function CollectionToken() {
         this.token = "collection";
@@ -14,10 +15,12 @@ var CollectionToken = (function () {
         (_a = this.objects).push.apply(_a, object);
         return this;
     };
-    CollectionToken.prototype.toString = function () {
-        if (!this.objects.length)
-            return "()";
-        return "( " + this.objects.join(" ") + " )";
+    CollectionToken.prototype.toString = function (spaces) {
+        return printing_1.getTokenContainerString({
+            spaces: spaces,
+            tags: { open: "(", close: ")" },
+            tokens: this.objects,
+        });
     };
     return CollectionToken;
 }());

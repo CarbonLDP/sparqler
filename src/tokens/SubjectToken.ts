@@ -1,3 +1,4 @@
+import { addSpaces, getIndentation, getSeparator, INDENTATION_SPACES } from "./printing";
 import { PropertyToken } from "./PropertyToken";
 import { TokenNode } from "./TokenNode";
 import { TripleNodeToken } from "./TripleNodeToken";
@@ -22,12 +23,24 @@ export class SubjectToken<T extends VariableOrTermToken | TripleNodeToken = Vari
 	}
 
 
-	toString():string {
-		let query:string = `${ this.subject }`;
+	toString( spaces?:number ):string {
+		let query:string = this.subject.toString( spaces );
 
-		if( this.properties.length )
-			query += ` ${ this.properties.join( "; " ) }`;
+		let separator:string = ! this.properties.length ? ""
+			: (this.subject.token === "collection" || this.subject.token === "blankNodeProperty")
+			&& query.includes( "\n" ) ? "\n"
+				: " ";
 
-		return query;
+		const subSpaces:number = separator === " " ?
+			addSpaces( spaces, query.length + 1 ) :
+			addSpaces( spaces, INDENTATION_SPACES );
+
+		const subIndent:string = getIndentation( subSpaces );
+		const properties:string = this.properties
+			.map( property => property.toString( subSpaces ) )
+			.join( ";" + getSeparator( spaces ) + subIndent );
+
+		if( separator === "\n" ) separator += subIndent;
+		return query + separator + properties;
 	}
 }

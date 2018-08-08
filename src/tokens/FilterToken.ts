@@ -8,7 +8,7 @@ export class FilterToken implements TokenNode {
 		this.constraint = constraint;
 	}
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return `FILTER( ${ this.constraint } )`;
 	}
 }

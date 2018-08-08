@@ -19,7 +19,7 @@ export class OptionalToken implements TokenNode {
 	}
 
 
-	toString():string {
-		return `OPTIONAL ${ this.groupPattern }`;
+	toString( spaces?:number ):string {
+		return `OPTIONAL ${ this.groupPattern.toString( spaces ) }`;
 	}
 }

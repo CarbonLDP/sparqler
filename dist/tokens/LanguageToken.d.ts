@@ -4,5 +4,5 @@ export declare class LanguageToken implements TokenNode {
     readonly token: "language";
     readonly tag: string;
     constructor(tag: string);
-    toString(): string;
+    toString(spaces?: number): string;
 }

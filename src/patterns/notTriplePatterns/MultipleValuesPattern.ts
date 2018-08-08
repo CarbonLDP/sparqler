@@ -31,9 +31,6 @@ export interface MultipleValuesPatternAnd extends NotTriplePattern<ValuesToken> 
  */
 function getHasFn<C extends Container2<ValuesToken>>( container:C ):MultipleValuesPattern[ "has" ] {
 	return ( ...values:(SupportedNativeTypes | Resource | Literal | Undefined)[] ) => {
-		if( values.length !== container.targetToken.variables.length )
-			throw new Error( "The number of values are different from the number of variables." );
-
 		const parsedValues = container.targetToken.values.slice();
 		parsedValues.push( values.map( convertValue ) );
 

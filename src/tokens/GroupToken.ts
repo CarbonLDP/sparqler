@@ -11,7 +11,7 @@ export class GroupToken implements TokenNode {
 	}
 
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return `GROUP BY ${ this.rawCondition }`;
 	}
 }

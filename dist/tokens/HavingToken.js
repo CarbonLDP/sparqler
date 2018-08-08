@@ -5,7 +5,7 @@ var HavingToken = (function () {
         this.token = "having";
         this.rawCondition = rawCondition;
     }
-    HavingToken.prototype.toString = function () {
+    HavingToken.prototype.toString = function (spaces) {
         return "HAVING " + this.rawCondition;
     };
     return HavingToken;

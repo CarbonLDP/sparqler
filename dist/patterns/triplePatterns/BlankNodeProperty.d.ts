@@ -1,6 +1,6 @@
-import { BlankNodePropretyToken } from "../../tokens/BlankNodePropretyToken";
+import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { TripleToken } from "../../tokens/TripleToken";
 import { Pattern } from "../Pattern";
 import { TriplePatternHas } from "./TriplePatternHas";
-export interface BlankNodeProperty extends TriplePatternHas<BlankNodePropretyToken>, Pattern<TripleToken<BlankNodePropretyToken>> {
+export interface BlankNodeProperty extends TriplePatternHas<BlankNodePropertyToken>, Pattern<TripleToken<BlankNodePropertyToken>> {
 }

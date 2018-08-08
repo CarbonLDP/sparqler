@@ -5,5 +5,5 @@ export declare class OrderToken implements TokenNode {
     readonly condition: VariableToken | string;
     readonly flow?: string;
     constructor(condition: VariableToken | string, flow?: "ASC" | "DESC");
-    toString(): string;
+    toString(spaces?: number): string;
 }

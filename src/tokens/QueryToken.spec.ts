@@ -1,12 +1,12 @@
-import { BaseToken } from "sparqler/tokens/BaseToken";
-import { ConstructToken } from "sparqler/tokens/ConstructToken";
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { PrefixToken } from "sparqler/tokens/PrefixToken";
-import { ValuesToken } from "sparqler/tokens/ValuesToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
-
+import { BaseToken } from "./BaseToken";
+import { ConstructToken } from "./ConstructToken";
+import { IRIToken } from "./IRIToken";
+import { PrefixToken } from "./PrefixToken";
 import * as Module from "./QueryToken";
 import { QueryToken } from "./QueryToken";
+import { ValuesToken } from "./ValuesToken";
+import { VariableToken } from "./VariableToken";
+
 
 describe( "Module QueryToken", ():void => {
 
@@ -116,7 +116,14 @@ describe( "Module QueryToken", ():void => {
 				const construct:ConstructToken = new ConstructToken();
 				const token:QueryToken = new QueryToken( construct );
 
-				expect( token.toString() ).toBe( "CONSTRUCT {  } WHERE {  }" );
+				expect( token.toString() ).toBe( "CONSTRUCT {} {}" );
+			} );
+
+			it( "should return the pretty base SPARQL query statement", ():void => {
+				const construct:ConstructToken = new ConstructToken();
+				const token:QueryToken = new QueryToken( construct );
+
+				expect( token.toString( 0 ) ).toBe( "CONSTRUCT {}\nWHERE {}" );
 			} );
 
 			it( "should return the SPARQL query statement with prologues", ():void => {
@@ -129,7 +136,24 @@ describe( "Module QueryToken", ():void => {
 				expect( token.toString() ).toBe( "" +
 					"BASE <https://example.com/> " +
 					"PREFIX ex: <https://example.com/ns#> " +
-					"CONSTRUCT {  } WHERE {  }" +
+					"CONSTRUCT {} " +
+					"{}" +
+					"",
+				);
+			} );
+
+			it( "should return the pretty SPARQL query statement with prologues", ():void => {
+				const construct:ConstructToken = new ConstructToken();
+				const token:QueryToken = new QueryToken( construct )
+					.addPrologues( new BaseToken( new IRIToken( "https://example.com/" ) ) )
+					.addPrologues( new PrefixToken( "ex", new IRIToken( "https://example.com/ns#" ) ) )
+				;
+
+				expect( token.toString( 0 ) ).toBe( "" +
+					"BASE <https://example.com/>\n" +
+					"PREFIX ex: <https://example.com/ns#>\n" +
+					"CONSTRUCT {}\n" +
+					"WHERE {}" +
 					"",
 				);
 			} );
@@ -142,7 +166,23 @@ describe( "Module QueryToken", ():void => {
 				const token:QueryToken = new QueryToken( construct, values );
 
 				expect( token.toString() ).toBe( "" +
-					"CONSTRUCT {  } WHERE {  } " +
+					"CONSTRUCT {} " +
+					"{} " +
+					"VALUES ?var { UNDEF }" +
+					"",
+				);
+			} );
+
+			it( "should return the SPARQL query statement with values", ():void => {
+				const construct:ConstructToken = new ConstructToken();
+				const values:ValuesToken = new ValuesToken()
+					.addValues( new VariableToken( "var" ), "UNDEF" );
+
+				const token:QueryToken = new QueryToken( construct, values );
+
+				expect( token.toString( 0 ) ).toBe( "" +
+					"CONSTRUCT {}\n" +
+					"WHERE {}\n" +
 					"VALUES ?var { UNDEF }" +
 					"",
 				);

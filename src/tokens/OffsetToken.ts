@@ -9,7 +9,7 @@ export class OffsetToken implements TokenNode {
 	}
 
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return `OFFSET ${ this.value }`;
 	}
 }

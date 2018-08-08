@@ -7,5 +7,5 @@ export declare class ServicePatternToken implements TokenNode {
     readonly resource: VariableOrIRIToken;
     readonly groupPattern: GroupPatternToken;
     constructor(resource: VariableOrIRIToken, modifier?: "SILENT");
-    toString(): string;
+    toString(spaces?: number): string;
 }

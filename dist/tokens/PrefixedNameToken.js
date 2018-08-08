@@ -21,11 +21,11 @@ var PrefixedNameToken = (function () {
             preSanitation += ln1.replace(/([\-.])/g, "\\$1");
         if (ln2)
             preSanitation += ln2;
-        if (ln2)
+        if (ln3)
             preSanitation += ln3.replace(/([.])/g, "\\$1");
         this.localName = preSanitation.replace(/([~!$&'|()*+,;=/?#@%])/g, "\\$1");
     }
-    PrefixedNameToken.prototype.toString = function () {
+    PrefixedNameToken.prototype.toString = function (spaces) {
         return this.namespace + ":" + this.localName;
     };
     return PrefixedNameToken;

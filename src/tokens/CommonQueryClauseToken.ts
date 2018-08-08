@@ -27,5 +27,5 @@ export abstract class CommonQueryClauseToken implements TokenNode {
 	}
 
 
-	abstract toString():string;
+	abstract toString( spaces?:number ):string;
 }

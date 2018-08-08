@@ -3,5 +3,5 @@ export declare class StringToken implements TokenNode {
     readonly token: "string";
     readonly value: string;
     constructor(value: string);
-    toString(): string;
+    toString(spaces?: number): string;
 }

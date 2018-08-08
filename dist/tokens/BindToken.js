@@ -6,7 +6,7 @@ var BindToken = (function () {
         this.expression = expression;
         this.variable = variable;
     }
-    BindToken.prototype.toString = function () {
+    BindToken.prototype.toString = function (spaces) {
         return "BIND(" + this.expression + " AS " + this.variable + ")";
     };
     return BindToken;

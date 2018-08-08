@@ -15,7 +15,7 @@ export class LanguageToken implements TokenNode {
 		this.tag = tag;
 	}
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return `@${ this.tag }`;
 	}
 }

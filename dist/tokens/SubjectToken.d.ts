@@ -8,5 +8,5 @@ export declare class SubjectToken<T extends VariableOrTermToken | TripleNodeToke
     readonly properties: PropertyToken[];
     constructor(subject: T);
     addPredicate(predicate: PropertyToken): this;
-    toString(): string;
+    toString(spaces?: number): string;
 }

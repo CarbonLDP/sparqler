@@ -1,5 +1,6 @@
 import { CommonSelectToken } from "./CommonSelectToken";
 import { FromToken } from "./FromToken";
+import { getSeparator } from "./printing";
 
 
 export class SelectToken extends CommonSelectToken {
@@ -14,14 +15,15 @@ export class SelectToken extends CommonSelectToken {
 	}
 
 
-	toString():string {
-		let query:string = super.toString();
+	toString( spaces?:number ):string {
+		let query:string = super.toString( spaces );
+		const separator:string = getSeparator( spaces );
 
-		if( this.dataset ) query += ` ${ this.dataset }`;
+		if( this.dataset ) query += separator + this.dataset;
 
-		query += ` ${ this.where }`;
+		query += separator + this.where.toString( spaces );
 
-		if( this.modifiers.length ) query += ` ${ this.modifiers.join( " " ) }`;
+		if( this.modifiers.length ) query += separator + this.modifiers.join( separator );
 
 		return query;
 	}
