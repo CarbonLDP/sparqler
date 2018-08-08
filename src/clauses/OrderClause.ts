@@ -1,7 +1,8 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 
 import { OrderToken } from "../tokens/OrderToken";
+import { QueryClauseToken } from "../tokens/QueryClauseToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
@@ -29,7 +30,7 @@ export interface OrderClause<T extends FinishClause> extends LimitOffsetClause<T
 /**
  * @todo
  */
-function getOrderByFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):OrderClause<T>[ "orderBy" ] {
+function getOrderByFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):OrderClause<T>[ "orderBy" ] {
 	return ( rawCondition:string ) => {
 		const token:OrderToken = new OrderToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );
@@ -44,9 +45,9 @@ function getOrderByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
  * @todo
  */
 export const OrderClause:{
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & OrderClause<T>;
+	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & OrderClause<T>;
 } = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & OrderClause<T> {
+	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & OrderClause<T> {
 		return LimitOffsetClause.createFrom( genericFactory, container, Object.assign( object, {
 			orderBy: getOrderByFn( genericFactory, container ),
 		} ) );

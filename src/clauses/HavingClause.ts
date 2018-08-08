@@ -1,7 +1,8 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 
 import { HavingToken } from "../tokens/HavingToken";
+import { QueryClauseToken } from "../tokens/QueryClauseToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
@@ -29,7 +30,7 @@ export interface HavingClause<T extends FinishClause> extends OrderClause<T> {
 /**
  * @todo
  */
-function getHavingFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):HavingClause<T>[ "having" ] {
+function getHavingFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):HavingClause<T>[ "having" ] {
 	return ( rawCondition:string ) => {
 		const token:HavingToken = new HavingToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );
@@ -44,9 +45,9 @@ function getHavingFn<C extends Container2<QueryToken | SubSelectToken>, T extend
  * @todo
  */
 export const HavingClause:{
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & HavingClause<T>;
+	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & HavingClause<T>;
 } = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & HavingClause<T> {
+	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & HavingClause<T> {
 		return OrderClause.createFrom( genericFactory, container, Object.assign( object, {
 			having: getHavingFn( genericFactory, container ),
 		} ) );

@@ -1,4 +1,4 @@
-import { Container2 } from "sparqler/data/Container2";
+import { Container } from "sparqler/data/Container";
 import { TokenNode } from "sparqler/tokens";
 import { SubSelectToken } from "sparqler/tokens/SubSelectToken";
 import { VariableToken } from "sparqler/tokens/VariableToken";
@@ -21,12 +21,12 @@ export interface SubSelectPattern {
 /**
  * @todo
  */
-function getSelectFn<C extends Container2<TokenNode>>( container:C, modifier?:"DISTINCT" | "REDUCED" ):SubSelectPattern[ "select" ] {
+function getSelectFn<C extends Container<TokenNode>>( container:C, modifier?:"DISTINCT" | "REDUCED" ):SubSelectPattern[ "select" ] {
 	return ( ...variables:string[] ) => {
 		const targetToken:SubSelectToken = new SubSelectToken( modifier );
 		if( variables.length ) targetToken.addVariable( ...variables.map( x => new VariableToken( x ) ) );
 
-		const newContainer = new Container2( {
+		const newContainer = new Container( {
 			iriResolver: container.iriResolver,
 			targetToken
 		} );
@@ -39,7 +39,7 @@ function getSelectFn<C extends Container2<TokenNode>>( container:C, modifier?:"D
  * @todo
  */
 export const SubSelectPattern = {
-	createFrom<C extends Container2<TokenNode>, O extends object>( container:C, object:O ):O & SubSelectPattern {
+	createFrom<C extends Container<TokenNode>, O extends object>( container:C, object:O ):O & SubSelectPattern {
 		return Object.assign( object, {
 			select: getSelectFn( container ),
 			selectDistinct: getSelectFn( container, "DISTINCT" ),

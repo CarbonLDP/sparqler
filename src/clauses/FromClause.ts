@@ -1,11 +1,11 @@
-import { SelectToken } from "sparqler/tokens";
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 import { IRIResolver2 } from "../data/IRIResolver2";
 import { cloneElement } from "../data/utils";
 
 import { FromToken } from "../tokens/FromToken";
 import { QueryToken } from "../tokens/QueryToken";
+import { SelectToken } from "../tokens/SelectToken";
 
 import { FinishClause } from "./FinishClause";
 import { WhereClause } from "./WhereClause";
@@ -46,7 +46,7 @@ export interface FromClause<T extends FinishClause> extends WhereClause<T> {
  *
  * @private
  */
-function getFromFn<C extends Container2<QueryToken<SelectToken>>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, named?:boolean ):FromClause<T>[ "from" ] {
+function getFromFn<C extends Container<QueryToken<SelectToken>>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, named?:boolean ):FromClause<T>[ "from" ] {
 	return ( iri:string ) => {
 		const iriResolver:IRIResolver2 = new IRIResolver2( container.iriResolver );
 
@@ -69,7 +69,7 @@ function getFromFn<C extends Container2<QueryToken<SelectToken>>, T extends Fini
  * @todo
  */
 export const FromClause = {
-	createFrom<C extends Container2<QueryToken<SelectToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & FromClause<T> {
+	createFrom<C extends Container<QueryToken<SelectToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & FromClause<T> {
 		return WhereClause.createFrom( genericFactory, container, Object.assign( object, {
 			from: getFromFn( genericFactory, container ),
 			fromNamed: getFromFn( genericFactory, container, true ),

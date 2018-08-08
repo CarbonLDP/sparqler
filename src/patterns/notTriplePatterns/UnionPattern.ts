@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 import { cloneElement } from "../../data/utils";
 
 import { GroupPatternToken } from "../../tokens/GroupPatternToken";
@@ -16,7 +16,7 @@ export interface UnionPattern extends NotTriplePattern<UnionPatternToken> {
 }
 
 
-function getUnionFn( container:Container2<UnionPatternToken> ):UnionPattern[ "union" ] {
+function getUnionFn( container:Container<UnionPatternToken> ):UnionPattern[ "union" ] {
 	return patterns => {
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
 		const newGroupToken:GroupPatternToken = new GroupPatternToken();
@@ -26,7 +26,7 @@ function getUnionFn( container:Container2<UnionPatternToken> ):UnionPattern[ "un
 		const groupPatterns = container.targetToken.groupPatterns.concat( newGroupToken );
 		const unionToken:UnionPatternToken = cloneElement( container.targetToken, { groupPatterns } );
 
-		const newContainer = new Container2( {
+		const newContainer = new Container( {
 			iriResolver: container.iriResolver,
 			targetToken: unionToken,
 		} );
@@ -36,7 +36,7 @@ function getUnionFn( container:Container2<UnionPatternToken> ):UnionPattern[ "un
 
 
 export const UnionPattern = {
-	createFrom<C extends Container2<UnionPatternToken>, O extends object>( container:C, object:O ):UnionPattern {
+	createFrom<C extends Container<UnionPatternToken>, O extends object>( container:C, object:O ):UnionPattern {
 		return NotTriplePattern.createFrom( container, Object.assign( object, {
 			union: getUnionFn( container ),
 		} ) );

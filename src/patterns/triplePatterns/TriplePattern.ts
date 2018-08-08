@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 
 import { ObjectToken } from "../../tokens/ObjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
@@ -16,7 +16,7 @@ export interface TriplePattern<T extends ObjectToken> {
  * @todo
  */
 export const TriplePattern = {
-	createFrom<T extends ObjectToken, C extends Container2<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePattern<T> {
+	createFrom<T extends ObjectToken, C extends Container<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePattern<T> {
 		return Object.assign( object, {
 			getSubject: () => container.targetToken.subject,
 		} );

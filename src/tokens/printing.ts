@@ -31,7 +31,7 @@ export function getTokenContainerString( data:{
 	if( ! data.tokens.length ) return data.tags.open + data.tags.close;
 	let separator:string = getSeparator( data.spaces );
 
-	const tokensSpaces:number = addSpaces( data.spaces, INDENTATION_SPACES );
+	const tokensSpaces:number | undefined = addSpaces( data.spaces, INDENTATION_SPACES );
 	const tokensSeparator:string = data.tokensSeparator ? data.tokensSeparator + separator : separator;
 
 	const tokens:string[] = data.tokens

@@ -1,4 +1,4 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 
 import { LiteralToken } from "../tokens/LiteralToken";
 import { ObjectToken } from "../tokens/ObjectToken";
@@ -35,7 +35,7 @@ export function convertValue( value:SupportedNativeTypes | TriplePattern<Variabl
 const PATH_OPERATORS:string[] = [ "|", "/", "^", "?", "*", "+", "!", "(", ")" ];
 
 // TODO: Remove `a` and Implement Path tokens
-export function _resolvePath( container:Container2<TokenNode>, propertyPath:string ):"a" {
+export function _resolvePath( container:Container<TokenNode>, propertyPath:string ):"a" {
 	const parsedPath:string = propertyPath
 		.split( /(<.*?>)/ )
 		.reduce( ( array:string[], part:string ) => {

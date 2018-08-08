@@ -1,4 +1,4 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 
 import { PatternToken } from "../tokens/PatternToken";
 
@@ -15,7 +15,7 @@ export interface Pattern<T extends PatternToken = PatternToken> {
  * @todo
  */
 export const Pattern = {
-	createFrom<T extends PatternToken, C extends Container2<T>, O extends object>( container:C, object:O ):O & Pattern<T> {
+	createFrom<T extends PatternToken, C extends Container<T>, O extends object>( container:C, object:O ):O & Pattern<T> {
 		return Object.assign( object, {
 			getPattern: () => container.targetToken,
 		} );

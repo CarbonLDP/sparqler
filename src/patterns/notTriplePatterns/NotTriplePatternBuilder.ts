@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 
 import { BindToken } from "../../tokens/BindToken";
 import { FilterToken } from "../../tokens/FilterToken";
@@ -60,20 +60,20 @@ export interface NotTriplePatternBuilder {
 }
 
 
-function _getPatternContainer<T extends NotTripleToken>( container:Container2<TokenNode>, targetToken:T ):Container2<T> {
-	return new Container2( {
+function _getPatternContainer<T extends NotTripleToken>( container:Container<TokenNode>, targetToken:T ):Container<T> {
+	return new Container( {
 		iriResolver: container.iriResolver,
 		targetToken,
 	} )
 }
 
-function _getPattern<T extends NotTripleToken>( container:Container2<TokenNode>, token:T ):NotTriplePattern<T> {
+function _getPattern<T extends NotTripleToken>( container:Container<TokenNode>, token:T ):NotTriplePattern<T> {
 	const patternContainer = _getPatternContainer( container, token );
 	return NotTriplePattern.createFrom( patternContainer, {} );
 }
 
 
-function getGraphFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ "graph" ] {
+function getGraphFn( container:Container<TokenNode> ):NotTriplePatternBuilder[ "graph" ] {
 	return ( iriOrVariable:string | Resource | Variable, patterns:Pattern | Pattern[] ) => {
 		const varOrIRI = typeof iriOrVariable === "string" ?
 			container.iriResolver.resolve( iriOrVariable ) :
@@ -88,7 +88,7 @@ function getGraphFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ 
 	}
 }
 
-function getGroupFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ "group" ] {
+function getGroupFn( container:Container<TokenNode> ):NotTriplePatternBuilder[ "group" ] {
 	return ( patterns:Pattern | Pattern[] ) => {
 		const token:GroupPatternToken = new GroupPatternToken();
 
@@ -100,7 +100,7 @@ function getGroupFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ 
 	}
 }
 
-function getOptionalFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ "optional" ] {
+function getOptionalFn( container:Container<TokenNode> ):NotTriplePatternBuilder[ "optional" ] {
 	return ( patterns:Pattern | Pattern[] ) => {
 		const token:OptionalToken = new OptionalToken();
 
@@ -111,7 +111,7 @@ function getOptionalFn( container:Container2<TokenNode> ):NotTriplePatternBuilde
 	}
 }
 
-function getMinusFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ "minus" ] {
+function getMinusFn( container:Container<TokenNode> ):NotTriplePatternBuilder[ "minus" ] {
 	return ( ...patterns:Pattern[] ) => {
 		const token:MinusPatternToken = new MinusPatternToken();
 		token.groupPattern.patterns
@@ -121,7 +121,7 @@ function getMinusFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ 
 	}
 }
 
-function getServiceFn( container:Container2<TokenNode>, modifier?:"SILENT" ):NotTriplePatternBuilder[ "service" ] {
+function getServiceFn( container:Container<TokenNode>, modifier?:"SILENT" ):NotTriplePatternBuilder[ "service" ] {
 	return ( resource:string | Resource | Variable, patterns:Pattern | Pattern[] ) => {
 		const varOrIRI = typeof resource === "string" ?
 			container.iriResolver.resolve( resource ) :
@@ -138,7 +138,7 @@ function getServiceFn( container:Container2<TokenNode>, modifier?:"SILENT" ):Not
 }
 
 
-function getFilterFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ "filter" ] {
+function getFilterFn( container:Container<TokenNode> ):NotTriplePatternBuilder[ "filter" ] {
 	return ( rawConstraint:string ) => {
 		const token:FilterToken = new FilterToken( rawConstraint );
 
@@ -146,7 +146,7 @@ function getFilterFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[
 	}
 }
 
-function getBindFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ "bind" ] {
+function getBindFn( container:Container<TokenNode> ):NotTriplePatternBuilder[ "bind" ] {
 	return ( rawExpression:string, variable:string | Variable ) => {
 		const parsedVar = typeof variable === "string" ?
 			new VariableToken( variable ) :
@@ -158,7 +158,7 @@ function getBindFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ "
 	}
 }
 
-function getValuesFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[ "values" ] {
+function getValuesFn( container:Container<TokenNode> ):NotTriplePatternBuilder[ "values" ] {
 	return ( ...variables:Variable[] ) => {
 		const token:ValuesToken = new ValuesToken();
 		token.variables.push( ...variables.map( x => x.getSubject() ) );
@@ -179,7 +179,7 @@ function getValuesFn( container:Container2<TokenNode> ):NotTriplePatternBuilder[
  * @todo
  */
 export const NotTriplePatternBuilder = {
-	createFrom<C extends Container2<TokenNode>, O extends object>( container:C, object:O ):O & NotTriplePatternBuilder {
+	createFrom<C extends Container<TokenNode>, O extends object>( container:C, object:O ):O & NotTriplePatternBuilder {
 		return Object.assign( object, {
 			undefined: Undefined,
 

@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 
 import { NotTripleToken } from "../../tokens/NotTripleToken";
 
@@ -17,7 +17,7 @@ export interface NotTriplePattern<T extends NotTripleToken = NotTripleToken> ext
  * @todo
  */
 export const NotTriplePattern:{
-	createFrom<T extends NotTripleToken, C extends Container2<T>, O extends object>( container:C, object:O ):O & NotTriplePattern<T>;
+	createFrom<T extends NotTripleToken, C extends Container<T>, O extends object>( container:C, object:O ):O & NotTriplePattern<T>;
 } = {
 	createFrom: Pattern.createFrom,
 };

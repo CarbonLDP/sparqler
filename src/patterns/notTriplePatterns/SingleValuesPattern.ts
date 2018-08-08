@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 import { cloneElement } from "../../data/utils";
 
 import { ValuesToken } from "../../tokens/ValuesToken";
@@ -29,7 +29,7 @@ export interface SingleValuesPatternAnd extends NotTriplePattern<ValuesToken> {
 /**
  * @todo
  */
-function getHasFn<C extends Container2<ValuesToken>>( container:C ):SingleValuesPattern[ "has" ] {
+function getHasFn<C extends Container<ValuesToken>>( container:C ):SingleValuesPattern[ "has" ] {
 	return value => {
 		const values = container.targetToken.values.slice();
 		if( ! values.length ) values.push( [] );
@@ -47,7 +47,7 @@ function getHasFn<C extends Container2<ValuesToken>>( container:C ):SingleValues
  * @todo
  */
 export const SingleValuesPattern = {
-	createFrom<C extends Container2<ValuesToken>, O extends object>( container:C, object:O ):SingleValuesPattern {
+	createFrom<C extends Container<ValuesToken>, O extends object>( container:C, object:O ):SingleValuesPattern {
 		return NotTriplePattern.createFrom( container, Object.assign( object, {
 			has: getHasFn( container ),
 		} ) );
@@ -58,7 +58,7 @@ export const SingleValuesPattern = {
  * @todo
  */
 export const SingleValuesPatternAnd = {
-	createFrom<C extends Container2<ValuesToken>, O extends object>( container:C, object:O ):SingleValuesPatternAnd {
+	createFrom<C extends Container<ValuesToken>, O extends object>( container:C, object:O ):SingleValuesPatternAnd {
 		return NotTriplePattern.createFrom( container, Object.assign( object, {
 			and: getHasFn( container ),
 		} ) );

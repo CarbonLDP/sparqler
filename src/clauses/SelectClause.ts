@@ -1,4 +1,4 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 import { cloneElement } from "../data/utils";
 
@@ -84,13 +84,13 @@ export interface SelectClause<T extends FinishClause> {
  *
  * @private
  */
-function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container2<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED" ):SelectClause<T>[ "select" ] {
+function getSelectFn<C extends Container<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED" ):SelectClause<T>[ "select" ] {
 	return ( ...variables:string[] ) => {
 		const queryClause:SelectToken = new SelectToken( modifier );
 		if( variables.length ) queryClause.addVariable( ...variables.map( x => new VariableToken( x ) ) );
 
 		const queryToken:QueryToken<SelectToken> = cloneElement( container.targetToken, { queryClause } );
-		const newContainer:Container2<QueryToken<SelectToken>> = new Container2( {
+		const newContainer:Container<QueryToken<SelectToken>> = new Container( {
 			iriResolver: container.iriResolver,
 			targetToken: queryToken,
 		} );
@@ -104,9 +104,9 @@ function getSelectFn<C extends Container2<QueryToken>, T extends FinishClause>( 
  * @todo
  */
 export const SelectClause:{
-	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<Container2<QueryToken<SelectToken>>, T>, container:C, object:O ):O & SelectClause<T>;
+	createFrom<C extends Container<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, object:O ):O & SelectClause<T>;
 } = {
-	createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<Container2<QueryToken<SelectToken>>, T>, container:C, object:O ):O & SelectClause<T> {
+	createFrom<C extends Container<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, object:O ):O & SelectClause<T> {
 		return Object.assign( object, {
 			select: getSelectFn( genericFactory, container ),
 			selectDistinct: getSelectFn( genericFactory, container, "DISTINCT" ),

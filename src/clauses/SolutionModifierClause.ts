@@ -1,4 +1,4 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { cloneElement } from "../data/utils";
 
 import { QueryClauseToken } from "../tokens/QueryClauseToken";
@@ -7,7 +7,7 @@ import { SolutionModifierToken } from "../tokens/SolutionModifierToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
 
-export function cloneSolutionModifierContainer<C extends Container2<QueryToken | SubSelectToken>>( container:C, token:SolutionModifierToken ):C {
+export function cloneSolutionModifierContainer<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>>( container:C, token:SolutionModifierToken ):C {
 	const targetToken:QueryToken | SubSelectToken = container.targetToken.token === "query" ?
 		_cloneFromQuery( container.targetToken, token ) :
 		_cloneFromClause( container.targetToken, token );
@@ -20,7 +20,7 @@ function _cloneFromClause<T extends QueryClauseToken | SubSelectToken>( this:voi
 	return cloneElement( clauseToken, { modifiers } as Partial<T> );
 }
 
-function _cloneFromQuery( this:void, queryToken:QueryToken, token:SolutionModifierToken ):QueryToken {
+function _cloneFromQuery( this:void, queryToken:QueryToken<QueryClauseToken>, token:SolutionModifierToken ):QueryToken<QueryClauseToken> {
 	const queryClause:QueryClauseToken = _cloneFromClause( queryToken.queryClause, token );
 	return cloneElement( queryToken, { queryClause } );
 }

@@ -1,7 +1,8 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 
 import { OffsetToken } from "../tokens/OffsetToken";
+import { QueryClauseToken } from "../tokens/QueryClauseToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
@@ -23,7 +24,7 @@ export interface OffsetClause<T extends object> {
 /**
  * @todo
  */
-function getOffsetFn<C extends Container2<QueryToken | SubSelectToken>, T extends object>( genericFactory:Factory<C, T>, container:C ):OffsetClause<T>[ "offset" ] {
+function getOffsetFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends object>( genericFactory:Factory<C, T>, container:C ):OffsetClause<T>[ "offset" ] {
 	return ( offset:number ) => {
 		const token:OffsetToken = new OffsetToken( offset );
 
@@ -34,9 +35,9 @@ function getOffsetFn<C extends Container2<QueryToken | SubSelectToken>, T extend
 
 
 export const OffsetClause:{
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends object, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & OffsetClause<T>;
+	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends object, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & OffsetClause<T>;
 } = {
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends object, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & OffsetClause<T> {
+	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends object, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & OffsetClause<T> {
 		return Object.assign( object, {
 			offset: getOffsetFn( genericFactory, container ),
 		} );

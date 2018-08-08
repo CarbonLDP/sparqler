@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 import { Factory } from "../../data/Factory";
 
 import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
@@ -45,19 +45,19 @@ export interface TriplePatternBuilder {
 }
 
 
-function _getPatternContainer<T extends ObjectToken>( container:Container2<TokenNode>, token:T ):Container2<TripleToken<T>> {
-	return new Container2( {
+function _getPatternContainer<T extends ObjectToken>( container:Container<TokenNode>, token:T ):Container<TripleToken<T>> {
+	return new Container( {
 		iriResolver: container.iriResolver,
 		targetToken: new SubjectToken( token ),
 	} );
 }
 
-function _getPattern<C extends Container2<TokenNode>, T extends ObjectToken>( container:C, token:T ):TriplePatternHas<T> {
+function _getPattern<C extends Container<TokenNode>, T extends ObjectToken>( container:C, token:T ):TriplePatternHas<T> {
 	const patternContainer = _getPatternContainer( container, token );
 	return TriplePatternHas.createFrom( patternContainer, {} );
 }
 
-function _getReadyPattern<C extends Container2<TokenNode>, T extends ObjectToken>( container:C, token:T ):TriplePatternHas<T> & Pattern<TripleToken<T>> {
+function _getReadyPattern<C extends Container<TokenNode>, T extends ObjectToken>( container:C, token:T ):TriplePatternHas<T> & Pattern<TripleToken<T>> {
 	const patternContainer = _getPatternContainer( container, token );
 	return Factory.createFrom<typeof patternContainer, TriplePatternHas<T>, Pattern<TripleToken<T>>>(
 		TriplePatternHas.createFrom,
@@ -65,21 +65,21 @@ function _getReadyPattern<C extends Container2<TokenNode>, T extends ObjectToken
 	)( patternContainer, {} );
 }
 
-function getResourceFn<C extends Container2<TokenNode>>( container:C ):TriplePatternBuilder[ "resource" ] {
+function getResourceFn<C extends Container<TokenNode>>( container:C ):TriplePatternBuilder[ "resource" ] {
 	return iri => {
 		const token:IRIToken | PrefixedNameToken = container.iriResolver.resolve( iri );
 		return _getPattern( container, token );
 	}
 }
 
-function getVarFn<C extends Container2<TokenNode>>( container:C ):TriplePatternBuilder[ "var" ] {
+function getVarFn<C extends Container<TokenNode>>( container:C ):TriplePatternBuilder[ "var" ] {
 	return name => {
 		const token:VariableToken = new VariableToken( name );
 		return _getPattern( container, token );
 	}
 }
 
-function getLiteralFn<C extends Container2<TokenNode>>( container:C ):TriplePatternBuilder[ "literal" ] {
+function getLiteralFn<C extends Container<TokenNode>>( container:C ):TriplePatternBuilder[ "literal" ] {
 	return ( value:string | number | boolean ):any => {
 		const token:LiteralToken = new LiteralToken( value );
 
@@ -94,7 +94,7 @@ function getLiteralFn<C extends Container2<TokenNode>>( container:C ):TriplePatt
 
 type Values = SupportedNativeTypes | Resource | BlankNode | Variable | Literal | Collection | BlankNodeProperty;
 
-function getCollectionFn<C extends Container2<TokenNode>>( container:C ):TriplePatternBuilder[ "collection" ] {
+function getCollectionFn<C extends Container<TokenNode>>( container:C ):TriplePatternBuilder[ "collection" ] {
 	return ( ...values:Values[] ) => {
 		const token:CollectionToken = new CollectionToken()
 			.addObject( ...values.map( convertValue ) );
@@ -102,7 +102,7 @@ function getCollectionFn<C extends Container2<TokenNode>>( container:C ):TripleP
 	}
 }
 
-function _getBlankNode<C extends Container2<TokenNode>>( container:C, label?:string ):BlankNode {
+function _getBlankNode<C extends Container<TokenNode>>( container:C, label?:string ):BlankNode {
 	if( label && ! label.startsWith( "_:" ) )
 		label = "_:" + label;
 
@@ -110,10 +110,10 @@ function _getBlankNode<C extends Container2<TokenNode>>( container:C, label?:str
 	return _getPattern( container, token );
 }
 
-function _getBlankNodeProperty<C extends Container2<TokenNode>>( container:C, builderFn:( blankNodeBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty {
+function _getBlankNodeProperty<C extends Container<TokenNode>>( container:C, builderFn:( blankNodeBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty {
 	const token:BlankNodePropertyToken = new BlankNodePropertyToken();
 
-	const newContainer:Container2<BlankNodePropertyToken> = new Container2( {
+	const newContainer:Container<BlankNodePropertyToken> = new Container( {
 		iriResolver: container.iriResolver,
 		targetToken: token,
 	} );
@@ -127,7 +127,7 @@ function _getBlankNodeProperty<C extends Container2<TokenNode>>( container:C, bu
 	return _getReadyPattern( container, token );
 }
 
-function getBlankNodeFn<C extends Container2<TokenNode>>( container:C ):TriplePatternBuilder[ "blankNode" ] {
+function getBlankNodeFn<C extends Container<TokenNode>>( container:C ):TriplePatternBuilder[ "blankNode" ] {
 	return ( labelOrBuilderFn ):any => {
 		if( typeof labelOrBuilderFn === "function" )
 			return _getBlankNodeProperty( container, labelOrBuilderFn );
@@ -140,7 +140,7 @@ function getBlankNodeFn<C extends Container2<TokenNode>>( container:C ):TriplePa
  * @todo
  */
 export const TriplePatternBuilder = {
-	createFrom<C extends Container2<TokenNode>, O extends object>( container:C, object:O ):O & TriplePatternBuilder {
+	createFrom<C extends Container<TokenNode>, O extends object>( container:C, object:O ):O & TriplePatternBuilder {
 		return Object.assign( object, {
 			resource: getResourceFn( container ),
 			var: getVarFn( container ),

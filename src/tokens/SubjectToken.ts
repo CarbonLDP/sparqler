@@ -31,7 +31,7 @@ export class SubjectToken<T extends VariableOrTermToken | TripleNodeToken = Vari
 			&& query.includes( "\n" ) ? "\n"
 				: " ";
 
-		const subSpaces:number = separator === " " ?
+		const subSpaces:number | undefined = separator === " " ?
 			addSpaces( spaces, query.length + 1 ) :
 			addSpaces( spaces, INDENTATION_SPACES );
 

@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 import { cloneElement } from "../../data/utils";
 
 import { ValuesToken } from "../../tokens/ValuesToken";
@@ -29,7 +29,7 @@ export interface MultipleValuesPatternAnd extends NotTriplePattern<ValuesToken> 
 /**
  * @todo
  */
-function getHasFn<C extends Container2<ValuesToken>>( container:C ):MultipleValuesPattern[ "has" ] {
+function getHasFn<C extends Container<ValuesToken>>( container:C ):MultipleValuesPattern[ "has" ] {
 	return ( ...values:(SupportedNativeTypes | Resource | Literal | Undefined)[] ) => {
 		const parsedValues = container.targetToken.values.slice();
 		parsedValues.push( values.map( convertValue ) );
@@ -46,7 +46,7 @@ function getHasFn<C extends Container2<ValuesToken>>( container:C ):MultipleValu
  * @todo
  */
 export const MultipleValuesPattern = {
-	createFrom<C extends Container2<ValuesToken>, O extends object>( container:C, object:O ):MultipleValuesPattern {
+	createFrom<C extends Container<ValuesToken>, O extends object>( container:C, object:O ):MultipleValuesPattern {
 		return NotTriplePattern.createFrom( container, Object.assign( object, {
 			has: getHasFn( container ),
 		} ) );
@@ -57,7 +57,7 @@ export const MultipleValuesPattern = {
  * @todo
  */
 export const MultipleValuesPatternAnd = {
-	createFrom<C extends Container2<ValuesToken>, O extends object>( container:C, object:O ):MultipleValuesPatternAnd {
+	createFrom<C extends Container<ValuesToken>, O extends object>( container:C, object:O ):MultipleValuesPatternAnd {
 		return NotTriplePattern.createFrom( container, Object.assign( object, {
 			and: getHasFn( container ),
 		} ) );

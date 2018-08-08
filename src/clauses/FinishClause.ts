@@ -1,4 +1,4 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { TokenNode } from "../tokens/TokenNode";
 
 
@@ -18,7 +18,7 @@ export interface FinishClause {
  * @todo
  */
 export const FinishClause = {
-	createFrom<O extends object>( container:Container2<TokenNode>, object:O ):O & FinishClause {
+	createFrom<O extends object>( container:Container<TokenNode>, object:O ):O & FinishClause {
 		const toPrettyString:FinishClause[ "toPrettyString" ] = () =>
 			container.targetToken.toString( 0 );
 

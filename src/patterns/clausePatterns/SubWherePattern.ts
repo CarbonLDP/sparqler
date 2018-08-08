@@ -1,4 +1,4 @@
-import { Container2 } from "sparqler/data/Container2";
+import { Container } from "sparqler/data/Container";
 import { cloneElement } from "sparqler/data/utils";
 import { SubSelectToken } from "sparqler/tokens/SubSelectToken";
 import { WhereToken } from "sparqler/tokens/WhereToken";
@@ -18,7 +18,7 @@ export interface SubWherePattern {
 /**
  * @todo
  */
-function getWhereFn( container:Container2<SubSelectToken> ):SubWherePattern[ "where" ] {
+function getWhereFn( container:Container<SubSelectToken> ):SubWherePattern[ "where" ] {
 	return ( patterns:Pattern | Pattern[] ) => {
 		const where:WhereToken = new WhereToken();
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
@@ -37,7 +37,7 @@ function getWhereFn( container:Container2<SubSelectToken> ):SubWherePattern[ "wh
  * @todo
  */
 export const SubWherePattern = {
-	createFrom<C extends Container2<SubSelectToken>, O extends object>( container:C, object:O ):O & SubWherePattern {
+	createFrom<C extends Container<SubSelectToken>, O extends object>( container:C, object:O ):O & SubWherePattern {
 		return Object.assign( object, {
 			where: getWhereFn( container ),
 		} );

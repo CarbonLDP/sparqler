@@ -13,7 +13,7 @@ export class GroupPatternToken implements TokenNode {
 	}
 
 
-	toString( spaces?:number ) {
+	toString( spaces?:number ):string {
 		return getTokenContainerString( {
 			spaces,
 			tags: { open: "{", close: "}" },

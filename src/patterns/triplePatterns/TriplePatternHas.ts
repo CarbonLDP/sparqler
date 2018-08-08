@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 import { Factory } from "../../data/Factory";
 import { cloneElement } from "../../data/utils";
 
@@ -41,7 +41,7 @@ type Objects = SupportedNativeTypes | Resource | Variable | Literal | Collection
 /**
  * @todo
  */
-function getHasFn<T extends ObjectToken, C extends Container2<TripleToken<T>>>( container:C ):TriplePatternHas<T>[ "has" ] {
+function getHasFn<T extends ObjectToken, C extends Container<TripleToken<T>>>( container:C ):TriplePatternHas<T>[ "has" ] {
 	return ( property:string | Variable | Resource, objects:Objects | Objects[] ) => {
 		const verbToken:VariableOrIRIToken | "a" = (typeof property === "string")
 			? _resolvePath( container, property )
@@ -65,7 +65,7 @@ function getHasFn<T extends ObjectToken, C extends Container2<TripleToken<T>>>( 
  * @todo
  */
 export const TriplePatternHas = {
-	createFrom<T extends ObjectToken, C extends Container2<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePatternHas<T> {
+	createFrom<T extends ObjectToken, C extends Container<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePatternHas<T> {
 		return TriplePattern.createFrom( container, Object.assign( object, {
 			has: getHasFn<T, C>( container ),
 		} ) );
@@ -76,7 +76,7 @@ export const TriplePatternHas = {
  * @todo
  */
 export const TriplePatternAnd = {
-	createFrom<T extends ObjectToken, C extends Container2<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePatternAnd<T> {
+	createFrom<T extends ObjectToken, C extends Container<TripleToken<T>>, O extends object>( container:C, object:O ):O & TriplePatternAnd<T> {
 		return Factory.createFrom<C, Pattern<TripleToken<T>>, TriplePattern<T>>(
 			Pattern.createFrom,
 			TriplePattern.createFrom,

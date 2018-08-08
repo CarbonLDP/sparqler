@@ -1,4 +1,4 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 import { IRIResolver2 } from "../data/IRIResolver2";
 
@@ -21,7 +21,7 @@ export interface PatternBuilder2 extends TriplePatternBuilder, NotTriplePatternB
  */
 export const PatternBuilder2 = {
 	create( iriResolver:IRIResolver2 ):PatternBuilder2 {
-		const container:Container2<TokenNode> = new Container2( {
+		const container:Container<TokenNode> = new Container( {
 			iriResolver,
 			targetToken: { token: "none" },
 		} );
@@ -30,7 +30,7 @@ export const PatternBuilder2 = {
 			.createFrom( container, {} );
 	},
 
-	createFrom<C extends Container2<TokenNode>, O extends object>( container:C, object:O ):O & PatternBuilder2 {
+	createFrom<C extends Container<TokenNode>, O extends object>( container:C, object:O ):O & PatternBuilder2 {
 		return Factory.createFrom(
 			TriplePatternBuilder.createFrom,
 			NotTriplePatternBuilder.createFrom,

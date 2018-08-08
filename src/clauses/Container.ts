@@ -1,11 +1,11 @@
 import { finishDecorator as originalFinishDecorator } from "sparqler/clauses/decorators/finish";
 import { subFinishDecorator } from "sparqler/clauses/decorators/subFinish";
 import { FinishClause } from "sparqler/clauses/FinishClause";
-import {
-	SubFinishClause,
-} from "sparqler/clauses/interfaces";
+import { SubFinishClause, } from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import { Token } from "sparqler/tokens/Token";
+
+// TODO: Remove File
 
 
 /**
@@ -67,12 +67,15 @@ export class Container<T extends FinishClause | SubFinishClause = FinishClause> 
 	 */
 	constructor( previousContainer:Container<any>, newTokens?:Token[], iriResolver?:IRIResolver );
 	constructor( containerOrFunction?:Container<any> | FinishDecorator<T>, newTokens?:Token[], iriResolver?:IRIResolver ) {
+		// @ts-ignore
 		const container:Container<any> = containerOrFunction instanceof Function ?
 			void 0 : containerOrFunction;
 
 		const finishDecorator:FinishDecorator<T> = containerOrFunction instanceof Function
+			// @ts-ignore
 			? containerOrFunction : originalFinishDecorator as FinishDecorator<T>;
 
+		// @ts-ignore
 		this._iriResolver = finishDecorator !== subFinishDecorator ? ! iriResolver ? container ? container._iriResolver ?
 			new IRIResolver( container._iriResolver ) : void 0 : new IRIResolver() : iriResolver : void 0;
 

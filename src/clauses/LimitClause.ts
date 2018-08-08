@@ -1,7 +1,8 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 
 import { LimitToken } from "../tokens/LimitToken";
+import { QueryClauseToken } from "../tokens/QueryClauseToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
@@ -23,7 +24,7 @@ export interface LimitClause<T extends object> {
 /**
  * @todo
  */
-function getLimitFn<C extends Container2<QueryToken | SubSelectToken>, T extends object>( genericFactory:Factory<C, T>, container:C ):LimitClause<T>[ "limit" ] {
+function getLimitFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends object>( genericFactory:Factory<C, T>, container:C ):LimitClause<T>[ "limit" ] {
 	return ( limit:number ) => {
 		const token:LimitToken = new LimitToken( limit );
 
@@ -37,7 +38,7 @@ function getLimitFn<C extends Container2<QueryToken | SubSelectToken>, T extends
  * @todo
  */
 export const LimitClause:{
-	createFrom<C extends Container2<QueryToken | SubSelectToken>, T extends object, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & LimitClause<T>;
+	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends object, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & LimitClause<T>;
 } = {
 	createFrom( genericFactory, container, object ) {
 		return Object.assign( object, {

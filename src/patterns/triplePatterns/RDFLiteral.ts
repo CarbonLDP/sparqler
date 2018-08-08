@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 import { cloneElement } from "../../data/utils";
 
 import { LiteralToken } from "../../tokens/LiteralToken";
@@ -20,7 +20,7 @@ export interface RDFLiteral extends Literal {
 }
 
 
-function getWithTypeFn<C extends Container2<SubjectToken<LiteralToken>>>( container:C ):RDFLiteral[ "withType" ] {
+function getWithTypeFn<C extends Container<SubjectToken<LiteralToken>>>( container:C ):RDFLiteral[ "withType" ] {
 	return type => {
 		if( type in XSD ) type = (XSD as any)[ type ];
 		const subject = cloneElement( container.targetToken.subject )
@@ -33,7 +33,7 @@ function getWithTypeFn<C extends Container2<SubjectToken<LiteralToken>>>( contai
 	}
 }
 
-function getWithLanguageFn<C extends Container2<SubjectToken<LiteralToken>>>( container:C ):RDFLiteral[ "withLanguage" ] {
+function getWithLanguageFn<C extends Container<SubjectToken<LiteralToken>>>( container:C ):RDFLiteral[ "withLanguage" ] {
 	return language => {
 		const subject = cloneElement( container.targetToken.subject )
 			.setLanguage( language );
@@ -49,7 +49,7 @@ function getWithLanguageFn<C extends Container2<SubjectToken<LiteralToken>>>( co
  * @todo
  */
 export const RDFLiteral = {
-	createFrom<C extends Container2<SubjectToken<LiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral {
+	createFrom<C extends Container<SubjectToken<LiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral {
 		return TriplePatternHas.createFrom( container, Object.assign( object, {
 			withType: getWithTypeFn( container ),
 			withLanguage: getWithLanguageFn( container ),

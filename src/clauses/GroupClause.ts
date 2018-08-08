@@ -1,7 +1,8 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 
 import { GroupToken } from "../tokens/GroupToken";
+import { QueryClauseToken } from "../tokens/QueryClauseToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
@@ -26,7 +27,7 @@ export interface GroupClause<T extends FinishClause> extends HavingClause<T> {
 /**
  * @todo
  */
-function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
+function getGroupByFn<C extends Container<QueryToken<QueryClauseToken>| SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
 	return ( rawCondition:string ) => {
 		const token:GroupToken = new GroupToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );
@@ -41,9 +42,9 @@ function getGroupByFn<C extends Container2<QueryToken | SubSelectToken>, T exten
  * @todo
  */
 export const GroupClause:{
-	createFrom<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & GroupClause<T>;
+	createFrom<C extends Container<SubSelectToken | QueryToken<QueryClauseToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & GroupClause<T>;
 } = {
-	createFrom<C extends Container2<SubSelectToken | QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & GroupClause<T> {
+	createFrom<C extends Container<SubSelectToken | QueryToken<QueryClauseToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & GroupClause<T> {
 		return HavingClause.createFrom( genericFactory, container, Object.assign( object, {
 			groupBy: getGroupByFn( genericFactory, container ),
 		} ) );
