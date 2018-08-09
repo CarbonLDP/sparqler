@@ -20,11 +20,11 @@ export interface ContainerData<TOKEN extends TokenNode> {
 
 
 /**
- * Immutable class that contains the hidden data of the query builder.
+ * Immutable class that contains the hidden data of the query statement.
  *
- * Every step of the builder uses a different instance of the container
+ * Every statement of the builder uses a different instance of the container
  * to make the query builder independent of the step and be able to
- * reuse a stored sept in a immutable-like pattern.
+ * reuse it in a immutable-like pattern.
  */
 export class Container<TOKEN extends TokenNode> implements ContainerData<TOKEN> {
 	/**
@@ -40,14 +40,14 @@ export class Container<TOKEN extends TokenNode> implements ContainerData<TOKEN> 
 
 
 	/**
-	 * Object with the base data of the Container.
+	 * Constructor that receives an object with the base data of the
+	 * container.
 	 *
-	 * @param iriResolver The IRI resolver for the new Container instance
-	 * @param targetToken The target token for the new Container instance
+	 * @param data The base data for the container creation.
 	 */
-	constructor( { iriResolver, targetToken }:ContainerData<TOKEN> ) {
-		this.iriResolver = iriResolver;
-		this.targetToken = targetToken;
+	constructor( data:ContainerData<TOKEN> ) {
+		this.iriResolver = data.iriResolver;
+		this.targetToken = data.targetToken;
 
 		if( new.target === Container ) Object.freeze( this );
 	}
