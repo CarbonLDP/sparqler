@@ -12,7 +12,7 @@ export function cloneSolutionModifierContainer<C extends Container<QueryToken<Qu
 		_cloneFromQuery( container.targetToken, token ) :
 		_cloneFromClause( container.targetToken, token );
 
-	return cloneElement( container, { targetToken } as any );
+	return cloneElement( container, { targetToken } as Partial<C> );
 }
 
 function _cloneFromClause<T extends QueryClauseToken | SubSelectToken>( this:void, clauseToken:T, token:SolutionModifierToken ):T {
