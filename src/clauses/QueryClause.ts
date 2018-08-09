@@ -13,7 +13,14 @@ import { SelectClause } from "./SelectClause";
 
 
 /**
- * @todo Document
+ * Interface that describes the base entry of any query statement.
+ *
+ * It allows to add the prologues `BASE` and `PREFIX`.
+ * And also add support for specify a `vocab` used to resolve
+ * relative properties/predicates.
+ *
+ * The current query types supported are:
+ * - `SELECT`, specified by the extension of {@link SelectClause}
  */
 export interface QueryClause<T extends FinishClause> extends SelectClause<T> {
 	/**
@@ -107,9 +114,23 @@ function prefix<T extends FinishClause>( this:QueryUnitContainer<T>, name:string
 
 
 /**
- * @todo Document
+ * Constant with the utils functions for {@link QueryClause} objects.
  */
-export const QueryClause = {
+export const QueryClause:{
+	/**
+	 * Factory function that allows to crete a {@link QueryClause}
+	 * from the {@param object} provided.
+	 *
+	 * @param container The related container with the data for the
+	 * {@link QueryClause} statement.
+	 * @param object The base base from where to create the
+	 * {@link QueryClause} statement.
+	 *
+	 * @return The {@link QueryClause} statement created from the
+	 * {@param object} provided.
+	 */
+	createFrom<C extends QueryUnitContainer<SELECT>, SELECT extends FinishClause, T extends object>( container:C, object:T ):T & QueryClause<SELECT>;
+} = {
 	createFrom<C extends QueryUnitContainer<SELECT>, SELECT extends FinishClause, T extends object>( container:C, object:T ):T & QueryClause<SELECT> {
 		const selectFactory:Factory<C, SelectClause<SELECT>> = SelectClause
 			.createFrom.bind( null, container.selectFinishClauseFactory );
