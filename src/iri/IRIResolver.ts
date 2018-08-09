@@ -9,6 +9,9 @@ import {
 	Token,
 } from "sparqler/tokens";
 
+// TODO: Remove File
+
+
 /**
  * Map type of the stored prefixes used by {@link IRIResolver}.
  */
@@ -27,7 +30,7 @@ export class IRIResolver {
 	/**
 	 * IRI to resolve relative RDF properties
 	 */
-	readonly _vocab:string;
+	readonly _vocab:string | undefined;
 
 	/**
 	 * Creates a new empty instance of IRIResolver if no parameter is provided, but
@@ -59,9 +62,10 @@ export class IRIResolver {
 		let tokens:Token[];
 
 		if( isPrefixed( relativeIRI ) ) {
+			// @ts-ignore
 			const [ prefix, prefixIRI ]:[ string, string ] = getPrefixedParts( relativeIRI );
 
-			const used:boolean = this._prefixes.get( prefix );
+			const used:boolean | undefined = this._prefixes.get( prefix );
 			if( used === void 0 ) throw new Error( "The used prefix has not been declared" );
 
 			tokens = [ new StringLiteral( prefix ), PREFIX_SYMBOL, new StringLiteral( prefixIRI ) ];

@@ -1,6 +1,6 @@
 import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
-import { IRIResolver2 } from "../data/IRIResolver2";
+import { IRIResolver } from "../data/IRIResolver";
 import { cloneElement } from "../data/utils";
 
 import { Pattern } from "../patterns/Pattern";
@@ -31,7 +31,7 @@ export interface WhereClause<T extends FinishClause> {
 	where( patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ):GroupClause<T> & T;
 }
 
-function _getPatterns( iriResolver:IRIResolver2, patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ):PatternToken[] {
+function _getPatterns( iriResolver:IRIResolver, patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ):PatternToken[] {
 	const patternOrPatterns:Pattern | Pattern[] = patternFunction( PatternBuilder2.create( iriResolver ) );
 	const patterns:Pattern[] = Array.isArray( patternOrPatterns ) ? patternOrPatterns : [ patternOrPatterns ];
 
@@ -43,7 +43,7 @@ function _getPatterns( iriResolver:IRIResolver2, patternFunction:( builder:Patte
  */
 function getWhereFn<C extends Container<QueryToken<QueryClauseToken>>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):WhereClause<T>[ "where" ] {
 	return ( patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ) => {
-		const iriResolver:IRIResolver2 = new IRIResolver2( container.iriResolver );
+		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
 		const patterns:PatternToken[] = _getPatterns( iriResolver, patternFunction );
 
 		const query = cloneElement( container.targetToken.queryClause, { where: new WhereToken() } )

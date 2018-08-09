@@ -1,6 +1,6 @@
 import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
-import { IRIResolver2 } from "../data/IRIResolver2";
+import { IRIResolver } from "../data/IRIResolver";
 import { cloneElement } from "../data/utils";
 
 import { PatternBuilder2 } from "../patterns/PatternBuilder2";
@@ -84,7 +84,7 @@ function _normalizeVariables( variableOrVariables:string | Variable | (string | 
 	} );
 }
 
-function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIResolver2, isSingle:boolean ):Values[][] {
+function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIResolver, isSingle:boolean ):Values[][] {
 	let rawValues:Values | (Values | Values[])[] = typeof valuesOrBuilder === "function" ?
 		valuesOrBuilder( PatternBuilder2.create( iriResolver ) ) :
 		valuesOrBuilder;
@@ -106,7 +106,7 @@ function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIRe
 
 function createValuesFn<C extends Container<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):ValuesClause<T>[ "values" ] {
 	return ( variableOrVariables:string | Variable | (string | Variable)[], valuesOrBuilder:ValuesOrBuilder ) => {
-		const iriResolver:IRIResolver2 = new IRIResolver2( container.iriResolver );
+		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
 
 		const isSingle:boolean = ! Array.isArray( variableOrVariables );
 		const values:Values[][] = _normalizeRawValues( valuesOrBuilder, iriResolver, isSingle );

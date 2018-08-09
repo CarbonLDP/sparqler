@@ -1,6 +1,6 @@
 import { TokenNode } from "../tokens/TokenNode";
 import { Container, ContainerData } from "./Container";
-import { IRIResolver2 } from "./IRIResolver2";
+import { IRIResolver } from "./IRIResolver";
 
 
 describe( "Container", ():void => {
@@ -12,7 +12,7 @@ describe( "Container", ():void => {
 
 	it( "should be instantiable", ():void => {
 		const container:Container<TokenNode> = new Container( {
-			iriResolver: new IRIResolver2(),
+			iriResolver: new IRIResolver(),
 			targetToken: { token: "none" },
 		} );
 		expect( container ).toBeDefined();
@@ -21,7 +21,7 @@ describe( "Container", ():void => {
 
 	it( "should be a read only object", ():void => {
 		const container:Container<TokenNode> & { something?:any } = new Container( {
-			iriResolver: new IRIResolver2(),
+			iriResolver: new IRIResolver(),
 			targetToken: { token: "none" },
 		} );
 
@@ -30,7 +30,7 @@ describe( "Container", ():void => {
 
 	it( "should assign provided data", ():void => {
 		const data:ContainerData<TokenNode> = {
-			iriResolver: new IRIResolver2(),
+			iriResolver: new IRIResolver(),
 			targetToken: { token: "none" },
 		};
 

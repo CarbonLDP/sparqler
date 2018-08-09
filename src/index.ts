@@ -3,7 +3,7 @@ import { QueryClause } from "./clauses/QueryClause";
 
 import { Container } from "./data/Container";
 import { Factory } from "./data/Factory";
-import { IRIResolver2 } from "./data/IRIResolver2";
+import { IRIResolver } from "./data/IRIResolver";
 import { QueryUnitContainer } from "./data/QueryUnitContainer";
 
 import { QueryToken } from "./tokens/QueryToken";
@@ -53,7 +53,7 @@ export class SPARQLER<SELECT extends FinishClause = FinishClause> implements SPA
 	) {
 
 		const container:QueryUnitContainer<SELECT> = new QueryUnitContainer( {
-			iriResolver: new IRIResolver2(),
+			iriResolver: new IRIResolver(),
 			targetToken: new QueryToken( void 0 ),
 			selectFinishClauseFactory: finishSelectFactory,
 		} );

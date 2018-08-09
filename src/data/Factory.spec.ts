@@ -1,6 +1,6 @@
 import { Container } from "sparqler/data/Container";
 import { Factory } from "sparqler/data/Factory";
-import { IRIResolver2 } from "sparqler/data/IRIResolver2";
+import { IRIResolver } from "sparqler/data/IRIResolver";
 import { TokenNode } from "sparqler/tokens";
 
 describe( "Factory", () => {
@@ -11,7 +11,7 @@ describe( "Factory", () => {
 		let container:Container<TokenNode>;
 		beforeEach( () => {
 			container = new Container<TokenNode>( {
-				iriResolver: new IRIResolver2(),
+				iriResolver: new IRIResolver(),
 				targetToken: { token: "none" },
 			} );
 		} );

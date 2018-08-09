@@ -1,6 +1,6 @@
 import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
-import { IRIResolver2 } from "../data/IRIResolver2";
+import { IRIResolver } from "../data/IRIResolver";
 import { cloneElement } from "../data/utils";
 
 import { FromToken } from "../tokens/FromToken";
@@ -48,7 +48,7 @@ export interface FromClause<T extends FinishClause> extends WhereClause<T> {
  */
 function getFromFn<C extends Container<QueryToken<SelectToken>>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, named?:boolean ):FromClause<T>[ "from" ] {
 	return ( iri:string ) => {
-		const iriResolver:IRIResolver2 = new IRIResolver2( container.iriResolver );
+		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
 
 		const queryClause = cloneElement( container.targetToken.queryClause, {
 			dataset: new FromToken( iriResolver.resolve( iri ), named )

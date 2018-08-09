@@ -9,20 +9,21 @@ import { PrefixedNameToken, } from "../tokens/PrefixedNameToken";
  */
 export type PrefixMap = Map<string, boolean>;
 
+
 /**
  * Class to manage the resolution of IRIs in tokens
  */
-export class IRIResolver2 {
+export class IRIResolver {
 
 	/**
 	 * Map to store prefixes and information of its usage
 	 */
-	readonly _prefixes:PrefixMap;
+	readonly prefixes:PrefixMap;
 
 	/**
 	 * IRI to resolve relative RDF properties
 	 */
-	readonly _vocab?:string;
+	readonly vocab?:string;
 
 	/**
 	 * Creates a new empty instance of IRIResolver if no parameter is provided, but
@@ -31,14 +32,16 @@ export class IRIResolver2 {
 	 * @param base IRIResolver to copy its data from.
 	 * @param vocab Absolute IRI to change the default vocab value.
 	 */
-	constructor( base?:IRIResolver2, vocab?:string ) {
-		this._prefixes = base
-			? new Map( base._prefixes.entries() )
+	constructor( base?:IRIResolver, vocab?:string ) {
+		this.prefixes = base
+			? new Map( base.prefixes.entries() )
 			: new Map();
 
-		this._vocab = vocab ? vocab : base ? base._vocab : void 0;
+		this.vocab = vocab
+			? vocab
+			: base && base.vocab;
 
-		if( new.target === IRIResolver2 ) Object.freeze( this );
+		if( new.target === IRIResolver ) Object.freeze( this );
 	}
 
 	/**
@@ -57,20 +60,20 @@ export class IRIResolver2 {
 		return this.resolveIRI( relativeIRI, vocab );
 	}
 
-	resolveIRI( relativeIRI:string, vocab:boolean = false ):IRIToken {
-		if( vocab && this._vocab && isRelative( relativeIRI ) )
-			relativeIRI = this._vocab + relativeIRI;
+	private resolveIRI( relativeIRI:string, vocab:boolean = false ):IRIToken {
+		if( vocab && this.vocab && isRelative( relativeIRI ) )
+			relativeIRI = this.vocab + relativeIRI;
 
 		return new IRIToken( relativeIRI );
 	}
 
-	resolvePrefixed( prefixedName:string ):PrefixedNameToken {
+	private resolvePrefixed( prefixedName:string ):PrefixedNameToken {
 		let token:PrefixedNameToken = new PrefixedNameToken( prefixedName );
 
-		const used:boolean | undefined = this._prefixes.get( token.namespace );
+		const used:boolean | undefined = this.prefixes.get( token.namespace );
 		if( used === void 0 ) throw new Error( `The prefix "${ token.namespace }" has not been declared.` );
 
-		if( ! used ) this._prefixes.set( token.namespace, true );
+		if( ! used ) this.prefixes.set( token.namespace, true );
 		return token;
 	}
 }

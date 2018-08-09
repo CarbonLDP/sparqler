@@ -1,5 +1,5 @@
 import { Factory } from "../data/Factory";
-import { IRIResolver2 } from "../data/IRIResolver2";
+import { IRIResolver } from "../data/IRIResolver";
 import { QueryUnitContainer } from "../data/QueryUnitContainer";
 import { cloneElement } from "../data/utils";
 
@@ -69,7 +69,7 @@ function base<T extends FinishClause>( this:QueryUnitContainer<T>, iri:string ):
  * @see {@link QueryClause.vocab}
  */
 function vocab<T extends FinishClause>( this:QueryUnitContainer<T>, iri:string ):QueryClause<T> {
-	const iriResolver:IRIResolver2 = new IRIResolver2( this.iriResolver, iri );
+	const iriResolver:IRIResolver = new IRIResolver( this.iriResolver, iri );
 	const container:QueryUnitContainer<T> = cloneElement( this, { iriResolver } );
 
 	return QueryClause.createFrom( container, {} );
@@ -79,12 +79,12 @@ function vocab<T extends FinishClause>( this:QueryUnitContainer<T>, iri:string )
  * @see {@link QueryClause.prefix}
  */
 function prefix<T extends FinishClause>( this:QueryUnitContainer<T>, name:string, iri:string ):QueryClause<T> {
-	const iriResolver:IRIResolver2 = new IRIResolver2( this.iriResolver );
+	const iriResolver:IRIResolver = new IRIResolver( this.iriResolver );
 
 
 	const prologues = this.targetToken.prologues.slice();
 
-	if( iriResolver._prefixes.has( name ) ) {
+	if( iriResolver.prefixes.has( name ) ) {
 		const index:number = prologues
 			.findIndex( token => token.token === "prefix" && token.namespace === name );
 
@@ -93,7 +93,7 @@ function prefix<T extends FinishClause>( this:QueryUnitContainer<T>, name:string
 	}
 
 	prologues.push( new PrefixToken( name, new IRIToken( iri ) ) );
-	iriResolver._prefixes.set( name, false );
+	iriResolver.prefixes.set( name, false );
 
 
 	const queryToken:QueryToken = cloneElement( this.targetToken, { prologues } );

@@ -1,6 +1,6 @@
 import { TokenNode } from "../tokens/TokenNode";
 
-import { IRIResolver2 } from "./IRIResolver2";
+import { IRIResolver } from "./IRIResolver";
 
 
 /**
@@ -11,7 +11,7 @@ export interface ContainerData<TOKEN extends TokenNode> {
 	/**
 	 * @see Container.iriResolver
 	 */
-	iriResolver:IRIResolver2;
+	iriResolver:IRIResolver;
 	/**
 	 * @see Container.targetToken
 	 */
@@ -31,7 +31,7 @@ export class Container<TOKEN extends TokenNode> implements ContainerData<TOKEN> 
 	 * The IRI resolver used to resolve and create IRIs and
 	 * Prefixed Names
 	 */
-	readonly iriResolver:IRIResolver2;
+	readonly iriResolver:IRIResolver;
 	/**
 	 * The target token where the state of the current query step is
 	 * actually stored.
