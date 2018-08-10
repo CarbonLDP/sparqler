@@ -14,16 +14,33 @@ export const spyClones = {
 		clonesSpy = void 0;
 	},
 
-	getLastContainer<T extends Container<TokenNode>>():T {
+	getAll<T extends object>():T[] {
 		if( ! clonesSpy ) throw new Error( "The spy clone has not been installed." );
 
-		const target:T | undefined = clonesSpy
+		return clonesSpy
 			.calls.all()
 			.reverse()
 			.map( x => x.returnValue )
-			.find( x => x instanceof Container );
+			;
+	}
+};
+
+
+export const spyContainers = {
+	install() {
+		if( clonesSpy ) return;
+		spyClones.install();
+	},
+	uninstall() {
+		spyClones.uninstall()
+	},
+
+	getLast<T extends Container<TokenNode>>():T {
+		const target:T | undefined = spyClones
+			.getAll()
+			.find( ( x ):x is T => x instanceof Container );
 
 		if( ! target ) throw new Error( "No Container was created." );
 		return target;
-	}
+	},
 };

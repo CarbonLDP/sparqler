@@ -11,6 +11,9 @@ import { FinishClause } from "./FinishClause";
 import { WhereClause } from "./WhereClause";
 
 
+/**
+ * Interface with the methods available to make a FROM statement.
+ */
 export interface FromClause<T extends FinishClause> extends WhereClause<T> {
 	/**
 	 * Set a default graph to be included as the RDF Dataset where to
@@ -66,9 +69,25 @@ function getFromFn<C extends Container<QueryToken<SelectToken>>, T extends Finis
 
 
 /**
- * @todo
+ * Constant with the utils for {@link FromClause} objects.
  */
-export const FromClause = {
+export const FromClause:{
+	/**
+	 * Factory function that allows to crete a {@link FromClause}
+	 * from the {@param object} provided.
+	 *
+	 * @param genericFactory The factory to create the generic finish
+	 * of the {@link FromClause} statement.
+	 * @param container The related container with the data for the
+	 * {@link FromClause} statement.
+	 * @param object The base base from where to create the
+	 * {@link FromClause} statement.
+	 *
+	 * @return The {@link FromClause} statement created from the
+	 * {@param object} provided.
+	 */
+	createFrom<C extends Container<QueryToken<SelectToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & FromClause<T>;
+} = {
 	createFrom<C extends Container<QueryToken<SelectToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & FromClause<T> {
 		return WhereClause.createFrom( genericFactory, container, Object.assign( object, {
 			from: getFromFn( genericFactory, container ),

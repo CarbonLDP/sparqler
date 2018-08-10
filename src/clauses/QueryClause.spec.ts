@@ -1,4 +1,4 @@
-import { spyClones } from "../../test/spies/clones";
+import { spyContainers } from "../../test/spies/clones";
 
 import { IRIResolver } from "../data/IRIResolver";
 import { QueryUnitContainer } from "../data/QueryUnitContainer";
@@ -23,11 +23,11 @@ describe( "QueryClause", () => {
 			selectFinishClauseFactory: FinishClause.createFrom,
 		} );
 
-		spyClones.install();
+		spyContainers.install();
 	} );
 
 	afterEach( () => {
-		spyClones.uninstall();
+		spyContainers.uninstall();
 	} );
 
 
@@ -110,7 +110,7 @@ describe( "QueryClause", () => {
 		it( "should add BASE token", () => {
 			queryClause.base( "http://example.com/base/" );
 
-			const newContainer:QueryUnitContainer<FinishClause> = spyClones.getLastContainer();
+			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 			expect( newContainer.targetToken.prologues )
 				.toContain( new BaseToken( new IRIToken( "http://example.com/base/" ) ) );
 		} );
@@ -120,7 +120,7 @@ describe( "QueryClause", () => {
 				.base( "http://example.com/base/" )
 				.base( "http://example.com/another/" );
 
-			const newContainer:QueryUnitContainer<FinishClause> = spyClones.getLastContainer();
+			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 
 			expect( newContainer.targetToken.prologues )
 				.toContain( new BaseToken( new IRIToken( "http://example.com/base/" ) ) );
@@ -163,7 +163,7 @@ describe( "QueryClause", () => {
 		it( "should store the vocab in the IRIResolver", () => {
 			queryClause.vocab( "http://example.com/vocab#" );
 
-			const newContainer:QueryUnitContainer<FinishClause> = spyClones.getLastContainer();
+			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 			expect( newContainer.iriResolver.vocab ).toBe( "http://example.com/vocab#" );
 		} );
 
@@ -201,7 +201,7 @@ describe( "QueryClause", () => {
 		it( "should store prefix as unused in IRIResolver", () => {
 			queryClause.prefix( "ex", "http://example.com/prefix#" );
 
-			const newContainer:QueryUnitContainer<FinishClause> = spyClones.getLastContainer();
+			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 			expect( newContainer.iriResolver.prefixes ).toEqual( new Map( [
 				[ "ex", false ],
 			] ) );
@@ -211,7 +211,7 @@ describe( "QueryClause", () => {
 			const newQueryClause = queryClause.prefix( "ex", "http://example.com/prefix#" );
 
 			newQueryClause.prefix( "ex", "http://example.com/another-prefix#" );
-			const newContainer:QueryUnitContainer<FinishClause> = spyClones.getLastContainer();
+			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 			expect( newContainer.iriResolver.prefixes ).toEqual( new Map( [
 				[ "ex", false ],
 			] ) );
@@ -220,7 +220,7 @@ describe( "QueryClause", () => {
 		it( "should construct PREFIX tokens", () => {
 			queryClause.prefix( "ex", "http://example.com/prefix#" );
 
-			const newContainer:QueryUnitContainer<FinishClause> = spyClones.getLastContainer();
+			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 			expect( newContainer.targetToken.prologues )
 				.toContain( new PrefixToken( "ex", new IRIToken( "http://example.com/prefix#" ) ) );
 		} );
@@ -230,7 +230,7 @@ describe( "QueryClause", () => {
 				.prefix( "ex", "http://example.com/prefix#" )
 				.prefix( "ex", "http://example.com/another#" );
 
-			const newContainer:QueryUnitContainer<FinishClause> = spyClones.getLastContainer();
+			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 			expect( newContainer.targetToken.prologues )
 				.not.toContain( new PrefixToken( "ex", new IRIToken( "http://example.com/prefix#" ) ) );
 			expect( newContainer.targetToken.prologues )
