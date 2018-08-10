@@ -9,19 +9,6 @@ import {
 	Resource,
 } from "sparqler/patterns/triples";
 
-export interface SubSelectClause {
-	select( ...variables:string[] ):SubWhereClause;
-	selectDistinct( ...variables:string[] ):SubWhereClause;
-	selectReduced( ...variables:string[] ):SubWhereClause;
-	selectAll():SubWhereClause;
-	selectAllDistinct():SubWhereClause;
-	selectAllReduced():SubWhereClause;
-}
-
-export interface SubWhereClause {
-	where( patterns:GraphPattern | GraphPattern[] ):GroupClause<SubFinishClause> & SubFinishClause;
-}
-
 export interface GroupClause<T extends FinishClause | SubFinishClause = FinishClause> extends HavingClause<T> {
 	// TODO: create group condition expressions
 	groupBy( rawCondition:string ):HavingClause<T> & T;

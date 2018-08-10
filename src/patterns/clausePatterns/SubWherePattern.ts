@@ -8,15 +8,31 @@ import { FinishClausePattern } from "./FinishClausePattern";
 
 
 /**
- * @todo
+ * Interface with the methods available to make a WHERE statement of
+ * a sub-query.
  */
 export interface SubWherePattern {
+	/**
+	 * Sets the graph patterns the sub-query should match to retrieve the
+	 * sub-solutions data.
+	 *
+	 * @param patterns Patterns the sub-query should match.
+	 *
+	 * @returns Object with the methods to keep constructing the
+	 * sub-query.
+	 */
 	where( patterns:Pattern | Pattern[] ):GroupClause<FinishClausePattern> & FinishClausePattern;
 }
 
 
 /**
- * @todo
+ * Function that creates the {@link SubWherePattern.where} function.
+ *
+ * @param container The container with the query data of the statement.
+ *
+ * @returns The {@link SubWherePattern.where} function.
+ *
+ * @private
  */
 function getWhereFn( container:Container<SubSelectToken> ):SubWherePattern[ "where" ] {
 	return ( patterns:Pattern | Pattern[] ) => {
@@ -34,9 +50,24 @@ function getWhereFn( container:Container<SubSelectToken> ):SubWherePattern[ "whe
 
 
 /**
- * @todo
+ * Constant with the utils for {@link SubWherePattern} objects.
  */
-export const SubWherePattern = {
+export const SubWherePattern:{
+
+	/**
+	 * Factory function that allows to crete a {@link SubWherePattern}
+	 * from the {@param object} provided.
+	 *
+	 * @param container The related container with the data for the
+	 * {@link SubWherePattern} statement.
+	 * @param object The base base from where to create the
+	 * {@link SubWherePattern} statement.
+	 *
+	 * @return The {@link SubWherePattern} statement created from the
+	 * {@param object} provided.
+	 */
+	createFrom<C extends Container<SubSelectToken>, O extends object>( container:C, object:O ):O & SubWherePattern;
+} = {
 	createFrom<C extends Container<SubSelectToken>, O extends object>( container:C, object:O ):O & SubWherePattern {
 		return Object.assign( object, {
 			where: getWhereFn( container ),
