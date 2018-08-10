@@ -10,11 +10,6 @@ import {
 } from "sparqler/patterns/triples";
 
 
-export interface HavingClause<T extends FinishClause | SubFinishClause = FinishClause> extends OrderClause<T> {
-	// TODO: create having condition expressions
-	having( rawCondition:string ):OrderClause<T> & T;
-}
-
 export interface OrderClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitOffsetClause<T> {
 	// TODO: create order condition expressions
 	orderBy( rawCondition:string ):LimitOffsetClause<T> & T;
