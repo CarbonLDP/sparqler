@@ -1,6 +1,3 @@
-import { Container } from "sparqler/clauses/Container";
-import { selectDecorator, subFinishDecorator, } from "sparqler/clauses/decorators";
-import { SubSelectClause, SubWhereClause, } from "sparqler/clauses/interfaces";
 import { IRIResolver } from "sparqler/iri/IRIResolver";
 import {
 	GraphPattern,
@@ -37,8 +34,7 @@ import { Token } from "sparqler/tokens/Token";
 import { getBlockTokens } from "sparqler/utils/Patterns";
 
 export class PatternBuilder implements TriplesPatternBuilder,
-                                       NotTriplesPatternBuilder,
-                                       SubSelectClause {
+                                       NotTriplesPatternBuilder {
 
 	public static get undefined():Undefined { return "UNDEF"; };
 
@@ -48,7 +44,6 @@ export class PatternBuilder implements TriplesPatternBuilder,
 
 	constructor( iriResolver:IRIResolver ) {
 		this.iriResolver = iriResolver;
-		selectDecorator( new Container( subFinishDecorator ), this );
 	}
 
 	resource( iri:string ):Resource {
@@ -157,14 +152,6 @@ export class PatternBuilder implements TriplesPatternBuilder,
 	filter( rawConstraint:string ):NotTriplesPattern {
 		return new NotTriplesPattern( [ FILTER, new StringLiteral( rawConstraint ) ] );
 	}
-
-	// SubSelect Clauses methods, decorated in constructor
-	select:( ...variables:string[] ) => SubWhereClause;
-	selectDistinct:( ...variables:string[] ) => SubWhereClause;
-	selectReduced:( ...variables:string[] ) => SubWhereClause;
-	selectAll:() => SubWhereClause;
-	selectAllDistinct:() => SubWhereClause;
-	selectAllReduced:() => SubWhereClause;
 
 }
 

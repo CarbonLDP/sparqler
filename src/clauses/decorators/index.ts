@@ -5,6 +5,4 @@ export * from "./group";
 export * from "./having";
 export * from "./limit-offset";
 export * from "./order";
-export * from "./query";
-export * from "./select";
 export * from "./where";

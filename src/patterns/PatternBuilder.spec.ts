@@ -75,15 +75,6 @@ describe( "PatternBuilder", ():void => {
 			union: jasmine.any( Function ),
 			minus: jasmine.any( Function ),
 			values: jasmine.any( Function ),
-
-			// Sub-Select patterns
-			select: jasmine.any( Function ),
-			selectDistinct: jasmine.any( Function ),
-			selectReduced: jasmine.any( Function ),
-
-			selectAll: jasmine.any( Function ),
-			selectAllDistinct: jasmine.any( Function ),
-			selectAllReduced: jasmine.any( Function ),
 		} ) );
 
 	} );

@@ -11,13 +11,15 @@ import { FromClause } from "./FromClause";
 
 
 /**
- * @todo
+ * Interface with the methods available to make a SELECT query.
  */
 export interface SelectClause<T extends FinishClause> {
 	/**
 	 * Set a list of variables to be retrieved by the query.
 	 *
 	 * @param variables The list of variables.
+	 * IF no variable is provided, the behaviour will be the same
+	 * as {@link SelectClause.selectAll}
 	 * @returns Object with the methods to keep constructing the query.
 	 */
 	select( ...variables:string[] ):FromClause<T>;
@@ -27,6 +29,8 @@ export interface SelectClause<T extends FinishClause> {
 	 * repetitions in the set of solutions.
 	 *
 	 * @param variables The list of variables.
+	 * IF no variable is provided, the behaviour will be the same
+	 * as {@link SelectClause.selectAllDistinct}
 	 * @returns Object with the methods to keep constructing the query.
 	 */
 	selectDistinct( ...variables:string[] ):FromClause<T>;
@@ -37,6 +41,8 @@ export interface SelectClause<T extends FinishClause> {
 	 * unique ones.
 	 *
 	 * @param variables The list of variables.
+	 * IF no variable is provided, the behaviour will be the same
+	 * as {@link SelectClause.selectAllReduced}
 	 * @returns Object with the methods to keep constructing the query.
 	 */
 	selectReduced( ...variables:string[] ):FromClause<T>;
@@ -101,9 +107,23 @@ function getSelectFn<C extends Container<QueryToken>, T extends FinishClause>( g
 
 
 /**
- * @todo
+ * Constant with the utils for {@link SelectClause} objects.
  */
 export const SelectClause:{
+	/**
+	 * Factory function that allows to crete a {@link SelectClause}
+	 * from the {@param object} provided.
+	 *
+	 * @param genericFactory The factory to create the generic finish
+	 * of the {@link SelectClause} statement.
+	 * @param container The related container with the data for the
+	 * {@link SelectClause} statement.
+	 * @param object The base base from where to create the
+	 * {@link SelectClause} statement.
+	 *
+	 * @return The {@link SelectClause} statement created from the
+	 * {@param object} provided.
+	 */
 	createFrom<C extends Container<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, object:O ):O & SelectClause<T>;
 } = {
 	createFrom<C extends Container<QueryToken>, T extends FinishClause, O extends object>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, object:O ):O & SelectClause<T> {
