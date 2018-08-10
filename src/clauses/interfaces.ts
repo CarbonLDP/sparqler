@@ -10,14 +10,6 @@ import {
 } from "sparqler/patterns/triples";
 
 
-export interface OffsetClause<T> {
-	offset( offset:number ):T;
-}
-
-export interface LimitClause<T> {
-	limit( limit:number ):T;
-}
-
 export interface ValuesClause<T extends FinishClause | SubFinishClause = FinishClause> {
 	values( variable:string, values: SupportedNativeTypes | SupportedNativeTypes[] ): T;
 	values( variable:string, valuesBuilder:( builder:PatternBuilder ) => ( SupportedNativeTypes | Resource | Literal | Undefined ) | ( SupportedNativeTypes | Resource | Literal | Undefined )[]  ): T;
