@@ -15,6 +15,9 @@ import { FinishClause } from "./FinishClause";
 import { GroupClause } from "./GroupClause";
 
 
+/**
+ * Interface with the methods available to make a WHERE statement.
+ */
 export interface WhereClause<T extends FinishClause> {
 	/**
 	 * Specifies the graph patterns the query should match to retrieve
@@ -31,6 +34,7 @@ export interface WhereClause<T extends FinishClause> {
 	where( patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ):GroupClause<T> & T;
 }
 
+
 function _getPatterns( iriResolver:IRIResolver, patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ):PatternToken[] {
 	const patternOrPatterns:Pattern | Pattern[] = patternFunction( PatternBuilder2.create( iriResolver ) );
 	const patterns:Pattern[] = Array.isArray( patternOrPatterns ) ? patternOrPatterns : [ patternOrPatterns ];
@@ -39,7 +43,15 @@ function _getPatterns( iriResolver:IRIResolver, patternFunction:( builder:Patter
 }
 
 /**
- * @todo
+ * Function that creates the {@link WhereClause.where} function.
+ *
+ * @param genericFactory The factory for the generic {@link FinishClause}
+ * that the {@link WhereClause} receives.
+ * @param container The container with the query data of the statement.
+ *
+ * @returns The {@link WhereClause.where} function.
+ *
+ * @private
  */
 function getWhereFn<C extends Container<QueryToken<QueryClauseToken>>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):WhereClause<T>[ "where" ] {
 	return ( patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ) => {
@@ -59,9 +71,23 @@ function getWhereFn<C extends Container<QueryToken<QueryClauseToken>>, T extends
 
 
 /**
- * @todo
+ * Constant with the utils for {@link WhereClause} objects.
  */
 export const WhereClause:{
+	/**
+	 * Factory function that allows to crete a {@link WhereClause}
+	 * from the {@param object} provided.
+	 *
+	 * @param genericFactory The factory to create the generic finish
+	 * of the {@link WhereClause} statement.
+	 * @param container The related container with the data for the
+	 * {@link WhereClause} statement.
+	 * @param object The base base from where to create the
+	 * {@link WhereClause} statement.
+	 *
+	 * @return The {@link WhereClause} statement created from the
+	 * {@param object} provided.
+	 */
 	createFrom<C extends Container<QueryToken<QueryClauseToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & WhereClause<T>
 } = {
 	createFrom<C extends Container<QueryToken<QueryClauseToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & WhereClause<T> {

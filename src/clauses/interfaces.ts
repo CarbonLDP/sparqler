@@ -9,21 +9,6 @@ import {
 	Resource,
 } from "sparqler/patterns/triples";
 
-export interface QueryClause<T extends FinishClause = FinishClause> extends SelectClause<T> {
-	base( iri:string ):QueryClause<T>;
-	vocab( iri:string ):QueryClause<T>;
-	prefix( name:string, iri:string ):QueryClause<T>;
-}
-
-export interface SelectClause<T extends FinishClause = FinishClause> {
-	select( ...variables:string[] ):FromClause<T>;
-	selectDistinct( ...variables:string[] ):FromClause<T>;
-	selectReduced( ...variables:string[] ):FromClause<T>;
-	selectAll():FromClause<T>;
-	selectAllDistinct():FromClause<T>;
-	selectAllReduced():FromClause<T>;
-}
-
 export interface SubSelectClause {
 	select( ...variables:string[] ):SubWhereClause;
 	selectDistinct( ...variables:string[] ):SubWhereClause;
@@ -31,15 +16,6 @@ export interface SubSelectClause {
 	selectAll():SubWhereClause;
 	selectAllDistinct():SubWhereClause;
 	selectAllReduced():SubWhereClause;
-}
-
-export interface FromClause<T extends FinishClause = FinishClause> extends WhereClause<T> {
-	from( iri:string ):FromClause<T>;
-	fromNamed( iri:string ):FromClause<T>;
-}
-
-export interface WhereClause<T extends FinishClause = FinishClause> {
-	where( patternFunction:( builder:PatternBuilder ) => GraphPattern | GraphPattern[] ):GroupClause<T> & T;
 }
 
 export interface SubWhereClause {

@@ -86,8 +86,7 @@ export interface SubSelectPattern {
  * Function that creates a generic {@link SubSelectClause.select} function.
  * This function is used to create all the methods for the {@link SubSelectClause}
  *
- * @param container The container that is bound to the FromClause methods.
- * is called from.
+ * @param container The container with the query data for the statement.
  * @param modifier The optional modifier of the SELECT queries.
  *
  * @returns A generic "select" function that shares the

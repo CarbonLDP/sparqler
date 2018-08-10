@@ -81,8 +81,7 @@ export interface SelectClause<T extends FinishClause> {
  *
  * @param genericFactory The factory for the generic {@link FinishClause}
  * that the {@link SelectClause} receives.
- * @param container The container that is bound to the FromClause methods.
- * is called from.
+ * @param container The container with the query data for the statement.
  * @param modifier The optional modifier of the SELECT queries.
  *
  * @returns A generic "select" function that shares the {@link SelectClause.select} signature.
