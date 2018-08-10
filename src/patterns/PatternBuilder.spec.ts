@@ -25,7 +25,6 @@ import {
 } from "sparqler/tokens";
 
 import DefaultExport, { PatternBuilder } from "./PatternBuilder";
-import { SubSelectClause } from "sparqler/clauses";
 
 
 describe( "PatternBuilder", ():void => {

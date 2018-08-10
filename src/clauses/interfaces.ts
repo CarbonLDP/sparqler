@@ -9,10 +9,6 @@ import {
 	Resource,
 } from "sparqler/patterns/triples";
 
-export interface GroupClause<T extends FinishClause | SubFinishClause = FinishClause> extends HavingClause<T> {
-	// TODO: create group condition expressions
-	groupBy( rawCondition:string ):HavingClause<T> & T;
-}
 
 export interface HavingClause<T extends FinishClause | SubFinishClause = FinishClause> extends OrderClause<T> {
 	// TODO: create having condition expressions
