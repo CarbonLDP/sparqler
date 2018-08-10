@@ -12,30 +12,49 @@ import { ValuesClause } from "./ValuesClause";
 
 
 /**
- * This LimitOffsetClause created this way to be able to specify `limit` and `offset` in this order or viceversa,
- * but not be able to repeat `limit` or `offset` more that once.
+ * Interface that specify union of the LIMIT and OFFSET statements.
+ * Its specified in a form one can use `limit` and `offset` in
+ * this order or viceversa, but not be able to repeat the `limit`
+ * or `offset` methods.
  *
  * Example:
  *  - Correct:
- *      .limit( ... )
- *      .offset( ... )
- *      .execute();
+ *  ```typescript
+ *      import { LimitOffsetClause } from "sparqler/clauses";
+ *      let query:LimitOffsetClause;
  *
- *      .offset( ... )
- *      .limit( ... )
- *      .execute();
+ *      query
+ *          .limit( &#47;*...*&#47; )
+ *          .offset( &#47;*...*&#47; )
+ *      ;
  *
- *      .limit( ... )
- *      .execute();
+ *      query
+ *          .offset( &#47;*...*&#47; )
+ *          .limit( &#47;*...*&#47; )
+ *      ;
+ *
+ *      query
+ *          .limit( &#47;*...*&#47; )
+ *      ;
+ * ```
  *
  *  - Incorrect:
- *      .limit( ... )
- *      .limit( ... ) // Not possible
- *      .offset( ... )
+ *  ```typescript
+ *      import { LimitOffsetClause } from "sparqler/Clauses";
+ *      let query:LimitOffsetClause;
  *
- *      .offset( ... )
- *      .limit( ... )
- *      .offset( ... ) // Not possible
+ *      query
+ *          .limit( &#47;*...*&#47; )
+ *          .limit( &#47;*...*&#47; ) // Not possible
+ *          .offset( &#47;*...*&#47; )
+ *      ;
+ *
+ *      query
+ *          .offset( &#47;*...*&#47; )
+ *          .limit( &#47;*...*&#47; )
+ *          .offset( &#47;*...*&#47; ) // Not possible
+ *      ;
+ * ```
  */
 export interface LimitOffsetClause<T extends FinishClause> extends LimitClause<OffsetClause<ValuesClause<T> & T> & ValuesClause<T> & T>,
                                                                    OffsetClause<LimitClause<ValuesClause<T> & T> & ValuesClause<T> & T>,
@@ -58,10 +77,25 @@ function _getOffsetFactory<CONTAINER extends Container<any>, T extends FinishCla
 		.createFrom( Factory.createFrom( valuesFactory, limitValuesFactory ), container1, object1 );
 }
 
+
 /**
- * @todo
+ * Constant with the utils for {@link LimitOffsetClause} objects.
  */
 export const LimitOffsetClause:{
+	/**
+	 * Factory function that allows to crete a {@link LimitOffsetClause}
+	 * from the {@param object} provided.
+	 *
+	 * @param genericFactory The factory to create the generic finish
+	 * of the {@link LimitOffsetClause} statement.
+	 * @param container The related container with the data for the
+	 * {@link LimitOffsetClause} statement.
+	 * @param object The base base from where to create the
+	 * {@link LimitOffsetClause} statement.
+	 *
+	 * @return The {@link LimitOffsetClause} statement created from the
+	 * {@param object} provided.
+	 */
 	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & LimitOffsetClause<T>;
 } = {
 	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & LimitOffsetClause<T> {

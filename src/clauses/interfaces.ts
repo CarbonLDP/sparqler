@@ -10,36 +10,6 @@ import {
 } from "sparqler/patterns/triples";
 
 
-/**
- * This LimitOffsetClause created this way to be able to specify `limit` and `offset` in this order or viceversa,
- * but not be able to repeat `limit` or `offset` more that once.
- *
- * Example:
- *  - Correct:
- *      .limit( ... )
- *      .offset( ... )
- *      .execute();
- *
- *      .offset( ... )
- *      .limit( ... )
- *      .execute();
- *
- *      .limit( ... )
- *      .execute();
- *
- *  - Incorrect:
- *      .limit( ... )
- *      .limit( ... ) // Not possible
- *      .offset( ... )
- *
- *      .offset( ... )
- *      .limit( ... )
- *      .offset( ... ) // Not possible
- */
-export interface LimitOffsetClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitClause<OffsetClause<T & ValuesClause<T>> & ValuesClause<T> & T>,
-                                                                                                    OffsetClause<LimitClause<T & ValuesClause<T>> & ValuesClause<T> & T>,
-																									ValuesClause<T> {}
-
 export interface OffsetClause<T> {
 	offset( offset:number ):T;
 }

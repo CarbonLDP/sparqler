@@ -6,7 +6,6 @@ import {
 	SubFinishClause,
 } from "sparqler/clauses/interfaces";
 import { LimitClause } from "sparqler/clauses/interfaces";
-import { LimitOffsetClause } from "sparqler/clauses/interfaces";
 import { OffsetClause } from "sparqler/clauses/interfaces";
 import {
 	LIMIT,
@@ -124,21 +123,6 @@ export function limitDecorator<T extends FinishClause | SubFinishClause, W exten
  */
 export function offsetDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & OffsetClause<T & ValuesClause<T>> & ValuesClause<T> {
 	return Object.assign( valuesDecorator( container, object ), {
-		offset: offset.bind( container ),
-	} );
-}
-
-/**
- * Decorator that binds the LimitOffsetClause methods to a container and adds
- * them to the provided object.
- *
- * @param container The container where to bind the respective methods.
- * @param object Object to be decorated with the bound methods.
- * @returns The same object provided that has been decorated.
- */
-export function limitOffsetDecorator<T extends FinishClause | SubFinishClause, W extends object>( container:Container<T>, object:W ):W & LimitOffsetClause<T> {
-	return Object.assign( valuesDecorator( container, object ), {
-		limit: limit.bind( container ),
 		offset: offset.bind( container ),
 	} );
 }
