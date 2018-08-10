@@ -3,7 +3,7 @@ import { spyContainers } from "../../test/spies/clones";
 import { Container } from "../data/Container";
 import { IRIResolver } from "../data/IRIResolver";
 
-import { HavingToken } from "../tokens/HavingToken";
+import { OrderToken } from "../tokens/OrderToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
 
@@ -108,7 +108,7 @@ describe( "OrderClause", () => {
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
 			expect( newContainer.targetToken.queryClause.modifiers )
-				.toContain( jasmine.any( HavingToken ) );
+				.toContain( jasmine.any( OrderToken ) );
 		} );
 
 		it( "should add ORDER BY token with the condition", () => {
@@ -116,7 +116,7 @@ describe( "OrderClause", () => {
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
 			expect( newContainer.targetToken.queryClause.modifiers )
-				.toContain( new HavingToken( "raw condition" ) );
+				.toContain( new OrderToken( "raw condition" ) );
 		} );
 
 	} );
