@@ -1,23 +1,29 @@
 import { Container } from "../../src/data/Container";
-
 import * as DataUtilsModule from "../../src/data/utils";
 
 import { TokenNode } from "../../src/tokens/TokenNode";
 
 
-let clonesSpy:jasmine.Spy;
-beforeEach( () => {
-	clonesSpy = spyOn( DataUtilsModule, "cloneElement" )
-		.and.callThrough();
-} );
+let clonesSpy:jasmine.Spy | undefined;
+export const spyClones = {
+	install() {
+		clonesSpy = spyOn( DataUtilsModule, "cloneElement" )
+			.and.callThrough();
+	},
+	uninstall() {
+		clonesSpy = void 0;
+	},
 
-export function getLastContainer<T extends Container<TokenNode>>():T {
-	const target:T | undefined = clonesSpy
-		.calls.all()
-		.reverse()
-		.map( x => x.returnValue )
-		.find( x => x instanceof Container );
+	getLastContainer<T extends Container<TokenNode>>():T {
+		if( ! clonesSpy ) throw new Error( "The spy clone has not been installed." );
 
-	if( ! target ) throw new Error( "No Container was created." );
-	return target;
-}
+		const target:T | undefined = clonesSpy
+			.calls.all()
+			.reverse()
+			.map( x => x.returnValue )
+			.find( x => x instanceof Container );
+
+		if( ! target ) throw new Error( "No Container was created." );
+		return target;
+	}
+};
