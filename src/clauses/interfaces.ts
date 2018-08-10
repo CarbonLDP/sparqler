@@ -10,11 +10,6 @@ import {
 } from "sparqler/patterns/triples";
 
 
-export interface OrderClause<T extends FinishClause | SubFinishClause = FinishClause> extends LimitOffsetClause<T> {
-	// TODO: create order condition expressions
-	orderBy( rawCondition:string ):LimitOffsetClause<T> & T;
-}
-
 /**
  * This LimitOffsetClause created this way to be able to specify `limit` and `offset` in this order or viceversa,
  * but not be able to repeat `limit` or `offset` more that once.

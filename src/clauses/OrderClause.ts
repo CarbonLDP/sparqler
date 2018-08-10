@@ -11,6 +11,9 @@ import { LimitOffsetClause } from "./LimitOffsetClause";
 import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
 
 
+/**
+ * Interface with the methods available to make a ORDER BY statement.
+ */
 export interface OrderClause<T extends FinishClause> extends LimitOffsetClause<T> {
 	/**
 	 * Set a condition to be used as the order of the sequence of solutions the
@@ -26,9 +29,16 @@ export interface OrderClause<T extends FinishClause> extends LimitOffsetClause<T
 	orderBy( rawCondition:string ):LimitOffsetClause<T> & T;
 }
 
-
 /**
- * @todo
+ * Function that creates the {@link OrderClause.orderBy} function.
+ *
+ * @param genericFactory The factory for the generic {@link FinishClause}
+ * that the {@link OrderClause} receives.
+ * @param container The container with the query data of the statement.
+ *
+ * @returns The {@link OrderClause.orderBy} function.
+ *
+ * @private
  */
 function getOrderByFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):OrderClause<T>[ "orderBy" ] {
 	return ( rawCondition:string ) => {
@@ -42,9 +52,23 @@ function getOrderByFn<C extends Container<QueryToken<QueryClauseToken> | SubSele
 
 
 /**
- * @todo
+ * Constant with the utils for {@link OrderClause} objects.
  */
 export const OrderClause:{
+	/**
+	 * Factory function that allows to crete a {@link OrderClause}
+	 * from the {@param object} provided.
+	 *
+	 * @param genericFactory The factory to create the generic finish
+	 * of the {@link OrderClause} statement.
+	 * @param container The related container with the data for the
+	 * {@link OrderClause} statement.
+	 * @param object The base base from where to create the
+	 * {@link OrderClause} statement.
+	 *
+	 * @return The {@link OrderClause} statement created from the
+	 * {@param object} provided.
+	 */
 	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & OrderClause<T>;
 } = {
 	createFrom<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause, O extends object>( genericFactory:Factory<typeof container, T>, container:C, object:O ):O & OrderClause<T> {
