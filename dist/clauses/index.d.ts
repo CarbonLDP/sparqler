@@ -1,5 +1,3 @@
-export * from "./Container";
-export * from "./interfaces";
 export { QueryClause } from "./QueryClause";
 export { SelectClause } from "./SelectClause";
 export { FromClause } from "./FromClause";

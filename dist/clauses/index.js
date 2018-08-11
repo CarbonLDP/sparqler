@@ -1,10 +1,5 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(require("./Container"));
-__export(require("./interfaces"));
 var QueryClause_1 = require("./QueryClause");
 exports.QueryClause = QueryClause_1.QueryClause;
 var SelectClause_1 = require("./SelectClause");
