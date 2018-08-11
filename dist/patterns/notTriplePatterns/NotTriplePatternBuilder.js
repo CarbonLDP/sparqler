@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = require("../../data/Container2");
+var Container_1 = require("../../data/Container");
 var BindToken_1 = require("../../tokens/BindToken");
 var FilterToken_1 = require("../../tokens/FilterToken");
 var GraphToken_1 = require("../../tokens/GraphToken");
@@ -16,7 +16,7 @@ var MultipleValuesPattern_1 = require("./MultipleValuesPattern");
 var NotTriplePattern_1 = require("./NotTriplePattern");
 var SingleValuesPattern_1 = require("./SingleValuesPattern");
 function _getPatternContainer(container, targetToken) {
-    return new Container2_1.Container2({
+    return new Container_1.Container({
         iriResolver: container.iriResolver,
         targetToken: targetToken,
     });

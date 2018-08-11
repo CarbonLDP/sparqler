@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 import { TokenNode } from "../../tokens/TokenNode";
 import { Pattern } from "../Pattern";
 import { Resource } from "../triplePatterns/Resource";
@@ -30,5 +30,5 @@ export interface NotTriplePatternBuilder {
     values(...variables: Variable[]): MultipleValuesPattern;
 }
 export declare const NotTriplePatternBuilder: {
-    createFrom<C extends Container2<TokenNode>, O extends object>(container: C, object: O): O & NotTriplePatternBuilder;
+    createFrom<C extends Container<TokenNode>, O extends object>(container: C, object: O): O & NotTriplePatternBuilder;
 };

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Factory_1 = require("../data/Factory");
-var IRIResolver2_1 = require("../data/IRIResolver2");
+var IRIResolver_1 = require("../data/IRIResolver");
 var utils_1 = require("../data/utils");
 var BaseToken_1 = require("../tokens/BaseToken");
 var IRIToken_1 = require("../tokens/IRIToken");
@@ -16,21 +16,21 @@ function base(iri) {
     return exports.QueryClause.createFrom(container, {});
 }
 function vocab(iri) {
-    var iriResolver = new IRIResolver2_1.IRIResolver2(this.iriResolver, iri);
+    var iriResolver = new IRIResolver_1.IRIResolver(this.iriResolver, iri);
     var container = utils_1.cloneElement(this, { iriResolver: iriResolver });
     return exports.QueryClause.createFrom(container, {});
 }
 function prefix(name, iri) {
-    var iriResolver = new IRIResolver2_1.IRIResolver2(this.iriResolver);
+    var iriResolver = new IRIResolver_1.IRIResolver(this.iriResolver);
     var prologues = this.targetToken.prologues.slice();
-    if (iriResolver._prefixes.has(name)) {
+    if (iriResolver.prefixes.has(name)) {
         var index = prologues
             .findIndex(function (token) { return token.token === "prefix" && token.namespace === name; });
         if (index !== -1)
             prologues.splice(index, 1);
     }
     prologues.push(new PrefixToken_1.PrefixToken(name, new IRIToken_1.IRIToken(iri)));
-    iriResolver._prefixes.set(name, false);
+    iriResolver.prefixes.set(name, false);
     var queryToken = utils_1.cloneElement(this.targetToken, { prologues: prologues });
     var container = utils_1.cloneElement(this, {
         iriResolver: iriResolver,

@@ -26,7 +26,8 @@ var QueryToken = (function () {
             return prologue + separator;
         })
             .join("");
-        query += this.queryClause.toString(spaces);
+        if (this.queryClause)
+            query += this.queryClause.toString(spaces);
         if (this.values)
             query += separator + this.values.toString(spaces);
         return query;

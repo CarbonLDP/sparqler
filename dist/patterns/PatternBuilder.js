@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container_1 = require("./../clauses/Container");
-var decorators_1 = require("./../clauses/decorators");
 var NotTriplesPattern_1 = require("./notTriples/NotTriplesPattern");
 var ValuesPattern_1 = require("./notTriples/ValuesPattern");
 var tokens_1 = require("./tokens");
@@ -15,7 +13,6 @@ var Patterns_1 = require("./../utils/Patterns");
 var PatternBuilder = (function () {
     function PatternBuilder(iriResolver) {
         this.iriResolver = iriResolver;
-        decorators_1.selectDecorator(new Container_1.Container(decorators_1.subFinishDecorator), this);
     }
     Object.defineProperty(PatternBuilder, "undefined", {
         get: function () { return "UNDEF"; },

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = require("../../data/Container2");
+var Container_1 = require("../../data/Container");
 var Factory_1 = require("../../data/Factory");
 var BlankNodePropertyToken_1 = require("../../tokens/BlankNodePropertyToken");
 var BlankNodeToken_1 = require("../../tokens/BlankNodeToken");
@@ -14,7 +14,7 @@ var BlankNodeBuilder_1 = require("./BlankNodeBuilder");
 var RDFLiteral_1 = require("./RDFLiteral");
 var TriplePatternHas_1 = require("./TriplePatternHas");
 function _getPatternContainer(container, token) {
-    return new Container2_1.Container2({
+    return new Container_1.Container({
         iriResolver: container.iriResolver,
         targetToken: new SubjectToken_1.SubjectToken(token),
     });
@@ -67,7 +67,7 @@ function _getBlankNode(container, label) {
 }
 function _getBlankNodeProperty(container, builderFn) {
     var token = new BlankNodePropertyToken_1.BlankNodePropertyToken();
-    var newContainer = new Container2_1.Container2({
+    var newContainer = new Container_1.Container({
         iriResolver: container.iriResolver,
         targetToken: token,
     });

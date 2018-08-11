@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var IRIResolver2_1 = require("../data/IRIResolver2");
+var IRIResolver_1 = require("../data/IRIResolver");
 var utils_1 = require("../data/utils");
 var PatternBuilder2_1 = require("../patterns/PatternBuilder2");
 var WhereToken_1 = require("../tokens/WhereToken");
@@ -13,7 +13,7 @@ function _getPatterns(iriResolver, patternFunction) {
 function getWhereFn(genericFactory, container) {
     return function (patternFunction) {
         var _a;
-        var iriResolver = new IRIResolver2_1.IRIResolver2(container.iriResolver);
+        var iriResolver = new IRIResolver_1.IRIResolver(container.iriResolver);
         var patterns = _getPatterns(iriResolver, patternFunction);
         var query = (_a = utils_1.cloneElement(container.targetToken.queryClause, { where: new WhereToken_1.WhereToken() })).addPattern.apply(_a, patterns);
         var queryToken = utils_1.cloneElement(container.targetToken, { queryClause: query });

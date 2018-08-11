@@ -8,7 +8,8 @@ export declare class ValuesToken implements TokenNode {
     readonly variables: VariableToken[];
     readonly values: (IRIToken | PrefixedNameToken | LiteralToken | "UNDEF")[][];
     constructor();
-    addValues(variable: VariableToken, ...values: (IRIToken | PrefixedNameToken | LiteralToken | "UNDEF")[]): this;
+    addVariables(...variables: VariableToken[]): this;
+    addValues(...values: (IRIToken | PrefixedNameToken | LiteralToken | "UNDEF")[]): this;
     toString(spaces?: number): string;
     private _getVariablesStr;
     private _getValuesStr;

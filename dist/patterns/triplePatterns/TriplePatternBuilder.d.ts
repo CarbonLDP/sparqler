@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 import { TokenNode } from "../../tokens/TokenNode";
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
 import { BlankNode } from "./BlankNode";
@@ -19,5 +19,5 @@ export interface TriplePatternBuilder {
     blankNode(builderFn: (blankNodeBuilder: BlankNodeBuilder) => any): BlankNodeProperty;
 }
 export declare const TriplePatternBuilder: {
-    createFrom<C extends Container2<TokenNode>, O extends object>(container: C, object: O): O & TriplePatternBuilder;
+    createFrom<C extends Container<TokenNode>, O extends object>(container: C, object: O): O & TriplePatternBuilder;
 };

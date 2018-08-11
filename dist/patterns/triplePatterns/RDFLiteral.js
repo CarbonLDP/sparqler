@@ -1,14 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = require("../../data/utils");
+var LanguageToken_1 = require("../../tokens/LanguageToken");
 var XSD = require("../../utils/XSD");
 var TriplePatternHas_1 = require("./TriplePatternHas");
 function getWithTypeFn(container) {
     return function (type) {
         if (type in XSD)
             type = XSD[type];
-        var subject = utils_1.cloneElement(container.targetToken.subject)
-            .setType(container.iriResolver.resolve(type, true));
+        var iriType = container.iriResolver.resolve(type, true);
+        var subject = utils_1.cloneElement(container.targetToken.subject, { type: iriType });
         var targetToken = utils_1.cloneElement(container.targetToken, { subject: subject });
         var newContainer = utils_1.cloneElement(container, { targetToken: targetToken });
         return TriplePatternHas_1.TriplePatternHas.createFrom(newContainer, {});
@@ -16,8 +17,8 @@ function getWithTypeFn(container) {
 }
 function getWithLanguageFn(container) {
     return function (language) {
-        var subject = utils_1.cloneElement(container.targetToken.subject)
-            .setLanguage(language);
+        var langToken = new LanguageToken_1.LanguageToken(language);
+        var subject = utils_1.cloneElement(container.targetToken.subject, { language: langToken });
         var targetToken = utils_1.cloneElement(container.targetToken, { subject: subject });
         var newContainer = utils_1.cloneElement(container, { targetToken: targetToken });
         return TriplePatternHas_1.TriplePatternHas.createFrom(newContainer, {});

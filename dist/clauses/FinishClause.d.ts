@@ -1,4 +1,4 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { TokenNode } from "../tokens/TokenNode";
 export interface FinishClause {
     toCompactString(): string;
@@ -6,5 +6,5 @@ export interface FinishClause {
     toString(): string;
 }
 export declare const FinishClause: {
-    createFrom<O extends object>(container: Container2<TokenNode>, object: O): O & FinishClause;
+    createFrom<O extends object>(container: Container<TokenNode>, object: O): O & FinishClause;
 };

@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = require("../data/Container2");
+var Container_1 = require("../data/Container");
 var Factory_1 = require("../data/Factory");
 var SubSelectPattern_1 = require("./clausePatterns/SubSelectPattern");
 var NotTriplePatternBuilder_1 = require("./notTriplePatterns/NotTriplePatternBuilder");
 var TriplePatternBuilder_1 = require("./triplePatterns/TriplePatternBuilder");
 exports.PatternBuilder2 = {
     create: function (iriResolver) {
-        var container = new Container2_1.Container2({
+        var container = new Container_1.Container({
             iriResolver: iriResolver,
             targetToken: { token: "none" },
         });

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = require("./../../data/Container2");
-var SubSelectToken_1 = require("./../../tokens/SubSelectToken");
-var VariableToken_1 = require("./../../tokens/VariableToken");
+var Container_1 = require("../../data/Container");
+var SubSelectToken_1 = require("../../tokens/SubSelectToken");
+var VariableToken_1 = require("../../tokens/VariableToken");
 var SubWherePattern_1 = require("./SubWherePattern");
 function getSelectFn(container, modifier) {
     return function () {
@@ -13,7 +13,7 @@ function getSelectFn(container, modifier) {
         var targetToken = new SubSelectToken_1.SubSelectToken(modifier);
         if (variables.length)
             targetToken.addVariable.apply(targetToken, variables.map(function (x) { return new VariableToken_1.VariableToken(x); }));
-        var newContainer = new Container2_1.Container2({
+        var newContainer = new Container_1.Container({
             iriResolver: container.iriResolver,
             targetToken: targetToken
         });

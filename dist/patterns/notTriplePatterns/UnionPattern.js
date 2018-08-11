@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = require("../../data/Container2");
+var Container_1 = require("../../data/Container");
 var utils_1 = require("../../data/utils");
 var GroupPatternToken_1 = require("../../tokens/GroupPatternToken");
 var NotTriplePattern_1 = require("./NotTriplePattern");
@@ -12,7 +12,7 @@ function getUnionFn(container) {
         (_a = newGroupToken.patterns).push.apply(_a, patterns.map(function (x) { return x.getPattern(); }));
         var groupPatterns = container.targetToken.groupPatterns.concat(newGroupToken);
         var unionToken = utils_1.cloneElement(container.targetToken, { groupPatterns: groupPatterns });
-        var newContainer = new Container2_1.Container2({
+        var newContainer = new Container_1.Container({
             iriResolver: container.iriResolver,
             targetToken: unionToken,
         });

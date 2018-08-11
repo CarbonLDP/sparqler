@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = require("../data/Container2");
+var Container_1 = require("../data/Container");
 var utils_1 = require("../data/utils");
 var SelectToken_1 = require("../tokens/SelectToken");
 var VariableToken_1 = require("../tokens/VariableToken");
@@ -15,7 +15,7 @@ function getSelectFn(genericFactory, container, modifier) {
         if (variables.length)
             queryClause.addVariable.apply(queryClause, variables.map(function (x) { return new VariableToken_1.VariableToken(x); }));
         var queryToken = utils_1.cloneElement(container.targetToken, { queryClause: queryClause });
-        var newContainer = new Container2_1.Container2({
+        var newContainer = new Container_1.Container({
             iriResolver: container.iriResolver,
             targetToken: queryToken,
         });

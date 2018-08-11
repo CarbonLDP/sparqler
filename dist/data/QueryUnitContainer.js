@@ -13,16 +13,19 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = require("./Container2");
+var Container_1 = require("./Container");
 var QueryUnitContainer = (function (_super) {
     __extends(QueryUnitContainer, _super);
     function QueryUnitContainer(data) {
+        var _newTarget = this.constructor;
         var _this = _super.call(this, data) || this;
         _this.selectFinishClauseFactory = data.selectFinishClauseFactory;
+        if (_newTarget === QueryUnitContainer)
+            Object.freeze(_this);
         return _this;
     }
     return QueryUnitContainer;
-}(Container2_1.Container2));
+}(Container_1.Container));
 exports.QueryUnitContainer = QueryUnitContainer;
 
 //# sourceMappingURL=QueryUnitContainer.js.map

@@ -1,4 +1,3 @@
-import { SubSelectClause, SubWhereClause } from "./../clauses/interfaces";
 import { IRIResolver } from "./../iri/IRIResolver";
 import { GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "./interfaces";
 import { NotTriplesPattern } from "./notTriples/NotTriplesPattern";
@@ -8,7 +7,7 @@ import { BooleanLiteral, Literal, NumericLiteral, RDFLiteral } from "./triples/L
 import { Resource } from "./triples/Resource";
 import { Variable } from "./triples/Variable";
 import { Undefined } from "./Undefined";
-export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder, SubSelectClause {
+export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder {
     static readonly undefined: Undefined;
     readonly undefined: Undefined;
     private iriResolver;
@@ -38,11 +37,5 @@ export declare class PatternBuilder implements TriplesPatternBuilder, NotTriples
     serviceSilent(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
     bind(rawExpression: string, variable: string | Variable): NotTriplesPattern;
     filter(rawConstraint: string): NotTriplesPattern;
-    select: (...variables: string[]) => SubWhereClause;
-    selectDistinct: (...variables: string[]) => SubWhereClause;
-    selectReduced: (...variables: string[]) => SubWhereClause;
-    selectAll: () => SubWhereClause;
-    selectAllDistinct: () => SubWhereClause;
-    selectAllReduced: () => SubWhereClause;
 }
 export default PatternBuilder;

@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 import { ObjectToken } from "../../tokens/ObjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 import { Pattern } from "../Pattern";
@@ -18,8 +18,8 @@ export interface TriplePatternAnd<T extends ObjectToken> extends TriplePattern<T
     and(property: Variable | Resource | "a" | string, objects: (SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty)[]): TriplePatternAnd<T>;
 }
 export declare const TriplePatternHas: {
-    createFrom<T extends ObjectToken, C extends Container2<import("sparqler/tokens/SubjectToken").SubjectToken<T>>, O extends object>(container: C, object: O): O & TriplePatternHas<T>;
+    createFrom<T extends ObjectToken, C extends Container<import("sparqler/tokens/SubjectToken").SubjectToken<T>>, O extends object>(container: C, object: O): O & TriplePatternHas<T>;
 };
 export declare const TriplePatternAnd: {
-    createFrom<T extends ObjectToken, C extends Container2<import("sparqler/tokens/SubjectToken").SubjectToken<T>>, O extends object>(container: C, object: O): O & TriplePatternAnd<T>;
+    createFrom<T extends ObjectToken, C extends Container<import("sparqler/tokens/SubjectToken").SubjectToken<T>>, O extends object>(container: C, object: O): O & TriplePatternAnd<T>;
 };

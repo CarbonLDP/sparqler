@@ -1,4 +1,4 @@
-import { Container2 } from "../data/Container2";
+import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
@@ -13,5 +13,5 @@ export interface SelectClause<T extends FinishClause> {
     selectAllReduced(): FromClause<T>;
 }
 export declare const SelectClause: {
-    createFrom<C extends Container2<QueryToken>, T extends FinishClause, O extends object>(genericFactory: Factory<Container2<QueryToken<SelectToken>>, T>, container: C, object: O): O & SelectClause<T>;
+    createFrom<C extends Container<QueryToken>, T extends FinishClause, O extends object>(genericFactory: Factory<Container<QueryToken<SelectToken>>, T>, container: C, object: O): O & SelectClause<T>;
 };

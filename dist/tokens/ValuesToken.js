@@ -7,12 +7,20 @@ var ValuesToken = (function () {
         this.variables = [];
         this.values = [];
     }
-    ValuesToken.prototype.addValues = function (variable) {
-        var values = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            values[_i - 1] = arguments[_i];
+    ValuesToken.prototype.addVariables = function () {
+        var variables = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            variables[_i] = arguments[_i];
         }
-        this.variables.push(variable);
+        var _a;
+        (_a = this.variables).push.apply(_a, variables);
+        return this;
+    };
+    ValuesToken.prototype.addValues = function () {
+        var values = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            values[_i] = arguments[_i];
+        }
         this.values.push(values);
         return this;
     };
@@ -31,11 +39,14 @@ var ValuesToken = (function () {
     };
     ValuesToken.prototype._getValuesStr = function (spaces) {
         if (!this.values.length)
-            return "{ () }";
-        if (this.values.length === 1) {
-            var values = this.values[0].length ?
-                this.values[0].join(" ") :
-                "()";
+            return "{}";
+        if (this.variables.length === 1) {
+            var values = this.values
+                .filter(function (x) { return x.length; })
+                .map(function (x) { return x[0]; })
+                .join(" ");
+            if (!values)
+                return "{}";
             return "{ " + values + " }";
         }
         var subIndent = printing_1.getIndentation(spaces, printing_1.INDENTATION_SPACES);

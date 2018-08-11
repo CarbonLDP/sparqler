@@ -113,14 +113,14 @@ module.exports = index_1.SPARQLER;
 Object.defineProperty(exports, "__esModule", { value: true });
 var FinishClause_1 = __webpack_require__(2);
 var QueryClause_1 = __webpack_require__(3);
-var IRIResolver2_1 = __webpack_require__(5);
+var IRIResolver_1 = __webpack_require__(5);
 var QueryUnitContainer_1 = __webpack_require__(87);
 var QueryToken_1 = __webpack_require__(45);
 var SPARQLER = (function () {
     function SPARQLER(finishSelectFactory) {
         if (finishSelectFactory === void 0) { finishSelectFactory = FinishClause_1.FinishClause.createFrom; }
         var container = new QueryUnitContainer_1.QueryUnitContainer({
-            iriResolver: new IRIResolver2_1.IRIResolver2(),
+            iriResolver: new IRIResolver_1.IRIResolver(),
             targetToken: new QueryToken_1.QueryToken(void 0),
             selectFinishClauseFactory: finishSelectFactory,
         });
@@ -161,7 +161,7 @@ exports.FinishClause = {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Factory_1 = __webpack_require__(4);
-var IRIResolver2_1 = __webpack_require__(5);
+var IRIResolver_1 = __webpack_require__(5);
 var utils_1 = __webpack_require__(47);
 var BaseToken_1 = __webpack_require__(41);
 var IRIToken_1 = __webpack_require__(19);
@@ -176,21 +176,21 @@ function base(iri) {
     return exports.QueryClause.createFrom(container, {});
 }
 function vocab(iri) {
-    var iriResolver = new IRIResolver2_1.IRIResolver2(this.iriResolver, iri);
+    var iriResolver = new IRIResolver_1.IRIResolver(this.iriResolver, iri);
     var container = utils_1.cloneElement(this, { iriResolver: iriResolver });
     return exports.QueryClause.createFrom(container, {});
 }
 function prefix(name, iri) {
-    var iriResolver = new IRIResolver2_1.IRIResolver2(this.iriResolver);
+    var iriResolver = new IRIResolver_1.IRIResolver(this.iriResolver);
     var prologues = this.targetToken.prologues.slice();
-    if (iriResolver._prefixes.has(name)) {
+    if (iriResolver.prefixes.has(name)) {
         var index = prologues
             .findIndex(function (token) { return token.token === "prefix" && token.namespace === name; });
         if (index !== -1)
             prologues.splice(index, 1);
     }
     prologues.push(new PrefixToken_1.PrefixToken(name, new IRIToken_1.IRIToken(iri)));
-    iriResolver._prefixes.set(name, false);
+    iriResolver.prefixes.set(name, false);
     var queryToken = utils_1.cloneElement(this.targetToken, { prologues: prologues });
     var container = utils_1.cloneElement(this, {
         iriResolver: iriResolver,
@@ -220,12 +220,12 @@ exports.QueryClause = {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Factory = {
     createFrom: function () {
-        var clauseFactories = [];
+        var factories = [];
         for (var _i = 0; _i < arguments.length; _i++) {
-            clauseFactories[_i] = arguments[_i];
+            factories[_i] = arguments[_i];
         }
         return function (container, object) {
-            return clauseFactories
+            return factories
                 .reduce(function (target, factoryFn) { return factoryFn(container, target); }, object);
         };
     }
@@ -242,39 +242,41 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(6);
 var IRIToken_1 = __webpack_require__(19);
 var PrefixedNameToken_1 = __webpack_require__(20);
-var IRIResolver2 = (function () {
-    function IRIResolver2(base, vocab) {
+var IRIResolver = (function () {
+    function IRIResolver(base, vocab) {
         var _newTarget = this.constructor;
-        this._prefixes = base
-            ? new Map(base._prefixes.entries())
+        this.prefixes = base
+            ? new Map(base.prefixes.entries())
             : new Map();
-        this._vocab = vocab ? vocab : base ? base._vocab : void 0;
-        if (_newTarget === IRIResolver2)
+        this.vocab = vocab
+            ? vocab
+            : base && base.vocab;
+        if (_newTarget === IRIResolver)
             Object.freeze(this);
     }
-    IRIResolver2.prototype.resolve = function (relativeIRI, vocab) {
+    IRIResolver.prototype.resolve = function (relativeIRI, vocab) {
         if (utils_1.isPrefixed(relativeIRI))
             return this.resolvePrefixed(relativeIRI);
         return this.resolveIRI(relativeIRI, vocab);
     };
-    IRIResolver2.prototype.resolveIRI = function (relativeIRI, vocab) {
+    IRIResolver.prototype.resolveIRI = function (relativeIRI, vocab) {
         if (vocab === void 0) { vocab = false; }
-        if (vocab && this._vocab && utils_1.isRelative(relativeIRI))
-            relativeIRI = this._vocab + relativeIRI;
+        if (vocab && this.vocab && utils_1.isRelative(relativeIRI))
+            relativeIRI = this.vocab + relativeIRI;
         return new IRIToken_1.IRIToken(relativeIRI);
     };
-    IRIResolver2.prototype.resolvePrefixed = function (prefixedName) {
+    IRIResolver.prototype.resolvePrefixed = function (prefixedName) {
         var token = new PrefixedNameToken_1.PrefixedNameToken(prefixedName);
-        var used = this._prefixes.get(token.namespace);
+        var used = this.prefixes.get(token.namespace);
         if (used === void 0)
             throw new Error("The prefix \"" + token.namespace + "\" has not been declared.");
         if (!used)
-            this._prefixes.set(token.namespace, true);
+            this.prefixes.set(token.namespace, true);
         return token;
     };
-    return IRIResolver2;
+    return IRIResolver;
 }());
-exports.IRIResolver2 = IRIResolver2;
+exports.IRIResolver = IRIResolver;
 
 
 /***/ }),
@@ -1065,12 +1067,20 @@ var ValuesToken = (function () {
         this.variables = [];
         this.values = [];
     }
-    ValuesToken.prototype.addValues = function (variable) {
-        var values = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            values[_i - 1] = arguments[_i];
+    ValuesToken.prototype.addVariables = function () {
+        var variables = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            variables[_i] = arguments[_i];
         }
-        this.variables.push(variable);
+        var _a;
+        (_a = this.variables).push.apply(_a, variables);
+        return this;
+    };
+    ValuesToken.prototype.addValues = function () {
+        var values = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            values[_i] = arguments[_i];
+        }
         this.values.push(values);
         return this;
     };
@@ -1089,11 +1099,14 @@ var ValuesToken = (function () {
     };
     ValuesToken.prototype._getValuesStr = function (spaces) {
         if (!this.values.length)
-            return "{ () }";
-        if (this.values.length === 1) {
-            var values = this.values[0].length ?
-                this.values[0].join(" ") :
-                "()";
+            return "{}";
+        if (this.variables.length === 1) {
+            var values = this.values
+                .filter(function (x) { return x.length; })
+                .map(function (x) { return x[0]; })
+                .join(" ");
+            if (!values)
+                return "{}";
             return "{ " + values + " }";
         }
         var subIndent = printing_1.getIndentation(spaces, printing_1.INDENTATION_SPACES);
@@ -1129,7 +1142,7 @@ function getSeparator(spaces) {
 }
 exports.getSeparator = getSeparator;
 function getIndentation(spaces, extra) {
-    if (!spaces)
+    if (spaces === void 0)
         return "";
     if (extra)
         spaces += extra;
@@ -1725,7 +1738,8 @@ var QueryToken = (function () {
             return prologue + separator;
         })
             .join("");
-        query += this.queryClause.toString(spaces);
+        if (this.queryClause)
+            query += this.queryClause.toString(spaces);
         if (this.values)
             query += separator + this.values.toString(spaces);
         return query;
@@ -1778,9 +1792,10 @@ exports.CollectionToken = CollectionToken;
 Object.defineProperty(exports, "__esModule", { value: true });
 function cloneElement(element, newValues) {
     if (newValues === void 0) { newValues = {}; }
-    var clone = Object.create(Object.getPrototypeOf(element));
-    return Object
-        .assign(clone, element, newValues);
+    var base = Object.create(Object.getPrototypeOf(element));
+    var clone = Object
+        .assign(base, element, newValues);
+    return Object.freeze(clone);
 }
 exports.cloneElement = cloneElement;
 
@@ -1792,7 +1807,7 @@ exports.cloneElement = cloneElement;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = __webpack_require__(49);
+var Container_1 = __webpack_require__(49);
 var utils_1 = __webpack_require__(47);
 var SelectToken_1 = __webpack_require__(39);
 var VariableToken_1 = __webpack_require__(18);
@@ -1807,7 +1822,7 @@ function getSelectFn(genericFactory, container, modifier) {
         if (variables.length)
             queryClause.addVariable.apply(queryClause, variables.map(function (x) { return new VariableToken_1.VariableToken(x); }));
         var queryToken = utils_1.cloneElement(container.targetToken, { queryClause: queryClause });
-        var newContainer = new Container2_1.Container2({
+        var newContainer = new Container_1.Container({
             iriResolver: container.iriResolver,
             targetToken: queryToken,
         });
@@ -1835,15 +1850,17 @@ exports.SelectClause = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2 = (function () {
-    function Container2(_a) {
-        var iriResolver = _a.iriResolver, targetToken = _a.targetToken;
-        this.iriResolver = iriResolver;
-        this.targetToken = targetToken;
+var Container = (function () {
+    function Container(data) {
+        var _newTarget = this.constructor;
+        this.iriResolver = data.iriResolver;
+        this.targetToken = data.targetToken;
+        if (_newTarget === Container)
+            Object.freeze(this);
     }
-    return Container2;
+    return Container;
 }());
-exports.Container2 = Container2;
+exports.Container = Container;
 
 
 /***/ }),
@@ -1853,13 +1870,13 @@ exports.Container2 = Container2;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var IRIResolver2_1 = __webpack_require__(5);
+var IRIResolver_1 = __webpack_require__(5);
 var utils_1 = __webpack_require__(47);
 var FromToken_1 = __webpack_require__(51);
 var WhereClause_1 = __webpack_require__(52);
 function getFromFn(genericFactory, container, named) {
     return function (iri) {
-        var iriResolver = new IRIResolver2_1.IRIResolver2(container.iriResolver);
+        var iriResolver = new IRIResolver_1.IRIResolver(container.iriResolver);
         var queryClause = utils_1.cloneElement(container.targetToken.queryClause, {
             dataset: new FromToken_1.FromToken(iriResolver.resolve(iri), named)
         });
@@ -1913,7 +1930,7 @@ exports.FromToken = FromToken;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var IRIResolver2_1 = __webpack_require__(5);
+var IRIResolver_1 = __webpack_require__(5);
 var utils_1 = __webpack_require__(47);
 var PatternBuilder2_1 = __webpack_require__(53);
 var WhereToken_1 = __webpack_require__(38);
@@ -1926,7 +1943,7 @@ function _getPatterns(iriResolver, patternFunction) {
 function getWhereFn(genericFactory, container) {
     return function (patternFunction) {
         var _a;
-        var iriResolver = new IRIResolver2_1.IRIResolver2(container.iriResolver);
+        var iriResolver = new IRIResolver_1.IRIResolver(container.iriResolver);
         var patterns = _getPatterns(iriResolver, patternFunction);
         var query = (_a = utils_1.cloneElement(container.targetToken.queryClause, { where: new WhereToken_1.WhereToken() })).addPattern.apply(_a, patterns);
         var queryToken = utils_1.cloneElement(container.targetToken, { queryClause: query });
@@ -1951,14 +1968,14 @@ exports.WhereClause = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = __webpack_require__(49);
+var Container_1 = __webpack_require__(49);
 var Factory_1 = __webpack_require__(4);
 var SubSelectPattern_1 = __webpack_require__(54);
 var NotTriplePatternBuilder_1 = __webpack_require__(71);
 var TriplePatternBuilder_1 = __webpack_require__(81);
 exports.PatternBuilder2 = {
     create: function (iriResolver) {
-        var container = new Container2_1.Container2({
+        var container = new Container_1.Container({
             iriResolver: iriResolver,
             targetToken: { token: "none" },
         });
@@ -1978,7 +1995,7 @@ exports.PatternBuilder2 = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = __webpack_require__(49);
+var Container_1 = __webpack_require__(49);
 var SubSelectToken_1 = __webpack_require__(55);
 var VariableToken_1 = __webpack_require__(18);
 var SubWherePattern_1 = __webpack_require__(56);
@@ -1991,7 +2008,7 @@ function getSelectFn(container, modifier) {
         var targetToken = new SubSelectToken_1.SubSelectToken(modifier);
         if (variables.length)
             targetToken.addVariable.apply(targetToken, variables.map(function (x) { return new VariableToken_1.VariableToken(x); }));
-        var newContainer = new Container2_1.Container2({
+        var newContainer = new Container_1.Container({
             iriResolver: container.iriResolver,
             targetToken: targetToken
         });
@@ -2332,7 +2349,7 @@ exports.OffsetClause = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var IRIResolver2_1 = __webpack_require__(5);
+var IRIResolver_1 = __webpack_require__(5);
 var utils_1 = __webpack_require__(47);
 var PatternBuilder2_1 = __webpack_require__(53);
 var utils_2 = __webpack_require__(67);
@@ -2340,11 +2357,7 @@ var ValuesToken_1 = __webpack_require__(26);
 var VariableToken_1 = __webpack_require__(18);
 function _normalizeVariables(variableOrVariables) {
     var variables = Array.isArray(variableOrVariables) ? variableOrVariables : [variableOrVariables];
-    return variables.map(function (x) {
-        if (typeof x === "string")
-            return new VariableToken_1.VariableToken(x);
-        return x.getSubject();
-    });
+    return variables.map(function (x) { return new VariableToken_1.VariableToken(x); });
 }
 function _normalizeRawValues(valuesOrBuilder, iriResolver, isSingle) {
     var rawValues = typeof valuesOrBuilder === "function" ?
@@ -2360,14 +2373,13 @@ function _normalizeRawValues(valuesOrBuilder, iriResolver, isSingle) {
 }
 function createValuesFn(genericFactory, container) {
     return function (variableOrVariables, valuesOrBuilder) {
-        var iriResolver = new IRIResolver2_1.IRIResolver2(container.iriResolver);
-        var isSingle = !Array.isArray(variableOrVariables);
-        var values = _normalizeRawValues(valuesOrBuilder, iriResolver, isSingle);
-        var variables = _normalizeVariables(variableOrVariables);
         var token = new ValuesToken_1.ValuesToken();
-        values.forEach(function (valuesRow, index) {
-            token.addValues.apply(token, [variables[index]].concat(valuesRow.map(utils_2.convertValue)));
-        });
+        var variables = _normalizeVariables(variableOrVariables);
+        token.addVariables.apply(token, variables);
+        var isSingle = !Array.isArray(variableOrVariables);
+        var iriResolver = new IRIResolver_1.IRIResolver(container.iriResolver);
+        var values = _normalizeRawValues(valuesOrBuilder, iriResolver, isSingle);
+        values.forEach(function (valuesRow) { return token.addValues.apply(token, valuesRow.map(utils_2.convertValue)); });
         var targetToken = utils_1.cloneElement(container.targetToken, { values: token });
         var newContainer = utils_1.cloneElement(container, { iriResolver: iriResolver, targetToken: targetToken });
         return genericFactory(newContainer, {});
@@ -2494,7 +2506,7 @@ exports.Pattern = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = __webpack_require__(49);
+var Container_1 = __webpack_require__(49);
 var BindToken_1 = __webpack_require__(33);
 var FilterToken_1 = __webpack_require__(34);
 var GraphToken_1 = __webpack_require__(32);
@@ -2510,7 +2522,7 @@ var MultipleValuesPattern_1 = __webpack_require__(79);
 var NotTriplePattern_1 = __webpack_require__(77);
 var SingleValuesPattern_1 = __webpack_require__(80);
 function _getPatternContainer(container, targetToken) {
-    return new Container2_1.Container2({
+    return new Container_1.Container({
         iriResolver: container.iriResolver,
         targetToken: targetToken,
     });
@@ -2687,7 +2699,7 @@ exports.Undefined = "UNDEF";
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = __webpack_require__(49);
+var Container_1 = __webpack_require__(49);
 var GroupPatternToken_1 = __webpack_require__(31);
 var UnionPatternToken_1 = __webpack_require__(76);
 var NotTriplePattern_1 = __webpack_require__(77);
@@ -2700,7 +2712,7 @@ function getUnionFn(container) {
         (_a = newGroupToken.patterns).push.apply(_a, patterns.map(function (x) { return x.getPattern(); }));
         var unionToken = new UnionPatternToken_1.UnionPatternToken();
         unionToken.groupPatterns.push(container.targetToken, newGroupToken);
-        var newContainer = new Container2_1.Container2({
+        var newContainer = new Container_1.Container({
             iriResolver: container.iriResolver,
             targetToken: unionToken,
         });
@@ -2759,7 +2771,7 @@ exports.NotTriplePattern = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = __webpack_require__(49);
+var Container_1 = __webpack_require__(49);
 var utils_1 = __webpack_require__(47);
 var GroupPatternToken_1 = __webpack_require__(31);
 var NotTriplePattern_1 = __webpack_require__(77);
@@ -2771,7 +2783,7 @@ function getUnionFn(container) {
         (_a = newGroupToken.patterns).push.apply(_a, patterns.map(function (x) { return x.getPattern(); }));
         var groupPatterns = container.targetToken.groupPatterns.concat(newGroupToken);
         var unionToken = utils_1.cloneElement(container.targetToken, { groupPatterns: groupPatterns });
-        var newContainer = new Container2_1.Container2({
+        var newContainer = new Container_1.Container({
             iriResolver: container.iriResolver,
             targetToken: unionToken,
         });
@@ -2870,7 +2882,7 @@ exports.SingleValuesPatternAnd = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = __webpack_require__(49);
+var Container_1 = __webpack_require__(49);
 var Factory_1 = __webpack_require__(4);
 var BlankNodePropertyToken_1 = __webpack_require__(82);
 var BlankNodeToken_1 = __webpack_require__(17);
@@ -2884,7 +2896,7 @@ var BlankNodeBuilder_1 = __webpack_require__(83);
 var RDFLiteral_1 = __webpack_require__(84);
 var TriplePatternHas_1 = __webpack_require__(85);
 function _getPatternContainer(container, token) {
-    return new Container2_1.Container2({
+    return new Container_1.Container({
         iriResolver: container.iriResolver,
         targetToken: new SubjectToken_1.SubjectToken(token),
     });
@@ -2937,7 +2949,7 @@ function _getBlankNode(container, label) {
 }
 function _getBlankNodeProperty(container, builderFn) {
     var token = new BlankNodePropertyToken_1.BlankNodePropertyToken();
-    var newContainer = new Container2_1.Container2({
+    var newContainer = new Container_1.Container({
         iriResolver: container.iriResolver,
         targetToken: token,
     });
@@ -3039,14 +3051,15 @@ exports.BlankNodeBuilderAnd = {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(47);
+var LanguageToken_1 = __webpack_require__(22);
 var XSD = __webpack_require__(68);
 var TriplePatternHas_1 = __webpack_require__(85);
 function getWithTypeFn(container) {
     return function (type) {
         if (type in XSD)
             type = XSD[type];
-        var subject = utils_1.cloneElement(container.targetToken.subject)
-            .setType(container.iriResolver.resolve(type, true));
+        var iriType = container.iriResolver.resolve(type, true);
+        var subject = utils_1.cloneElement(container.targetToken.subject, { type: iriType });
         var targetToken = utils_1.cloneElement(container.targetToken, { subject: subject });
         var newContainer = utils_1.cloneElement(container, { targetToken: targetToken });
         return TriplePatternHas_1.TriplePatternHas.createFrom(newContainer, {});
@@ -3054,8 +3067,8 @@ function getWithTypeFn(container) {
 }
 function getWithLanguageFn(container) {
     return function (language) {
-        var subject = utils_1.cloneElement(container.targetToken.subject)
-            .setLanguage(language);
+        var langToken = new LanguageToken_1.LanguageToken(language);
+        var subject = utils_1.cloneElement(container.targetToken.subject, { language: langToken });
         var targetToken = utils_1.cloneElement(container.targetToken, { subject: subject });
         var newContainer = utils_1.cloneElement(container, { targetToken: targetToken });
         return TriplePatternHas_1.TriplePatternHas.createFrom(newContainer, {});
@@ -3150,16 +3163,19 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container2_1 = __webpack_require__(49);
+var Container_1 = __webpack_require__(49);
 var QueryUnitContainer = (function (_super) {
     __extends(QueryUnitContainer, _super);
     function QueryUnitContainer(data) {
+        var _newTarget = this.constructor;
         var _this = _super.call(this, data) || this;
         _this.selectFinishClauseFactory = data.selectFinishClauseFactory;
+        if (_newTarget === QueryUnitContainer)
+            Object.freeze(_this);
         return _this;
     }
     return QueryUnitContainer;
-}(Container2_1.Container2));
+}(Container_1.Container));
 exports.QueryUnitContainer = QueryUnitContainer;
 
 

@@ -1,6 +1,7 @@
 import { Container } from "../../data/Container";
 import { cloneElement } from "../../data/utils";
 
+import { LanguageToken } from "../../tokens/LanguageToken";
 import { LiteralToken } from "../../tokens/LiteralToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 
@@ -23,8 +24,9 @@ export interface RDFLiteral extends Literal {
 function getWithTypeFn<C extends Container<SubjectToken<LiteralToken>>>( container:C ):RDFLiteral[ "withType" ] {
 	return type => {
 		if( type in XSD ) type = (XSD as any)[ type ];
-		const subject = cloneElement( container.targetToken.subject )
-			.setType( container.iriResolver.resolve( type, true ) );
+
+		const iriType = container.iriResolver.resolve( type, true );
+		const subject = cloneElement( container.targetToken.subject, { type: iriType } );
 
 		const targetToken = cloneElement( container.targetToken, { subject } );
 		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
@@ -35,8 +37,8 @@ function getWithTypeFn<C extends Container<SubjectToken<LiteralToken>>>( contain
 
 function getWithLanguageFn<C extends Container<SubjectToken<LiteralToken>>>( container:C ):RDFLiteral[ "withLanguage" ] {
 	return language => {
-		const subject = cloneElement( container.targetToken.subject )
-			.setLanguage( language );
+		const langToken = new LanguageToken( language );
+		const subject = cloneElement( container.targetToken.subject, { language: langToken } );
 
 		const targetToken = cloneElement( container.targetToken, { subject } );
 		const newContainer = cloneElement( container, { targetToken } as Partial<C> );

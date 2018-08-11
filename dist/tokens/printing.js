@@ -8,7 +8,7 @@ function getSeparator(spaces) {
 }
 exports.getSeparator = getSeparator;
 function getIndentation(spaces, extra) {
-    if (!spaces)
+    if (spaces === void 0)
         return "";
     if (extra)
         spaces += extra;

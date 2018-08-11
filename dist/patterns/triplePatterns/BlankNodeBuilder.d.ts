@@ -1,4 +1,4 @@
-import { Container2 } from "../../data/Container2";
+import { Container } from "../../data/Container";
 import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
 import { BlankNodeProperty } from "./BlankNodeProperty";
@@ -15,8 +15,8 @@ export interface BlankNodeBuilderAnd {
     and(property: Variable | Resource | "a" | string, objects: (SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty)[]): BlankNodeBuilderAnd;
 }
 export declare const BlankNodeBuilder: {
-    createFrom<C extends Container2<BlankNodePropertyToken>, O extends object>(container: C, object: O): O & BlankNodeBuilder;
+    createFrom<C extends Container<BlankNodePropertyToken>, O extends object>(container: C, object: O): O & BlankNodeBuilder;
 };
 export declare const BlankNodeBuilderAnd: {
-    createFrom<C extends Container2<BlankNodePropertyToken>, O extends object>(container: C, object: O): O & BlankNodeBuilderAnd;
+    createFrom<C extends Container<BlankNodePropertyToken>, O extends object>(container: C, object: O): O & BlankNodeBuilderAnd;
 };

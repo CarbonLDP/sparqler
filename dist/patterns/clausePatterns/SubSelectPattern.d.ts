@@ -1,5 +1,5 @@
-import { Container2 } from "./../../data/Container2";
-import { TokenNode } from "./../../tokens";
+import { Container } from "../../data/Container";
+import { TokenNode } from "../../tokens/TokenNode";
 import { SubWherePattern } from "./SubWherePattern";
 export interface SubSelectPattern {
     select(...variables: string[]): SubWherePattern;
@@ -10,5 +10,5 @@ export interface SubSelectPattern {
     selectAllReduced(): SubWherePattern;
 }
 export declare const SubSelectPattern: {
-    createFrom<C extends Container2<TokenNode>, O extends object>(container: C, object: O): O & SubSelectPattern;
+    createFrom<C extends Container<TokenNode>, O extends object>(container: C, object: O): O & SubSelectPattern;
 };
