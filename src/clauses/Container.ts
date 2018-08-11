@@ -1,4 +1,3 @@
-import { finishDecorator as originalFinishDecorator } from "sparqler/clauses/decorators/finish";
 import { subFinishDecorator } from "sparqler/clauses/decorators/subFinish";
 import { FinishClause } from "sparqler/clauses/FinishClause";
 import { SubFinishClause, } from "sparqler/clauses/interfaces";
