@@ -10,7 +10,7 @@ export function getSeparator( spaces?:number ) {
 }
 
 export function getIndentation( spaces?:number, extra?:number ):string {
-	if( ! spaces ) return "";
+	if( spaces === void 0 ) return "";
 
 	if( extra ) spaces += extra;
 	return " ".repeat( spaces );

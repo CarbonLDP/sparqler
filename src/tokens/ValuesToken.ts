@@ -17,11 +17,13 @@ export class ValuesToken implements TokenNode {
 		this.values = [];
 	}
 
+	addVariables( ...variables:VariableToken[] ):this {
+		this.variables.push( ...variables );
+		return this;
+	}
 
-	addValues( variable:VariableToken, ...values:(IRIToken | PrefixedNameToken | LiteralToken | "UNDEF")[] ):this {
-		this.variables.push( variable );
+	addValues( ...values:(IRIToken | PrefixedNameToken | LiteralToken | "UNDEF")[] ):this {
 		this.values.push( values );
-
 		return this;
 	}
 
@@ -43,13 +45,15 @@ export class ValuesToken implements TokenNode {
 	}
 
 	private _getValuesStr( spaces?:number ):string {
-		if( ! this.values.length ) return "{ () }";
+		if( ! this.values.length ) return "{}";
 
-		if( this.values.length === 1 ) {
-			const values:string = this.values[ 0 ].length ?
-				this.values[ 0 ].join( " " ) :
-				"()";
+		if( this.variables.length === 1 ) {
+			const values:string = this.values
+				.filter( x => x.length )
+				.map( x => x[ 0 ] )
+				.join( " " );
 
+			if( ! values ) return "{}";
 			return "{ " + values + " }";
 		}
 

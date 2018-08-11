@@ -161,7 +161,8 @@ describe( "Module QueryToken", ():void => {
 			it( "should return the SPARQL query statement with values", ():void => {
 				const construct:ConstructToken = new ConstructToken();
 				const values:ValuesToken = new ValuesToken()
-					.addValues( new VariableToken( "var" ), "UNDEF" );
+					.addVariables( new VariableToken( "var" ) )
+					.addValues( "UNDEF" );
 
 				const token:QueryToken = new QueryToken( construct, values );
 
@@ -176,7 +177,8 @@ describe( "Module QueryToken", ():void => {
 			it( "should return the SPARQL query statement with values", ():void => {
 				const construct:ConstructToken = new ConstructToken();
 				const values:ValuesToken = new ValuesToken()
-					.addValues( new VariableToken( "var" ), "UNDEF" );
+					.addVariables( new VariableToken( "var" ) )
+					.addValues( "UNDEF" );
 
 				const token:QueryToken = new QueryToken( construct, values );
 
