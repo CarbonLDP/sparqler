@@ -8,7 +8,7 @@ import { TokenNode } from "../../tokens/TokenNode";
 import { VariableToken } from "../../tokens/VariableToken";
 
 import { SubSelectPattern } from "./SubSelectPattern";
-import { SubWherePattern } from "./SubWherePattern";
+import { WherePattern } from "./WherePattern";
 
 
 describe( "SubSelectPattern", () => {
@@ -80,7 +80,7 @@ describe( "SubSelectPattern", () => {
 		} );
 
 		it( "should return a SubWherePattern object", () => {
-			const wherePattern:SubWherePattern = selectPattern.select();
+			const wherePattern:WherePattern = selectPattern.select();
 			expect( wherePattern ).toEqual( {
 				where: jasmine.any( Function ),
 			} );
@@ -139,7 +139,7 @@ describe( "SubSelectPattern", () => {
 		} );
 
 		it( "should return a SubWherePattern object", () => {
-			const wherePattern:SubWherePattern = selectPattern.selectDistinct();
+			const wherePattern:WherePattern = selectPattern.selectDistinct();
 			expect( wherePattern ).toEqual( {
 				where: jasmine.any( Function ),
 			} );
@@ -198,7 +198,7 @@ describe( "SubSelectPattern", () => {
 		} );
 
 		it( "should return a SubWherePattern object", () => {
-			const wherePattern:SubWherePattern = selectPattern.selectReduced();
+			const wherePattern:WherePattern = selectPattern.selectReduced();
 			expect( wherePattern ).toEqual( {
 				where: jasmine.any( Function ),
 			} );
@@ -258,7 +258,7 @@ describe( "SubSelectPattern", () => {
 		} );
 
 		it( "should return a SubWherePattern object", () => {
-			const wherePattern:SubWherePattern = selectPattern.selectAll();
+			const wherePattern:WherePattern = selectPattern.selectAll();
 			expect( wherePattern ).toEqual( {
 				where: jasmine.any( Function ),
 			} );
@@ -305,7 +305,7 @@ describe( "SubSelectPattern", () => {
 		} );
 
 		it( "should return a SubWherePattern object", () => {
-			const wherePattern:SubWherePattern = selectPattern.selectAllDistinct();
+			const wherePattern:WherePattern = selectPattern.selectAllDistinct();
 			expect( wherePattern ).toEqual( {
 				where: jasmine.any( Function ),
 			} );
@@ -352,7 +352,7 @@ describe( "SubSelectPattern", () => {
 		} );
 
 		it( "should return a SubWherePattern object", () => {
-			const wherePattern:SubWherePattern = selectPattern.selectAllReduced();
+			const wherePattern:WherePattern = selectPattern.selectAllReduced();
 			expect( wherePattern ).toEqual( {
 				where: jasmine.any( Function ),
 			} );

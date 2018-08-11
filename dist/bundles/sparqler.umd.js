@@ -1998,7 +1998,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = __webpack_require__(49);
 var SubSelectToken_1 = __webpack_require__(55);
 var VariableToken_1 = __webpack_require__(18);
-var SubWherePattern_1 = __webpack_require__(56);
+var WherePattern_1 = __webpack_require__(56);
 function getSelectFn(container, modifier) {
     return function () {
         var variables = [];
@@ -2012,7 +2012,7 @@ function getSelectFn(container, modifier) {
             iriResolver: container.iriResolver,
             targetToken: targetToken
         });
-        return SubWherePattern_1.SubWherePattern.createFrom(newContainer, {});
+        return WherePattern_1.WherePattern.createFrom(newContainer, {});
     };
 }
 exports.SubSelectPattern = {
@@ -2088,9 +2088,9 @@ exports.SubSelectToken = SubSelectToken;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var GroupClause_1 = __webpack_require__(57);
 var utils_1 = __webpack_require__(47);
 var WhereToken_1 = __webpack_require__(38);
-var GroupClause_1 = __webpack_require__(57);
 var FinishPattern_1 = __webpack_require__(69);
 function getWhereFn(container) {
     return function (patterns) {
@@ -2104,7 +2104,7 @@ function getWhereFn(container) {
         return FinishPattern_1.FinishPattern.createFrom(newContainer, groupClause);
     };
 }
-exports.SubWherePattern = {
+exports.WherePattern = {
     createFrom: function (container, object) {
         return Object.assign(object, {
             where: getWhereFn(container),

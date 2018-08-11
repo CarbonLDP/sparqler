@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = require("../../data/Container");
 var SubSelectToken_1 = require("../../tokens/SubSelectToken");
 var VariableToken_1 = require("../../tokens/VariableToken");
-var SubWherePattern_1 = require("./SubWherePattern");
+var WherePattern_1 = require("./WherePattern");
 function getSelectFn(container, modifier) {
     return function () {
         var variables = [];
@@ -17,7 +17,7 @@ function getSelectFn(container, modifier) {
             iriResolver: container.iriResolver,
             targetToken: targetToken
         });
-        return SubWherePattern_1.SubWherePattern.createFrom(newContainer, {});
+        return WherePattern_1.WherePattern.createFrom(newContainer, {});
     };
 }
 exports.SubSelectPattern = {

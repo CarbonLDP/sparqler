@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = require("./../../data/utils");
-var WhereToken_1 = require("./../../tokens/WhereToken");
 var GroupClause_1 = require("../../clauses/GroupClause");
+var utils_1 = require("../../data/utils");
+var WhereToken_1 = require("../../tokens/WhereToken");
 var FinishPattern_1 = require("./FinishPattern");
 function getWhereFn(container) {
     return function (patterns) {
@@ -16,7 +16,7 @@ function getWhereFn(container) {
         return FinishPattern_1.FinishPattern.createFrom(newContainer, groupClause);
     };
 }
-exports.SubWherePattern = {
+exports.WherePattern = {
     createFrom: function (container, object) {
         return Object.assign(object, {
             where: getWhereFn(container),
@@ -24,4 +24,4 @@ exports.SubWherePattern = {
     },
 };
 
-//# sourceMappingURL=SubWherePattern.js.map
+//# sourceMappingURL=WherePattern.js.map

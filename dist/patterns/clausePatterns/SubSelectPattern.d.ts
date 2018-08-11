@@ -1,13 +1,13 @@
 import { Container } from "../../data/Container";
 import { TokenNode } from "../../tokens/TokenNode";
-import { SubWherePattern } from "./SubWherePattern";
+import { WherePattern } from "./WherePattern";
 export interface SubSelectPattern {
-    select(...variables: string[]): SubWherePattern;
-    selectDistinct(...variables: string[]): SubWherePattern;
-    selectReduced(...variables: string[]): SubWherePattern;
-    selectAll(): SubWherePattern;
-    selectAllDistinct(): SubWherePattern;
-    selectAllReduced(): SubWherePattern;
+    select(...variables: string[]): WherePattern;
+    selectDistinct(...variables: string[]): WherePattern;
+    selectReduced(...variables: string[]): WherePattern;
+    selectAll(): WherePattern;
+    selectAllDistinct(): WherePattern;
+    selectAllReduced(): WherePattern;
 }
 export declare const SubSelectPattern: {
     createFrom<C extends Container<TokenNode>, O extends object>(container: C, object: O): O & SubSelectPattern;

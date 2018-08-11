@@ -1,8 +1,10 @@
-import { Container } from "sparqler/data/Container";
-import { cloneElement } from "sparqler/data/utils";
-import { SubSelectToken } from "sparqler/tokens/SubSelectToken";
-import { WhereToken } from "sparqler/tokens/WhereToken";
 import { GroupClause } from "../../clauses/GroupClause";
+import { Container } from "../../data/container";
+import { cloneElement } from "../../data/utils";
+
+import { SubSelectToken } from "../../tokens/SubSelectToken";
+import { WhereToken } from "../../tokens/WhereToken";
+
 import { Pattern } from "../Pattern";
 import { FinishPattern } from "./FinishPattern";
 
@@ -11,7 +13,7 @@ import { FinishPattern } from "./FinishPattern";
  * Interface with the methods available to make a WHERE statement of
  * a sub-query.
  */
-export interface SubWherePattern {
+export interface WherePattern {
 	/**
 	 * Sets the graph patterns the sub-query should match to retrieve the
 	 * sub-solutions data.
@@ -26,15 +28,15 @@ export interface SubWherePattern {
 
 
 /**
- * Function that creates the {@link SubWherePattern.where} function.
+ * Function that creates the {@link WherePattern.where} function.
  *
  * @param container The container with the query data of the statement.
  *
- * @returns The {@link SubWherePattern.where} function.
+ * @returns The {@link WherePattern.where} function.
  *
  * @private
  */
-function getWhereFn( container:Container<SubSelectToken> ):SubWherePattern[ "where" ] {
+function getWhereFn( container:Container<SubSelectToken> ):WherePattern[ "where" ] {
 	return ( patterns:Pattern | Pattern[] ) => {
 		const where:WhereToken = new WhereToken();
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
@@ -50,25 +52,25 @@ function getWhereFn( container:Container<SubSelectToken> ):SubWherePattern[ "whe
 
 
 /**
- * Constant with the utils for {@link SubWherePattern} objects.
+ * Constant with the utils for {@link WherePattern} objects.
  */
-export const SubWherePattern:{
+export const WherePattern:{
 
 	/**
-	 * Factory function that allows to crete a {@link SubWherePattern}
+	 * Factory function that allows to crete a {@link WherePattern}
 	 * from the {@param object} provided.
 	 *
 	 * @param container The related container with the data for the
-	 * {@link SubWherePattern} statement.
+	 * {@link WherePattern} statement.
 	 * @param object The base base from where to create the
-	 * {@link SubWherePattern} statement.
+	 * {@link WherePattern} statement.
 	 *
-	 * @return The {@link SubWherePattern} statement created from the
+	 * @return The {@link WherePattern} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<C extends Container<SubSelectToken>, O extends object>( container:C, object:O ):O & SubWherePattern;
+	createFrom<C extends Container<SubSelectToken>, O extends object>( container:C, object:O ):O & WherePattern;
 } = {
-	createFrom<C extends Container<SubSelectToken>, O extends object>( container:C, object:O ):O & SubWherePattern {
+	createFrom<C extends Container<SubSelectToken>, O extends object>( container:C, object:O ):O & WherePattern {
 		return Object.assign( object, {
 			where: getWhereFn( container ),
 		} );

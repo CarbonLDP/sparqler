@@ -4,7 +4,7 @@ import { SubSelectToken } from "../../tokens/SubSelectToken";
 import { TokenNode } from "../../tokens/TokenNode";
 import { VariableToken } from "../../tokens/VariableToken";
 
-import { SubWherePattern } from "./SubWherePattern";
+import { WherePattern } from "./WherePattern";
 
 
 /**
@@ -21,7 +21,7 @@ export interface SubSelectPattern {
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
-	select( ...variables:string[] ):SubWherePattern;
+	select( ...variables:string[] ):WherePattern;
 
 	/**
 	 * Set a list of variables to be retrieved by the sub-query
@@ -34,7 +34,7 @@ export interface SubSelectPattern {
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
-	selectDistinct( ...variables:string[] ):SubWherePattern;
+	selectDistinct( ...variables:string[] ):WherePattern;
 
 	/**
 	 * Set a list of variables to be retrieved by the sub-query
@@ -48,7 +48,7 @@ export interface SubSelectPattern {
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
-	selectReduced( ...variables:string[] ):SubWherePattern;
+	selectReduced( ...variables:string[] ):WherePattern;
 
 	/**
 	 * Set that the sub-query must return all the solutions for the
@@ -57,7 +57,7 @@ export interface SubSelectPattern {
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
-	selectAll():SubWherePattern;
+	selectAll():WherePattern;
 
 	/**
 	 * Set that the sub-query must return all the solutions for the
@@ -67,7 +67,7 @@ export interface SubSelectPattern {
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
-	selectAllDistinct():SubWherePattern;
+	selectAllDistinct():WherePattern;
 
 	/**
 	 * Set that the sub-query must return all the solutions for the
@@ -78,7 +78,7 @@ export interface SubSelectPattern {
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
-	selectAllReduced():SubWherePattern;
+	selectAllReduced():WherePattern;
 }
 
 
@@ -104,7 +104,7 @@ function getSelectFn<C extends Container<TokenNode>>( container:C, modifier?:"DI
 			iriResolver: container.iriResolver,
 			targetToken
 		} );
-		return SubWherePattern.createFrom( newContainer, {} );
+		return WherePattern.createFrom( newContainer, {} );
 	};
 }
 
