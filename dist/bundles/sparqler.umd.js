@@ -2091,7 +2091,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(47);
 var WhereToken_1 = __webpack_require__(38);
 var GroupClause_1 = __webpack_require__(57);
-var FinishClausePattern_1 = __webpack_require__(69);
+var FinishPattern_1 = __webpack_require__(69);
 function getWhereFn(container) {
     return function (patterns) {
         var _a;
@@ -2100,8 +2100,8 @@ function getWhereFn(container) {
         (_a = where.groupPattern.patterns).push.apply(_a, patterns.map(function (x) { return x.getPattern(); }));
         var targetToken = utils_1.cloneElement(container.targetToken, { where: where });
         var newContainer = utils_1.cloneElement(container, { targetToken: targetToken });
-        var groupClause = GroupClause_1.GroupClause.createFrom(FinishClausePattern_1.FinishClausePattern.createFrom, newContainer, {});
-        return FinishClausePattern_1.FinishClausePattern.createFrom(newContainer, groupClause);
+        var groupClause = GroupClause_1.GroupClause.createFrom(FinishPattern_1.FinishPattern.createFrom, newContainer, {});
+        return FinishPattern_1.FinishPattern.createFrom(newContainer, groupClause);
     };
 }
 exports.SubWherePattern = {
@@ -2476,7 +2476,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var FinishClause_1 = __webpack_require__(2);
 var Factory_1 = __webpack_require__(4);
 var Pattern_1 = __webpack_require__(70);
-exports.FinishClausePattern = {
+exports.FinishPattern = {
     createFrom: function (container, object) {
         return Factory_1.Factory.createFrom(Pattern_1.Pattern.createFrom, FinishClause_1.FinishClause.createFrom)(container, object);
     },

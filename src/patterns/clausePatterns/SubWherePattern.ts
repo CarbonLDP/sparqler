@@ -4,7 +4,7 @@ import { SubSelectToken } from "sparqler/tokens/SubSelectToken";
 import { WhereToken } from "sparqler/tokens/WhereToken";
 import { GroupClause } from "../../clauses/GroupClause";
 import { Pattern } from "../Pattern";
-import { FinishClausePattern } from "./FinishClausePattern";
+import { FinishPattern } from "./FinishPattern";
 
 
 /**
@@ -21,7 +21,7 @@ export interface SubWherePattern {
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
-	where( patterns:Pattern | Pattern[] ):GroupClause<FinishClausePattern> & FinishClausePattern;
+	where( patterns:Pattern | Pattern[] ):GroupClause<FinishPattern> & FinishPattern;
 }
 
 
@@ -43,8 +43,8 @@ function getWhereFn( container:Container<SubSelectToken> ):SubWherePattern[ "whe
 		const targetToken:SubSelectToken = cloneElement( container.targetToken, { where } );
 		const newContainer = cloneElement( container, { targetToken } );
 
-		const groupClause:GroupClause<FinishClausePattern> = GroupClause.createFrom( FinishClausePattern.createFrom, newContainer, {} );
-		return FinishClausePattern.createFrom( newContainer, groupClause );
+		const groupClause:GroupClause<FinishPattern> = GroupClause.createFrom( FinishPattern.createFrom, newContainer, {} );
+		return FinishPattern.createFrom( newContainer, groupClause );
 	};
 }
 

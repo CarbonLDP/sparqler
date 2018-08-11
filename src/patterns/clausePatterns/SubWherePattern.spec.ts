@@ -10,7 +10,7 @@ import { GroupPatternToken } from "../../tokens/GroupPatternToken";
 import { SubSelectToken } from "../../tokens/SubSelectToken";
 import { WhereToken } from "../../tokens/WhereToken";
 
-import { FinishClausePattern } from "./FinishClausePattern";
+import { FinishPattern } from "./FinishPattern";
 import { SubWherePattern } from "./SubWherePattern";
 
 
@@ -89,7 +89,7 @@ describe( "SubWherePattern", () => {
 		} );
 
 		it( "should return a GroupClause & FinishClause object", () => {
-			const groupClause:GroupClause<FinishClausePattern> & FinishClausePattern = whereClause
+			const groupClause:GroupClause<FinishPattern> & FinishPattern = whereClause
 				.where( [] );
 
 			expect( groupClause ).toEqual( {
