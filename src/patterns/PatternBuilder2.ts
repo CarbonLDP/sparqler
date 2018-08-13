@@ -6,13 +6,13 @@ import { TokenNode } from "../tokens/TokenNode";
 
 import { SubSelectPattern } from "./clausePatterns/SubSelectPattern";
 import { NotTriplePatternBuilder } from "./notTriplePatterns/NotTriplePatternBuilder";
-import { TriplePatternBuilder } from "./triplePatterns/TriplePatternBuilder";
+import { TriplePatternsBuilder } from "./triplePatterns/TriplePatternsBuilder";
 
 
 /**
  * @todo
  */
-export interface PatternBuilder2 extends TriplePatternBuilder, NotTriplePatternBuilder, SubSelectPattern {
+export interface PatternBuilder2 extends TriplePatternsBuilder, NotTriplePatternBuilder, SubSelectPattern {
 }
 
 
@@ -21,18 +21,18 @@ export interface PatternBuilder2 extends TriplePatternBuilder, NotTriplePatternB
  */
 export const PatternBuilder2 = {
 	create( iriResolver:IRIResolver ):PatternBuilder2 {
-		const container:Container<TokenNode> = new Container( {
+		const container:Container<undefined> = new Container( {
 			iriResolver,
-			targetToken: { token: "none" },
+			targetToken: void 0,
 		} );
 
 		return PatternBuilder2
 			.createFrom( container, {} );
 	},
 
-	createFrom<C extends Container<TokenNode>, O extends object>( container:C, object:O ):O & PatternBuilder2 {
+	createFrom<C extends Container<any>, O extends object>( container:C, object:O ):O & PatternBuilder2 {
 		return Factory.createFrom(
-			TriplePatternBuilder.createFrom,
+			TriplePatternsBuilder.createFrom,
 			NotTriplePatternBuilder.createFrom,
 			SubSelectPattern.createFrom
 		)( container, object );

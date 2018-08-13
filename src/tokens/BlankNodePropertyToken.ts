@@ -16,6 +16,12 @@ export class BlankNodePropertyToken implements TokenNode {
 	}
 
 
+	addProperty( property:PropertyToken ):this {
+		this.properties.push( property );
+		return this;
+	}
+
+
 	toString( spaces?:number ):string {
 		return getTokenContainerString( {
 			spaces,

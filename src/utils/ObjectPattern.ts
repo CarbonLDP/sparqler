@@ -13,13 +13,12 @@ import {
 	OFF_TYPE,
 	UNDEF
 } from "../patterns/tokens";
-import { PatternBuilder } from "../patterns/PatternBuilder";
 
 export function serialize( object:SupportedNativeTypes | ElementPattern ):Token[];
 export function serialize( object ):Token[] {
 
 	if( typeof object === "string" || object instanceof String ) {
-		if( object === PatternBuilder.undefined ) return [ UNDEF ];
+		if( object === "UNDEF" ) return [ UNDEF ];
 		return [ OPEN_QUOTE, new StringLiteral( object as string ), CLOSE_QUOTE ];
 	}
 

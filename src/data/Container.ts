@@ -7,7 +7,7 @@ import { IRIResolver } from "./IRIResolver";
  * Interface that describe the necessary data for the creation
  * of a {@link Container}.
  */
-export interface ContainerData<TOKEN extends TokenNode> {
+export interface ContainerData<TOKEN extends TokenNode | undefined> {
 	/**
 	 * @see Container.iriResolver
 	 */
@@ -26,7 +26,7 @@ export interface ContainerData<TOKEN extends TokenNode> {
  * to make the query builder independent of the step and be able to
  * reuse it in a immutable-like pattern.
  */
-export class Container<TOKEN extends TokenNode> implements ContainerData<TOKEN> {
+export class Container<TOKEN extends TokenNode | undefined> implements ContainerData<TOKEN> {
 	/**
 	 * The IRI resolver used to resolve and create IRIs and
 	 * Prefixed Names
