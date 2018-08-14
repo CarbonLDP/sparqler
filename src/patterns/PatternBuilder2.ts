@@ -5,14 +5,14 @@ import { IRIResolver } from "../data/IRIResolver";
 import { TokenNode } from "../tokens/TokenNode";
 
 import { SubSelectPattern } from "./clausePatterns/SubSelectPattern";
-import { NotTriplePatternBuilder } from "./notTriplePatterns/NotTriplePatternBuilder";
+import { NotTriplePatternsBuilder } from "./notTriplePatterns/NotTriplePatternsBuilder";
 import { TriplePatternsBuilder } from "./triplePatterns/TriplePatternsBuilder";
 
 
 /**
  * @todo
  */
-export interface PatternBuilder2 extends TriplePatternsBuilder, NotTriplePatternBuilder, SubSelectPattern {
+export interface PatternBuilder2 extends TriplePatternsBuilder, NotTriplePatternsBuilder, SubSelectPattern {
 }
 
 
@@ -33,7 +33,7 @@ export const PatternBuilder2 = {
 	createFrom<C extends Container<any>, O extends object>( container:C, object:O ):O & PatternBuilder2 {
 		return Factory.createFrom(
 			TriplePatternsBuilder.createFrom,
-			NotTriplePatternBuilder.createFrom,
+			NotTriplePatternsBuilder.createFrom,
 			SubSelectPattern.createFrom
 		)( container, object );
 	},
