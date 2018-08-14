@@ -4,7 +4,7 @@ import { IRIResolver } from "../data/IRIResolver";
 import { cloneElement } from "../data/utils";
 
 import { Pattern } from "../patterns/Pattern";
-import { PatternBuilder2 } from "../patterns/PatternBuilder2";
+import { PatternBuilder } from "../patterns/PatternBuilder";
 
 import { PatternToken } from "../tokens/PatternToken";
 import { QueryClauseToken } from "../tokens/QueryClauseToken";
@@ -24,19 +24,19 @@ export interface WhereClause<T extends FinishClause> {
 	 * the solutions results.
 	 *
 	 * This pattern are created by a pattern constructor function that
-	 * receives a {@link PatternBuilder2} which is a class that exposes
+	 * receives a {@link PatternBuilder} which is a class that exposes
 	 * the possible elements and configurations the patterns chan have.
 	 *
 	 * @param patternFunction Function that retrieves a pattern or an
 	 * array of patterns to match.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	where( patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ):GroupClause<T> & T;
+	where( patternFunction:( builder:PatternBuilder ) => Pattern | Pattern[] ):GroupClause<T> & T;
 }
 
 
-function _getPatterns( iriResolver:IRIResolver, patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ):PatternToken[] {
-	const patternOrPatterns:Pattern | Pattern[] = patternFunction( PatternBuilder2.create( iriResolver ) );
+function _getPatterns( iriResolver:IRIResolver, patternFunction:( builder:PatternBuilder ) => Pattern | Pattern[] ):PatternToken[] {
+	const patternOrPatterns:Pattern | Pattern[] = patternFunction( PatternBuilder.create( iriResolver ) );
 	const patterns:Pattern[] = Array.isArray( patternOrPatterns ) ? patternOrPatterns : [ patternOrPatterns ];
 
 	return patterns.map( x => x.getPattern() );
@@ -54,7 +54,7 @@ function _getPatterns( iriResolver:IRIResolver, patternFunction:( builder:Patter
  * @private
  */
 function getWhereFn<C extends Container<QueryToken<QueryClauseToken>>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):WhereClause<T>[ "where" ] {
-	return ( patternFunction:( builder:PatternBuilder2 ) => Pattern | Pattern[] ) => {
+	return ( patternFunction:( builder:PatternBuilder ) => Pattern | Pattern[] ) => {
 		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
 		const patterns:PatternToken[] = _getPatterns( iriResolver, patternFunction );
 

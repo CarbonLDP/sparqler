@@ -18,11 +18,11 @@ describe( "SubSelectPattern", () => {
 		expect( SubSelectPattern ).toEqual( jasmine.any( Object ) );
 	} );
 
-	let container:Container<TokenNode>;
+	let container:Container<undefined>;
 	beforeEach( () => {
 		container = new Container( {
 			iriResolver: new IRIResolver(),
-			targetToken: { token: "none" },
+			targetToken: void 0,
 		} );
 
 		spyContainers.install();
@@ -72,11 +72,6 @@ describe( "SubSelectPattern", () => {
 		beforeEach( () => {
 			selectPattern = SubSelectPattern
 				.createFrom( container, {} );
-		} );
-
-		it( "should not mutate container token", () => {
-			selectPattern.select();
-			expect( container.targetToken ).toEqual( { token: "none" } );
 		} );
 
 		it( "should return a SubWherePattern object", () => {
@@ -133,11 +128,6 @@ describe( "SubSelectPattern", () => {
 				.createFrom( container, {} );
 		} );
 
-		it( "should not mutate container token", () => {
-			selectPattern.selectDistinct();
-			expect( container.targetToken ).toEqual( { token: "none" } );
-		} );
-
 		it( "should return a SubWherePattern object", () => {
 			const wherePattern:WherePattern = selectPattern.selectDistinct();
 			expect( wherePattern ).toEqual( {
@@ -190,11 +180,6 @@ describe( "SubSelectPattern", () => {
 		beforeEach( () => {
 			selectPattern = SubSelectPattern
 				.createFrom( container, {} );
-		} );
-
-		it( "should not mutate container token", () => {
-			selectPattern.selectReduced();
-			expect( container.targetToken ).toEqual( { token: "none" } );
 		} );
 
 		it( "should return a SubWherePattern object", () => {
@@ -252,11 +237,6 @@ describe( "SubSelectPattern", () => {
 				.createFrom( container, {} );
 		} );
 
-		it( "should not mutate container token", () => {
-			selectPattern.selectAll();
-			expect( container.targetToken ).toEqual( { token: "none" } );
-		} );
-
 		it( "should return a SubWherePattern object", () => {
 			const wherePattern:WherePattern = selectPattern.selectAll();
 			expect( wherePattern ).toEqual( {
@@ -299,11 +279,6 @@ describe( "SubSelectPattern", () => {
 				.createFrom( container, {} );
 		} );
 
-		it( "should not mutate container token", () => {
-			selectPattern.selectAllDistinct();
-			expect( container.targetToken ).toEqual( { token: "none" } );
-		} );
-
 		it( "should return a SubWherePattern object", () => {
 			const wherePattern:WherePattern = selectPattern.selectAllDistinct();
 			expect( wherePattern ).toEqual( {
@@ -344,11 +319,6 @@ describe( "SubSelectPattern", () => {
 		beforeEach( () => {
 			selectPattern = SubSelectPattern
 				.createFrom( container, {} );
-		} );
-
-		it( "should not mutate container token", () => {
-			selectPattern.selectAllReduced();
-			expect( container.targetToken ).toEqual( { token: "none" } );
 		} );
 
 		it( "should return a SubWherePattern object", () => {

@@ -3,7 +3,7 @@ import { spyContainers } from "../../test/spies/clones";
 import { Container } from "../data/Container";
 import { IRIResolver } from "../data/IRIResolver";
 
-import { PatternBuilder2 } from "../patterns/PatternBuilder2";
+import { PatternBuilder } from "../patterns/PatternBuilder";
 
 import { IRIToken } from "../tokens/IRIToken";
 import { LiteralToken } from "../tokens/LiteralToken";
@@ -252,7 +252,7 @@ describe( "ValuesClause", () => {
 						.and.returnValue( [] );
 
 					valuesClause.values( "var", spy );
-					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<PatternBuilder2>( {
+					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<PatternBuilder>( {
 						var: jasmine.any( Function ),
 						resource: jasmine.any( Function ),
 
@@ -531,7 +531,7 @@ describe( "ValuesClause", () => {
 						.and.returnValue( [] );
 
 					valuesClause.values( [ "var" ], spy );
-					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<PatternBuilder2>( {
+					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<PatternBuilder>( {
 						var: jasmine.any( Function ),
 						resource: jasmine.any( Function ),
 

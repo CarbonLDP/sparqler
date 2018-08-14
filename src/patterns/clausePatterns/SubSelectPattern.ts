@@ -1,7 +1,6 @@
 import { Container } from "../../data/Container";
 
 import { SubSelectToken } from "../../tokens/SubSelectToken";
-import { TokenNode } from "../../tokens/TokenNode";
 import { VariableToken } from "../../tokens/VariableToken";
 
 import { WherePattern } from "./WherePattern";
@@ -83,19 +82,19 @@ export interface SubSelectPattern {
 
 
 /**
- * Function that creates a generic {@link SubSelectClause.select} function.
- * This function is used to create all the methods for the {@link SubSelectClause}
+ * Function that creates a generic {@link SubSelectPattern.select} function.
+ * This function is used to create all the methods for the {@link SubSelectPattern}
  *
  * @param container The container with the query data for the statement.
  * @param modifier The optional modifier of the SELECT queries.
  *
  * @returns A generic "select" function that shares the
- * {@link SubSelectClause.select} signature. It behaviour depends of
+ * {@link SubSelectPattern.select} signature. It behaviour depends of
  * the {@param modifier} set.
  *
  * @private
  */
-function getSelectFn<C extends Container<TokenNode>>( container:C, modifier?:"DISTINCT" | "REDUCED" ):SubSelectPattern[ "select" ] {
+function getSelectFn( container:Container<undefined>, modifier?:"DISTINCT" | "REDUCED" ):SubSelectPattern[ "select" ] {
 	return ( ...variables:string[] ) => {
 		const targetToken:SubSelectToken = new SubSelectToken( modifier );
 		if( variables.length ) targetToken.addVariable( ...variables.map( x => new VariableToken( x ) ) );
@@ -110,24 +109,24 @@ function getSelectFn<C extends Container<TokenNode>>( container:C, modifier?:"DI
 
 
 /**
- * Constant with the utils for {@link SubSelectClause} objects.
+ * Constant with the utils for {@link SubSelectPattern} objects.
  */
 export const SubSelectPattern:{
 	/**
-	 * Factory function that allows to crete a {@link SubSelectClause}
+	 * Factory function that allows to crete a {@link SubSelectPattern}
 	 * from the {@param object} provided.
 	 *
 	 * @param container The related container with the data for the
-	 * {@link SubSelectClause} statement.
+	 * {@link SubSelectPattern} statement.
 	 * @param object The base base from where to create the
-	 * {@link SubSelectClause} statement.
+	 * {@link SubSelectPattern} statement.
 	 *
-	 * @return The {@link SubSelectClause} statement created from the
+	 * @return The {@link SubSelectPattern} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<C extends Container<TokenNode>, O extends object>( container:C, object:O ):O & SubSelectPattern;
+	createFrom<O extends object>( container:Container<undefined>, object:O ):O & SubSelectPattern;
 } = {
-	createFrom<C extends Container<TokenNode>, O extends object>( container:C, object:O ):O & SubSelectPattern {
+	createFrom<O extends object>( container:Container<undefined>, object:O ):O & SubSelectPattern {
 		return Object.assign( object, {
 			select: getSelectFn( container ),
 			selectDistinct: getSelectFn( container, "DISTINCT" ),
