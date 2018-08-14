@@ -6,7 +6,7 @@ import { TriplePatternHas } from "./TriplePatternHas";
 
 
 /**
- * @todo
+ * Wrapper for easier usage of SPARQL BlankNode Property List as
+ * objects and for declaring triple patterns as its subject.
  */
-export interface BlankNodeProperty extends TriplePatternHas<BlankNodePropertyToken>, Pattern<TripleToken<BlankNodePropertyToken>> {
-}
+export interface BlankNodeProperty extends TriplePatternHas<BlankNodePropertyToken>, Pattern<TripleToken<BlankNodePropertyToken>> {}

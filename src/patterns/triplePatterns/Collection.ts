@@ -6,7 +6,7 @@ import { TriplePatternHas } from "./TriplePatternHas";
 
 
 /**
- * @todo
+ * Wrapper for easier usage of SPARQL Collections as objects and for
+ * declaring triple patterns as its subject.
  */
-export interface Collection extends TriplePatternHas<CollectionToken>, Pattern<TripleToken<CollectionToken>> {
-}
+export interface Collection extends TriplePatternHas<CollectionToken>, Pattern<TripleToken<CollectionToken>> {}
