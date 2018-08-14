@@ -6,11 +6,11 @@ import { TokenNode } from "../../src/tokens/TokenNode";
 
 let containerSpy:jasmine.Spy | undefined;
 export const spyContainers = {
-	install() {
+	install():void {
 		containerSpy = spyOn( ContainerModule, "Container" )
 			.and.callThrough();
 	},
-	uninstall() {
+	uninstall():void {
 		containerSpy = void 0;
 	},
 
