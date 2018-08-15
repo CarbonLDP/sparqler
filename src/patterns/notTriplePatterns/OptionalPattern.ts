@@ -4,7 +4,7 @@ import { NotTriplePattern } from "./NotTriplePattern";
 
 
 /**
- * @todo
+ * Wrapper for easier usage of SPARQL OPTIONAL patterns.
  */
 export interface OptionalPattern extends NotTriplePattern<OptionalToken> {
 }

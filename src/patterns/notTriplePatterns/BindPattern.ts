@@ -4,7 +4,7 @@ import { NotTriplePattern } from "./NotTriplePattern";
 
 
 /**
- * @todo
+ * Wrapper for easier usage of SPARQL BIND patterns.
  */
 export interface BindPattern extends NotTriplePattern<BindToken> {
 }

@@ -9,7 +9,7 @@ import { UnionPattern } from "./UnionPattern";
 
 
 /**
- * @todo
+ * Wrapper for easier usage of SPARQL group patterns.
  */
 export interface GroupPattern extends NotTriplePattern<GroupPatternToken> {
 	union( patterns:Pattern | Pattern[] ):UnionPattern;
@@ -25,7 +25,6 @@ function getUnionFn( container:Container<GroupPatternToken> ):GroupPattern[ "uni
 		const unionToken:UnionPatternToken = new UnionPatternToken();
 		unionToken.groupPatterns.push( container.targetToken, newGroupToken );
 
-
 		const newContainer = new Container( {
 			iriResolver: container.iriResolver,
 			targetToken: unionToken,
@@ -36,9 +35,23 @@ function getUnionFn( container:Container<GroupPatternToken> ):GroupPattern[ "uni
 
 
 /**
- * @todo
+ * Constant with utils for {@link GroupPattern} objects.
  */
-export const GroupPattern = {
+export const GroupPattern:{
+	/**
+	 * Factory function that allows to crete a {@link GroupPattern}
+	 * from the {@param object} provided.
+	 *
+	 * @param container The related container with the data for the
+	 * {@link GroupPattern} statement.
+	 * @param object The base base from where to create the
+	 * {@link GroupPattern} statement.
+	 *
+	 * @return The {@link GroupPattern} statement created from the
+	 * {@param object} provided.
+	 */
+	createFrom<C extends Container<GroupPatternToken>, O extends object>( container:C, object:O ):GroupPattern;
+} = {
 	createFrom<C extends Container<GroupPatternToken>, O extends object>( container:C, object:O ):GroupPattern {
 		return NotTriplePattern.createFrom( container, Object.assign( object, {
 			union: getUnionFn( container ),

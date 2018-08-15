@@ -3,7 +3,7 @@ import { GraphToken } from "../../tokens/GraphToken";
 
 
 /**
- * @todo
+ * Wrapper for easier usage of SPARQL GRAPH patterns.
  */
 export interface GraphPattern extends NotTriplePattern<GraphToken> {
 }

@@ -4,7 +4,7 @@ import { NotTriplePattern } from "./NotTriplePattern";
 
 
 /**
- * @todo
+ * Wrapper for easier usage of SPARQL MINUS patterns.
  */
 export interface MinusPattern extends NotTriplePattern<MinusPatternToken> {
 }

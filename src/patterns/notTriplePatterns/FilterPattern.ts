@@ -4,7 +4,7 @@ import { NotTriplePattern } from "./NotTriplePattern";
 
 
 /**
- * @todo
+ * Wrapper for easier usage of SPARQL FILTER patterns.
  */
 export interface FilterPattern extends NotTriplePattern<FilterToken> {
 }
