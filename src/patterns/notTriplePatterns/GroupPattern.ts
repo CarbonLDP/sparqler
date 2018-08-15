@@ -4,6 +4,7 @@ import { GroupPatternToken } from "../../tokens/GroupPatternToken";
 import { UnionPatternToken } from "../../tokens/UnionPatternToken";
 
 import { Pattern } from "../Pattern";
+
 import { NotTriplePattern } from "./NotTriplePattern";
 import { UnionPattern } from "./UnionPattern";
 
@@ -16,6 +17,13 @@ export interface GroupPattern extends NotTriplePattern<GroupPatternToken> {
 }
 
 
+/**
+ * Function that creates a generic {@link GroupPattern.union} function.
+ *
+ * @param container The container with the query data for the statement.
+ *
+ * @private
+ */
 function getUnionFn( container:Container<GroupPatternToken> ):GroupPattern[ "union" ] {
 	return patterns => {
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];

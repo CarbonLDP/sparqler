@@ -13,6 +13,12 @@ export class GroupPatternToken implements TokenNode {
 	}
 
 
+	addPattern( ...patterns:PatternToken[] ):this {
+		this.patterns.push( ...patterns );
+		return this;
+	}
+
+
 	toString( spaces?:number ):string {
 		return getTokenContainerString( {
 			spaces,
