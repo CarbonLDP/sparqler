@@ -16,8 +16,21 @@ import { TripleSubject } from "./TripleSubject";
  * declaring triple patterns as its subject.
  */
 export interface RDFLiteral extends Literal {
+	/**
+	 * Add an specific type to the RDFLiteral.
+	 *
+	 * Relative types of the XMLSchema ({@link https://www.w3.org/2001/XMLSchema-datatypes})
+	 * can be provided and resolved internally.
+	 *
+	 * @param type The IRI type to be added.
+	 */
 	withType( type:string ):Literal;
 
+	/**
+	 * Add an specific language tag to the RDFLiteral.
+	 *
+	 * @param language The language tag to be added.
+	 */
 	withLanguage( language:string ):Literal;
 }
 
@@ -48,10 +61,25 @@ function getWithLanguageFn<C extends Container<SubjectToken<LiteralToken>>>( con
 	}
 }
 
+
 /**
- * @todo
+ * Constant with utils for {@link RDFLiteral} objects.
  */
-export const RDFLiteral = {
+export const RDFLiteral:{
+	/**
+	 * Factory function that allows to crete a {@link TripleSubject}
+	 * from the {@param object} provided.
+	 *
+	 * @param container The related container with the data for the
+	 * {@link TripleSubject} statement.
+	 * @param object The base base from where to create the
+	 * {@link TripleSubject} statement.
+	 *
+	 * @return The {@link TripleSubject} statement created from the
+	 * {@param object} provided.
+	 */
+	createFrom<C extends Container<SubjectToken<LiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral;
+} = {
 	createFrom<C extends Container<SubjectToken<LiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral {
 		return TripleSubject.createFrom( container, Object.assign( object, {
 			withType: getWithTypeFn( container ),
