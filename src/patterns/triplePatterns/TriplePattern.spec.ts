@@ -15,9 +15,12 @@ describe( "TriplePattern", () => {
 		expect( TriplePattern ).toEqual( jasmine.any( Object ) );
 	} );
 
-	let iriResolver:IRIResolver;
+	let container:Container<TripleToken<any>>;
 	beforeEach( () => {
-		iriResolver = new IRIResolver();
+		container = new Container( {
+			iriResolver: new IRIResolver(),
+			targetToken: new SubjectToken( new IRIToken( "" ) )
+		} )
 	} );
 
 
@@ -28,14 +31,6 @@ describe( "TriplePattern", () => {
 			expect( TriplePattern.createFrom ).toEqual( jasmine.any( Function ) );
 		} );
 
-
-		let container:Container<TripleToken<any>>;
-		beforeEach( () => {
-			container = new Container( {
-				iriResolver,
-				targetToken: new SubjectToken( new IRIToken( "" ) )
-			} )
-		} );
 
 		it( "should extend the object provided", () => {
 			const myObject:{} = {};
@@ -50,42 +45,8 @@ describe( "TriplePattern", () => {
 				.createFrom( container, {} );
 
 			expect( triplePattern ).toEqual( {
-				getSubject: jasmine.any( Function ),
+				getPattern: jasmine.any( Function ),
 			} );
-		} );
-
-	} );
-
-
-	describe( "TriplePattern.getSubject", () => {
-
-		it( "should exists", () => {
-			const container:Container<TripleToken<any>> = new Container( {
-				iriResolver,
-				targetToken: new SubjectToken( new IRIToken( "" ) )
-			} );
-
-			const triplePattern:TriplePattern<any> = TriplePattern
-				.createFrom( container, {} );
-
-			expect( triplePattern.getSubject ).toBeDefined();
-			expect( triplePattern.getSubject ).toEqual( jasmine.any( Function ) );
-		} );
-
-
-		it( "should return subject from the TripleToken", () => {
-			const subject:IRIToken = new IRIToken( "" );
-			const container:Container<TripleToken<any>> = new Container( {
-				iriResolver,
-				targetToken: new SubjectToken( subject )
-			} );
-
-
-			const triplePattern:TriplePattern<any> = TriplePattern
-				.createFrom( container, {} );
-
-			const returned = triplePattern.getSubject();
-			expect( returned ).toBe( subject );
 		} );
 
 	} );

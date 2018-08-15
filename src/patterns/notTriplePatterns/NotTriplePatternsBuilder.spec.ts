@@ -16,7 +16,7 @@ import { SubjectToken } from "../../tokens/SubjectToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
-import { TriplePatternHas } from "../triplePatterns/TriplePatternHas";
+import { TripleSubject } from "../triplePatterns/TripleSubject";
 import { Variable } from "../triplePatterns/Variable";
 
 import { MultipleValuesPattern } from "./MultipleValuesPattern";
@@ -50,7 +50,7 @@ describe( "NotTriplePatternsBuilder", () => {
 	} );
 
 	function getVariable( name:string ):Variable {
-		return TriplePatternHas.createFrom( new Container( {
+		return TripleSubject.createFrom( new Container( {
 			iriResolver: container.iriResolver,
 			targetToken: new SubjectToken( new VariableToken( name ) ),
 		} ), {} );

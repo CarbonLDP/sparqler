@@ -22,7 +22,7 @@ import { Collection } from "./Collection";
 import { Literal } from "./Literal";
 import { RDFLiteral } from "./RDFLiteral";
 import { Resource } from "./Resource";
-import { TriplePatternHas } from "./TriplePatternHas";
+import { TripleSubject } from "./TripleSubject";
 import { Variable } from "./Variable";
 
 
@@ -86,15 +86,15 @@ function _getPatternContainer<T extends ObjectToken>( container:Container<undefi
 	} );
 }
 
-function _getTriplePattern<T extends ObjectToken>( container:Container<undefined>, token:T ):TriplePatternHas<T> {
+function _getTripleSubject<T extends ObjectToken>( container:Container<undefined>, token:T ):TripleSubject<T> {
 	const patternContainer = _getPatternContainer( container, token );
-	return TriplePatternHas.createFrom( patternContainer, {} );
+	return TripleSubject.createFrom( patternContainer, {} );
 }
 
-function _getNodePattern<T extends ObjectToken>( container:Container<undefined>, token:T ):TriplePatternHas<T> & Pattern<TripleToken<T>> {
+function _getNodeSubject<T extends ObjectToken>( container:Container<undefined>, token:T ):TripleSubject<T> & Pattern<TripleToken<T>> {
 	const patternContainer = _getPatternContainer( container, token );
-	return Factory.createFrom<typeof patternContainer, TriplePatternHas<T>, Pattern<TripleToken<T>>>(
-		TriplePatternHas.createFrom,
+	return Factory.createFrom<typeof patternContainer, TripleSubject<T>, Pattern<TripleToken<T>>>(
+		TripleSubject.createFrom,
 		Pattern.createFrom,
 	)( patternContainer, {} );
 }
@@ -103,14 +103,14 @@ function _getNodePattern<T extends ObjectToken>( container:Container<undefined>,
 function getResourceFn( container:Container<undefined> ):TriplePatternsBuilder[ "resource" ] {
 	return iri => {
 		const token:IRIToken | PrefixedNameToken = container.iriResolver.resolve( iri );
-		return _getTriplePattern( container, token );
+		return _getTripleSubject( container, token );
 	}
 }
 
 function getVarFn( container:Container<undefined> ):TriplePatternsBuilder[ "var" ] {
 	return name => {
 		const token:VariableToken = new VariableToken( name );
-		return _getTriplePattern( container, token );
+		return _getTripleSubject( container, token );
 	}
 }
 
@@ -119,7 +119,7 @@ function getLiteralFn( container:Container<undefined> ):TriplePatternsBuilder[ "
 		const token:LiteralToken = new LiteralToken( value );
 
 		if( typeof value !== "string" )
-			return _getTriplePattern( container, token ) as Literal;
+			return _getTripleSubject( container, token ) as Literal;
 
 		const patternContainer = _getPatternContainer( container, token );
 		return RDFLiteral.createFrom( patternContainer, {} );
@@ -133,7 +133,7 @@ function getCollectionFn( container:Container<undefined> ):TriplePatternsBuilder
 	return ( ...values:Values[] ) => {
 		const token:CollectionToken = new CollectionToken()
 			.addObject( ...values.map( convertValue ) );
-		return _getNodePattern( container, token );
+		return _getNodeSubject( container, token );
 	}
 }
 
@@ -142,7 +142,7 @@ function _getBlankNode( container:Container<undefined>, label?:string ):BlankNod
 		label = "_:" + label;
 
 	const token:BlankNodeToken = new BlankNodeToken( label );
-	return _getTriplePattern( container, token );
+	return _getTripleSubject( container, token );
 }
 
 function _getBlankNodeProperty( container:Container<undefined>, builderFn:( selfBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty {
@@ -159,7 +159,7 @@ function _getBlankNodeProperty( container:Container<undefined>, builderFn:( self
 	if( token.properties.length < 1 )
 		throw new Error( "At least one property must be specified by the self builder." );
 
-	return _getNodePattern( container, token );
+	return _getNodeSubject( container, token );
 }
 
 function getBlankNodeFn( container:Container<undefined> ):TriplePatternsBuilder[ "blankNode" ] {

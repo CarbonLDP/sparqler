@@ -9,13 +9,13 @@ import { VariableToken } from "../tokens/VariableToken";
 import * as XSD from "../utils/XSD";
 
 import { SupportedNativeTypes } from "./SupportedNativeTypes";
-import { TriplePattern } from "./triplePatterns/TriplePattern";
+import { TripleSubject } from "./triplePatterns/TripleSubject";
 
 
 export function convertValue( value:"UNDEF" ):"UNDEF";
-export function convertValue<T extends TriplePattern<X>, X extends ObjectToken>( value:T ):X;
+export function convertValue<T extends TripleSubject<X>, X extends ObjectToken>( value:T ):X;
 export function convertValue<T extends SupportedNativeTypes>( value:T ):LiteralToken;
-export function convertValue( value:SupportedNativeTypes | TriplePattern<VariableToken | TermToken> ):ObjectToken | "UNDEF" {
+export function convertValue( value:SupportedNativeTypes | TripleSubject<VariableToken | TermToken> ):ObjectToken | "UNDEF" {
 	if( value instanceof Date )
 		return new LiteralToken( value.toISOString() )
 			.setType( XSD.dateTime );

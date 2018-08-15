@@ -15,10 +15,10 @@ import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
 import { Pattern } from "../Pattern";
-import { RDFLiteral } from "./RDFLiteral";
 
-import { TriplePatternHas } from "./TriplePatternHas";
+import { RDFLiteral } from "./RDFLiteral";
 import { TriplePatternsBuilder } from "./TriplePatternsBuilder";
+import { TripleSubject } from "./TripleSubject";
 
 
 describe( "TriplePatternsBuilder", () => {
@@ -93,7 +93,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return triple pattern", () => {
-			const spy:jasmine.Spy = spyOn( TriplePatternHas, "createFrom" )
+			const spy:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
 				.and.callThrough();
 
 			const returned = builder.resource( "resource/" );
@@ -145,7 +145,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return triple pattern", () => {
-			const spy:jasmine.Spy = spyOn( TriplePatternHas, "createFrom" )
+			const spy:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
 				.and.callThrough();
 
 			const returned = builder.var( "var" );
@@ -179,7 +179,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return triple pattern when string", () => {
-			const spy:jasmine.Spy = spyOn( TriplePatternHas, "createFrom" )
+			const spy:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
 				.and.callThrough();
 
 			const returned = builder.literal( "value" );
@@ -187,7 +187,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return triple pattern when number", () => {
-			const spy:jasmine.Spy = spyOn( TriplePatternHas, "createFrom" )
+			const spy:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
 				.and.callThrough();
 
 			const returned = builder.literal( 100 );
@@ -195,7 +195,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return triple pattern when boolean", () => {
-			const spy:jasmine.Spy = spyOn( TriplePatternHas, "createFrom" )
+			const spy:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
 				.and.callThrough();
 
 			const returned = builder.literal( true );
@@ -259,7 +259,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return triple node pattern", () => {
-			const spyTriple:jasmine.Spy = spyOn( TriplePatternHas, "createFrom" )
+			const spyTriple:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
 				.and.callThrough();
 			const spyPattern:jasmine.Spy = spyOn( Pattern, "createFrom" )
 				.and.callThrough();
@@ -319,7 +319,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return only triple when label", () => {
-			const spyTriple:jasmine.Spy = spyOn( TriplePatternHas, "createFrom" )
+			const spyTriple:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
 				.and.callThrough();
 			const spyPattern:jasmine.Spy = spyOn( Pattern, "createFrom" )
 				.and.callThrough();
@@ -330,7 +330,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return only triple when NO label", () => {
-			const spyTriple:jasmine.Spy = spyOn( TriplePatternHas, "createFrom" )
+			const spyTriple:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
 				.and.callThrough();
 			const spyPattern:jasmine.Spy = spyOn( Pattern, "createFrom" )
 				.and.callThrough();
@@ -341,7 +341,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return triple node when function", () => {
-			const spyTriple:jasmine.Spy = spyOn( TriplePatternHas, "createFrom" )
+			const spyTriple:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
 				.and.callThrough();
 			const spyPattern:jasmine.Spy = spyOn( Pattern, "createFrom" )
 				.and.callThrough();

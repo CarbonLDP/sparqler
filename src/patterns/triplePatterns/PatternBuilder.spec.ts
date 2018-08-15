@@ -1,28 +1,36 @@
 import { spyContainers } from "../../../test/spies/clones";
 
 import { Container } from "../../data/Container";
+import { Factory } from "../../data/Factory";
 import { IRIResolver } from "../../data/IRIResolver";
 
+import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { IRIToken } from "../../tokens/IRIToken";
 import { PropertyToken } from "../../tokens/PropertyToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
+import { PropertyBuilder, PropertyBuilderMore } from "./PropertyBuilder";
 import { Resource } from "./Resource";
-import { TriplePatternAnd, TriplePatternHas } from "./TriplePatternHas";
+import { TripleSubject } from "./TripleSubject";
 import { Variable } from "./Variable";
 
 
-describe( "TriplePatternHas", () => {
+describe( "PropertyBuilder", () => {
 
 	it( "should exists", () => {
-		expect( TriplePatternHas ).toBeDefined();
-		expect( TriplePatternHas ).toEqual( jasmine.any( Object ) );
+		expect( PropertyBuilder ).toBeDefined();
+		expect( PropertyBuilder ).toEqual( jasmine.any( Object ) );
 	} );
 
-	let container:Container<TripleToken<any>>;
+	let genericFactory:Factory<any, { generic:boolean }>;
+	let container:Container<TripleToken | BlankNodePropertyToken>;
 	beforeEach( () => {
+		genericFactory = ( container1, object ) => Object.assign( object, {
+			generic: true,
+		} );
+
 		const vocab:string = "https://example.com/ns#";
 
 		const iriResolver:IRIResolver = new IRIResolver( undefined, vocab );
@@ -41,57 +49,54 @@ describe( "TriplePatternHas", () => {
 	} );
 
 	function getVariable( name:string ):Variable {
-		return TriplePatternHas.createFrom( new Container( {
+		return TripleSubject.createFrom( new Container( {
 			iriResolver: container.iriResolver,
 			targetToken: new SubjectToken( new VariableToken( name ) ),
 		} ), {} );
 	}
 
 	function getResource( iri:string ):Resource {
-		return TriplePatternHas.createFrom( new Container( {
+		return TripleSubject.createFrom( new Container( {
 			iriResolver: container.iriResolver,
 			targetToken: new SubjectToken( new IRIToken( iri ) ),
 		} ), {} );
 	}
 
 
-	describe( "TriplePatternHas.createFrom", () => {
+	describe( "PropertyBuilder.createFrom", () => {
 
 		it( "should exists", () => {
-			expect( TriplePatternHas.createFrom ).toBeDefined();
-			expect( TriplePatternHas.createFrom ).toEqual( jasmine.any( Function ) );
+			expect( PropertyBuilder.createFrom ).toBeDefined();
+			expect( PropertyBuilder.createFrom ).toEqual( jasmine.any( Function ) );
 		} );
 
 
 		it( "should extend the object provided", () => {
 			const myObject:{} = {};
-			const triplePattern:TriplePatternHas<any> = TriplePatternHas
-				.createFrom( container, myObject );
+			const triplePattern:PropertyBuilder<any> = PropertyBuilder
+				.createFrom( genericFactory, container, myObject );
 
 			expect( myObject ).toBe( triplePattern );
 		} );
 
-		it( "should create a TriplePatternHas object", () => {
-			const triplePattern:TriplePatternHas<any> = TriplePatternHas
-				.createFrom( container, {} );
+		it( "should create a PropertyBuilder object", () => {
+			const triplePattern:PropertyBuilder<{ generic:boolean }> = PropertyBuilder
+				.createFrom( genericFactory, container, {} );
 
 			expect( triplePattern ).toEqual( {
 				has: jasmine.any( Function ),
-
-				// Inherit
-				getSubject: jasmine.any( Function ),
 			} );
 		} );
 
 	} );
 
 
-	describe( "TriplePatternHas.has", () => {
+	describe( "PropertyBuilder.has", () => {
 
-		let triplePattern:TriplePatternHas<any>;
+		let triplePattern:PropertyBuilder<{ generic:boolean }>;
 		beforeEach( () => {
-			triplePattern = TriplePatternHas
-				.createFrom( container, {} );
+			triplePattern = PropertyBuilder
+				.createFrom( genericFactory, container, {} );
 		} );
 
 		it( "should exists", () => {
@@ -99,14 +104,14 @@ describe( "TriplePatternHas", () => {
 			expect( triplePattern.has ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "should return the TriplePatternAnd", () => {
+		it( "should return the PropertyBuilderMore", () => {
 			const returned = triplePattern.has( "", [] );
 
 			expect( returned ).toEqual( {
 				and: jasmine.any( Function ),
 
-				// Inherit
-				getPattern: jasmine.any( Function ),
+				// Generic
+				generic: true,
 			} );
 		} );
 
@@ -115,7 +120,7 @@ describe( "TriplePatternHas", () => {
 			const variables:Variable = getVariable( "var" );
 			triplePattern.has( variables, [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: new VariableToken( "var" ),
@@ -126,7 +131,7 @@ describe( "TriplePatternHas", () => {
 			const resource:Resource = getResource( "resource/" );
 			triplePattern.has( resource, [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: new IRIToken( "resource/" ),
@@ -136,7 +141,7 @@ describe( "TriplePatternHas", () => {
 		it( "should add the property `a`", () => {
 			triplePattern.has( "a", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "a",
@@ -146,7 +151,7 @@ describe( "TriplePatternHas", () => {
 		it( "should add simple property name", () => {
 			triplePattern.has( "property", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#property>" as "a",
@@ -156,7 +161,7 @@ describe( "TriplePatternHas", () => {
 		it( "should add IRI tag property path", () => {
 			triplePattern.has( "<https://example.com/ns#property>", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#property>" as "a",
@@ -166,7 +171,7 @@ describe( "TriplePatternHas", () => {
 		it( "should set used prefix when property path", () => {
 			triplePattern.has( "ex:property", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.iriResolver.prefixes ).toEqual( new Map( [
 				[ "ex", true ],
 			] ) );
@@ -175,7 +180,7 @@ describe( "TriplePatternHas", () => {
 		it( "should parse when alternative path", () => {
 			triplePattern.has( "iri|another-iri", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#iri>|<https://example.com/ns#another-iri>" as "a",
@@ -185,7 +190,7 @@ describe( "TriplePatternHas", () => {
 		it( "should parse when sequence path", () => {
 			triplePattern.has( "iri/another-iri", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#iri>/<https://example.com/ns#another-iri>" as "a",
@@ -195,7 +200,7 @@ describe( "TriplePatternHas", () => {
 		it( "should parse when inverse path", () => {
 			triplePattern.has( "^iri", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "^<https://example.com/ns#iri>" as "a",
@@ -205,7 +210,7 @@ describe( "TriplePatternHas", () => {
 		it( "should parse when path with optional mod", () => {
 			triplePattern.has( "iri?", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#iri>?" as "a",
@@ -215,7 +220,7 @@ describe( "TriplePatternHas", () => {
 		it( "should parse when path with any number of mod", () => {
 			triplePattern.has( "iri*", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#iri>*" as "a",
@@ -225,7 +230,7 @@ describe( "TriplePatternHas", () => {
 		it( "should parse when path with more than once mod", () => {
 			triplePattern.has( "iri+", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#iri>+" as "a",
@@ -235,7 +240,7 @@ describe( "TriplePatternHas", () => {
 		it( "should parse when path with negative mod", () => {
 			triplePattern.has( "!iri", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "!<https://example.com/ns#iri>" as "a",
@@ -246,15 +251,20 @@ describe( "TriplePatternHas", () => {
 
 } );
 
-describe( "TriplePatternAnd", () => {
+describe( "PropertyBuilderMore", () => {
 
 	it( "should exists", () => {
-		expect( TriplePatternAnd ).toBeDefined();
-		expect( TriplePatternAnd ).toEqual( jasmine.any( Object ) );
+		expect( PropertyBuilderMore ).toBeDefined();
+		expect( PropertyBuilderMore ).toEqual( jasmine.any( Object ) );
 	} );
 
-	let container:Container<TripleToken<any>>;
+	let genericFactory:Factory<any, { generic:boolean }>;
+	let container:Container<TripleToken | BlankNodePropertyToken>;
 	beforeEach( () => {
+		genericFactory = ( container1, object ) => Object.assign( object, {
+			generic: true,
+		} );
+
 		const vocab:string = "https://example.com/ns#";
 
 		const iriResolver:IRIResolver = new IRIResolver( undefined, vocab );
@@ -273,57 +283,54 @@ describe( "TriplePatternAnd", () => {
 	} );
 
 	function getVariable( name:string ):Variable {
-		return TriplePatternHas.createFrom( new Container( {
+		return TripleSubject.createFrom( new Container( {
 			iriResolver: container.iriResolver,
 			targetToken: new SubjectToken( new VariableToken( name ) ),
 		} ), {} );
 	}
 
 	function getResource( iri:string ):Resource {
-		return TriplePatternHas.createFrom( new Container( {
+		return TripleSubject.createFrom( new Container( {
 			iriResolver: container.iriResolver,
 			targetToken: new SubjectToken( new IRIToken( iri ) ),
 		} ), {} );
 	}
 
 
-	describe( "TriplePatternAnd.createFrom", () => {
+	describe( "PropertyBuilderMore.createFrom", () => {
 
 		it( "should exists", () => {
-			expect( TriplePatternAnd.createFrom ).toBeDefined();
-			expect( TriplePatternAnd.createFrom ).toEqual( jasmine.any( Function ) );
+			expect( PropertyBuilderMore.createFrom ).toBeDefined();
+			expect( PropertyBuilderMore.createFrom ).toEqual( jasmine.any( Function ) );
 		} );
 
 
 		it( "should extend the object provided", () => {
 			const myObject:{} = {};
-			const triplePattern:TriplePatternAnd<any> = TriplePatternAnd
-				.createFrom( container, myObject );
+			const triplePattern:PropertyBuilderMore<{ generic:boolean }> = PropertyBuilderMore
+				.createFrom( genericFactory, container, myObject );
 
 			expect( myObject ).toBe( triplePattern );
 		} );
 
-		it( "should create a TriplePatternAnd object", () => {
-			const triplePattern:TriplePatternAnd<any> = TriplePatternAnd
-				.createFrom( container, {} );
+		it( "should create a PropertyBuilderMore object", () => {
+			const triplePattern:PropertyBuilderMore<{ generic:boolean }> = PropertyBuilderMore
+				.createFrom( genericFactory, container, {} );
 
 			expect( triplePattern ).toEqual( {
 				and: jasmine.any( Function ),
-
-				// Inherit
-				getPattern: jasmine.any( Function ),
 			} );
 		} );
 
 	} );
 
 
-	describe( "TriplePatternAnd.and", () => {
+	describe( "PropertyBuilderMore.and", () => {
 
-		let triplePattern:TriplePatternAnd<any>;
+		let triplePattern:PropertyBuilderMore<{ generic:boolean }>;
 		beforeEach( () => {
-			triplePattern = TriplePatternAnd
-				.createFrom( container, {} );
+			triplePattern = PropertyBuilderMore
+				.createFrom( genericFactory, container, {} );
 		} );
 
 		it( "should exists", () => {
@@ -331,14 +338,14 @@ describe( "TriplePatternAnd", () => {
 			expect( triplePattern.and ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "should return the TriplePatternAnd", () => {
+		it( "should return the PropertyBuilderMore", () => {
 			const returned = triplePattern.and( "", [] );
 
 			expect( returned ).toEqual( {
 				and: jasmine.any( Function ),
 
-				// Inherit
-				getPattern: jasmine.any( Function ),
+				// Generic
+				generic: true,
 			} );
 		} );
 
@@ -347,7 +354,7 @@ describe( "TriplePatternAnd", () => {
 			const variables:Variable = getVariable( "var" );
 			triplePattern.and( variables, [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: new VariableToken( "var" ),
@@ -358,7 +365,7 @@ describe( "TriplePatternAnd", () => {
 			const resource:Resource = getResource( "resource/" );
 			triplePattern.and( resource, [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: new IRIToken( "resource/" ),
@@ -368,7 +375,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should add the property `a`", () => {
 			triplePattern.and( "a", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "a",
@@ -378,7 +385,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should add simple property name", () => {
 			triplePattern.and( "property", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#property>" as "a",
@@ -388,7 +395,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should add IRI tag property path", () => {
 			triplePattern.and( "<https://example.com/ns#property>", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#property>" as "a",
@@ -398,7 +405,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should set used prefix when property path", () => {
 			triplePattern.and( "ex:property", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.iriResolver.prefixes ).toEqual( new Map( [
 				[ "ex", true ],
 			] ) );
@@ -407,7 +414,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should parse when alternative path", () => {
 			triplePattern.and( "iri|another-iri", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#iri>|<https://example.com/ns#another-iri>" as "a",
@@ -417,7 +424,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should parse when sequence path", () => {
 			triplePattern.and( "iri/another-iri", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#iri>/<https://example.com/ns#another-iri>" as "a",
@@ -427,7 +434,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should parse when inverse path", () => {
 			triplePattern.and( "^iri", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "^<https://example.com/ns#iri>" as "a",
@@ -437,7 +444,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should parse when path with optional mod", () => {
 			triplePattern.and( "iri?", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#iri>?" as "a",
@@ -447,7 +454,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should parse when path with any number of mod", () => {
 			triplePattern.and( "iri*", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#iri>*" as "a",
@@ -457,7 +464,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should parse when path with more than once mod", () => {
 			triplePattern.and( "iri+", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "<https://example.com/ns#iri>+" as "a",
@@ -467,7 +474,7 @@ describe( "TriplePatternAnd", () => {
 		it( "should parse when path with negative mod", () => {
 			triplePattern.and( "!iri", [] );
 
-			const newContainer:Container<TripleToken<any>> = spyContainers.getLast();
+			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
 				verb: "!<https://example.com/ns#iri>" as "a",

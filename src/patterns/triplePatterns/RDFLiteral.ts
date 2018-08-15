@@ -8,7 +8,7 @@ import { SubjectToken } from "../../tokens/SubjectToken";
 import * as XSD from "../../utils/XSD";
 
 import { Literal } from "./Literal";
-import { TriplePatternHas } from "./TriplePatternHas";
+import { TripleSubject } from "./TripleSubject";
 
 
 /**
@@ -32,7 +32,7 @@ function getWithTypeFn<C extends Container<SubjectToken<LiteralToken>>>( contain
 		const targetToken = cloneElement( container.targetToken, { subject } );
 		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
 
-		return TriplePatternHas.createFrom( newContainer, {} );
+		return TripleSubject.createFrom( newContainer, {} );
 	}
 }
 
@@ -44,7 +44,7 @@ function getWithLanguageFn<C extends Container<SubjectToken<LiteralToken>>>( con
 		const targetToken = cloneElement( container.targetToken, { subject } );
 		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
 
-		return TriplePatternHas.createFrom( newContainer, {} );
+		return TripleSubject.createFrom( newContainer, {} );
 	}
 }
 
@@ -53,7 +53,7 @@ function getWithLanguageFn<C extends Container<SubjectToken<LiteralToken>>>( con
  */
 export const RDFLiteral = {
 	createFrom<C extends Container<SubjectToken<LiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral {
-		return TriplePatternHas.createFrom( container, Object.assign( object, {
+		return TripleSubject.createFrom( container, Object.assign( object, {
 			withType: getWithTypeFn( container ),
 			withLanguage: getWithLanguageFn( container ),
 		} ) );
