@@ -1,3 +1,4 @@
+import { UnionPatternToken } from "sparqler/tokens/UnionPatternToken";
 import { Container } from "../../data/Container";
 
 import { BindToken } from "../../tokens/BindToken";
@@ -26,6 +27,7 @@ import { NotTriplePattern } from "./NotTriplePattern";
 import { OptionalPattern } from "./OptionalPattern";
 import { ServicePattern } from "./ServicePattern";
 import { SingleValuesPattern } from "./SingleValuesPattern";
+import { UnionPattern } from "./UnionPattern";
 
 
 /**
@@ -51,7 +53,7 @@ export interface NotTriplePatternsBuilder {
 
 	/**
 	 * Creates a {@link GroupPattern} for the patterns specified,
-	 * where essentially will be grouped in a new pattern.
+	 * where will group the patterns in a new pattern.
 	 *
 	 * See {@link https://www.w3.org/TR/sparql11-query/#GroupPatterns}
 	 * for more information.
@@ -59,6 +61,19 @@ export interface NotTriplePatternsBuilder {
 	 * @param patterns The patterns to be enclosed in a group.
 	 */
 	group( patterns:Pattern | Pattern[] ):GroupPattern;
+
+	/**
+	 * Creates a {@link UnionPattern} for the patterns specified,
+	 * where will group the pattern to be used as an alternative
+	 * matching for another group declared by the subsequents
+	 * {@link UnionPattern.and} methods.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#alternatives}
+	 * for more information.
+	 *
+	 * @param patterns The patterns to be enclosed in a group.
+	 */
+	union( patterns:Pattern | Pattern[] ):UnionPattern;
 
 	/**
 	 * Creates an {@link OptionalPattern} for the patterns specified,
@@ -202,6 +217,18 @@ function getGroupFn( container:Container<undefined> ):NotTriplePatternsBuilder[ 
 	}
 }
 
+function getUnionFn( container:Container<undefined> ):NotTriplePatternsBuilder[ "union" ] {
+	return ( patterns:Pattern | Pattern[] ) => {
+		const token:UnionPatternToken = new UnionPatternToken();
+
+		const patternContainer = _getPatternContainer( container, token );
+		const unionPattern:UnionPattern = UnionPattern
+			.createFrom( patternContainer, {} );
+
+		return unionPattern.and( patterns );
+	}
+}
+
 function getOptionalFn( container:Container<undefined> ):NotTriplePatternsBuilder[ "optional" ] {
 	return ( patterns:Pattern | Pattern[] ) => {
 		const token:OptionalToken = new OptionalToken();
@@ -303,6 +330,7 @@ export const NotTriplePatternsBuilder:{
 
 			graph: getGraphFn( container ),
 			group: getGroupFn( container ),
+			union: getUnionFn( container ),
 			optional: getOptionalFn( container ),
 			minus: getMinusFn( container ),
 			service: getServiceFn( container ),

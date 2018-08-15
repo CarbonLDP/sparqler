@@ -1,3 +1,5 @@
+import { MockPattern } from "../../../test/mocks/MockPattern";
+import { MockPatternToken } from "../../../test/mocks/MockPatternToken";
 import { spyContainers } from "../../../test/spies/Container";
 
 import { Container } from "../../data/Container";
@@ -13,6 +15,7 @@ import { OptionalToken } from "../../tokens/OptionalToken";
 import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 import { ServicePatternToken } from "../../tokens/ServicePatternToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
+import { UnionPatternToken } from "../../tokens/UnionPatternToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
@@ -82,6 +85,7 @@ describe( "NotTriplePatternsBuilder", () => {
 
 				graph: jasmine.any( Function ),
 				group: jasmine.any( Function ),
+				union: jasmine.any( Function ),
 				optional: jasmine.any( Function ),
 				minus: jasmine.any( Function ),
 				service: jasmine.any( Function ),
@@ -95,15 +99,6 @@ describe( "NotTriplePatternsBuilder", () => {
 
 	} );
 
-
-	class MockPatternToken extends GroupPatternToken {
-		readonly label:string;
-
-		constructor( label:string ) {
-			super();
-			this.label = label;
-		}
-	}
 
 	describe( "NotTriplePatternsBuilder.graph", () => {
 
@@ -159,9 +154,7 @@ describe( "NotTriplePatternsBuilder", () => {
 
 
 		it( "should add the pattern to the token", () => {
-			builder.graph( "ex:graph/", {
-				getPattern: () => new MockPatternToken( "graph pattern" ),
-			} );
+			builder.graph( "ex:graph/", new MockPattern( "graph pattern" ) );
 
 			type TheContainer = Container<GraphToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -172,9 +165,9 @@ describe( "NotTriplePatternsBuilder", () => {
 
 		it( "should add the patterns to the token", () => {
 			builder.graph( "ex:graph/", [
-				{ getPattern: () => new MockPatternToken( "graph pattern 1" ) },
-				{ getPattern: () => new MockPatternToken( "graph pattern 2" ) },
-				{ getPattern: () => new MockPatternToken( "graph pattern 3" ) },
+				new MockPattern( "graph pattern 1" ),
+				new MockPattern( "graph pattern 2" ),
+				new MockPattern( "graph pattern 3" ),
 			] );
 
 			type TheContainer = Container<GraphToken>;
@@ -225,9 +218,7 @@ describe( "NotTriplePatternsBuilder", () => {
 
 
 		it( "should add the pattern to the token", () => {
-			builder.group( {
-				getPattern: () => new MockPatternToken( "group pattern" ),
-			} );
+			builder.group( new MockPattern( "group pattern" ) );
 
 			type TheContainer = Container<GroupPatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -238,9 +229,9 @@ describe( "NotTriplePatternsBuilder", () => {
 
 		it( "should add the patterns to the token", () => {
 			builder.group( [
-				{ getPattern: () => new MockPatternToken( "group pattern 1" ) },
-				{ getPattern: () => new MockPatternToken( "group pattern 2" ) },
-				{ getPattern: () => new MockPatternToken( "group pattern 3" ) },
+				new MockPattern( "group pattern 1" ),
+				new MockPattern( "group pattern 2" ),
+				new MockPattern( "group pattern 3" ),
 			] );
 
 			type TheContainer = Container<GroupPatternToken>;
@@ -252,6 +243,70 @@ describe( "NotTriplePatternsBuilder", () => {
 				.toContain( new MockPatternToken( "group pattern 2" ) );
 			expect( newContainer.targetToken.patterns )
 				.toContain( new MockPatternToken( "group pattern 2" ) );
+		} );
+
+	} );
+
+	describe( "NotTriplePatternsBuilder.union", () => {
+
+		let builder:NotTriplePatternsBuilder;
+		beforeEach( () => {
+			builder = NotTriplePatternsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.union ).toBeDefined();
+			expect( builder.union ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should return not triple pattern", () => {
+			const spy:jasmine.Spy = spyOn( NotTriplePattern, "createFrom" )
+				.and.callThrough();
+
+			const returned = builder.union( [] );
+			expect( returned ).toBe( spy.calls.mostRecent().returnValue );
+		} );
+
+
+		it( "should create pattern with UnionPatternToken", () => {
+			builder.union( [] );
+
+			type TheContainer = Container<UnionPatternToken>;
+			const newContainer:TheContainer = spyContainers.getLast();
+
+			expect( newContainer.targetToken ).toEqual( jasmine.any( UnionPatternToken ) )
+		} );
+
+
+		it( "should add the pattern to the token", () => {
+			builder.union( new MockPattern( "union pattern" ) );
+
+			type TheContainer = Container<UnionPatternToken>;
+			const newContainer:TheContainer = spyContainers.getLast();
+
+			expect( newContainer.targetToken.groupPatterns )
+				.toContain( new GroupPatternToken()
+					.addPattern( new MockPatternToken( "union pattern" ) )
+				);
+		} );
+
+		it( "should add the patterns to the token", () => {
+			builder.union( [
+				new MockPattern( "group pattern 1" ),
+				new MockPattern( "group pattern 2" ),
+				new MockPattern( "group pattern 3" ),
+			] );
+
+			type TheContainer = Container<UnionPatternToken>;
+			const newContainer:TheContainer = spyContainers.getLast();
+
+			expect( newContainer.targetToken.groupPatterns )
+				.toContain( new GroupPatternToken()
+					.addPattern( new MockPatternToken( "group pattern 1" ) )
+					.addPattern( new MockPatternToken( "group pattern 2" ) )
+					.addPattern( new MockPatternToken( "group pattern 3" ) )
+				);
 		} );
 
 	} );
@@ -291,9 +346,7 @@ describe( "NotTriplePatternsBuilder", () => {
 
 
 		it( "should add the pattern to the token", () => {
-			builder.optional( {
-				getPattern: () => new MockPatternToken( "optional pattern" ),
-			} );
+			builder.optional( new MockPattern( "optional pattern" ) );
 
 			type TheContainer = Container<OptionalToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -304,9 +357,9 @@ describe( "NotTriplePatternsBuilder", () => {
 
 		it( "should add the patterns to the token", () => {
 			builder.optional( [
-				{ getPattern: () => new MockPatternToken( "optional pattern 1" ) },
-				{ getPattern: () => new MockPatternToken( "optional pattern 2" ) },
-				{ getPattern: () => new MockPatternToken( "optional pattern 3" ) },
+				new MockPattern( "optional pattern 1" ),
+				new MockPattern( "optional pattern 2" ),
+				new MockPattern( "optional pattern 3" ),
 			] );
 
 			type TheContainer = Container<OptionalToken>;
@@ -357,9 +410,7 @@ describe( "NotTriplePatternsBuilder", () => {
 
 
 		it( "should add the pattern to the token", () => {
-			builder.minus( {
-				getPattern: () => new MockPatternToken( "minus pattern" ),
-			} );
+			builder.minus( new MockPattern( "minus pattern" ) );
 
 			type TheContainer = Container<MinusPatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -370,9 +421,9 @@ describe( "NotTriplePatternsBuilder", () => {
 
 		it( "should add the patterns to the token", () => {
 			builder.minus( [
-				{ getPattern: () => new MockPatternToken( "minus pattern 1" ) },
-				{ getPattern: () => new MockPatternToken( "minus pattern 2" ) },
-				{ getPattern: () => new MockPatternToken( "minus pattern 3" ) },
+				new MockPattern( "minus pattern 1" ),
+				new MockPattern( "minus pattern 2" ),
+				new MockPattern( "minus pattern 3" ),
 			] );
 
 			type TheContainer = Container<MinusPatternToken>;
@@ -464,9 +515,7 @@ describe( "NotTriplePatternsBuilder", () => {
 
 
 		it( "should add the pattern to the token", () => {
-			builder.service( "ex:service/", {
-				getPattern: () => new MockPatternToken( "service pattern" ),
-			} );
+			builder.service( "ex:service/", new MockPattern( "service pattern" ) );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -477,9 +526,9 @@ describe( "NotTriplePatternsBuilder", () => {
 
 		it( "should add the patterns to the token", () => {
 			builder.service( "ex:service/", [
-				{ getPattern: () => new MockPatternToken( "service pattern 1" ) },
-				{ getPattern: () => new MockPatternToken( "service pattern 2" ) },
-				{ getPattern: () => new MockPatternToken( "service pattern 3" ) },
+				new MockPattern( "service pattern 1" ),
+				new MockPattern( "service pattern 2" ),
+				new MockPattern( "service pattern 3" ),
 			] );
 
 			type TheContainer = Container<ServicePatternToken>;
@@ -571,9 +620,7 @@ describe( "NotTriplePatternsBuilder", () => {
 
 
 		it( "should add the pattern to the token", () => {
-			builder.serviceSilent( "ex:service/", {
-				getPattern: () => new MockPatternToken( "service pattern" ),
-			} );
+			builder.serviceSilent( "ex:service/", new MockPattern( "service pattern" ) );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -584,9 +631,9 @@ describe( "NotTriplePatternsBuilder", () => {
 
 		it( "should add the patterns to the token", () => {
 			builder.serviceSilent( "ex:service/", [
-				{ getPattern: () => new MockPatternToken( "service pattern 1" ) },
-				{ getPattern: () => new MockPatternToken( "service pattern 2" ) },
-				{ getPattern: () => new MockPatternToken( "service pattern 3" ) },
+				new MockPattern( "service pattern 1" ),
+				new MockPattern( "service pattern 2" ),
+				new MockPattern( "service pattern 3" ),
 			] );
 
 			type TheContainer = Container<ServicePatternToken>;

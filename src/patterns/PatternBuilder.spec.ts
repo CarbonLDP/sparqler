@@ -57,6 +57,7 @@ describe( "PatternBuilder", ():void => {
 
 				graph: jasmine.any( Function ),
 				group: jasmine.any( Function ),
+				union: jasmine.any( Function ),
 				optional: jasmine.any( Function ),
 				minus: jasmine.any( Function ),
 				service: jasmine.any( Function ),
