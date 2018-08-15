@@ -89,18 +89,18 @@ const finishQuery = builder
 					.has( "ex:yes", [ "yes", "maybe" ] )
 					.and( "ex:no", [ "mm", "no" ] ),
 			] ),
-			_.group( [
+			_.union( [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
-			] ).union( [
+			] ).and( [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			] ),
 			_.minus(
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			),
-			_.minus(
+			_.minus( [
 				_.resource( "some" ).has( "ex:yes", "yes" ),
 				_.resource( "some" ).has( "ex:yes", "maybe" ),
-			),
+			] ),
 			_.values( _.var( "v" ) ).has( 1 ),
 			_.values( _.var( "v" ) ).has( 1 ).and( 1.1 ).and( "some" ).and( _.undefined ),
 			_.values( _.var( "v1" ), _.var( "v2" ) ).has( 1, 2 ).and( _.undefined, _.literal( "nope" ) ).and( true, false ),
