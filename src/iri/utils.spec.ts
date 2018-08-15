@@ -1,9 +1,5 @@
 import * as Utils from "./utils";
 
-import { LeftSymbol } from "../tokens/LeftSymbol";
-import { RightSymbol } from "../tokens/RightSymbol";
-import { StringLiteral } from "../tokens/StringLiteral";
-
 describe( "Module Utils", ():void => {
 
 	it( "Exists", ():void => {
@@ -11,7 +7,7 @@ describe( "Module Utils", ():void => {
 		expect( Utils ).toEqual( jasmine.any( Object ) );
 	} );
 
-	describe( "isAbsolute()", ():void => {
+	describe( "isAbsolute", ():void => {
 
 		it( "Exists", ():void => {
 			expect( Utils.isAbsolute ).toBeDefined();
@@ -42,7 +38,7 @@ describe( "Module Utils", ():void => {
 
 	} );
 
-	describe( "hasProtocol()", ():void => {
+	describe( "hasProtocol", ():void => {
 
 		it( "Exists", ():void => {
 			expect( Utils.hasProtocol ).toBeDefined();
@@ -73,7 +69,7 @@ describe( "Module Utils", ():void => {
 
 	} );
 
-	describe( "isRelative()", ():void => {
+	describe( "isRelative", ():void => {
 
 		it( "Exists", ():void => {
 			expect( Utils.isRelative ).toBeDefined();
@@ -104,7 +100,7 @@ describe( "Module Utils", ():void => {
 
 	} );
 
-	describe( "isIRI()", ():void => {
+	describe( "isIRI", ():void => {
 
 		it( "Exists", ():void => {
 			expect( Utils.isIRI ).toBeDefined();
@@ -155,7 +151,7 @@ describe( "Module Utils", ():void => {
 
 	} );
 
-	describe( "isPrefixed()", ():void => {
+	describe( "isPrefixed", ():void => {
 
 		it( "Exists", ():void => {
 			expect( Utils.isPrefixed ).toBeDefined();
@@ -194,69 +190,6 @@ describe( "Module Utils", ():void => {
 			expect( Utils.isPrefixed( "another-prefix:path/part-of-the/path" ) ).toBe( true );
 			expect( Utils.isPrefixed( "last-prefix:path/" ) ).toBe( true );
 			expect( Utils.isPrefixed( "prefix:" ) ).toBe( true );
-		} );
-
-	} );
-
-	describe( "getPrefixedParts()", ():void => {
-
-		it( "Exists", ():void => {
-			expect( Utils.getPrefixedParts ).toBeDefined();
-			expect( Utils.getPrefixedParts ).toEqual( jasmine.any( Function ) );
-		} );
-
-		it( "If relative or absolute IRI, returns null", ():void => {
-			expect( Utils.getPrefixedParts( "relative-iri" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "relative-iri/" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "/another-relative-iri" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "/another-relative-iri/" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "" ) ).toBeNull();
-
-			expect( Utils.getPrefixedParts( "http://example.com/" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "http://example.com/part-of-the/iri" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "any-protocol://example.com/" ) ).toBeNull();
-		} );
-
-		it( "Prefixed string returns the prefix an the path in the array", ():void => {
-			expect( Utils.getPrefixedParts( "prefix:path" ) ).toEqual( [
-				"prefix",
-				"path",
-			] );
-			expect( Utils.getPrefixedParts( "another-prefix:path/part-of-the/path" ) ).toEqual( [
-				"another-prefix",
-				"path\\/part\\-of\\-the\\/path",
-			] );
-			expect( Utils.getPrefixedParts( "last-prefix:path/" ) ).toEqual( [
-				"last-prefix",
-				"path\\/",
-			] );
-			expect( Utils.getPrefixedParts( "prefix:" ) ).toEqual( [
-				"prefix",
-				""
-			] );
-		} );
-
-		it( "Every special character in the path is normalized", ():void => {
-			expect( Utils.getPrefixedParts( ":path_" )[ 1 ] ).toBe( "path\\_" );
-			expect( Utils.getPrefixedParts( ":path~" )[ 1 ] ).toBe( "path\\~" );
-			expect( Utils.getPrefixedParts( ":path." )[ 1 ] ).toBe( "path\\." );
-			expect( Utils.getPrefixedParts( ":path-" )[ 1 ] ).toBe( "path\\-" );
-			expect( Utils.getPrefixedParts( ":path!" )[ 1 ] ).toBe( "path\\!" );
-			expect( Utils.getPrefixedParts( ":path$" )[ 1 ] ).toBe( "path\\$" );
-			expect( Utils.getPrefixedParts( ":path&" )[ 1 ] ).toBe( "path\\&" );
-			expect( Utils.getPrefixedParts( ":path'" )[ 1 ] ).toBe( "path\\'" );
-			expect( Utils.getPrefixedParts( ":path(" )[ 1 ] ).toBe( "path\\(" );
-			expect( Utils.getPrefixedParts( ":path)" )[ 1 ] ).toBe( "path\\)" );
-			expect( Utils.getPrefixedParts( ":path*" )[ 1 ] ).toBe( "path\\*" );
-			expect( Utils.getPrefixedParts( ":path+" )[ 1 ] ).toBe( "path\\+" );
-			expect( Utils.getPrefixedParts( ":path," )[ 1 ] ).toBe( "path\\," );
-			expect( Utils.getPrefixedParts( ":path;" )[ 1 ] ).toBe( "path\\;" );
-			expect( Utils.getPrefixedParts( ":path=" )[ 1 ] ).toBe( "path\\=" );
-			expect( Utils.getPrefixedParts( ":path/" )[ 1 ] ).toBe( "path\\/" );
-			expect( Utils.getPrefixedParts( ":path?" )[ 1 ] ).toBe( "path\\?" );
-			expect( Utils.getPrefixedParts( ":path#" )[ 1 ] ).toBe( "path\\#" );
-			expect( Utils.getPrefixedParts( ":path@" )[ 1 ] ).toBe( "path\\@" );
-			expect( Utils.getPrefixedParts( ":path%" )[ 1 ] ).toBe( "path\\%" );
 		} );
 
 	} );
