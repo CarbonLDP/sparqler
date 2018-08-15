@@ -31,7 +31,12 @@ export interface SingleValuesPatternMore extends NotTriplePattern<ValuesToken> {
 
 
 /**
- * @todo
+ * Function that creates a generic {@link SingleValuesPattern.has} function.
+ * This function is used also for declaring {@link SingleValuesPatternMore.and}
+ *
+ * @param container The container with the query data for the statement.
+ *
+ * @private
  */
 function getHasFn<C extends Container<ValuesToken>>( container:C ):SingleValuesPattern[ "has" ] {
 	return value => {
