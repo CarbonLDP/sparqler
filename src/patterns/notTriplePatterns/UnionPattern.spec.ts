@@ -8,22 +8,21 @@ import { IRIResolver } from "../../data/IRIResolver";
 import { GroupPatternToken } from "../../tokens/GroupPatternToken";
 import { UnionPatternToken } from "../../tokens/UnionPatternToken";
 
-import { GroupPattern } from "./GroupPattern";
 import { UnionPattern } from "./UnionPattern";
 
 
-describe( "GroupPattern", () => {
+describe( "UnionPattern", () => {
 
 	it( "should exists", () => {
-		expect( GroupPattern ).toBeDefined();
-		expect( GroupPattern ).toEqual( jasmine.any( Object ) );
+		expect( UnionPattern ).toBeDefined();
+		expect( UnionPattern ).toEqual( jasmine.any( Object ) );
 	} );
 
-	let container:Container<GroupPatternToken>;
+	let container:Container<UnionPatternToken>;
 	beforeEach( () => {
 		container = new Container( {
 			iriResolver: new IRIResolver(),
-			targetToken: new GroupPatternToken()
+			targetToken: new UnionPatternToken()
 		} );
 
 		spyContainers.install();
@@ -34,28 +33,28 @@ describe( "GroupPattern", () => {
 	} );
 
 
-	describe( "GroupPattern.createFrom", () => {
+	describe( "UnionPattern.createFrom", () => {
 
 		it( "should exists", () => {
-			expect( GroupPattern.createFrom ).toBeDefined();
-			expect( GroupPattern.createFrom ).toEqual( jasmine.any( Function ) );
+			expect( UnionPattern.createFrom ).toBeDefined();
+			expect( UnionPattern.createFrom ).toEqual( jasmine.any( Function ) );
 		} );
 
 
 		it( "should extend the object provided", () => {
 			const myObject:{} = {};
-			const triplePattern:GroupPattern = GroupPattern
+			const triplePattern:UnionPattern = UnionPattern
 				.createFrom( container, myObject );
 
 			expect( myObject ).toBe( triplePattern );
 		} );
 
-		it( "should create a GroupPattern object", () => {
-			const triplePattern:GroupPattern = GroupPattern
+		it( "should create a UnionPattern object", () => {
+			const triplePattern:UnionPattern = UnionPattern
 				.createFrom( container, {} );
 
 			expect( triplePattern ).toEqual( {
-				union: jasmine.any( Function ),
+				and: jasmine.any( Function ),
 
 				// Inherit
 				getPattern: jasmine.any( Function ),
@@ -65,21 +64,21 @@ describe( "GroupPattern", () => {
 	} );
 
 
-	describe( "GroupPattern.union", () => {
+	describe( "UnionPattern.and", () => {
 
-		let pattern:GroupPattern;
+		let pattern:UnionPattern;
 		beforeEach( () => {
-			pattern = GroupPattern.createFrom( container, {} );
+			pattern = UnionPattern.createFrom( container, {} );
 		} );
 
 		it( "should exists", () => {
-			expect( pattern.union ).toBeDefined();
-			expect( pattern.union ).toEqual( jasmine.any( Function ) );
+			expect( pattern.and ).toBeDefined();
+			expect( pattern.and ).toEqual( jasmine.any( Function ) );
 		} );
 
 
 		it( "should return a UnionPattern", () => {
-			const returned:UnionPattern = pattern.union( [] );
+			const returned:UnionPattern = pattern.and( [] );
 			expect( returned ).toEqual( {
 				and: jasmine.any( Function ),
 
@@ -89,29 +88,40 @@ describe( "GroupPattern", () => {
 
 
 		it( "should create a UnionToken", () => {
-			pattern.union( [] );
+			pattern.and( [] );
 
 			const newContainer:Container<UnionPatternToken> = spyContainers.getLast();
 			expect( newContainer.targetToken ).toEqual( jasmine.any( UnionPatternToken ) );
 		} );
 
-		it( "should add the group data to the union", () => {
-			container.targetToken.addPattern()
-				.addPattern( new MockPatternToken( "the pattern 1" ) )
-				.addPattern( new MockPatternToken( "the pattern 2" ) )
-				.addPattern( new MockPatternToken( "the pattern 3" ) )
-			;
+		it( "should add the previous data to the union", () => {
+			container.targetToken.groupPatterns.push(
+				new GroupPatternToken()
+					.addPattern( new MockPatternToken( "previous pattern 1" ) )
+					.addPattern( new MockPatternToken( "previous pattern 2" ) )
+					.addPattern( new MockPatternToken( "previous pattern 3" ) )
+			);
 
-			pattern.union( [] );
+			pattern.and( [] );
 
 			const newContainer:Container<UnionPatternToken> = spyContainers.getLast();
-
 			expect( newContainer.targetToken.groupPatterns )
-				.toContain( container.targetToken )
+				.toContain( new GroupPatternToken()
+					.addPattern( new MockPatternToken( "previous pattern 1" ) )
+					.addPattern( new MockPatternToken( "previous pattern 2" ) )
+					.addPattern( new MockPatternToken( "previous pattern 3" ) )
+				);
+		} );
+
+		it( "should not mutate previous data", () => {
+			pattern.and( new MockPattern( "the single pattern" ) );
+
+			expect( container.targetToken.groupPatterns )
+				.toEqual( [] )
 		} );
 
 		it( "should add single pattern to the union", () => {
-			pattern.union( new MockPattern( "the single pattern" ) );
+			pattern.and( new MockPattern( "the single pattern" ) );
 
 			const newContainer:Container<UnionPatternToken> = spyContainers.getLast();
 
@@ -122,7 +132,7 @@ describe( "GroupPattern", () => {
 		} );
 
 		it( "should add multiple pattern to the union", () => {
-			pattern.union( [
+			pattern.and( [
 				new MockPattern( "the pattern 1" ),
 				new MockPattern( "the pattern 2" ),
 				new MockPattern( "the pattern 3" ),

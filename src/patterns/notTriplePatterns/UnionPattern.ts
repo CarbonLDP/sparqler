@@ -12,13 +12,17 @@ import { NotTriplePattern } from "./NotTriplePattern";
  * Wrapper for easier usage of SPARQL UNION patterns.
  */
 export interface UnionPattern extends NotTriplePattern<UnionPatternToken> {
-	union( patterns:Pattern | Pattern[] ):UnionPattern;
+	and( patterns:Pattern | Pattern[] ):UnionPattern;
 }
 
 /**
- * @todo Add docs
+ * Function that creates a generic {@link UnionPattern.and} function.
+ *
+ * @param container The container with the query data for the statement.
+ *
+ * @private
  */
-function getUnionFn( container:Container<UnionPatternToken> ):UnionPattern[ "union" ] {
+function getAndFn( container:Container<UnionPatternToken> ):UnionPattern[ "and" ] {
 	return patterns => {
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
 		const newGroupToken:GroupPatternToken = new GroupPatternToken();
@@ -56,7 +60,7 @@ export const UnionPattern:{
 } = {
 	createFrom<C extends Container<UnionPatternToken>, O extends object>( container:C, object:O ):UnionPattern {
 		return NotTriplePattern.createFrom( container, Object.assign( object, {
-			union: getUnionFn( container ),
+			and: getAndFn( container ),
 		} ) );
 	},
 };
