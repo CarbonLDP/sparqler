@@ -1,10 +1,3 @@
-import { Token } from "../tokens/Token";
-import { StringLiteral } from "../tokens/StringLiteral";
-import {
-	OPEN_IRI,
-	CLOSE_IRI,
-} from "../patterns/tokens";
-
 export function isAbsolute( iri:string ):boolean {
 	return iri.indexOf( ":" ) !== - 1;
 }
@@ -46,22 +39,4 @@ export function getPrefixedParts( iri:string ):[ string, string ] | null {
 		prefix,
 		local,
 	];
-}
-
-/**
- * Check if the provided is an IRI to surround it with '<>'.
- * @param iri String to check.
- * @param vocab Optional parameter that indicates the vocab to resolve relative IRIs.
- * @returns {string}
- */
-export function resolve( iri:string, vocab?:string ):Token[] {
-	let tokens:Token[] = [ new StringLiteral( iri ) ];
-
-	if( isIRI( iri ) ) {
-		if( isRelative( iri ) && vocab )
-			iri = vocab + iri;
-		tokens = [ OPEN_IRI, new StringLiteral( iri ), CLOSE_IRI ];
-	}
-
-	return tokens;
 }
