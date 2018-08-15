@@ -1,10 +1,32 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(require("./PatternBuilder"));
-var Undefined_1 = require("./Undefined");
-exports.Undefined = Undefined_1.Undefined;
+var FinishPattern_1 = require("./clausePatterns/FinishPattern");
+exports.FinishPattern = FinishPattern_1.FinishPattern;
+var SubSelectPattern_1 = require("./clausePatterns/SubSelectPattern");
+exports.SubSelectPattern = SubSelectPattern_1.SubSelectPattern;
+var WherePattern_1 = require("./clausePatterns/WherePattern");
+exports.WherePattern = WherePattern_1.WherePattern;
+var NotTriplePattern_1 = require("./notTriplePatterns/NotTriplePattern");
+exports.NotTriplePattern = NotTriplePattern_1.NotTriplePattern;
+var GroupPattern_1 = require("./notTriplePatterns/GroupPattern");
+exports.GroupPattern = GroupPattern_1.GroupPattern;
+var MultipleValuesPattern_1 = require("./notTriplePatterns/MultipleValuesPattern");
+exports.MultipleValuesPattern = MultipleValuesPattern_1.MultipleValuesPattern;
+var SingleValuesPattern_1 = require("./notTriplePatterns/SingleValuesPattern");
+exports.SingleValuesPattern = SingleValuesPattern_1.SingleValuesPattern;
+var UnionPattern_1 = require("./notTriplePatterns/UnionPattern");
+exports.UnionPattern = UnionPattern_1.UnionPattern;
+var TriplePattern_1 = require("./triplePatterns/TriplePattern");
+exports.TriplePattern = TriplePattern_1.TriplePattern;
+var TripleSubject_1 = require("./triplePatterns/TripleSubject");
+exports.TripleSubject = TripleSubject_1.TripleSubject;
+var BlankNodeBuilder_1 = require("./triplePatterns/BlankNodeBuilder");
+exports.BlankNodeBuilder = BlankNodeBuilder_1.BlankNodeBuilder;
+var RDFLiteral_1 = require("./triplePatterns/RDFLiteral");
+exports.RDFLiteral = RDFLiteral_1.RDFLiteral;
+var Pattern_1 = require("./Pattern");
+exports.Pattern = Pattern_1.Pattern;
+var PatternBuilder_1 = require("./PatternBuilder");
+exports.PatternBuilder = PatternBuilder_1.PatternBuilder;
 
 //# sourceMappingURL=index.js.map

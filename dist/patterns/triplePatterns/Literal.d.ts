@@ -1,4 +1,4 @@
 import { LiteralToken } from "../../tokens/LiteralToken";
-import { TriplePatternHas } from "./TriplePatternHas";
-export interface Literal extends TriplePatternHas<LiteralToken> {
+import { TripleSubject } from "./TripleSubject";
+export interface Literal extends TripleSubject<LiteralToken> {
 }

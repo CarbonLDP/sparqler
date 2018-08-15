@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var UnionPatternToken_1 = require("./../../tokens/UnionPatternToken");
 var Container_1 = require("../../data/Container");
 var BindToken_1 = require("../../tokens/BindToken");
 var FilterToken_1 = require("../../tokens/FilterToken");
@@ -10,11 +11,11 @@ var OptionalToken_1 = require("../../tokens/OptionalToken");
 var ServicePatternToken_1 = require("../../tokens/ServicePatternToken");
 var ValuesToken_1 = require("../../tokens/ValuesToken");
 var VariableToken_1 = require("../../tokens/VariableToken");
-var Undefined_1 = require("../Undefined");
 var GroupPattern_1 = require("./GroupPattern");
 var MultipleValuesPattern_1 = require("./MultipleValuesPattern");
 var NotTriplePattern_1 = require("./NotTriplePattern");
 var SingleValuesPattern_1 = require("./SingleValuesPattern");
+var UnionPattern_1 = require("./UnionPattern");
 function _getPatternContainer(container, targetToken) {
     return new Container_1.Container({
         iriResolver: container.iriResolver,
@@ -46,6 +47,15 @@ function getGroupFn(container) {
         return GroupPattern_1.GroupPattern.createFrom(patternContainer, {});
     };
 }
+function getUnionFn(container) {
+    return function (patterns) {
+        var token = new UnionPatternToken_1.UnionPatternToken();
+        var patternContainer = _getPatternContainer(container, token);
+        var unionPattern = UnionPattern_1.UnionPattern
+            .createFrom(patternContainer, {});
+        return unionPattern.and(patterns);
+    };
+}
 function getOptionalFn(container) {
     return function (patterns) {
         var token = new OptionalToken_1.OptionalToken();
@@ -55,12 +65,9 @@ function getOptionalFn(container) {
     };
 }
 function getMinusFn(container) {
-    return function () {
-        var patterns = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            patterns[_i] = arguments[_i];
-        }
+    return function (patterns) {
         var _a;
+        patterns = Array.isArray(patterns) ? patterns : [patterns];
         var token = new MinusPatternToken_1.MinusPatternToken();
         (_a = token.groupPattern.patterns).push.apply(_a, patterns.map(function (x) { return x.getPattern(); }));
         return _getPattern(container, token);
@@ -110,12 +117,13 @@ function getValuesFn(container) {
             .createFrom(patternContainer, {});
     };
 }
-exports.NotTriplePatternBuilder = {
+exports.NotTriplePatternsBuilder = {
     createFrom: function (container, object) {
         return Object.assign(object, {
-            undefined: Undefined_1.Undefined,
+            undefined: "UNDEF",
             graph: getGraphFn(container),
             group: getGroupFn(container),
+            union: getUnionFn(container),
             optional: getOptionalFn(container),
             minus: getMinusFn(container),
             service: getServiceFn(container),
@@ -127,4 +135,4 @@ exports.NotTriplePatternBuilder = {
     },
 };
 
-//# sourceMappingURL=NotTriplePatternBuilder.js.map
+//# sourceMappingURL=NotTriplePatternsBuilder.js.map

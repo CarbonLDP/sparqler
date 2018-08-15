@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var StringLiteral_1 = require("../tokens/StringLiteral");
-var tokens_1 = require("../patterns/tokens");
 function isAbsolute(iri) {
     return iri.indexOf(":") !== -1;
 }
@@ -42,15 +40,5 @@ function getPrefixedParts(iri) {
     ];
 }
 exports.getPrefixedParts = getPrefixedParts;
-function resolve(iri, vocab) {
-    var tokens = [new StringLiteral_1.StringLiteral(iri)];
-    if (isIRI(iri)) {
-        if (isRelative(iri) && vocab)
-            iri = vocab + iri;
-        tokens = [tokens_1.OPEN_IRI, new StringLiteral_1.StringLiteral(iri), tokens_1.CLOSE_IRI];
-    }
-    return tokens;
-}
-exports.resolve = resolve;
 
 //# sourceMappingURL=utils.js.map

@@ -1,41 +1,11 @@
-import { IRIResolver } from "./../iri/IRIResolver";
-import { GraphPattern, MultipleValuesPattern, NotTriplesPatternBuilder, SingleValuesPattern, SupportedNativeTypes, TriplesNodePattern, TriplesPatternBuilder } from "./interfaces";
-import { NotTriplesPattern } from "./notTriples/NotTriplesPattern";
-import { BlankNode } from "./triples/BlankNode";
-import { Collection } from "./triples/Collection";
-import { BooleanLiteral, Literal, NumericLiteral, RDFLiteral } from "./triples/Literals";
-import { Resource } from "./triples/Resource";
-import { Variable } from "./triples/Variable";
-import { Undefined } from "./Undefined";
-export declare class PatternBuilder implements TriplesPatternBuilder, NotTriplesPatternBuilder {
-    static readonly undefined: Undefined;
-    readonly undefined: Undefined;
-    private iriResolver;
-    constructor(iriResolver: IRIResolver);
-    resource(iri: string): Resource;
-    var(name: string): Variable;
-    literal(value: string): RDFLiteral;
-    literal(value: number): NumericLiteral;
-    literal(value: boolean): BooleanLiteral;
-    collection(...values: (SupportedNativeTypes | Resource | Variable | Literal | TriplesNodePattern)[]): Collection;
-    blankNode(): BlankNode;
-    graph(iri: string, pattern: GraphPattern): NotTriplesPattern;
-    graph(iri: string, patterns: GraphPattern[]): NotTriplesPattern;
-    graph(variable: Variable, pattern: GraphPattern): NotTriplesPattern;
-    graph(variable: Variable, patterns: GraphPattern[]): NotTriplesPattern;
-    optional(pattern: GraphPattern): NotTriplesPattern;
-    optional(patterns: GraphPattern[]): NotTriplesPattern;
-    union(pattern1: GraphPattern, pattern2: GraphPattern): NotTriplesPattern;
-    union(pattern1: GraphPattern, patterns2: GraphPattern[]): NotTriplesPattern;
-    union(patterns1: GraphPattern[], pattern2: GraphPattern): NotTriplesPattern;
-    union(patterns1: GraphPattern[], patterns2: GraphPattern[]): NotTriplesPattern;
-    minus(pattern: GraphPattern): NotTriplesPattern;
-    minus(firstPattern: GraphPattern, ...restPatterns: GraphPattern[]): NotTriplesPattern;
-    values(variable: Variable): SingleValuesPattern;
-    values(...variables: Variable[]): MultipleValuesPattern;
-    service(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
-    serviceSilent(resource: string | Resource | Variable, patterns: GraphPattern | GraphPattern[]): NotTriplesPattern;
-    bind(rawExpression: string, variable: string | Variable): NotTriplesPattern;
-    filter(rawConstraint: string): NotTriplesPattern;
+import { Container } from "../data/Container";
+import { IRIResolver } from "../data/IRIResolver";
+import { SubSelectPattern } from "./clausePatterns/SubSelectPattern";
+import { NotTriplePatternsBuilder } from "./notTriplePatterns/NotTriplePatternsBuilder";
+import { TriplePatternsBuilder } from "./triplePatterns/TriplePatternsBuilder";
+export interface PatternBuilder extends TriplePatternsBuilder, NotTriplePatternsBuilder, SubSelectPattern {
 }
-export default PatternBuilder;
+export declare const PatternBuilder: {
+    create(iriResolver: IRIResolver): PatternBuilder;
+    createFrom<C extends Container<undefined>, O extends object>(container: C, object: O): O & PatternBuilder;
+};

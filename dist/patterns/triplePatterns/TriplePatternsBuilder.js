@@ -12,38 +12,38 @@ var Pattern_1 = require("../Pattern");
 var utils_1 = require("../utils");
 var BlankNodeBuilder_1 = require("./BlankNodeBuilder");
 var RDFLiteral_1 = require("./RDFLiteral");
-var TriplePatternHas_1 = require("./TriplePatternHas");
+var TripleSubject_1 = require("./TripleSubject");
 function _getPatternContainer(container, token) {
     return new Container_1.Container({
         iriResolver: container.iriResolver,
         targetToken: new SubjectToken_1.SubjectToken(token),
     });
 }
-function _getPattern(container, token) {
+function _getTripleSubject(container, token) {
     var patternContainer = _getPatternContainer(container, token);
-    return TriplePatternHas_1.TriplePatternHas.createFrom(patternContainer, {});
+    return TripleSubject_1.TripleSubject.createFrom(patternContainer, {});
 }
-function _getReadyPattern(container, token) {
+function _getNodeSubject(container, token) {
     var patternContainer = _getPatternContainer(container, token);
-    return Factory_1.Factory.createFrom(TriplePatternHas_1.TriplePatternHas.createFrom, Pattern_1.Pattern.createFrom)(patternContainer, {});
+    return Factory_1.Factory.createFrom(TripleSubject_1.TripleSubject.createFrom, Pattern_1.Pattern.createFrom)(patternContainer, {});
 }
 function getResourceFn(container) {
     return function (iri) {
         var token = container.iriResolver.resolve(iri);
-        return _getPattern(container, token);
+        return _getTripleSubject(container, token);
     };
 }
 function getVarFn(container) {
     return function (name) {
         var token = new VariableToken_1.VariableToken(name);
-        return _getPattern(container, token);
+        return _getTripleSubject(container, token);
     };
 }
 function getLiteralFn(container) {
     return function (value) {
         var token = new LiteralToken_1.LiteralToken(value);
         if (typeof value !== "string")
-            return _getPattern(container, token);
+            return _getTripleSubject(container, token);
         var patternContainer = _getPatternContainer(container, token);
         return RDFLiteral_1.RDFLiteral.createFrom(patternContainer, {});
     };
@@ -56,26 +56,26 @@ function getCollectionFn(container) {
         }
         var _a;
         var token = (_a = new CollectionToken_1.CollectionToken()).addObject.apply(_a, values.map(utils_1.convertValue));
-        return _getReadyPattern(container, token);
+        return _getNodeSubject(container, token);
     };
 }
 function _getBlankNode(container, label) {
     if (label && !label.startsWith("_:"))
         label = "_:" + label;
     var token = new BlankNodeToken_1.BlankNodeToken(label);
-    return _getPattern(container, token);
+    return _getTripleSubject(container, token);
 }
 function _getBlankNodeProperty(container, builderFn) {
     var token = new BlankNodePropertyToken_1.BlankNodePropertyToken();
-    var newContainer = new Container_1.Container({
+    var builderContainer = new Container_1.Container({
         iriResolver: container.iriResolver,
         targetToken: token,
     });
-    var builder = BlankNodeBuilder_1.BlankNodeBuilder.createFrom(newContainer, {});
+    var builder = BlankNodeBuilder_1.BlankNodeBuilder.createFrom(builderContainer, {});
     builderFn(builder);
     if (token.properties.length < 1)
-        throw new Error("At least one property must be specified with the provided BlankNodeBuilder.");
-    return _getReadyPattern(container, token);
+        throw new Error("At least one property must be specified by the self builder.");
+    return _getNodeSubject(container, token);
 }
 function getBlankNodeFn(container) {
     return function (labelOrBuilderFn) {
@@ -84,7 +84,7 @@ function getBlankNodeFn(container) {
         return _getBlankNode(container, labelOrBuilderFn);
     };
 }
-exports.TriplePatternBuilder = {
+exports.TriplePatternsBuilder = {
     createFrom: function (container, object) {
         return Object.assign(object, {
             resource: getResourceFn(container),
@@ -96,4 +96,4 @@ exports.TriplePatternBuilder = {
     },
 };
 
-//# sourceMappingURL=TriplePatternBuilder.js.map
+//# sourceMappingURL=TriplePatternsBuilder.js.map

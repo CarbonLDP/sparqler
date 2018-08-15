@@ -4,5 +4,6 @@ export declare class GroupPatternToken implements TokenNode {
     token: "groupPattern";
     readonly patterns: PatternToken[];
     constructor();
+    addPattern(...patterns: PatternToken[]): this;
     toString(spaces?: number): string;
 }

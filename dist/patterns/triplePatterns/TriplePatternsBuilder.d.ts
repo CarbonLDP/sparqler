@@ -1,5 +1,4 @@
 import { Container } from "../../data/Container";
-import { TokenNode } from "../../tokens/TokenNode";
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
 import { BlankNode } from "./BlankNode";
 import { BlankNodeBuilder } from "./BlankNodeBuilder";
@@ -9,15 +8,15 @@ import { Literal } from "./Literal";
 import { RDFLiteral } from "./RDFLiteral";
 import { Resource } from "./Resource";
 import { Variable } from "./Variable";
-export interface TriplePatternBuilder {
+export interface TriplePatternsBuilder {
     resource(iri: string): Resource;
     var(name: string): Variable;
     literal(value: string): RDFLiteral;
-    literal(value: number | boolean): Literal;
+    literal(value: string | number | boolean): Literal;
     collection(...values: (SupportedNativeTypes | Resource | BlankNode | Variable | Literal | Collection | BlankNodeProperty)[]): Collection;
     blankNode(label?: string): BlankNode;
-    blankNode(builderFn: (blankNodeBuilder: BlankNodeBuilder) => any): BlankNodeProperty;
+    blankNode(builderFn: (selfBuilder: BlankNodeBuilder) => any): BlankNodeProperty;
 }
-export declare const TriplePatternBuilder: {
-    createFrom<C extends Container<TokenNode>, O extends object>(container: C, object: O): O & TriplePatternBuilder;
+export declare const TriplePatternsBuilder: {
+    createFrom<O extends object>(container: Container<undefined>, object: O): O & TriplePatternsBuilder;
 };

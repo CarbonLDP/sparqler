@@ -6,14 +6,14 @@ import { Resource } from "../triplePatterns/Resource";
 import { Undefined } from "../Undefined";
 import { NotTriplePattern } from "./NotTriplePattern";
 export interface MultipleValuesPattern extends NotTriplePattern<ValuesToken> {
-    has(...value: (SupportedNativeTypes | Resource | Literal | Undefined)[]): MultipleValuesPatternAnd;
+    has(...values: (SupportedNativeTypes | Resource | Literal | Undefined)[]): MultipleValuesPatternMore;
 }
-export interface MultipleValuesPatternAnd extends NotTriplePattern<ValuesToken> {
-    and(...value: (SupportedNativeTypes | Resource | Literal | Undefined)[]): MultipleValuesPatternAnd;
+export interface MultipleValuesPatternMore extends NotTriplePattern<ValuesToken> {
+    and(...values: (SupportedNativeTypes | Resource | Literal | Undefined)[]): MultipleValuesPatternMore;
 }
 export declare const MultipleValuesPattern: {
     createFrom<C extends Container<ValuesToken>, O extends object>(container: C, object: O): MultipleValuesPattern;
 };
-export declare const MultipleValuesPatternAnd: {
-    createFrom<C extends Container<ValuesToken>, O extends object>(container: C, object: O): MultipleValuesPatternAnd;
+export declare const MultipleValuesPatternMore: {
+    createFrom<C extends Container<ValuesToken>, O extends object>(container: C, object: O): MultipleValuesPatternMore;
 };

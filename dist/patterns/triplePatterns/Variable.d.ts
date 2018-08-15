@@ -1,4 +1,4 @@
 import { VariableToken } from "../../tokens/VariableToken";
-import { TriplePatternHas } from "./TriplePatternHas";
-export interface Variable extends TriplePatternHas<VariableToken> {
+import { TripleSubject } from "./TripleSubject";
+export interface Variable extends TripleSubject<VariableToken> {
 }

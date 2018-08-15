@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var IRIResolver_1 = require("../data/IRIResolver");
 var utils_1 = require("../data/utils");
-var PatternBuilder2_1 = require("../patterns/PatternBuilder2");
+var PatternBuilder_1 = require("../patterns/PatternBuilder");
 var WhereToken_1 = require("../tokens/WhereToken");
 var GroupClause_1 = require("./GroupClause");
 function _getPatterns(iriResolver, patternFunction) {
-    var patternOrPatterns = patternFunction(PatternBuilder2_1.PatternBuilder2.create(iriResolver));
+    var patternOrPatterns = patternFunction(PatternBuilder_1.PatternBuilder.create(iriResolver));
     var patterns = Array.isArray(patternOrPatterns) ? patternOrPatterns : [patternOrPatterns];
     return patterns.map(function (x) { return x.getPattern(); });
 }

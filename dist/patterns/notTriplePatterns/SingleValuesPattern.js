@@ -11,7 +11,7 @@ function getHasFn(container) {
         values[0] = values[0].concat(utils_2.convertValue(value));
         var targetToken = utils_1.cloneElement(container.targetToken, { values: values });
         var newContainer = utils_1.cloneElement(container, { targetToken: targetToken });
-        return exports.SingleValuesPatternAnd.createFrom(newContainer, {});
+        return exports.SingleValuesPatternMore.createFrom(newContainer, {});
     };
 }
 exports.SingleValuesPattern = {
@@ -21,7 +21,7 @@ exports.SingleValuesPattern = {
         }));
     },
 };
-exports.SingleValuesPatternAnd = {
+exports.SingleValuesPatternMore = {
     createFrom: function (container, object) {
         return NotTriplePattern_1.NotTriplePattern.createFrom(container, Object.assign(object, {
             and: getHasFn(container),

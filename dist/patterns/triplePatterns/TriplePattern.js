@@ -1,11 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Pattern_1 = require("../Pattern");
 exports.TriplePattern = {
-    createFrom: function (container, object) {
-        return Object.assign(object, {
-            getSubject: function () { return container.targetToken.subject; },
-        });
-    }
+    createFrom: Pattern_1.Pattern.createFrom,
 };
 
 //# sourceMappingURL=TriplePattern.js.map

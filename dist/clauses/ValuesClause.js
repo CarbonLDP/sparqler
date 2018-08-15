@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var IRIResolver_1 = require("../data/IRIResolver");
 var utils_1 = require("../data/utils");
-var PatternBuilder2_1 = require("../patterns/PatternBuilder2");
+var PatternBuilder_1 = require("../patterns/PatternBuilder");
 var utils_2 = require("../patterns/utils");
 var ValuesToken_1 = require("../tokens/ValuesToken");
 var VariableToken_1 = require("../tokens/VariableToken");
@@ -12,7 +12,7 @@ function _normalizeVariables(variableOrVariables) {
 }
 function _normalizeRawValues(valuesOrBuilder, iriResolver, isSingle) {
     var rawValues = typeof valuesOrBuilder === "function" ?
-        valuesOrBuilder(PatternBuilder2_1.PatternBuilder2.create(iriResolver)) :
+        valuesOrBuilder(PatternBuilder_1.PatternBuilder.create(iriResolver)) :
         valuesOrBuilder;
     if (!Array.isArray(rawValues))
         return [[rawValues]];

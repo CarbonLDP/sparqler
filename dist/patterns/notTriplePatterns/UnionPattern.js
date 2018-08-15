@@ -4,7 +4,7 @@ var Container_1 = require("../../data/Container");
 var utils_1 = require("../../data/utils");
 var GroupPatternToken_1 = require("../../tokens/GroupPatternToken");
 var NotTriplePattern_1 = require("./NotTriplePattern");
-function getUnionFn(container) {
+function getAndFn(container) {
     return function (patterns) {
         var _a;
         patterns = Array.isArray(patterns) ? patterns : [patterns];
@@ -22,7 +22,7 @@ function getUnionFn(container) {
 exports.UnionPattern = {
     createFrom: function (container, object) {
         return NotTriplePattern_1.NotTriplePattern.createFrom(container, Object.assign(object, {
-            union: getUnionFn(container),
+            and: getAndFn(container),
         }));
     },
 };

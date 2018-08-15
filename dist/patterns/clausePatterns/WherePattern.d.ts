@@ -1,5 +1,5 @@
 import { GroupClause } from "../../clauses/GroupClause";
-import { Container } from "../../data/container";
+import { Container } from "../../data/Container";
 import { SubSelectToken } from "../../tokens/SubSelectToken";
 import { Pattern } from "../Pattern";
 import { FinishPattern } from "./FinishPattern";

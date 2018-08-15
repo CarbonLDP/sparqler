@@ -1,5 +1,4 @@
 import { Container } from "../../data/Container";
-import { TokenNode } from "../../tokens/TokenNode";
 import { Pattern } from "../Pattern";
 import { Resource } from "../triplePatterns/Resource";
 import { Variable } from "../triplePatterns/Variable";
@@ -13,15 +12,14 @@ import { MultipleValuesPattern } from "./MultipleValuesPattern";
 import { OptionalPattern } from "./OptionalPattern";
 import { ServicePattern } from "./ServicePattern";
 import { SingleValuesPattern } from "./SingleValuesPattern";
-export interface NotTriplePatternBuilder {
+import { UnionPattern } from "./UnionPattern";
+export interface NotTriplePatternsBuilder {
     undefined: Undefined;
-    graph(iri: string | Resource | Variable, pattern: Pattern): GraphPattern;
-    graph(iri: string | Resource | Variable, patterns: Pattern[]): GraphPattern;
+    graph(iri: string | Resource | Variable, patterns: Pattern | Pattern[]): GraphPattern;
     group(patterns: Pattern | Pattern[]): GroupPattern;
-    optional(pattern: Pattern): OptionalPattern;
-    optional(patterns: Pattern[]): OptionalPattern;
-    minus(pattern: Pattern): MinusPattern;
-    minus(firstPattern: Pattern, ...restPatterns: Pattern[]): MinusPattern;
+    union(patterns: Pattern | Pattern[]): UnionPattern;
+    optional(patterns: Pattern | Pattern[]): OptionalPattern;
+    minus(patterns: Pattern | Pattern[]): MinusPattern;
     service(resource: string | Resource | Variable, patterns: Pattern | Pattern[]): ServicePattern;
     serviceSilent(resource: string | Resource | Variable, patterns: Pattern | Pattern[]): ServicePattern;
     filter(rawConstraint: string): FilterPattern;
@@ -29,6 +27,6 @@ export interface NotTriplePatternBuilder {
     values(variable: Variable): SingleValuesPattern;
     values(...variables: Variable[]): MultipleValuesPattern;
 }
-export declare const NotTriplePatternBuilder: {
-    createFrom<C extends Container<TokenNode>, O extends object>(container: C, object: O): O & NotTriplePatternBuilder;
+export declare const NotTriplePatternsBuilder: {
+    createFrom<O extends object>(container: Container<undefined>, object: O): O & NotTriplePatternsBuilder;
 };
