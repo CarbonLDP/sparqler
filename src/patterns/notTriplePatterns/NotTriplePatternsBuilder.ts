@@ -1,4 +1,3 @@
-import { UnionPatternToken } from "sparqler/tokens/UnionPatternToken";
 import { Container } from "../../data/Container";
 
 import { BindToken } from "../../tokens/BindToken";
@@ -9,6 +8,7 @@ import { MinusPatternToken } from "../../tokens/MinusPatternToken";
 import { NotTripleToken } from "../../tokens/NotTripleToken";
 import { OptionalToken } from "../../tokens/OptionalToken";
 import { ServicePatternToken } from "../../tokens/ServicePatternToken";
+import { UnionPatternToken } from "../../tokens/UnionPatternToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 import { VariableToken } from "../../tokens/VariableToken";
 

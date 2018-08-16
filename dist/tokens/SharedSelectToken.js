@@ -13,16 +13,16 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var CommonQueryClauseToken_1 = require("./CommonQueryClauseToken");
-var CommonSelectToken = (function (_super) {
-    __extends(CommonSelectToken, _super);
-    function CommonSelectToken(modifier) {
+var SharedQueryClauseToken_1 = require("./SharedQueryClauseToken");
+var SharedSelectToken = (function (_super) {
+    __extends(SharedSelectToken, _super);
+    function SharedSelectToken(modifier) {
         var _this = _super.call(this) || this;
         _this.modifier = modifier;
         _this.variables = [];
         return _this;
     }
-    CommonSelectToken.prototype.addVariable = function () {
+    SharedSelectToken.prototype.addVariable = function () {
         var variables = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             variables[_i] = arguments[_i];
@@ -31,7 +31,7 @@ var CommonSelectToken = (function (_super) {
         (_a = this.variables).push.apply(_a, variables);
         return this;
     };
-    CommonSelectToken.prototype.toString = function (spaces) {
+    SharedSelectToken.prototype.toString = function (spaces) {
         var query = "SELECT";
         if (this.modifier)
             query += " " + this.modifier;
@@ -40,8 +40,8 @@ var CommonSelectToken = (function (_super) {
             " *";
         return query;
     };
-    return CommonSelectToken;
-}(CommonQueryClauseToken_1.CommonQueryClauseToken));
-exports.CommonSelectToken = CommonSelectToken;
+    return SharedSelectToken;
+}(SharedQueryClauseToken_1.SharedQueryClauseToken));
+exports.SharedSelectToken = SharedSelectToken;
 
-//# sourceMappingURL=CommonSelectToken.js.map
+//# sourceMappingURL=SharedSelectToken.js.map

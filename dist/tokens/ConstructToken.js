@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var CommonQueryClauseToken_1 = require("./CommonQueryClauseToken");
+var SharedQueryClauseToken_1 = require("./SharedQueryClauseToken");
 var printing_1 = require("./printing");
 var ConstructToken = (function (_super) {
     __extends(ConstructToken, _super);
@@ -48,7 +48,7 @@ var ConstructToken = (function (_super) {
         return query;
     };
     return ConstructToken;
-}(CommonQueryClauseToken_1.CommonQueryClauseToken));
+}(SharedQueryClauseToken_1.SharedQueryClauseToken));
 exports.ConstructToken = ConstructToken;
 
 //# sourceMappingURL=ConstructToken.js.map

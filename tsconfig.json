@@ -4,11 +4,7 @@
 		"target": "es5",
 		"lib": [ "es2015" ],
 		"strict": true,
-		"removeComments": true,
-		"baseUrl": ".",
-		"paths": {
-			"sparqler/*": [ "src/*" ]
-		}
+		"removeComments": true
 	},
 	"exclude": [
 		"node_modules",

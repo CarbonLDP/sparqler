@@ -1,10 +1,11 @@
-import { Container } from "sparqler/data/Container";
-import { Factory } from "sparqler/data/Factory";
-import { IRIResolver } from "sparqler/data/IRIResolver";
-import { TokenNode } from "sparqler/tokens";
+import { TokenNode } from "../tokens/TokenNode";
+
+import { Container } from "./Container";
+import { Factory } from "./Factory";
+import { IRIResolver } from "./IRIResolver";
+
 
 describe( "Factory", () => {
-
 
 	describe( "Factory.createFrom", () => {
 
@@ -77,6 +78,5 @@ describe( "Factory", () => {
 		} );
 
 	} );
-
 
 } );

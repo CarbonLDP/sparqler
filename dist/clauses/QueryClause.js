@@ -4,11 +4,11 @@ var Factory_1 = require("../data/Factory");
 var IRIResolver_1 = require("../data/IRIResolver");
 var utils_1 = require("../data/utils");
 var BaseToken_1 = require("../tokens/BaseToken");
-var IRIToken_1 = require("../tokens/IRIToken");
+var IRIRefToken_1 = require("../tokens/IRIRefToken");
 var PrefixToken_1 = require("../tokens/PrefixToken");
 var SelectClause_1 = require("./SelectClause");
 function base(iri) {
-    var token = new BaseToken_1.BaseToken(new IRIToken_1.IRIToken(iri));
+    var token = new BaseToken_1.BaseToken(new IRIRefToken_1.IRIRefToken(iri));
     var prologues = this.targetToken
         .prologues.concat(token);
     var queryToken = utils_1.cloneElement(this.targetToken, { prologues: prologues });
@@ -29,7 +29,7 @@ function prefix(name, iri) {
         if (index !== -1)
             prologues.splice(index, 1);
     }
-    prologues.push(new PrefixToken_1.PrefixToken(name, new IRIToken_1.IRIToken(iri)));
+    prologues.push(new PrefixToken_1.PrefixToken(name, new IRIRefToken_1.IRIRefToken(iri)));
     iriResolver.prefixes.set(name, false);
     var queryToken = utils_1.cloneElement(this.targetToken, { prologues: prologues });
     var container = utils_1.cloneElement(this, {

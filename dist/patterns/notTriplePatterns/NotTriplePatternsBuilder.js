@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var UnionPatternToken_1 = require("./../../tokens/UnionPatternToken");
 var Container_1 = require("../../data/Container");
 var BindToken_1 = require("../../tokens/BindToken");
 var FilterToken_1 = require("../../tokens/FilterToken");
@@ -9,6 +8,7 @@ var GroupPatternToken_1 = require("../../tokens/GroupPatternToken");
 var MinusPatternToken_1 = require("../../tokens/MinusPatternToken");
 var OptionalToken_1 = require("../../tokens/OptionalToken");
 var ServicePatternToken_1 = require("../../tokens/ServicePatternToken");
+var UnionPatternToken_1 = require("../../tokens/UnionPatternToken");
 var ValuesToken_1 = require("../../tokens/ValuesToken");
 var VariableToken_1 = require("../../tokens/VariableToken");
 var GroupPattern_1 = require("./GroupPattern");

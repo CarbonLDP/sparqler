@@ -21,23 +21,30 @@ function addSpaces(spaces, extra) {
     return spaces + extra;
 }
 exports.addSpaces = addSpaces;
-function getTokenContainerString(data) {
-    if (!data.tokens.length)
-        return data.tags.open + data.tags.close;
-    var separator = getSeparator(data.spaces);
-    var tokensSpaces = addSpaces(data.spaces, exports.INDENTATION_SPACES);
-    var tokensSeparator = data.tokensSeparator ? data.tokensSeparator + separator : separator;
-    var tokens = data.tokens
-        .map(function (tokens) { return tokens.toString(tokensSpaces); });
-    if (tokens.length === 1 && !tokens[0].includes("\n"))
-        return data.tags.open + " " + tokens[0] + " " + data.tags.close;
-    var indent = getIndentation(data.spaces);
+function getTokenContainerString(_a) {
+    var spaces = _a.spaces, tags = _a.tags, tokensSeparator = _a.tokensSeparator, tokens = _a.tokens;
+    if (!tokens.length)
+        return tags.open + tags.close;
+    var generalSeparator = getSeparator(spaces);
+    var tokensSpaces = addSpaces(spaces, exports.INDENTATION_SPACES);
+    var strArrayTokens = tokens.map(function (token, index, array) {
+        var strToken = token.toString(tokensSpaces);
+        if (!tokensSeparator || index === array.length - 1)
+            return strToken;
+        if (tokensSeparator === "." && token.token !== "subject")
+            return strToken;
+        return strToken + tokensSeparator;
+    });
+    if (strArrayTokens.length === 1 && !strArrayTokens[0].includes("\n"))
+        return tags.open + " " + strArrayTokens + " " + tags.close;
     var tokensIndent = getIndentation(tokensSpaces);
-    return data.tags.open + separator +
-        tokens
-            .map(function (x) { return tokensIndent + x; })
-            .join(tokensSeparator) + separator +
-        indent + data.tags.close;
+    var strTokens = strArrayTokens
+        .map(function (x) { return tokensIndent + x; })
+        .join(generalSeparator);
+    var indent = getIndentation(spaces);
+    return tags.open +
+        generalSeparator + strTokens + generalSeparator +
+        indent + tags.close;
 }
 exports.getTokenContainerString = getTokenContainerString;
 

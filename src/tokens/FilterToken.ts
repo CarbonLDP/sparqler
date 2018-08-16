@@ -1,4 +1,4 @@
-import { TokenNode } from "sparqler/tokens/TokenNode";
+import { TokenNode } from "./TokenNode";
 
 
 /**

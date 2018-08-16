@@ -1,6 +1,6 @@
-import { CommonQueryClauseToken } from "./CommonQueryClauseToken";
+import { SharedQueryClauseToken } from "./SharedQueryClauseToken";
 import { TripleToken } from "./TripleToken";
-export declare class ConstructToken extends CommonQueryClauseToken {
+export declare class ConstructToken extends SharedQueryClauseToken {
     readonly token: "construct";
     readonly triples: TripleToken[];
     constructor();

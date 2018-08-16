@@ -1,4 +1,5 @@
-import { GroupPatternToken } from "sparqler/tokens/GroupPatternToken";
+import { GroupPatternToken } from "../../src/tokens/GroupPatternToken";
+
 
 export class MockPatternToken extends GroupPatternToken {
 	readonly label:string;

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = require("../iri/utils");
-var IRIToken_1 = require("../tokens/IRIToken");
+var IRIRefToken_1 = require("../tokens/IRIRefToken");
 var PrefixedNameToken_1 = require("../tokens/PrefixedNameToken");
 var IRIResolver = (function () {
     function IRIResolver(base, vocab) {
@@ -18,13 +18,13 @@ var IRIResolver = (function () {
     IRIResolver.prototype.resolve = function (relativeIRI, vocab) {
         if (utils_1.isPrefixed(relativeIRI))
             return this.resolvePrefixed(relativeIRI);
-        return this.resolveIRI(relativeIRI, vocab);
+        return this.resolveIRIRef(relativeIRI, vocab);
     };
-    IRIResolver.prototype.resolveIRI = function (relativeIRI, vocab) {
+    IRIResolver.prototype.resolveIRIRef = function (relativeIRI, vocab) {
         if (vocab === void 0) { vocab = false; }
         if (vocab && this.vocab && utils_1.isRelative(relativeIRI))
             relativeIRI = this.vocab + relativeIRI;
-        return new IRIToken_1.IRIToken(relativeIRI);
+        return new IRIRefToken_1.IRIRefToken(relativeIRI);
     };
     IRIResolver.prototype.resolvePrefixed = function (prefixedName) {
         var token = new PrefixedNameToken_1.PrefixedNameToken(prefixedName);

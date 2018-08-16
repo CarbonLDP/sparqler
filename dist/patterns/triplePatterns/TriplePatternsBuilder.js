@@ -6,6 +6,7 @@ var BlankNodePropertyToken_1 = require("../../tokens/BlankNodePropertyToken");
 var BlankNodeToken_1 = require("../../tokens/BlankNodeToken");
 var CollectionToken_1 = require("../../tokens/CollectionToken");
 var LiteralToken_1 = require("../../tokens/LiteralToken");
+var RDFLiteralToken_1 = require("../../tokens/RDFLiteralToken");
 var SubjectToken_1 = require("../../tokens/SubjectToken");
 var VariableToken_1 = require("../../tokens/VariableToken");
 var Pattern_1 = require("../Pattern");
@@ -41,9 +42,11 @@ function getVarFn(container) {
 }
 function getLiteralFn(container) {
     return function (value) {
-        var token = new LiteralToken_1.LiteralToken(value);
-        if (typeof value !== "string")
-            return _getTripleSubject(container, token);
+        if (typeof value !== "string") {
+            var token_1 = new LiteralToken_1.LiteralToken(value);
+            return _getTripleSubject(container, token_1);
+        }
+        var token = new RDFLiteralToken_1.RDFLiteralToken(value);
         var patternContainer = _getPatternContainer(container, token);
         return RDFLiteral_1.RDFLiteral.createFrom(patternContainer, {});
     };

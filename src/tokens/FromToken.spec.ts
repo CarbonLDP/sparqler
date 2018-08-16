@@ -1,6 +1,7 @@
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
 import { FromToken } from "./FromToken";
 import { IRIRefToken } from "./IRIRefToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
+
 
 describe( "FromToken", () => {
 

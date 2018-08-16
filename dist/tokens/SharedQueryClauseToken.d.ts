@@ -2,7 +2,7 @@ import { PatternToken } from "./PatternToken";
 import { SolutionModifierToken } from "./SolutionModifierToken";
 import { TokenNode } from "./TokenNode";
 import { WhereToken } from "./WhereToken";
-export declare abstract class CommonQueryClauseToken implements TokenNode {
+export declare abstract class SharedQueryClauseToken implements TokenNode {
     abstract readonly token: string;
     readonly where: WhereToken;
     readonly modifiers: SolutionModifierToken[];

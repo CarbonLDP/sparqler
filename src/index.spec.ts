@@ -1,5 +1,5 @@
-import { QueryClause } from "sparqler/clauses";
 import { FinishClause } from "./clauses/FinishClause";
+import { QueryClause } from "./clauses/QueryClause";
 
 import DefaultExport, { FinishFactory, SPARQLER } from "./index";
 

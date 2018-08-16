@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var CommonSelectToken_1 = require("./CommonSelectToken");
+var SharedSelectToken_1 = require("./SharedSelectToken");
 var printing_1 = require("./printing");
 var SelectToken = (function (_super) {
     __extends(SelectToken, _super);
@@ -34,7 +34,7 @@ var SelectToken = (function (_super) {
         return query;
     };
     return SelectToken;
-}(CommonSelectToken_1.CommonSelectToken));
+}(SharedSelectToken_1.SharedSelectToken));
 exports.SelectToken = SelectToken;
 
 //# sourceMappingURL=SelectToken.js.map

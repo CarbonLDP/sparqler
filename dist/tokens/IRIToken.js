@@ -1,15 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var IRIToken = (function () {
-    function IRIToken(value) {
-        this.token = "iri";
-        this.value = value;
-    }
-    IRIToken.prototype.toString = function (spaces) {
-        return "<" + this.value + ">";
-    };
-    return IRIToken;
-}());
-exports.IRIToken = IRIToken;
+var utils_1 = require("../iri/utils");
+var IRIRefToken_1 = require("./IRIRefToken");
+var PrefixedNameToken_1 = require("./PrefixedNameToken");
+function getIRIToken(iri) {
+    if (utils_1.isPrefixed(iri))
+        return new PrefixedNameToken_1.PrefixedNameToken(iri);
+    return new IRIRefToken_1.IRIRefToken(iri);
+}
+exports.getIRIToken = getIRIToken;
 
 //# sourceMappingURL=IRIToken.js.map

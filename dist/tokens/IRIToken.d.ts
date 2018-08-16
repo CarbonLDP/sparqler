@@ -1,7 +1,4 @@
-import { TokenNode } from "./TokenNode";
-export declare class IRIToken implements TokenNode {
-    readonly token: "iri";
-    readonly value: string;
-    constructor(value: string);
-    toString(spaces?: number): string;
-}
+import { IRIRefToken } from "./IRIRefToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
+export declare type IRIToken = IRIRefToken | PrefixedNameToken;
+export declare function getIRIToken(iri: string): IRIToken;

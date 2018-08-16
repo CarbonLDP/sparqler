@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var WhereToken_1 = require("./WhereToken");
-var CommonQueryClauseToken = (function () {
-    function CommonQueryClauseToken() {
+var SharedQueryClauseToken = (function () {
+    function SharedQueryClauseToken() {
         this.where = new WhereToken_1.WhereToken();
         this.modifiers = [];
     }
-    CommonQueryClauseToken.prototype.addPattern = function () {
+    SharedQueryClauseToken.prototype.addPattern = function () {
         var patterns = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             patterns[_i] = arguments[_i];
@@ -15,7 +15,7 @@ var CommonQueryClauseToken = (function () {
         (_a = this.where.groupPattern.patterns).push.apply(_a, patterns);
         return this;
     };
-    CommonQueryClauseToken.prototype.addModifier = function () {
+    SharedQueryClauseToken.prototype.addModifier = function () {
         var modifier = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             modifier[_i] = arguments[_i];
@@ -24,8 +24,8 @@ var CommonQueryClauseToken = (function () {
         (_a = this.modifiers).push.apply(_a, modifier);
         return this;
     };
-    return CommonQueryClauseToken;
+    return SharedQueryClauseToken;
 }());
-exports.CommonQueryClauseToken = CommonQueryClauseToken;
+exports.SharedQueryClauseToken = SharedQueryClauseToken;
 
-//# sourceMappingURL=CommonQueryClauseToken.js.map
+//# sourceMappingURL=SharedQueryClauseToken.js.map
