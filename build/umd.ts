@@ -1,2 +1,2 @@
-import { SPARQLER } from "../src/index";
+import { SPARQLER } from "../src/SPARQLER";
 export = SPARQLER;

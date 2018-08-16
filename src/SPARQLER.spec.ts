@@ -1,7 +1,8 @@
 import { FinishClause } from "./clauses/FinishClause";
-import { QueryClause } from "./clauses/QueryClause";
+import { QueryClause } from "./clauses/QueryClause"
 
-import DefaultExport, { FinishFactory, SPARQLER } from "./index";
+import { FinishFactory } from "./FinishFactory";
+import { SPARQLER } from "./SPARQLER";
 
 
 describe( "SPARQLER", ():void => {
@@ -9,10 +10,6 @@ describe( "SPARQLER", ():void => {
 	it( "should exists", ():void => {
 		expect( SPARQLER ).toBeDefined();
 		expect( SPARQLER ).toEqual( jasmine.any( Function ) );
-	} );
-
-	it( "should be the default export of the module", ():void => {
-		expect( DefaultExport ).toBe( SPARQLER );
 	} );
 
 	it( "should be instantiable", ():void => {

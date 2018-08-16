@@ -100,8 +100,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 
-var index_1 = __webpack_require__(1);
-module.exports = index_1.SPARQLER;
+var SPARQLER_1 = __webpack_require__(1);
+module.exports = SPARQLER_1.SPARQLER;
 
 
 /***/ }),
@@ -129,7 +129,6 @@ var SPARQLER = (function () {
     return SPARQLER;
 }());
 exports.SPARQLER = SPARQLER;
-exports.default = SPARQLER;
 
 
 /***/ }),
