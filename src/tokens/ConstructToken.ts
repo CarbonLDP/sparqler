@@ -1,9 +1,14 @@
-import { CommonQueryClauseToken } from "./CommonQueryClauseToken";
+import { SharedQueryClauseToken } from "./SharedQueryClauseToken";
 import { getSeparator, getTokenContainerString } from "./printing";
 import { TripleToken } from "./TripleToken";
 
 
-export class ConstructToken extends CommonQueryClauseToken {
+/**
+ * The token of the `CONSTRUCT` query statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rConstructQuery}
+ */
+export class ConstructToken extends SharedQueryClauseToken {
 	readonly token:"construct" = "construct";
 
 	readonly triples:TripleToken[];
@@ -21,7 +26,6 @@ export class ConstructToken extends CommonQueryClauseToken {
 	}
 
 
-	// TODO: Implement pretty print
 	toString( spaces?:number ):string {
 		const triples:string = getTokenContainerString( {
 			spaces,

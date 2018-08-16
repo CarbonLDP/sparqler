@@ -4,6 +4,12 @@ import { TokenNode } from "./TokenNode";
 import { VariableOrIRIToken } from "./VariableOrIRIToken";
 
 
+/**
+ * The token for defining a property statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rPropertyListNotEmpty}
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rPropertyListPathNotEmpty}
+ */
 export class PropertyToken implements TokenNode {
 	readonly token:"property" = "property";
 

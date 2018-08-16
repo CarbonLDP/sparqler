@@ -3,6 +3,11 @@ import { PatternToken } from "./PatternToken";
 import { TokenNode } from "./TokenNode";
 
 
+/**
+ * The token of the `OPTIONAL` statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rMinusGraphPattern}
+ */
 export class OptionalToken implements TokenNode {
 	readonly token:"optional" = "optional";
 

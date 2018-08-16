@@ -1,6 +1,12 @@
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { TokenNode } from "sparqler/tokens/TokenNode";
+import { IRIToken } from "./IRIToken";
+import { TokenNode } from "./TokenNode";
 
+
+/**
+ * The token of the `PREFIX` statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rPrefixDecl}
+ */
 export class PrefixToken implements TokenNode {
 	readonly token:"prefix" = "prefix";
 	readonly namespace:string;

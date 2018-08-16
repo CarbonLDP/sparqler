@@ -1,8 +1,12 @@
-import { CommonQueryClauseToken } from "./CommonQueryClauseToken";
+import { SharedQueryClauseToken } from "./SharedQueryClauseToken";
 import { VariableToken } from "./VariableToken";
 
 
-export abstract class CommonSelectToken extends CommonQueryClauseToken {
+/**
+ * Abstract class of the shared data of SELECT and SUB-SELECT
+ * statements.
+ */
+export abstract class SharedSelectToken extends SharedQueryClauseToken {
 	abstract readonly token:string;
 
 	readonly modifier?:"DISTINCT" | "REDUCED";

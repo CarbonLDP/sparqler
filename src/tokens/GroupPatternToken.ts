@@ -3,6 +3,11 @@ import { getTokenContainerString } from "./printing";
 import { TokenNode } from "./TokenNode";
 
 
+/**
+ * The token of the for grouping pattern statements.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rGroupGraphPattern}
+ */
 export class GroupPatternToken implements TokenNode {
 	token:"groupPattern" = "groupPattern";
 

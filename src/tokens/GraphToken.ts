@@ -4,6 +4,11 @@ import { PatternToken } from "./PatternToken";
 import { TokenNode } from "./TokenNode";
 
 
+/**
+ * The token of the `GRAPH` statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rGraphGraphPattern}
+ */
 export class GraphToken implements TokenNode {
 	readonly token:"graph" = "graph";
 

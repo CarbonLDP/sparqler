@@ -4,7 +4,11 @@ import { TokenNode } from "./TokenNode";
 import { WhereToken } from "./WhereToken";
 
 
-export abstract class CommonQueryClauseToken implements TokenNode {
+/**
+ * Abstract class with the shared data of a query clause token
+ * (SELECT, CONSTRUCT, etc.).
+ */
+export abstract class SharedQueryClauseToken implements TokenNode {
 	abstract readonly token:string;
 
 	readonly where:WhereToken;

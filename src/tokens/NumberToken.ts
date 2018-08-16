@@ -1,5 +1,7 @@
 import { TokenNode } from "./TokenNode";
 
+
+// TODO: Remove. Its unnecessary
 export class NumberToken implements TokenNode {
 	readonly token:"number" = "number";
 	readonly value:number;

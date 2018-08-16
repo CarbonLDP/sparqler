@@ -1,9 +1,9 @@
-import { CommonSelectToken } from "./CommonSelectToken";
+import { SharedSelectToken } from "./SharedSelectToken";
 import { addSpaces, getIndentation, getSeparator, INDENTATION_SPACES } from "./printing";
 import { ValuesToken } from "./ValuesToken";
 
 
-export class SubSelectToken extends CommonSelectToken {
+export class SubSelectToken extends SharedSelectToken {
 	readonly token:"subSelect" = "subSelect";
 
 	readonly values?:ValuesToken;

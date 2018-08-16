@@ -3,7 +3,9 @@ import { TokenNode } from "./TokenNode";
 
 
 /**
- * @todo
+ * The token of the `UNION` statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rGroupOrUnionGraphPattern}
  */
 export class UnionPatternToken implements TokenNode {
 	readonly token:"unionPattern" = "unionPattern";

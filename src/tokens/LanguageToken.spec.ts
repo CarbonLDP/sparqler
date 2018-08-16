@@ -1,21 +1,16 @@
-import * as Module from "./LanguageToken";
 import { LanguageToken } from "./LanguageToken";
 
-describe( "Module LanguageToken", ():void => {
+
+describe( "LanguageToken", ():void => {
 
 	it( "should exists", ():void => {
-		expect( Module ).toBeDefined();
-		expect( Module ).toEqual( jasmine.any( Object ) );
+		expect( LanguageToken ).toBeDefined();
+		expect( LanguageToken ).toEqual( jasmine.any( Function ) );
 	} );
 
-	describe( "LanguageToken", ():void => {
+	describe( "LanguageToken.constructor", () => {
 
-		it( "should exists", ():void => {
-			expect( LanguageToken ).toBeDefined();
-			expect( LanguageToken ).toEqual( jasmine.any( Function ) );
-		} );
-
-		it( "should construct", ():void => {
+		it( "should be instantiable", ():void => {
 			const token = new LanguageToken( "language" );
 
 			expect( token ).toBeDefined();
@@ -31,11 +26,11 @@ describe( "Module LanguageToken", ():void => {
 			expect( helper( "x" ) ).not.toThrowError();
 			expect( helper( "x-x" ) ).not.toThrowError();
 
-			expect( helper( "@invalid" ) ).toThrowError( "Invalid language tag." );
-			expect( helper( "invalid-" ) ).toThrowError( "Invalid language tag." );
-			expect( helper( "-invalid" ) ).toThrowError( "Invalid language tag." );
-			expect( helper( "-" ) ).toThrowError( "Invalid language tag." );
-			expect( helper( "" ) ).toThrowError( "Invalid language tag." );
+			expect( helper( "@invalid" ) ).toThrowError( `"@invalid" is an invalid language tag.` );
+			expect( helper( "invalid-" ) ).toThrowError( `"invalid-" is an invalid language tag.` );
+			expect( helper( "-invalid" ) ).toThrowError( `"-invalid" is an invalid language tag.` );
+			expect( helper( "-" ) ).toThrowError( `"-" is an invalid language tag.` );
+			expect( helper( "" ) ).toThrowError( `"" is an invalid language tag.` );
 		} );
 
 		it( "should store the language tag", ():void => {
@@ -58,24 +53,24 @@ describe( "Module LanguageToken", ():void => {
 			helper( "en-US" );
 		} );
 
-		describe( "LanguageToken.toString", ():void => {
+	} );
 
-			it( "should override toString method", ():void => {
-				const token:LanguageToken = new LanguageToken( "en" );
+	describe( "LanguageToken.toString", ():void => {
 
-				expect( token.toString ).toBeDefined();
-				expect( token.toString ).not.toBe( Object.prototype.toString );
-			} );
+		it( "should override toString method", ():void => {
+			const token:LanguageToken = new LanguageToken( "en" );
 
-			it( "should return the SPARQL language tag", ():void => {
-				const helper = ( tag:string ) => {
-					const token = new LanguageToken( tag );
-					return token.toString();
-				};
-				expect( helper( "en" ) ).toBe( "@en" );
-				expect( helper( "en-US" ) ).toBe( "@en-US" );
-			} );
+			expect( token.toString ).toBeDefined();
+			expect( token.toString ).not.toBe( Object.prototype.toString );
+		} );
 
+		it( "should return the SPARQL language tag", ():void => {
+			const helper = ( tag:string ) => {
+				const token = new LanguageToken( tag );
+				return token.toString();
+			};
+			expect( helper( "en" ) ).toBe( "@en" );
+			expect( helper( "en-US" ) ).toBe( "@en-US" );
 		} );
 
 	} );

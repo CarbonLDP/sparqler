@@ -1,21 +1,16 @@
-import * as Module from "./IRIToken";
 import { IRIToken } from "./IRIToken";
 
-describe( "Module IRIToken", ():void => {
+
+describe( "IRIToken", ():void => {
 
 	it( "should exists", ():void => {
-		expect( Module ).toBeDefined();
-		expect( Module ).toEqual( jasmine.any( Object ) );
+		expect( IRIToken ).toBeDefined();
+		expect( IRIToken ).toEqual( jasmine.any( Function ) );
 	} );
 
-	describe( "IRIToken", ():void => {
+	describe( "IRIToken.construct", () => {
 
-		it( "should exists", ():void => {
-			expect( IRIToken ).toBeDefined();
-			expect( IRIToken ).toEqual( jasmine.any( Function ) );
-		} );
-
-		it( "should construct", ():void => {
+		it( "should be instantiable", ():void => {
 			const token = new IRIToken( "" );
 
 			expect( token ).toBeDefined();
@@ -32,24 +27,24 @@ describe( "Module IRIToken", ():void => {
 			expect( new IRIToken( "http://example.com" ).token ).toBe( "iri" );
 		} );
 
-		describe( "IRIToken.toString", ():void => {
+	} );
 
-			it( "should override toString method", ():void => {
-				const token:IRIToken = new IRIToken( "" );
+	describe( "IRIToken.toString", ():void => {
 
-				expect( token.toString ).toBeDefined();
-				expect( token.toString ).not.toBe( Object.prototype.toString );
-			} );
+		it( "should override toString method", ():void => {
+			const token:IRIToken = new IRIToken( "" );
 
-			it( "should return the string as a SPARQL IRI", ():void => {
-				const iriCreator = ( iri:string ) => {
-					const token = new IRIToken( iri );
-					return token.toString();
-				};
-				expect( iriCreator( "http://example.com" ) ).toBe( "<http://example.com>" );
-				expect( iriCreator( "ftp://example.org" ) ).toBe( "<ftp://example.org>" );
-			} );
+			expect( token.toString ).toBeDefined();
+			expect( token.toString ).not.toBe( Object.prototype.toString );
+		} );
 
+		it( "should return the string as a SPARQL IRI", ():void => {
+			const iriCreator = ( iri:string ) => {
+				const token = new IRIToken( iri );
+				return token.toString();
+			};
+			expect( iriCreator( "http://example.com" ) ).toBe( "<http://example.com>" );
+			expect( iriCreator( "ftp://example.org" ) ).toBe( "<ftp://example.org>" );
 		} );
 
 	} );

@@ -3,6 +3,11 @@ import { PrefixedNameToken } from "./PrefixedNameToken";
 import { TokenNode } from "./TokenNode";
 
 
+/**
+ * The token of the `FROM` statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rDatasetClause}
+ */
 export class FromToken implements TokenNode {
 	readonly token:"from" = "from";
 

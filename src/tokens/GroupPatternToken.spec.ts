@@ -6,62 +6,62 @@ import { SubjectToken } from "./SubjectToken";
 import { VariableToken } from "./VariableToken";
 
 
-describe( "OptionalToken", ():void => {
+describe( "GroupPatternToken", ():void => {
 
 	it( "should exists", ():void => {
-		expect( OptionalToken ).toBeDefined();
-		expect( OptionalToken ).toEqual( jasmine.any( Function ) );
+		expect( GroupPatternToken ).toBeDefined();
+		expect( GroupPatternToken ).toEqual( jasmine.any( Function ) );
 	} );
 
-	describe( "OptionalToken.constructor", ():void => {
+	describe( "GroupPatternToken.constructor", ():void => {
 
 		it( "should be instantiable", ():void => {
-			const token:OptionalToken = new OptionalToken();
+			const token:GroupPatternToken = new GroupPatternToken();
 
 			expect( token ).toBeDefined();
-			expect( token ).toEqual( jasmine.any( OptionalToken ) );
+			expect( token ).toEqual( jasmine.any( GroupPatternToken ) );
 		} );
 
 		it( "should initialize the patterns", ():void => {
-			const token:OptionalToken = new OptionalToken();
-			expect( token.groupPattern ).toEqual( jasmine.any( GroupPatternToken ) );
+			const token:GroupPatternToken = new GroupPatternToken();
+			expect( token.patterns ).toEqual( [] );
 		} );
 
-		it( "should assign `optional` as token name", ():void => {
-			const token:OptionalToken = new OptionalToken();
-			expect( token.token ).toBe( "optional" );
+		it( "should assign `groupPattern` as token name", ():void => {
+			const token:GroupPatternToken = new GroupPatternToken();
+			expect( token.token ).toBe( "groupPattern" );
 		} );
 
 	} );
 
-	describe( "OptionalToken.addPattern", ():void => {
+	describe( "GroupPatternToken.addPattern", ():void => {
 
 		it( "should exists", ():void => {
-			expect( OptionalToken.prototype.addPattern ).toBeDefined();
-			expect( OptionalToken.prototype.addPattern ).toEqual( jasmine.any( Function ) );
+			expect( GroupPatternToken.prototype.addPattern ).toBeDefined();
+			expect( GroupPatternToken.prototype.addPattern ).toEqual( jasmine.any( Function ) );
 		} );
 
 		it( "should add single pattern", ():void => {
-			const token:OptionalToken = new OptionalToken();
+			const token:GroupPatternToken = new GroupPatternToken();
 
 			const pattern:PatternToken = new SubjectToken( new VariableToken( "pattern" ) );
 			token.addPattern( pattern );
 
-			expect( token.groupPattern.patterns ).toEqual( [ pattern ] );
+			expect( token.patterns ).toEqual( [ pattern ] );
 		} );
 
 		it( "should add multiple patterns", ():void => {
-			const token:OptionalToken = new OptionalToken();
+			const token:GroupPatternToken = new GroupPatternToken();
 
 			const pattern1:PatternToken = new SubjectToken( new VariableToken( "pattern" ) );
 			const pattern2:PatternToken = new OptionalToken();
 			token.addPattern( pattern1, pattern2 );
 
-			expect( token.groupPattern.patterns ).toEqual( [ pattern1, pattern2 ] );
+			expect( token.patterns ).toEqual( [ pattern1, pattern2 ] );
 		} );
 
 		it( "should append patterns", ():void => {
-			const token:OptionalToken = new OptionalToken();
+			const token:GroupPatternToken = new GroupPatternToken();
 
 			const firstPattern:PatternToken = new SubjectToken( new VariableToken( "pattern" ) );
 			token.addPattern( firstPattern );
@@ -69,39 +69,37 @@ describe( "OptionalToken", ():void => {
 			const newPattern:PatternToken = new OptionalToken();
 			token.addPattern( newPattern );
 
-			expect( token.groupPattern.patterns ).toEqual( [ firstPattern, newPattern ] );
+			expect( token.patterns ).toEqual( [ firstPattern, newPattern ] );
 		} );
 
 		it( "should return itself", ():void => {
-			const token:OptionalToken = new OptionalToken();
-
-			const pattern:PatternToken = new OptionalToken();
-			const returned:OptionalToken = token.addPattern( pattern );
+			const token:GroupPatternToken = new GroupPatternToken();
+			const returned:GroupPatternToken = token.addPattern();
 
 			expect( returned ).toBe( token );
 		} );
 
 	} );
 
-	describe( "OptionalToken.toString", ():void => {
+	describe( "GroupPatternToken.toString", ():void => {
 
 		it( "should exists", ():void => {
-			expect( OptionalToken.prototype.toString ).toBeDefined();
-			expect( OptionalToken.prototype.toString ).toEqual( jasmine.any( Function ) );
+			expect( GroupPatternToken.prototype.toString ).toBeDefined();
+			expect( GroupPatternToken.prototype.toString ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "should return the SPARQL empty optional statement", ():void => {
-			const token:OptionalToken = new OptionalToken();
-			expect( token.toString() ).toBe( "OPTIONAL {}" );
+		it( "should return the SPARQL empty group statement", ():void => {
+			const token:GroupPatternToken = new GroupPatternToken();
+			expect( token.toString() ).toBe( "{}" );
 		} );
 
-		it( "should return the pretty SPARQL empty optional statement", ():void => {
-			const token:OptionalToken = new OptionalToken();
-			expect( token.toString( 0 ) ).toBe( "OPTIONAL {}" );
+		it( "should return the pretty SPARQL empty group statement", ():void => {
+			const token:GroupPatternToken = new GroupPatternToken();
+			expect( token.toString( 0 ) ).toBe( "{}" );
 		} );
 
-		it( "should return the SPARQL optional statement with patterns", ():void => {
-			const token:OptionalToken = new OptionalToken()
+		it( "should return the SPARQL group statement with pattern", ():void => {
+			const token:GroupPatternToken = new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
 					.addPredicate( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
@@ -115,15 +113,15 @@ describe( "OptionalToken", ():void => {
 			;
 
 			expect( token.toString() ).toBe( "" +
-				"OPTIONAL { " +
+				"{ " +
 				"" + "?subj1 a ?obj1. " +
 				"" + "?subj1 a ?obj1 " +
 				"}"
 			);
 		} );
 
-		it( "should return the pretty SPARQL optional statement with patterns", ():void => {
-			const token:OptionalToken = new OptionalToken()
+		it( "should return the pretty SPARQL group statement with pattern", ():void => {
+			const token:GroupPatternToken = new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
 					.addPredicate( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
@@ -136,8 +134,9 @@ describe( "OptionalToken", ():void => {
 				)
 			;
 
+
 			expect( token.toString( 0 ) ).toBe( "" +
-				"OPTIONAL {\n" +
+				"{\n" +
 				"    ?subj1 a ?obj1.\n" +
 				"    ?subj1 a ?obj1\n" +
 				"}"

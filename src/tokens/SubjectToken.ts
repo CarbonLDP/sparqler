@@ -5,6 +5,12 @@ import { TripleNodeToken } from "./TripleNodeToken";
 import { VariableOrTermToken } from "./VariableOrTermToken";
 
 
+/**
+ * The token for defining a triple subject statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rTriplesSameSubject}
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rTriplesSameSubjectPath}
+ */
 export class SubjectToken<T extends VariableOrTermToken | TripleNodeToken = VariableOrTermToken | TripleNodeToken> implements TokenNode {
 	readonly token:"subject" = "subject";
 

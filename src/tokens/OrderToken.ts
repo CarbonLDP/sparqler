@@ -1,6 +1,12 @@
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { VariableToken } from "sparqler/tokens/VariableToken";
+import { TokenNode } from "./TokenNode";
+import { VariableToken } from "./VariableToken";
 
+
+/**
+ * The token of the `GROUP BY` statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rGroupClause}
+ */
 export class OrderToken implements TokenNode {
 	readonly token:"order" = "order";
 	readonly condition:VariableToken | string;

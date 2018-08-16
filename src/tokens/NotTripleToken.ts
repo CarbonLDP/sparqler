@@ -9,6 +9,11 @@ import { UnionPatternToken } from "./UnionPatternToken";
 import { ValuesToken } from "./ValuesToken";
 
 
+/**
+ * Alias for all the tokens that are not a triple token.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rGraphPatternNotTriples}
+ */
 export type NotTripleToken =
 	| GroupPatternToken
 	| UnionPatternToken

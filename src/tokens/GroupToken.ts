@@ -1,6 +1,11 @@
 import { TokenNode } from "./TokenNode";
 
 
+/**
+ * The token of the `GROUP BY` statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rGroupClause}
+ */
 export class GroupToken implements TokenNode {
 	readonly token:"group" = "group";
 
