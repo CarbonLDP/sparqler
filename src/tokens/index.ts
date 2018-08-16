@@ -1,13 +1,10 @@
 export { TokenNode } from "./TokenNode";
 export { BlankNodeToken } from "./BlankNodeToken";
 export { VariableToken } from "./VariableToken";
-export { IRIToken } from "./IRIToken";
+export { IRIRefToken } from "./IRIRefToken";
 export { PrefixedNameToken } from "./PrefixedNameToken";
-export { NumberToken } from "./NumberToken";
 export { LanguageToken } from "./LanguageToken";
-export { BooleanToken } from "./BooleanToken";
 export { LiteralToken } from "./LiteralToken";
-export { StringToken } from "./StringToken";
 export { ValuesToken } from "./ValuesToken";
 export { SubjectToken } from "./SubjectToken";
 export { PropertyToken } from "./PropertyToken";

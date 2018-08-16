@@ -1,7 +1,7 @@
 import { Container } from "../../data/Container";
 import { IRIResolver } from "../../data/IRIResolver";
 
-import { IRIToken } from "../../tokens/IRIToken";
+import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 
@@ -19,7 +19,7 @@ describe( "TriplePattern", () => {
 	beforeEach( () => {
 		container = new Container( {
 			iriResolver: new IRIResolver(),
-			targetToken: new SubjectToken( new IRIToken( "" ) )
+			targetToken: new SubjectToken( new IRIRefToken( "" ) )
 		} )
 	} );
 

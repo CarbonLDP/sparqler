@@ -1,5 +1,5 @@
 import { ConstructToken } from "./ConstructToken";
-import { IRIToken } from "./IRIToken";
+import { IRIRefToken } from "./IRIRefToken";
 import { LimitToken } from "./LimitToken";
 import { OffsetToken } from "./OffsetToken";
 import { OptionalToken } from "./OptionalToken";
@@ -67,7 +67,7 @@ describe( "ConstructToken", ():void => {
 			const token:ConstructToken = new ConstructToken();
 
 			const triple1:SubjectToken = new SubjectToken( new VariableToken( "triple1" ) );
-			const triple2:SubjectToken = new SubjectToken( new IRIToken( "triple2" ) );
+			const triple2:SubjectToken = new SubjectToken( new IRIRefToken( "triple2" ) );
 			token.addTriple( triple1, triple2 );
 
 			expect( token.triples ).toEqual( [ triple1, triple2 ] );

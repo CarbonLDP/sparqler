@@ -6,7 +6,7 @@ import { IRIResolver } from "../../data/IRIResolver";
 import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { BlankNodeToken } from "../../tokens/BlankNodeToken";
 import { CollectionToken } from "../../tokens/CollectionToken";
-import { IRIToken } from "../../tokens/IRIToken";
+import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { LiteralToken } from "../../tokens/LiteralToken";
 import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 import { PropertyToken } from "../../tokens/PropertyToken";
@@ -104,10 +104,10 @@ describe( "TriplePatternsBuilder", () => {
 		it( "should create pattern with IRIToken", () => {
 			builder.resource( "resource/" );
 
-			type TheContainer = Container<TripleToken<IRIToken>>;
+			type TheContainer = Container<TripleToken<IRIRefToken>>;
 			const newContainer:TheContainer = spyContainers.getLast();
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new IRIToken( "resource/" ) ),
+				targetToken: new SubjectToken( new IRIRefToken( "resource/" ) ),
 			} ) )
 		} );
 
@@ -297,7 +297,7 @@ describe( "TriplePatternsBuilder", () => {
 				.addObject( new LiteralToken( "string" ) )
 				.addObject( new LiteralToken( 100 ) )
 				.addObject( new LiteralToken( true ) )
-				.addObject( new IRIToken( "resource/" ) )
+				.addObject( new IRIRefToken( "resource/" ) )
 				.addObject( new VariableToken( "var" ) )
 				.addObject( new LiteralToken( "another" ) )
 			)
@@ -427,7 +427,7 @@ describe( "TriplePatternsBuilder", () => {
 					.addObject( new LiteralToken( "string" ) )
 					.addObject( new LiteralToken( 100 ) )
 					.addObject( new LiteralToken( true ) )
-					.addObject( new IRIToken( "resource/" ) )
+					.addObject( new IRIRefToken( "resource/" ) )
 					.addObject( new VariableToken( "var" ) )
 					.addObject( new LiteralToken( "another" ) )
 				)

@@ -4,7 +4,7 @@ import { IRIResolver } from "../data/IRIResolver";
 import { QueryUnitContainer } from "../data/QueryUnitContainer";
 
 import { BaseToken } from "../tokens/BaseToken";
-import { IRIToken } from "../tokens/IRIToken";
+import { IRIRefToken } from "../tokens/IRIRefToken";
 import { PrefixToken } from "../tokens/PrefixToken";
 import { QueryToken } from "../tokens/QueryToken";
 
@@ -112,7 +112,7 @@ describe( "QueryClause", () => {
 
 			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 			expect( newContainer.targetToken.prologues )
-				.toContain( new BaseToken( new IRIToken( "http://example.com/base/" ) ) );
+				.toContain( new BaseToken( new IRIRefToken( "http://example.com/base/" ) ) );
 		} );
 
 		it( "should append BASE tokens", () => {
@@ -123,9 +123,9 @@ describe( "QueryClause", () => {
 			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 
 			expect( newContainer.targetToken.prologues )
-				.toContain( new BaseToken( new IRIToken( "http://example.com/base/" ) ) );
+				.toContain( new BaseToken( new IRIRefToken( "http://example.com/base/" ) ) );
 			expect( newContainer.targetToken.prologues )
-				.toContain( new BaseToken( new IRIToken( "http://example.com/another/" ) ) );
+				.toContain( new BaseToken( new IRIRefToken( "http://example.com/another/" ) ) );
 		} );
 
 	} );
@@ -222,7 +222,7 @@ describe( "QueryClause", () => {
 
 			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 			expect( newContainer.targetToken.prologues )
-				.toContain( new PrefixToken( "ex", new IRIToken( "http://example.com/prefix#" ) ) );
+				.toContain( new PrefixToken( "ex", new IRIRefToken( "http://example.com/prefix#" ) ) );
 		} );
 
 		it( "should replace existing prefix in tokens", () => {
@@ -232,9 +232,9 @@ describe( "QueryClause", () => {
 
 			const newContainer:QueryUnitContainer<FinishClause> = spyContainers.getLast();
 			expect( newContainer.targetToken.prologues )
-				.not.toContain( new PrefixToken( "ex", new IRIToken( "http://example.com/prefix#" ) ) );
+				.not.toContain( new PrefixToken( "ex", new IRIRefToken( "http://example.com/prefix#" ) ) );
 			expect( newContainer.targetToken.prologues )
-				.toContain( new PrefixToken( "ex", new IRIToken( "http://example.com/another#" ) ) );
+				.toContain( new PrefixToken( "ex", new IRIRefToken( "http://example.com/another#" ) ) );
 		} );
 
 	} );

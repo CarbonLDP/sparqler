@@ -1,4 +1,4 @@
-import { IRIToken } from "./IRIToken";
+import { IRIRefToken } from "./IRIRefToken";
 import { LiteralToken } from "./LiteralToken";
 import { PrefixedNameToken } from "./PrefixedNameToken";
 import { PropertyToken } from "./PropertyToken";
@@ -15,7 +15,7 @@ describe( "PropertyToken", ():void => {
 	describe( "PropertyToken.constructor", () => {
 
 		it( "should accept and store IRI predicates", ():void => {
-			const property:IRIToken = new IRIToken( "http://example.com/" );
+			const property:IRIRefToken = new IRIRefToken( "http://example.com/" );
 			const token:PropertyToken = new PropertyToken( property );
 
 			expect( token ).toBeDefined();
@@ -38,7 +38,7 @@ describe( "PropertyToken", ():void => {
 		} );
 
 		it( "should initialize objects tokens", ():void => {
-			const iriPredicate:IRIToken = new IRIToken( "http://example.com/" );
+			const iriPredicate:IRIRefToken = new IRIRefToken( "http://example.com/" );
 			expect( new PropertyToken( iriPredicate ).objects ).toEqual( [] );
 
 			const prefixedPredicate:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
@@ -48,7 +48,7 @@ describe( "PropertyToken", ():void => {
 		} );
 
 		it( "should assign the `property` as token name", ():void => {
-			const iriPredicate:IRIToken = new IRIToken( "http://example.com/" );
+			const iriPredicate:IRIRefToken = new IRIRefToken( "http://example.com/" );
 			expect( new PropertyToken( iriPredicate ).token ).toBe( "property" );
 
 			const prefixedPredicate:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
@@ -73,7 +73,7 @@ describe( "PropertyToken", ():void => {
 			token.addObject( variable );
 			expect( token.objects ).toEqual( [ variable ] );
 
-			const iri:IRIToken = new IRIToken( "http://example.com/" );
+			const iri:IRIRefToken = new IRIRefToken( "http://example.com/" );
 			token.addObject( iri );
 			expect( token.objects ).toEqual( [ variable, iri ] );
 
@@ -100,34 +100,34 @@ describe( "PropertyToken", ():void => {
 		} );
 
 		it( "should return a single property - object", ():void => {
-			const helper = ( property:VariableToken | IRIToken | "a", object:any, string:string ) => {
+			const helper = ( property:VariableToken | IRIRefToken | "a", object:any, string:string ) => {
 				const token:PropertyToken = new PropertyToken( property ).addObject( object );
 				expect( token.toString() ).toBe( string );
 			};
 
 			const variable:VariableToken = new VariableToken( "variable" );
-			helper( variable, new IRIToken( "http://example.com/" ), "?variable <http://example.com/>" );
+			helper( variable, new IRIRefToken( "http://example.com/" ), "?variable <http://example.com/>" );
 			helper( variable, new PrefixedNameToken( "ex:resource" ), "?variable ex:resource" );
 
-			const iri:IRIToken = new IRIToken( "http://example.com/ns#property" );
+			const iri:IRIRefToken = new IRIRefToken( "http://example.com/ns#property" );
 			helper( iri, new LiteralToken( "literal" ), `<http://example.com/ns#property> "literal"` );
 
 			helper( "a", new VariableToken( "type" ), `a ?type` );
 		} );
 
 		it( "should return property - multiple objects", ():void => {
-			const helper = ( property:VariableToken | IRIToken | "a", objects:any[], string:string ) => {
+			const helper = ( property:VariableToken | IRIRefToken | "a", objects:any[], string:string ) => {
 				const token:PropertyToken = new PropertyToken( property );
 				for( const object of objects ) token.addObject( object );
 				expect( token.toString() ).toBe( string );
 			};
 
 			const variable:VariableToken = new VariableToken( "variable" );
-			const objects1 = [ new IRIToken( "http://example.com/" ), new PrefixedNameToken( "ex:resource" ) ];
+			const objects1 = [ new IRIRefToken( "http://example.com/" ), new PrefixedNameToken( "ex:resource" ) ];
 			helper( variable, objects1, "?variable <http://example.com/>, ex:resource" );
 
 			const objects2 = [ new LiteralToken( "literal" ), new LiteralToken( 10.01 ), new LiteralToken( true ) ];
-			const iri:IRIToken = new IRIToken( "http://example.com/ns#property" );
+			const iri:IRIRefToken = new IRIRefToken( "http://example.com/ns#property" );
 			helper( iri, objects2, `<http://example.com/ns#property> "literal", 10.01, true` );
 		} );
 

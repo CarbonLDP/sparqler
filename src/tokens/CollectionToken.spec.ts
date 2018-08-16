@@ -1,6 +1,6 @@
 import { BlankNodeToken } from "./BlankNodeToken";
 import { CollectionToken } from "./CollectionToken";
-import { IRIToken } from "./IRIToken";
+import { IRIRefToken } from "./IRIRefToken";
 import { LiteralToken } from "./LiteralToken";
 import { PrefixedNameToken } from "./PrefixedNameToken";
 import { VariableToken } from "./VariableToken";
@@ -39,16 +39,16 @@ describe( "CollectionToken", ():void => {
 
 		it( "should add single object", () => {
 			const token:CollectionToken = new CollectionToken();
-			token.addObject( new IRIToken( "resource/" ) );
+			token.addObject( new IRIRefToken( "resource/" ) );
 
-			expect( token.objects ).toContain( new IRIToken( "resource/" ) );
+			expect( token.objects ).toContain( new IRIRefToken( "resource/" ) );
 		} );
 
 		it( "should add multiple object", () => {
 			const token:CollectionToken = new CollectionToken();
-			token.addObject( new IRIToken( "resource/" ), new LiteralToken( "value" ) );
+			token.addObject( new IRIRefToken( "resource/" ), new LiteralToken( "value" ) );
 
-			expect( token.objects ).toContain( new IRIToken( "resource/" ) );
+			expect( token.objects ).toContain( new IRIRefToken( "resource/" ) );
 			expect( token.objects ).toContain( new LiteralToken( "value" ) );
 		} );
 
@@ -79,7 +79,7 @@ describe( "CollectionToken", ():void => {
 			token.objects.push( new VariableToken( "variable" ) );
 			expect( token.toString() ).toBe( `( ?variable )` );
 
-			token.objects.push( new IRIToken( "http://example.com/" ) );
+			token.objects.push( new IRIRefToken( "http://example.com/" ) );
 			expect( token.toString() ).toBe( `( ?variable <http://example.com/> )` );
 
 			token.objects.push( new PrefixedNameToken( "ex:resource" ) );

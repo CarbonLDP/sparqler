@@ -4,7 +4,7 @@ import { Container } from "../data/Container";
 import { IRIResolver } from "../data/IRIResolver";
 
 import { FromToken } from "../tokens/FromToken";
-import { IRIToken } from "../tokens/IRIToken";
+import { IRIRefToken } from "../tokens/IRIRefToken";
 import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
@@ -120,7 +120,7 @@ describe( "FromClause", () => {
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
 			expect( newContainer.targetToken.queryClause.dataset )
-				.toEqual( new FromToken( new IRIToken( "https://example.com/" ) ) )
+				.toEqual( new FromToken( new IRIRefToken( "https://example.com/" ) ) )
 		} );
 
 		it( "should add FROM token with the Prefixed Name", () => {
@@ -180,7 +180,7 @@ describe( "FromClause", () => {
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
 			expect( newContainer.targetToken.queryClause.dataset )
-				.toEqual( new FromToken( new IRIToken( "https://example.com/" ), true ) )
+				.toEqual( new FromToken( new IRIRefToken( "https://example.com/" ), true ) )
 		} );
 
 		it( "should add FROM NAMED token with the Prefixed Name", () => {

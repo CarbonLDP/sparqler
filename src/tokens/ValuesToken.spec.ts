@@ -1,4 +1,4 @@
-import { IRIToken } from "./IRIToken";
+import { IRIRefToken } from "./IRIRefToken";
 import { LiteralToken } from "./LiteralToken";
 import { PrefixedNameToken } from "./PrefixedNameToken";
 import { ValuesToken } from "./ValuesToken";
@@ -104,8 +104,8 @@ describe( "ValuesToken", ():void => {
 		it( "should add values", ():void => {
 			const valuesToken:ValuesToken = new ValuesToken();
 
-			const values:(IRIToken | PrefixedNameToken | LiteralToken | "UNDEF")[] = [
-				new IRIToken( "http://example.com/" ),
+			const values:(IRIRefToken | PrefixedNameToken | LiteralToken | "UNDEF")[] = [
+				new IRIRefToken( "http://example.com/" ),
 				new PrefixedNameToken( "ex:resource" ),
 				new LiteralToken( "literal" ),
 				"UNDEF",
@@ -118,15 +118,15 @@ describe( "ValuesToken", ():void => {
 		it( "should append values", ():void => {
 			const valuesToken:ValuesToken = new ValuesToken();
 
-			const values1:(IRIToken | PrefixedNameToken | LiteralToken | "UNDEF")[] = [
-				new IRIToken( "http://example.com/" ),
+			const values1:(IRIRefToken | PrefixedNameToken | LiteralToken | "UNDEF")[] = [
+				new IRIRefToken( "http://example.com/" ),
 				new PrefixedNameToken( "ex:resource" ),
 				new LiteralToken( "literal" ),
 				"UNDEF",
 			];
 
-			const values2:(IRIToken | PrefixedNameToken | LiteralToken | "UNDEF")[] = [
-				new IRIToken( "http://example.com/" ),
+			const values2:(IRIRefToken | PrefixedNameToken | LiteralToken | "UNDEF")[] = [
+				new IRIRefToken( "http://example.com/" ),
 				new PrefixedNameToken( "ex:resource" ),
 				new LiteralToken( "literal" ),
 				"UNDEF",
@@ -163,7 +163,7 @@ describe( "ValuesToken", ():void => {
 
 			valuesToken
 				.addVariables( new VariableToken( "variable" ) )
-				.addValues( new IRIToken( "http://example.com/" ) )
+				.addValues( new IRIRefToken( "http://example.com/" ) )
 				.addValues( new PrefixedNameToken( "ex:resource" ) )
 				.addValues( new LiteralToken( "literal" ) )
 				.addValues( "UNDEF" )
@@ -177,7 +177,7 @@ describe( "ValuesToken", ():void => {
 
 			valuesToken
 				.addVariables( new VariableToken( "variable" ) )
-				.addValues( new IRIToken( "http://example.com/" ) )
+				.addValues( new IRIRefToken( "http://example.com/" ) )
 				.addValues( new PrefixedNameToken( "ex:resource" ) )
 				.addValues( new LiteralToken( "literal" ) )
 				.addValues( "UNDEF" )
@@ -191,7 +191,7 @@ describe( "ValuesToken", ():void => {
 
 			valuesToken
 				.addVariables( new VariableToken( "variable1" ), new VariableToken( "variable2" ) )
-				.addValues( new IRIToken( "http://example.com/1" ), new IRIToken( "http://example.com/2" ) )
+				.addValues( new IRIRefToken( "http://example.com/1" ), new IRIRefToken( "http://example.com/2" ) )
 				.addValues( new PrefixedNameToken( "ex:resource1" ), new PrefixedNameToken( "ex:resource2" ) )
 				.addValues( new LiteralToken( "literal1" ), new LiteralToken( "literal2" ) )
 				.addValues( "UNDEF", "UNDEF" )
@@ -212,7 +212,7 @@ describe( "ValuesToken", ():void => {
 
 			valuesToken
 				.addVariables( new VariableToken( "variable1" ), new VariableToken( "variable2" ) )
-				.addValues( new IRIToken( "http://example.com/1" ), new IRIToken( "http://example.com/2" ) )
+				.addValues( new IRIRefToken( "http://example.com/1" ), new IRIRefToken( "http://example.com/2" ) )
 				.addValues( new PrefixedNameToken( "ex:resource1" ), new PrefixedNameToken( "ex:resource2" ) )
 				.addValues( new LiteralToken( "literal1" ), new LiteralToken( "literal2" ) )
 				.addValues( "UNDEF", "UNDEF" )

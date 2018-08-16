@@ -2,7 +2,7 @@ import { Container } from "../../data/Container";
 import { cloneElement } from "../../data/utils";
 
 import { LanguageToken } from "../../tokens/LanguageToken";
-import { LiteralToken } from "../../tokens/LiteralToken";
+import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 
 import * as XSD from "../../utils/XSD";
@@ -35,7 +35,7 @@ export interface RDFLiteral extends Literal {
 }
 
 
-function getWithTypeFn<C extends Container<SubjectToken<LiteralToken>>>( container:C ):RDFLiteral[ "withType" ] {
+function getWithTypeFn<C extends Container<SubjectToken<RDFLiteralToken>>>( container:C ):RDFLiteral[ "withType" ] {
 	return type => {
 		if( type in XSD ) type = (XSD as any)[ type ];
 
@@ -43,19 +43,19 @@ function getWithTypeFn<C extends Container<SubjectToken<LiteralToken>>>( contain
 		const subject = cloneElement( container.targetToken.subject, { type: iriType } );
 
 		const targetToken = cloneElement( container.targetToken, { subject } );
-		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
+		const newContainer:C = cloneElement( container, { targetToken } as Partial<C> );
 
 		return TripleSubject.createFrom( newContainer, {} );
 	}
 }
 
-function getWithLanguageFn<C extends Container<SubjectToken<LiteralToken>>>( container:C ):RDFLiteral[ "withLanguage" ] {
+function getWithLanguageFn<C extends Container<SubjectToken<RDFLiteralToken>>>( container:C ):RDFLiteral[ "withLanguage" ] {
 	return language => {
 		const langToken = new LanguageToken( language );
 		const subject = cloneElement( container.targetToken.subject, { language: langToken } );
 
 		const targetToken = cloneElement( container.targetToken, { subject } );
-		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
+		const newContainer:C = cloneElement( container, { targetToken } as Partial<C> );
 
 		return TripleSubject.createFrom( newContainer, {} );
 	}
@@ -78,9 +78,9 @@ export const RDFLiteral:{
 	 * @return The {@link TripleSubject} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<C extends Container<SubjectToken<LiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral;
+	createFrom<C extends Container<SubjectToken<RDFLiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral;
 } = {
-	createFrom<C extends Container<SubjectToken<LiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral {
+	createFrom<C extends Container<SubjectToken<RDFLiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral {
 		return TripleSubject.createFrom( container, Object.assign( object, {
 			withType: getWithTypeFn( container ),
 			withLanguage: getWithLanguageFn( container ),

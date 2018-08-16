@@ -1,4 +1,4 @@
-import { IRIToken } from "../tokens/IRIToken";
+import { IRIRefToken } from "../tokens/IRIRefToken";
 import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
 
 import { IRIResolver } from "./IRIResolver";
@@ -24,8 +24,8 @@ describe( "IRIResolver", () => {
 		it( "should create IRI token", () => {
 			const iriResolver:IRIResolver = new IRIResolver();
 
-			const token:IRIToken | PrefixedNameToken = iriResolver.resolve( "http://example.com/resource/" );
-			expect( token ).toEqual( new IRIToken( "http://example.com/resource/" ) );
+			const token:IRIRefToken | PrefixedNameToken = iriResolver.resolve( "http://example.com/resource/" );
+			expect( token ).toEqual( new IRIRefToken( "http://example.com/resource/" ) );
 		} );
 
 
@@ -44,7 +44,7 @@ describe( "IRIResolver", () => {
 			const iriResolver:IRIResolver = new IRIResolver();
 			iriResolver.prefixes.set( "ex", false );
 
-			const token:IRIToken | PrefixedNameToken = iriResolver.resolve( "ex:resource" );
+			const token:IRIRefToken | PrefixedNameToken = iriResolver.resolve( "ex:resource" );
 			expect( token ).toEqual( new PrefixedNameToken( "ex", "resource" ) );
 		} );
 
@@ -76,37 +76,37 @@ describe( "IRIResolver", () => {
 		it( "should NOT resolve relative IRIs if vocabulary is requested BUT not vocab set", () => {
 			const iriResolver:IRIResolver = new IRIResolver();
 
-			const token:IRIToken | PrefixedNameToken = iriResolver
+			const token:IRIRefToken | PrefixedNameToken = iriResolver
 				.resolve( "relative-iri", true );
 
-			expect( token ).toEqual( new IRIToken( "relative-iri" ) );
+			expect( token ).toEqual( new IRIRefToken( "relative-iri" ) );
 		} );
 
 		it( "should resolve relative IRIs if vocabulary is requested AND has vocab set", () => {
 			const iriResolver:IRIResolver = new IRIResolver( void 0, "http://example.com/ns#" );
 
-			const token:IRIToken | PrefixedNameToken = iriResolver
+			const token:IRIRefToken | PrefixedNameToken = iriResolver
 				.resolve( "relative-iri", true );
 
-			expect( token ).toEqual( new IRIToken( "http://example.com/ns#relative-iri" ) );
+			expect( token ).toEqual( new IRIRefToken( "http://example.com/ns#relative-iri" ) );
 		} );
 
 		it( "should NOT resolve relative IRIs if vocabulary explicitly NOT requested AND has vocab set", () => {
 			const iriResolver:IRIResolver = new IRIResolver( void 0, "http://example.com/ns#" );
 
-			const token:IRIToken | PrefixedNameToken = iriResolver
+			const token:IRIRefToken | PrefixedNameToken = iriResolver
 				.resolve( "relative-iri", false );
 
-			expect( token ).toEqual( new IRIToken( "relative-iri" ) );
+			expect( token ).toEqual( new IRIRefToken( "relative-iri" ) );
 		} );
 
 		it( "should NOT resolve relative IRIs if NO vocabulary requested AND has vocab set", () => {
 			const iriResolver:IRIResolver = new IRIResolver( void 0, "http://example.com/ns#" );
 
-			const token:IRIToken | PrefixedNameToken = iriResolver
+			const token:IRIRefToken | PrefixedNameToken = iriResolver
 				.resolve( "relative-iri" );
 
-			expect( token ).toEqual( new IRIToken( "relative-iri" ) );
+			expect( token ).toEqual( new IRIRefToken( "relative-iri" ) );
 		} );
 
 	} );

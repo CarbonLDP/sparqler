@@ -1,7 +1,8 @@
 import { isPrefixed, isRelative } from "../iri/utils";
 
+import { IRIRefToken } from "../tokens/IRIRefToken";
 import { IRIToken } from "../tokens/IRIToken";
-import { PrefixedNameToken, } from "../tokens/PrefixedNameToken";
+import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
 
 
 /**
@@ -53,18 +54,18 @@ export class IRIResolver {
 	 * @param vocab Optional parameter to specified if the relative IRIs will be resolved with the stored vocab IRI.
 	 * @returns An array of tokens representing the provided IRI to be used in the SPARQL query.
 	 */
-	resolve( relativeIRI:string, vocab?:boolean ):IRIToken | PrefixedNameToken {
+	resolve( relativeIRI:string, vocab?:boolean ):IRIToken {
 		if( isPrefixed( relativeIRI ) )
 			return this.resolvePrefixed( relativeIRI );
 
-		return this.resolveIRI( relativeIRI, vocab );
+		return this.resolveIRIRef( relativeIRI, vocab );
 	}
 
-	private resolveIRI( relativeIRI:string, vocab:boolean = false ):IRIToken {
+	private resolveIRIRef( relativeIRI:string, vocab:boolean = false ):IRIRefToken {
 		if( vocab && this.vocab && isRelative( relativeIRI ) )
 			relativeIRI = this.vocab + relativeIRI;
 
-		return new IRIToken( relativeIRI );
+		return new IRIRefToken( relativeIRI );
 	}
 
 	private resolvePrefixed( prefixedName:string ):PrefixedNameToken {

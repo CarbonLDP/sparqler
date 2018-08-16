@@ -1,5 +1,5 @@
 import { BlankNodeToken } from "./BlankNodeToken";
-import { IRIToken } from "./IRIToken";
+import { IRIRefToken } from "./IRIRefToken";
 import { LiteralToken } from "./LiteralToken";
 import { PrefixedNameToken } from "./PrefixedNameToken";
 import { PropertyToken } from "./PropertyToken";
@@ -24,7 +24,7 @@ describe( "SubjectToken", ():void => {
 	} );
 
 	it( "should accept and store IRI subjects", ():void => {
-		const subject:IRIToken = new IRIToken( "http://example.com/" );
+		const subject:IRIRefToken = new IRIRefToken( "http://example.com/" );
 		const token:SubjectToken = new SubjectToken( subject );
 
 		expect( token ).toBeDefined();
@@ -59,7 +59,7 @@ describe( "SubjectToken", ():void => {
 		const variableSubject:VariableToken = new VariableToken( "variable" );
 		expect( new SubjectToken( variableSubject ).properties ).toEqual( [] );
 
-		const iriSubject:IRIToken = new IRIToken( "http://example.com/" );
+		const iriSubject:IRIRefToken = new IRIRefToken( "http://example.com/" );
 		expect( new SubjectToken( iriSubject ).properties ).toEqual( [] );
 
 		const prefixedSubject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
@@ -70,7 +70,7 @@ describe( "SubjectToken", ():void => {
 		const variableSubject:VariableToken = new VariableToken( "variable" );
 		expect( new SubjectToken( variableSubject ).token ).toEqual( "subject" );
 
-		const iriSubject:IRIToken = new IRIToken( "http://example.com/" );
+		const iriSubject:IRIRefToken = new IRIRefToken( "http://example.com/" );
 		expect( new SubjectToken( iriSubject ).token ).toBe( "subject" );
 
 		const prefixedSubject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
@@ -138,7 +138,7 @@ describe( "SubjectToken", ():void => {
 			helper( variable, predicate1, "?variable ?predicate1 ?object1, ?object2" );
 
 
-			const iri:IRIToken = new IRIToken( "http://example.com/ns#property" );
+			const iri:IRIRefToken = new IRIRefToken( "http://example.com/ns#property" );
 
 			helper( iri, predicate1, "<http://example.com/ns#property> ?predicate1 ?object1, ?object2" );
 
@@ -176,7 +176,7 @@ describe( "SubjectToken", ():void => {
 			);
 
 
-			const iri:IRIToken = new IRIToken( "http://example.com/ns#property" );
+			const iri:IRIRefToken = new IRIRefToken( "http://example.com/ns#property" );
 
 			helper(
 				iri,
@@ -184,7 +184,7 @@ describe( "SubjectToken", ():void => {
 				`<http://example.com/ns#property> ?predicate1 ?object, ?object2; ex:property "literal", "literal-2"`,
 			);
 			const predicate3:PropertyToken = new PropertyToken( "a" )
-				.addObject( new IRIToken( "http://example.con/ns#Class" ) );
+				.addObject( new IRIRefToken( "http://example.con/ns#Class" ) );
 			helper(
 				iri,
 				[ predicate1, predicate2, predicate3 ],

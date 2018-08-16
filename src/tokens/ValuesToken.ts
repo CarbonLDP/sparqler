@@ -1,7 +1,7 @@
 import { IRIToken } from "./IRIToken";
 import { LiteralToken } from "./LiteralToken";
-import { PrefixedNameToken } from "./PrefixedNameToken";
 import { getIndentation, getSeparator, INDENTATION_SPACES } from "./printing";
+import { RDFLiteralToken } from "./RDFLiteralToken";
 import { TokenNode } from "./TokenNode";
 import { VariableToken } from "./VariableToken";
 
@@ -16,7 +16,7 @@ export class ValuesToken implements TokenNode {
 	readonly token:"values" = "values";
 
 	readonly variables:VariableToken[];
-	readonly values:(IRIToken | PrefixedNameToken | LiteralToken | "UNDEF")[][];
+	readonly values:(IRIToken | RDFLiteralToken | LiteralToken | "UNDEF")[][];
 
 	constructor() {
 		this.variables = [];
@@ -28,7 +28,7 @@ export class ValuesToken implements TokenNode {
 		return this;
 	}
 
-	addValues( ...values:(IRIToken | PrefixedNameToken | LiteralToken | "UNDEF")[] ):this {
+	addValues( ...values:(IRIToken | LiteralToken | "UNDEF")[] ):this {
 		this.values.push( values );
 		return this;
 	}

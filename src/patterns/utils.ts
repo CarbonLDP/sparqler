@@ -1,7 +1,9 @@
 import { Container } from "../data/Container";
 
+import { getIRIToken } from "../tokens/IRIToken";
 import { LiteralToken } from "../tokens/LiteralToken";
 import { ObjectToken } from "../tokens/ObjectToken";
+import { RDFLiteralToken } from "../tokens/RDFLiteralToken";
 import { TermToken } from "../tokens/TermToken";
 import { TokenNode } from "../tokens/TokenNode";
 import { VariableToken } from "../tokens/VariableToken";
@@ -17,8 +19,7 @@ export function convertValue<T extends TripleSubject<X>, X extends ObjectToken>(
 export function convertValue<T extends SupportedNativeTypes>( value:T ):LiteralToken;
 export function convertValue( value:SupportedNativeTypes | TripleSubject<VariableToken | TermToken> ):ObjectToken | "UNDEF" {
 	if( value instanceof Date )
-		return new LiteralToken( value.toISOString() )
-			.setType( XSD.dateTime );
+		return new RDFLiteralToken( value.toISOString(), getIRIToken( XSD.dateTime ) );
 
 	if( typeof value === "object" )
 		return value.getSubject();

@@ -1,6 +1,6 @@
 import { BaseToken } from "./BaseToken";
 import { ConstructToken } from "./ConstructToken";
-import { IRIToken } from "./IRIToken";
+import { IRIRefToken } from "./IRIRefToken";
 import { PrefixToken } from "./PrefixToken";
 import { QueryToken } from "./QueryToken";
 import { ValuesToken } from "./ValuesToken";
@@ -58,7 +58,7 @@ describe( "QueryToken", ():void => {
 		it( "should add single pattern", ():void => {
 			const token:QueryToken = new QueryToken( void 0 );
 
-			const prologue:BaseToken = new BaseToken( new IRIToken( "https://example.com/" ) );
+			const prologue:BaseToken = new BaseToken( new IRIRefToken( "https://example.com/" ) );
 			token.addPrologues( prologue );
 
 			expect( token.prologues ).toEqual( [ prologue ] );
@@ -67,8 +67,8 @@ describe( "QueryToken", ():void => {
 		it( "should add multiple patterns", ():void => {
 			const token:QueryToken = new QueryToken( void 0 );
 
-			const prologue1:BaseToken = new BaseToken( new IRIToken( "https://example.com/" ) );
-			const prologue2:PrefixToken = new PrefixToken( "ex", new IRIToken( "https://example.com/ns#" ) );
+			const prologue1:BaseToken = new BaseToken( new IRIRefToken( "https://example.com/" ) );
+			const prologue2:PrefixToken = new PrefixToken( "ex", new IRIRefToken( "https://example.com/ns#" ) );
 			token.addPrologues( prologue1, prologue2 );
 
 			expect( token.prologues ).toEqual( [ prologue1, prologue2 ] );
@@ -77,10 +77,10 @@ describe( "QueryToken", ():void => {
 		it( "should append patterns", ():void => {
 			const token:QueryToken = new QueryToken( void 0 );
 
-			const firstPrologue:BaseToken = new BaseToken( new IRIToken( "https://example.com/" ) );
+			const firstPrologue:BaseToken = new BaseToken( new IRIRefToken( "https://example.com/" ) );
 			token.addPrologues( firstPrologue );
 
-			const newPrologue:PrefixToken = new PrefixToken( "ex", new IRIToken( "https://example.com/ns#" ) );
+			const newPrologue:PrefixToken = new PrefixToken( "ex", new IRIRefToken( "https://example.com/ns#" ) );
 			token.addPrologues( newPrologue );
 
 			expect( token.prologues ).toEqual( [ firstPrologue, newPrologue ] );
@@ -89,7 +89,7 @@ describe( "QueryToken", ():void => {
 		it( "should return itself", ():void => {
 			const token:QueryToken = new QueryToken( void 0 );
 
-			const prologue:BaseToken = new BaseToken( new IRIToken( "https://example.com/" ) );
+			const prologue:BaseToken = new BaseToken( new IRIRefToken( "https://example.com/" ) );
 			const returned:QueryToken = token.addPrologues( prologue );
 
 			expect( returned ).toBe( token );
@@ -121,8 +121,8 @@ describe( "QueryToken", ():void => {
 		it( "should return the SPARQL query statement with prologues", ():void => {
 			const construct:ConstructToken = new ConstructToken();
 			const token:QueryToken = new QueryToken( construct )
-				.addPrologues( new BaseToken( new IRIToken( "https://example.com/" ) ) )
-				.addPrologues( new PrefixToken( "ex", new IRIToken( "https://example.com/ns#" ) ) )
+				.addPrologues( new BaseToken( new IRIRefToken( "https://example.com/" ) ) )
+				.addPrologues( new PrefixToken( "ex", new IRIRefToken( "https://example.com/ns#" ) ) )
 			;
 
 			expect( token.toString() ).toBe( "" +
@@ -137,8 +137,8 @@ describe( "QueryToken", ():void => {
 		it( "should return the pretty SPARQL query statement with prologues", ():void => {
 			const construct:ConstructToken = new ConstructToken();
 			const token:QueryToken = new QueryToken( construct )
-				.addPrologues( new BaseToken( new IRIToken( "https://example.com/" ) ) )
-				.addPrologues( new PrefixToken( "ex", new IRIToken( "https://example.com/ns#" ) ) )
+				.addPrologues( new BaseToken( new IRIRefToken( "https://example.com/" ) ) )
+				.addPrologues( new PrefixToken( "ex", new IRIRefToken( "https://example.com/ns#" ) ) )
 			;
 
 			expect( token.toString( 0 ) ).toBe( "" +

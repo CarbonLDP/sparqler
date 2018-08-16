@@ -1,7 +1,7 @@
 import { BlankNodeToken } from "./BlankNodeToken";
 import { IRIToken } from "./IRIToken";
 import { LiteralToken } from "./LiteralToken";
-import { PrefixedNameToken } from "./PrefixedNameToken";
+import { RDFLiteralToken } from "./RDFLiteralToken";
 
 
 /**
@@ -9,4 +9,4 @@ import { PrefixedNameToken } from "./PrefixedNameToken";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rGraphTerm}
  */
-export type TermToken = IRIToken | PrefixedNameToken | BlankNodeToken | LiteralToken;
+export type TermToken = IRIToken | RDFLiteralToken | LiteralToken | BlankNodeToken;

@@ -1,5 +1,5 @@
 import { BlankNodePropertyToken } from "./BlankNodePropertyToken";
-import { IRIToken } from "./IRIToken";
+import { IRIRefToken } from "./IRIRefToken";
 import { PropertyToken } from "./PropertyToken";
 
 
@@ -77,7 +77,7 @@ describe( "BlankNodePropertyToken", ():void => {
 		it( "should return inline blank node with one property", ():void => {
 			const token:BlankNodePropertyToken = new BlankNodePropertyToken()
 				.addProperty( new PropertyToken( "a" )
-					.addObject( new IRIToken( "a-type" ) ) )
+					.addObject( new IRIRefToken( "a-type" ) ) )
 			;
 			expect( token.toString() ).toBe( "" +
 				"[ " +
@@ -89,7 +89,7 @@ describe( "BlankNodePropertyToken", ():void => {
 		it( "should return pretty inline blank node with one property", ():void => {
 			const token:BlankNodePropertyToken = new BlankNodePropertyToken()
 				.addProperty( new PropertyToken( "a" )
-					.addObject( new IRIToken( "a-type" ) ) )
+					.addObject( new IRIRefToken( "a-type" ) ) )
 			;
 			expect( token.toString( 0 ) ).toBe( "" +
 				"[ " +
@@ -101,9 +101,9 @@ describe( "BlankNodePropertyToken", ():void => {
 		it( "should return blank node with properties", ():void => {
 			const token:BlankNodePropertyToken = new BlankNodePropertyToken()
 				.addProperty( new PropertyToken( "a" )
-					.addObject( new IRIToken( "a-type" ) ) )
+					.addObject( new IRIRefToken( "a-type" ) ) )
 				.addProperty( new PropertyToken( "a" )
-					.addObject( new IRIToken( "another-type" ) ) )
+					.addObject( new IRIRefToken( "another-type" ) ) )
 			;
 			expect( token.toString() ).toBe( "" +
 				"[ " +
@@ -116,9 +116,9 @@ describe( "BlankNodePropertyToken", ():void => {
 		it( "should return pretty blank node with properties", ():void => {
 			const token:BlankNodePropertyToken = new BlankNodePropertyToken()
 				.addProperty( new PropertyToken( "a" )
-					.addObject( new IRIToken( "a-type" ) ) )
+					.addObject( new IRIRefToken( "a-type" ) ) )
 				.addProperty( new PropertyToken( "a" )
-					.addObject( new IRIToken( "another-type" ) ) )
+					.addObject( new IRIRefToken( "another-type" ) ) )
 			;
 			expect( token.toString( 0 ) ).toBe( "" +
 				"[\n" +

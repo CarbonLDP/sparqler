@@ -1,20 +1,22 @@
-import { TokenNode } from "./TokenNode";
+import { isPrefixed } from "../iri/utils";
+import { IRIRefToken } from "./IRIRefToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
 
 
 /**
- * The token of the IRI term.
+ * Alias for any IRI token.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rIRIREF}
+ * @see {@link https://www.w3.org/TR/sparql11-query/#riri}
  */
-export class IRIToken implements TokenNode {
-	readonly token:"iri" = "iri";
-	readonly value:string;
+export type IRIToken = IRIRefToken | PrefixedNameToken;
 
-	constructor( value:string ) {
-		this.value = value;
-	}
 
-	toString( spaces?:number ):string {
-		return `<${ this.value }>`;
-	}
+/**
+ * Returns the respective token from the IRI string.
+ *
+ * @param iri The IRI string to be converted into a token.
+ */
+export function getIRIToken( iri:string ):IRIToken {
+	if( isPrefixed( iri ) ) return new PrefixedNameToken( iri );
+	return new IRIRefToken( iri );
 }

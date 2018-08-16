@@ -5,10 +5,12 @@ import { IRIResolver } from "../data/IRIResolver";
 
 import { PatternBuilder } from "../patterns/PatternBuilder";
 
-import { IRIToken } from "../tokens/IRIToken";
+import { IRIRefToken } from "../tokens/IRIRefToken";
+import { getIRIToken } from "../tokens/IRIToken";
 import { LiteralToken } from "../tokens/LiteralToken";
 import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
 import { QueryToken } from "../tokens/QueryToken";
+import { RDFLiteralToken } from "../tokens/RDFLiteralToken";
 import { ValuesToken } from "../tokens/ValuesToken";
 import { VariableToken } from "../tokens/VariableToken";
 
@@ -139,7 +141,7 @@ describe( "ValuesClause", () => {
 
 					const newContainer:Container<QueryToken> = spyContainers.getLast();
 					expect( newContainer.targetToken.values!.values )
-						.toContain( [ new LiteralToken( date.toISOString() ).setType( XSD.dateTime ) ] );
+						.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
 				} );
 
 			} );
@@ -197,7 +199,7 @@ describe( "ValuesClause", () => {
 						.toContain( [
 							new LiteralToken( "val" ),
 							new LiteralToken( 10 ),
-							new LiteralToken( date.toISOString() ).setType( XSD.dateTime ),
+							new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
 						] );
 				} );
 
@@ -278,7 +280,7 @@ describe( "ValuesClause", () => {
 
 					const newContainer:Container<QueryToken> = spyContainers.getLast();
 					expect( newContainer.targetToken.values!.values )
-						.toContain( [ new LiteralToken( date.toISOString() ).setType( XSD.dateTime ) ] );
+						.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
 				} );
 
 				it( "should add string pattern value", () => {
@@ -294,7 +296,7 @@ describe( "ValuesClause", () => {
 
 					const newContainer:Container<QueryToken> = spyContainers.getLast();
 					expect( newContainer.targetToken.values!.values )
-						.toContain( [ new IRIToken( "https://example.com/" ) ] );
+						.toContain( [ new IRIRefToken( "https://example.com/" ) ] );
 				} );
 
 				it( "should add pattern Prefixed Name value", () => {
@@ -331,9 +333,9 @@ describe( "ValuesClause", () => {
 						.toContain( [
 							new LiteralToken( "val" ),
 							new LiteralToken( 10 ),
-							new LiteralToken( date.toISOString() ).setType( XSD.dateTime ),
+							new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
 							new LiteralToken( "val" ),
-							new IRIToken( "https://example.com/" ),
+							new IRIRefToken( "https://example.com/" ),
 							new PrefixedNameToken( "ex", "resource/" ),
 						] );
 				} );
@@ -571,7 +573,7 @@ describe( "ValuesClause", () => {
 						.toContain( [
 							new LiteralToken( "val1" ),
 							new LiteralToken( 10 ),
-							new IRIToken( "https://example.com/" ),
+							new IRIRefToken( "https://example.com/" ),
 						] );
 				} );
 
@@ -592,11 +594,11 @@ describe( "ValuesClause", () => {
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [
 							new LiteralToken( 10 ),
-							new LiteralToken( date.toISOString() ).setType( XSD.dateTime ),
+							new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
 						] );
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [
-							new IRIToken( "https://example.com/" ),
+							new IRIRefToken( "https://example.com/" ),
 							new PrefixedNameToken( "ex", "resource/" ),
 						] );
 				} );

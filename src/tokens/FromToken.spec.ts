@@ -1,6 +1,6 @@
 import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
 import { FromToken } from "./FromToken";
-import { IRIToken } from "./IRIToken";
+import { IRIRefToken } from "./IRIRefToken";
 
 describe( "FromToken", () => {
 
@@ -12,24 +12,24 @@ describe( "FromToken", () => {
 	describe( "FromToken.constructor", () => {
 
 		it( "should be instantiable", ():void => {
-			const token:FromToken = new FromToken( new IRIToken( "resource/" ) );
+			const token:FromToken = new FromToken( new IRIRefToken( "resource/" ) );
 
 			expect( token ).toBeDefined();
 			expect( token ).toEqual( jasmine.any( FromToken ) );
 		} );
 
 		it( "should assign false if no named specified", ():void => {
-			const token:FromToken = new FromToken( new IRIToken( "resource/" ) );
+			const token:FromToken = new FromToken( new IRIRefToken( "resource/" ) );
 			expect( token.named ).toBe( false );
 		} );
 
 		it( "should assign named if specified", ():void => {
-			const token:FromToken = new FromToken( new IRIToken( "resource/" ), true );
+			const token:FromToken = new FromToken( new IRIRefToken( "resource/" ), true );
 			expect( token.named ).toBe( true );
 		} );
 
 		it( "should assign `from` as token name", ():void => {
-			const token:FromToken = new FromToken( new IRIToken( "resource/" ) );
+			const token:FromToken = new FromToken( new IRIRefToken( "resource/" ) );
 			expect( token.token ).toBe( "from" );
 		} );
 
@@ -43,7 +43,7 @@ describe( "FromToken", () => {
 		} );
 
 		it( "should print the SPARQL FROM statement from IRI", () => {
-			const token:FromToken = new FromToken( new IRIToken( "resource/" ) );
+			const token:FromToken = new FromToken( new IRIRefToken( "resource/" ) );
 			expect( token.toString() ).toEqual( "FROM <resource/>" );
 		} );
 
@@ -53,7 +53,7 @@ describe( "FromToken", () => {
 		} );
 
 		it( "should print the SPARQL FROM NAMED statement from IRI", () => {
-			const token:FromToken = new FromToken( new IRIToken( "resource/" ), true );
+			const token:FromToken = new FromToken( new IRIRefToken( "resource/" ), true );
 			expect( token.toString() ).toEqual( "FROM NAMED <resource/>" );
 		} );
 

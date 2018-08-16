@@ -3,8 +3,10 @@ import { spyContainers } from "../../../test/spies/clones";
 import { Container } from "../../data/Container";
 import { IRIResolver } from "../../data/IRIResolver";
 
-import { IRIToken } from "../../tokens/IRIToken";
+import { IRIRefToken } from "../../tokens/IRIRefToken";
+import { getIRIToken } from "../../tokens/IRIToken";
 import { LiteralToken } from "../../tokens/LiteralToken";
+import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 
@@ -41,7 +43,7 @@ describe( "MultipleValuesPattern", () => {
 	function getResource( iri:string ):Resource {
 		return TripleSubject.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIToken( iri ) ),
+			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
 		} ), {} );
 	}
 
@@ -142,7 +144,7 @@ describe( "MultipleValuesPattern", () => {
 
 			const newContainer:Container<ValuesToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.values )
-				.toContain( [ new LiteralToken( date.toISOString() ).setType( XSD.dateTime ) ] );
+				.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
 		} );
 
 		it( "should add single Resource value", () => {
@@ -150,7 +152,7 @@ describe( "MultipleValuesPattern", () => {
 
 			const newContainer:Container<ValuesToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.values )
-				.toContain( [ new IRIToken( "resource/" ) ] );
+				.toContain( [ new IRIRefToken( "resource/" ) ] );
 		} );
 
 		it( "should add single Literal value", () => {
@@ -186,8 +188,8 @@ describe( "MultipleValuesPattern", () => {
 				.toContain( [
 					new LiteralToken( "val" ),
 					new LiteralToken( 10 ),
-					new LiteralToken( date.toISOString() ).setType( XSD.dateTime ),
-					new IRIToken( "resource/" ),
+					new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
+					new IRIRefToken( "resource/" ),
 					new LiteralToken( "value" ),
 					"UNDEF",
 				] );
@@ -221,7 +223,7 @@ describe( "MultipleValuesPatternMore", () => {
 	function getResource( iri:string ):Resource {
 		return TripleSubject.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIToken( iri ) ),
+			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
 		} ), {} );
 	}
 
@@ -322,7 +324,7 @@ describe( "MultipleValuesPatternMore", () => {
 
 			const newContainer:Container<ValuesToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.values )
-				.toContain( [ new LiteralToken( date.toISOString() ).setType( XSD.dateTime ) ] );
+				.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
 		} );
 
 		it( "should add single Resource value", () => {
@@ -330,7 +332,7 @@ describe( "MultipleValuesPatternMore", () => {
 
 			const newContainer:Container<ValuesToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.values )
-				.toContain( [ new IRIToken( "resource/" ) ] );
+				.toContain( [ new IRIRefToken( "resource/" ) ] );
 		} );
 
 		it( "should add single Literal value", () => {
@@ -366,8 +368,8 @@ describe( "MultipleValuesPatternMore", () => {
 				.toContain( [
 					new LiteralToken( "val" ),
 					new LiteralToken( 10 ),
-					new LiteralToken( date.toISOString() ).setType( XSD.dateTime ),
-					new IRIToken( "resource/" ),
+					new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
+					new IRIRefToken( "resource/" ),
 					new LiteralToken( "value" ),
 					"UNDEF",
 				] );

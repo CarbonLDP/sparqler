@@ -9,7 +9,7 @@ import { BindToken } from "../../tokens/BindToken";
 import { FilterToken } from "../../tokens/FilterToken";
 import { GraphToken } from "../../tokens/GraphToken";
 import { GroupPatternToken } from "../../tokens/GroupPatternToken";
-import { IRIToken } from "../../tokens/IRIToken";
+import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { MinusPatternToken } from "../../tokens/MinusPatternToken";
 import { OptionalToken } from "../../tokens/OptionalToken";
 import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
@@ -129,7 +129,7 @@ describe( "NotTriplePatternsBuilder", () => {
 			const newContainer:TheContainer = spyContainers.getLast();
 
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new GraphToken( new IRIToken( "graph/" ) ),
+				targetToken: new GraphToken( new IRIRefToken( "graph/" ) ),
 			} ) )
 		} );
 
@@ -468,7 +468,7 @@ describe( "NotTriplePatternsBuilder", () => {
 			const newContainer:TheContainer = spyContainers.getLast();
 
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new ServicePatternToken( new IRIToken( "service/" ) ),
+				targetToken: new ServicePatternToken( new IRIRefToken( "service/" ) ),
 			} ) )
 		} );
 
@@ -492,13 +492,13 @@ describe( "NotTriplePatternsBuilder", () => {
 		} );
 
 		it( "should create pattern with IRIToken", () => {
-			builder.service( { getSubject: () => new IRIToken( "service/" ), has: () => ({}) as any }, [] );
+			builder.service( { getSubject: () => new IRIRefToken( "service/" ), has: () => ({}) as any }, [] );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new ServicePatternToken( new IRIToken( "service/" ) ),
+				targetToken: new ServicePatternToken( new IRIRefToken( "service/" ) ),
 			} ) )
 		} );
 
@@ -573,7 +573,7 @@ describe( "NotTriplePatternsBuilder", () => {
 			const newContainer:TheContainer = spyContainers.getLast();
 
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new ServicePatternToken( new IRIToken( "service/" ), "SILENT" ),
+				targetToken: new ServicePatternToken( new IRIRefToken( "service/" ), "SILENT" ),
 			} ) )
 		} );
 
@@ -597,13 +597,13 @@ describe( "NotTriplePatternsBuilder", () => {
 		} );
 
 		it( "should create pattern with IRIToken", () => {
-			builder.serviceSilent( { getSubject: () => new IRIToken( "service/" ), has: () => ({}) as any }, [] );
+			builder.serviceSilent( { getSubject: () => new IRIRefToken( "service/" ), has: () => ({}) as any }, [] );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new ServicePatternToken( new IRIToken( "service/" ), "SILENT" ),
+				targetToken: new ServicePatternToken( new IRIRefToken( "service/" ), "SILENT" ),
 			} ) )
 		} );
 

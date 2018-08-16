@@ -4,7 +4,7 @@ import { QueryUnitContainer } from "../data/QueryUnitContainer";
 import { cloneElement } from "../data/utils";
 
 import { BaseToken } from "../tokens/BaseToken";
-import { IRIToken } from "../tokens/IRIToken";
+import { IRIRefToken } from "../tokens/IRIRefToken";
 import { PrefixToken } from "../tokens/PrefixToken";
 import { QueryToken } from "../tokens/QueryToken";
 
@@ -61,7 +61,7 @@ export interface QueryClause<T extends FinishClause> extends SelectClause<T> {
  * @see {@link QueryClause.base}
  */
 function base<T extends FinishClause>( this:QueryUnitContainer<T>, iri:string ):QueryClause<T> {
-	const token:BaseToken = new BaseToken( new IRIToken( iri ) );
+	const token:BaseToken = new BaseToken( new IRIRefToken( iri ) );
 
 	const prologues:QueryToken[ "prologues" ] = this.targetToken
 		.prologues.concat( token );
@@ -99,7 +99,7 @@ function prefix<T extends FinishClause>( this:QueryUnitContainer<T>, name:string
 			prologues.splice( index, 1 );
 	}
 
-	prologues.push( new PrefixToken( name, new IRIToken( iri ) ) );
+	prologues.push( new PrefixToken( name, new IRIRefToken( iri ) ) );
 	iriResolver.prefixes.set( name, false );
 
 

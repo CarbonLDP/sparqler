@@ -5,7 +5,7 @@ import { Factory } from "../../data/Factory";
 import { IRIResolver } from "../../data/IRIResolver";
 
 import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
-import { IRIToken } from "../../tokens/IRIToken";
+import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { PropertyToken } from "../../tokens/PropertyToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
@@ -38,7 +38,7 @@ describe( "PropertyBuilder", () => {
 
 		container = new Container( {
 			iriResolver,
-			targetToken: new SubjectToken( new IRIToken( "" ) )
+			targetToken: new SubjectToken( new IRIRefToken( "" ) )
 		} );
 
 		spyContainers.install();
@@ -58,7 +58,7 @@ describe( "PropertyBuilder", () => {
 	function getResource( iri:string ):Resource {
 		return TripleSubject.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIToken( iri ) ),
+			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
 		} ), {} );
 	}
 
@@ -134,7 +134,7 @@ describe( "PropertyBuilder", () => {
 			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
-				verb: new IRIToken( "resource/" ),
+				verb: new IRIRefToken( "resource/" ),
 			} ) );
 		} );
 
@@ -272,7 +272,7 @@ describe( "PropertyBuilderMore", () => {
 
 		container = new Container( {
 			iriResolver,
-			targetToken: new SubjectToken( new IRIToken( "" ) )
+			targetToken: new SubjectToken( new IRIRefToken( "" ) )
 		} );
 
 		spyContainers.install();
@@ -292,7 +292,7 @@ describe( "PropertyBuilderMore", () => {
 	function getResource( iri:string ):Resource {
 		return TripleSubject.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIToken( iri ) ),
+			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
 		} ), {} );
 	}
 
@@ -368,7 +368,7 @@ describe( "PropertyBuilderMore", () => {
 			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
-				verb: new IRIToken( "resource/" ),
+				verb: new IRIRefToken( "resource/" ),
 			} ) );
 		} );
 

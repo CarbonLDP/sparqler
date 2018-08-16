@@ -7,7 +7,7 @@ import { CollectionToken } from "../../tokens/CollectionToken";
 import { IRIToken } from "../../tokens/IRIToken";
 import { LiteralToken } from "../../tokens/LiteralToken";
 import { ObjectToken } from "../../tokens/ObjectToken";
-import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
+import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
@@ -102,7 +102,7 @@ function _getNodeSubject<T extends ObjectToken>( container:Container<undefined>,
 
 function getResourceFn( container:Container<undefined> ):TriplePatternsBuilder[ "resource" ] {
 	return iri => {
-		const token:IRIToken | PrefixedNameToken = container.iriResolver.resolve( iri );
+		const token:IRIToken = container.iriResolver.resolve( iri );
 		return _getTripleSubject( container, token );
 	}
 }
@@ -116,11 +116,13 @@ function getVarFn( container:Container<undefined> ):TriplePatternsBuilder[ "var"
 
 function getLiteralFn( container:Container<undefined> ):TriplePatternsBuilder[ "literal" ] {
 	return ( value:string | number | boolean ):any => {
-		const token:LiteralToken = new LiteralToken( value );
 
-		if( typeof value !== "string" )
-			return _getTripleSubject( container, token ) as Literal;
+		if( typeof value !== "string" ) {
+			const token:LiteralToken = new LiteralToken( value );
+			return _getTripleSubject( container, token );
+		}
 
+		const token:RDFLiteralToken = new RDFLiteralToken( value );
 		const patternContainer = _getPatternContainer( container, token );
 		return RDFLiteral.createFrom( patternContainer, {} );
 	}

@@ -1,4 +1,4 @@
-import { IRIToken } from "./IRIToken";
+import { IRIRefToken } from "./IRIRefToken";
 import { TokenNode } from "./TokenNode";
 
 
@@ -9,9 +9,9 @@ import { TokenNode } from "./TokenNode";
  */
 export class BaseToken implements TokenNode {
 	readonly token:"base" = "base";
-	readonly iri:IRIToken;
+	readonly iri:IRIRefToken;
 
-	constructor( iri:IRIToken ) {
+	constructor( iri:IRIRefToken ) {
 		this.iri = iri;
 	}
 

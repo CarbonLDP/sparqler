@@ -1,4 +1,4 @@
-import { IRIToken } from "./IRIToken";
+import { IRIRefToken } from "./IRIRefToken";
 import { TokenNode } from "./TokenNode";
 
 
@@ -10,9 +10,9 @@ import { TokenNode } from "./TokenNode";
 export class PrefixToken implements TokenNode {
 	readonly token:"prefix" = "prefix";
 	readonly namespace:string;
-	readonly iri:IRIToken;
+	readonly iri:IRIRefToken;
 
-	constructor( namespace:string, iri:IRIToken ) {
+	constructor( namespace:string, iri:IRIRefToken ) {
 		this.namespace = namespace;
 		this.iri = iri;
 	}
