@@ -5,7 +5,7 @@ import { LanguageToken } from "../../tokens/LanguageToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 
-import * as XSD from "../../utils/XSD";
+import { XSD } from "../../utils/XSD";
 
 import { Literal } from "./Literal";
 import { TripleSubject } from "./TripleSubject";
@@ -37,7 +37,7 @@ export interface RDFLiteral extends Literal {
 
 function getWithTypeFn<C extends Container<SubjectToken<RDFLiteralToken>>>( container:C ):RDFLiteral[ "withType" ] {
 	return type => {
-		if( type in XSD ) type = (XSD as any)[ type ];
+		if( type in XSD ) type = XSD[ type as keyof typeof XSD ];
 
 		const iriType = container.iriResolver.resolve( type, true );
 		const subject = cloneElement( container.targetToken.subject, { type: iriType } );

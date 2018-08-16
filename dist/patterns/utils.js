@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var IRIToken_1 = require("../tokens/IRIToken");
 var LiteralToken_1 = require("../tokens/LiteralToken");
 var RDFLiteralToken_1 = require("../tokens/RDFLiteralToken");
-var XSD = require("../utils/XSD");
+var XSD_1 = require("../utils/XSD");
 function convertValue(value) {
     if (value instanceof Date)
-        return new RDFLiteralToken_1.RDFLiteralToken(value.toISOString(), IRIToken_1.getIRIToken(XSD.dateTime));
+        return new RDFLiteralToken_1.RDFLiteralToken(value.toISOString(), IRIToken_1.getIRIToken(XSD_1.XSD.dateTime));
     if (typeof value === "object")
         return value.getSubject();
     if (typeof value === "string") {

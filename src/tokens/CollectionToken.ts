@@ -28,7 +28,7 @@ export class CollectionToken implements TokenNode {
 	toString( spaces?:number ):string {
 		return getTokenContainerString( {
 			spaces,
-			tags: { open:"(", close: ")" },
+			tags: { open: "(", close: ")" },
 			tokens: this.objects,
 		} );
 	}

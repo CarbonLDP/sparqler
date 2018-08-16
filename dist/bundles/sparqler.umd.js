@@ -1367,10 +1367,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var IRIToken_1 = __webpack_require__(42);
 var LiteralToken_1 = __webpack_require__(43);
 var RDFLiteralToken_1 = __webpack_require__(44);
-var XSD = __webpack_require__(45);
+var XSD_1 = __webpack_require__(45);
 function convertValue(value) {
     if (value instanceof Date)
-        return new RDFLiteralToken_1.RDFLiteralToken(value.toISOString(), IRIToken_1.getIRIToken(XSD.dateTime));
+        return new RDFLiteralToken_1.RDFLiteralToken(value.toISOString(), IRIToken_1.getIRIToken(XSD_1.XSD.dateTime));
     if (typeof value === "object")
         return value.getSubject();
     if (typeof value === "string") {
@@ -1508,12 +1508,37 @@ exports.RDFLiteralToken = RDFLiteralToken;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NAMESPACE = "http://www.w3.org/2001/XMLSchema#";
-exports.dateTime = exports.NAMESPACE + "dateTime";
-exports.integer = exports.NAMESPACE + "integer";
-exports.float = exports.NAMESPACE + "float";
-exports.boolean = exports.NAMESPACE + "boolean";
-exports.string = exports.NAMESPACE + "string";
+exports.XSD = {
+    namespace: "http://www.w3.org/2001/XMLSchema#",
+    boolean: "http://www.w3.org/2001/XMLSchema#boolean",
+    byte: "http://www.w3.org/2001/XMLSchema#byte",
+    date: "http://www.w3.org/2001/XMLSchema#date",
+    dateTime: "http://www.w3.org/2001/XMLSchema#dateTime",
+    decimal: "http://www.w3.org/2001/XMLSchema#decimal",
+    double: "http://www.w3.org/2001/XMLSchema#double",
+    duration: "http://www.w3.org/2001/XMLSchema#duration",
+    float: "http://www.w3.org/2001/XMLSchema#float",
+    gDay: "http://www.w3.org/2001/XMLSchema#gDay",
+    gMonth: "http://www.w3.org/2001/XMLSchema#gMonth",
+    gMonthDay: "http://www.w3.org/2001/XMLSchema#gMonthDay",
+    gYear: "http://www.w3.org/2001/XMLSchema#gYear",
+    gYearMonth: "http://www.w3.org/2001/XMLSchema#gYearMonth",
+    int: "http://www.w3.org/2001/XMLSchema#int",
+    integer: "http://www.w3.org/2001/XMLSchema#integer",
+    long: "http://www.w3.org/2001/XMLSchema#long",
+    negativeInteger: "http://www.w3.org/2001/XMLSchema#negativeInteger",
+    nonNegativeInteger: "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+    nonPositiveInteger: "http://www.w3.org/2001/XMLSchema#nonPositiveInteger",
+    object: "http://www.w3.org/2001/XMLSchema#object",
+    positiveInteger: "http://www.w3.org/2001/XMLSchema#positiveInteger",
+    short: "http://www.w3.org/2001/XMLSchema#short",
+    string: "http://www.w3.org/2001/XMLSchema#string",
+    time: "http://www.w3.org/2001/XMLSchema#time",
+    unsignedByte: "http://www.w3.org/2001/XMLSchema#unsignedByte",
+    unsignedInt: "http://www.w3.org/2001/XMLSchema#unsignedInt",
+    unsignedLong: "http://www.w3.org/2001/XMLSchema#unsignedLong",
+    unsignedShort: "http://www.w3.org/2001/XMLSchema#unsignedShort",
+};
 
 
 /***/ }),
@@ -2454,12 +2479,12 @@ exports.PropertyToken = PropertyToken;
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(9);
 var LanguageToken_1 = __webpack_require__(71);
-var XSD = __webpack_require__(45);
+var XSD_1 = __webpack_require__(45);
 var TripleSubject_1 = __webpack_require__(72);
 function getWithTypeFn(container) {
     return function (type) {
-        if (type in XSD)
-            type = XSD[type];
+        if (type in XSD_1.XSD)
+            type = XSD_1.XSD[type];
         var iriType = container.iriResolver.resolve(type, true);
         var subject = utils_1.cloneElement(container.targetToken.subject, { type: iriType });
         var targetToken = utils_1.cloneElement(container.targetToken, { subject: subject });

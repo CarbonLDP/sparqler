@@ -19,8 +19,7 @@ export interface Factory<CONTAINER extends Container<TokenNode>, TARGET extends 
 	 *
 	 * @return The provided object with the elements of the target
 	 * object to be created.
-	 */
-	<OBJECT extends object>( container:CONTAINER, object:OBJECT ):OBJECT & TARGET;
+	 */<OBJECT extends object>( container:CONTAINER, object:OBJECT ):OBJECT & TARGET;
 }
 
 

@@ -18,8 +18,8 @@ export class OrderToken implements TokenNode {
 	}
 
 	toString( spaces?:number ):string {
-		return "ORDER BY " + ( this.flow ?
+		return "ORDER BY " + (this.flow ?
 			`${ this.flow }( ${ this.condition } )` :
-			`${ this.condition }` );
+			`${ this.condition }`);
 	}
 }

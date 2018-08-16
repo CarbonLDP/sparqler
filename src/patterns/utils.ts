@@ -8,7 +8,7 @@ import { TermToken } from "../tokens/TermToken";
 import { TokenNode } from "../tokens/TokenNode";
 import { VariableToken } from "../tokens/VariableToken";
 
-import * as XSD from "../utils/XSD";
+import { XSD } from "../utils/XSD";
 
 import { SupportedNativeTypes } from "./SupportedNativeTypes";
 import { TripleSubject } from "./triplePatterns/TripleSubject";

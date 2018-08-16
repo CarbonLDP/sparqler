@@ -14,7 +14,7 @@ import { RDFLiteralToken } from "../tokens/RDFLiteralToken";
 import { ValuesToken } from "../tokens/ValuesToken";
 import { VariableToken } from "../tokens/VariableToken";
 
-import * as XSD from "../utils/XSD";
+import { XSD } from "../utils/XSD";
 
 import { FinishClause } from "./FinishClause";
 import { ValuesClause } from "./ValuesClause";

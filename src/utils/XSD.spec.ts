@@ -1,16 +1,16 @@
-import * as XSD from "./XSD";
+import { XSD } from "./XSD";
 
-describe( "Module XSD", ():void => {
+describe( "XSD", ():void => {
 
 	it( "Exists", ():void => {
 		expect( XSD ).toBeDefined();
 		expect( XSD ).toEqual( jasmine.any( Object ) );
 	} );
 
-	it( "NAMESPACE", ():void => {
-		expect( XSD.NAMESPACE ).toBeDefined();
-		expect( XSD.NAMESPACE ).toEqual( jasmine.any( String ) );
-		expect( XSD.NAMESPACE ).toBe( "http://www.w3.org/2001/XMLSchema#" );
+	it( "namespace", ():void => {
+		expect( XSD.namespace ).toBeDefined();
+		expect( XSD.namespace ).toEqual( jasmine.any( String ) );
+		expect( XSD.namespace ).toBe( "http://www.w3.org/2001/XMLSchema#" );
 	} );
 
 	it( "dateTime", ():void => {

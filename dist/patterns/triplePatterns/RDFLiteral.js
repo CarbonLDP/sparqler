@@ -2,12 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = require("../../data/utils");
 var LanguageToken_1 = require("../../tokens/LanguageToken");
-var XSD = require("../../utils/XSD");
+var XSD_1 = require("../../utils/XSD");
 var TripleSubject_1 = require("./TripleSubject");
 function getWithTypeFn(container) {
     return function (type) {
-        if (type in XSD)
-            type = XSD[type];
+        if (type in XSD_1.XSD)
+            type = XSD_1.XSD[type];
         var iriType = container.iriResolver.resolve(type, true);
         var subject = utils_1.cloneElement(container.targetToken.subject, { type: iriType });
         var targetToken = utils_1.cloneElement(container.targetToken, { subject: subject });

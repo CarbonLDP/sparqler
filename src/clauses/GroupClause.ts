@@ -39,7 +39,7 @@ export interface GroupClause<T extends FinishClause> extends HavingClause<T> {
  *
  * @private
  */
-function getGroupByFn<C extends Container<QueryToken<QueryClauseToken>| SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
+function getGroupByFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
 	return ( rawCondition:string ) => {
 		const token:GroupToken = new GroupToken( rawCondition );
 		const newContainer = cloneSolutionModifierContainer( container, token );

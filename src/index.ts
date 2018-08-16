@@ -23,7 +23,6 @@ import { QueryToken } from "./tokens/QueryToken";
 export type FinishFactory<T extends FinishClause> = Factory<Container<QueryToken>, T>;
 
 
-
 /**
  * Interface with the same name fo the SPARQLER class, that helps
  * in the definition of the methods decorated by {@link QueryClause.createFrom}

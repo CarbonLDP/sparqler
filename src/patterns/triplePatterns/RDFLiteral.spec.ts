@@ -9,7 +9,7 @@ import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 
-import * as XSD from "../../utils/XSD";
+import { XSD } from "../../utils/XSD";
 
 import { RDFLiteral } from "./RDFLiteral";
 
