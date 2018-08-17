@@ -288,7 +288,7 @@ describe( "ValuesClause", () => {
 
 					const newContainer:Container<QueryToken> = spyContainers.getLast();
 					expect( newContainer.targetToken.values!.values )
-						.toContain( [ new LiteralToken( "val" ) ] );
+						.toContain( [ new RDFLiteralToken( "val" ) ] );
 				} );
 
 				it( "should add pattern IRI value", () => {
@@ -334,7 +334,7 @@ describe( "ValuesClause", () => {
 							new LiteralToken( "val" ),
 							new LiteralToken( 10 ),
 							new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
-							new LiteralToken( "val" ),
+							new RDFLiteralToken( "val" ),
 							new IRIRefToken( "https://example.com/" ),
 							new PrefixedNameToken( "ex", "resource/" ),
 						] );
@@ -589,7 +589,7 @@ describe( "ValuesClause", () => {
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [
 							new LiteralToken( "val1" ),
-							new LiteralToken( "val2" ),
+							new RDFLiteralToken( "val2" ),
 						] );
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [

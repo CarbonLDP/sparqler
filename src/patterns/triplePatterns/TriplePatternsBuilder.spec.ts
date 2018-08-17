@@ -10,6 +10,7 @@ import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { LiteralToken } from "../../tokens/LiteralToken";
 import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 import { PropertyToken } from "../../tokens/PropertyToken";
+import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
@@ -211,13 +212,13 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 
-		it( "should create pattern with LiteralToken when string", () => {
+		it( "should create pattern with RDFLiteralToken when string", () => {
 			builder.literal( "value" );
 
-			type TheContainer = Container<TripleToken<LiteralToken>>;
+			type TheContainer = Container<TripleToken<RDFLiteralToken>>;
 			const newContainer:TheContainer = spyContainers.getLast();
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new LiteralToken( "value" ) ),
+				targetToken: new SubjectToken( new RDFLiteralToken( "value" ) ),
 			} ) )
 		} );
 
@@ -299,7 +300,7 @@ describe( "TriplePatternsBuilder", () => {
 				.addObject( new LiteralToken( true ) )
 				.addObject( new IRIRefToken( "resource/" ) )
 				.addObject( new VariableToken( "var" ) )
-				.addObject( new LiteralToken( "another" ) )
+				.addObject( new RDFLiteralToken( "another" ) )
 			)
 		} );
 
@@ -429,7 +430,7 @@ describe( "TriplePatternsBuilder", () => {
 					.addObject( new LiteralToken( true ) )
 					.addObject( new IRIRefToken( "resource/" ) )
 					.addObject( new VariableToken( "var" ) )
-					.addObject( new LiteralToken( "another" ) )
+					.addObject( new RDFLiteralToken( "another" ) )
 				)
 			)
 		} );

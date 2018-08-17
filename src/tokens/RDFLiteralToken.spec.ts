@@ -41,8 +41,8 @@ describe( "RDFLiteralToken", ():void => {
 		} );
 
 		it( "should assign the `literal` as token name", ():void => {
-			const token = new RDFLiteralToken( "vañ" );
-			expect( token.token ).toBe( "rdfLiteral" );
+			const token = new RDFLiteralToken( "value" );
+			expect( token.token ).toBe( "literal" );
 		} );
 
 	} );
