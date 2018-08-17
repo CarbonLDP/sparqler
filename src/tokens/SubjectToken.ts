@@ -23,8 +23,8 @@ export class SubjectToken<T extends VariableOrTermToken | TripleNodeToken = Vari
 	}
 
 
-	addPredicate( predicate:PropertyToken ):this {
-		this.properties.push( predicate );
+	addProperty( property:PropertyToken ):this {
+		this.properties.push( property );
 		return this;
 	}
 

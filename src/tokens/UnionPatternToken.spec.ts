@@ -69,12 +69,12 @@ describe( "UnionPatternToken", ():void => {
 			const token:UnionPatternToken = new UnionPatternToken();
 			token.groupPatterns.push( new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
@@ -91,12 +91,12 @@ describe( "UnionPatternToken", ():void => {
 			const token:UnionPatternToken = new UnionPatternToken();
 			token.groupPatterns.push( new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
@@ -113,24 +113,24 @@ describe( "UnionPatternToken", ():void => {
 			const token:UnionPatternToken = new UnionPatternToken();
 			token.groupPatterns.push( new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 			);
 			token.groupPatterns.push( new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
@@ -150,24 +150,24 @@ describe( "UnionPatternToken", ():void => {
 			const token:UnionPatternToken = new UnionPatternToken();
 			token.groupPatterns.push( new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 			);
 			token.groupPatterns.push( new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)

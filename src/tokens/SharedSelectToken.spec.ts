@@ -166,13 +166,13 @@ describe( "SharedSelectToken", ():void => {
 		it( "should print the shared SPARQL select even with patterns", ():void => {
 			const token:SharedSelectToken = new MockSharedSelectToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new PrefixedNameToken( "ex:Resource" ) ),
 					),
 				)
 				.addPattern( new OptionalToken()
 					.addPattern( new SubjectToken( new VariableToken( "subj" ) )
-						.addPredicate( new PropertyToken( "a" )
+						.addProperty( new PropertyToken( "a" )
 							.addObject( new VariableToken( "obj" ) ),
 						),
 					),
@@ -185,13 +185,13 @@ describe( "SharedSelectToken", ():void => {
 		it( "should print the pretty shared SPARQL select even with patterns", ():void => {
 			const token:SharedSelectToken = new MockSharedSelectToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new PrefixedNameToken( "ex:Resource" ) ),
 					),
 				)
 				.addPattern( new OptionalToken()
 					.addPattern( new SubjectToken( new VariableToken( "subj" ) )
-						.addPredicate( new PropertyToken( "a" )
+						.addProperty( new PropertyToken( "a" )
 							.addObject( new VariableToken( "obj" ) ),
 						),
 					),
