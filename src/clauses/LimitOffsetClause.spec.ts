@@ -91,6 +91,7 @@ describe( "LimitOffsetClause", () => {
 			toCompactString: jasmine.any( Function ),
 			toPrettyString: jasmine.any( Function ),
 			toString: jasmine.any( Function ),
+			debug: jasmine.any( Function ),
 		} );
 	} );
 
@@ -107,6 +108,7 @@ describe( "LimitOffsetClause", () => {
 			toCompactString: jasmine.any( Function ),
 			toPrettyString: jasmine.any( Function ),
 			toString: jasmine.any( Function ),
+			debug: jasmine.any( Function ),
 		} );
 	} );
 
@@ -126,6 +128,7 @@ describe( "LimitOffsetClause", () => {
 			toCompactString: jasmine.any( Function ),
 			toPrettyString: jasmine.any( Function ),
 			toString: jasmine.any( Function ),
+			debug: jasmine.any( Function ),
 		} );
 	} );
 
@@ -142,6 +145,7 @@ describe( "LimitOffsetClause", () => {
 			toCompactString: jasmine.any( Function ),
 			toPrettyString: jasmine.any( Function ),
 			toString: jasmine.any( Function ),
+			debug: jasmine.any( Function ),
 		} );
 	} );
 
