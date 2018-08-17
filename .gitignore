@@ -15,9 +15,7 @@ build/**/*.js
 build/**/*.map
 
 # Dist files
-dist/**/*.ts
-dist/**/*.js
-dist/**/*.map
+dist/
 
 # NPM
 **/node_modules/
