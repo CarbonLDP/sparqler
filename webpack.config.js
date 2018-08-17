@@ -28,6 +28,7 @@ module.exports = {
 					reportFiles: [
 						"**/*.!spec.ts",
 					],
+					removeComments: true,
 				},
 			}
 		]
