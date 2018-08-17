@@ -2,6 +2,7 @@ import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 import { IRIResolver } from "../data/IRIResolver";
 import { cloneElement } from "../data/utils";
+import { AskToken } from "../tokens/AskToken";
 
 import { FromToken } from "../tokens/FromToken";
 import { QueryToken } from "../tokens/QueryToken";
@@ -49,7 +50,7 @@ export interface FromClause<T extends FinishClause> extends WhereClause<T> {
  *
  * @private
  */
-function getFromFn<C extends Container<QueryToken<SelectToken>>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, named?:boolean ):FromClause<T>[ "from" ] {
+function getFromFn<C extends Container<QueryToken<SelectToken | AskToken>>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C, named?:boolean ):FromClause<T>[ "from" ] {
 	return ( iri:string ) => {
 		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
 
@@ -86,9 +87,9 @@ export const FromClause:{
 	 * @return The {@link FromClause} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<C extends Container<QueryToken<SelectToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & FromClause<T>;
+	createFrom<C extends Container<QueryToken<SelectToken | AskToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & FromClause<T>;
 } = {
-	createFrom<C extends Container<QueryToken<SelectToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & FromClause<T> {
+	createFrom<C extends Container<QueryToken<SelectToken | AskToken>>, T extends FinishClause, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & FromClause<T> {
 		return WhereClause.createFrom( genericFactory, container, Object.assign( object, {
 			from: getFromFn( genericFactory, container ),
 			fromNamed: getFromFn( genericFactory, container, true ),
