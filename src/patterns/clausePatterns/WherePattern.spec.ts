@@ -1,12 +1,11 @@
+import { MockPattern } from "../../../test/mocks/MockPattern";
+import { MockPatternToken } from "../../../test/mocks/MockPatternToken";
 import { spyContainers } from "../../../test/spies/clones";
 
 import { GroupClause } from "../../clauses/GroupClause";
 
 import { Container } from "../../data/Container";
 import { IRIResolver } from "../../data/IRIResolver";
-
-
-import { GroupPatternToken } from "../../tokens/GroupPatternToken";
 import { SubSelectToken } from "../../tokens/SubSelectToken";
 import { WhereToken } from "../../tokens/WhereToken";
 
@@ -72,18 +71,9 @@ describe( "WherePattern", () => {
 				.createFrom( container, {} );
 		} );
 
-		class MockPatternToken extends GroupPatternToken {
-			readonly label:string;
-
-			constructor( label:string ) {
-				super();
-				this.label = label;
-			}
-		}
-
 
 		it( "should not mutate container token", () => {
-			wherePattern.where( { getPattern: () => new MockPatternToken( "the pattern 01" ) } );
+			wherePattern.where( new MockPattern( "the pattern 01" ) );
 			expect( container.targetToken.where )
 				.toEqual( new WhereToken() );
 		} );
@@ -125,7 +115,7 @@ describe( "WherePattern", () => {
 
 
 		it( "should add single Pattern", () => {
-			wherePattern.where( { getPattern: () => new MockPatternToken( "the single pattern" ) } );
+			wherePattern.where( new MockPattern( "the single pattern" ) );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.where.groupPattern.patterns )
@@ -134,9 +124,9 @@ describe( "WherePattern", () => {
 
 		it( "should add multiple Pattern", () => {
 			wherePattern.where( [
-				{ getPattern: () => new MockPatternToken( "the pattern 01" ) },
-				{ getPattern: () => new MockPatternToken( "the pattern 02" ) },
-				{ getPattern: () => new MockPatternToken( "the pattern 03" ) },
+				new MockPattern( "the pattern 01" ),
+				new MockPattern( "the pattern 02" ),
+				new MockPattern( "the pattern 03" ),
 			] );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();

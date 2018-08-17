@@ -1,11 +1,11 @@
+import { MockPattern } from "../../test/mocks/MockPattern";
+import { MockPatternToken } from "../../test/mocks/MockPatternToken";
 import { spyContainers } from "../../test/spies/clones";
 
 import { Container } from "../data/Container";
 import { IRIResolver } from "../data/IRIResolver";
 
 import { PatternBuilder } from "../patterns/PatternBuilder";
-
-import { GroupPatternToken } from "../tokens/GroupPatternToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
 import { WhereToken } from "../tokens/WhereToken";
@@ -130,19 +130,8 @@ describe( "WhereClause", () => {
 		} );
 
 
-		class MockPatternToken extends GroupPatternToken {
-			readonly label:string;
-
-			constructor( label:string ) {
-				super();
-				this.label = label;
-			}
-		}
-
 		it( "should add single Pattern", () => {
-			whereClause.where( () => ({
-				getPattern: () => new MockPatternToken( "the single pattern" )
-			}) );
+			whereClause.where( () => new MockPattern( "the single pattern" ) );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
 			expect( newContainer.targetToken.queryClause.where.groupPattern.patterns )
@@ -151,9 +140,9 @@ describe( "WhereClause", () => {
 
 		it( "should add multiple Pattern", () => {
 			whereClause.where( () => [
-				{ getPattern: () => new MockPatternToken( "the pattern 01" ) },
-				{ getPattern: () => new MockPatternToken( "the pattern 02" ) },
-				{ getPattern: () => new MockPatternToken( "the pattern 03" ) },
+				new MockPattern( "the pattern 01" ),
+				new MockPattern( "the pattern 02" ),
+				new MockPattern( "the pattern 03" ),
 			] );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
