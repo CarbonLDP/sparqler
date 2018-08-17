@@ -113,12 +113,12 @@ describe( "GraphToken", ():void => {
 			const graph:VariableToken = new VariableToken( "graph" );
 			const token:GraphToken = new GraphToken( graph )
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
@@ -136,12 +136,12 @@ describe( "GraphToken", ():void => {
 			const graph:VariableToken = new VariableToken( "graph" );
 			const token:GraphToken = new GraphToken( graph )
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)

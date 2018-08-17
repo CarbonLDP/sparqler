@@ -316,13 +316,13 @@ describe( "SelectToken", ():void => {
 		it( "should print the SPARQL select with patterns", ():void => {
 			const token:SelectToken = new SelectToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new PrefixedNameToken( "ex:Resource" ) ),
 					),
 				)
 				.addPattern( new OptionalToken()
 					.addPattern( new SubjectToken( new VariableToken( "subj" ) )
-						.addPredicate( new PropertyToken( "a" )
+						.addProperty( new PropertyToken( "a" )
 							.addObject( new VariableToken( "obj" ) ),
 						),
 					),
@@ -341,13 +341,13 @@ describe( "SelectToken", ():void => {
 		it( "should print the pretty SPARQL select with patterns", ():void => {
 			const token:SelectToken = new SelectToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new PrefixedNameToken( "ex:Resource" ) ),
 					),
 				)
 				.addPattern( new OptionalToken()
 					.addPattern( new SubjectToken( new VariableToken( "subj" ) )
-						.addPredicate( new PropertyToken( "a" )
+						.addProperty( new PropertyToken( "a" )
 							.addObject( new VariableToken( "obj" ) ),
 						),
 					),

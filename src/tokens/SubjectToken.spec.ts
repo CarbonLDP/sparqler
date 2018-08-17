@@ -15,73 +15,77 @@ describe( "SubjectToken", ():void => {
 		expect( SubjectToken ).toEqual( jasmine.any( Function ) );
 	} );
 
-	it( "should accept and store Variable subjects", ():void => {
-		const subject:VariableToken = new VariableToken( "variable" );
-		const token:SubjectToken = new SubjectToken( subject );
+	describe( "SubjectToken.constructor", () => {
 
-		expect( token ).toBeDefined();
-		expect( token.subject ).toBe( subject );
+		it( "should accept and store Variable subjects", ():void => {
+			const subject:VariableToken = new VariableToken( "variable" );
+			const token:SubjectToken = new SubjectToken( subject );
+
+			expect( token ).toBeDefined();
+			expect( token.subject ).toBe( subject );
+		} );
+
+		it( "should accept and store IRI subjects", ():void => {
+			const subject:IRIRefToken = new IRIRefToken( "http://example.com/" );
+			const token:SubjectToken = new SubjectToken( subject );
+
+			expect( token ).toBeDefined();
+			expect( token.subject ).toBe( subject );
+		} );
+
+		it( "should accept and store prefixedName subjects", ():void => {
+			const subject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
+			const token:SubjectToken = new SubjectToken( subject );
+
+			expect( token ).toBeDefined();
+			expect( token.subject ).toBe( subject );
+		} );
+
+		it( "should accept and store BlankNode subjects", ():void => {
+			const subject:BlankNodeToken = new BlankNodeToken( "_:resource" );
+			const token:SubjectToken = new SubjectToken( subject );
+
+			expect( token ).toBeDefined();
+			expect( token.subject ).toBe( subject );
+		} );
+
+		it( "should accept and store Literal subjects", ():void => {
+			const subject:LiteralToken = new LiteralToken( "literal" );
+			const token:SubjectToken = new SubjectToken( subject );
+
+			expect( token ).toBeDefined();
+			expect( token.subject ).toBe( subject );
+		} );
+
+		it( "should initialize predicate tokens", ():void => {
+			const variableSubject:VariableToken = new VariableToken( "variable" );
+			expect( new SubjectToken( variableSubject ).properties ).toEqual( [] );
+
+			const iriSubject:IRIRefToken = new IRIRefToken( "http://example.com/" );
+			expect( new SubjectToken( iriSubject ).properties ).toEqual( [] );
+
+			const prefixedSubject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
+			expect( new SubjectToken( prefixedSubject ).properties ).toEqual( [] );
+		} );
+
+		it( "should assign the `subject` as token name", ():void => {
+			const variableSubject:VariableToken = new VariableToken( "variable" );
+			expect( new SubjectToken( variableSubject ).token ).toEqual( "subject" );
+
+			const iriSubject:IRIRefToken = new IRIRefToken( "http://example.com/" );
+			expect( new SubjectToken( iriSubject ).token ).toBe( "subject" );
+
+			const prefixedSubject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
+			expect( new SubjectToken( prefixedSubject ).token ).toBe( "subject" );
+		} );
+
 	} );
 
-	it( "should accept and store IRI subjects", ():void => {
-		const subject:IRIRefToken = new IRIRefToken( "http://example.com/" );
-		const token:SubjectToken = new SubjectToken( subject );
-
-		expect( token ).toBeDefined();
-		expect( token.subject ).toBe( subject );
-	} );
-
-	it( "should accept and store prefixedName subjects", ():void => {
-		const subject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
-		const token:SubjectToken = new SubjectToken( subject );
-
-		expect( token ).toBeDefined();
-		expect( token.subject ).toBe( subject );
-	} );
-
-	it( "should accept and store BlankNode subjects", ():void => {
-		const subject:BlankNodeToken = new BlankNodeToken( "_:resource" );
-		const token:SubjectToken = new SubjectToken( subject );
-
-		expect( token ).toBeDefined();
-		expect( token.subject ).toBe( subject );
-	} );
-
-	it( "should accept and store Literal subjects", ():void => {
-		const subject:LiteralToken = new LiteralToken( "literal" );
-		const token:SubjectToken = new SubjectToken( subject );
-
-		expect( token ).toBeDefined();
-		expect( token.subject ).toBe( subject );
-	} );
-
-	it( "should initialize predicate tokens", ():void => {
-		const variableSubject:VariableToken = new VariableToken( "variable" );
-		expect( new SubjectToken( variableSubject ).properties ).toEqual( [] );
-
-		const iriSubject:IRIRefToken = new IRIRefToken( "http://example.com/" );
-		expect( new SubjectToken( iriSubject ).properties ).toEqual( [] );
-
-		const prefixedSubject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
-		expect( new SubjectToken( prefixedSubject ).properties ).toEqual( [] );
-	} );
-
-	it( "should assign the `subject` as token name", ():void => {
-		const variableSubject:VariableToken = new VariableToken( "variable" );
-		expect( new SubjectToken( variableSubject ).token ).toEqual( "subject" );
-
-		const iriSubject:IRIRefToken = new IRIRefToken( "http://example.com/" );
-		expect( new SubjectToken( iriSubject ).token ).toBe( "subject" );
-
-		const prefixedSubject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
-		expect( new SubjectToken( prefixedSubject ).token ).toBe( "subject" );
-	} );
-
-	describe( "SubjectToken.addPredicate", ():void => {
+	describe( "SubjectToken.addProperty", ():void => {
 
 		it( "should exists", ():void => {
-			expect( SubjectToken.prototype.addPredicate ).toBeDefined();
-			expect( SubjectToken.prototype.addPredicate ).toEqual( jasmine.any( Function ) );
+			expect( SubjectToken.prototype.addProperty ).toBeDefined();
+			expect( SubjectToken.prototype.addProperty ).toEqual( jasmine.any( Function ) );
 		} );
 
 		it( "should add the predicates provided", ():void => {
@@ -89,17 +93,17 @@ describe( "SubjectToken", ():void => {
 
 			const predicate1:PropertyToken = new PropertyToken( new VariableToken( "predicate1" ) )
 				.addObject( new VariableToken( "object1" ) );
-			token.addPredicate( predicate1 );
+			token.addProperty( predicate1 );
 			expect( token.properties ).toEqual( [ predicate1 ] );
 
 			const predicate2:PropertyToken = new PropertyToken( new VariableToken( "predicate2" ) )
 				.addObject( new VariableToken( "object3" ) );
-			token.addPredicate( predicate2 );
+			token.addProperty( predicate2 );
 			expect( token.properties ).toEqual( [ predicate1, predicate2 ] );
 
 			const predicate3:PropertyToken = new PropertyToken( new PrefixedNameToken( "ex:property" ) )
 				.addObject( new LiteralToken( "literal" ) );
-			token.addPredicate( predicate3 );
+			token.addProperty( predicate3 );
 			expect( token.properties ).toEqual( [ predicate1, predicate2, predicate3 ] );
 		} );
 
@@ -108,7 +112,7 @@ describe( "SubjectToken", ():void => {
 			const predicate:PropertyToken = new PropertyToken( new VariableToken( "predicate" ) )
 				.addObject( new VariableToken( "object" ) );
 
-			const returned:SubjectToken = token.addPredicate( predicate );
+			const returned:SubjectToken = token.addProperty( predicate );
 			expect( returned ).toBe( token );
 		} );
 
@@ -123,7 +127,7 @@ describe( "SubjectToken", ():void => {
 
 		it( "should return a single subject - predicate", ():void => {
 			const helper = ( subject:VariableToken | TermToken, predicate:PropertyToken, string:string ) => {
-				const token:SubjectToken = new SubjectToken( subject ).addPredicate( predicate );
+				const token:SubjectToken = new SubjectToken( subject ).addProperty( predicate );
 				expect( token.toString() ).toBe( string );
 			};
 
@@ -150,7 +154,7 @@ describe( "SubjectToken", ():void => {
 		it( "should return subject - multiple predicates", ():void => {
 			const helper = ( subject:VariableToken | TermToken, predicates:PropertyToken[], string:string ) => {
 				const token:SubjectToken = new SubjectToken( subject );
-				for( const predicate of predicates ) token.addPredicate( predicate );
+				for( const predicate of predicates ) token.addProperty( predicate );
 				expect( token.toString() ).toBe( string );
 			};
 

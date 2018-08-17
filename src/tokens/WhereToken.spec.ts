@@ -54,12 +54,12 @@ describe( "WhereToken", ():void => {
 			const token:WhereToken = new WhereToken();
 			token.groupPattern
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
@@ -76,12 +76,12 @@ describe( "WhereToken", ():void => {
 			const token:WhereToken = new WhereToken();
 			token.groupPattern
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)

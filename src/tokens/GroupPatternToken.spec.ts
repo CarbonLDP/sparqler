@@ -101,12 +101,12 @@ describe( "GroupPatternToken", ():void => {
 		it( "should return the SPARQL group statement with pattern", ():void => {
 			const token:GroupPatternToken = new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
@@ -123,12 +123,12 @@ describe( "GroupPatternToken", ():void => {
 		it( "should return the pretty SPARQL group statement with pattern", ():void => {
 			const token:GroupPatternToken = new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
-					.addPredicate( new PropertyToken( "a" )
+					.addProperty( new PropertyToken( "a" )
 						.addObject( new VariableToken( "obj1" ) ),
 					),
 				)
