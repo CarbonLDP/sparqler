@@ -1,1 +1,0 @@
-{"version":3,"sources":["index.ts"],"names":[],"mappings":";;AAAA,uCAAsC;AAGtC,uCAAsC;AAA7B,8BAAA,QAAQ,CAAA;AAEjB,kBAAe,mBAAQ,CAAC","file":"index.js","sourcesContent":["import { SPARQLER } from \"./SPARQLER\";\n\nexport { FinishFactory } from \"./FinishFactory\";\nexport { SPARQLER } from \"./SPARQLER\";\n\nexport default SPARQLER;\n"]}
