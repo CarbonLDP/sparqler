@@ -1,6 +1,6 @@
-import { SharedSelectToken } from "./SharedSelectToken";
 import { FromToken } from "./FromToken";
 import { getSeparator } from "./printing";
+import { SharedSelectToken } from "./SharedSelectToken";
 
 
 /**
@@ -11,12 +11,12 @@ import { getSeparator } from "./printing";
 export class SelectToken extends SharedSelectToken {
 	readonly token:"select" = "select";
 
-	readonly dataset?:FromToken;
+	readonly datasets:FromToken[];
 
-	constructor( modifier?:"DISTINCT" | "REDUCED", dataset?:FromToken ) {
+	constructor( modifier?:"DISTINCT" | "REDUCED" ) {
 		super( modifier );
 
-		this.dataset = dataset;
+		this.datasets = [];
 	}
 
 
@@ -24,7 +24,7 @@ export class SelectToken extends SharedSelectToken {
 		let query:string = super.toString( spaces );
 		const separator:string = getSeparator( spaces );
 
-		if( this.dataset ) query += separator + this.dataset;
+		if( this.datasets.length ) query += separator + this.datasets.join( separator );
 
 		query += separator + this.where.toString( spaces );
 

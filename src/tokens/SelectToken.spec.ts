@@ -1,3 +1,5 @@
+import { FromToken } from "./FromToken";
+import { IRIRefToken } from "./IRIRefToken";
 import { LimitToken } from "./LimitToken";
 import { OffsetToken } from "./OffsetToken";
 import { OptionalToken } from "./OptionalToken";
@@ -44,6 +46,11 @@ describe( "SelectToken", ():void => {
 		it( "should initialize variables", ():void => {
 			const token:SelectToken = new SelectToken();
 			expect( token.variables ).toEqual( [] );
+		} );
+
+		it( "should initialize datasets", ():void => {
+			const token:SelectToken = new SelectToken();
+			expect( token.datasets ).toEqual( [] );
 		} );
 
 		it( "should initialize where", ():void => {
@@ -216,7 +223,7 @@ describe( "SelectToken", ():void => {
 			expect( SelectToken.prototype.toString ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "should print the compact base SPARQL select", ():void => {
+		it( "should print the base SPARQL select", ():void => {
 			const token:SelectToken = new SelectToken();
 
 			expect( token.toString() ).toEqual( "SELECT * {}" );
@@ -228,7 +235,7 @@ describe( "SelectToken", ():void => {
 			expect( token.toString( 0 ) ).toEqual( "SELECT *\nWHERE {}" );
 		} );
 
-		it( "should print the compact base SPARQL select with modifier `DISTINCT`", ():void => {
+		it( "should print the base SPARQL select with modifier `DISTINCT`", ():void => {
 			const token:SelectToken = new SelectToken( "DISTINCT" );
 
 			expect( token.toString() ).toEqual( "SELECT DISTINCT * {}" );
@@ -240,7 +247,7 @@ describe( "SelectToken", ():void => {
 			expect( token.toString( 0 ) ).toEqual( "SELECT DISTINCT *\nWHERE {}" );
 		} );
 
-		it( "should print the compact base SPARQL select with modifier `REDUCED`", ():void => {
+		it( "should print the base SPARQL select with modifier `REDUCED`", ():void => {
 			const token:SelectToken = new SelectToken( "REDUCED" );
 
 			expect( token.toString() ).toEqual( "SELECT REDUCED * {}" );
@@ -252,7 +259,7 @@ describe( "SelectToken", ():void => {
 			expect( token.toString( 0 ) ).toEqual( "SELECT REDUCED *\nWHERE {}" );
 		} );
 
-		it( "should print the compact SPARQL select with variables", ():void => {
+		it( "should print the SPARQL select with variables", ():void => {
 			const token:SelectToken = new SelectToken()
 				.addVariable( new VariableToken( "subj" ) )
 				.addVariable( new VariableToken( "obj" ) )
@@ -276,7 +283,37 @@ describe( "SelectToken", ():void => {
 			);
 		} );
 
-		it( "should print the compact SPARQL select with patterns", ():void => {
+		it( "should print the SPARQL select with datasets", ():void => {
+			const token:SelectToken = new SelectToken();
+			token.datasets.push(
+				new FromToken( new IRIRefToken( "resource/" ) ),
+				new FromToken( new PrefixedNameToken( "ex:resource" ) ),
+			);
+
+			expect( token.toString() ).toEqual( "" +
+				"SELECT * " +
+				"FROM <resource/> " +
+				"FROM ex:resource " +
+				"{}",
+			);
+		} );
+
+		it( "should print the pretty SPARQL select with datasets", ():void => {
+			const token:SelectToken = new SelectToken();
+			token.datasets.push(
+				new FromToken( new IRIRefToken( "resource/" ) ),
+				new FromToken( new PrefixedNameToken( "ex:resource" ) ),
+			);
+
+			expect( token.toString(0 ) ).toEqual( "" +
+				"SELECT *\n" +
+				"FROM <resource/>\n" +
+				"FROM ex:resource\n" +
+				"WHERE {}",
+			);
+		} );
+
+		it( "should print the SPARQL select with patterns", ():void => {
 			const token:SelectToken = new SelectToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj" ) )
 					.addPredicate( new PropertyToken( "a" )
@@ -326,7 +363,7 @@ describe( "SelectToken", ():void => {
 			);
 		} );
 
-		it( "should print the compact SPARQL select with modifiers", ():void => {
+		it( "should print the SPARQL select with modifiers", ():void => {
 			const token:SelectToken = new SelectToken()
 				.addModifier( new LimitToken( 10 ) )
 				.addModifier( new OffsetToken( 0 ) )

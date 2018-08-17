@@ -53,9 +53,9 @@ function getFromFn<C extends Container<QueryToken<SelectToken>>, T extends Finis
 	return ( iri:string ) => {
 		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
 
-		const queryClause = cloneElement( container.targetToken.queryClause, {
-			dataset: new FromToken( iriResolver.resolve( iri ), named )
-		} );
+		const datasets:FromToken[] = container.targetToken.queryClause.datasets
+			.concat( new FromToken( iriResolver.resolve( iri ), named ) );
+		const queryClause = cloneElement( container.targetToken.queryClause, { datasets } );
 
 		const queryToken:QueryToken = cloneElement( container.targetToken, { queryClause } );
 		const newContainer = cloneElement( container, {

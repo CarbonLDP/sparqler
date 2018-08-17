@@ -93,7 +93,7 @@ describe( "FromClause", () => {
 
 		it( "should not mutate container token", () => {
 			fromClause.from( "" );
-			expect( container.targetToken.queryClause.dataset ).toBeUndefined();
+			expect( container.targetToken.queryClause.datasets ).toEqual( [] );
 		} );
 
 		it( "should return a FromClause object", () => {
@@ -111,24 +111,24 @@ describe( "FromClause", () => {
 			fromClause.from( "" );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
-			expect( newContainer.targetToken.queryClause.dataset )
-				.toEqual( jasmine.any( FromToken ) );
+			expect( newContainer.targetToken.queryClause.datasets )
+				.toContain( jasmine.any( FromToken ) );
 		} );
 
 		it( "should add FROM token with the IRI", () => {
 			fromClause.from( "https://example.com/" );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
-			expect( newContainer.targetToken.queryClause.dataset )
-				.toEqual( new FromToken( new IRIRefToken( "https://example.com/" ) ) )
+			expect( newContainer.targetToken.queryClause.datasets )
+				.toContain( new FromToken( new IRIRefToken( "https://example.com/" ) ) )
 		} );
 
 		it( "should add FROM token with the Prefixed Name", () => {
 			fromClause.from( "ex:resource/" );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
-			expect( newContainer.targetToken.queryClause.dataset )
-				.toEqual( new FromToken( new PrefixedNameToken( "ex", "resource/" ) ) )
+			expect( newContainer.targetToken.queryClause.datasets )
+				.toContain( new FromToken( new PrefixedNameToken( "ex", "resource/" ) ) )
 		} );
 
 		it( "should set used prefixed when Prefixed Name", () => {
@@ -139,6 +139,19 @@ describe( "FromClause", () => {
 				.toEqual( new Map( [
 					[ "ex", true ],
 				] ) );
+		} );
+
+		it( "should append FROM tokens", () => {
+			fromClause
+				.from( "https://example.com/" )
+				.from( "ex:resource/" );
+
+
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			expect( newContainer.targetToken.queryClause.datasets )
+				.toContain( new FromToken( new IRIRefToken( "https://example.com/" ) ) );
+			expect( newContainer.targetToken.queryClause.datasets )
+				.toContain( new FromToken( new PrefixedNameToken( "ex", "resource/" ) ) );
 		} );
 
 	} );
@@ -153,7 +166,7 @@ describe( "FromClause", () => {
 
 		it( "should not mutate container token", () => {
 			fromClause.fromNamed( "" );
-			expect( container.targetToken.queryClause.dataset ).toBeUndefined();
+			expect( container.targetToken.queryClause.datasets ).toEqual( [] );
 		} );
 
 		it( "should return a FromClause object", () => {
@@ -171,24 +184,24 @@ describe( "FromClause", () => {
 			fromClause.fromNamed( "" );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
-			expect( newContainer.targetToken.queryClause.dataset )
-				.toEqual( jasmine.any( FromToken ) );
+			expect( newContainer.targetToken.queryClause.datasets )
+				.toContain( jasmine.any( FromToken ) );
 		} );
 
 		it( "should add FROM NAMED token with the IRI", () => {
 			fromClause.fromNamed( "https://example.com/" );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
-			expect( newContainer.targetToken.queryClause.dataset )
-				.toEqual( new FromToken( new IRIRefToken( "https://example.com/" ), true ) )
+			expect( newContainer.targetToken.queryClause.datasets )
+				.toContain( new FromToken( new IRIRefToken( "https://example.com/" ), true ) )
 		} );
 
 		it( "should add FROM NAMED token with the Prefixed Name", () => {
 			fromClause.fromNamed( "ex:resource/" );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
-			expect( newContainer.targetToken.queryClause.dataset )
-				.toEqual( new FromToken( new PrefixedNameToken( "ex", "resource/" ), true ) )
+			expect( newContainer.targetToken.queryClause.datasets )
+				.toContain( new FromToken( new PrefixedNameToken( "ex", "resource/" ), true ) )
 		} );
 
 		it( "should set used prefixed when Prefixed Name", () => {
@@ -199,6 +212,19 @@ describe( "FromClause", () => {
 				.toEqual( new Map( [
 					[ "ex", true ],
 				] ) );
+		} );
+
+		it( "should append FROM tokens", () => {
+			fromClause
+				.fromNamed( "https://example.com/" )
+				.fromNamed( "ex:resource/" );
+
+
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			expect( newContainer.targetToken.queryClause.datasets )
+				.toContain( new FromToken( new IRIRefToken( "https://example.com/" ), true ) );
+			expect( newContainer.targetToken.queryClause.datasets )
+				.toContain( new FromToken( new PrefixedNameToken( "ex", "resource/" ), true ) );
 		} );
 
 	} );
