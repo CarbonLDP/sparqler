@@ -13,7 +13,7 @@ import { QueryToken } from "./tokens/QueryToken";
  * Interface with the same name fo the SPARQLER class, that helps
  * in the definition of the methods decorated by {@link QueryClause.createFrom}
  */
-export interface SPARQLER<SELECT extends FinishClause = FinishClause> extends QueryClause<SELECT> {
+export interface SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends FinishClause = FinishClause> extends QueryClause<SELECT, ASK> {
 }
 
 /**
@@ -22,7 +22,7 @@ export interface SPARQLER<SELECT extends FinishClause = FinishClause> extends Qu
  * See {@link QueryClause} for know the methods available for
  * construct the queries.
  */
-export class SPARQLER<SELECT extends FinishClause = FinishClause> implements SPARQLER<SELECT> {
+export class SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends FinishClause = FinishClause> implements SPARQLER<SELECT, ASK> {
 
 	/**
 	 * Constructor that allows to create query builder with custom finish
@@ -32,15 +32,18 @@ export class SPARQLER<SELECT extends FinishClause = FinishClause> implements SPA
 	 * will be used instead.
 	 *
 	 * @param finishSelectFactory Factory for finishing a SELECT query.
+	 * @param finishAskFactory Factory for finishing an ASK query.
 	 */
 	constructor(
-		finishSelectFactory:FinishFactory<SELECT> = FinishClause.createFrom as FinishFactory<SELECT>
+		finishSelectFactory:FinishFactory<SELECT> = FinishClause.createFrom as FinishFactory<SELECT>,
+		finishAskFactory:FinishFactory<ASK> = FinishClause.createFrom as FinishFactory<ASK>,
 	) {
 
-		const container:QueryUnitContainer<SELECT> = new QueryUnitContainer( {
+		const container:QueryUnitContainer<SELECT, ASK> = new QueryUnitContainer( {
 			iriResolver: new IRIResolver(),
 			targetToken: new QueryToken( void 0 ),
 			selectFinishClauseFactory: finishSelectFactory,
+			askFinishClauseFactory: finishAskFactory,
 		} );
 
 		return QueryClause.createFrom( container, this );

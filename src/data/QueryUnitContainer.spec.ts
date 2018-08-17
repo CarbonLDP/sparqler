@@ -17,30 +17,33 @@ describe( "QueryUnitContainer", () => {
 	describe( "QueryUnitContainer.constructor", () => {
 
 		it( "should be instantiable", () => {
-			const container:QueryUnitContainer<FinishClause> = new QueryUnitContainer( {
+			const container:QueryUnitContainer<FinishClause, FinishClause> = new QueryUnitContainer( {
 				iriResolver: new IRIResolver(),
 				targetToken: new QueryToken( void 0 ),
 				selectFinishClauseFactory: FinishClause.createFrom,
+				askFinishClauseFactory: FinishClause.createFrom,
 			} );
 
 			expect( container ).toEqual( jasmine.any( QueryUnitContainer ) );
 		} );
 
 		it( "should extend Container", () => {
-			const container:QueryUnitContainer<FinishClause> = new QueryUnitContainer( {
+			const container:QueryUnitContainer<FinishClause, FinishClause> = new QueryUnitContainer( {
 				iriResolver: new IRIResolver(),
 				targetToken: new QueryToken( void 0 ),
 				selectFinishClauseFactory: FinishClause.createFrom,
+				askFinishClauseFactory: FinishClause.createFrom,
 			} );
 
 			expect( container ).toEqual( jasmine.any( Container ) );
 		} );
 
 		it( "should be a read only object", ():void => {
-			const container:QueryUnitContainer<FinishClause> & { something?:any } = new QueryUnitContainer( {
+			const container:QueryUnitContainer<FinishClause, FinishClause> & { something?:any } = new QueryUnitContainer( {
 				iriResolver: new IRIResolver(),
 				targetToken: new QueryToken( void 0 ),
 				selectFinishClauseFactory: FinishClause.createFrom,
+				askFinishClauseFactory: FinishClause.createFrom,
 			} );
 
 			expect( () => container.something = null ).toThrowError( /extensible/ );
@@ -48,13 +51,31 @@ describe( "QueryUnitContainer", () => {
 
 
 		it( "should assign the selectFinishClauseFactory", () => {
-			const container:QueryUnitContainer<FinishClause> = new QueryUnitContainer( {
+			const mineFn:typeof FinishClause[ "createFrom" ] = ( container, object ) =>
+				FinishClause.createFrom( container, object );
+
+			const container:QueryUnitContainer<FinishClause, FinishClause> = new QueryUnitContainer( {
+				iriResolver: new IRIResolver(),
+				targetToken: new QueryToken( void 0 ),
+				selectFinishClauseFactory: mineFn,
+				askFinishClauseFactory: FinishClause.createFrom,
+			} );
+
+			expect( container.selectFinishClauseFactory ).toBe( mineFn );
+		} );
+
+		it( "should assign the askFinishClauseFactory", () => {
+			const mineFn:typeof FinishClause[ "createFrom" ] = ( container, object ) =>
+				FinishClause.createFrom( container, object );
+
+			const container:QueryUnitContainer<FinishClause, FinishClause> = new QueryUnitContainer( {
 				iriResolver: new IRIResolver(),
 				targetToken: new QueryToken( void 0 ),
 				selectFinishClauseFactory: FinishClause.createFrom,
+				askFinishClauseFactory: mineFn,
 			} );
 
-			expect( container.selectFinishClauseFactory ).toBe( FinishClause.createFrom );
+			expect( container.askFinishClauseFactory ).toBe( mineFn );
 		} );
 
 	} );
