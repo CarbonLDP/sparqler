@@ -1,7 +1,0 @@
-{
-  "name": "sparqler/patterns/notTriples",
-  "main": "index.js",
-  "module": "../../.esm5/patterns/notTriples/index.js",
-  "es2015": "../../.esm2015/patterns/notTriples/index.js",
-  "typings": "index.d.ts"
-}

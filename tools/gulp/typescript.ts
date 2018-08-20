@@ -1,14 +1,8 @@
 import gulp from "gulp";
-import ts from "gulp-typescript";
-import replace from "gulp-replace";
 import sourcemaps from "gulp-sourcemaps";
-import path from "path";
+import ts from "gulp-typescript";
 
-import {
-	cleaner,
-	CONFIG,
-	tasker,
-} from "./common";
+import { cleaner, CONFIG, tasker } from "./common";
 
 const compiler = ( dist:string, options:ts.Settings ) => tasker( () => {
 	const tsProject = ts.createProject( "tsconfig.json", options );
@@ -19,11 +13,6 @@ const compiler = ( dist:string, options:ts.Settings ) => tasker( () => {
 	];
 
 	const tsResults = gulp.src( files )
-		.pipe( replace( /(import[\s\S]*?from +")sparqler\/(.*?)(";)/gm, function( match, $1, $2, $3 ) {
-			const fileDir = path.dirname( this.file.relative );
-			const relativePath = path.relative( fileDir, $2 );
-			return `${ $1 }./${ relativePath }${ $3 }`;
-		} ) )
 		.pipe( sourcemaps.init() )
 		.pipe( tsProject() )
 	;
@@ -67,11 +56,6 @@ export function generateTypes() {
 	];
 
 	const tsResults = gulp.src( files )
-		.pipe( replace( /(import[\s\S]*?from +")sparqler\/(.*?)(";)/gm, function( match, $1, $2, $3 ) {
-			const fileDir = path.dirname( this.file.relative );
-			const relativePath = path.relative( fileDir, $2 );
-			return `${ $1 }./${ relativePath }${ $3 }`;
-		} ) )
 		.pipe( tsProject() )
 	;
 

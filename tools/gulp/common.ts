@@ -4,7 +4,7 @@ import del from "del";
 import gulp from "gulp";
 
 
-export const tasker = <T extends gulp.TaskFunction & Function>( fn?:T ) => ( name?:string ) => {
+export const tasker = <T extends gulp.TaskFunction & Function>( fn:T ) => ( name?:string ) => {
 	if( typeof name !== "string" ) return fn.call( null, name );
 
 	fn.displayName = name;
@@ -16,6 +16,11 @@ const SRC:string = "src/";
 const DIST:string = "dist/";
 
 const PATHS = {
+	test: {
+		files: [
+			`{src,test}/**/*.ts`,
+		],
+	},
 	src: {
 		dir: path.resolve( SRC ),
 		files: [

@@ -1,10 +1,9 @@
-import path from "path";
-
-import gulp from "gulp";
-import jsonEditor from "gulp-json-editor";
-import glob from "glob";
 import del from "del";
 import fs from "fs";
+import glob from "glob";
+import gulp from "gulp";
+import jsonEditor from "gulp-json-editor";
+import path from "path";
 
 import { CONFIG } from "./common";
 

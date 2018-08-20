@@ -1,1 +1,0 @@
-{"version":3,"sources":["tokens/TokenNode.ts"],"names":[],"mappings":"","file":"TokenNode.js","sourcesContent":["export interface TokenNode {\n\treadonly token:string;\n\n\ttoString():string;\n}\n"],"sourceRoot":"../../src"}

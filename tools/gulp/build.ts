@@ -1,18 +1,11 @@
 import fs from "fs";
-
 import gulp from "gulp";
 
-import {
-	generateCJS,
-	generateESM2015,
-	generateTypes,
-} from "./typescript";
-import { bundle } from "./rollup";
-import {
-	cleaner,
-	CONFIG
-} from "./common";
+import { cleaner, CONFIG } from "./common";
 import { preparePackage } from "./packages";
+import { bundle } from "./rollup";
+
+import { generateCJS, generateESM2015, generateTypes } from "./typescript";
 
 
 async function createDist() {

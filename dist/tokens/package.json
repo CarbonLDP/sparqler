@@ -1,7 +1,0 @@
-{
-  "name": "sparqler/tokens",
-  "main": "index.js",
-  "module": "../.esm5/tokens/index.js",
-  "es2015": "../.esm2015/tokens/index.js",
-  "typings": "index.d.ts"
-}
