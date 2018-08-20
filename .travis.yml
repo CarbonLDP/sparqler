@@ -1,13 +1,17 @@
 language: node_js
 
 node_js:
-  - "6"
+  - "9"
 
 dist: trusty
 
 sudo: required
 addons:
   chrome: stable
+
+install:
+  - npm i npm@^5.7 -g
+  - npm ci
 
 script:
   - npm test

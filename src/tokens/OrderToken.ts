@@ -1,6 +1,12 @@
 import { TokenNode } from "./TokenNode";
 import { VariableToken } from "./VariableToken";
 
+
+/**
+ * The token of the `GROUP BY` statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rGroupClause}
+ */
 export class OrderToken implements TokenNode {
 	readonly token:"order" = "order";
 	readonly condition:VariableToken | string;
@@ -11,9 +17,9 @@ export class OrderToken implements TokenNode {
 		if( flow ) this.flow = flow;
 	}
 
-	toString():string {
-		return "ORDER BY " + ( this.flow ?
+	toString( spaces?:number ):string {
+		return "ORDER BY " + (this.flow ?
 			`${ this.flow }( ${ this.condition } )` :
-			`${ this.condition }` );
+			`${ this.condition }`);
 	}
 }

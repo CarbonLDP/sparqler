@@ -20,7 +20,7 @@ module.exports = {
 	},
 
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.ts$/,
 				loader: "awesome-typescript-loader",
@@ -28,8 +28,11 @@ module.exports = {
 					reportFiles: [
 						"**/*.!spec.ts",
 					],
+					removeComments: true,
 				},
 			}
 		]
-	}
+	},
+
+	mode: "none",
 };

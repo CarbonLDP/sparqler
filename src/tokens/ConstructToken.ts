@@ -1,41 +1,45 @@
-import {
-	PatternToken,
-	SolutionModifier,
-	TripleToken,
-} from "./";
-import { TokenNode } from "./TokenNode";
-import { joinPatterns } from "./utils";
+import { SharedQueryClauseToken } from "./SharedQueryClauseToken";
+import { getSeparator, getTokenContainerString } from "./printing";
+import { TripleToken } from "./TripleToken";
 
-export class ConstructToken implements TokenNode {
+
+/**
+ * The token of the `CONSTRUCT` query statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rConstructQuery}
+ */
+export class ConstructToken extends SharedQueryClauseToken {
 	readonly token:"construct" = "construct";
+
 	readonly triples:TripleToken[];
-	readonly patterns:PatternToken[];
-	readonly modifiers:SolutionModifier[];
 
 	constructor() {
+		super();
+
 		this.triples = [];
-		this.patterns = [];
-		this.modifiers = [];
 	}
+
 
 	addTriple( ...triple:TripleToken[] ):this {
 		this.triples.push( ...triple );
 		return this;
 	}
 
-	addPattern( ...patterns:PatternToken[] ):this {
-		this.patterns.push( ...patterns );
-		return this;
-	}
 
-	addModifier( ...modifiers:SolutionModifier[] ):this {
-		this.modifiers.push( ...modifiers );
-		return this;
-	}
+	toString( spaces?:number ):string {
+		const triples:string = getTokenContainerString( {
+			spaces,
+			tags: { open: "{", close: "}" },
+			tokensSeparator: ".",
+			tokens: this.triples,
+		} );
 
-	toString():string {
-		let query:string = `CONSTRUCT { ${ this.triples.join( ". " ) } } WHERE { ${ joinPatterns( this.patterns ) } }`;
-		if( this.modifiers.length ) query += ` ${ this.modifiers.join( " " ) }`;
+		const separator:string = getSeparator( spaces );
+		let query:string = `CONSTRUCT ` +
+			triples + separator +
+			this.where.toString( spaces );
+
+		if( this.modifiers.length ) query += separator + this.modifiers.join( separator );
 
 		return query;
 	}

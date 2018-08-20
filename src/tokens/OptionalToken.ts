@@ -1,21 +1,30 @@
-import { PatternToken } from "./";
+import { GroupPatternToken } from "./GroupPatternToken";
+import { PatternToken } from "./PatternToken";
 import { TokenNode } from "./TokenNode";
-import { joinPatterns } from "./utils";
 
+
+/**
+ * The token of the `OPTIONAL` statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rMinusGraphPattern}
+ */
 export class OptionalToken implements TokenNode {
 	readonly token:"optional" = "optional";
-	readonly patterns:PatternToken[];
+
+	readonly groupPattern:GroupPatternToken;
 
 	constructor() {
-		this.patterns = [];
+		this.groupPattern = new GroupPatternToken();
 	}
 
+
 	addPattern( ...pattern:PatternToken[] ):this {
-		this.patterns.push( ...pattern );
+		this.groupPattern.patterns.push( ...pattern );
 		return this;
 	}
 
-	toString():string {
-		return `OPTIONAL { ${ joinPatterns( this.patterns ) } }`;
+
+	toString( spaces?:number ):string {
+		return `OPTIONAL ${ this.groupPattern.toString( spaces ) }`;
 	}
 }

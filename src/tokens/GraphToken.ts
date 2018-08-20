@@ -1,26 +1,33 @@
-import {
-	PatternToken,
-	VariableOrIRI,
-} from "./";
+import { VariableOrIRIToken } from "./VariableOrIRIToken";
+import { GroupPatternToken } from "./GroupPatternToken";
+import { PatternToken } from "./PatternToken";
 import { TokenNode } from "./TokenNode";
-import { joinPatterns } from "./utils";
 
+
+/**
+ * The token of the `GRAPH` statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rGraphGraphPattern}
+ */
 export class GraphToken implements TokenNode {
 	readonly token:"graph" = "graph";
-	readonly graph:VariableOrIRI;
-	readonly patterns:PatternToken[];
 
-	constructor( graph:VariableOrIRI ) {
+	readonly graph:VariableOrIRIToken;
+	readonly groupPattern:GroupPatternToken;
+
+	constructor( graph:VariableOrIRIToken ) {
 		this.graph = graph;
-		this.patterns = [];
+		this.groupPattern = new GroupPatternToken();
 	}
 
+
 	addPattern( ...pattern:PatternToken[] ):this {
-		this.patterns.push( ...pattern );
+		this.groupPattern.patterns.push( ...pattern );
 		return this;
 	}
 
-	toString():string {
-		return `GRAPH ${ this.graph } { ${ joinPatterns( this.patterns ) } }`;
+
+	toString( spaces?:number ):string {
+		return `GRAPH ${ this.graph } ${ this.groupPattern.toString( spaces ) }`;
 	}
 }

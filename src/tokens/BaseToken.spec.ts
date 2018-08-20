@@ -1,59 +1,49 @@
-import * as Module from "./BaseToken";
 import { BaseToken } from "./BaseToken";
+import { IRIRefToken } from "./IRIRefToken";
 
-import { IRIToken } from "./IRIToken";
 
-describe( "Module BaseToken", ():void => {
+describe( "BaseToken", ():void => {
 
 	it( "should exists", ():void => {
-		expect( Module ).toBeDefined();
-		expect( Module ).toEqual( jasmine.any( Object ) );
+		expect( BaseToken ).toBeDefined();
+		expect( BaseToken ).toEqual( jasmine.any( Function ) );
 	} );
 
-	describe( "BaseToken", ():void => {
+	describe( "BaseToken.constructor", ():void => {
 
-		it( "should exists", ():void => {
-			expect( BaseToken ).toBeDefined();
-			expect( BaseToken ).toEqual( jasmine.any( Function ) );
+		it( "should be instantiable", ():void => {
+			const iri:IRIRefToken = new IRIRefToken( "http://example.com/" );
+			const token:BaseToken = new BaseToken( iri );
+
+			expect( token ).toBeDefined();
 		} );
 
-		describe( "BaseToken.constructor", ():void => {
+		it( "should store the provided iri", ():void => {
+			const iri:IRIRefToken = new IRIRefToken( "http://example.com/" );
+			const token:BaseToken = new BaseToken( iri );
 
-			it( "should be instantiable", ():void => {
-				const iri:IRIToken = new IRIToken( "http://example.com/" );
-				const token:BaseToken = new BaseToken( iri );
-
-				expect( token ).toBeDefined();
-			} );
-
-			it( "should store the provided iri", ():void => {
-				const iri:IRIToken = new IRIToken( "http://example.com/" );
-				const token:BaseToken = new BaseToken( iri );
-
-				expect( token.iri ).toBe( iri );
-			} );
-
-			it( "should assign the `base` as token name", ():void => {
-				expect( new BaseToken( new IRIToken( "http://example.com/" ) ).token ).toBe( "base" );
-				expect( new BaseToken( new IRIToken( "http://example.com/resource/" ) ).token ).toBe( "base" );
-			} );
-
+			expect( token.iri ).toBe( iri );
 		} );
 
-		describe( "BaseToken.toString", ():void => {
+		it( "should assign the `base` as token name", ():void => {
+			expect( new BaseToken( new IRIRefToken( "http://example.com/" ) ).token ).toBe( "base" );
+			expect( new BaseToken( new IRIRefToken( "http://example.com/resource/" ) ).token ).toBe( "base" );
+		} );
 
-			it( "should override toString method", ():void => {
-				const token:BaseToken = new BaseToken( new IRIToken( "http://example.com/" ) );
+	} );
 
-				expect( token.toString ).toBeDefined();
-				expect( token.toString ).not.toBe( Object.prototype.toString );
-			} );
+	describe( "BaseToken.toString", ():void => {
 
-			it( "should return SPARQL BASE prologue", ():void => {
-				const iri:IRIToken = new IRIToken( "http://example.com/" );
-				expect( new BaseToken( iri ).toString() ).toBe( `BASE <http://example.com/>` );
-			} );
+		it( "should override toString method", ():void => {
+			const token:BaseToken = new BaseToken( new IRIRefToken( "http://example.com/" ) );
 
+			expect( token.toString ).toBeDefined();
+			expect( token.toString ).not.toBe( Object.prototype.toString );
+		} );
+
+		it( "should return SPARQL BASE prologue", ():void => {
+			const iri:IRIRefToken = new IRIRefToken( "http://example.com/" );
+			expect( new BaseToken( iri ).toString() ).toBe( `BASE <http://example.com/>` );
 		} );
 
 	} );

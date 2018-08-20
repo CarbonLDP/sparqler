@@ -1,41 +1,34 @@
-import {
-	PatternToken,
-	SolutionModifier,
-} from "./";
-import { TokenNode } from "./TokenNode";
-import { joinPatterns } from "./utils";
-import { VariableToken } from "./VariableToken";
+import { FromToken } from "./FromToken";
+import { getSeparator } from "./printing";
+import { SharedSelectToken } from "./SharedSelectToken";
 
-export class SelectToken implements TokenNode {
+
+/**
+ * The token of the `SELECT` query statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rSelectQuery}
+ */
+export class SelectToken extends SharedSelectToken {
 	readonly token:"select" = "select";
-	readonly variables:VariableToken[];
-	readonly patterns:PatternToken[];
-	readonly modifiers:SolutionModifier[];
 
-	constructor() {
-		this.variables = [];
-		this.patterns = [];
-		this.modifiers = [];
+	readonly datasets:FromToken[];
+
+	constructor( modifier?:"DISTINCT" | "REDUCED" ) {
+		super( modifier );
+
+		this.datasets = [];
 	}
 
-	addVariable( ...variables:VariableToken[] ):this {
-		this.variables.push( ...variables );
-		return this;
-	}
 
-	addPattern( ...patterns:PatternToken[] ):this {
-		this.patterns.push( ...patterns );
-		return this;
-	}
+	toString( spaces?:number ):string {
+		let query:string = super.toString( spaces );
+		const separator:string = getSeparator( spaces );
 
-	addModifier( ...modifier:SolutionModifier[] ):this {
-		this.modifiers.push( ...modifier );
-		return this;
-	}
+		if( this.datasets.length ) query += separator + this.datasets.join( separator );
 
-	toString():string {
-		let query:string = `SELECT ${ this.variables.join( " " ) } WHERE { ${ joinPatterns( this.patterns ) } }`;
-		if( this.modifiers.length ) query += ` ${ this.modifiers.join( " " ) }`;
+		query += separator + this.where.toString( spaces );
+
+		if( this.modifiers.length ) query += separator + this.modifiers.join( separator );
 
 		return query;
 	}
