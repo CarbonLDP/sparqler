@@ -5,6 +5,9 @@
 src/**/*.js
 src/**/*.map
 
+test/**/*.js
+test/**/*.map
+
 playground/**/*.js
 playground/**/*.map
 
@@ -15,6 +18,9 @@ tools/**/*.js
 tools/**/*.map
 
 gulpfile.js
+
+# Dist files
+dist/
 
 # NPM
 **/node_modules/

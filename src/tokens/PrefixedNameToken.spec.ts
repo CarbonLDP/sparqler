@@ -1,21 +1,16 @@
-import * as Module from "./PrefixedNameToken";
 import { PrefixedNameToken } from "./PrefixedNameToken";
 
-describe( "Module PrefixedNameToken", ():void => {
+
+describe( "PrefixedNameToken", ():void => {
 
 	it( "should exists", ():void => {
-		expect( Module ).toBeDefined();
-		expect( Module ).toEqual( jasmine.any( Object ) );
+		expect( PrefixedNameToken ).toBeDefined();
+		expect( PrefixedNameToken ).toEqual( jasmine.any( Function ) );
 	} );
 
-	describe( "PrefixedNameToken", ():void => {
+	describe( "PrefixedNameToken.constructor", () => {
 
-		it( "should exists", ():void => {
-			expect( PrefixedNameToken ).toBeDefined();
-			expect( PrefixedNameToken ).toEqual( jasmine.any( Function ) );
-		} );
-
-		it( "should construct", ():void => {
+		it( "should be instantiable", ():void => {
 			const token = new PrefixedNameToken( "namespace", "localName" );
 
 			expect( token ).toBeDefined();
@@ -25,10 +20,10 @@ describe( "Module PrefixedNameToken", ():void => {
 		it( "should throw error if invalid prefixed name", ():void => {
 			const helper = ( prefixedName:string ) => () => new PrefixedNameToken( prefixedName );
 
-			expect( helper( "invalid" )  ).toThrowError( "Invalid prefixed name." );
-			expect( helper( "invalid.invalid" )  ).toThrowError( "Invalid prefixed name." );
-			expect( helper( "http://example.com" )  ).toThrowError( "Invalid prefixed name." );
-			expect( helper( "://example.com" )  ).toThrowError( "Invalid prefixed name." );
+			expect( helper( "invalid" ) ).toThrowError( "Invalid prefixed name." );
+			expect( helper( "invalid.invalid" ) ).toThrowError( "Invalid prefixed name." );
+			expect( helper( "http://example.com" ) ).toThrowError( "Invalid prefixed name." );
+			expect( helper( "://example.com" ) ).toThrowError( "Invalid prefixed name." );
 		} );
 
 		it( "should validate namespace when complete prefixed name", ():void => {
@@ -84,7 +79,7 @@ describe( "Module PrefixedNameToken", ():void => {
 
 		it( "should assign the `prefixedName` as token name", ():void => {
 			const helper = ( namespaceOrPrefixed:string, localName?:string ) => {
-				const token = new PrefixedNameToken( namespaceOrPrefixed, localName );
+				const token = new PrefixedNameToken( namespaceOrPrefixed, localName! );
 				expect( token.token ).toBe( "prefixedName" );
 			};
 
@@ -93,27 +88,28 @@ describe( "Module PrefixedNameToken", ():void => {
 			helper( "", "" );
 		} );
 
-		describe( "PrefixedNameToken.toString", ():void => {
+	} );
 
-			it( "should override toString method", ():void => {
-				const token:PrefixedNameToken = new PrefixedNameToken( "", "" );
+	describe( "PrefixedNameToken.toString", ():void => {
 
-				expect( token.toString ).toBeDefined();
-				expect( token.toString ).not.toBe( Object.prototype.toString );
-			} );
+		it( "should override toString method", ():void => {
+			const token:PrefixedNameToken = new PrefixedNameToken( "", "" );
 
-			it( "should return the string as a prefixed name", ():void => {
-				const helper = ( namespaceOrPrefixed:string, localName?:string ) => {
-					const token = new PrefixedNameToken( namespaceOrPrefixed, localName );
-					return token.toString();
-				};
-				expect( helper( "namespace", "localName" ) ).toBe( "namespace:localName" );
-				expect( helper( ":localName" ) ).toBe( ":localName" );
+			expect( token.toString ).toBeDefined();
+			expect( token.toString ).not.toBe( Object.prototype.toString );
+		} );
 
-				expect( helper( "namespace:localName" ) ).toBe( "namespace:localName" );
-				expect( helper( "", "localName" ) ).toBe( ":localName" );
-			} );
+		it( "should return the string as a prefixed name", ():void => {
+			const helper = ( namespaceOrPrefixed:string, localName?:string ) => {
+				const token = new PrefixedNameToken( namespaceOrPrefixed, localName! );
+				return token.toString();
+			};
 
+			expect( helper( "namespace", "localName" ) ).toBe( "namespace:localName" );
+			expect( helper( ":localName" ) ).toBe( ":localName" );
+
+			expect( helper( "namespace:localName" ) ).toBe( "namespace:localName" );
+			expect( helper( "", "localName" ) ).toBe( ":localName" );
 		} );
 
 	} );

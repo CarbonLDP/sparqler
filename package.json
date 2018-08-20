@@ -60,7 +60,7 @@
     "karma-jasmine": "^1.1.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-source-map-support": "^1.2.0",
-    "karma-typescript": "^3.0.12",
+    "karma-typescript": "^3.0.13",
     "rollup": "^0.57.1",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-replace": "^2.0.0",
@@ -68,7 +68,7 @@
     "source-map-support": "^0.5.3",
     "ts-node": "^5.0.1",
     "tsconfig-paths": "^2.7.3",
-    "typescript": "^2.6.2"
+    "typescript": ">=2.6.2 <=3.0"
   },
   "private": true
 }

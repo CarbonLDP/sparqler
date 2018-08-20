@@ -1,9 +1,5 @@
 import * as Utils from "./utils";
 
-import { LeftSymbol } from "../tokens/LeftSymbol";
-import { RightSymbol } from "../tokens/RightSymbol";
-import { StringLiteral } from "../tokens/StringLiteral";
-
 describe( "Module Utils", ():void => {
 
 	it( "Exists", ():void => {
@@ -11,7 +7,7 @@ describe( "Module Utils", ():void => {
 		expect( Utils ).toEqual( jasmine.any( Object ) );
 	} );
 
-	describe( "isAbsolute()", ():void => {
+	describe( "isAbsolute", ():void => {
 
 		it( "Exists", ():void => {
 			expect( Utils.isAbsolute ).toBeDefined();
@@ -42,7 +38,7 @@ describe( "Module Utils", ():void => {
 
 	} );
 
-	describe( "hasProtocol()", ():void => {
+	describe( "hasProtocol", ():void => {
 
 		it( "Exists", ():void => {
 			expect( Utils.hasProtocol ).toBeDefined();
@@ -73,7 +69,7 @@ describe( "Module Utils", ():void => {
 
 	} );
 
-	describe( "isRelative()", ():void => {
+	describe( "isRelative", ():void => {
 
 		it( "Exists", ():void => {
 			expect( Utils.isRelative ).toBeDefined();
@@ -104,7 +100,7 @@ describe( "Module Utils", ():void => {
 
 	} );
 
-	describe( "isIRI()", ():void => {
+	describe( "isIRI", ():void => {
 
 		it( "Exists", ():void => {
 			expect( Utils.isIRI ).toBeDefined();
@@ -155,7 +151,7 @@ describe( "Module Utils", ():void => {
 
 	} );
 
-	describe( "isPrefixed()", ():void => {
+	describe( "isPrefixed", ():void => {
 
 		it( "Exists", ():void => {
 			expect( Utils.isPrefixed ).toBeDefined();
@@ -194,200 +190,6 @@ describe( "Module Utils", ():void => {
 			expect( Utils.isPrefixed( "another-prefix:path/part-of-the/path" ) ).toBe( true );
 			expect( Utils.isPrefixed( "last-prefix:path/" ) ).toBe( true );
 			expect( Utils.isPrefixed( "prefix:" ) ).toBe( true );
-		} );
-
-	} );
-
-	describe( "getPrefixedParts()", ():void => {
-
-		it( "Exists", ():void => {
-			expect( Utils.getPrefixedParts ).toBeDefined();
-			expect( Utils.getPrefixedParts ).toEqual( jasmine.any( Function ) );
-		} );
-
-		it( "If relative or absolute IRI, returns null", ():void => {
-			expect( Utils.getPrefixedParts( "relative-iri" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "relative-iri/" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "/another-relative-iri" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "/another-relative-iri/" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "" ) ).toBeNull();
-
-			expect( Utils.getPrefixedParts( "http://example.com/" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "http://example.com/part-of-the/iri" ) ).toBeNull();
-			expect( Utils.getPrefixedParts( "any-protocol://example.com/" ) ).toBeNull();
-		} );
-
-		it( "Prefixed string returns the prefix an the path in the array", ():void => {
-			expect( Utils.getPrefixedParts( "prefix:path" ) ).toEqual( [
-				"prefix",
-				"path",
-			] );
-			expect( Utils.getPrefixedParts( "another-prefix:path/part-of-the/path" ) ).toEqual( [
-				"another-prefix",
-				"path\\/part\\-of\\-the\\/path",
-			] );
-			expect( Utils.getPrefixedParts( "last-prefix:path/" ) ).toEqual( [
-				"last-prefix",
-				"path\\/",
-			] );
-			expect( Utils.getPrefixedParts( "prefix:" ) ).toEqual( [
-				"prefix",
-				""
-			] );
-		} );
-
-		it( "Every special character in the path is normalized", ():void => {
-			expect( Utils.getPrefixedParts( ":path_" )[ 1 ] ).toBe( "path\\_" );
-			expect( Utils.getPrefixedParts( ":path~" )[ 1 ] ).toBe( "path\\~" );
-			expect( Utils.getPrefixedParts( ":path." )[ 1 ] ).toBe( "path\\." );
-			expect( Utils.getPrefixedParts( ":path-" )[ 1 ] ).toBe( "path\\-" );
-			expect( Utils.getPrefixedParts( ":path!" )[ 1 ] ).toBe( "path\\!" );
-			expect( Utils.getPrefixedParts( ":path$" )[ 1 ] ).toBe( "path\\$" );
-			expect( Utils.getPrefixedParts( ":path&" )[ 1 ] ).toBe( "path\\&" );
-			expect( Utils.getPrefixedParts( ":path'" )[ 1 ] ).toBe( "path\\'" );
-			expect( Utils.getPrefixedParts( ":path(" )[ 1 ] ).toBe( "path\\(" );
-			expect( Utils.getPrefixedParts( ":path)" )[ 1 ] ).toBe( "path\\)" );
-			expect( Utils.getPrefixedParts( ":path*" )[ 1 ] ).toBe( "path\\*" );
-			expect( Utils.getPrefixedParts( ":path+" )[ 1 ] ).toBe( "path\\+" );
-			expect( Utils.getPrefixedParts( ":path," )[ 1 ] ).toBe( "path\\," );
-			expect( Utils.getPrefixedParts( ":path;" )[ 1 ] ).toBe( "path\\;" );
-			expect( Utils.getPrefixedParts( ":path=" )[ 1 ] ).toBe( "path\\=" );
-			expect( Utils.getPrefixedParts( ":path/" )[ 1 ] ).toBe( "path\\/" );
-			expect( Utils.getPrefixedParts( ":path?" )[ 1 ] ).toBe( "path\\?" );
-			expect( Utils.getPrefixedParts( ":path#" )[ 1 ] ).toBe( "path\\#" );
-			expect( Utils.getPrefixedParts( ":path@" )[ 1 ] ).toBe( "path\\@" );
-			expect( Utils.getPrefixedParts( ":path%" )[ 1 ] ).toBe( "path\\%" );
-		} );
-
-	} );
-
-	describe( "resolve()", ():void => {
-
-		it( "Exists", ():void => {
-			expect( Utils.resolve ).toBeDefined();
-			expect( Utils.resolve ).toEqual( jasmine.any( Function ) );
-		} );
-
-		it( "IRIs are resolved adding the open and close symbols", ():void => {
-			expect( Utils.resolve( "http://example.com/" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "https://example.com/" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "https://example.com/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "http://example.com/part-of-the/iri" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/part-of-the/iri" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "https://example.com/" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "https://example.com/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "ftp://example.com/" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "ftp://example.com/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "any-protocol://example.com/" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "any-protocol://example.com/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "relative-iri" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "relative-iri" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "relative-iri/" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "relative-iri/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "/another-relative-iri" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "/another-relative-iri" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "/another-relative-iri/" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "/another-relative-iri/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "" ), new RightSymbol( ">" ),
-			] );
-		} );
-
-		it( "Absolute IRI and set to be resolved with the vocabulary does nothing different", ():void => {
-			expect( Utils.resolve( "http://example.com/", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "https://example.com/", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "https://example.com/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "http://example.com/part-of-the/iri", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/part-of-the/iri" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "https://example.com/", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "https://example.com/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "ftp://example.com/", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "ftp://example.com/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "any-protocol://example.com/", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "any-protocol://example.com/" ), new RightSymbol( ">" ),
-			] );
-		} );
-
-		it( "Relative IRI set to be resolved with the vocabulary append it to the string literal", ():void => {
-			expect( Utils.resolve( "relative-iri", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/vocabulary#relative-iri" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "relative-iri/", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/vocabulary#relative-iri/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "/another-relative-iri", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/vocabulary#/another-relative-iri" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "/another-relative-iri/", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/vocabulary#/another-relative-iri/" ), new RightSymbol( ">" ),
-			] );
-
-			expect( Utils.resolve( "", "http://example.com/vocabulary#" ) ).toEqual( [
-				new LeftSymbol( "<" ), new StringLiteral( "http://example.com/vocabulary#" ), new RightSymbol( ">" ),
-			] );
-		} );
-
-		it( "If not an IRI, just creates an StringLiteral", ():void => {
-			expect( Utils.resolve( "prefix:path" ) ).toEqual( [
-				new StringLiteral( "prefix:path" ),
-			] );
-
-			expect( Utils.resolve( "another-prefix:path/part-of-the/path" ) ).toEqual( [
-				new StringLiteral( "another-prefix:path/part-of-the/path" ),
-			] );
-
-			expect( Utils.resolve( "last-prefix:path/" ) ).toEqual( [
-				new StringLiteral( "last-prefix:path/" ),
-			] );
-		} );
-
-		it( "If not an IRI and to be resolved with the vocabulary, just creates an StringLiteral", ():void => {
-			expect( Utils.resolve( "prefix:path", "http://example.com/vocabulary#" ) ).toEqual( [
-				new StringLiteral( "prefix:path" ),
-			] );
-
-			expect( Utils.resolve( "another-prefix:path/part-of-the/path", "http://example.com/vocabulary#" ) ).toEqual( [
-				new StringLiteral( "another-prefix:path/part-of-the/path" ),
-			] );
-
-			expect( Utils.resolve( "last-prefix:path/", "http://example.com/vocabulary#" ) ).toEqual( [
-				new StringLiteral( "last-prefix:path/" ),
-			] );
 		} );
 
 	} );

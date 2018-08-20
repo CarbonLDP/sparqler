@@ -1,27 +1,21 @@
-import { BlankNodeToken } from "sparqler/tokens/BlankNodeToken";
-import { TermToken } from "sparqler/tokens/index";
-import { IRIToken } from "sparqler/tokens/IRIToken";
-import { LiteralToken } from "sparqler/tokens/LiteralToken";
-import { PredicateToken } from "sparqler/tokens/PredicateToken";
-import { PrefixedNameToken } from "sparqler/tokens/PrefixedNameToken";
-import { VariableToken } from "sparqler/tokens/VariableToken";
-
-import * as Module from "./SubjectToken";
+import { BlankNodeToken } from "./BlankNodeToken";
+import { IRIRefToken } from "./IRIRefToken";
+import { LiteralToken } from "./LiteralToken";
+import { PrefixedNameToken } from "./PrefixedNameToken";
+import { PropertyToken } from "./PropertyToken";
 import { SubjectToken } from "./SubjectToken";
+import { TermToken } from "./TermToken";
+import { VariableToken } from "./VariableToken";
 
-describe( "Module SubjectToken", ():void => {
+
+describe( "SubjectToken", ():void => {
 
 	it( "should exists", ():void => {
-		expect( Module ).toBeDefined();
-		expect( Module ).toEqual( jasmine.any( Object ) );
+		expect( SubjectToken ).toBeDefined();
+		expect( SubjectToken ).toEqual( jasmine.any( Function ) );
 	} );
 
-	describe( "SubjectToken", ():void => {
-
-		it( "should exists", ():void => {
-			expect( SubjectToken ).toBeDefined();
-			expect( SubjectToken ).toEqual( jasmine.any( Function ) );
-		} );
+	describe( "SubjectToken.constructor", () => {
 
 		it( "should accept and store Variable subjects", ():void => {
 			const subject:VariableToken = new VariableToken( "variable" );
@@ -32,7 +26,7 @@ describe( "Module SubjectToken", ():void => {
 		} );
 
 		it( "should accept and store IRI subjects", ():void => {
-			const subject:IRIToken = new IRIToken( "http://example.com/" );
+			const subject:IRIRefToken = new IRIRefToken( "http://example.com/" );
 			const token:SubjectToken = new SubjectToken( subject );
 
 			expect( token ).toBeDefined();
@@ -65,141 +59,141 @@ describe( "Module SubjectToken", ():void => {
 
 		it( "should initialize predicate tokens", ():void => {
 			const variableSubject:VariableToken = new VariableToken( "variable" );
-			expect( new SubjectToken( variableSubject ).predicates ).toEqual( [] );
+			expect( new SubjectToken( variableSubject ).properties ).toEqual( [] );
 
-			const iriSubject:IRIToken = new IRIToken( "http://example.com/" );
-			expect( new SubjectToken( iriSubject ).predicates ).toEqual( [] );
+			const iriSubject:IRIRefToken = new IRIRefToken( "http://example.com/" );
+			expect( new SubjectToken( iriSubject ).properties ).toEqual( [] );
 
 			const prefixedSubject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
-			expect( new SubjectToken( prefixedSubject ).predicates ).toEqual( [] );
+			expect( new SubjectToken( prefixedSubject ).properties ).toEqual( [] );
 		} );
 
 		it( "should assign the `subject` as token name", ():void => {
 			const variableSubject:VariableToken = new VariableToken( "variable" );
 			expect( new SubjectToken( variableSubject ).token ).toEqual( "subject" );
 
-			const iriSubject:IRIToken = new IRIToken( "http://example.com/" );
+			const iriSubject:IRIRefToken = new IRIRefToken( "http://example.com/" );
 			expect( new SubjectToken( iriSubject ).token ).toBe( "subject" );
 
 			const prefixedSubject:PrefixedNameToken = new PrefixedNameToken( "ex:resource" );
 			expect( new SubjectToken( prefixedSubject ).token ).toBe( "subject" );
 		} );
 
-		describe( "SubjectToken.addPredicate", ():void => {
+	} );
 
-			it( "should exists", ():void => {
-				expect( SubjectToken.prototype.addPredicate ).toBeDefined();
-				expect( SubjectToken.prototype.addPredicate ).toEqual( jasmine.any( Function ) );
-			} );
+	describe( "SubjectToken.addProperty", ():void => {
 
-			it( "should add the predicates provided", ():void => {
-				const token:SubjectToken = new SubjectToken( new VariableToken( "subject" ) );
-
-				const predicate1:PredicateToken = new PredicateToken( new VariableToken( "predicate1" ) )
-					.addObject( new VariableToken( "object1" ) );
-				token.addPredicate( predicate1 );
-				expect( token.predicates ).toEqual( [ predicate1 ] );
-
-				const predicate2:PredicateToken = new PredicateToken( new VariableToken( "predicate2" ) )
-					.addObject( new VariableToken( "object3" ) );
-				token.addPredicate( predicate2 );
-				expect( token.predicates ).toEqual( [ predicate1, predicate2 ] );
-
-				const predicate3:PredicateToken = new PredicateToken( new PrefixedNameToken( "ex:property" ) )
-					.addObject( new LiteralToken( "literal" ) );
-				token.addPredicate( predicate3 );
-				expect( token.predicates ).toEqual( [ predicate1, predicate2, predicate3 ] );
-			} );
-
-			it( "should return itself", ():void => {
-				const token:SubjectToken = new SubjectToken( new VariableToken( "subject" ) );
-				const predicate:PredicateToken = new PredicateToken( new VariableToken( "predicate" ) )
-					.addObject( new VariableToken( "object" ) );
-
-				const returned:SubjectToken = token.addPredicate( predicate );
-				expect( returned ).toBe( token );
-			} );
-
+		it( "should exists", ():void => {
+			expect( SubjectToken.prototype.addProperty ).toBeDefined();
+			expect( SubjectToken.prototype.addProperty ).toEqual( jasmine.any( Function ) );
 		} );
 
-		describe( "SubjectToken.toString", ():void => {
+		it( "should add the predicates provided", ():void => {
+			const token:SubjectToken = new SubjectToken( new VariableToken( "subject" ) );
 
-			it( "should override toString method", ():void => {
-				expect( SubjectToken.prototype.toString ).toBeDefined();
-				expect( SubjectToken.prototype.toString ).not.toBe( Object.prototype.toString );
-			} );
+			const predicate1:PropertyToken = new PropertyToken( new VariableToken( "predicate1" ) )
+				.addObject( new VariableToken( "object1" ) );
+			token.addProperty( predicate1 );
+			expect( token.properties ).toEqual( [ predicate1 ] );
 
-			it( "should return a single subject - predicate", ():void => {
-				const helper = ( subject:VariableToken | TermToken, predicate:PredicateToken, string:string ) => {
-					const token:SubjectToken = new SubjectToken( subject ).addPredicate( predicate );
-					expect( token.toString() ).toBe( string );
-				};
+			const predicate2:PropertyToken = new PropertyToken( new VariableToken( "predicate2" ) )
+				.addObject( new VariableToken( "object3" ) );
+			token.addProperty( predicate2 );
+			expect( token.properties ).toEqual( [ predicate1, predicate2 ] );
 
-				const variable:VariableToken = new VariableToken( "variable" );
+			const predicate3:PropertyToken = new PropertyToken( new PrefixedNameToken( "ex:property" ) )
+				.addObject( new LiteralToken( "literal" ) );
+			token.addProperty( predicate3 );
+			expect( token.properties ).toEqual( [ predicate1, predicate2, predicate3 ] );
+		} );
 
+		it( "should return itself", ():void => {
+			const token:SubjectToken = new SubjectToken( new VariableToken( "subject" ) );
+			const predicate:PropertyToken = new PropertyToken( new VariableToken( "predicate" ) )
+				.addObject( new VariableToken( "object" ) );
 
-				const predicate1:PredicateToken = new PredicateToken( new VariableToken( "predicate1" ) )
-					.addObject( new VariableToken( "object1" ) );
-				helper( variable, predicate1, "?variable ?predicate1 ?object1" );
+			const returned:SubjectToken = token.addProperty( predicate );
+			expect( returned ).toBe( token );
+		} );
 
-				predicate1.addObject( new VariableToken( "object2" ) );
-				helper( variable, predicate1, "?variable ?predicate1 ?object1, ?object2" );
+	} );
 
+	describe( "SubjectToken.toString", ():void => {
 
-				const iri:IRIToken = new IRIToken( "http://example.com/ns#property" );
+		it( "should override toString method", ():void => {
+			expect( SubjectToken.prototype.toString ).toBeDefined();
+			expect( SubjectToken.prototype.toString ).not.toBe( Object.prototype.toString );
+		} );
 
-				helper( iri, predicate1, "<http://example.com/ns#property> ?predicate1 ?object1, ?object2" );
+		it( "should return a single subject - predicate", ():void => {
+			const helper = ( subject:VariableToken | TermToken, predicate:PropertyToken, string:string ) => {
+				const token:SubjectToken = new SubjectToken( subject ).addProperty( predicate );
+				expect( token.toString() ).toBe( string );
+			};
 
-				const predicate2:PredicateToken = new PredicateToken( new PrefixedNameToken( "ex:property" ) )
-					.addObject( new LiteralToken( "literal" ) );
-				helper( iri, predicate2, `<http://example.com/ns#property> ex:property "literal"` );
-			} );
-
-			it( "should return subject - multiple predicates", ():void => {
-				const helper = ( subject:VariableToken | TermToken, predicates:PredicateToken[], string:string ) => {
-					const token:SubjectToken = new SubjectToken( subject );
-					for( const predicate of predicates ) token.addPredicate( predicate );
-					expect( token.toString() ).toBe( string );
-				};
-
-				const variable:VariableToken = new VariableToken( "variable" );
-
-
-				const predicate1:PredicateToken = new PredicateToken( new VariableToken( "predicate1" ) )
-					.addObject( new VariableToken( "object" ) );
-				const predicate2:PredicateToken = new PredicateToken( new PrefixedNameToken( "ex:property" ) )
-					.addObject( new LiteralToken( "literal" ) );
-				helper(
-					variable,
-					[ predicate1, predicate2 ],
-					`?variable ?predicate1 ?object; ex:property "literal"`,
-				);
-
-				predicate1.addObject( new VariableToken( "object2" ) );
-				predicate2.addObject( new LiteralToken( "literal-2" ) );
-				helper(
-					variable,
-					[ predicate1, predicate2 ],
-					`?variable ?predicate1 ?object, ?object2; ex:property "literal", "literal-2"`,
-				);
+			const variable:VariableToken = new VariableToken( "variable" );
 
 
-				const iri:IRIToken = new IRIToken( "http://example.com/ns#property" );
+			const predicate1:PropertyToken = new PropertyToken( new VariableToken( "predicate1" ) )
+				.addObject( new VariableToken( "object1" ) );
+			helper( variable, predicate1, "?variable ?predicate1 ?object1" );
 
-				helper(
-					iri,
-					[ predicate1, predicate2 ],
-					`<http://example.com/ns#property> ?predicate1 ?object, ?object2; ex:property "literal", "literal-2"`,
-				);
-				const predicate3:PredicateToken = new PredicateToken( "a" )
-					.addObject( new IRIToken( "http://example.con/ns#Class" ) );
-				helper(
-					iri,
-					[ predicate1, predicate2, predicate3 ],
-					`<http://example.com/ns#property> ?predicate1 ?object, ?object2; ex:property "literal", "literal-2"; a <http://example.con/ns#Class>`,
-				);
-			} );
+			predicate1.addObject( new VariableToken( "object2" ) );
+			helper( variable, predicate1, "?variable ?predicate1 ?object1, ?object2" );
 
+
+			const iri:IRIRefToken = new IRIRefToken( "http://example.com/ns#property" );
+
+			helper( iri, predicate1, "<http://example.com/ns#property> ?predicate1 ?object1, ?object2" );
+
+			const predicate2:PropertyToken = new PropertyToken( new PrefixedNameToken( "ex:property" ) )
+				.addObject( new LiteralToken( "literal" ) );
+			helper( iri, predicate2, `<http://example.com/ns#property> ex:property "literal"` );
+		} );
+
+		it( "should return subject - multiple predicates", ():void => {
+			const helper = ( subject:VariableToken | TermToken, predicates:PropertyToken[], string:string ) => {
+				const token:SubjectToken = new SubjectToken( subject );
+				for( const predicate of predicates ) token.addProperty( predicate );
+				expect( token.toString() ).toBe( string );
+			};
+
+			const variable:VariableToken = new VariableToken( "variable" );
+
+
+			const predicate1:PropertyToken = new PropertyToken( new VariableToken( "predicate1" ) )
+				.addObject( new VariableToken( "object" ) );
+			const predicate2:PropertyToken = new PropertyToken( new PrefixedNameToken( "ex:property" ) )
+				.addObject( new LiteralToken( "literal" ) );
+			helper(
+				variable,
+				[ predicate1, predicate2 ],
+				`?variable ?predicate1 ?object; ex:property "literal"`,
+			);
+
+			predicate1.addObject( new VariableToken( "object2" ) );
+			predicate2.addObject( new LiteralToken( "literal-2" ) );
+			helper(
+				variable,
+				[ predicate1, predicate2 ],
+				`?variable ?predicate1 ?object, ?object2; ex:property "literal", "literal-2"`,
+			);
+
+
+			const iri:IRIRefToken = new IRIRefToken( "http://example.com/ns#property" );
+
+			helper(
+				iri,
+				[ predicate1, predicate2 ],
+				`<http://example.com/ns#property> ?predicate1 ?object, ?object2; ex:property "literal", "literal-2"`,
+			);
+			const predicate3:PropertyToken = new PropertyToken( "a" )
+				.addObject( new IRIRefToken( "http://example.con/ns#Class" ) );
+			helper(
+				iri,
+				[ predicate1, predicate2, predicate3 ],
+				`<http://example.com/ns#property> ?predicate1 ?object, ?object2; ex:property "literal", "literal-2"; a <http://example.con/ns#Class>`,
+			);
 		} );
 
 	} );
