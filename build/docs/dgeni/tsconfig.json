@@ -10,7 +10,8 @@
 		"paths": {
 			"semantic-ui/*": [ "semantic-ui/*" ],
 			"src/*": [ "src/*" ]
-		}
+		},
+		"types": [  "node", "dgeni" ]
 	},
 	"exclude": [
 		"../../node_modules",

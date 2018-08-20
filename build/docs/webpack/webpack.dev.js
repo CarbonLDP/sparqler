@@ -1,13 +1,13 @@
 const path = require( 'path' );
 const webpack = require( 'webpack' );
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 
 const SRC_DIR = path.resolve( __dirname, '../src/' );
 const DIST_DIR = path.resolve( __dirname, '../../../docs/' );
 
-const extractCSS = new ExtractTextPlugin( 'assets/styles.css' );
-
 module.exports = {
+	mode: 'development',
+
 	entry: {
 		'bundle': path.resolve( SRC_DIR, 'entry-point.js' ),
 	},
@@ -20,17 +20,15 @@ module.exports = {
 	devtool: 'source-map',
 
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.s?css$/,
-				use: extractCSS.extract( {
-					fallback: 'style-loader',
-					use: [
-						'css-loader?sourceMap&importLoaders=1',
-						'postcss-loader?sourceMap&postcss={}',
-						'sass-loader?sourceMap',
-					],
-				} ),
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader?sourceMap&importLoaders=1',
+					'postcss-loader?sourceMap&postcss={}',
+					'sass-loader?sourceMap',
+				],
 			},
 			{
 				test: /fonts\/.*\.(woff|svg|eot|ttf|woff2)$/,
@@ -48,7 +46,10 @@ module.exports = {
 	},
 
 	plugins: [
-		extractCSS,
+		new MiniCssExtractPlugin( {
+			filename: "assets/styles.css",
+			chunkFilename: "assets/styles.css",
+		} ),
 		new webpack.ProvidePlugin( {
 			$: "jquery",
 			jQuery: "jquery",
