@@ -4,10 +4,18 @@
 # Source files
 src/**/*.js
 src/**/*.map
+
+test/**/*.js
+test/**/*.map
+
 playground/**/*.js
 playground/**/*.map
+
 build/**/*.js
 build/**/*.map
+
+# Dist files
+dist/
 
 # NPM
 **/node_modules/

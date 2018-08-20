@@ -1,8 +1,12 @@
-import SPARQLER from "../src";
+import { SPARQLER } from "../src";
 
 const startTime:[ number, number ] = process.hrtime();
 
 const builder = new SPARQLER();
+
+let difference:number[] = process.hrtime( startTime );
+let time:number = (difference[ 0 ] * 1e9 + difference[ 1 ]) / 1000000;
+console.log( "\n" + time + "ms\n" );
 
 const finishQuery = builder
 	.base( "https://carbonldp.base22.io/" )
@@ -39,29 +43,30 @@ const finishQuery = builder
 			_.resource( "" )
 				.has( "ldp:contains", _.resource( "posts/" ) ),
 			_.var( "s" )
-				.has( "color", _.literal( "#222" ).ofType( "string" ) ),
+				.has( "color", _.literal( "#222" ).withType( "string" ) ),
 			_.literal( "#222" ).withLanguage( "es" )
 				.has( "some", "more" ),
-			_.blankNode()
-				.has( "other", _.blankNode().has( "mmm", "ok..." ).and( "ok", "no" ) )
-				.and( "color", _.resource( "#asdf" ) ),
+			_.blankNode( self => self
+				.has( "other", _.blankNode( self => self.has( "mmm", "ok..." ).and( "ok", "no" ) ) )
+				.and( "color", _.resource( "#asdf" ) )
+			),
+			_.blankNode( self => self.has( "color", _.resource( "#asdf" ) ) )
+				.has( "mmm", "ok..." ).and( "ok", "no" ),
 			_.collection( "Ha!" ),
 			_.collection(
 				"some",
 				"mmm..",
 				_.resource( ":some" ),
 				_.literal( 100.2 ),
-				_.blankNode().has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ),
+				_.blankNode( self => self.has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ) ),
 			),
 			_.collection(
-				_.blankNode().has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ),
+				_.blankNode( self => self.has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ) ),
 			),
-			_.collection(
-				"some",
-				_.resource( ":some" ),
-			).has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ),
+			_.collection( "some", _.resource( ":some" ) )
+				.has( "color", _.resource( "#asdf" ) ).and( "color", _.resource( "#asdf" ) ),
 			_.resource( "son/" )
-				.has( "name", _.collection( "My name", _.blankNode().has( "address", "My address" ) ) ),
+				.has( "name", _.collection( "My name", _.blankNode( self => self.has( "address", "My address" ) ) ) ),
 			_.graph( "some", _.resource( "some" ).has( "yes", "no" ) ),
 			_.graph( _.var( "g" ), _.resource( "some" ).has( "ex:yes", "no" ) ),
 			_.resource( "" )
@@ -79,22 +84,29 @@ const finishQuery = builder
 				_.resource( "some" ).has( "ex:yes", "no" ).and( "ex:yes", "maybe" ),
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			] ),
+			_.group( [
+				_.resource( "some" )
+					.has( "ex:yes", [ "yes", "maybe" ] )
+					.and( "ex:no", [ "mm", "no" ] ),
+			] ),
 			_.union( [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
-			], [
+			] ).and( [
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			] ),
 			_.minus(
 				_.resource( "some" ).has( "ex:yes", [ "yes", "maybe" ] ),
 			),
-			_.minus(
+			_.minus( [
 				_.resource( "some" ).has( "ex:yes", "yes" ),
 				_.resource( "some" ).has( "ex:yes", "maybe" ),
-			),
+			] ),
 			_.values( _.var( "v" ) ).has( 1 ),
 			_.values( _.var( "v" ) ).has( 1 ).and( 1.1 ).and( "some" ).and( _.undefined ),
 			_.values( _.var( "v1" ), _.var( "v2" ) ).has( 1, 2 ).and( _.undefined, _.literal( "nope" ) ).and( true, false ),
 			_.values().has(),
+			_.values().has().and(),
+			_.values(),
 
 			_.service( "a-service", _.resource( "some" ).has( "ex:property", "ex:object" ) ),
 			_.service( ":a-service", _.resource( "some" ).has( "ex:property", "ex:object" ) ),
@@ -130,20 +142,20 @@ const finishQuery = builder
 	.limit( 2 )
 	.values( "var1", [ "value1", "value2" ] );
 
-let difference:number[] = process.hrtime( startTime );
-let time:number = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
+difference = process.hrtime( startTime );
+time = (difference[ 0 ] * 1e9 + difference[ 1 ]) / 1000000;
 console.log( "\n" + time + "ms\n" );
 
-console.log( finishQuery.toPrettyString() );
-// finishQuery.toPrettyString();
+// console.log( finishQuery.toPrettyString() );
+finishQuery.toPrettyString();
 
 difference = process.hrtime( startTime );
-time = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
+time = (difference[ 0 ] * 1e9 + difference[ 1 ]) / 1000000;
 console.log( "\n" + time + "ms\n" );
 
-console.log( finishQuery.toCompactString() );
-// finishQuery.toCompactString();
+// console.log( finishQuery.toCompactString() );
+finishQuery.toCompactString();
 
 difference = process.hrtime( startTime );
-time = ( difference[ 0 ] * 1e9 + difference[ 1 ] ) / 1000000;
+time = (difference[ 0 ] * 1e9 + difference[ 1 ]) / 1000000;
 console.log( "\n" + time + "ms\n" );

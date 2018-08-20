@@ -1,50 +1,34 @@
-import {
-	PatternToken,
-	SolutionModifier,
-} from "sparqler/tokens";
-import { TokenNode } from "sparqler/tokens/TokenNode";
-import { VariableToken } from "sparqler/tokens/VariableToken";
-import { joinPatterns } from "sparqler/tokens/utils";
+import { FromToken } from "./FromToken";
+import { getSeparator } from "./printing";
+import { SharedSelectToken } from "./SharedSelectToken";
 
-export class SelectToken implements TokenNode {
+
+/**
+ * The token of the `SELECT` query statement.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rSelectQuery}
+ */
+export class SelectToken extends SharedSelectToken {
 	readonly token:"select" = "select";
-	readonly modifier?:"DISTINCT" | "REDUCED";
-	readonly variables:VariableToken[];
-	readonly patterns:PatternToken[];
-	readonly modifiers:SolutionModifier[];
+
+	readonly datasets:FromToken[];
 
 	constructor( modifier?:"DISTINCT" | "REDUCED" ) {
-		this.modifier = modifier;
+		super( modifier );
 
-		this.variables = [];
-		this.patterns = [];
-		this.modifiers = [];
+		this.datasets = [];
 	}
 
-	addVariable( ...variables:VariableToken[] ):this {
-		this.variables.push( ...variables );
-		return this;
-	}
 
-	addPattern( ...patterns:PatternToken[] ):this {
-		this.patterns.push( ...patterns );
-		return this;
-	}
+	toString( spaces?:number ):string {
+		let query:string = super.toString( spaces );
+		const separator:string = getSeparator( spaces );
 
-	addModifier( ...modifier:SolutionModifier[] ):this {
-		this.modifiers.push( ...modifier );
-		return this;
-	}
+		if( this.datasets.length ) query += separator + this.datasets.join( separator );
 
-	toString():string {
-		let query:string = `SELECT`;
+		query += separator + this.where.toString( spaces );
 
-		if( this.modifier ) query += ` ${ this.modifier }`;
-		if( this.variables.length ) query += ` ${ this.variables.join( " " ) }`;
-
-		query += ` WHERE { ${ joinPatterns( this.patterns ) } }`;
-
-		if( this.modifiers.length ) query += ` ${ this.modifiers.join( " " ) }`;
+		if( this.modifiers.length ) query += separator + this.modifiers.join( separator );
 
 		return query;
 	}

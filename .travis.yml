@@ -1,14 +1,17 @@
 language: node_js
 
 node_js:
-  - "6"
+  - "9"
 
 dist: trusty
 
-# TODO: Workaround: travis-ci/travis-ci#8836
 sudo: required
 addons:
   chrome: stable
+
+install:
+  - npm i npm@^5.7 -g
+  - npm ci
 
 script:
   - npm test

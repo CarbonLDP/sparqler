@@ -1,8 +1,19 @@
-import { isPrefixed } from "sparqler/iri/utils";
+import { isPrefixed } from "../iri/utils";
+
 import { TokenNode } from "./TokenNode";
 
+
+/**
+ * Regex to validate a correct prefixed name.
+ */
 const NAMESPACE_REGEX:RegExp = /^([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)?$/;
 
+
+/**
+ * The token of the prefixed named term.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rPrefixedName}
+ */
 export class PrefixedNameToken implements TokenNode {
 	readonly token:"prefixedName" = "prefixedName";
 	readonly namespace:string;
@@ -25,12 +36,12 @@ export class PrefixedNameToken implements TokenNode {
 		let preSanitation:string = "";
 		if( ln1 ) preSanitation += ln1.replace( /([\-.])/g, "\\$1" );
 		if( ln2 ) preSanitation += ln2;
-		if( ln2 ) preSanitation += ln3.replace( /([.])/g, "\\$1" );
+		if( ln3 ) preSanitation += ln3.replace( /([.])/g, "\\$1" );
 
 		this.localName = preSanitation.replace( /([~!$&'|()*+,;=/?#@%])/g, "\\$1" );
 	}
 
-	toString():string {
+	toString( spaces?:number ):string {
 		return `${ this.namespace }:${ this.localName }`;
 	}
 }

@@ -38,7 +38,7 @@ const config = {
 	},
 	tests: {
 		typescript: [
-			"src/**/*.ts",
+			"{src,test}/**/*.ts",
 		],
 	}
 };
@@ -153,14 +153,14 @@ gulp.task( "test:node", () => {
 	const tsConfigPaths = require( "tsconfig-paths" );
 	tsConfigPaths.register( {
 		baseUrl: tempDir,
-		paths: { "sparqler/*": [ "/*" ] },
+		paths: { "sparqler/*": [ "src/*" ] },
 	} );
 
 	require( "source-map-support/register" );
 
 	return tsResults.js
 		.pipe( sourcemaps.mapSources( ( sourcePath ) =>
-			path.resolve( "./src/", sourcePath )
+			path.resolve( "./", sourcePath )
 		) )
 		.pipe( sourcemaps.write( ".", {
 			includeContent: false,
@@ -174,9 +174,7 @@ gulp.task( "test:node", () => {
 				}
 			} ),
 			config: {
-				helpers: [
-					"test/es6-map.helper.js",
-				]
+				helpers: []
 			}
 		} ) );
 } );
