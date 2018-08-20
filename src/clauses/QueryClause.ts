@@ -8,6 +8,7 @@ import { IRIRefToken } from "../tokens/IRIRefToken";
 import { PrefixToken } from "../tokens/PrefixToken";
 import { QueryToken } from "../tokens/QueryToken";
 
+import { AskClause } from "./AskClause";
 import { FinishClause } from "./FinishClause";
 import { SelectClause } from "./SelectClause";
 
@@ -21,8 +22,9 @@ import { SelectClause } from "./SelectClause";
  *
  * The current query types supported are:
  * - `SELECT`, specified by the extension of {@link SelectClause}
+ * - `ASK`, specified by the extension of {@link AskClause}
  */
-export interface QueryClause<T extends FinishClause> extends SelectClause<T> {
+export interface QueryClause<SELECT extends FinishClause, ASK extends FinishClause> extends SelectClause<SELECT>, AskClause<ASK> {
 	/**
 	 * Add a base IRI the query uses to resolve any relative IRIs.
 	 *
@@ -32,7 +34,7 @@ export interface QueryClause<T extends FinishClause> extends SelectClause<T> {
 	 * @param iri IRI to be used as the query BASE.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	base( iri:string ):QueryClause<T>;
+	base( iri:string ):QueryClause<SELECT, ASK>;
 
 	/**
 	 * Add a default vocabulary to be used to resolve relative IRIs when
@@ -41,7 +43,7 @@ export interface QueryClause<T extends FinishClause> extends SelectClause<T> {
 	 * @param iri IRI to append to prepend to any relative predicate.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	vocab( iri:string ):QueryClause<T>;
+	vocab( iri:string ):QueryClause<SELECT, ASK>;
 
 	/**
 	 * Add a prefix to the query.
@@ -53,21 +55,21 @@ export interface QueryClause<T extends FinishClause> extends SelectClause<T> {
 	 * @param iri The IRI of the current PREFIX.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	prefix( name:string, iri:string ):QueryClause<T>;
+	prefix( name:string, iri:string ):QueryClause<SELECT, ASK>;
 }
 
 
 /**
  * @see {@link QueryClause.base}
  */
-function base<T extends FinishClause>( this:QueryUnitContainer<T>, iri:string ):QueryClause<T> {
+function base<SELECT extends FinishClause, ASK extends FinishClause>( this:QueryUnitContainer<SELECT, ASK>, iri:string ):QueryClause<SELECT, ASK> {
 	const token:BaseToken = new BaseToken( new IRIRefToken( iri ) );
 
 	const prologues:QueryToken[ "prologues" ] = this.targetToken
 		.prologues.concat( token );
 
 	const queryToken:QueryToken = cloneElement( this.targetToken, { prologues } );
-	const container:QueryUnitContainer<T> = cloneElement( this, { targetToken: queryToken } );
+	const container:QueryUnitContainer<SELECT, ASK> = cloneElement( this, { targetToken: queryToken } );
 
 	return QueryClause.createFrom( container, {} );
 }
@@ -75,9 +77,9 @@ function base<T extends FinishClause>( this:QueryUnitContainer<T>, iri:string ):
 /**
  * @see {@link QueryClause.vocab}
  */
-function vocab<T extends FinishClause>( this:QueryUnitContainer<T>, iri:string ):QueryClause<T> {
+function vocab<SELECT extends FinishClause, ASK extends FinishClause>( this:QueryUnitContainer<SELECT, ASK>, iri:string ):QueryClause<SELECT, ASK> {
 	const iriResolver:IRIResolver = new IRIResolver( this.iriResolver, iri );
-	const container:QueryUnitContainer<T> = cloneElement( this, { iriResolver } );
+	const container:QueryUnitContainer<SELECT, ASK> = cloneElement( this, { iriResolver } );
 
 	return QueryClause.createFrom( container, {} );
 }
@@ -85,7 +87,7 @@ function vocab<T extends FinishClause>( this:QueryUnitContainer<T>, iri:string )
 /**
  * @see {@link QueryClause.prefix}
  */
-function prefix<T extends FinishClause>( this:QueryUnitContainer<T>, name:string, iri:string ):QueryClause<T> {
+function prefix<SELECT extends FinishClause, ASK extends FinishClause>( this:QueryUnitContainer<SELECT, ASK>, name:string, iri:string ):QueryClause<SELECT, ASK> {
 	const iriResolver:IRIResolver = new IRIResolver( this.iriResolver );
 
 
@@ -104,7 +106,7 @@ function prefix<T extends FinishClause>( this:QueryUnitContainer<T>, name:string
 
 
 	const queryToken:QueryToken = cloneElement( this.targetToken, { prologues } );
-	const container:QueryUnitContainer<T> = cloneElement( this, {
+	const container:QueryUnitContainer<SELECT, ASK> = cloneElement( this, {
 		iriResolver,
 		targetToken: queryToken,
 	} );
@@ -129,14 +131,17 @@ export const QueryClause:{
 	 * @return The {@link QueryClause} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<C extends QueryUnitContainer<SELECT>, SELECT extends FinishClause, T extends object>( container:C, object:T ):T & QueryClause<SELECT>;
+	createFrom<C extends QueryUnitContainer<SELECT, ASK>, SELECT extends FinishClause, ASK extends FinishClause, T extends object>( container:C, object:T ):T & QueryClause<SELECT, ASK>;
 } = {
-	createFrom<C extends QueryUnitContainer<SELECT>, SELECT extends FinishClause, T extends object>( container:C, object:T ):T & QueryClause<SELECT> {
+	createFrom<C extends QueryUnitContainer<SELECT, ASK>, SELECT extends FinishClause, ASK extends FinishClause, T extends object>( container:C, object:T ):T & QueryClause<SELECT, ASK> {
 		const selectFactory:Factory<C, SelectClause<SELECT>> = SelectClause
 			.createFrom.bind( null, container.selectFinishClauseFactory );
+		const askFactory:Factory<C, AskClause<ASK>> = AskClause
+			.createFrom.bind( null, container.askFinishClauseFactory );
 
 		return Factory.createFrom(
-			selectFactory
+			selectFactory,
+			askFactory,
 		)( container, Object.assign( object, {
 			base: base.bind( container ),
 			vocab: vocab.bind( container ),
