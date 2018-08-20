@@ -27,6 +27,7 @@ const baseSettings:ts.Settings = {
 	module: "es2015",
 	target: "es5",
 	importHelpers: true,
+	removeComments: true,
 };
 
 export const cleanESM5 = cleaner( CONFIG.dist.esm5 )( "cleanESM5" );
