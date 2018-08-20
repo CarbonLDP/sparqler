@@ -58,6 +58,8 @@ describe( "FinishClause", () => {
 				toCompactString: jasmine.any( Function ),
 				toPrettyString: jasmine.any( Function ),
 				toString: jasmine.any( Function ),
+
+				debug: jasmine.any( Function ),
 			} );
 		} );
 
@@ -114,6 +116,29 @@ describe( "FinishClause", () => {
 
 			finishClause.toString();
 			expect( spy ).toHaveBeenCalledWith( 0 );
+		} );
+
+	} );
+
+
+	describe( "FinishClause.debug", () => {
+
+		let finishClause:FinishClause;
+		beforeEach( () => {
+			finishClause = FinishClause
+				.createFrom( container, {} );
+		} );
+
+		it( "should return same clause", () => {
+			const returned:FinishClause = finishClause.debug( () => {} );
+			expect( returned ).toBe( finishClause );
+		} );
+
+		it( "should call fn with the same clause and the container", () => {
+			const spy:jasmine.Spy = jasmine.createSpy();
+			finishClause.debug( spy );
+
+			expect( spy ).toHaveBeenCalledWith( finishClause, container );
 		} );
 
 	} );

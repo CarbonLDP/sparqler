@@ -31,6 +31,9 @@ export interface FinishClause {
 	 * Return the same result as {@link FinishClause.toPrettyString}
 	 */
 	toString():string;
+
+
+	debug( debugFn:( query:this, container:Container<TokenNode> ) => any ):this;
 }
 
 
@@ -42,10 +45,16 @@ export const FinishClause = {
 		const toPrettyString:FinishClause[ "toPrettyString" ] = () =>
 			container.targetToken.toString( 0 );
 
-		return Object.assign( object, {
+		const debug:FinishClause[ "debug" ] = debugFn => {
+			debugFn.call( void 0, object, container );
+			return object as O & FinishClause;
+		};
+
+		return Object.assign<O, FinishClause>( object, {
 			toCompactString: () => container.targetToken.toString(),
 			toPrettyString: toPrettyString,
 			toString: toPrettyString,
+			debug,
 		} );
 	}
 };
