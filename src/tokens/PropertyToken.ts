@@ -1,7 +1,8 @@
 import { ObjectToken } from "./ObjectToken";
+import { PathToken } from "./PathToken";
 import { addSpaces, getIndentation, getSeparator } from "./printing";
 import { TokenNode } from "./TokenNode";
-import { VariableOrIRIToken } from "./VariableOrIRIToken";
+import { VariableToken } from "./VariableToken";
 
 
 /**
@@ -13,10 +14,10 @@ import { VariableOrIRIToken } from "./VariableOrIRIToken";
 export class PropertyToken implements TokenNode {
 	readonly token:"property" = "property";
 
-	readonly verb:VariableOrIRIToken | "a";
+	readonly verb:VariableToken | PathToken;
 	readonly objects:ObjectToken[];
 
-	constructor( verb:VariableOrIRIToken | "a" ) {
+	constructor( verb:VariableToken | PathToken ) {
 		this.verb = verb;
 		this.objects = [];
 	}
