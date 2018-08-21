@@ -14,8 +14,8 @@ playground/**/*.map
 build/**/*.js
 build/**/*.map
 
-tools/**/*.js
-tools/**/*.map
+tasks/**/*.js
+tasks/**/*.map
 
 gulpfile.js
 

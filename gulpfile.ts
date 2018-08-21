@@ -1,33 +1,33 @@
-import { build } from "./tools/gulp/build";
+import { build } from "./tasks/build";
 
 export default build;
 
 export {
 	build,
-} from "./tools/gulp/build";
+} from "./tasks/build";
 
 export {
 	buildCJS,
 	buildESM2015,
 	buildESM5,
 	buildTypes,
-} from "./tools/gulp/typescript";
+} from "./tasks/typescript";
 
 export {
 	bundle,
 	bundleUMD,
-} from "./tools/gulp/rollup"
+} from "./tasks/rollup"
 
 export {
 	preparePackage,
 	copyMarkdowns,
 	copyPackage,
 	makeDirPackages,
-} from "./tools/gulp/packages";
+} from "./tasks/packages";
 
 export {
 	test,
 	testBrowser,
 	testNode,
 	testWatch,
-} from "./tools/gulp/tests";
+} from "./tasks/tests";

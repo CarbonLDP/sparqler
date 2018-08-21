@@ -28,6 +28,7 @@
   "typings": "dist/.types/index.d.ts",
   "scripts": {
     "build": "gulp build",
+    "start": "npm run-script build",
     "test": "gulp test"
   },
   "dependencies": {
