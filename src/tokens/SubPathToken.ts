@@ -7,11 +7,11 @@ import { TokenNode } from "./TokenNode";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rPathPrimary}
  */
-export class PathGroupToken implements TokenNode {
-	readonly token:"pathGroup" = "pathGroup";
-	readonly path:PathToken | undefined;
+export class SubPathToken<T extends PathToken | undefined> implements TokenNode {
+	readonly token:"subPath" = "subPath";
+	readonly path:T;
 
-	constructor( path:PathToken | undefined ) {
+	constructor( path:T ) {
 		this.path = path;
 	}
 

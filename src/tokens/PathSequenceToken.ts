@@ -1,4 +1,5 @@
 import { PathEltToken } from "./PathEltToken";
+import { PathInSequenceToken } from "./PathInSequenceToken";
 import { PathInverseToken } from "./PathInverseToken";
 import { TokenNode } from "./TokenNode";
 
@@ -8,9 +9,9 @@ import { TokenNode } from "./TokenNode";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rPathSequence}
  */
-export class PathSequenceToken implements TokenNode {
+export class PathSequenceToken<T extends PathInSequenceToken = PathInSequenceToken> implements TokenNode {
 	readonly token:"pathSequence" = "pathSequence";
-	readonly paths:(PathEltToken | PathInverseToken)[];
+	readonly paths:T[];
 
 	constructor() {
 		this.paths = [];

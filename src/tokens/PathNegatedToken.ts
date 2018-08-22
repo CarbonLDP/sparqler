@@ -1,4 +1,4 @@
-import { PathInGroupNegatedToken } from "./PathInGroupNegatedToken";
+import { SubPathInNegatedToken } from "./SubPathInNegatedToken";
 import { PathInNegatedToken } from "./PathInNegatedToken";
 import { TokenNode } from "./TokenNode";
 
@@ -10,9 +10,9 @@ import { TokenNode } from "./TokenNode";
  */
 export class PathNegatedToken implements TokenNode {
 	readonly token:"pathNegated" = "pathNegated";
-	readonly path:PathInNegatedToken | PathInGroupNegatedToken;
+	readonly path:PathInNegatedToken | SubPathInNegatedToken;
 
-	constructor( path:PathInNegatedToken | PathInGroupNegatedToken ) {
+	constructor( path:PathInNegatedToken | SubPathInNegatedToken ) {
 		this.path = path;
 	}
 

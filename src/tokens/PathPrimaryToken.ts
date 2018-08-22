@@ -1,5 +1,5 @@
 import { IRIToken } from "./IRIToken";
-import { PathGroupToken } from "./PathGroupToken";
+import { SubPathToken } from "./SubPathToken";
 import { PathNegatedToken } from "./PathNegatedToken";
 
 
@@ -8,4 +8,4 @@ import { PathNegatedToken } from "./PathNegatedToken";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rPathPrimary}
  */
-export type PathPrimaryToken = IRIToken | "a" | PathNegatedToken | PathGroupToken;
+export type PathPrimaryToken = IRIToken | "a" | PathNegatedToken | SubPathToken<any>;
