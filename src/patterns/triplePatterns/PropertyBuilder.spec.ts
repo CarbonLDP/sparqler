@@ -6,10 +6,12 @@ import { IRIResolver } from "../../data/IRIResolver";
 
 import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { IRIRefToken } from "../../tokens/IRIRefToken";
+import { PathToken } from "../../tokens/PathToken";
 import { PropertyToken } from "../../tokens/PropertyToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
+import { Path } from "../paths/Path";
 
 import { PropertyBuilder, PropertyBuilderMore } from "./PropertyBuilder";
 import { Resource } from "./Resource";
@@ -60,6 +62,14 @@ describe( "PropertyBuilder", () => {
 			iriResolver: container.iriResolver,
 			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
 		} ), {} );
+	}
+
+	function createMockPath<T extends PathToken>( token:T ):Path<T> {
+		const pathContainer:Container<T> = new Container( {
+			iriResolver: container.iriResolver,
+			targetToken: token,
+		} );
+		return Path.createFrom( pathContainer, {} );
 	}
 
 
@@ -148,27 +158,17 @@ describe( "PropertyBuilder", () => {
 			} ) );
 		} );
 
-		it( "should add simple property name", () => {
+		it( "should add property name", () => {
 			triplePattern.has( "property", [] );
 
 			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
-				verb: "<https://example.com/ns#property>" as "a",
+				verb: new IRIRefToken( "https://example.com/ns#property" ),
 			} ) );
 		} );
 
-		it( "should add IRI tag property path", () => {
-			triplePattern.has( "<https://example.com/ns#property>", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "<https://example.com/ns#property>" as "a",
-			} ) );
-		} );
-
-		it( "should set used prefix when property path", () => {
+		it( "should set used prefix when prefixed string", () => {
 			triplePattern.has( "ex:property", [] );
 
 			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
@@ -177,73 +177,13 @@ describe( "PropertyBuilder", () => {
 			] ) );
 		} );
 
-		it( "should parse when alternative path", () => {
-			triplePattern.has( "iri|another-iri", [] );
+		it( "should add path", () => {
+			triplePattern.has( createMockPath( new IRIRefToken( "https://example.com/ns#property" ) ), [] );
 
 			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
-				verb: "<https://example.com/ns#iri>|<https://example.com/ns#another-iri>" as "a",
-			} ) );
-		} );
-
-		it( "should parse when sequence path", () => {
-			triplePattern.has( "iri/another-iri", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "<https://example.com/ns#iri>/<https://example.com/ns#another-iri>" as "a",
-			} ) );
-		} );
-
-		it( "should parse when inverse path", () => {
-			triplePattern.has( "^iri", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "^<https://example.com/ns#iri>" as "a",
-			} ) );
-		} );
-
-		it( "should parse when path with optional mod", () => {
-			triplePattern.has( "iri?", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "<https://example.com/ns#iri>?" as "a",
-			} ) );
-		} );
-
-		it( "should parse when path with any number of mod", () => {
-			triplePattern.has( "iri*", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "<https://example.com/ns#iri>*" as "a",
-			} ) );
-		} );
-
-		it( "should parse when path with more than once mod", () => {
-			triplePattern.has( "iri+", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "<https://example.com/ns#iri>+" as "a",
-			} ) );
-		} );
-
-		it( "should parse when path with negative mod", () => {
-			triplePattern.has( "!iri", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "!<https://example.com/ns#iri>" as "a",
+				verb: new IRIRefToken( "https://example.com/ns#property" ),
 			} ) );
 		} );
 
@@ -294,6 +234,14 @@ describe( "PropertyBuilderMore", () => {
 			iriResolver: container.iriResolver,
 			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
 		} ), {} );
+	}
+
+	function createMockPath<T extends PathToken>( token:T ):Path<T> {
+		const pathContainer:Container<T> = new Container( {
+			iriResolver: container.iriResolver,
+			targetToken: token,
+		} );
+		return Path.createFrom( pathContainer, {} );
 	}
 
 
@@ -382,23 +330,13 @@ describe( "PropertyBuilderMore", () => {
 			} ) );
 		} );
 
-		it( "should add simple property name", () => {
+		it( "should add property name", () => {
 			triplePattern.and( "property", [] );
 
 			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
-				verb: "<https://example.com/ns#property>" as "a",
-			} ) );
-		} );
-
-		it( "should add IRI tag property path", () => {
-			triplePattern.and( "<https://example.com/ns#property>", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "<https://example.com/ns#property>" as "a",
+				verb: new IRIRefToken( "https://example.com/ns#property" ),
 			} ) );
 		} );
 
@@ -411,73 +349,13 @@ describe( "PropertyBuilderMore", () => {
 			] ) );
 		} );
 
-		it( "should parse when alternative path", () => {
-			triplePattern.and( "iri|another-iri", [] );
+		it( "should add path", () => {
+			triplePattern.and( createMockPath( new IRIRefToken( "https://example.com/ns#property" ) ), [] );
 
 			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
 				token: "property",
-				verb: "<https://example.com/ns#iri>|<https://example.com/ns#another-iri>" as "a",
-			} ) );
-		} );
-
-		it( "should parse when sequence path", () => {
-			triplePattern.and( "iri/another-iri", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "<https://example.com/ns#iri>/<https://example.com/ns#another-iri>" as "a",
-			} ) );
-		} );
-
-		it( "should parse when inverse path", () => {
-			triplePattern.and( "^iri", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "^<https://example.com/ns#iri>" as "a",
-			} ) );
-		} );
-
-		it( "should parse when path with optional mod", () => {
-			triplePattern.and( "iri?", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "<https://example.com/ns#iri>?" as "a",
-			} ) );
-		} );
-
-		it( "should parse when path with any number of mod", () => {
-			triplePattern.and( "iri*", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "<https://example.com/ns#iri>*" as "a",
-			} ) );
-		} );
-
-		it( "should parse when path with more than once mod", () => {
-			triplePattern.and( "iri+", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "<https://example.com/ns#iri>+" as "a",
-			} ) );
-		} );
-
-		it( "should parse when path with negative mod", () => {
-			triplePattern.and( "!iri", [] );
-
-			const newContainer:Container<TripleToken | BlankNodePropertyToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.properties ).toContain( jasmine.objectContaining<PropertyToken>( {
-				token: "property",
-				verb: "!<https://example.com/ns#iri>" as "a",
+				verb: new IRIRefToken( "https://example.com/ns#property" ),
 			} ) );
 		} );
 
