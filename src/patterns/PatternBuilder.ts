@@ -4,13 +4,14 @@ import { IRIResolver } from "../data/IRIResolver";
 
 import { SubSelectPattern } from "./clausePatterns/SubSelectPattern";
 import { NotTriplePatternsBuilder } from "./notTriplePatterns/NotTriplePatternsBuilder";
+import { PathsBuilder } from "./paths/PathsBuilder";
 import { TriplePatternsBuilder } from "./triplePatterns/TriplePatternsBuilder";
 
 
 /**
  * Helper builder for generate patters.
  */
-export interface PatternBuilder extends TriplePatternsBuilder, NotTriplePatternsBuilder, SubSelectPattern {
+export interface PatternBuilder extends TriplePatternsBuilder, NotTriplePatternsBuilder, SubSelectPattern, PathsBuilder {
 }
 
 
@@ -55,7 +56,8 @@ export const PatternBuilder:{
 		return Factory.createFrom(
 			TriplePatternsBuilder.createFrom,
 			NotTriplePatternsBuilder.createFrom,
-			SubSelectPattern.createFrom
+			SubSelectPattern.createFrom,
+			PathsBuilder.createFrom,
 		)( container, object );
 	},
 };
