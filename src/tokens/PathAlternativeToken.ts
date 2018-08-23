@@ -15,6 +15,13 @@ export class PathAlternativeToken<T extends PathInAlternativeToken = PathInAlter
 	}
 
 
+	addPath( path:T ):this {
+		this.paths.push( path );
+
+		return this;
+	}
+
+
 	toString():string {
 		return this.paths
 			.join( "|" );

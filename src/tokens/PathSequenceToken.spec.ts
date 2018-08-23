@@ -29,6 +29,32 @@ describe( "PathSequenceToken", ():void => {
 
 	} );
 
+	describe( "PathSequenceToken.addPath", ():void => {
+
+		it( "should exists", ():void => {
+			expect( PathSequenceToken.prototype.addPath ).toBeDefined();
+			expect( PathSequenceToken.prototype.addPath ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should add path", () => {
+			const token:PathSequenceToken = new PathSequenceToken();
+
+			token.addPath( new IRIRefToken( "/" ) );
+
+			expect( token.paths ).toContain( new IRIRefToken( "/" ) );
+		} );
+
+		it( "should return self", () => {
+			const token:PathSequenceToken = new PathSequenceToken();
+
+			const returned:PathSequenceToken = token.addPath( new IRIRefToken( "/" ) );
+
+			expect( returned ).toBe( token );
+		} );
+
+	} );
+
 	describe( "PathSequenceToken.toString", ():void => {
 
 		it( "should exists", ():void => {

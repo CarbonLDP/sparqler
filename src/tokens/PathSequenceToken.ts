@@ -1,6 +1,4 @@
-import { PathEltToken } from "./PathEltToken";
 import { PathInSequenceToken } from "./PathInSequenceToken";
-import { PathInverseToken } from "./PathInverseToken";
 import { TokenNode } from "./TokenNode";
 
 
@@ -16,6 +14,14 @@ export class PathSequenceToken<T extends PathInSequenceToken = PathInSequenceTok
 	constructor() {
 		this.paths = [];
 	}
+
+
+	addPath( path:T ):this {
+		this.paths.push( path );
+
+		return this;
+	}
+
 
 	toString():string {
 		return this.paths

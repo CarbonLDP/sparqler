@@ -29,6 +29,32 @@ describe( "PathAlternativeToken", ():void => {
 
 	} );
 
+	describe( "PathAlternativeToken.addPath", ():void => {
+
+		it( "should exists", ():void => {
+			expect( PathAlternativeToken.prototype.addPath ).toBeDefined();
+			expect( PathAlternativeToken.prototype.addPath ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should add path", () => {
+			const token:PathAlternativeToken = new PathAlternativeToken();
+
+			token.addPath( new IRIRefToken( "/" ) );
+
+			expect( token.paths ).toContain( new IRIRefToken( "/" ) );
+		} );
+
+		it( "should return self", () => {
+			const token:PathAlternativeToken = new PathAlternativeToken();
+
+			const returned:PathAlternativeToken = token.addPath( new IRIRefToken( "/" ) );
+
+			expect( returned ).toBe( token );
+		} );
+
+	} );
+
 	describe( "PathAlternativeToken.toString", ():void => {
 
 		it( "should exists", ():void => {
