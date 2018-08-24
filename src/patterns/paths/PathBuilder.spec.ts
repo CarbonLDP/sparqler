@@ -66,7 +66,6 @@ describe( "PathBuilder", () => {
 				.createFrom( container, {} );
 
 			expect( builder ).toEqual( {
-				path: jasmine.any( Function ),
 				subPath: jasmine.any( Function ),
 
 				alternatives: jasmine.any( Function ),
@@ -99,64 +98,6 @@ describe( "PathBuilder", () => {
 		return Path.createFrom( pathContainer, {} );
 	}
 
-
-	describe( "PathBuilder.path", () => {
-
-		let builder:PathBuilder;
-		beforeEach( () => {
-			builder = PathBuilder.createFrom( container, {} );
-		} );
-
-		it( "should exists", () => {
-			expect( builder.path ).toBeDefined();
-			expect( builder.path ).toEqual( jasmine.any( Function ) );
-		} );
-
-
-		it( "should return path from Resource", () => {
-			const path = builder.path( createResource( "resource/" ) );
-			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
-			} );
-		} );
-
-		it( "should return path from property string", () => {
-			const path = builder.path( "resource/" );
-			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
-			} );
-		} );
-
-		it( "should return path from keyword a", () => {
-			const path = builder.path( "a" );
-			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
-			} );
-		} );
-
-
-		it( "should create Path from Resource's IRIToken", () => {
-			builder.path( createResource( "resource/" ) );
-
-			const container:Container<IRIToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new IRIRefToken( "resource/" ) );
-		} );
-
-		it( "should create Path from string IRIToken", () => {
-			builder.path( "resource/" );
-
-			const container:Container<IRIToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new IRIRefToken( "resource/" ) );
-		} );
-
-		it( "should create Path from keyword a", () => {
-			builder.path( "a" );
-
-			const container:Container<"a"> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( "a" );
-		} );
-
-	} );
 
 	describe( "PathBuilder.subPath", () => {
 

@@ -19,7 +19,7 @@ import { SubPathToken } from "../../tokens/SubPathToken";
 import { Resource } from "../triplePatterns/Resource";
 
 import { Path } from "./Path";
-import { getPropertyToken, parseProperty } from "./utils";
+import { getPropertyToken } from "./utils";
 
 
 /**
@@ -29,12 +29,6 @@ import { getPropertyToken, parseProperty } from "./utils";
  * more information.
  */
 export interface PathBuilder {
-	/**
-	 * Wraps the property provided as a path object.
-	 * @param property The property to be wrapped.
-	 */
-	path( property:Resource | "a" | string ):Path<IRIToken | "a">;
-
 	/**
 	 * Create a sub-path from a property or path.
 	 * @param path the path to be added as in the sub-path.
@@ -96,10 +90,6 @@ export interface PathBuilder {
 	onceOrMore( path:Resource | "a" | string | Path<PathToken> ):Path<PathModToken>;
 }
 
-
-function getPathFn( container:Container<undefined> ):PathBuilder[ "path" ] {
-	return property => parseProperty( container, property );
-}
 
 function getSubPathFn( container:Container<undefined> ):PathBuilder[ "subPath" ] {
 	return ( path?:Resource | "a" | string | Path<PathToken> ):any => {
@@ -257,7 +247,6 @@ export const PathBuilder:{
 } = {
 	createFrom<O extends object>( container:Container<undefined>, object:O ):O & PathBuilder {
 		return Object.assign( object, {
-			path: getPathFn( container ),
 			subPath: getSubPathFn( container ),
 
 			alternatives: getAlternativeFn( container ),

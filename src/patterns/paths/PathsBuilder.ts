@@ -7,7 +7,7 @@ import { Resource } from "../triplePatterns/Resource";
 
 import { Path } from "./Path";
 import { PathBuilder } from "./PathBuilder";
-import { parseProperty } from "./utils";
+import { getPropertyToken } from "./utils";
 
 
 /**
@@ -19,10 +19,27 @@ export interface PathsBuilder {
 }
 
 
+/**
+ * Create a {@link Path} from the property provided.
+ *
+ * @param container The general container with the {@link IRIResolver}
+ * that will be used to resolve a string property.
+ * @param property The property to be converted into a Path.
+ */
+function _parseProperty( container:Container<any>, property:Resource | "a" | string ):Path<IRIToken | "a"> {
+	const targetToken:IRIToken | "a" = getPropertyToken( container, property );
+
+	const newContainer:Container<IRIToken | "a"> = new Container( {
+		iriResolver: container.iriResolver,
+		targetToken,
+	} );
+	return Path.createFrom( newContainer, {} );
+}
+
 function getPathFn( container:Container<undefined> ):PathsBuilder[ "path" ] {
 	return ( propertyOrBuilderFn:Resource | "a" | string | (( pathBuilder:PathBuilder ) => Path<PathToken>) ):any => {
 		if( typeof propertyOrBuilderFn !== "function" )
-			return parseProperty( container, propertyOrBuilderFn );
+			return _parseProperty( container, propertyOrBuilderFn );
 
 		const pathBuilder:PathBuilder = PathBuilder.createFrom( container, {} );
 		return propertyOrBuilderFn( pathBuilder );
