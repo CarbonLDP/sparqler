@@ -20,6 +20,7 @@ import { Resource } from "../triplePatterns/Resource";
 import { Path } from "./Path";
 import { getPropertyToken, parseProperty } from "./utils";
 
+
 /**
  * Builder with the methods that helps you to construct any path.
  *
