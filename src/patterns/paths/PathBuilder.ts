@@ -12,6 +12,7 @@ import { PathNegatedToken } from "../../tokens/PathNegatedToken";
 import { PathPrimaryToken } from "../../tokens/PathPrimaryToken";
 import { PathSequenceToken } from "../../tokens/PathSequenceToken";
 import { PathToken } from "../../tokens/PathToken";
+import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
 import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
 
@@ -38,46 +39,36 @@ export interface PathBuilder {
 	 * Create a sub-path from a property or path.
 	 * @param path the path to be added as in the sub-path.
 	 */
-	subPath( path:Resource | "a" | string ):Path<SubPathToken<IRIToken | "a">>;
-	subPath<T extends PathToken>( path:Path<T> ):Path<SubPathToken<T>>;
-	subPath():Path<SubPathToken<undefined>>;
+	subPath( path?:Resource | "a" | string | Path<PathInNegatedToken | PathAlternativeToken<PathInNegatedToken>> ):Path<SubPathInNegatedToken>;
+	subPath( path:Path ):Path<SubPathToken<PathToken>>;
 
 
 	/**
 	 * Create a alternative path from the paths.
 	 * @param paths The paths to be added as alternate options.
 	 */
-	alternative( ...paths:((Resource | "a" | string) | (Resource | "a" | string)[])[] ):Path<PathAlternativeToken<IRIToken | "a">>;
-	alternative<T extends PathInAlternativeToken>( ...paths:(Path<T> | Path<T>[])[] ):Path<PathAlternativeToken<T>>;
-	alternative<T extends PathAlternativeToken>( ...paths:(Path<T> | Path<T>[])[] ):Path<PathAlternativeToken<SubPathToken<T>>>;
-	alternative( ...paths:((Path<PathToken> | Resource | "a" | string) | (Path<PathToken> | Resource | "a" | string)[])[] ):Path<PathAlternativeToken>;
+	alternatives( ...paths:((Resource | "a" | string | Path<PathInNegatedToken>) | (Resource | "a" | string | Path<PathInNegatedToken>)[])[] ):Path<PathAlternativeToken<PathInNegatedToken>>;
+	alternatives( ...paths:((Resource | "a" | string | Path<PathToken>) | (Resource | "a" | string | Path<PathToken>)[])[] ):Path<PathAlternativeToken>;
 
 	/**
 	 * Create a sequence path from the paths.
 	 * @param paths The paths to be added as path sequence.
 	 */
-	sequence( ...paths:((Resource | "a" | string) | (Resource | "a" | string)[])[] ):Path<PathSequenceToken<IRIToken | "a">>;
-	sequence<T extends PathInSequenceToken>( ...paths:(Path<T> | Path<T>[])[] ):Path<PathSequenceToken<T>>;
-	sequence<T extends PathSequenceToken | PathAlternativeToken>( ...paths:(Path<T> | Path<T>[])[] ):Path<PathSequenceToken<SubPathToken<T>>>;
-	sequence( ...paths:((Path<PathToken> | Resource | "a" | string) | (Path<PathToken> | Resource | "a" | string)[])[] ):Path<PathSequenceToken>;
+	sequences( ...paths:((Resource | "a" | string | Path<PathToken>) | (Resource | "a" | string | Path<PathToken>)[])[] ):Path<PathSequenceToken>;
 
 
 	/**
 	 * Create an inverse path from another one.
 	 * @param path The path to be inverted.
 	 */
-	inverse( path:Resource | "a" | string ):Path<PathInverseToken<IRIToken | "a">>;
-	inverse<T extends PathEltToken>( path:Path<T> ):Path<PathInverseToken<T>>;
-	inverse<T extends PathInverseToken | PathSequenceToken | PathAlternativeToken>( path:Path<T> ):Path<PathInverseToken<SubPathToken<T>>>;
-	inverse( path:Path<PathToken> | Resource | "a" | string ):Path<PathInverseToken>;
+	inverse( path:Resource | "a" | string | Path<IRIToken | "a"> ):Path<PathInverseToken<IRIToken | "a">>;
+	inverse( path:Resource | "a" | string | Path<PathToken> ):Path<PathInverseToken>;
 
 	/**
 	 * Create an negated path from the another one.
 	 * @param path The path to be negated.
 	 */
-	negated( path:Resource | "a" | string ):Path<PathNegatedToken>;
-	negated( path:Path<PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>> ):Path<PathNegatedToken>;
-	negated( path:Path<PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>> | Resource | "a" | string ):Path<PathNegatedToken>;
+	negated( path:Resource | "a" | string | Path<PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>> ):Path<PathNegatedToken>;
 
 
 	/**
@@ -86,7 +77,7 @@ export interface PathBuilder {
 	 *
 	 * @param path The path to add the mod.
 	 */
-	oneOrNone( path:Path<PathToken> | Resource | "a" | string ):Path<PathModToken>;
+	oneOrNone( path:Resource | "a" | string | Path<PathToken> ):Path<PathModToken>;
 
 	/**
 	 * Set the path to be matched zero or more times.
@@ -94,7 +85,7 @@ export interface PathBuilder {
 	 *
 	 * @param path The path to add the mod.
 	 */
-	zeroOrMore( path:Path<PathToken> | Resource | "a" | string ):Path<PathModToken>;
+	zeroOrMore( path:Resource | "a" | string | Path<PathToken> ):Path<PathModToken>;
 
 	/**
 	 * Set the path to be matched one or more times.
@@ -102,7 +93,7 @@ export interface PathBuilder {
 	 *
 	 * @param path The path to add the mod.
 	 */
-	onceOrMore( path:Path<PathToken> | Resource | "a" | string ):Path<PathModToken>;
+	onceOrMore( path:Resource | "a" | string | Path<PathToken> ):Path<PathModToken>;
 }
 
 
@@ -116,9 +107,9 @@ function getSubPathFn( container:Container<undefined> ):PathBuilder[ "subPath" ]
 			? getPropertyToken( container, path )
 			: path;
 
-		const targetToken:SubPathToken<PathToken | undefined> = new SubPathToken( pathToken );
+		const targetToken:SharedSubPathToken<PathToken | undefined> = new SharedSubPathToken( pathToken );
 
-		const newContainer:Container<SubPathToken<PathToken | undefined>> = new Container( {
+		const newContainer:Container<SharedSubPathToken<PathToken | undefined>> = new Container( {
 			iriResolver: container.iriResolver,
 			targetToken,
 		} );
@@ -132,7 +123,7 @@ function _getTokenWrapper<T extends PathToken>( ...symbols:string[] ):( token:Pa
 		if( token === "a" ) return token;
 
 		if( symbols.indexOf( token.token ) !== - 1 )
-			return new SubPathToken( token );
+			return new SharedSubPathToken( token );
 
 		return token;
 	}
@@ -141,7 +132,7 @@ function _getTokenWrapper<T extends PathToken>( ...symbols:string[] ):( token:Pa
 
 const _getInAlternativeToken = _getTokenWrapper<PathInAlternativeToken>( "pathAlternative" );
 
-function getAlternativeFn( container:Container<undefined> ):PathBuilder[ "alternative" ] {
+function getAlternativeFn( container:Container<undefined> ):PathBuilder[ "alternatives" ] {
 	return ( ...paths:((Path<PathToken> | Resource | "a" | string) | (Path<PathToken> | Resource | "a" | string)[])[] ):any => {
 		const targetToken:PathAlternativeToken = new PathAlternativeToken();
 		const addInAlternativeToken = ( path:Path<PathToken> | Resource | "a" | string ) => {
@@ -168,7 +159,7 @@ function getAlternativeFn( container:Container<undefined> ):PathBuilder[ "altern
 
 const _getInSequenceToken = _getTokenWrapper<PathInSequenceToken>( "pathAlternative", "pathSequence" );
 
-function getSequenceFn( container:Container<undefined> ):PathBuilder[ "sequence" ] {
+function getSequenceFn( container:Container<undefined> ):PathBuilder[ "sequences" ] {
 	return ( ...paths:((Path<PathToken> | Resource | "a" | string) | (Path<PathToken> | Resource | "a" | string)[])[] ):any => {
 		const targetToken:PathSequenceToken = new PathSequenceToken();
 		const addInSequenceToken = ( path:Path<PathToken> | Resource | "a" | string ) => {
@@ -269,8 +260,8 @@ export const PathBuilder:{
 			path: getPathFn( container ),
 			subPath: getSubPathFn( container ),
 
-			alternative: getAlternativeFn( container ),
-			sequence: getSequenceFn( container ),
+			alternatives: getAlternativeFn( container ),
+			sequences: getSequenceFn( container ),
 
 			inverse: getInverseFn( container ),
 			negated: getNegatedFn( container ),

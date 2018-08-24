@@ -11,7 +11,9 @@ import { PathModToken } from "../../tokens/PathModToken";
 import { PathNegatedToken } from "../../tokens/PathNegatedToken";
 import { PathSequenceToken } from "../../tokens/PathSequenceToken";
 import { PathToken } from "../../tokens/PathToken";
+import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
+import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
 
 import { Resource } from "../triplePatterns/Resource";
@@ -67,8 +69,8 @@ describe( "PathBuilder", () => {
 				path: jasmine.any( Function ),
 				subPath: jasmine.any( Function ),
 
-				alternative: jasmine.any( Function ),
-				sequence: jasmine.any( Function ),
+				alternatives: jasmine.any( Function ),
+				sequences: jasmine.any( Function ),
 
 				inverse: jasmine.any( Function ),
 				negated: jasmine.any( Function ),
@@ -209,41 +211,41 @@ describe( "PathBuilder", () => {
 			builder.subPath( createResource( "resource/" ) );
 
 			const container:Container<SubPathToken<IRIToken>> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new SubPathToken( new IRIRefToken( "resource/" ) ) );
+			expect( container.targetToken ).toEqual( new SharedSubPathToken( new IRIRefToken( "resource/" ) ) );
 		} );
 
 		it( "should create Path from string IRIToken", () => {
 			builder.subPath( "resource/" );
 
 			const container:Container<SubPathToken<IRIToken>> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new SubPathToken( new IRIRefToken( "resource/" ) ) );
+			expect( container.targetToken ).toEqual( new SharedSubPathToken( new IRIRefToken( "resource/" ) ) );
 		} );
 
 		it( "should create Path from keyword a", () => {
 			builder.subPath( "a" );
 
 			const container:Container<SubPathToken<"a">> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new SubPathToken( "a" ) );
+			expect( container.targetToken ).toEqual( new SharedSubPathToken( "a" ) );
 		} );
 
 		it( "should create Path from Path", () => {
 			builder.subPath( createMockPath( new IRIRefToken( "/" ) ) );
 
-			const container:Container<SubPathToken<IRIRefToken>> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new SubPathToken( new IRIRefToken( "/" ) ) );
+			const container:Container<SubPathInNegatedToken> = spyContainers.getLast();
+			expect( container.targetToken ).toEqual( new SharedSubPathToken( new IRIRefToken( "/" ) ) );
 		} );
 
 		it( "should create Path from empty", () => {
 			builder.subPath();
 
-			const container:Container<SubPathToken<undefined>> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new SubPathToken( void 0 ) );
+			const container:Container<SubPathInNegatedToken> = spyContainers.getLast();
+			expect( container.targetToken ).toEqual( new SharedSubPathToken( void 0 ) );
 		} );
 
 	} );
 
 
-	describe( "PathBuilder.alternative", () => {
+	describe( "PathBuilder.alternatives", () => {
 
 		let builder:PathBuilder;
 		beforeEach( () => {
@@ -251,41 +253,41 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should exists", () => {
-			expect( builder.alternative ).toBeDefined();
-			expect( builder.alternative ).toEqual( jasmine.any( Function ) );
+			expect( builder.alternatives ).toBeDefined();
+			expect( builder.alternatives ).toEqual( jasmine.any( Function ) );
 		} );
 
 
 		it( "should return path from Resource", () => {
-			const path = builder.alternative( createResource( "resource/" ) );
+			const path = builder.alternatives( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 			} );
 		} );
 
 		it( "should return path from property string", () => {
-			const path = builder.alternative( "resource/" );
+			const path = builder.alternatives( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 			} );
 		} );
 
 		it( "should return path from keyword a", () => {
-			const path = builder.alternative( "a" );
+			const path = builder.alternatives( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 			} );
 		} );
 
 		it( "should return path from path with PathInAlternativeToken", () => {
-			const path = builder.alternative( createMockPath( new IRIRefToken( "/" ) ) );
+			const path = builder.alternatives( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 			} );
 		} );
 
 		it( "should return path from path with PathAlternativeToken", () => {
-			const path = builder.alternative( createMockPath( new PathAlternativeToken() ) );
+			const path = builder.alternatives( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 			} );
@@ -293,7 +295,7 @@ describe( "PathBuilder", () => {
 
 
 		it( "should create Path from Resource's IRIToken", () => {
-			builder.alternative( createResource( "resource/" ) );
+			builder.alternatives( createResource( "resource/" ) );
 
 			const container:Container<PathAlternativeToken<IRIToken>> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathAlternativeToken<IRIToken>()
@@ -302,7 +304,7 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from string IRIToken", () => {
-			builder.alternative( "resource/" );
+			builder.alternatives( "resource/" );
 
 			const container:Container<PathAlternativeToken<IRIToken>> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathAlternativeToken<IRIToken>()
@@ -311,7 +313,7 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from keyword a", () => {
-			builder.alternative( "a" );
+			builder.alternatives( "a" );
 
 			const container:Container<PathAlternativeToken<"a">> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathAlternativeToken<"a">()
@@ -320,7 +322,7 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from Path", () => {
-			builder.alternative( createMockPath( new IRIRefToken( "/" ) ) );
+			builder.alternatives( createMockPath( new IRIRefToken( "/" ) ) );
 
 			const container:Container<PathAlternativeToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathAlternativeToken()
@@ -329,7 +331,7 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from PathNegatedToken", () => {
-			builder.alternative( createMockPath( new PathNegatedToken( "a" ) ) );
+			builder.alternatives( createMockPath( new PathNegatedToken( "a" ) ) );
 
 			const container:Container<PathAlternativeToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathAlternativeToken()
@@ -338,16 +340,16 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from SubPathToken", () => {
-			builder.alternative( createMockPath( new SubPathToken( "a" ) ) );
+			builder.alternatives( createMockPath( new SharedSubPathToken( "a" ) ) );
 
 			const container:Container<PathAlternativeToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathAlternativeToken()
-				.addPath( new SubPathToken( "a" ) )
+				.addPath( new SharedSubPathToken( "a" ) )
 			);
 		} );
 
 		it( "should create Path from PathModToken", () => {
-			builder.alternative( createMockPath( new PathModToken( "a", "?" ) ) );
+			builder.alternatives( createMockPath( new PathModToken( "a", "?" ) ) );
 
 			const container:Container<PathAlternativeToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathAlternativeToken()
@@ -356,7 +358,7 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from PathInverseToken", () => {
-			builder.alternative( createMockPath( new PathInverseToken( "a" ) ) );
+			builder.alternatives( createMockPath( new PathInverseToken( "a" ) ) );
 
 			const container:Container<PathAlternativeToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathAlternativeToken()
@@ -365,7 +367,7 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from PathSequenceToken", () => {
-			builder.alternative( createMockPath( new PathSequenceToken() ) );
+			builder.alternatives( createMockPath( new PathSequenceToken() ) );
 
 			const container:Container<PathAlternativeToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathAlternativeToken()
@@ -374,23 +376,23 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from PathAlternativeToken", () => {
-			builder.alternative( createMockPath( new PathAlternativeToken() ) );
+			builder.alternatives( createMockPath( new PathAlternativeToken() ) );
 
 			const container:Container<PathAlternativeToken<SubPathToken<PathAlternativeToken>>> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathAlternativeToken<SubPathToken<PathAlternativeToken>>()
-				.addPath( new SubPathToken( new PathAlternativeToken() ) )
+				.addPath( new SharedSubPathToken( new PathAlternativeToken() ) )
 			);
 		} );
 
 
 		it( "should create Path from multiple", () => {
-			builder.alternative(
+			builder.alternatives(
 				createResource( "resource/" ),
 				"resource/",
 				"a",
 				createMockPath( new IRIRefToken( "/" ) ),
 				createMockPath( new PathNegatedToken( "a" ) ),
-				createMockPath( new SubPathToken( "a" ) ),
+				createMockPath( new SharedSubPathToken( "a" ) ),
 				createMockPath( new PathModToken( "a", "?" ) ),
 				createMockPath( new PathInverseToken( "a" ) ),
 				createMockPath( new PathSequenceToken() ),
@@ -404,22 +406,22 @@ describe( "PathBuilder", () => {
 				.addPath( "a" )
 				.addPath( new IRIRefToken( "/" ) )
 				.addPath( new PathNegatedToken( "a" ) )
-				.addPath( new SubPathToken( "a" ) )
+				.addPath( new SharedSubPathToken( "a" ) )
 				.addPath( new PathModToken( "a", "?" ) )
 				.addPath( new PathInverseToken( "a" ) )
 				.addPath( new PathSequenceToken() )
-				.addPath( new SubPathToken( new PathAlternativeToken() ) )
+				.addPath( new SharedSubPathToken( new PathAlternativeToken() ) )
 			);
 		} );
 
 		it( "should create Path from array", () => {
-			builder.alternative( [
+			builder.alternatives( [
 				createResource( "resource/" ),
 				"resource/",
 				"a",
 				createMockPath( new IRIRefToken( "/" ) ),
 				createMockPath( new PathNegatedToken( "a" ) ),
-				createMockPath( new SubPathToken( "a" ) ),
+				createMockPath( new SharedSubPathToken( "a" ) ),
 				createMockPath( new PathModToken( "a", "?" ) ),
 				createMockPath( new PathInverseToken( "a" ) ),
 				createMockPath( new PathSequenceToken() ),
@@ -433,23 +435,23 @@ describe( "PathBuilder", () => {
 				.addPath( "a" )
 				.addPath( new IRIRefToken( "/" ) )
 				.addPath( new PathNegatedToken( "a" ) )
-				.addPath( new SubPathToken( "a" ) )
+				.addPath( new SharedSubPathToken( "a" ) )
 				.addPath( new PathModToken( "a", "?" ) )
 				.addPath( new PathInverseToken( "a" ) )
 				.addPath( new PathSequenceToken() )
-				.addPath( new SubPathToken( new PathAlternativeToken() ) )
+				.addPath( new SharedSubPathToken( new PathAlternativeToken() ) )
 			);
 		} );
 
 		it( "should create Path from multiple array", () => {
-			builder.alternative( [
+			builder.alternatives( [
 				createResource( "resource/" ),
 				"resource/",
 				"a",
 			], [
 				createMockPath( new IRIRefToken( "/" ) ),
 				createMockPath( new PathNegatedToken( "a" ) ),
-				createMockPath( new SubPathToken( "a" ) ),
+				createMockPath( new SharedSubPathToken( "a" ) ),
 				createMockPath( new PathModToken( "a", "?" ) ),
 				createMockPath( new PathInverseToken( "a" ) ),
 				createMockPath( new PathSequenceToken() ),
@@ -464,17 +466,17 @@ describe( "PathBuilder", () => {
 				.addPath( "a" )
 				.addPath( new IRIRefToken( "/" ) )
 				.addPath( new PathNegatedToken( "a" ) )
-				.addPath( new SubPathToken( "a" ) )
+				.addPath( new SharedSubPathToken( "a" ) )
 				.addPath( new PathModToken( "a", "?" ) )
 				.addPath( new PathInverseToken( "a" ) )
 				.addPath( new PathSequenceToken() )
-				.addPath( new SubPathToken( new PathAlternativeToken() ) )
+				.addPath( new SharedSubPathToken( new PathAlternativeToken() ) )
 			);
 		} );
 
 	} );
 
-	describe( "PathBuilder.sequence", () => {
+	describe( "PathBuilder.sequences", () => {
 
 		let builder:PathBuilder;
 		beforeEach( () => {
@@ -482,41 +484,41 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should exists", () => {
-			expect( builder.sequence ).toBeDefined();
-			expect( builder.sequence ).toEqual( jasmine.any( Function ) );
+			expect( builder.sequences ).toBeDefined();
+			expect( builder.sequences ).toEqual( jasmine.any( Function ) );
 		} );
 
 
 		it( "should return path from Resource", () => {
-			const path = builder.sequence( createResource( "resource/" ) );
+			const path = builder.sequences( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 			} );
 		} );
 
 		it( "should return path from property string", () => {
-			const path = builder.sequence( "resource/" );
+			const path = builder.sequences( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 			} );
 		} );
 
 		it( "should return path from keyword a", () => {
-			const path = builder.sequence( "a" );
+			const path = builder.sequences( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 			} );
 		} );
 
 		it( "should return path from path with supported path", () => {
-			const path = builder.sequence( createMockPath( new IRIRefToken( "/" ) ) );
+			const path = builder.sequences( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 			} );
 		} );
 
 		it( "should return path from path with not supported path", () => {
-			const path = builder.sequence( createMockPath( new PathAlternativeToken() ) );
+			const path = builder.sequences( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 			} );
@@ -524,7 +526,7 @@ describe( "PathBuilder", () => {
 
 
 		it( "should create Path from Resource's IRIToken", () => {
-			builder.sequence( createResource( "resource/" ) );
+			builder.sequences( createResource( "resource/" ) );
 
 			const container:Container<PathSequenceToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathSequenceToken()
@@ -533,7 +535,7 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from string IRIToken", () => {
-			builder.sequence( "resource/" );
+			builder.sequences( "resource/" );
 
 			const container:Container<PathSequenceToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathSequenceToken()
@@ -542,16 +544,16 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from keyword a", () => {
-			builder.sequence( "a" );
+			builder.sequences( "a" );
 
-			const container:Container<PathSequenceToken<"a">> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathSequenceToken<"a">()
+			const container:Container<PathSequenceToken> = spyContainers.getLast();
+			expect( container.targetToken ).toEqual( new PathSequenceToken()
 				.addPath( "a" )
 			);
 		} );
 
 		it( "should create Path from Path", () => {
-			builder.sequence( createMockPath( new IRIRefToken( "/" ) ) );
+			builder.sequences( createMockPath( new IRIRefToken( "/" ) ) );
 
 			const container:Container<PathSequenceToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathSequenceToken()
@@ -560,7 +562,7 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from PathNegatedToken", () => {
-			builder.sequence( createMockPath( new PathNegatedToken( "a" ) ) );
+			builder.sequences( createMockPath( new PathNegatedToken( "a" ) ) );
 
 			const container:Container<PathSequenceToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathSequenceToken()
@@ -569,16 +571,16 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from SubPathToken", () => {
-			builder.sequence( createMockPath( new SubPathToken( "a" ) ) );
+			builder.sequences( createMockPath( new SharedSubPathToken( "a" ) ) );
 
 			const container:Container<PathSequenceToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathSequenceToken()
-				.addPath( new SubPathToken( "a" ) )
+				.addPath( new SharedSubPathToken( "a" ) )
 			);
 		} );
 
 		it( "should create Path from PathModToken", () => {
-			builder.sequence( createMockPath( new PathModToken( "a", "?" ) ) );
+			builder.sequences( createMockPath( new PathModToken( "a", "?" ) ) );
 
 			const container:Container<PathSequenceToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathSequenceToken()
@@ -587,7 +589,7 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from PathInverseToken", () => {
-			builder.sequence( createMockPath( new PathInverseToken( "a" ) ) );
+			builder.sequences( createMockPath( new PathInverseToken( "a" ) ) );
 
 			const container:Container<PathSequenceToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathSequenceToken()
@@ -596,32 +598,32 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from PathSequenceToken", () => {
-			builder.sequence( createMockPath( new PathSequenceToken() ) );
+			builder.sequences( createMockPath( new PathSequenceToken() ) );
 
 			const container:Container<PathSequenceToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathSequenceToken()
-				.addPath( new SubPathToken( new PathSequenceToken() ) )
+				.addPath( new SharedSubPathToken( new PathSequenceToken() ) )
 			);
 		} );
 
 		it( "should create Path from PathAlternativeToken", () => {
-			builder.sequence( createMockPath( new PathAlternativeToken() ) );
+			builder.sequences( createMockPath( new PathAlternativeToken() ) );
 
 			const container:Container<PathSequenceToken> = spyContainers.getLast();
 			expect( container.targetToken ).toEqual( new PathSequenceToken()
-				.addPath( new SubPathToken( new PathAlternativeToken() ) )
+				.addPath( new SharedSubPathToken( new PathAlternativeToken() ) )
 			);
 		} );
 
 
 		it( "should create Path from multiple", () => {
-			builder.sequence(
+			builder.sequences(
 				createResource( "resource/" ),
 				"resource/",
 				"a",
 				createMockPath( new IRIRefToken( "/" ) ),
 				createMockPath( new PathNegatedToken( "a" ) ),
-				createMockPath( new SubPathToken( "a" ) ),
+				createMockPath( new SharedSubPathToken( "a" ) ),
 				createMockPath( new PathModToken( "a", "?" ) ),
 				createMockPath( new PathInverseToken( "a" ) ),
 				createMockPath( new PathSequenceToken() ),
@@ -635,22 +637,22 @@ describe( "PathBuilder", () => {
 				.addPath( "a" )
 				.addPath( new IRIRefToken( "/" ) )
 				.addPath( new PathNegatedToken( "a" ) )
-				.addPath( new SubPathToken( "a" ) )
+				.addPath( new SharedSubPathToken( "a" ) )
 				.addPath( new PathModToken( "a", "?" ) )
 				.addPath( new PathInverseToken( "a" ) )
-				.addPath( new SubPathToken( new PathSequenceToken() ) )
-				.addPath( new SubPathToken( new PathAlternativeToken() ) )
+				.addPath( new SharedSubPathToken( new PathSequenceToken() ) )
+				.addPath( new SharedSubPathToken( new PathAlternativeToken() ) )
 			);
 		} );
 
 		it( "should create Path from array", () => {
-			builder.sequence( [
+			builder.sequences( [
 				createResource( "resource/" ),
 				"resource/",
 				"a",
 				createMockPath( new IRIRefToken( "/" ) ),
 				createMockPath( new PathNegatedToken( "a" ) ),
-				createMockPath( new SubPathToken( "a" ) ),
+				createMockPath( new SharedSubPathToken( "a" ) ),
 				createMockPath( new PathModToken( "a", "?" ) ),
 				createMockPath( new PathInverseToken( "a" ) ),
 				createMockPath( new PathSequenceToken() ),
@@ -664,23 +666,23 @@ describe( "PathBuilder", () => {
 				.addPath( "a" )
 				.addPath( new IRIRefToken( "/" ) )
 				.addPath( new PathNegatedToken( "a" ) )
-				.addPath( new SubPathToken( "a" ) )
+				.addPath( new SharedSubPathToken( "a" ) )
 				.addPath( new PathModToken( "a", "?" ) )
 				.addPath( new PathInverseToken( "a" ) )
-				.addPath( new SubPathToken( new PathSequenceToken() ) )
-				.addPath( new SubPathToken( new PathAlternativeToken() ) )
+				.addPath( new SharedSubPathToken( new PathSequenceToken() ) )
+				.addPath( new SharedSubPathToken( new PathAlternativeToken() ) )
 			);
 		} );
 
 		it( "should create Path from multiple array", () => {
-			builder.sequence( [
+			builder.sequences( [
 				createResource( "resource/" ),
 				"resource/",
 				"a",
 			], [
 				createMockPath( new IRIRefToken( "/" ) ),
 				createMockPath( new PathNegatedToken( "a" ) ),
-				createMockPath( new SubPathToken( "a" ) ),
+				createMockPath( new SharedSubPathToken( "a" ) ),
 				createMockPath( new PathModToken( "a", "?" ) ),
 				createMockPath( new PathInverseToken( "a" ) ),
 				createMockPath( new PathSequenceToken() ),
@@ -695,11 +697,11 @@ describe( "PathBuilder", () => {
 				.addPath( "a" )
 				.addPath( new IRIRefToken( "/" ) )
 				.addPath( new PathNegatedToken( "a" ) )
-				.addPath( new SubPathToken( "a" ) )
+				.addPath( new SharedSubPathToken( "a" ) )
 				.addPath( new PathModToken( "a", "?" ) )
 				.addPath( new PathInverseToken( "a" ) )
-				.addPath( new SubPathToken( new PathSequenceToken() ) )
-				.addPath( new SubPathToken( new PathAlternativeToken() ) )
+				.addPath( new SharedSubPathToken( new PathSequenceToken() ) )
+				.addPath( new SharedSubPathToken( new PathAlternativeToken() ) )
 			);
 		} );
 
@@ -791,10 +793,10 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from SubPathToken", () => {
-			builder.inverse( createMockPath( new SubPathToken( "a" ) ) );
+			builder.inverse( createMockPath( new SharedSubPathToken( "a" ) ) );
 
 			const container:Container<PathInverseToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathInverseToken( new SubPathToken( "a" ) ) );
+			expect( container.targetToken ).toEqual( new PathInverseToken( new SharedSubPathToken( "a" ) ) );
 		} );
 
 		it( "should create Path from PathModToken", () => {
@@ -808,21 +810,21 @@ describe( "PathBuilder", () => {
 			builder.inverse( createMockPath( new PathInverseToken( "a" ) ) );
 
 			const container:Container<PathInverseToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathInverseToken( new SubPathToken( new PathInverseToken( "a" ) ) ) );
+			expect( container.targetToken ).toEqual( new PathInverseToken( new SharedSubPathToken( new PathInverseToken( "a" ) ) ) );
 		} );
 
 		it( "should create Path from PathSequenceToken", () => {
 			builder.inverse( createMockPath( new PathSequenceToken() ) );
 
 			const container:Container<PathInverseToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathInverseToken( new SubPathToken( new PathSequenceToken() ) ) );
+			expect( container.targetToken ).toEqual( new PathInverseToken( new SharedSubPathToken( new PathSequenceToken() ) ) );
 		} );
 
 		it( "should create Path from PathAlternativeToken", () => {
 			builder.inverse( createMockPath( new PathAlternativeToken() ) );
 
 			const container:Container<PathInverseToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathInverseToken( new SubPathToken( new PathAlternativeToken() ) ) );
+			expect( container.targetToken ).toEqual( new PathInverseToken( new SharedSubPathToken( new PathAlternativeToken() ) ) );
 		} );
 
 	} );
@@ -905,10 +907,10 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from SubPathToken", () => {
-			builder.negated( createMockPath( new SubPathToken( "a" ) ) );
+			builder.negated( createMockPath( new SharedSubPathToken( "a" ) ) );
 
 			const container:Container<PathNegatedToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathNegatedToken( new SubPathToken( "a" ) ) );
+			expect( container.targetToken ).toEqual( new PathNegatedToken( new SharedSubPathToken( "a" ) ) );
 		} );
 
 		it( "should create Path from PathInverseToken", () => {
@@ -922,7 +924,7 @@ describe( "PathBuilder", () => {
 			builder.negated( createMockPath( new PathAlternativeToken<IRIToken>() ) );
 
 			const container:Container<PathNegatedToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathNegatedToken( new SubPathToken( new PathAlternativeToken() ) ) );
+			expect( container.targetToken ).toEqual( new PathNegatedToken( new SharedSubPathToken( new PathAlternativeToken() ) ) );
 		} );
 
 	} );
@@ -1013,38 +1015,38 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from SubPathToken", () => {
-			builder.oneOrNone( createMockPath( new SubPathToken( "a" ) ) );
+			builder.oneOrNone( createMockPath( new SharedSubPathToken( "a" ) ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( "a" ), "?" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( "a" ), "?" ) );
 		} );
 
 		it( "should create Path from PathModToken", () => {
 			builder.oneOrNone( createMockPath( new PathModToken( "a", "?" ) ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathModToken( "a", "?" ) ), "?" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathModToken( "a", "?" ) ), "?" ) );
 		} );
 
 		it( "should create Path from PathInverseToken", () => {
 			builder.oneOrNone( createMockPath( new PathInverseToken( "a" ) ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathInverseToken( "a" ) ), "?" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathInverseToken( "a" ) ), "?" ) );
 		} );
 
 		it( "should create Path from PathSequenceToken", () => {
 			builder.oneOrNone( createMockPath( new PathSequenceToken() ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathSequenceToken() ), "?" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathSequenceToken() ), "?" ) );
 		} );
 
 		it( "should create Path from PathAlternativeToken", () => {
 			builder.oneOrNone( createMockPath( new PathAlternativeToken() ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathAlternativeToken() ), "?" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathAlternativeToken() ), "?" ) );
 		} );
 
 	} );
@@ -1134,38 +1136,38 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from SubPathToken", () => {
-			builder.zeroOrMore( createMockPath( new SubPathToken( "a" ) ) );
+			builder.zeroOrMore( createMockPath( new SharedSubPathToken( "a" ) ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( "a" ), "*" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( "a" ), "*" ) );
 		} );
 
 		it( "should create Path from PathModToken", () => {
 			builder.zeroOrMore( createMockPath( new PathModToken( "a", "?" ) ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathModToken( "a", "?" ) ), "*" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathModToken( "a", "?" ) ), "*" ) );
 		} );
 
 		it( "should create Path from PathInverseToken", () => {
 			builder.zeroOrMore( createMockPath( new PathInverseToken( "a" ) ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathInverseToken( "a" ) ), "*" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathInverseToken( "a" ) ), "*" ) );
 		} );
 
 		it( "should create Path from PathSequenceToken", () => {
 			builder.zeroOrMore( createMockPath( new PathSequenceToken() ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathSequenceToken() ), "*" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathSequenceToken() ), "*" ) );
 		} );
 
 		it( "should create Path from PathAlternativeToken", () => {
 			builder.zeroOrMore( createMockPath( new PathAlternativeToken() ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathAlternativeToken() ), "*" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathAlternativeToken() ), "*" ) );
 		} );
 
 	} );
@@ -1255,38 +1257,38 @@ describe( "PathBuilder", () => {
 		} );
 
 		it( "should create Path from SubPathToken", () => {
-			builder.onceOrMore( createMockPath( new SubPathToken( "a" ) ) );
+			builder.onceOrMore( createMockPath( new SharedSubPathToken( "a" ) ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( "a" ), "+" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( "a" ), "+" ) );
 		} );
 
 		it( "should create Path from PathModToken", () => {
 			builder.onceOrMore( createMockPath( new PathModToken( "a", "?" ) ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathModToken( "a", "?" ) ), "+" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathModToken( "a", "?" ) ), "+" ) );
 		} );
 
 		it( "should create Path from PathInverseToken", () => {
 			builder.onceOrMore( createMockPath( new PathInverseToken( "a" ) ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathInverseToken( "a" ) ), "+" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathInverseToken( "a" ) ), "+" ) );
 		} );
 
 		it( "should create Path from PathSequenceToken", () => {
 			builder.onceOrMore( createMockPath( new PathSequenceToken() ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathSequenceToken() ), "+" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathSequenceToken() ), "+" ) );
 		} );
 
 		it( "should create Path from PathAlternativeToken", () => {
 			builder.onceOrMore( createMockPath( new PathAlternativeToken() ) );
 
 			const container:Container<PathModToken> = spyContainers.getLast();
-			expect( container.targetToken ).toEqual( new PathModToken( new SubPathToken( new PathAlternativeToken() ), "+" ) );
+			expect( container.targetToken ).toEqual( new PathModToken( new SharedSubPathToken( new PathAlternativeToken() ), "+" ) );
 		} );
 
 	} );

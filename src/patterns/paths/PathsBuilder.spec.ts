@@ -1,4 +1,5 @@
 import { spyContainers } from "../../../test/spies/Container";
+
 import { Container } from "../../data/Container";
 import { IRIResolver } from "../../data/IRIResolver";
 
@@ -9,9 +10,8 @@ import { SubjectToken } from "../../tokens/SubjectToken";
 
 import { Resource } from "../triplePatterns/Resource";
 import { TripleSubject } from "../triplePatterns/TripleSubject";
+
 import { Path } from "./Path";
-
-
 import { PathsBuilder } from "./PathsBuilder";
 
 
@@ -146,8 +146,8 @@ describe( "PathsBuilder", () => {
 				path: jasmine.any( Function ),
 				subPath: jasmine.any( Function ),
 
-				alternative: jasmine.any( Function ),
-				sequence: jasmine.any( Function ),
+				alternatives: jasmine.any( Function ),
+				sequences: jasmine.any( Function ),
 
 				inverse: jasmine.any( Function ),
 				negated: jasmine.any( Function ),
