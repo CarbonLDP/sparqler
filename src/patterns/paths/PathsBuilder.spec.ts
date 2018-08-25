@@ -1,4 +1,4 @@
-import { spyContainers } from "../../../test/spies/Container";
+import { spyContainers } from "../../../test/spies/FluentPathContainer";
 
 import { Container } from "../../data/Container";
 import { IRIResolver } from "../../data/IRIResolver";
@@ -98,6 +98,14 @@ describe( "PathsBuilder", () => {
 			const path = builder.path( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -105,6 +113,14 @@ describe( "PathsBuilder", () => {
 			const path = builder.path( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -112,6 +128,14 @@ describe( "PathsBuilder", () => {
 			const path = builder.path( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 

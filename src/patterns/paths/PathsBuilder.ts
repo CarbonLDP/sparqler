@@ -16,10 +16,18 @@ import { getPropertyToken } from "./utils";
  * Object with the methods to build a property path.
  */
 export interface PathsBuilder {
-	path( property:Resource | "a" | string ):Path<IRIToken | "a">;
-	path<T extends Path<PathToken>>( builderFn:( pathBuilder:PathBuilder ) => T ):T;
+	path( property:Resource | "a" | string ):FluentPath<IRIToken | "a">;
+	path<T extends FluentPath<PathToken>>( builderFn:( pathBuilder:PathBuilder ) => T ):T;
 }
 
+
+function _getContainer<T extends PathToken | undefined>( container:Container<undefined>, targetToken?:T ):FluentPathContainer<T> {
+	return new FluentPathContainer<T>( {
+		...container,
+		targetToken: targetToken!,
+		fluentPathFactory: FluentPath.createFrom,
+	} );
+}
 
 /**
  * Create a {@link Path} from the property provided.
@@ -28,14 +36,11 @@ export interface PathsBuilder {
  * that will be used to resolve a string property.
  * @param property The property to be converted into a Path.
  */
-function _parseProperty( container:Container<any>, property:Resource | "a" | string ):Path<IRIToken | "a"> {
+function _parseProperty( container:Container<undefined>, property:Resource | "a" | string ):Path<IRIToken | "a"> {
 	const targetToken:IRIToken | "a" = getPropertyToken( container, property );
 
-	const newContainer:Container<IRIToken | "a"> = new Container( {
-		iriResolver: container.iriResolver,
-		targetToken,
-	} );
-	return Path.createFrom( newContainer, {} );
+	const newContainer:FluentPathContainer<IRIToken | "a"> = _getContainer( container, targetToken );
+	return FluentPath.createFrom( newContainer, {} );
 }
 
 function getPathFn( container:Container<undefined> ):PathsBuilder[ "path" ] {
@@ -43,11 +48,7 @@ function getPathFn( container:Container<undefined> ):PathsBuilder[ "path" ] {
 		if( typeof propertyOrBuilderFn !== "function" )
 			return _parseProperty( container, propertyOrBuilderFn );
 
-
-		const newContainer:FluentPathContainer<undefined> = new FluentPathContainer( {
-			...container,
-			fluentPathFactory: FluentPath.createFrom,
-		} );
+		const newContainer:FluentPathContainer<undefined> = _getContainer( container );
 
 		const pathBuilder:PathBuilder = PathBuilder.createFrom( newContainer, {} );
 		return propertyOrBuilderFn( pathBuilder );
