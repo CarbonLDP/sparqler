@@ -76,12 +76,7 @@ function _updateContainer<C extends Container<TripleToken | BlankNodePropertyTok
  */
 function getHasFn<T extends object, C extends Container<TripleToken | BlankNodePropertyToken>>( genericFactory:Factory<C, T>, container:C ):PropertyBuilder<T>[ "has" ] {
 	return ( property:string | Variable | Resource | Path, objects:Objects | Objects[] ) => {
-		const verbToken:VariableToken | PathToken = (typeof property === "string")
-			? getPropertyToken( container, property )
-			: "getSubject" in property
-				? property.getSubject()
-				: property.getPath();
-
+		const verbToken:VariableToken | PathToken = getPropertyToken( container, property );
 		const propertyToken:PropertyToken = new PropertyToken( verbToken );
 
 		objects = Array.isArray( objects ) ? objects : [ objects ];

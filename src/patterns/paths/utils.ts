@@ -2,8 +2,10 @@ import { Container } from "../../data/Container";
 
 import { IRIToken } from "../../tokens/IRIToken";
 import { PathToken } from "../../tokens/PathToken";
+import { VariableToken } from "../../tokens/VariableToken";
 
 import { Resource } from "../triplePatterns/Resource";
+import { Variable } from "../triplePatterns/Variable";
 
 import { Path } from "./Path";
 
@@ -15,7 +17,9 @@ import { Path } from "./Path";
  * that will be used to resolve a string property.
  * @param property The property to obtain its token.
  */
-export function getPropertyToken<T extends PathToken>( container:Container<any>, property:Resource | "a" | string | Path<T> | PathToken ):IRIToken | "a" | T {
+export function getPropertyToken<T extends PathToken>( container:Container<any>, property:Resource | "a" | string | Path<T> | PathToken ):IRIToken | "a" | T;
+export function getPropertyToken<T extends PathToken>( container:Container<any>, property:Variable | Resource | "a" | string | Path<T> ):VariableToken | IRIToken | "a" | T;
+export function getPropertyToken<T extends PathToken>( container:Container<any>, property:Variable | Resource | "a" | string | Path<T> | PathToken ):VariableToken | IRIToken | "a" | T {
 	if( property === "a" )
 		return property;
 
