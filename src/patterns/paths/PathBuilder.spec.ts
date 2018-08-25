@@ -1,4 +1,4 @@
-import { spyContainers } from "../../../test/spies/Container";
+import { spyContainers } from "../../../test/spies/FluentPathContainer";
 
 import { Container } from "../../data/Container";
 import { IRIResolver } from "../../data/IRIResolver";
@@ -18,6 +18,8 @@ import { SubPathToken } from "../../tokens/SubPathToken";
 
 import { Resource } from "../triplePatterns/Resource";
 import { TripleSubject } from "../triplePatterns/TripleSubject";
+import { FluentPath } from "./FluentPath";
+import { FluentPathContainer } from "./FluentPathContainer";
 
 import { Path } from "./Path";
 import { PathBuilder } from "./PathBuilder";
@@ -30,11 +32,12 @@ describe( "PathBuilder", () => {
 		expect( PathBuilder ).toEqual( jasmine.any( Object ) );
 	} );
 
-	let container:Container<undefined>;
+	let container:FluentPathContainer<undefined>;
 	beforeEach( () => {
-		container = new Container( {
+		container = new FluentPathContainer( {
 			iriResolver: new IRIResolver(),
 			targetToken: void 0,
+			fluentPathFactory: FluentPath.createFrom,
 		} );
 
 		spyContainers.install();
@@ -116,6 +119,14 @@ describe( "PathBuilder", () => {
 			const path = builder.subPath( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -123,6 +134,14 @@ describe( "PathBuilder", () => {
 			const path = builder.subPath( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -130,6 +149,14 @@ describe( "PathBuilder", () => {
 			const path = builder.subPath( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -137,6 +164,14 @@ describe( "PathBuilder", () => {
 			const path = builder.subPath( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -144,6 +179,14 @@ describe( "PathBuilder", () => {
 			const path = builder.subPath();
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -203,6 +246,14 @@ describe( "PathBuilder", () => {
 			const path = builder.alternatives( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -210,6 +261,14 @@ describe( "PathBuilder", () => {
 			const path = builder.alternatives( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -217,6 +276,14 @@ describe( "PathBuilder", () => {
 			const path = builder.alternatives( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -224,6 +291,14 @@ describe( "PathBuilder", () => {
 			const path = builder.alternatives( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -231,6 +306,14 @@ describe( "PathBuilder", () => {
 			const path = builder.alternatives( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -434,6 +517,14 @@ describe( "PathBuilder", () => {
 			const path = builder.sequences( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -441,6 +532,14 @@ describe( "PathBuilder", () => {
 			const path = builder.sequences( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -448,6 +547,14 @@ describe( "PathBuilder", () => {
 			const path = builder.sequences( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -455,6 +562,14 @@ describe( "PathBuilder", () => {
 			const path = builder.sequences( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -462,6 +577,14 @@ describe( "PathBuilder", () => {
 			const path = builder.sequences( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -666,6 +789,14 @@ describe( "PathBuilder", () => {
 			const path = builder.inverse( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -673,6 +804,14 @@ describe( "PathBuilder", () => {
 			const path = builder.inverse( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -680,6 +819,14 @@ describe( "PathBuilder", () => {
 			const path = builder.inverse( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -687,6 +834,14 @@ describe( "PathBuilder", () => {
 			const path = builder.inverse( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -694,6 +849,14 @@ describe( "PathBuilder", () => {
 			const path = builder.inverse( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -787,6 +950,14 @@ describe( "PathBuilder", () => {
 			const path = builder.negated( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -794,6 +965,14 @@ describe( "PathBuilder", () => {
 			const path = builder.negated( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -801,6 +980,14 @@ describe( "PathBuilder", () => {
 			const path = builder.negated( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -808,6 +995,14 @@ describe( "PathBuilder", () => {
 			const path = builder.negated( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -815,6 +1010,14 @@ describe( "PathBuilder", () => {
 			const path = builder.negated( createMockPath( new PathAlternativeToken<IRIToken>() ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -888,6 +1091,14 @@ describe( "PathBuilder", () => {
 			const path = builder.oneOrNone( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -895,6 +1106,14 @@ describe( "PathBuilder", () => {
 			const path = builder.oneOrNone( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -902,6 +1121,14 @@ describe( "PathBuilder", () => {
 			const path = builder.oneOrNone( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -909,6 +1136,14 @@ describe( "PathBuilder", () => {
 			const path = builder.oneOrNone( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -916,6 +1151,14 @@ describe( "PathBuilder", () => {
 			const path = builder.oneOrNone( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1009,6 +1252,14 @@ describe( "PathBuilder", () => {
 			const path = builder.zeroOrMore( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1016,6 +1267,14 @@ describe( "PathBuilder", () => {
 			const path = builder.zeroOrMore( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1023,6 +1282,14 @@ describe( "PathBuilder", () => {
 			const path = builder.zeroOrMore( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1030,6 +1297,14 @@ describe( "PathBuilder", () => {
 			const path = builder.zeroOrMore( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1037,6 +1312,14 @@ describe( "PathBuilder", () => {
 			const path = builder.zeroOrMore( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1130,6 +1413,14 @@ describe( "PathBuilder", () => {
 			const path = builder.onceOrMore( createResource( "resource/" ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1137,6 +1428,14 @@ describe( "PathBuilder", () => {
 			const path = builder.onceOrMore( "resource/" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1144,6 +1443,14 @@ describe( "PathBuilder", () => {
 			const path = builder.onceOrMore( "a" );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1151,6 +1458,14 @@ describe( "PathBuilder", () => {
 			const path = builder.onceOrMore( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1158,6 +1473,14 @@ describe( "PathBuilder", () => {
 			const path = builder.onceOrMore( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 

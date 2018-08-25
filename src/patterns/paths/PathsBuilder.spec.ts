@@ -143,7 +143,6 @@ describe( "PathsBuilder", () => {
 
 			builder.path( spy );
 			expect( spy ).toHaveBeenCalledWith( {
-				path: jasmine.any( Function ),
 				subPath: jasmine.any( Function ),
 
 				alternatives: jasmine.any( Function ),

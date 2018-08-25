@@ -4,6 +4,8 @@ import { IRIToken } from "../../tokens/IRIToken";
 import { PathToken } from "../../tokens/PathToken";
 
 import { Resource } from "../triplePatterns/Resource";
+import { FluentPath } from "./FluentPath";
+import { FluentPathContainer } from "./FluentPathContainer";
 
 import { Path } from "./Path";
 import { PathBuilder } from "./PathBuilder";
@@ -41,7 +43,13 @@ function getPathFn( container:Container<undefined> ):PathsBuilder[ "path" ] {
 		if( typeof propertyOrBuilderFn !== "function" )
 			return _parseProperty( container, propertyOrBuilderFn );
 
-		const pathBuilder:PathBuilder = PathBuilder.createFrom( container, {} );
+
+		const newContainer:FluentPathContainer<undefined> = new FluentPathContainer( {
+			...container,
+			fluentPathFactory: FluentPath.createFrom,
+		} );
+
+		const pathBuilder:PathBuilder = PathBuilder.createFrom( newContainer, {} );
 		return propertyOrBuilderFn( pathBuilder );
 	};
 }
