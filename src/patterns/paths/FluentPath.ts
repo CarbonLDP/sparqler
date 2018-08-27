@@ -1,3 +1,4 @@
+import { IRIToken } from "../../tokens/IRIToken";
 import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
 import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
 import { PathInverseToken } from "../../tokens/PathInverseToken";
@@ -7,6 +8,7 @@ import { PathToken } from "../../tokens/PathToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
 
 import { Resource } from "../triplePatterns/Resource";
+import { DeniableFluentPath } from "./DeniableFluentPath";
 
 import { FluentPathContainer } from "./FluentPathContainer";
 import { getAlternativeFn } from "./fns/alternativeFn";
@@ -33,14 +35,14 @@ export interface FluentPath<T extends PathToken = PathToken> extends Path<T> {
 	/**
 	 * Wrap the current path as a sub-path.
 	 */
-	subPath():FluentPath<SubPathToken<T>>;
+	subPath():T extends PathInNegatedToken ? DeniableFluentPath<SubPathToken<T>> : FluentPath<SubPathToken<T>>;
 
 
 	/**
 	 * Add alternative paths from the current one.
 	 * @param paths The to be added as alternatives.
 	 */
-	or( ...paths:((Resource | "a" | string | Path<PathInNegatedToken>) | (Resource | "a" | string | Path<PathInNegatedToken>)[])[] ):FluentPath<PathAlternativeToken>;
+	or( ...paths:((Resource | "a" | string | Path<PathInNegatedToken>) | (Resource | "a" | string | Path<PathInNegatedToken>)[])[] ):T extends PathInNegatedToken ? DeniableFluentPath<PathAlternativeToken<PathInNegatedToken>> : FluentPath<PathAlternativeToken>;
 	or( ...paths:((Resource | "a" | string | Path<PathToken>) | (Resource | "a" | string | Path<PathToken>)[])[] ):FluentPath<PathAlternativeToken>;
 
 	/**
@@ -53,23 +55,23 @@ export interface FluentPath<T extends PathToken = PathToken> extends Path<T> {
 	/**
 	 * Change the current path to be an inverse path.
 	 */
-	inverse():FluentPath<PathInverseToken>;
+	inverse():T extends PathInNegatedToken ? DeniableFluentPath<PathInverseToken<IRIToken | "a">> : FluentPath<PathInverseToken>;
 
 
 	/**
 	 * Add the one or none mod (?) into the current path.
 	 */
-	oneOrNone():Path<PathModToken>;
+	oneOrNone():FluentPath<PathModToken>;
 
 	/**
 	 * Add the zero or more mod (*) into the current path.
 	 */
-	zeroOrMore():Path<PathModToken>;
+	zeroOrMore():FluentPath<PathModToken>;
 
 	/**
 	 * Add the once or more mod (+) into the current path.
 	 */
-	onceOrMore():Path<PathModToken>;
+	onceOrMore():FluentPath<PathModToken>;
 }
 
 /**
@@ -94,10 +96,10 @@ export const FluentPath:{
 		return Path.createFrom( container, Object.assign( object, {
 			subPath: getSubPathFn<T>( container ),
 
-			or: getAlternativeFn( container ),
+			or: getAlternativeFn<T>( container ),
 			then: getSequenceFn( container ),
 
-			inverse: getInverseFn( container ),
+			inverse: getInverseFn<T>( container ),
 
 			oneOrNone: getModFn( container, "?" ),
 			zeroOrMore: getModFn( container, "*" ),

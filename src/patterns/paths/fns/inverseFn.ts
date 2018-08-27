@@ -1,5 +1,6 @@
 import { IRIToken } from "../../../tokens/IRIToken";
 import { PathEltToken } from "../../../tokens/PathEltToken";
+import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
 import { PathInverseToken } from "../../../tokens/PathInverseToken";
 import { PathToken } from "../../../tokens/PathToken";
 
@@ -21,10 +22,10 @@ type TargetParams = Resource | "a" | string | Path<PathToken>;
 const _getInInverseToken = _getTokenWrapper<PathEltToken>( "pathAlternative", "pathSequence", "pathInverse" );
 
 
-export type InverseFn = ( path?:Resource | "a" | string | Path<PathToken> )
-	=> DeniableFluentPath<PathInverseToken<IRIToken | "a">> & FluentPath<PathInverseToken>;
+export type InverseFn<T extends PathToken> = ( path?:Resource | "a" | string | Path<PathToken> )
+	=> DeniableFluentPath<PathInverseToken<IRIToken | "a">> & (T extends PathInNegatedToken ? DeniableFluentPath<PathInverseToken<IRIToken | "a">> : FluentPath<PathInverseToken>);
 
-export function getInverseFn( container:FluentPathContainer<undefined | PathToken> ):InverseFn {
+export function getInverseFn<T extends PathToken>( container:FluentPathContainer<undefined | PathToken> ):InverseFn<T> {
 	return ( path?:TargetParams ) => {
 		const token:PathToken = container.targetToken
 			// In FluentPath

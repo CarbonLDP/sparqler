@@ -21,10 +21,10 @@ type TargetParams = Resource | "a" | string | Path<PathToken>;
 const _getInAlternativeToken = _getTokenWrapper<PathInAlternativeToken>( "pathAlternative" );
 
 
-export type AlternativeFn = ( ...paths:((Resource | "a" | string | Path<PathToken>) | (Resource | "a" | string | Path<PathToken>)[])[] )
-	=> FluentPath<PathAlternativeToken> & DeniableFluentPath<PathAlternativeToken<PathInNegatedToken>>;
+export type AlternativeFn<T extends PathToken> = ( ...paths:((Resource | "a" | string | Path<PathToken>) | (Resource | "a" | string | Path<PathToken>)[])[] )
+	=> (T extends PathInNegatedToken ? DeniableFluentPath<PathAlternativeToken<PathInNegatedToken>> : FluentPath<PathAlternativeToken>) & DeniableFluentPath<PathAlternativeToken<PathInNegatedToken>>;
 
-export function getAlternativeFn( container:FluentPathContainer<undefined | PathToken> ):AlternativeFn {
+export function getAlternativeFn<T extends PathToken>( container:FluentPathContainer<undefined | PathToken> ):AlternativeFn<T> {
 	return ( ...paths:(TargetParams | TargetParams[])[] ) => {
 		const tokensParams:PathToken[] = paths
 			.reduce<TargetParams[]>( ( array, paths ) => array.concat( paths ), [] )
@@ -32,14 +32,14 @@ export function getAlternativeFn( container:FluentPathContainer<undefined | Path
 
 		// [In FluentPath] Add to process when not alternative
 		if( container.targetToken && ! (container.targetToken instanceof PathAlternativeToken) )
-			tokensParams.push( container.targetToken );
+			tokensParams.unshift( container.targetToken );
 
 		const processedTokens:PathInAlternativeToken[] = tokensParams
 			.map( _getInAlternativeToken );
 
 		// [In FluentPath] Extends if path alternative, not process needed
 		if( container.targetToken instanceof PathAlternativeToken )
-			processedTokens.push( ...container.targetToken.paths );
+			processedTokens.unshift( ...container.targetToken.paths );
 
 
 		const targetToken:TargetToken = new PathAlternativeToken();

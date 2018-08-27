@@ -28,14 +28,14 @@ export function getSequenceFn( container:FluentPathContainer<undefined | PathTok
 
 		// [In FluentPath] Add to process when not sequence
 		if( container.targetToken && ! (container.targetToken instanceof PathSequenceToken) )
-			tokensParams.push( container.targetToken );
+			tokensParams.unshift( container.targetToken );
 
 		const processedTokens:PathInSequenceToken[] = tokensParams
 			.map( _getInSequenceToken );
 
 		// [In FluentPath] Extends if path alternative, not process needed
 		if( container.targetToken instanceof PathSequenceToken )
-			processedTokens.push( ...container.targetToken.paths );
+			processedTokens.unshift( ...container.targetToken.paths );
 
 
 		const targetToken:PathSequenceToken = new PathSequenceToken();

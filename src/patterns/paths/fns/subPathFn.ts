@@ -1,3 +1,4 @@
+import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
 import { PathToken } from "../../../tokens/PathToken";
 import { SharedSubPathToken } from "../../../tokens/SharedSubPathToken";
 import { SubPathInNegatedToken } from "../../../tokens/SubPathInNegatedToken";
@@ -25,7 +26,7 @@ function _canBeNegated( token:PathToken | undefined ):boolean {
 
 
 export type SubPathFn<T extends PathToken = PathToken> = ( path?:Resource | "a" | string | Path<PathToken> ) =>
-	FluentPath<SubPathToken<T>> & DeniableFluentPath<SubPathInNegatedToken>;
+	(T extends PathInNegatedToken ? DeniableFluentPath<SubPathToken<T>> : FluentPath<SubPathToken<T>>) & DeniableFluentPath<SubPathInNegatedToken>;
 
 export function getSubPathFn<T extends PathToken>( container:FluentPathContainer<undefined | PathToken> ):SubPathFn<T> {
 	return ( path?:Resource | "a" | string | Path<PathToken> ) => {
