@@ -1,7 +1,11 @@
 import { Container, ContainerData } from "../../data/Container";
 
+import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
+import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
 import { PathToken } from "../../tokens/PathToken";
+import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
 
+import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";
 
 
@@ -10,7 +14,15 @@ import { FluentPath } from "./FluentPath";
  * of a {@link FluentPathContainer}.
  */
 export interface FluentPathContainerData<T extends PathToken | undefined> extends ContainerData<T> {
+	/**
+	 * @see FluentPathContainer.fluentPathFactory
+	 */
 	fluentPathFactory:<W extends PathToken, O extends object>( container:FluentPathContainer<W>, object:O ) => O & FluentPath<W>;
+
+	/**
+	 * @see FluentPathContainer.deniableFluentPathFactory
+	 */
+	deniableFluentPathFactory:<W extends PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>, O extends object>( container:FluentPathContainer<W>, object:O ) => O & DeniableFluentPath<W>;
 }
 
 
@@ -25,11 +37,13 @@ export interface FluentPathContainerData<T extends PathToken | undefined> extend
 export class FluentPathContainer<T extends PathToken | undefined> extends Container<T> implements FluentPathContainerData<T> {
 
 	readonly fluentPathFactory:<W extends PathToken, O extends object>( container:FluentPathContainer<W>, object:O ) => O & FluentPath<W>;
+	readonly deniableFluentPathFactory:<W extends PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>, O extends object>( container:FluentPathContainer<W>, object:O ) => O & DeniableFluentPath<W>;
 
 	constructor( data:FluentPathContainerData<T> ) {
 		super( data );
 
 		this.fluentPathFactory = data.fluentPathFactory;
+		this.deniableFluentPathFactory = data.deniableFluentPathFactory;
 
 		Object.freeze( this );
 	}

@@ -5,12 +5,13 @@ import { PathToken } from "../../../tokens/PathToken";
 
 import { Resource } from "../../triplePatterns/Resource";
 
+import { DeniableFluentPath } from "../DeniableFluentPath";
 import { FluentPath } from "../FluentPath";
 import { FluentPathContainer } from "../FluentPathContainer";
 import { Path } from "../Path";
 import { getPropertyToken } from "../utils";
 
-import { _getTokenWrapper } from "./utils";
+import { _getTokenWrapper, _isBasePrimitive } from "./utils";
 
 
 type TargetToken = PathInverseToken<IRIToken | "a"> & PathInverseToken;
@@ -21,7 +22,7 @@ const _getInInverseToken = _getTokenWrapper<PathEltToken>( "pathAlternative", "p
 
 
 export type InverseFn = ( path?:Resource | "a" | string | Path<PathToken> )
-	=> FluentPath<PathInverseToken<IRIToken | "a">> & FluentPath<PathInverseToken>;
+	=> DeniableFluentPath<PathInverseToken<IRIToken | "a">> & FluentPath<PathInverseToken>;
 
 export function getInverseFn( container:FluentPathContainer<undefined | PathToken> ):InverseFn {
 	return ( path?:TargetParams ) => {
@@ -39,6 +40,10 @@ export function getInverseFn( container:FluentPathContainer<undefined | PathToke
 			targetToken,
 		} );
 
-		return container.fluentPathFactory( newContainer, {} );
+
+		if( _isBasePrimitive( token ) )
+			return container.deniableFluentPathFactory( newContainer, {} );
+
+		return container.fluentPathFactory( newContainer, {} ) as any;
 	}
 }

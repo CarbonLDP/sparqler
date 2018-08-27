@@ -5,12 +5,13 @@ import { PathToken } from "../../../tokens/PathToken";
 
 import { Resource } from "../../triplePatterns/Resource";
 
+import { DeniableFluentPath } from "../DeniableFluentPath";
 import { FluentPath } from "../FluentPath";
 import { FluentPathContainer } from "../FluentPathContainer";
 import { Path } from "../Path";
 import { getPropertyToken } from "../utils";
 
-import { _getTokenWrapper } from "./utils";
+import { _getTokenWrapper, _isPathInNegatedToken } from "./utils";
 
 
 type TargetToken = PathAlternativeToken & PathAlternativeToken<PathInNegatedToken>;
@@ -21,7 +22,7 @@ const _getInAlternativeToken = _getTokenWrapper<PathInAlternativeToken>( "pathAl
 
 
 export type AlternativeFn = ( ...paths:((Resource | "a" | string | Path<PathToken>) | (Resource | "a" | string | Path<PathToken>)[])[] )
-	=> FluentPath<PathAlternativeToken> & FluentPath<PathAlternativeToken<PathInNegatedToken>>;
+	=> FluentPath<PathAlternativeToken> & DeniableFluentPath<PathAlternativeToken<PathInNegatedToken>>;
 
 export function getAlternativeFn( container:FluentPathContainer<undefined | PathToken> ):AlternativeFn {
 	return ( ...paths:(TargetParams | TargetParams[])[] ) => {
@@ -49,6 +50,10 @@ export function getAlternativeFn( container:FluentPathContainer<undefined | Path
 			targetToken,
 		} );
 
-		return container.fluentPathFactory( newContainer, {} );
+
+		if( processedTokens.every( _isPathInNegatedToken ) )
+			return container.deniableFluentPathFactory( newContainer, {} );
+
+		return container.fluentPathFactory( newContainer, {} ) as any;
 	}
 }

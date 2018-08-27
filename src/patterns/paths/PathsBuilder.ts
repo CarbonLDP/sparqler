@@ -4,9 +4,10 @@ import { IRIToken } from "../../tokens/IRIToken";
 import { PathToken } from "../../tokens/PathToken";
 
 import { Resource } from "../triplePatterns/Resource";
+
+import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";
 import { FluentPathContainer } from "./FluentPathContainer";
-
 import { Path } from "./Path";
 import { PathBuilder } from "./PathBuilder";
 import { getPropertyToken } from "./utils";
@@ -16,7 +17,7 @@ import { getPropertyToken } from "./utils";
  * Object with the methods to build a property path.
  */
 export interface PathsBuilder {
-	path( property:Resource | "a" | string ):FluentPath<IRIToken | "a">;
+	path( property:Resource | "a" | string ):DeniableFluentPath<IRIToken | "a">;
 	path<T extends FluentPath<PathToken>>( builderFn:( pathBuilder:PathBuilder ) => T ):T;
 }
 
@@ -26,6 +27,7 @@ function _getContainer<T extends PathToken | undefined>( container:Container<und
 		...container,
 		targetToken: targetToken!,
 		fluentPathFactory: FluentPath.createFrom,
+		deniableFluentPathFactory: DeniableFluentPath.createFrom,
 	} );
 }
 
@@ -36,11 +38,11 @@ function _getContainer<T extends PathToken | undefined>( container:Container<und
  * that will be used to resolve a string property.
  * @param property The property to be converted into a Path.
  */
-function _parseProperty( container:Container<undefined>, property:Resource | "a" | string ):Path<IRIToken | "a"> {
+function _parseProperty( container:Container<undefined>, property:Resource | "a" | string ):DeniableFluentPath<IRIToken | "a"> {
 	const targetToken:IRIToken | "a" = getPropertyToken( container, property );
 
 	const newContainer:FluentPathContainer<IRIToken | "a"> = _getContainer( container, targetToken );
-	return FluentPath.createFrom( newContainer, {} );
+	return DeniableFluentPath.createFrom( newContainer, {} );
 }
 
 function getPathFn( container:Container<undefined> ):PathsBuilder[ "path" ] {

@@ -1,7 +1,6 @@
 import { PathAlternativeToken } from "../../../tokens/PathAlternativeToken";
 import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
 import { PathNegatedToken } from "../../../tokens/PathNegatedToken";
-import { PathToken } from "../../../tokens/PathToken";
 import { SubPathInNegatedToken } from "../../../tokens/SubPathInNegatedToken";
 
 import { Resource } from "../../triplePatterns/Resource";
@@ -14,11 +13,13 @@ import { getPropertyToken } from "../utils";
 import { _getTokenWrapper } from "./utils";
 
 
+type ExpectedToken = PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>;
+
 type TargetParams =
 	| Resource
 	| "a"
 	| string
-	| Path<PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>>
+	| Path<ExpectedToken>
 	;
 
 const _getInNegatedToken = _getTokenWrapper<PathInNegatedToken | SubPathInNegatedToken>( "pathAlternative" );
@@ -27,9 +28,9 @@ const _getInNegatedToken = _getTokenWrapper<PathInNegatedToken | SubPathInNegate
 export type NegatedFn = ( path?:Resource | "a" | string | Path<PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>> ) =>
 	FluentPath<PathNegatedToken>;
 
-export function getNegatedFn( container:FluentPathContainer<undefined | PathToken> ):NegatedFn {
+export function getNegatedFn( container:FluentPathContainer<undefined | PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>> ):NegatedFn {
 	return ( path?:TargetParams ) => {
-		const token:PathToken = container.targetToken
+		const token:ExpectedToken = container.targetToken
 			// In FluentPath
 			? container.targetToken
 			// In FluentPath

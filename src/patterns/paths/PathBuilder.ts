@@ -10,6 +10,8 @@ import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
 
 import { Resource } from "../triplePatterns/Resource";
+
+import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";
 
 import { FluentPathContainer } from "./FluentPathContainer";
@@ -34,7 +36,7 @@ export interface PathBuilder {
 	 * Create a sub-path from a property or path.
 	 * @param path the path to be added as in the sub-path.
 	 */
-	subPath( path?:Resource | "a" | string | Path<PathInNegatedToken | PathAlternativeToken<PathInNegatedToken>> ):FluentPath<SubPathInNegatedToken>;
+	subPath( path?:Resource | "a" | string | Path<PathInNegatedToken | PathAlternativeToken<PathInNegatedToken>> ):DeniableFluentPath<SubPathInNegatedToken>;
 	subPath( path:Path ):FluentPath<SubPathToken<PathToken>>;
 
 
@@ -42,7 +44,7 @@ export interface PathBuilder {
 	 * Create a alternative path from the paths.
 	 * @param paths The paths to be added as alternate options.
 	 */
-	alternatives( ...paths:((Resource | "a" | string | Path<PathInNegatedToken>) | (Resource | "a" | string | Path<PathInNegatedToken>)[])[] ):FluentPath<PathAlternativeToken<PathInNegatedToken>>;
+	alternatives( ...paths:((Resource | "a" | string | Path<PathInNegatedToken>) | (Resource | "a" | string | Path<PathInNegatedToken>)[])[] ):DeniableFluentPath<PathAlternativeToken<PathInNegatedToken>>;
 	alternatives( ...paths:((Resource | "a" | string | Path<PathToken>) | (Resource | "a" | string | Path<PathToken>)[])[] ):FluentPath<PathAlternativeToken>;
 
 	/**
@@ -56,7 +58,7 @@ export interface PathBuilder {
 	 * Create an inverse path from another one.
 	 * @param path The path to be inverted.
 	 */
-	inverse( path:Resource | "a" | string | Path<IRIToken | "a"> ):FluentPath<PathInverseToken<IRIToken | "a">>;
+	inverse( path:Resource | "a" | string | Path<IRIToken | "a"> ):DeniableFluentPath<PathInverseToken<IRIToken | "a">>;
 	inverse( path:Resource | "a" | string | Path<PathToken> ):FluentPath<PathInverseToken>;
 
 	/**

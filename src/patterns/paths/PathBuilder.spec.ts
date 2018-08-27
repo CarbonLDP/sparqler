@@ -18,6 +18,8 @@ import { SubPathToken } from "../../tokens/SubPathToken";
 
 import { Resource } from "../triplePatterns/Resource";
 import { TripleSubject } from "../triplePatterns/TripleSubject";
+
+import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";
 import { FluentPathContainer } from "./FluentPathContainer";
 
@@ -38,6 +40,7 @@ describe( "PathBuilder", () => {
 			iriResolver: new IRIResolver(),
 			targetToken: void 0,
 			fluentPathFactory: FluentPath.createFrom,
+			deniableFluentPathFactory: DeniableFluentPath.createFrom,
 		} );
 
 		spyContainers.install();
@@ -124,6 +127,7 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
@@ -139,6 +143,7 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
@@ -154,14 +159,31 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
-		it( "should return path from path", () => {
+		it( "should return path from path with IRI", () => {
 			const path = builder.subPath( createMockPath( new IRIRefToken( "/" ) ) );
+			expect( path ).toEqual( {
+				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
+			} );
+		} );
+
+		it( "should return path from path with mod path", () => {
+			const path = builder.subPath( createMockPath( new PathModToken( new IRIRefToken( "/" ), "?" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 
@@ -184,6 +206,7 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
@@ -251,6 +274,7 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
@@ -266,6 +290,7 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
@@ -281,14 +306,47 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
 			} );
 		} );
 
-		it( "should return path from path with PathInAlternativeToken", () => {
+		it( "should return path from path with IRI", () => {
 			const path = builder.alternatives( createMockPath( new IRIRefToken( "/" ) ) );
+			expect( path ).toEqual( {
+				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
+			} );
+		} );
+
+		it( "should return path from inverse path with IRI", () => {
+			const path = builder.alternatives( createMockPath( new PathInverseToken( new IRIRefToken( "/" ) ) ) );
+			expect( path ).toEqual( {
+				getPath: jasmine.any( Function ),
+
+				subPath: jasmine.any( Function ),
+				or: jasmine.any( Function ),
+				then: jasmine.any( Function ),
+				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
+				oneOrNone: jasmine.any( Function ),
+				zeroOrMore: jasmine.any( Function ),
+				onceOrMore: jasmine.any( Function ),
+			} );
+		} );
+
+		it( "should return path from path with mod path", () => {
+			const path = builder.alternatives( createMockPath( new PathModToken( new IRIRefToken( "/" ), "?" ) ) );
 			expect( path ).toEqual( {
 				getPath: jasmine.any( Function ),
 
@@ -794,6 +852,7 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
@@ -809,6 +868,7 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
@@ -824,6 +884,7 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
@@ -839,6 +900,7 @@ describe( "PathBuilder", () => {
 				or: jasmine.any( Function ),
 				then: jasmine.any( Function ),
 				inverse: jasmine.any( Function ),
+				negated: jasmine.any( Function ),
 				oneOrNone: jasmine.any( Function ),
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
