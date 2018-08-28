@@ -3,12 +3,16 @@ import { Factory } from "../../data/Factory";
 import { cloneElement } from "../../data/utils";
 
 import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
+import { PathToken } from "../../tokens/PathToken";
 import { PropertyToken } from "../../tokens/PropertyToken";
 import { TripleToken } from "../../tokens/TripleToken";
-import { VariableOrIRIToken } from "../../tokens/VariableOrIRIToken";
+import { VariableToken } from "../../tokens/VariableToken";
+
+import { Path } from "../paths/Path";
+import { getPropertyToken } from "../paths/utils";
 
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
-import { _resolvePath, convertValue } from "../utils";
+import { convertValue } from "../utils";
 
 import { BlankNodeProperty } from "./BlankNodeProperty";
 import { Collection } from "./Collection";
@@ -29,7 +33,7 @@ export interface PropertyBuilder<T extends object> {
 	 *
 	 * @return Object that allows to add more data to the triple.
 	 */
-	has( property:Variable | Resource | "a" | string, objects:(SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty) | (SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty)[] ):PropertyBuilderMore<T> & T;
+	has( property:Path | Variable | Resource | "a" | string, objects:(SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty) | (SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty)[] ):PropertyBuilderMore<T> & T;
 }
 
 /**
@@ -44,7 +48,7 @@ export interface PropertyBuilderMore<T extends object> {
 	 *
 	 * @return Object that allows to add more data to the triple.
 	 */
-	and( property:Variable | Resource | "a" | string, objects:(SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty) | (SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty)[] ):PropertyBuilderMore<T> & T;
+	and( property:Path | Variable | Resource | "a" | string, objects:(SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty) | (SupportedNativeTypes | Resource | Variable | Literal | Collection | BlankNodeProperty)[] ):PropertyBuilderMore<T> & T;
 }
 
 
@@ -71,11 +75,8 @@ function _updateContainer<C extends Container<TripleToken | BlankNodePropertyTok
  * @private
  */
 function getHasFn<T extends object, C extends Container<TripleToken | BlankNodePropertyToken>>( genericFactory:Factory<C, T>, container:C ):PropertyBuilder<T>[ "has" ] {
-	return ( property:string | Variable | Resource, objects:Objects | Objects[] ) => {
-		const verbToken:VariableOrIRIToken | "a" = (typeof property === "string")
-			? _resolvePath( container, property )
-			: property.getSubject();
-
+	return ( property:string | Variable | Resource | Path, objects:Objects | Objects[] ) => {
+		const verbToken:VariableToken | PathToken = getPropertyToken( container, property );
 		const propertyToken:PropertyToken = new PropertyToken( verbToken );
 
 		objects = Array.isArray( objects ) ? objects : [ objects ];

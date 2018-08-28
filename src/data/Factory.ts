@@ -50,6 +50,16 @@ export const Factory:{
 	 * @param factory3 The third factory function to be applied.
 	 */
 	createFrom<CONTAINER extends Container<any>, TARGET1 extends object, TARGET2 extends object, TARGET3 extends object>( factory1:Factory<CONTAINER, TARGET1>, factory2:Factory<CONTAINER, TARGET2>, factory3:Factory<CONTAINER, TARGET3> ):Factory<CONTAINER, TARGET1 & TARGET2 & TARGET3>;
+	/**
+	 * Created a new factory function that applies the three factory
+	 * function provided.
+	 *
+	 * @param factory1 The first factory function to be applied.
+	 * @param factory2 The second factory function to be applied.
+	 * @param factory3 The third factory function to be applied.
+	 * @param factory4 The fourth factory function to be applied.
+	 */
+	createFrom<CONTAINER extends Container<any>, TARGET1 extends object, TARGET2 extends object, TARGET3 extends object, TARGET4 extends object>( factory1:Factory<CONTAINER, TARGET1>, factory2:Factory<CONTAINER, TARGET2>, factory3:Factory<CONTAINER, TARGET3>, factory4:Factory<CONTAINER, TARGET4> ):Factory<CONTAINER, TARGET1 & TARGET2 & TARGET3 & TARGET4>;
 } = {
 	createFrom( ...factories:Factory<any, any>[] ):Factory<any, any> {
 		return <W extends object>( container:Container<any>, object:W ):W & any => {

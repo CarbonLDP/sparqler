@@ -421,10 +421,10 @@ describe( "TriplePatternsBuilder", () => {
 			const newContainer:TheContainer = spyContainers.getLast();
 
 			expect( newContainer.targetToken.subject ).toEqual( new BlankNodePropertyToken()
-				.addProperty( new PropertyToken( "<prop>" as "a" )
+				.addProperty( new PropertyToken( new IRIRefToken( "prop" ) )
 					.addObject( new LiteralToken( "value" ) )
 				)
-				.addProperty( new PropertyToken( "<prop2>" as "a" )
+				.addProperty( new PropertyToken( new IRIRefToken( "prop2" ) )
 					.addObject( new LiteralToken( "string" ) )
 					.addObject( new LiteralToken( 100 ) )
 					.addObject( new LiteralToken( true ) )
