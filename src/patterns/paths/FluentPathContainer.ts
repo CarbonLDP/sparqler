@@ -45,6 +45,6 @@ export class FluentPathContainer<T extends PathToken | undefined> extends Contai
 		this.fluentPathFactory = data.fluentPathFactory;
 		this.deniableFluentPathFactory = data.deniableFluentPathFactory;
 
-		Object.freeze( this );
+		if( new.target === FluentPathContainer ) Object.freeze( this );
 	}
 }
