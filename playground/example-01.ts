@@ -108,9 +108,6 @@ function getExamplePatterns( _:PatternBuilder ) {
 
 		_.filter( "( ?v = ?v2 )" ),
 		_.filter( "BNODE( ?s )" ),
-
-		_.resource( "resource/" )
-			.has( "(a/rdfs:subClassOf)|<property-1/>", _.resource( "ex:Class" ) )
 	];
 }
 
