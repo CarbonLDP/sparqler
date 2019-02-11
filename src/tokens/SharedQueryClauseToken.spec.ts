@@ -19,7 +19,7 @@ describe( "SharedQueryClauseToken", ():void => {
 		}
 
 		toString( spaces?:number ):string {
-			throw new Error( "Method not implemented." );
+			return this.where +  " " + this.modifiers;
 		}
 	}
 
