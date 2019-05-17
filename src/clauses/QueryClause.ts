@@ -135,9 +135,9 @@ export const QueryClause:{
 } = {
 	createFrom<C extends QueryUnitContainer<SELECT, ASK>, SELECT extends FinishClause, ASK extends FinishClause, T extends object>( container:C, object:T ):T & QueryClause<SELECT, ASK> {
 		const selectFactory:Factory<C, SelectClause<SELECT>> = SelectClause
-			.createFrom.bind( null, container.selectFinishClauseFactory );
+			.createFrom.bind<null, any, any>( null, container.selectFinishClauseFactory );
 		const askFactory:Factory<C, AskClause<ASK>> = AskClause
-			.createFrom.bind( null, container.askFinishClauseFactory );
+			.createFrom.bind<null, any, any>( null, container.askFinishClauseFactory );
 
 		return Factory.createFrom(
 			selectFactory,

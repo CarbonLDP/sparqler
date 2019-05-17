@@ -2,6 +2,7 @@ import gulp from "gulp";
 import path from "path";
 import { rollup } from "rollup";
 import resolve from "rollup-plugin-node-resolve";
+// @ts-ignore
 import replace from "rollup-plugin-replace";
 import sourcemaps from "rollup-plugin-sourcemaps";
 

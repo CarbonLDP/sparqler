@@ -4,7 +4,6 @@ import { Container } from "../../data/Container";
 import { IRIResolver } from "../../data/IRIResolver";
 
 import { SubSelectToken } from "../../tokens/SubSelectToken";
-import { TokenNode } from "../../tokens/TokenNode";
 import { VariableToken } from "../../tokens/VariableToken";
 
 import { SubSelectPattern } from "./SubSelectPattern";
@@ -262,7 +261,7 @@ describe( "SubSelectPattern", () => {
 		} );
 
 		it( "should ignore variables", () => {
-			selectPattern.selectAll.call( null, "a", "b" );
+			selectPattern.selectAll.call<any, any, any>( null, "a", "b" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.variables )
@@ -304,7 +303,7 @@ describe( "SubSelectPattern", () => {
 		} );
 
 		it( "should ignore variables", () => {
-			selectPattern.selectAllDistinct.call( null, "a", "b" );
+			selectPattern.selectAllDistinct.call<any, any, any>( null, "a", "b" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.variables )
@@ -346,7 +345,7 @@ describe( "SubSelectPattern", () => {
 		} );
 
 		it( "should ignore variables", () => {
-			selectPattern.selectAllReduced.call( null, "a", "b" );
+			selectPattern.selectAllReduced.call<any, any, any>( null, "a", "b" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.variables )

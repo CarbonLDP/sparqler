@@ -79,7 +79,7 @@ module.exports = function( config ) {
 			compilerOptions: {
 				inlineSourceMap: true,
 				inlineSources: true,
-			}
+			},
 		}
 
 	};

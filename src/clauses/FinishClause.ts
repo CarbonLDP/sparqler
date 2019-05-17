@@ -46,8 +46,10 @@ export const FinishClause = {
 			container.targetToken.toString( 0 );
 
 		const debug:FinishClause[ "debug" ] = debugFn => {
-			debugFn.call( void 0, object, container );
-			return object as O & FinishClause;
+			const futureClause:O & FinishClause = object as O & FinishClause;
+			debugFn.call( void 0, futureClause, container );
+
+			return futureClause;
 		};
 
 		return Object.assign<O, FinishClause>( object, {
