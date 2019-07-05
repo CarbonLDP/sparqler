@@ -1,0 +1,565 @@
+import { Pattern } from "../../Pattern";
+import { Variable } from "../../triplePatterns/Variable";
+import { Expression } from "../Expression";
+
+const enum Functions {
+	STR = "STR",
+	LANG = "LANG",
+	LANG_MATCHES = "LANGMATCHES",
+	DATATYPE = "DATATYPE",
+	BOUND = "BOUND",
+	IRI = "IRI",
+	URI = "URI",
+	BNODE = "BNODE",
+	RAND = "RAND",
+	ABS = "ABS",
+	CEIL = "CEIL",
+	FLOOR = "FLOOR",
+	ROUND = "ROUND",
+	CONCAT = "CONCAT",
+	SUBSTR = "SUBSTR",
+	STRLEN = "STRLEN",
+	REPLACE = "REPLACE",
+	UCASE = "UCASE",
+	LCASE = "LCASE",
+	ENCODE_FOR_URI = "ENCODE_FOR_URI",
+	CONTAINS = "CONTAINS",
+	STR_STARTS = "STRSTARTS",
+	STR_ENDS = "STRENDS",
+	STR_BEFORE = "STRBEFORE",
+	STR_AFTER = "STRAFTER",
+	YEAR = "YEAR",
+	MONTH = "MONTH",
+	DAY = "DAY",
+	HOURS = "HOURS",
+	MINUTES = "MINUTES",
+	SECONDS = "SECONDS",
+	TIMEZONE = "TIMEZONE",
+	TZ = "TZ",
+	NOW = "NOW",
+	UUID = "UUID",
+	STR_UUID = "STRUUID",
+	MD5 = "MD5",
+	SHA1 = "SHA1",
+	SHA256 = "SHA256",
+	SHA384 = "SHA384",
+	SHA512 = "SHA512",
+	COALESCE = "COALESCE",
+	IF = "IF",
+	STR_LANG = "STRLANG",
+	STR_DT = "STRDT",
+	SAME_TERM = "sameTerm",
+	IS_IRI = "isIRI",
+	IS_URI = "isURI",
+	IS_BLANK = "isBLANK",
+	IS_LITERAL = "isLITERAL",
+	IS_NUMERIC = "isNUMERIC",
+	REGEX = "REGEX",
+	EXISTS = "EXISTS",
+	NOT_EXISTS = "NOT EXISTS",
+}
+
+
+export interface FunctionsBuilder {
+	/**
+	 * Creates an {@link Expression} that returns true if {@param variable}
+	 * is bound to a value.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-bound}
+	 * for more information.
+	 *
+	 * @param variable - Variable to evaluate if it's associated to a value.
+	 */
+	bound( variable:Variable ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that evaluates {@param condition} and then
+	 * returns the {@param consequent} value if the condition is true,
+	 * otherwise it returns {@param alternative}.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-if}
+	 * for more information.
+	 *
+	 * @param condition - Expression to evaluate for its effective boolean value.
+	 * @param consequent - Expression to return its value when the condition is evaluated to `true`.
+	 * @param alternative - Expression to returns its value when the condition is evaluated to `false.`
+	 */
+	if( condition:Expression, consequent:Expression, alternative:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the value of the first expression
+	 * from the {@param expressions} list that evaluates without error.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-coalesce}
+	 * for more information.
+	 *
+	 * @param expressions - Expressions to be evaluated for the non-raising error one.
+	 */
+	coalesce( ...expressions:Expression[] ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param patterns}
+	 * matches the data set, or `false` otherwise.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-filter-exists}
+	 * for more information.
+	 *
+	 * @param patterns - Patterns to evaluate if matches the data set.
+	 */
+	exists( patterns:Pattern[] ):Expression;
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param patterns}
+	 * matches the data set, or `false` otherwise.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-filter-exists}
+	 * for more information.
+	 *
+	 * @param patterns - Patterns to evaluate if matches the data set.
+	 */
+	exists( ...patterns:Pattern[] ):Expression;
+	/**
+	 * Creates an {@link Expression} that returns `false` if {@param patterns}
+	 * matches the data set, or `true` otherwise.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-filter-exists}
+	 * for more information.
+	 *
+	 * @param patterns - Patterns to evaluate if not matches the data set.
+	 */
+	notExists( patterns:Pattern[] ):Expression;
+	/**
+	 * Creates an {@link Expression} that returns `false` if {@param patterns}
+	 * matches the data set, or `true` otherwise.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-filter-exists}
+	 * for more information.
+	 *
+	 * @param patterns - Patterns to evaluate if not matches the data set.
+	 */
+	notExists( ...patterns:Pattern[] ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param term1} and
+	 * {@param term2} are the same RDF term, or `false` otherwise.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sameTerm}
+	 * for more information.
+	 *
+	 * @param term1 - Expression to evaluate its value against {@param term2}.
+	 * @param term2 - Expression to evaluate its value against {@param term1}.
+	 */
+	sameTerm( term1:Expression, term2:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param term} is
+	 * an IRI. Returns `false` otherwise.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-isIRI}
+	 * for more information.
+	 *
+	 * @param term - Expression to evaluate its value.
+	 */
+	isIRI( term:Expression ):Expression;
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param term} is
+	 * an URI. Returns `false` otherwise.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-isIRI}
+	 * for more information.
+	 *
+	 * @param term - Expression to evaluate its value.
+	 */
+	isURI( term:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param term} is
+	 * a blank node. Returns `false` otherwise.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-isBlank}
+	 * for more information.
+	 *
+	 * @param term - Expression to evaluate its value.
+	 */
+	isBlank( term:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param term} is
+	 * a literal. Returns `false` otherwise.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-isLiteral}
+	 * for more information.
+	 *
+	 * @param term - Expression to evaluate its value.
+	 */
+	isLiteral( term:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param term} is
+	 * a numeric value. Returns `false` otherwise.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-isNumeric}
+	 * for more information.
+	 *
+	 * @param term - Expression to evaluate its value.
+	 */
+	isNumeric( term:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the string representation of
+	 * {@param term}.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-str}
+	 * for more information.
+	 *
+	 * @param term - Expression to evaluate its value.
+	 */
+	str( term:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the language tag of
+	 * {@param literal}.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-lang}
+	 * for more information.
+	 *
+	 * @param literal - Expression to evaluate its value lang.
+	 */
+	lang( literal:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the datatype IRI of
+	 * {@param literal}.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-datatype}
+	 * for more information.
+	 *
+	 * @param literal - Expression to evaluate its value lang.
+	 */
+	datatype( literal:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that constructs an IRI by resolving
+	 * {@param argument}.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-iri}
+	 * for more information.
+	 *
+	 * @param argument - Expression to construct an IRI with its value.
+	 */
+	iri( argument:Expression ):Expression;
+	/**
+	 * Creates an {@link Expression} that constructs a URI by resolving
+	 * {@param argument}.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-iri}
+	 * for more information.
+	 *
+	 * @param argument - Expression to construct a URI with its value.
+	 */
+	uri( argument:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that constructs a blank node that is
+	 * distinct from all blank nodes in the data set.
+	 * If {@param literal} is provided, it will be used as base for the blank
+	 * node label.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-bnode}
+	 * for more information.
+	 *
+	 * @param literal - Optional expression to use its value for the blank node creation.
+	 */
+	bnode( literal?:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that constructs an RDF literal with
+	 * {@param lexicalForm} and {@param dataType} specified.
+	 * node label.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strdt}
+	 * for more information.
+	 *
+	 * @param lexicalForm - Expresion with a string value to use as the lexical form of the literal.
+	 * @param dataType - Expresion with an IRI value to use as the datatype of the literal.
+	 */
+	strDT( lexicalForm:Expression, dataType:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that constructs an RDF literal with the
+	 * {@param lexicalForm} and {@param languageTag} specified.
+	 * node label.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strlang}
+	 * for more information.
+	 *
+	 * @param lexicalForm - Expresion with a string value to use as the lexical form of the literal.
+	 * @param languageTag - Expresion with a string value to use as the language tag of the literal.
+	 */
+	strLang( lexicalForm:Expression, languageTag:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns an IRI from the
+	 * {@link https://www.ietf.org/rfc/rfc4122.txt UUID URN scheme}.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-uuid}
+	 * for more information.
+	 */
+	uuid():Expression;
+	/**
+	 * Creates an {@link Expression} that returns a string with an UUID.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-struuid}
+	 * for more information.
+	 */
+	strUUID():Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the number of characters
+	 * of the {@param str} expression value.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strlen}
+	 * for more information.
+	 *
+	 * @param str - Expression to count the characters of its string value.
+	 */
+	strLen( str:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns a the portion of the
+	 * {@param source} value beginning at the position indicated by the value of
+	 * {@param starting} and counting fot the number of characters indicated by
+	 * the value of {@param length} if provided, otherwise it {@param length}
+	 * will be considered infinite.
+	 *
+	 * The index of the first character of a string is 1.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-substr}
+	 * for more information.
+	 *
+	 * @param source Expression with the string value to extract the portion from.
+	 * @param starting Expression with the index from where to start the portion to take.
+	 * @param length Expression with the number of characters of the portion to take.
+	 */
+	substr( source:Expression, starting:Expression, length?:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the {@param str} value
+	 * converted to uppercase.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-ucase}
+	 * for more information.
+	 *
+	 * @param str Expression with the string value to convert.
+	 */
+	uCase( str:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the {@param str} value
+	 * converted to lowercase.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-lcase}
+	 * for more information.
+	 *
+	 * @param str Expression with the string value to convert.
+	 */
+	lCase( str:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the `true` of the value of
+	 * {@param arg1} starts with the value of {@param arg2}, otherwise it
+	 * returns `false`.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strstarts}
+	 * for more information.
+	 *
+	 * @param arg1 Expression with the string value to check it starts with {@param arg2}.
+	 * @param arg2 Expression with the string value to check it's the start of {@param arg1}.
+	 */
+	strStarts( arg1:Expression, arg2:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the `true` of the value of
+	 * {@param arg1} ends with the value of {@param arg2}, otherwise it
+	 * returns `false`.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strends}
+	 * for more information.
+	 *
+	 * @param arg1 Expression with the string value to check it ends with {@param arg2}.
+	 * @param arg2 Expression with the string value to check it's the end of {@param arg1}.
+	 */
+	strEnds( arg1:Expression, arg2:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the `true` of the value of
+	 * {@param arg1} contains the value of {@param arg2} as a substring,
+	 * otherwise it returns `false`.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strends}
+	 * for more information.
+	 *
+	 * @param arg1 Expression with the string value to check it contains {@param arg2}.
+	 * @param arg2 Expression with the string value to check it's contained by {@param arg1}.
+	 */
+	contains( arg1:Expression, arg2:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the part the {@param arg1}
+	 * value that precedes the first occurrence of {@param arg2} value.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strends}
+	 * for more information.
+	 *
+	 * @param arg1 Expression with the string value to check and return the preceded part.
+	 * @param arg2 Expression with the string value to check where it appears in {@param arg1}.
+	 */
+	strBefore( arg1:Expression, arg2:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the part the {@param arg1}
+	 * value that follows the first occurrence of {@param arg2} value.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strafter}
+	 * for more information.
+	 *
+	 * @param arg1 Expression with the string value to check and return the followed part.
+	 * @param arg2 Expression with the string value to check where it appears in {@param arg1}.
+	 */
+	strAfter( arg1:Expression, arg2:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns a literal with the encoded
+	 * special characters that the value of the {@param literal} provided may have.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-encode}
+	 * for more information.
+	 *
+	 * @param literal Expression with the string value to encode.
+	 */
+	encodeForUri( literal:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the concatenation of the
+	 * string values of the {@param literals} provided.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-concat}
+	 * for more information.
+	 *
+	 * @param literals Expressions with the string values to concatenate.
+	 */
+	concat( ...literals:Expression[] ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param languageTag}
+	 * value matches {@param languageRange} as defined in
+	 * {@link https://www.ietf.org/rfc/rfc4647.txt Matching of Language}.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-langMatches}
+	 * for more information.
+	 *
+	 * @param languageTag Expressions with the language tag to be checked.
+	 * @param languageRange Expression with the language range that {@param languageTag} will be checked against.
+	 */
+	langMatches( languageTag:Expression, languageRange:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param text}
+	 * value matches {@param pattern} regular expression, applying the
+	 * {@param flags} rules if defined.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-regex}
+	 * for more information.
+	 *
+	 * @param text Expressions with string value to be checked.
+	 * @param pattern Expression with the regular expression used as the matcher.
+	 * @param flags Optional expression with the matching rules to be applied.
+	 */
+	regex( text:Expression, pattern:Expression, flags?:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns a string produced by the
+	 * {@param text} value by replacing each non-overlapping occurrence of
+	 * the {@param pattern} regular expression with the {@param replacement}
+	 * string, applying the {@param flags} rules if defined.
+	 *
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-replace}
+	 * for more information.
+	 *
+	 * @param text Expressions with string value to replace with the respective replacement.
+	 * @param pattern Expression with the regular expression used as the matcher.
+	 * @param replacement Expression with the string or pattern to use as the replacement.
+	 * @param flags Optional expression with the matching rules to be applied.
+	 */
+	replace( text:Expression, pattern:Expression, replacement:Expression, flags?:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the absolute value of
+	 * {@param term}.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-abs}
+	 * for more information.
+	 *
+	 * @param term Expressions with the numeric value to get its absolute value.
+	 */
+	abs( term:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the number with no fractional
+	 * part that is closest to the {@param term} value.
+	 * If there are two such numbers, then the one that is closest to positive
+	 * infinity is returned.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-round}
+	 * for more information.
+	 *
+	 * @param term Expressions with the numeric value to get its round value.
+	 */
+	round( term:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the closest to negative infinity
+	 * number with no fractional part that is closest to the {@param term} value.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-ceil}
+	 * for more information.
+	 *
+	 * @param term Expressions with the numeric value to get its ceil value.
+	 */
+	ceil( term:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the closest to positive infinity
+	 * number with no fractional part that is closest to the {@param term} value.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-floor}
+	 * for more information.
+	 *
+	 * @param term Expressions with the numeric value to get its floor value.
+	 */
+	floor( term:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns a pseudo-random number
+	 * between 0 (inclusive) and 1.0e0 (exclusive).
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#idp2130040}
+	 * for more information.
+	 */
+	rand():Expression;
+
+	year( expression:Expression ):Expression;
+	month( expression:Expression ):Expression;
+	day( expression:Expression ):Expression;
+	hours( expression:Expression ):Expression;
+	minutes( expression:Expression ):Expression;
+	seconds( expression:Expression ):Expression;
+	timezone( expression:Expression ):Expression;
+	tz( expression:Expression ):Expression;
+	now():Expression;
+	md5( expression:Expression ):Expression;
+	sha1( expression:Expression ):Expression;
+	sha256( expression:Expression ):Expression;
+	sha384( expression:Expression ):Expression;
+	sha512( expression:Expression ):Expression;
+}
