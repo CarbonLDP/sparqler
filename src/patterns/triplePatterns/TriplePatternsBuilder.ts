@@ -5,7 +5,6 @@ import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { BlankNodeToken } from "../../tokens/BlankNodeToken";
 import { CollectionToken } from "../../tokens/CollectionToken";
 import { IRIToken } from "../../tokens/IRIToken";
-import { LiteralToken } from "../../tokens/LiteralToken";
 import { ObjectToken } from "../../tokens/ObjectToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
@@ -53,7 +52,7 @@ export interface TriplePatternsBuilder {
 	 * Create a {@link Literal} from the value specified.
 	 * @param value The value of the {@link Literal}.
 	 */
-	literal( value:string | number | boolean ):Literal;
+	literal( value:string | number | boolean | Date ):Literal;
 
 	/**
 	 * Create a {@link Collection} from all the values provided.
@@ -116,7 +115,9 @@ function getVarFn( container:Container<undefined> ):TriplePatternsBuilder[ "var"
 
 function getLiteralFn( container:Container<undefined> ):TriplePatternsBuilder[ "literal" ] {
 	return ( value:string | number | boolean | Date ):any => {
-		const token = convertValue( value );
+		const token = typeof value === "string"
+			? new RDFLiteralToken( value )
+			: convertValue( value );
 
 		if( token instanceof RDFLiteralToken ) {
 			const patternContainer = _getPatternContainer( container, token );
