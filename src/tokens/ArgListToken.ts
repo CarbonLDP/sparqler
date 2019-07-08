@@ -24,6 +24,7 @@ export class ArgListToken implements TokenNode {
 			tokenStr += DISTINCT;
 
 		tokenStr += this.expressions
+			.map( _ => _.toString( spaces ) )
 			.join( "," + separator );
 
 		return tokenStr + separator + ")";

@@ -1,13 +1,18 @@
 import { Container } from "../../../data/Container";
+import { isAbsolute, isIRI } from "../../../iri/utils";
 import { ArgListToken } from "../../../tokens/ArgListToken";
 import { ExpressionToken } from "../../../tokens/ExpressionToken";
 import { FunctionToken } from "../../../tokens/FunctionToken";
 import { GroupPatternToken } from "../../../tokens/GroupPatternToken";
 import { IRIToken } from "../../../tokens/IRIToken";
+import { VariableToken } from "../../../tokens/VariableToken";
 import { Pattern } from "../../Pattern";
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 import { Resource } from "../../triplePatterns/Resource";
 import { Variable } from "../../triplePatterns/Variable";
+import { convertValue } from "../../utils";
 import { Expression } from "../Expression";
+import { PrimaryExpression } from "../PrimaryExpression";
 
 const enum Functions {
 	STR = "STR",
@@ -77,7 +82,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param variable - Variable to evaluate if it's associated to a value.
 	 */
-	bound( variable:Variable ):Expression;
+	bound( variable:Variable | string ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that evaluates {@param condition} and then
@@ -91,7 +96,7 @@ export interface FunctionsBuilder {
 	 * @param consequent - Expression to return its value when the condition is evaluated to `true`.
 	 * @param alternative - Expression to returns its value when the condition is evaluated to `false.`
 	 */
-	if( condition:Expression, consequent:Expression, alternative:Expression ):Expression;
+	if( condition:PrimaryExpression, consequent:PrimaryExpression, alternative:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the value of the first expression
@@ -102,7 +107,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param expressions - Expressions to be evaluated for the non-raising error one.
 	 */
-	coalesce( ...expressions:Expression[] ):Expression;
+	coalesce( ...expressions:PrimaryExpression[] ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param patterns}
@@ -684,7 +689,14 @@ export interface FunctionsBuilder {
 	custom( resource:Resource | string, ...args:Expression[] ):Expression;
 }
 
-type ValidExpression = Expression | Variable;
+// Static transformers
+type Transformer = ( value:any ) => ExpressionToken;
+const literalTransformer = convertValue;
+const variableTransformer = ( variable:string ) => new VariableToken( variable );
+
+// Expressions implementation
+
+type ValidExpression = PrimaryExpression | SupportedNativeTypes;
 
 function _getExpression( container:Container<undefined>, name:Functions | IRIToken, argsOrPatterns:ArgListToken | GroupPatternToken ) {
 	const targetToken:ExpressionToken = new FunctionToken( name, argsOrPatterns );
@@ -697,14 +709,25 @@ function _getExpression( container:Container<undefined>, name:Functions | IRITok
 	return Expression.createFrom( newContainer, {} )
 }
 
-function _getExpressionWithArgs( container:Container<undefined>, name:Functions | IRIToken, expressions:(ValidExpression | undefined)[] ) {
+function _getExpressionWithArgs( container:Container<undefined>, name:Functions | IRIToken, expressions:(ValidExpression | undefined)[], transformers:Transformer[] ) {
 	const expressionTokens:ExpressionToken[] = expressions
-		.filter( ( _ ):_ is ValidExpression => !!_ )
-		.map( arg => {
-			if( "getExpression" in arg )
-				return arg.getExpression();
-			if( "getSubject" in arg )
-				return arg.getSubject();
+		.filter( _ => _ !== undefined )
+		.map( ( arg, index ) => {
+			if( typeof arg === "object" ) {
+				if( "token" in arg )
+					return arg;
+
+				if( "getExpression" in arg )
+					return arg.getExpression();
+				if( "getSubject" in arg )
+					return arg.getSubject();
+
+			} else {
+				if( index in transformers )
+					return transformers[ index ]( arg );
+				if( transformers.length )
+					return transformers[ 0 ]( arg );
+			}
 
 			throw new Error( "Invalid argument provided to the function." );
 		} );
@@ -723,9 +746,9 @@ function _getExpressionWithPatterns( container:Container<undefined>, name:Functi
 	return _getExpression( container, name, groupPatternToken );
 }
 
-function getNamedExpressionFn( container:Container<undefined>, name:Functions ) {
+function getNamedExpressionFn( container:Container<undefined>, name:Functions, ...transformers:Transformer[] ) {
 	return ( ...expressions:(ValidExpression | undefined)[] ) =>
-		_getExpressionWithArgs( container, name, expressions );
+		_getExpressionWithArgs( container, name, expressions, transformers );
 }
 
 function getPatternExpressionFn( container:Container<undefined>, name:Functions ) {
@@ -738,13 +761,13 @@ function getPatternExpressionFn( container:Container<undefined>, name:Functions 
 	}
 }
 
-function getIRIExpressionFn( container:Container<undefined> ) {
+function getIRIExpressionFn( container:Container<undefined>, ...transformers:Transformer[] ) {
 	return ( resource:Resource | string, ...expressions:ValidExpression[] ) => {
 		const iri = typeof resource === "string"
 			? container.iriResolver.resolve( resource )
 			: resource.getSubject();
 
-		return _getExpressionWithArgs( container, iri, expressions );
+		return _getExpressionWithArgs( container, iri, expressions, transformers );
 	}
 }
 
@@ -768,10 +791,15 @@ export const FunctionsBuilder:{
 	createFrom<O extends object>( container:Container<undefined>, object:O ):O & FunctionsBuilder;
 } = {
 	createFrom<O extends object>( container:Container<undefined>, object:O ):O & FunctionsBuilder {
+		const iriTransformer = ( iri:string ):IRIToken => container.iriResolver.resolve( iri );
+		const generalTransformer = ( value:SupportedNativeTypes ):ExpressionToken => typeof value === "string" && isAbsolute( value )
+			? iriTransformer( value ) : literalTransformer( value );
+
 		return Object.assign( object, {
-			bound: getNamedExpressionFn( container, Functions.BOUND ),
-			if: getNamedExpressionFn( container, Functions.IF ),
-			coalesce: getNamedExpressionFn( container, Functions.COALESCE ),
+			bound: getNamedExpressionFn( container, Functions.BOUND, variableTransformer ),
+			if: getNamedExpressionFn( container, Functions.IF, generalTransformer ),
+			coalesce: getNamedExpressionFn( container, Functions.COALESCE, generalTransformer ),
+			// FIXME: Continue adding support for non-expressions
 			exists: getPatternExpressionFn( container, Functions.EXISTS ),
 			notExists: getPatternExpressionFn( container, Functions.NOT_EXISTS ),
 			sameTerm: getNamedExpressionFn( container, Functions.SAME_TERM ),

@@ -48,7 +48,7 @@ export interface TriplePatternsBuilder {
 	 * Create a {@link RDFLiteral} from the string specified.
 	 * @param value The string value of the {@link RDFLiteral}.
 	 */
-	literal( value:string ):RDFLiteral;
+	literal( value:string | Date ):RDFLiteral;
 	/**
 	 * Create a {@link Literal} from the value specified.
 	 * @param value The value of the {@link Literal}.
@@ -115,16 +115,15 @@ function getVarFn( container:Container<undefined> ):TriplePatternsBuilder[ "var"
 }
 
 function getLiteralFn( container:Container<undefined> ):TriplePatternsBuilder[ "literal" ] {
-	return ( value:string | number | boolean ):any => {
+	return ( value:string | number | boolean | Date ):any => {
+		const token = convertValue( value );
 
-		if( typeof value !== "string" ) {
-			const token:LiteralToken = new LiteralToken( value );
-			return _getTripleSubject( container, token );
+		if( token instanceof RDFLiteralToken ) {
+			const patternContainer = _getPatternContainer( container, token );
+			return RDFLiteral.createFrom( patternContainer, {} );
 		}
 
-		const token:RDFLiteralToken = new RDFLiteralToken( value );
-		const patternContainer = _getPatternContainer( container, token );
-		return RDFLiteral.createFrom( patternContainer, {} );
+		return _getTripleSubject( container, token );
 	}
 }
 
@@ -140,7 +139,7 @@ function getCollectionFn( container:Container<undefined> ):TriplePatternsBuilder
 }
 
 function _getBlankNode( container:Container<undefined>, label?:string ):BlankNode {
-	if( label && ! label.startsWith( "_:" ) )
+	if( label && !label.startsWith( "_:" ) )
 		label = "_:" + label;
 
 	const token:BlankNodeToken = new BlankNodeToken( label );
