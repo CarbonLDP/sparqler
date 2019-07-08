@@ -46,7 +46,7 @@ export function testNode() {
 
 	const stream = tsResults.js
 		.pipe<NodeJS.ReadWriteStream>( sourcemaps.write( ".", {
-			sourceRoot: path.resolve( "./src" ),
+			sourceRoot: path.resolve( "./" ),
 			includeContent: false,
 		} ) )
 		.pipe( gulp.dest( tempDir ) )
