@@ -548,18 +548,129 @@ export interface FunctionsBuilder {
 	 */
 	rand():Expression;
 
-	year( expression:Expression ):Expression;
-	month( expression:Expression ):Expression;
-	day( expression:Expression ):Expression;
-	hours( expression:Expression ):Expression;
-	minutes( expression:Expression ):Expression;
-	seconds( expression:Expression ):Expression;
-	timezone( expression:Expression ):Expression;
-	tz( expression:Expression ):Expression;
+	/**
+	 * Creates an {@link Expression} that returns a `xsd:dateType` value for
+	 * the current query execution.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-now}
+	 * for more information.
+	 */
 	now():Expression;
-	md5( expression:Expression ):Expression;
-	sha1( expression:Expression ):Expression;
-	sha256( expression:Expression ):Expression;
-	sha384( expression:Expression ):Expression;
-	sha512( expression:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the year part of the
+	 * {@param dateTime} value as an integer.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-year}
+	 * for more information.
+	 */
+	year( dateTime:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the month part of the
+	 * {@param dateTime} value as an integer.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-month}
+	 * for more information.
+	 */
+	month( dateTime:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the day part of the
+	 * {@param dateTime} value as an integer.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-day}
+	 * for more information.
+	 */
+	day( dateTime:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the hours part of the
+	 * {@param dateTime} value as an integer.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-hours}
+	 * for more information.
+	 */
+	hours( dateTime:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the minutes part of the
+	 * {@param dateTime} value as an integer.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-minutes}
+	 * for more information.
+	 */
+	minutes( dateTime:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the seconds part of the
+	 * {@param dateTime} value as a decimal.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-seconds}
+	 * for more information.
+	 */
+	seconds( dateTime:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the timezone part of the
+	 * {@param dateTime} value as an `xsd:dayTimeDuration`.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-timezone}
+	 * for more information.
+	 */
+	timezone( dateTime:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the timezone part of the
+	 * {@param dateTime} value as a string.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-tz}
+	 * for more information.
+	 */
+	tz( dateTime:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the MD5 checksum, calculated
+	 * on the UTF-8 representation of the string {@param literal} provided.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-md5}
+	 * for more information.
+	 */
+	md5( literal:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the SHA1 checksum, calculated
+	 * on the UTF-8 representation of the string {@param literal} provided.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha1}
+	 * for more information.
+	 */
+	sha1( literal:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the SHA256 checksum, calculated
+	 * on the UTF-8 representation of the string {@param literal} provided.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha256}
+	 * for more information.
+	 */
+	sha256( literal:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the SHA384 checksum, calculated
+	 * on the UTF-8 representation of the string {@param literal} provided.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha384}
+	 * for more information.
+	 */
+	sha384( literal:Expression ):Expression;
+
+	/**
+	 * Creates an {@link Expression} that returns the SHA512 checksum, calculated
+	 * on the UTF-8 representation of the string {@param literal} provided.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha512}
+	 * for more information.
+	 */
+	sha512( literal:Expression ):Expression;
 }
