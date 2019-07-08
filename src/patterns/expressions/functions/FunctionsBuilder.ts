@@ -680,6 +680,8 @@ export interface FunctionsBuilder {
 	 * for more information.
 	 */
 	sha512( literal:Expression ):Expression;
+
+	custom( resource:Resource | string, ...args:Expression[] ):Expression;
 }
 
 type ValidExpression = Expression | Variable;
@@ -733,6 +735,16 @@ function getPatternExpressionFn( container:Container<undefined>, name:Functions 
 			: [ firstPattern, ...restPatterns ];
 
 		return _getExpressionWithPatterns( container, name, patterns );
+	}
+}
+
+function getIRIExpressionFn( container:Container<undefined> ) {
+	return ( resource:Resource | string, ...expressions:ValidExpression[] ) => {
+		const iri = typeof resource === "string"
+			? container.iriResolver.resolve( resource )
+			: resource.getSubject();
+
+		return _getExpressionWithArgs( container, iri, expressions );
 	}
 }
 
@@ -811,6 +823,7 @@ export const FunctionsBuilder:{
 			sha256: getNamedExpressionFn( container, Functions.SHA256 ),
 			sha384: getNamedExpressionFn( container, Functions.SHA384 ),
 			sha512: getNamedExpressionFn( container, Functions.SHA512 ),
+			custom: getIRIExpressionFn( container ),
 		} )
 	},
 };
