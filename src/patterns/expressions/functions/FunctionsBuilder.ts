@@ -1,4 +1,11 @@
+import { Container } from "../../../data/Container";
+import { ArgListToken } from "../../../tokens/ArgListToken";
+import { ExpressionToken } from "../../../tokens/ExpressionToken";
+import { FunctionToken } from "../../../tokens/FunctionToken";
+import { GroupPatternToken } from "../../../tokens/GroupPatternToken";
+import { IRIToken } from "../../../tokens/IRIToken";
 import { Pattern } from "../../Pattern";
+import { Resource } from "../../triplePatterns/Resource";
 import { Variable } from "../../triplePatterns/Variable";
 import { Expression } from "../Expression";
 
@@ -674,3 +681,136 @@ export interface FunctionsBuilder {
 	 */
 	sha512( literal:Expression ):Expression;
 }
+
+type ValidExpression = Expression | Variable;
+
+function _getExpression( container:Container<undefined>, name:Functions | IRIToken, argsOrPatterns:ArgListToken | GroupPatternToken ) {
+	const targetToken:ExpressionToken = new FunctionToken( name, argsOrPatterns );
+
+	const newContainer:Container<ExpressionToken> = new Container( {
+		...container,
+		targetToken,
+	} );
+
+	return Expression.createFrom( newContainer, {} )
+}
+
+function _getExpressionWithArgs( container:Container<undefined>, name:Functions | IRIToken, expressions:(ValidExpression | undefined)[] ) {
+	const expressionTokens:ExpressionToken[] = expressions
+		.filter( ( _ ):_ is ValidExpression => !!_ )
+		.map( arg => {
+			if( "getExpression" in arg )
+				return arg.getExpression();
+			if( "getSubject" in arg )
+				return arg.getSubject();
+
+			throw new Error( "Invalid argument provided to the function." );
+		} );
+
+	const argsList = new ArgListToken( expressionTokens );
+
+	return _getExpression( container, name, argsList );
+}
+
+function _getExpressionWithPatterns( container:Container<undefined>, name:Functions | IRIToken, patterns:Pattern[] ) {
+	const patternTokens = patterns.map( _ => _.getPattern() );
+
+	const groupPatternToken = new GroupPatternToken()
+		.addPattern( ...patternTokens );
+
+	return _getExpression( container, name, groupPatternToken );
+}
+
+function getNamedExpressionFn( container:Container<undefined>, name:Functions ) {
+	return ( ...expressions:(ValidExpression | undefined)[] ) =>
+		_getExpressionWithArgs( container, name, expressions );
+}
+
+function getPatternExpressionFn( container:Container<undefined>, name:Functions ) {
+	return ( firstPattern:Pattern | Pattern[], ...restPatterns:Pattern[] ) => {
+		const patterns = Array.isArray( firstPattern )
+			? firstPattern
+			: [ firstPattern, ...restPatterns ];
+
+		return _getExpressionWithPatterns( container, name, patterns );
+	}
+}
+
+
+/**
+ * Constant with the utils for {@link FunctionsBuilder} objects.
+ */
+export const FunctionsBuilder:{
+	/**
+	 * Factory function that allows to crete a {@link FunctionsBuilder}
+	 * from the {@param object} provided.
+	 *
+	 * @param container The related container with the data for the
+	 * {@link FunctionsBuilder} statement.
+	 * @param object The base base from where to create the
+	 * {@link FunctionsBuilder} statement.
+	 *
+	 * @return The {@link FunctionsBuilder} statement created from the
+	 * {@param object} provided.
+	 */
+	createFrom<O extends object>( container:Container<undefined>, object:O ):O & FunctionsBuilder;
+} = {
+	createFrom<O extends object>( container:Container<undefined>, object:O ):O & FunctionsBuilder {
+		return Object.assign( object, {
+			bound: getNamedExpressionFn( container, Functions.BOUND ),
+			if: getNamedExpressionFn( container, Functions.IF ),
+			coalesce: getNamedExpressionFn( container, Functions.COALESCE ),
+			exists: getPatternExpressionFn( container, Functions.EXISTS ),
+			notExists: getPatternExpressionFn( container, Functions.NOT_EXISTS ),
+			sameTerm: getNamedExpressionFn( container, Functions.SAME_TERM ),
+			isIRI: getNamedExpressionFn( container, Functions.IS_IRI ),
+			isURI: getNamedExpressionFn( container, Functions.IS_URI ),
+			isBlank: getNamedExpressionFn( container, Functions.IS_BLANK ),
+			isLiteral: getNamedExpressionFn( container, Functions.IS_LITERAL ),
+			isNumeric: getNamedExpressionFn( container, Functions.IS_NUMERIC ),
+			str: getNamedExpressionFn( container, Functions.STR ),
+			lang: getNamedExpressionFn( container, Functions.LANG ),
+			datatype: getNamedExpressionFn( container, Functions.DATATYPE ),
+			iri: getNamedExpressionFn( container, Functions.IRI ),
+			uri: getNamedExpressionFn( container, Functions.URI ),
+			bnode: getNamedExpressionFn( container, Functions.BNODE ),
+			strDT: getNamedExpressionFn( container, Functions.STR_DT ),
+			strLang: getNamedExpressionFn( container, Functions.STR_LANG ),
+			uuid: getNamedExpressionFn( container, Functions.UUID ),
+			strUUID: getNamedExpressionFn( container, Functions.STR_UUID ),
+			strLen: getNamedExpressionFn( container, Functions.STRLEN ),
+			substr: getNamedExpressionFn( container, Functions.SUBSTR ),
+			uCase: getNamedExpressionFn( container, Functions.UCASE ),
+			lCase: getNamedExpressionFn( container, Functions.LCASE ),
+			strStarts: getNamedExpressionFn( container, Functions.STR_STARTS ),
+			strEnds: getNamedExpressionFn( container, Functions.STR_ENDS ),
+			contains: getNamedExpressionFn( container, Functions.CONTAINS ),
+			strBefore: getNamedExpressionFn( container, Functions.STR_BEFORE ),
+			strAfter: getNamedExpressionFn( container, Functions.STR_AFTER ),
+			encodeForUri: getNamedExpressionFn( container, Functions.ENCODE_FOR_URI ),
+			concat: getNamedExpressionFn( container, Functions.CONCAT ),
+			langMatches: getNamedExpressionFn( container, Functions.LANG_MATCHES ),
+			regex: getNamedExpressionFn( container, Functions.REGEX ),
+			replace: getNamedExpressionFn( container, Functions.REPLACE ),
+			abs: getNamedExpressionFn( container, Functions.ABS ),
+			round: getNamedExpressionFn( container, Functions.ROUND ),
+			ceil: getNamedExpressionFn( container, Functions.CEIL ),
+			floor: getNamedExpressionFn( container, Functions.FLOOR ),
+			rand: getNamedExpressionFn( container, Functions.RAND ),
+			now: getNamedExpressionFn( container, Functions.NOW ),
+			year: getNamedExpressionFn( container, Functions.YEAR ),
+			month: getNamedExpressionFn( container, Functions.MONTH ),
+			day: getNamedExpressionFn( container, Functions.DAY ),
+			hours: getNamedExpressionFn( container, Functions.HOURS ),
+			minutes: getNamedExpressionFn( container, Functions.MINUTES ),
+			seconds: getNamedExpressionFn( container, Functions.SECONDS ),
+			timezone: getNamedExpressionFn( container, Functions.TIMEZONE ),
+			tz: getNamedExpressionFn( container, Functions.TZ ),
+			md5: getNamedExpressionFn( container, Functions.MD5 ),
+			sha1: getNamedExpressionFn( container, Functions.SHA1 ),
+			sha256: getNamedExpressionFn( container, Functions.SHA256 ),
+			sha384: getNamedExpressionFn( container, Functions.SHA384 ),
+			sha512: getNamedExpressionFn( container, Functions.SHA512 ),
+		} )
+	},
+};
