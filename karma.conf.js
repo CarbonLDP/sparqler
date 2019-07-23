@@ -77,9 +77,9 @@ module.exports = function( config ) {
 				entrypoints: /\.spec\.ts$/,
 			},
 			compilerOptions: {
-				strict: false,
-				sourceMap: true,
-			}
+				inlineSourceMap: true,
+				inlineSources: true,
+			},
 		}
 
 	};

@@ -16,6 +16,11 @@ build/*.map
 build/docs/dgeni/**/*.js
 build/docs/dgeni/**/*.map
 
+tasks/**/*.js
+tasks/**/*.map
+
+gulpfile.js
+
 # Dist files
 dist/
 

@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 0.6.0 (2018-09-20)
+
+- Resolved [#33](https://github.com/CarbonLDP/sparqler/issues/33) - Add support for property paths
+
+
+## 0.5.0 (2018-08-22)
+
+- Resolved [#30](https://github.com/CarbonLDP/sparqler/issues/30) - Add support for ASK queries
+- Resolved [#27](https://github.com/CarbonLDP/sparqler/issues/27) - Add method to debug query
+
 ## 0.4.0 (2018-03-23)
 
 - Resolved [#21](https://github.com/CarbonLDP/sparqler/issues/21)

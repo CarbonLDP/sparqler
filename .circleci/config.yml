@@ -1,0 +1,105 @@
+workspace_root: &workspace_root /home/circleci
+workspace_path: &workspace_path workspace
+workspace: &workspace /home/circleci/workspace
+
+defaults: &defaults
+  working_directory: *workspace
+  docker:
+    - image: circleci/node:9
+
+version: 2
+jobs:
+  build:
+    <<: *defaults
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+          # Since we are using internal packages (docs-generator), using a fallback cache can sometimes break the build
+          # - v1-dependencies-
+
+      - run:
+          name: Install npm dependencies
+          command: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Build package
+          command: npm start
+
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - *workspace_path
+
+  test:
+    working_directory: *workspace
+
+    docker:
+      - image: circleci/node:9-browsers
+
+    steps:
+      - attach_workspace:
+          at: *workspace_root
+
+      - run:
+          name: Run tests
+          command: npm test
+
+  deploy_npm:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: *workspace_root
+
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > "${CIRCLE_WORKING_DIRECTORY}/dist/.npmrc"
+
+      - run:
+          name: Publish package
+          command: |
+            NPM_TAG="latest"
+            if [[ ${CIRCLE_TAG} =~ ^v.*-[a-zA-Z]+\.[0-9]+$ ]]; then
+            	NPM_TAG="next"
+            fi
+
+            cd dist
+            npm publish --tag ${NPM_TAG}
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore:
+                - gh-pages
+      - test:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore:
+                - gh-pages
+      - deploy_npm:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-.+)?/

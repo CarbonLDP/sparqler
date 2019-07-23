@@ -295,7 +295,7 @@ describe( "SelectClause", () => {
 		} );
 
 		it( "should ignore variables", () => {
-			selectClause.selectAll.call( null, "a", "b" );
+			selectClause.selectAll.call<any, any, any>( null, "a", "b" );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
 			expect( newContainer.targetToken.queryClause.variables )
@@ -345,7 +345,7 @@ describe( "SelectClause", () => {
 		} );
 
 		it( "should ignore variables", () => {
-			selectClause.selectAllDistinct.call( null, "a", "b" );
+			selectClause.selectAllDistinct.call<any, any, any>( null, "a", "b" );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
 			expect( newContainer.targetToken.queryClause.variables )
@@ -395,7 +395,7 @@ describe( "SelectClause", () => {
 		} );
 
 		it( "should ignore variables", () => {
-			selectClause.selectAllReduced.call( null, "a", "b" );
+			selectClause.selectAllReduced.call<any, any, any>( null, "a", "b" );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
 			expect( newContainer.targetToken.queryClause.variables )

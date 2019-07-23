@@ -63,16 +63,19 @@ describe( "PatternBuilder", ():void => {
 				service: jasmine.any( Function ),
 				serviceSilent: jasmine.any( Function ),
 
-
 				filter: jasmine.any( Function ),
 				bind: jasmine.any( Function ),
 				values: jasmine.any( Function ),
+
+
 				select: jasmine.any( Function ),
 				selectDistinct: jasmine.any( Function ),
 				selectReduced: jasmine.any( Function ),
 				selectAll: jasmine.any( Function ),
 				selectAllDistinct: jasmine.any( Function ),
 				selectAllReduced: jasmine.any( Function ),
+
+				path: jasmine.any( Function ),
 			} );
 		} );
 

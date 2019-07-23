@@ -1,9 +1,12 @@
 {
 	"compilerOptions": {
+		"moduleResolution": "node",
 		"module": "commonjs",
 		"target": "es5",
 		"lib": [ "es2015", "dom" ],
-		"strict": true
+		"strict": true,
+		"esModuleInterop": true,
+		"types": [ "jasmine" ]
 	},
 	"exclude": [
 		"node_modules",

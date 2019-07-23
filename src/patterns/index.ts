@@ -14,6 +14,12 @@ export { ServicePattern } from "./notTriplePatterns/ServicePattern"
 export { SingleValuesPattern } from "./notTriplePatterns/SingleValuesPattern"
 export { UnionPattern } from "./notTriplePatterns/UnionPattern"
 
+export { DeniableFluentPath } from "./paths/DeniableFluentPath";
+export { FluentPath } from "./paths/FluentPath";
+export { FluentPathContainer } from "./paths/FluentPathContainer";
+export { Path } from "./paths/Path";
+export { PathBuilder } from "./paths/PathBuilder";
+
 export { TriplePattern } from "./triplePatterns/TriplePattern"
 export { TripleSubject } from "./triplePatterns/TripleSubject"
 export { BlankNode } from "./triplePatterns/BlankNode"
