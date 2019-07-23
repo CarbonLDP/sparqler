@@ -1,4 +1,5 @@
 import { build } from "./tasks/build";
+import { docsAddImages, docsCleanImages } from "./tasks/docs";
 
 export default build;
 
@@ -31,3 +32,13 @@ export {
 	testNode,
 	testWatch,
 } from "./tasks/tests";
+
+export {
+	docsBuildDev,
+	docsBuildProd,
+	docsHTML,
+	docsBundle,
+	docsImages,
+	docsCleanImages,
+	docsAddImages,
+} from "./tasks/docs"
