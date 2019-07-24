@@ -15,6 +15,9 @@ build/*.js
 build/*.map
 build/docs/dgeni/**/*.js
 build/docs/dgeni/**/*.map
+dist/
+docs/
+
 
 tasks/**/*.js
 tasks/**/*.map
