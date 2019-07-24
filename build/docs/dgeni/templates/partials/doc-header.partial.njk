@@ -4,6 +4,7 @@
 {% set color = 'teal'   if doc.docType === 'function'   else color %}
 {% set color = 'green'  if doc.docType === 'enum'       else color %}
 {% set color = 'yellow' if doc.docType === 'type-alias' else color %}
+{% set color = 'blackgit' if doc.docType === 'const' else color %}
 <div class="doc__header">
     <div class="ui basic segment container doc__container">
         <h2 class="ui header doc-header">

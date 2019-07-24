@@ -47,6 +47,7 @@
                                 {% set color = 'teal'   if exported.docType === 'function'   else color %}
                                 {% set color = 'green'  if exported.docType === 'enum'       else color %}
                                 {% set color = 'yellow' if exported.docType === 'type-alias' else color %}
+                                {% set color = 'black'  if exported.docType === 'const'      else color %}
                                 <span class="ui horizontal {{ color }} icon label contents-item__icon">{{ exported.docType | first | capitalize }}</span>
                                 <div class="content contents-item__text">
                                     <a href="/{{ exported.id }}">{{ exported.name }}</a>
