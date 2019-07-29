@@ -181,11 +181,15 @@ describe( "SingleValuesPatternMore", () => {
 		expect( SingleValuesPatternMore ).toEqual( jasmine.any( Object ) );
 	} );
 
+	let firstMockValues:any[];
 	let container:Container<ValuesToken>;
 	beforeEach( () => {
+		firstMockValues = [ "Value that will not be matched" ];
+
 		container = new Container( {
 			iriResolver: new IRIResolver(),
 			targetToken: new ValuesToken()
+				.addValues( ...firstMockValues )
 		} );
 
 		spyContainers.install();
@@ -273,7 +277,7 @@ describe( "SingleValuesPatternMore", () => {
 
 		it( "should not mutate container token", () => {
 			pattern.and( "val" );
-			expect( container.targetToken.values ).toEqual( [] );
+			expect( container.targetToken.values ).toEqual( [ firstMockValues ] );
 		} );
 
 		it( "should add string value", () => {
