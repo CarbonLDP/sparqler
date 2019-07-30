@@ -28,12 +28,13 @@ export class SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends Fi
 	 * Constructor that allows to create query builder with custom finish
 	 * methods specified by the factories provided if specified.
 	 *
-	 * If no custom factory specified {@link FinishClause.createFrom}
+	 * If no custom factory specified {@link FinishClause#createFrom `FinishClause.createFrom`}
 	 * will be used instead.
 	 *
 	 * @param finishSelectFactory Factory for finishing a SELECT query.
 	 * @param finishAskFactory Factory for finishing an ASK query.
 	 */
+     // TODO: Fix link syntax
 	constructor(
 		finishSelectFactory:FinishFactory<SELECT> = FinishClause.createFrom as FinishFactory<SELECT>,
 		finishAskFactory:FinishFactory<ASK> = FinishClause.createFrom as FinishFactory<ASK>,

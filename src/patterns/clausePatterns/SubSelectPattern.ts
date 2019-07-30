@@ -15,11 +15,12 @@ export interface SubSelectPattern {
 	 *
 	 * @param variables The list of variables.
 	 * IF no variable is provided, the behaviour will be the same
-	 * as {@link SubSelectPattern.selectAll}
+	 * as {@link SubSelectPattern#selectAll `SubSelectPattern.selectAll`}
 	 *
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
+	 // TODO: Fix link syntax
 	select( ...variables:string[] ):WherePattern;
 
 	/**
@@ -28,11 +29,12 @@ export interface SubSelectPattern {
 	 *
 	 * @param variables The list of variables.
 	 * IF no variable is provided, the behaviour will be the same
-	 * as {@link SubSelectPattern.selectAllDistinct}
+	 * as {@link SubSelectPattern#selectAllDistinct `SubSelectPattern.selectAllDistinct`}
 	 *
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
+	 // TODO: Fix link syntax
 	selectDistinct( ...variables:string[] ):WherePattern;
 
 	/**
@@ -42,11 +44,12 @@ export interface SubSelectPattern {
 	 *
 	 * @param variables The list of variables.
 	 * IF no variable is provided, the behaviour will be the same
-	 * as {@link SubSelectPattern.selectAllReduced}
+	 * as {@link SubSelectPattern#selectAllReduced `SubSelectPattern.selectAllReduced`}
 	 *
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
+	 // TODO: Fix link syntax
 	selectReduced( ...variables:string[] ):WherePattern;
 
 	/**

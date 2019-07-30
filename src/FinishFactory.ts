@@ -13,8 +13,9 @@ import { QueryToken } from "./tokens/QueryToken";
  * data ({@link QueryToken}) of the constructed query.
  *
  * The factory function must return the extended {@link FinishClause}.
- * The build it factory {@link FinishClause.createFrom} is recommended
+ * The build it factory {@link FinishClause#createFrom `FinishClause.createFrom`} is recommended
  * to be used internally so the expected behaviour applies with added
  * custom functionality for the custom factory.
  */
+ // TODO: Fix link syntax
 export type FinishFactory<T extends FinishClause> = Factory<Container<QueryToken>, T>;
