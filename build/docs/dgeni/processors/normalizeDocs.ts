@@ -78,30 +78,8 @@ export class NormalizeDocs implements Processor {
 
 	_normalizeInterface( doc:ParameterDoc & InterfaceExportDoc ):void {
 		this._normalizeContainer( doc );
+		this._ensureCorrectDescription(doc);
 		
-		// Not only an interface
-			if( ! (doc.symbol.flags ^ SymbolFlags.Interface) ) return;
-
-			// Remove interface momentary
-			doc.symbol.flags = doc.symbol.flags ^ SymbolFlags.Interface;
-
-			switch( getExportDocType( doc.symbol ) ) {
-				case "const":
-
-				let host:Host = new Host();
-					// Add correct content in interface description
-					doc.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! );
-					// console.log(doc.content)
-					break;
-				default:
-					// this.log.error( `Other declaration merged for ${ doc.name }` );
-					break;
-			}
-
-			// Return interface flag
-			doc.symbol.flags = doc.symbol.flags | SymbolFlags.Interface;
-		
-
 		if( doc.members ) doc.members
 			.filter<IndexMemberDoc>( isIndex )
 			.forEach( index => {
@@ -136,6 +114,29 @@ export class NormalizeDocs implements Processor {
 			jsDocParam.optional = ! ! optional;
 			jsDocParam.type = type;
 		} );
+	}
+	
+	_ensureCorrectDescription(doc:ParameterDoc & InterfaceExportDoc){
+		// Not only an interface
+		if( ! (doc.symbol.flags ^ SymbolFlags.Interface) ) return;
+
+		// Remove interface momentary
+		doc.symbol.flags = doc.symbol.flags ^ SymbolFlags.Interface;
+
+		switch( getExportDocType( doc.symbol ) ) {
+			case "const":
+				let host:Host = new Host();
+				// Add correct content in interface description
+				doc.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! );
+				break;
+			default:
+				let log:any;
+				log.error( `Other declaration merged for ${ doc.name }` );
+				break;
+		}
+
+		// Return interface flag
+		doc.symbol.flags = doc.symbol.flags | SymbolFlags.Interface;
 	}
 
 }
