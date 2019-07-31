@@ -55,7 +55,7 @@ export class Navigation implements Processor {
 
 		let exported:boolean = false;
 		doc.exports = doc.exports.filter( exportDoc => {
-			if( exported && exportDoc.name === "SPARQLER" ) return false;
+			if( exported && exportDoc.name === "SPARQLER" || exported && exportDoc.name === "default") return false;
 
 			// Remove `index` from id
 			exportDoc.id = exportDoc.id.substr( 6 );

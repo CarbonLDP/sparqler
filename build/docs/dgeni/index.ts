@@ -103,7 +103,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 	// Configure processor for finding nunjucks templates.
 	.config( function( templateFinder ) {
 		// Where to find the templates for the doc rendering
-		templateFinder.templateFolders = [ templateDir, path.resolve( templateDir, "partials" ) ];
+		templateFinder.templateFolders = [ templateDir, path.resolve( templateDir, "partials" ), path.resolve( templateDir, "macros" ) ];
 
 		// Standard patterns for matching docs to templates
 		templateFinder.templatePatterns = [
@@ -118,6 +118,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 			// '${ doc.id }.template.json',
 			// '${ doc.docType }.template.json',
 			"${ doc.docType }.template.njk",
+			"${ doc.docType }.macro.njk",
 		];
 	} )
 	.config( function( templateEngine, getInjectables ) {
