@@ -9,6 +9,11 @@ import { InterfaceExportDoc } from "dgeni-packages/typescript/api-doc-types/Inte
 import { MemberDoc } from "dgeni-packages/typescript/api-doc-types/MemberDoc";
 import { MethodMemberDoc } from "dgeni-packages/typescript/api-doc-types/MethodMemberDoc";
 import { OverloadInfo } from "dgeni-packages/typescript/api-doc-types/OverloadInfo";
+import { SymbolFlags } from "typescript";
+import { getExportDocType } from "dgeni-packages/typescript/services/TsParser";
+import { ExportDoc } from "dgeni-packages/typescript/api-doc-types/ExportDoc";
+import { Host } from "dgeni-packages/typescript/services/ts-host/host";
+import { ParameterDoc } from "dgeni-packages/typescript/api-doc-types/ParameterDoc";
 
 interface JSDocMethod {
 	params:JSDocParam[];
@@ -71,8 +76,31 @@ export class NormalizeDocs implements Processor {
 			);
 	}
 
-	_normalizeInterface( doc:InterfaceExportDoc ):void {
+	_normalizeInterface( doc:ParameterDoc & InterfaceExportDoc ):void {
 		this._normalizeContainer( doc );
+		
+		// Not only an interface
+			if( ! (doc.symbol.flags ^ SymbolFlags.Interface) ) return;
+
+			// Remove interface momentary
+			doc.symbol.flags = doc.symbol.flags ^ SymbolFlags.Interface;
+
+			switch( getExportDocType( doc.symbol ) ) {
+				case "const":
+
+				let host:Host = new Host();
+					// Add correct content in interface description
+					doc.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! );
+					// console.log(doc.content)
+					break;
+				default:
+					// this.log.error( `Other declaration merged for ${ doc.name }` );
+					break;
+			}
+
+			// Return interface flag
+			doc.symbol.flags = doc.symbol.flags | SymbolFlags.Interface;
+		
 
 		if( doc.members ) doc.members
 			.filter<IndexMemberDoc>( isIndex )
