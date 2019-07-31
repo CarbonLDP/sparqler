@@ -41,8 +41,7 @@ export interface SingleValuesPatternMore extends NotTriplePattern<ValuesToken> {
 function getHasFn<C extends Container<ValuesToken>>( container:C ):SingleValuesPattern[ "has" ] {
 	return value => {
 		const values = container.targetToken.values.slice();
-		if( ! values.length ) values.push( [] );
-		values[ 0 ] = values[ 0 ].concat( convertValue( value as SupportedNativeTypes ) );
+		values.push( [ convertValue( value as SupportedNativeTypes ) ] );
 
 		const targetToken = cloneElement( container.targetToken, { values } );
 		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
