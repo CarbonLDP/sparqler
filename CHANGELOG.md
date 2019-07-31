@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.6.0] (2018-09-20)
 
 - [#33](https://github.com/CarbonLDP/sparqler/issues/33) - Full support for property paths
-    Example:<br>
+    <br>Example:<br>
     ```typescript {
     ( _:PathBuilder ) => _
       .inverse( "ex:path1" ) // ^ex:path1
@@ -44,7 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         } );
     ```
 - [#30](https://github.com/CarbonLDP/sparqler/issues/30) - Support ASK queries
-    Example:<br>
+    <br>Example:<br>
     ```typescript                                                                       
     sparqler
         .ask()
@@ -80,7 +80,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - [#13](https://github.com/CarbonLDP/sparqler/issues/13) - Support for `VALUES` as clause
-    Example:<br>
+    <br>Example:<br>
     ```typescript                                                                       
     sparqler
         .select( "book", "title" )
@@ -91,7 +91,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         ] );
     ```
 - [#10](https://github.com/CarbonLDP/sparqler/issues/10) - Support for sub-selects
-    Example:<br>
+    <br>Example:<br>
     ```typescript
     // Comments of the first recommended book
     sparqler
