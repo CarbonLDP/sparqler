@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- ### Breaking Changes -->
 
+## [Unreleased]
+
+### Fixed
+
+- [#45](https://github.com/CarbonLDP/sparqler/issues/45) - Not adding all the elements in a single variable values pattern
+
 ## [0.6.0] (2018-09-20)
 
 - [#33](https://github.com/CarbonLDP/sparqler/issues/33) - Full support for property paths
