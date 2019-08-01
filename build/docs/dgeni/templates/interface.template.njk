@@ -12,4 +12,23 @@
     {% endif %}
     {% include 'partials/properties.partial.njk' %}
     {% include 'partials/methods.partial.njk' %}
+    
+    {% if doc.constants %}
+        {% for constant in doc.constants%}
+            <div class="doc__header">
+                <div class="ui basic segment container doc__container">
+                    <h2 class="ui header doc-header">
+                        <label class="ui horizontal black large label doc-header__label">{{ constant.docType | replace('-', ' ') | title }}</label>
+                        {{constant.name}}
+                    </h2>
+                </div>
+            </div>
+            <div class="ui basic segment justified text container doc__container doc-content">
+                {% if constant.content %}
+                    <h3 class="doc-content__title">Description</h3>
+                    <div>{{ constant.content | marked }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

@@ -4,6 +4,7 @@ import {
 } from "dgeni";
 import { ClassExportDoc } from "dgeni-packages/typescript/api-doc-types/ClassExportDoc";
 import { ContainerExportDoc } from "dgeni-packages/typescript/api-doc-types/ContainerExportDoc";
+import { ConstExportDoc } from "dgeni-packages/typescript/api-doc-types/ConstExportDoc";
 import { FunctionExportDoc } from "dgeni-packages/typescript/api-doc-types/FunctionExportDoc";
 import { InterfaceExportDoc } from "dgeni-packages/typescript/api-doc-types/InterfaceExportDoc";
 import { MemberDoc } from "dgeni-packages/typescript/api-doc-types/MemberDoc";
@@ -39,8 +40,9 @@ export class NormalizeDocs implements Processor {
 
 	$runAfter = [ "processing-docs" ];
 	$runBefore = [ "docs-processed" ];
-
+	docs: DocCollection;
 	$process( docs:DocCollection ) {
+		this.docs = docs;
 		docs.forEach( doc => {
 			if( [ "module", "index" ].includes( doc.docType ) ) return;
 
@@ -116,7 +118,7 @@ export class NormalizeDocs implements Processor {
 		} );
 	}
 	
-	_ensureCorrectDescription(doc:ParameterDoc & InterfaceExportDoc){
+	_ensureCorrectDescription(doc:any){
 		// Not only an interface
 		if( ! (doc.symbol.flags ^ SymbolFlags.Interface) ) return;
 
@@ -125,7 +127,13 @@ export class NormalizeDocs implements Processor {
 
 		switch( getExportDocType( doc.symbol ) ) {
 			case "const":
+			
 				let host:Host = new Host();
+				let exportDoc:ExportDoc = new ConstExportDoc(host, doc.moduleDoc, doc.symbol)
+				exportDoc.id = `${exportDoc.id}Const`
+				doc.constants = [exportDoc];					
+				this.docs.push(exportDoc);
+					
 				// Add correct content in interface description
 				doc.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! );
 				break;
