@@ -28,6 +28,16 @@
                     <h3 class="doc-content__title">Description</h3>
                     <div>{{ constant.content | marked }}</div>
                 {% endif %}
+                {% for member in constant.members %}
+                {% set paramsString %}( {{ member.parameters | join(', ') }} ){% endset %}
+                {% set memberString %}
+                {{ 'function '}}{{ member.name }}{{ member.typeParameters }}{{ paramsString if member.parameters | length else "()" }}: {{ member.type }}
+                {% endset %}
+                <div class="member-code">
+                    <code class="highlight language-typescript" id="{{member.name}}">{{ memberString | highlight('typescript', member) }}</code>
+                    <p>{{member.content}}</p>
+                </div>
+                {% endfor %}
             </div>
         {% endfor %}
     {% endif %}

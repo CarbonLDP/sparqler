@@ -12,7 +12,6 @@ import { MethodMemberDoc } from "dgeni-packages/typescript/api-doc-types/MethodM
 import { OverloadInfo } from "dgeni-packages/typescript/api-doc-types/OverloadInfo";
 import { SymbolFlags } from "typescript";
 import { getExportDocType } from "dgeni-packages/typescript/services/TsParser";
-import { ExportDoc } from "dgeni-packages/typescript/api-doc-types/ExportDoc";
 import { Host } from "dgeni-packages/typescript/services/ts-host/host";
 import { ParameterDoc } from "dgeni-packages/typescript/api-doc-types/ParameterDoc";
 
@@ -127,13 +126,21 @@ export class NormalizeDocs implements Processor {
 
 		switch( getExportDocType( doc.symbol ) ) {
 			case "const":
-			
 				let host:Host = new Host();
-				let exportDoc:ExportDoc = new ConstExportDoc(host, doc.moduleDoc, doc.symbol)
-				exportDoc.id = `${exportDoc.id}Const`
-				doc.constants = [exportDoc];					
-				this.docs.push(exportDoc);
-					
+					let exportDoc = new ConstExportDoc(host, doc.moduleDoc, doc.symbol)
+					exportDoc.id = `${exportDoc.id}Const`
+					doc.constants = [exportDoc];					
+					this.docs.push(exportDoc);
+					doc.constants[0].members = [];
+					try {
+						let container = doc.constants[0].variableDeclaration.type.nextContainer;
+						let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, container.symbol, container);
+						doc.constants[0].members.push(methodDoc)
+					} catch {
+						let container = doc.constants[0].variableDeclaration.initializer.nextContainer;
+						let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, container.symbol, container);
+						doc.constants[0].members.push(methodDoc)
+					}
 				// Add correct content in interface description
 				doc.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! );
 				break;
