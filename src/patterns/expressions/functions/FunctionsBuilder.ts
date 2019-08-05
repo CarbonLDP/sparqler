@@ -67,8 +67,8 @@ const enum Functions {
 	IS_LITERAL = "isLITERAL",
 	IS_NUMERIC = "isNUMERIC",
 	REGEX = "REGEX",
-	EXISTS = "EXISTS",
-	NOT_EXISTS = "NOT EXISTS",
+	EXISTS = "EXISTS ",
+	NOT_EXISTS = "NOT EXISTS ",
 }
 
 
@@ -160,7 +160,7 @@ export interface FunctionsBuilder {
 	 * @param term1 - Expression to evaluate its value against {@param term2}.
 	 * @param term2 - Expression to evaluate its value against {@param term1}.
 	 */
-	sameTerm( term1:Expression, term2:Expression ):Expression;
+	sameTerm( term1:PrimaryExpression, term2:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
@@ -171,7 +171,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	isIRI( term:Expression ):Expression;
+	isIRI( term:PrimaryExpression ):Expression;
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
 	 * an URI. Returns `false` otherwise.
@@ -181,7 +181,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	isURI( term:Expression ):Expression;
+	isURI( term:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
@@ -192,7 +192,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	isBlank( term:Expression ):Expression;
+	isBlank( term:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
@@ -203,7 +203,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	isLiteral( term:Expression ):Expression;
+	isLiteral( term:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
@@ -214,7 +214,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	isNumeric( term:Expression ):Expression;
+	isNumeric( term:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the string representation of
@@ -225,7 +225,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	str( term:Expression ):Expression;
+	str( term:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the language tag of
@@ -236,7 +236,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param literal - Expression to evaluate its value lang.
 	 */
-	lang( literal:Expression ):Expression;
+	lang( literal:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the datatype IRI of
@@ -247,7 +247,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param literal - Expression to evaluate its value lang.
 	 */
-	datatype( literal:Expression ):Expression;
+	datatype( literal:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that constructs an IRI by resolving
@@ -258,7 +258,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param argument - Expression to construct an IRI with its value.
 	 */
-	iri( argument:Expression ):Expression;
+	iri( argument:PrimaryExpression ):Expression;
 	/**
 	 * Creates an {@link Expression} that constructs a URI by resolving
 	 * {@param argument}.
@@ -268,7 +268,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param argument - Expression to construct a URI with its value.
 	 */
-	uri( argument:Expression ):Expression;
+	uri( argument:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that constructs a blank node that is
@@ -281,7 +281,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param literal - Optional expression to use its value for the blank node creation.
 	 */
-	bnode( literal?:Expression ):Expression;
+	bnode( literal?:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that constructs an RDF literal with
@@ -294,7 +294,7 @@ export interface FunctionsBuilder {
 	 * @param lexicalForm - Expresion with a string value to use as the lexical form of the literal.
 	 * @param dataType - Expresion with an IRI value to use as the datatype of the literal.
 	 */
-	strDT( lexicalForm:Expression, dataType:Expression ):Expression;
+	strDT( lexicalForm:PrimaryExpression, dataType:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that constructs an RDF literal with the
@@ -307,7 +307,7 @@ export interface FunctionsBuilder {
 	 * @param lexicalForm - Expresion with a string value to use as the lexical form of the literal.
 	 * @param languageTag - Expresion with a string value to use as the language tag of the literal.
 	 */
-	strLang( lexicalForm:Expression, languageTag:Expression ):Expression;
+	strLang( lexicalForm:PrimaryExpression, languageTag:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns an IRI from the
@@ -334,7 +334,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param str - Expression to count the characters of its string value.
 	 */
-	strLen( str:Expression ):Expression;
+	strLen( str:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns a the portion of the
@@ -352,7 +352,7 @@ export interface FunctionsBuilder {
 	 * @param starting Expression with the index from where to start the portion to take.
 	 * @param length Expression with the number of characters of the portion to take.
 	 */
-	substr( source:Expression, starting:Expression, length?:Expression ):Expression;
+	substr( source:PrimaryExpression, starting:PrimaryExpression, length?:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the {@param str} value
@@ -363,7 +363,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param str Expression with the string value to convert.
 	 */
-	uCase( str:Expression ):Expression;
+	uCase( str:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the {@param str} value
@@ -374,7 +374,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param str Expression with the string value to convert.
 	 */
-	lCase( str:Expression ):Expression;
+	lCase( str:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the `true` of the value of
@@ -387,7 +387,7 @@ export interface FunctionsBuilder {
 	 * @param arg1 Expression with the string value to check it starts with {@param arg2}.
 	 * @param arg2 Expression with the string value to check it's the start of {@param arg1}.
 	 */
-	strStarts( arg1:Expression, arg2:Expression ):Expression;
+	strStarts( arg1:PrimaryExpression, arg2:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the `true` of the value of
@@ -400,7 +400,7 @@ export interface FunctionsBuilder {
 	 * @param arg1 Expression with the string value to check it ends with {@param arg2}.
 	 * @param arg2 Expression with the string value to check it's the end of {@param arg1}.
 	 */
-	strEnds( arg1:Expression, arg2:Expression ):Expression;
+	strEnds( arg1:PrimaryExpression, arg2:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the `true` of the value of
@@ -413,7 +413,7 @@ export interface FunctionsBuilder {
 	 * @param arg1 Expression with the string value to check it contains {@param arg2}.
 	 * @param arg2 Expression with the string value to check it's contained by {@param arg1}.
 	 */
-	contains( arg1:Expression, arg2:Expression ):Expression;
+	contains( arg1:PrimaryExpression, arg2:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the part the {@param arg1}
@@ -425,7 +425,7 @@ export interface FunctionsBuilder {
 	 * @param arg1 Expression with the string value to check and return the preceded part.
 	 * @param arg2 Expression with the string value to check where it appears in {@param arg1}.
 	 */
-	strBefore( arg1:Expression, arg2:Expression ):Expression;
+	strBefore( arg1:PrimaryExpression, arg2:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the part the {@param arg1}
@@ -437,7 +437,7 @@ export interface FunctionsBuilder {
 	 * @param arg1 Expression with the string value to check and return the followed part.
 	 * @param arg2 Expression with the string value to check where it appears in {@param arg1}.
 	 */
-	strAfter( arg1:Expression, arg2:Expression ):Expression;
+	strAfter( arg1:PrimaryExpression, arg2:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns a literal with the encoded
@@ -448,7 +448,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param literal Expression with the string value to encode.
 	 */
-	encodeForUri( literal:Expression ):Expression;
+	encodeForUri( literal:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the concatenation of the
@@ -459,7 +459,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param literals Expressions with the string values to concatenate.
 	 */
-	concat( ...literals:Expression[] ):Expression;
+	concat( ...literals:PrimaryExpression[] ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param languageTag}
@@ -472,7 +472,7 @@ export interface FunctionsBuilder {
 	 * @param languageTag Expressions with the language tag to be checked.
 	 * @param languageRange Expression with the language range that {@param languageTag} will be checked against.
 	 */
-	langMatches( languageTag:Expression, languageRange:Expression ):Expression;
+	langMatches( languageTag:PrimaryExpression, languageRange:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param text}
@@ -486,7 +486,8 @@ export interface FunctionsBuilder {
 	 * @param pattern Expression with the regular expression used as the matcher.
 	 * @param flags Optional expression with the matching rules to be applied.
 	 */
-	regex( text:Expression, pattern:Expression, flags?:Expression ):Expression;
+	regex( text:PrimaryExpression, pattern:PrimaryExpression, flags?:PrimaryExpression ):Expression;
+	regex( text:PrimaryExpression, pattern:RegExp ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns a string produced by the
@@ -503,7 +504,8 @@ export interface FunctionsBuilder {
 	 * @param replacement Expression with the string or pattern to use as the replacement.
 	 * @param flags Optional expression with the matching rules to be applied.
 	 */
-	replace( text:Expression, pattern:Expression, replacement:Expression, flags?:Expression ):Expression;
+	replace( text:PrimaryExpression, pattern:PrimaryExpression, replacement:PrimaryExpression, flags?:PrimaryExpression ):Expression;
+	replace( text:PrimaryExpression, pattern:RegExp, replacement:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the absolute value of
@@ -514,7 +516,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term Expressions with the numeric value to get its absolute value.
 	 */
-	abs( term:Expression ):Expression;
+	abs( term:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the number with no fractional
@@ -527,7 +529,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term Expressions with the numeric value to get its round value.
 	 */
-	round( term:Expression ):Expression;
+	round( term:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the closest to negative infinity
@@ -538,7 +540,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term Expressions with the numeric value to get its ceil value.
 	 */
-	ceil( term:Expression ):Expression;
+	ceil( term:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the closest to positive infinity
@@ -549,7 +551,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term Expressions with the numeric value to get its floor value.
 	 */
-	floor( term:Expression ):Expression;
+	floor( term:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns a pseudo-random number
@@ -576,7 +578,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-year}
 	 * for more information.
 	 */
-	year( dateTime:Expression ):Expression;
+	year( dateTime:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the month part of the
@@ -585,7 +587,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-month}
 	 * for more information.
 	 */
-	month( dateTime:Expression ):Expression;
+	month( dateTime:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the day part of the
@@ -594,7 +596,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-day}
 	 * for more information.
 	 */
-	day( dateTime:Expression ):Expression;
+	day( dateTime:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the hours part of the
@@ -603,7 +605,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-hours}
 	 * for more information.
 	 */
-	hours( dateTime:Expression ):Expression;
+	hours( dateTime:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the minutes part of the
@@ -612,7 +614,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-minutes}
 	 * for more information.
 	 */
-	minutes( dateTime:Expression ):Expression;
+	minutes( dateTime:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the seconds part of the
@@ -621,7 +623,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-seconds}
 	 * for more information.
 	 */
-	seconds( dateTime:Expression ):Expression;
+	seconds( dateTime:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the timezone part of the
@@ -630,7 +632,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-timezone}
 	 * for more information.
 	 */
-	timezone( dateTime:Expression ):Expression;
+	timezone( dateTime:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the timezone part of the
@@ -639,7 +641,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-tz}
 	 * for more information.
 	 */
-	tz( dateTime:Expression ):Expression;
+	tz( dateTime:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the MD5 checksum, calculated
@@ -648,7 +650,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-md5}
 	 * for more information.
 	 */
-	md5( literal:Expression ):Expression;
+	md5( literal:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the SHA1 checksum, calculated
@@ -657,7 +659,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha1}
 	 * for more information.
 	 */
-	sha1( literal:Expression ):Expression;
+	sha1( literal:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the SHA256 checksum, calculated
@@ -666,7 +668,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha256}
 	 * for more information.
 	 */
-	sha256( literal:Expression ):Expression;
+	sha256( literal:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the SHA384 checksum, calculated
@@ -675,7 +677,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha384}
 	 * for more information.
 	 */
-	sha384( literal:Expression ):Expression;
+	sha384( literal:PrimaryExpression ):Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the SHA512 checksum, calculated
@@ -684,9 +686,9 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha512}
 	 * for more information.
 	 */
-	sha512( literal:Expression ):Expression;
+	sha512( literal:PrimaryExpression ):Expression;
 
-	custom( resource:Resource | string, ...args:Expression[] ):Expression;
+	custom( resource:Resource | string, ...args:PrimaryExpression[] ):Expression;
 }
 
 // Static transformers
@@ -752,10 +754,9 @@ function getNamedExpressionFn( container:Container<undefined>, name:Functions, .
 }
 
 function getPatternExpressionFn( container:Container<undefined>, name:Functions ) {
-	return ( firstPattern:Pattern | Pattern[], ...restPatterns:Pattern[] ) => {
-		const patterns = Array.isArray( firstPattern )
-			? firstPattern
-			: [ firstPattern, ...restPatterns ];
+	return ( firstPattern?:Pattern | Pattern[], ...restPatterns:Pattern[] ) => {
+		const patterns = Array.isArray( firstPattern ) ? firstPattern
+			: !firstPattern ? [] : [ firstPattern, ...restPatterns ];
 
 		return _getExpressionWithPatterns( container, name, patterns );
 	}
@@ -768,6 +769,22 @@ function getIRIExpressionFn( container:Container<undefined>, ...transformers:Tra
 			: resource.getSubject();
 
 		return _getExpressionWithArgs( container, iri, expressions, transformers );
+	}
+}
+
+function getRegexExpressionFn( container:Container<undefined>, name:Functions, ...transformers:Transformer[] ) {
+	return ( ...rawExpressions:(ValidExpression | RegExp | undefined)[] ) => {
+		let flags:string | undefined;
+		const expressions:(ValidExpression | undefined)[] = rawExpressions.map( value => {
+			if( !(value instanceof RegExp) ) return value;
+
+			flags = value.flags;
+			return value.source;
+		} );
+
+		if( flags ) expressions.push( flags );
+
+		return _getExpressionWithArgs( container, name, expressions, transformers );
 	}
 }
 
@@ -799,58 +816,58 @@ export const FunctionsBuilder:{
 			bound: getNamedExpressionFn( container, Functions.BOUND, variableTransformer ),
 			if: getNamedExpressionFn( container, Functions.IF, generalTransformer ),
 			coalesce: getNamedExpressionFn( container, Functions.COALESCE, generalTransformer ),
-			// FIXME: Continue adding support for non-expressions
 			exists: getPatternExpressionFn( container, Functions.EXISTS ),
 			notExists: getPatternExpressionFn( container, Functions.NOT_EXISTS ),
-			sameTerm: getNamedExpressionFn( container, Functions.SAME_TERM ),
-			isIRI: getNamedExpressionFn( container, Functions.IS_IRI ),
-			isURI: getNamedExpressionFn( container, Functions.IS_URI ),
-			isBlank: getNamedExpressionFn( container, Functions.IS_BLANK ),
-			isLiteral: getNamedExpressionFn( container, Functions.IS_LITERAL ),
-			isNumeric: getNamedExpressionFn( container, Functions.IS_NUMERIC ),
-			str: getNamedExpressionFn( container, Functions.STR ),
-			lang: getNamedExpressionFn( container, Functions.LANG ),
-			datatype: getNamedExpressionFn( container, Functions.DATATYPE ),
-			iri: getNamedExpressionFn( container, Functions.IRI ),
-			uri: getNamedExpressionFn( container, Functions.URI ),
-			bnode: getNamedExpressionFn( container, Functions.BNODE ),
-			strDT: getNamedExpressionFn( container, Functions.STR_DT ),
-			strLang: getNamedExpressionFn( container, Functions.STR_LANG ),
+			sameTerm: getNamedExpressionFn( container, Functions.SAME_TERM, generalTransformer ),
+			isIRI: getNamedExpressionFn( container, Functions.IS_IRI, generalTransformer ),
+			isURI: getNamedExpressionFn( container, Functions.IS_URI, generalTransformer ),
+			isBlank: getNamedExpressionFn( container, Functions.IS_BLANK, generalTransformer ),
+			isLiteral: getNamedExpressionFn( container, Functions.IS_LITERAL, generalTransformer ),
+			isNumeric: getNamedExpressionFn( container, Functions.IS_NUMERIC, generalTransformer ),
+			str: getNamedExpressionFn( container, Functions.STR, generalTransformer ),
+			lang: getNamedExpressionFn( container, Functions.LANG, generalTransformer ),
+			datatype: getNamedExpressionFn( container, Functions.DATATYPE, generalTransformer ),
+			iri: getNamedExpressionFn( container, Functions.IRI, generalTransformer ),
+			uri: getNamedExpressionFn( container, Functions.URI, generalTransformer ),
+			bnode: getNamedExpressionFn( container, Functions.BNODE, generalTransformer ),
+			strDT: getNamedExpressionFn( container, Functions.STR_DT, generalTransformer ),
+			strLang: getNamedExpressionFn( container, Functions.STR_LANG, generalTransformer ),
 			uuid: getNamedExpressionFn( container, Functions.UUID ),
 			strUUID: getNamedExpressionFn( container, Functions.STR_UUID ),
-			strLen: getNamedExpressionFn( container, Functions.STRLEN ),
-			substr: getNamedExpressionFn( container, Functions.SUBSTR ),
-			uCase: getNamedExpressionFn( container, Functions.UCASE ),
-			lCase: getNamedExpressionFn( container, Functions.LCASE ),
-			strStarts: getNamedExpressionFn( container, Functions.STR_STARTS ),
-			strEnds: getNamedExpressionFn( container, Functions.STR_ENDS ),
-			contains: getNamedExpressionFn( container, Functions.CONTAINS ),
-			strBefore: getNamedExpressionFn( container, Functions.STR_BEFORE ),
-			strAfter: getNamedExpressionFn( container, Functions.STR_AFTER ),
-			encodeForUri: getNamedExpressionFn( container, Functions.ENCODE_FOR_URI ),
-			concat: getNamedExpressionFn( container, Functions.CONCAT ),
-			langMatches: getNamedExpressionFn( container, Functions.LANG_MATCHES ),
-			regex: getNamedExpressionFn( container, Functions.REGEX ),
-			replace: getNamedExpressionFn( container, Functions.REPLACE ),
-			abs: getNamedExpressionFn( container, Functions.ABS ),
-			round: getNamedExpressionFn( container, Functions.ROUND ),
-			ceil: getNamedExpressionFn( container, Functions.CEIL ),
-			floor: getNamedExpressionFn( container, Functions.FLOOR ),
-			rand: getNamedExpressionFn( container, Functions.RAND ),
-			now: getNamedExpressionFn( container, Functions.NOW ),
-			year: getNamedExpressionFn( container, Functions.YEAR ),
-			month: getNamedExpressionFn( container, Functions.MONTH ),
-			day: getNamedExpressionFn( container, Functions.DAY ),
-			hours: getNamedExpressionFn( container, Functions.HOURS ),
-			minutes: getNamedExpressionFn( container, Functions.MINUTES ),
-			seconds: getNamedExpressionFn( container, Functions.SECONDS ),
-			timezone: getNamedExpressionFn( container, Functions.TIMEZONE ),
-			tz: getNamedExpressionFn( container, Functions.TZ ),
-			md5: getNamedExpressionFn( container, Functions.MD5 ),
-			sha1: getNamedExpressionFn( container, Functions.SHA1 ),
-			sha256: getNamedExpressionFn( container, Functions.SHA256 ),
-			sha384: getNamedExpressionFn( container, Functions.SHA384 ),
-			sha512: getNamedExpressionFn( container, Functions.SHA512 ),
+			strLen: getNamedExpressionFn( container, Functions.STRLEN, generalTransformer ),
+			substr: getNamedExpressionFn( container, Functions.SUBSTR, generalTransformer ),
+			uCase: getNamedExpressionFn( container, Functions.UCASE, generalTransformer ),
+			lCase: getNamedExpressionFn( container, Functions.LCASE, generalTransformer ),
+			strStarts: getNamedExpressionFn( container, Functions.STR_STARTS, generalTransformer ),
+			strEnds: getNamedExpressionFn( container, Functions.STR_ENDS, generalTransformer ),
+			contains: getNamedExpressionFn( container, Functions.CONTAINS, generalTransformer ),
+			strBefore: getNamedExpressionFn( container, Functions.STR_BEFORE, generalTransformer ),
+			strAfter: getNamedExpressionFn( container, Functions.STR_AFTER, generalTransformer ),
+			encodeForUri: getNamedExpressionFn( container, Functions.ENCODE_FOR_URI, generalTransformer ),
+			concat: getNamedExpressionFn( container, Functions.CONCAT, generalTransformer ),
+			langMatches: getNamedExpressionFn( container, Functions.LANG_MATCHES, generalTransformer ),
+			regex: getRegexExpressionFn( container, Functions.REGEX, generalTransformer ),
+			replace: getRegexExpressionFn( container, Functions.REPLACE, generalTransformer ),
+			// FIXME: Continue adding support for non-expressions
+			abs: getNamedExpressionFn( container, Functions.ABS, generalTransformer ),
+			round: getNamedExpressionFn( container, Functions.ROUND, generalTransformer ),
+			ceil: getNamedExpressionFn( container, Functions.CEIL, generalTransformer ),
+			floor: getNamedExpressionFn( container, Functions.FLOOR, generalTransformer ),
+			rand: getNamedExpressionFn( container, Functions.RAND, generalTransformer ),
+			now: getNamedExpressionFn( container, Functions.NOW, generalTransformer ),
+			year: getNamedExpressionFn( container, Functions.YEAR, generalTransformer ),
+			month: getNamedExpressionFn( container, Functions.MONTH, generalTransformer ),
+			day: getNamedExpressionFn( container, Functions.DAY, generalTransformer ),
+			hours: getNamedExpressionFn( container, Functions.HOURS, generalTransformer ),
+			minutes: getNamedExpressionFn( container, Functions.MINUTES, generalTransformer ),
+			seconds: getNamedExpressionFn( container, Functions.SECONDS, generalTransformer ),
+			timezone: getNamedExpressionFn( container, Functions.TIMEZONE, generalTransformer ),
+			tz: getNamedExpressionFn( container, Functions.TZ, generalTransformer ),
+			md5: getNamedExpressionFn( container, Functions.MD5, generalTransformer ),
+			sha1: getNamedExpressionFn( container, Functions.SHA1, generalTransformer ),
+			sha256: getNamedExpressionFn( container, Functions.SHA256, generalTransformer ),
+			sha384: getNamedExpressionFn( container, Functions.SHA384, generalTransformer ),
+			sha512: getNamedExpressionFn( container, Functions.SHA512, generalTransformer ),
 			custom: getIRIExpressionFn( container ),
 		} )
 	},

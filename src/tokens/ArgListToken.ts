@@ -3,6 +3,9 @@ import { TokenNode } from "./TokenNode";
 
 const DISTINCT = "DISTINCT" as const;
 
+// TODO: Document
+// TODO: Test
+
 export class ArgListToken implements TokenNode {
 	readonly token:"argList" = "argList";
 
@@ -15,6 +18,8 @@ export class ArgListToken implements TokenNode {
 	}
 
 	toString( spaces?:number ):string {
+		if( !this.expressions.length ) return "()";
+
 		const separator = spaces !== undefined
 			? " " : "";
 

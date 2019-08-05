@@ -29,6 +29,11 @@ describe( "IRIResolver", () => {
 		} );
 
 
+		it( "should throw error if blank node", () => {
+			const iriResolver:IRIResolver = new IRIResolver();
+			expect( () => iriResolver.resolve( "_:b0" ) ).toThrowError( `The blank node label "_:b0" is an invalid argument.` );
+		} );
+
 		it( "should throw error if prefix does not exists", () => {
 			const iriResolver:IRIResolver = new IRIResolver();
 			expect( () => iriResolver.resolve( "ex:resource" ) ).toThrowError( `The prefix "ex" has not been declared.` );

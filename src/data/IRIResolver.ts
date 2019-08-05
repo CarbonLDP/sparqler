@@ -1,4 +1,4 @@
-import { isPrefixed, isRelative } from "../iri/utils";
+import { isBNodeLabel, isPrefixed, isRelative } from "../iri/utils";
 
 import { IRIRefToken } from "../tokens/IRIRefToken";
 import { IRIToken } from "../tokens/IRIToken";
@@ -58,6 +58,9 @@ export class IRIResolver {
 		if( isPrefixed( relativeIRI ) )
 			return this.resolvePrefixed( relativeIRI );
 
+		if( isBNodeLabel( relativeIRI ) )
+			throw new Error( `The blank node label "${ relativeIRI }" is an invalid argument.` );
+
 		return this.resolveIRIRef( relativeIRI, vocab );
 	}
 
@@ -74,7 +77,7 @@ export class IRIResolver {
 		const used:boolean | undefined = this.prefixes.get( token.namespace );
 		if( used === void 0 ) throw new Error( `The prefix "${ token.namespace }" has not been declared.` );
 
-		if( ! used ) this.prefixes.set( token.namespace, true );
+		if( !used ) this.prefixes.set( token.namespace, true );
 		return token;
 	}
 }
