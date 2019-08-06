@@ -694,7 +694,22 @@ export interface FunctionsBuilder {
 	 */
 	sha512( literal:PrimaryExpression ):Expression;
 
+	/**
+	 * Creates an {@link Expression} that executes a function
+	 * declared by a custom IRI.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#ririOrFunction}
+	 * for more information.
+	 */
 	custom( resource:Resource | string, ...args:PrimaryExpression[] ):Expression;
+	/**
+	 * Creates an {@link Expression} that executes a function
+	 * declared by a custom IRI reducing to only distinct arguments.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#ririOrFunction}
+	 * for more information.
+	 */
+	customDistinct( resource:Resource | string, ...args:PrimaryExpression[] ):Expression;
 }
 
 // Static transformers
@@ -717,7 +732,7 @@ function _getExpression( container:Container<undefined>, name:Functions | IRITok
 	return Expression.createFrom( newContainer, {} )
 }
 
-function _getExpressionWithList( container:Container<undefined>, name:Functions | IRIToken, list:(ValidExpression | undefined)[], limit?:number, transformer?:Transformer ) {
+function _getExpressionWithList( container:Container<undefined>, name:Functions | IRIToken, list:(ValidExpression | undefined)[], limit?:number, transformer?:Transformer, distinct?:boolean ) {
 	const listTokens:ExpressionToken[] = list
 		.slice( 0, limit )
 		.filter( _ => _ !== undefined )
@@ -739,7 +754,7 @@ function _getExpressionWithList( container:Container<undefined>, name:Functions 
 			throw new Error( "Invalid argument provided to the function." );
 		} );
 
-	const expressionList = new ExpressionListToken( listTokens );
+	const expressionList = new ExpressionListToken( listTokens, distinct );
 
 	return _getExpression( container, name, expressionList );
 }
@@ -767,13 +782,13 @@ function getPatternExpressionFn( container:Container<undefined>, name:Functions 
 	}
 }
 
-function getIRIExpressionFn( container:Container<undefined>, transformer:Transformer ) {
+function getIRIExpressionFn( container:Container<undefined>, transformer:Transformer, distinct?:boolean ) {
 	return ( resource:Resource | string, ...expressions:ValidExpression[] ) => {
 		const iri = typeof resource === "string"
 			? container.iriResolver.resolve( resource )
 			: resource.getSubject();
 
-		return _getExpressionWithList( container, iri, expressions, undefined, transformer );
+		return _getExpressionWithList( container, iri, expressions, undefined, transformer, distinct );
 	}
 }
 
@@ -874,6 +889,7 @@ export const FunctionsBuilder:{
 			sha384: getNamedExpressionFn( container, Functions.SHA384, 1, generalTransformer ),
 			sha512: getNamedExpressionFn( container, Functions.SHA512, 1, generalTransformer ),
 			custom: getIRIExpressionFn( container, generalTransformer ),
+			customDistinct: getIRIExpressionFn( container, generalTransformer, true ),
 		} )
 	},
 };

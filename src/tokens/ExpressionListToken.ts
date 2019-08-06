@@ -1,11 +1,18 @@
 import { ExpressionToken } from "./ExpressionToken";
 import { TokenNode } from "./TokenNode";
 
-const DISTINCT = "DISTINCT" as const;
+const DISTINCT = "DISTINCT " as const;
 
 // TODO: Document
 // TODO: Test
 
+/**
+ * Token that represents the expression list in a build-in function and
+ * the argument list in a custom function.
+ *
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rExpressionList}
+ * @see {@link https://www.w3.org/TR/sparql11-query/#rArgList}
+ */
 export class ExpressionListToken implements TokenNode {
 	readonly token:"expressionList" = "expressionList";
 

@@ -107,6 +107,7 @@ describe( "FunctionsBuilder", () => {
 				sha384: jasmine.any( Function ),
 				sha512: jasmine.any( Function ),
 				custom: jasmine.any( Function ),
+				customDistinct: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1928,6 +1929,52 @@ describe( "FunctionsBuilder", () => {
 		it( "should create function using two natives", () => {
 			const expression = builder.custom( "ex:customFn", "ex:resource", "abc" );
 			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn( ex:resource, \"abc\" )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.customDistinct", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.customDistinct ).toBeDefined();
+			expect( builder.customDistinct ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create empty function with native IRI string", () => {
+			const expression = builder.customDistinct( "https://example.com/ns#customFn" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
+		} );
+
+		it( "should create empty function with native Prefixed string", () => {
+			const expression = builder.customDistinct( "ex:customFn" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
+		} );
+
+		it( "should create empty function with IRI resource", () => {
+			const expression = builder.customDistinct( triplesBuilder.resource( "https://example.com/ns#customFn" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
+		} );
+
+		it( "should create empty function with Prefixed resource", () => {
+			const expression = builder.customDistinct( triplesBuilder.resource( "ex:customFn" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
+		} );
+
+		it( "should create function using two triples", () => {
+			const expression = builder.customDistinct( "ex:customFn", triplesBuilder.var( "foo" ), triplesBuilder.literal( "abc" ).withType( XSD.string ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn( DISTINCT ?foo, \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+		} );
+
+		it( "should create function using two natives", () => {
+			const expression = builder.customDistinct( "ex:customFn", "ex:resource", "abc" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn( DISTINCT ex:resource, \"abc\" )" );
 		} );
 
 	} );

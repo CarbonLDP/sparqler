@@ -5,7 +5,7 @@ import { TokenNode } from "./TokenNode";
 
 
 /**
- * Token that represents the build-in and custom functions in SPARQL.
+ * Token that represents the build-in and custom functions.
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rBuiltInCall}
  * @see {@link https://www.w3.org/TR/sparql11-query/#ririOrFunction}
