@@ -16,6 +16,8 @@ import { highlightTag } from "./rendering/tags/highlight";
 import { isDefault } from "./tags-def/isDefault";
 import { module } from "./tags-def/module";
 import { typeParameters } from "./tags-def/typeParameters";
+// Dgeni inline tags
+import { paramInLineTag } from "./inline-tags-def/paramInlineTag"
 
 // Project configuration.
 const projectRootDir = path.resolve( __dirname, "./../../.." );
@@ -99,6 +101,11 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 		];
 	} )
 
+	.config(function (inlineTagProcessor, getInjectables) {
+		inlineTagProcessor.inlineTagDefinitions.push( ...getInjectables([
+			paramInLineTag
+		]))
+	})
 
 	// Configure processor for finding nunjucks templates.
 	.config( function( templateFinder ) {
