@@ -1104,4 +1104,534 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
+	describe( "FunctionsBuilder.abs", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.abs ).toBeDefined();
+			expect( builder.abs ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.abs( triplesBuilder.literal( -1.5 ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ABS( -1.5 )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.abs( -1.5 );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ABS( -1.5 )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.round", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.round ).toBeDefined();
+			expect( builder.round ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.round( triplesBuilder.literal( 1.5 ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ROUND( 1.5 )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.round( 1.5 );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ROUND( 1.5 )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.ceil", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.ceil ).toBeDefined();
+			expect( builder.ceil ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.ceil( triplesBuilder.literal( 1.5 ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "CEIL( 1.5 )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.ceil( 1.5 );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "CEIL( 1.5 )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.floor", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.floor ).toBeDefined();
+			expect( builder.floor ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.floor( triplesBuilder.literal( 1.5 ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "FLOOR( 1.5 )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.floor( 1.5 );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "FLOOR( 1.5 )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.rand", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.rand ).toBeDefined();
+			expect( builder.rand ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function", () => {
+			const expression = builder.rand();
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "RAND()" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.now", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.now ).toBeDefined();
+			expect( builder.now ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function", () => {
+			const expression = builder.now();
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "NOW()" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.year", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.year ).toBeDefined();
+			expect( builder.year ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.year( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "YEAR( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.year( new Date( "2011-01-10T14:45:13.815-05:00" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "YEAR( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.month", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.month ).toBeDefined();
+			expect( builder.month ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.month( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MONTH( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.month( new Date( "2011-01-10T14:45:13.815-05:00" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MONTH( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.day", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.day ).toBeDefined();
+			expect( builder.day ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.day( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "DAY( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.day( new Date( "2011-01-10T14:45:13.815-05:00" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "DAY( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.hours", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.hours ).toBeDefined();
+			expect( builder.hours ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.hours( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "HOURS( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.hours( new Date( "2011-01-10T14:45:13.815-05:00" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "HOURS( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.minutes", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.minutes ).toBeDefined();
+			expect( builder.minutes ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.minutes( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MINUTES( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.minutes( new Date( "2011-01-10T14:45:13.815-05:00" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MINUTES( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.seconds", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.seconds ).toBeDefined();
+			expect( builder.seconds ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.seconds( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SECONDS( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.seconds( new Date( "2011-01-10T14:45:13.815-05:00" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SECONDS( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.timezone", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.timezone ).toBeDefined();
+			expect( builder.timezone ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.timezone( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "TIMEZONE( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.timezone( new Date( "2011-01-10T14:45:13.815-05:00" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "TIMEZONE( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.tz", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.tz ).toBeDefined();
+			expect( builder.tz ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.tz( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "TZ( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.tz( new Date( "2011-01-10T14:45:13.815-05:00" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "TZ( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.md5", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.md5 ).toBeDefined();
+			expect( builder.md5 ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.md5( triplesBuilder.literal( "abc" ).withType( XSD.string ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MD5( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.md5( "abc" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MD5( \"abc\" )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.sha1", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.sha1 ).toBeDefined();
+			expect( builder.sha1 ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.sha1( triplesBuilder.literal( "abc" ).withType( XSD.string ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA1( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.sha1( "abc" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA1( \"abc\" )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.sha256", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.sha256 ).toBeDefined();
+			expect( builder.sha256 ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.sha256( triplesBuilder.literal( "abc" ).withType( XSD.string ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA256( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.sha256( "abc" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA256( \"abc\" )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.sha384", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.sha384 ).toBeDefined();
+			expect( builder.sha384 ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.sha384( triplesBuilder.literal( "abc" ).withType( XSD.string ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA384( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.sha384( "abc" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA384( \"abc\" )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.sha512", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.sha512 ).toBeDefined();
+			expect( builder.sha512 ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create function using triples", () => {
+			const expression = builder.sha512( triplesBuilder.literal( "abc" ).withType( XSD.string ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA512( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+		} );
+
+		it( "should create function using natives", () => {
+			const expression = builder.sha512( "abc" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA512( \"abc\" )" );
+		} );
+
+	} );
+
+	describe( "FunctionsBuilder.custom", () => {
+
+		let builder:FunctionsBuilder;
+		beforeEach( () => {
+			builder = FunctionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.custom ).toBeDefined();
+			expect( builder.custom ).toEqual( jasmine.any( Function ) );
+		} );
+
+
+		it( "should create empty function with native IRI string", () => {
+			const expression = builder.custom( "https://example.com/ns#customFn" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
+		} );
+
+		it( "should create empty function with native Prefixed string", () => {
+			const expression = builder.custom( "ex:customFn" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
+		} );
+
+		it( "should create empty function with IRI resource", () => {
+			const expression = builder.custom( triplesBuilder.resource( "https://example.com/ns#customFn" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
+		} );
+
+		it( "should create empty function with Prefixed resource", () => {
+			const expression = builder.custom( triplesBuilder.resource( "ex:customFn" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
+		} );
+
+		it( "should create function using two triples", () => {
+			const expression = builder.custom( "ex:customFn", triplesBuilder.var( "foo" ), triplesBuilder.literal( "abc" ).withType( XSD.string ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn( ?foo, \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+		} );
+
+		it( "should create function using two natives", () => {
+			const expression = builder.custom( "ex:customFn", "ex:resource", "abc" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn( ex:resource, \"abc\" )" );
+		} );
+
+	} );
+
 } );

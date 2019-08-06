@@ -629,6 +629,9 @@ export interface FunctionsBuilder {
 	 * Creates an {@link Expression} that returns the timezone part of the
 	 * {@param dateTime} value as an `xsd:dayTimeDuration`.
 	 *
+	 * Beware that using a Date object will generate a literal in ISO 8601
+	 * format with the `Z` timezone.
+	 *
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-timezone}
 	 * for more information.
 	 */
@@ -637,6 +640,9 @@ export interface FunctionsBuilder {
 	/**
 	 * Creates an {@link Expression} that returns the timezone part of the
 	 * {@param dateTime} value as a string.
+	 *
+	 * Beware that using a Date object will generate a literal in ISO 8601
+	 * format with the `Z` timezone.
 	 *
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-tz}
 	 * for more information.
@@ -724,12 +730,12 @@ function _getExpressionWithArgs( container:Container<undefined>, name:Functions 
 				if( "getSubject" in arg )
 					return arg.getSubject();
 
-			} else {
-				if( index in transformers )
-					return transformers[ index ]( arg );
-				if( transformers.length )
-					return transformers[ 0 ]( arg );
 			}
+
+			if( index in transformers )
+				return transformers[ index ]( arg );
+			if( transformers.length )
+				return transformers[ 0 ]( arg );
 
 			throw new Error( "Invalid argument provided to the function." );
 		} );
@@ -812,6 +818,7 @@ export const FunctionsBuilder:{
 		const generalTransformer = ( value:SupportedNativeTypes ):ExpressionToken => typeof value === "string" && isAbsolute( value )
 			? iriTransformer( value ) : literalTransformer( value );
 
+		// FIXME: Add limit of arguments
 		return Object.assign( object, {
 			bound: getNamedExpressionFn( container, Functions.BOUND, variableTransformer ),
 			if: getNamedExpressionFn( container, Functions.IF, generalTransformer ),
@@ -848,13 +855,12 @@ export const FunctionsBuilder:{
 			langMatches: getNamedExpressionFn( container, Functions.LANG_MATCHES, generalTransformer ),
 			regex: getRegexExpressionFn( container, Functions.REGEX, generalTransformer ),
 			replace: getRegexExpressionFn( container, Functions.REPLACE, generalTransformer ),
-			// FIXME: Continue adding support for non-expressions
 			abs: getNamedExpressionFn( container, Functions.ABS, generalTransformer ),
 			round: getNamedExpressionFn( container, Functions.ROUND, generalTransformer ),
 			ceil: getNamedExpressionFn( container, Functions.CEIL, generalTransformer ),
 			floor: getNamedExpressionFn( container, Functions.FLOOR, generalTransformer ),
-			rand: getNamedExpressionFn( container, Functions.RAND, generalTransformer ),
-			now: getNamedExpressionFn( container, Functions.NOW, generalTransformer ),
+			rand: getNamedExpressionFn( container, Functions.RAND ),
+			now: getNamedExpressionFn( container, Functions.NOW ),
 			year: getNamedExpressionFn( container, Functions.YEAR, generalTransformer ),
 			month: getNamedExpressionFn( container, Functions.MONTH, generalTransformer ),
 			day: getNamedExpressionFn( container, Functions.DAY, generalTransformer ),
@@ -868,7 +874,7 @@ export const FunctionsBuilder:{
 			sha256: getNamedExpressionFn( container, Functions.SHA256, generalTransformer ),
 			sha384: getNamedExpressionFn( container, Functions.SHA384, generalTransformer ),
 			sha512: getNamedExpressionFn( container, Functions.SHA512, generalTransformer ),
-			custom: getIRIExpressionFn( container ),
+			custom: getIRIExpressionFn( container, generalTransformer ),
 		} )
 	},
 };
