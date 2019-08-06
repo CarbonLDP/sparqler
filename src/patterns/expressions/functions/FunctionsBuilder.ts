@@ -717,8 +717,9 @@ function _getExpression( container:Container<undefined>, name:Functions | IRITok
 	return Expression.createFrom( newContainer, {} )
 }
 
-function _getExpressionWithArgs( container:Container<undefined>, name:Functions | IRIToken, expressions:(ValidExpression | undefined)[], transformer?:Transformer ) {
+function _getExpressionWithArgs( container:Container<undefined>, name:Functions | IRIToken, expressions:(ValidExpression | undefined)[], limit?:number, transformer?:Transformer ) {
 	const expressionTokens:ExpressionToken[] = expressions
+		.slice( 0, limit )
 		.filter( _ => _ !== undefined )
 		.map( arg => {
 			if( typeof arg === "object" ) {
@@ -752,9 +753,9 @@ function _getExpressionWithPatterns( container:Container<undefined>, name:Functi
 	return _getExpression( container, name, groupPatternToken );
 }
 
-function getNamedExpressionFn( container:Container<undefined>, name:Functions, transformer?:Transformer ) {
+function getNamedExpressionFn( container:Container<undefined>, name:Functions, limit?:number, transformer?:Transformer ) {
 	return ( ...expressions:(ValidExpression | undefined)[] ) =>
-		_getExpressionWithArgs( container, name, expressions, transformer );
+		_getExpressionWithArgs( container, name, expressions, limit, transformer );
 }
 
 function getPatternExpressionFn( container:Container<undefined>, name:Functions ) {
@@ -772,11 +773,11 @@ function getIRIExpressionFn( container:Container<undefined>, transformer:Transfo
 			? container.iriResolver.resolve( resource )
 			: resource.getSubject();
 
-		return _getExpressionWithArgs( container, iri, expressions, transformer );
+		return _getExpressionWithArgs( container, iri, expressions, undefined, transformer );
 	}
 }
 
-function getRegexExpressionFn( container:Container<undefined>, name:Functions, transformer?:Transformer ) {
+function getRegexExpressionFn( container:Container<undefined>, name:Functions, limit:number, transformer?:Transformer ) {
 	return ( ...rawExpressions:(ValidExpression | RegExp | undefined)[] ) => {
 		let flags:string | undefined;
 		const expressions:(ValidExpression | undefined)[] = rawExpressions.map( value => {
@@ -788,7 +789,7 @@ function getRegexExpressionFn( container:Container<undefined>, name:Functions, t
 
 		if( flags ) expressions.push( flags );
 
-		return _getExpressionWithArgs( container, name, expressions, transformer );
+		return _getExpressionWithArgs( container, name, expressions, limit, transformer );
 	}
 }
 
@@ -818,60 +819,60 @@ export const FunctionsBuilder:{
 
 		// FIXME: Add limit of arguments
 		return Object.assign( object, {
-			bound: getNamedExpressionFn( container, Functions.BOUND, variableTransformer ),
-			if: getNamedExpressionFn( container, Functions.IF, generalTransformer ),
-			coalesce: getNamedExpressionFn( container, Functions.COALESCE, generalTransformer ),
+			bound: getNamedExpressionFn( container, Functions.BOUND, 1, variableTransformer ),
+			if: getNamedExpressionFn( container, Functions.IF, 3, generalTransformer ),
+			coalesce: getNamedExpressionFn( container, Functions.COALESCE, undefined, generalTransformer ),
 			exists: getPatternExpressionFn( container, Functions.EXISTS ),
 			notExists: getPatternExpressionFn( container, Functions.NOT_EXISTS ),
-			sameTerm: getNamedExpressionFn( container, Functions.SAME_TERM, generalTransformer ),
-			isIRI: getNamedExpressionFn( container, Functions.IS_IRI, generalTransformer ),
-			isURI: getNamedExpressionFn( container, Functions.IS_URI, generalTransformer ),
-			isBlank: getNamedExpressionFn( container, Functions.IS_BLANK, generalTransformer ),
-			isLiteral: getNamedExpressionFn( container, Functions.IS_LITERAL, generalTransformer ),
-			isNumeric: getNamedExpressionFn( container, Functions.IS_NUMERIC, generalTransformer ),
-			str: getNamedExpressionFn( container, Functions.STR, generalTransformer ),
-			lang: getNamedExpressionFn( container, Functions.LANG, generalTransformer ),
-			datatype: getNamedExpressionFn( container, Functions.DATATYPE, generalTransformer ),
-			iri: getNamedExpressionFn( container, Functions.IRI, generalTransformer ),
-			uri: getNamedExpressionFn( container, Functions.URI, generalTransformer ),
-			bnode: getNamedExpressionFn( container, Functions.BNODE, generalTransformer ),
-			strDT: getNamedExpressionFn( container, Functions.STR_DT, generalTransformer ),
-			strLang: getNamedExpressionFn( container, Functions.STR_LANG, generalTransformer ),
-			uuid: getNamedExpressionFn( container, Functions.UUID ),
-			strUUID: getNamedExpressionFn( container, Functions.STR_UUID ),
-			strLen: getNamedExpressionFn( container, Functions.STRLEN, generalTransformer ),
-			substr: getNamedExpressionFn( container, Functions.SUBSTR, generalTransformer ),
-			uCase: getNamedExpressionFn( container, Functions.UCASE, generalTransformer ),
-			lCase: getNamedExpressionFn( container, Functions.LCASE, generalTransformer ),
-			strStarts: getNamedExpressionFn( container, Functions.STR_STARTS, generalTransformer ),
-			strEnds: getNamedExpressionFn( container, Functions.STR_ENDS, generalTransformer ),
-			contains: getNamedExpressionFn( container, Functions.CONTAINS, generalTransformer ),
-			strBefore: getNamedExpressionFn( container, Functions.STR_BEFORE, generalTransformer ),
-			strAfter: getNamedExpressionFn( container, Functions.STR_AFTER, generalTransformer ),
-			encodeForUri: getNamedExpressionFn( container, Functions.ENCODE_FOR_URI, generalTransformer ),
-			concat: getNamedExpressionFn( container, Functions.CONCAT, generalTransformer ),
-			langMatches: getNamedExpressionFn( container, Functions.LANG_MATCHES, generalTransformer ),
-			regex: getRegexExpressionFn( container, Functions.REGEX, generalTransformer ),
-			replace: getRegexExpressionFn( container, Functions.REPLACE, generalTransformer ),
-			abs: getNamedExpressionFn( container, Functions.ABS, generalTransformer ),
-			round: getNamedExpressionFn( container, Functions.ROUND, generalTransformer ),
-			ceil: getNamedExpressionFn( container, Functions.CEIL, generalTransformer ),
-			floor: getNamedExpressionFn( container, Functions.FLOOR, generalTransformer ),
-			rand: getNamedExpressionFn( container, Functions.RAND ),
-			now: getNamedExpressionFn( container, Functions.NOW ),
-			year: getNamedExpressionFn( container, Functions.YEAR, generalTransformer ),
-			month: getNamedExpressionFn( container, Functions.MONTH, generalTransformer ),
-			day: getNamedExpressionFn( container, Functions.DAY, generalTransformer ),
-			hours: getNamedExpressionFn( container, Functions.HOURS, generalTransformer ),
-			minutes: getNamedExpressionFn( container, Functions.MINUTES, generalTransformer ),
-			seconds: getNamedExpressionFn( container, Functions.SECONDS, generalTransformer ),
-			timezone: getNamedExpressionFn( container, Functions.TIMEZONE, generalTransformer ),
-			tz: getNamedExpressionFn( container, Functions.TZ, generalTransformer ),
-			md5: getNamedExpressionFn( container, Functions.MD5, generalTransformer ),
-			sha1: getNamedExpressionFn( container, Functions.SHA1, generalTransformer ),
-			sha256: getNamedExpressionFn( container, Functions.SHA256, generalTransformer ),
-			sha384: getNamedExpressionFn( container, Functions.SHA384, generalTransformer ),
-			sha512: getNamedExpressionFn( container, Functions.SHA512, generalTransformer ),
+			sameTerm: getNamedExpressionFn( container, Functions.SAME_TERM, 2, generalTransformer ),
+			isIRI: getNamedExpressionFn( container, Functions.IS_IRI, 1, generalTransformer ),
+			isURI: getNamedExpressionFn( container, Functions.IS_URI, 1, generalTransformer ),
+			isBlank: getNamedExpressionFn( container, Functions.IS_BLANK, 1, generalTransformer ),
+			isLiteral: getNamedExpressionFn( container, Functions.IS_LITERAL, 1, generalTransformer ),
+			isNumeric: getNamedExpressionFn( container, Functions.IS_NUMERIC, 1, generalTransformer ),
+			str: getNamedExpressionFn( container, Functions.STR, 1, generalTransformer ),
+			lang: getNamedExpressionFn( container, Functions.LANG, 1, generalTransformer ),
+			datatype: getNamedExpressionFn( container, Functions.DATATYPE, 1, generalTransformer ),
+			iri: getNamedExpressionFn( container, Functions.IRI, 1, generalTransformer ),
+			uri: getNamedExpressionFn( container, Functions.URI, 1, generalTransformer ),
+			bnode: getNamedExpressionFn( container, Functions.BNODE, 1, generalTransformer ),
+			strDT: getNamedExpressionFn( container, Functions.STR_DT, 2, generalTransformer ),
+			strLang: getNamedExpressionFn( container, Functions.STR_LANG, 2, generalTransformer ),
+			uuid: getNamedExpressionFn( container, Functions.UUID, 0 ),
+			strUUID: getNamedExpressionFn( container, Functions.STR_UUID, 0 ),
+			strLen: getNamedExpressionFn( container, Functions.STRLEN, 1, generalTransformer ),
+			substr: getNamedExpressionFn( container, Functions.SUBSTR, 3, generalTransformer ),
+			uCase: getNamedExpressionFn( container, Functions.UCASE, 1, generalTransformer ),
+			lCase: getNamedExpressionFn( container, Functions.LCASE, 1, generalTransformer ),
+			strStarts: getNamedExpressionFn( container, Functions.STR_STARTS, 2, generalTransformer ),
+			strEnds: getNamedExpressionFn( container, Functions.STR_ENDS, 2, generalTransformer ),
+			contains: getNamedExpressionFn( container, Functions.CONTAINS, 2, generalTransformer ),
+			strBefore: getNamedExpressionFn( container, Functions.STR_BEFORE, 2, generalTransformer ),
+			strAfter: getNamedExpressionFn( container, Functions.STR_AFTER, 2, generalTransformer ),
+			encodeForUri: getNamedExpressionFn( container, Functions.ENCODE_FOR_URI, 1, generalTransformer ),
+			concat: getNamedExpressionFn( container, Functions.CONCAT, undefined, generalTransformer ),
+			langMatches: getNamedExpressionFn( container, Functions.LANG_MATCHES, 2, generalTransformer ),
+			regex: getRegexExpressionFn( container, Functions.REGEX, 3, generalTransformer ),
+			replace: getRegexExpressionFn( container, Functions.REPLACE, 4, generalTransformer ),
+			abs: getNamedExpressionFn( container, Functions.ABS, 1, generalTransformer ),
+			round: getNamedExpressionFn( container, Functions.ROUND, 1, generalTransformer ),
+			ceil: getNamedExpressionFn( container, Functions.CEIL, 1, generalTransformer ),
+			floor: getNamedExpressionFn( container, Functions.FLOOR, 1, generalTransformer ),
+			rand: getNamedExpressionFn( container, Functions.RAND, 0 ),
+			now: getNamedExpressionFn( container, Functions.NOW, 0 ),
+			year: getNamedExpressionFn( container, Functions.YEAR, 1, generalTransformer ),
+			month: getNamedExpressionFn( container, Functions.MONTH, 1, generalTransformer ),
+			day: getNamedExpressionFn( container, Functions.DAY, 1, generalTransformer ),
+			hours: getNamedExpressionFn( container, Functions.HOURS, 1, generalTransformer ),
+			minutes: getNamedExpressionFn( container, Functions.MINUTES, 1, generalTransformer ),
+			seconds: getNamedExpressionFn( container, Functions.SECONDS, 1, generalTransformer ),
+			timezone: getNamedExpressionFn( container, Functions.TIMEZONE, 1, generalTransformer ),
+			tz: getNamedExpressionFn( container, Functions.TZ, 1, generalTransformer ),
+			md5: getNamedExpressionFn( container, Functions.MD5, 1, generalTransformer ),
+			sha1: getNamedExpressionFn( container, Functions.SHA1, 1, generalTransformer ),
+			sha256: getNamedExpressionFn( container, Functions.SHA256, 1, generalTransformer ),
+			sha384: getNamedExpressionFn( container, Functions.SHA384, 1, generalTransformer ),
+			sha512: getNamedExpressionFn( container, Functions.SHA512, 1, generalTransformer ),
 			custom: getIRIExpressionFn( container, generalTransformer ),
 		} )
 	},
