@@ -1,10 +1,8 @@
 import { ExpressionToken } from "./ExpressionToken";
 import { TokenNode } from "./TokenNode";
 
-const DISTINCT = "DISTINCT " as const;
 
-// TODO: Document
-// TODO: Test
+const DISTINCT = "DISTINCT " as const;
 
 /**
  * Token that represents the expression list in a build-in function and
