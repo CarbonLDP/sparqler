@@ -1,4 +1,4 @@
-import { ArgListToken } from "./ArgListToken";
+import { ExpressionListToken } from "./ExpressionListToken";
 import { GroupPatternToken } from "./GroupPatternToken";
 import { IRIToken } from "./IRIToken";
 import { TokenNode } from "./TokenNode";
@@ -14,15 +14,15 @@ export class FunctionToken implements TokenNode {
 	readonly token:"function" = "function";
 
 	readonly name:string | IRIToken;
-	readonly argsOrPatterns:ArgListToken | GroupPatternToken;
+	readonly listOrPatterns:ExpressionListToken | GroupPatternToken;
 
-	constructor( name:string | IRIToken, argsOrPatterns:ArgListToken | GroupPatternToken ) {
+	constructor( name:string | IRIToken, listOrPatterns:ExpressionListToken | GroupPatternToken ) {
 		this.name = name;
-		this.argsOrPatterns = argsOrPatterns;
+		this.listOrPatterns = listOrPatterns;
 	}
 
 	toString( spaces?:number ):string {
 		return this.name.toString( spaces ) +
-			this.argsOrPatterns.toString( spaces );
+			this.listOrPatterns.toString( spaces );
 	}
 }

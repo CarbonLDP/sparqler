@@ -1,6 +1,6 @@
 import { Container } from "../../../data/Container";
 import { isAbsolute } from "../../../iri/utils";
-import { ArgListToken } from "../../../tokens/ArgListToken";
+import { ExpressionListToken } from "../../../tokens/ExpressionListToken";
 import { ExpressionToken } from "../../../tokens/ExpressionToken";
 import { FunctionToken } from "../../../tokens/FunctionToken";
 import { GroupPatternToken } from "../../../tokens/GroupPatternToken";
@@ -706,8 +706,8 @@ const variableTransformer = ( variable:string ) => new VariableToken( variable )
 
 type ValidExpression = PrimaryExpression | SupportedNativeTypes;
 
-function _getExpression( container:Container<undefined>, name:Functions | IRIToken, argsOrPatterns:ArgListToken | GroupPatternToken ) {
-	const targetToken:ExpressionToken = new FunctionToken( name, argsOrPatterns );
+function _getExpression( container:Container<undefined>, name:Functions | IRIToken, listOrPatterns:ExpressionListToken | GroupPatternToken ) {
+	const targetToken:ExpressionToken = new FunctionToken( name, listOrPatterns );
 
 	const newContainer:Container<ExpressionToken> = new Container( {
 		...container,
@@ -717,8 +717,8 @@ function _getExpression( container:Container<undefined>, name:Functions | IRITok
 	return Expression.createFrom( newContainer, {} )
 }
 
-function _getExpressionWithArgs( container:Container<undefined>, name:Functions | IRIToken, expressions:(ValidExpression | undefined)[], limit?:number, transformer?:Transformer ) {
-	const expressionTokens:ExpressionToken[] = expressions
+function _getExpressionWithList( container:Container<undefined>, name:Functions | IRIToken, list:(ValidExpression | undefined)[], limit?:number, transformer?:Transformer ) {
+	const listTokens:ExpressionToken[] = list
 		.slice( 0, limit )
 		.filter( _ => _ !== undefined )
 		.map( arg => {
@@ -739,9 +739,9 @@ function _getExpressionWithArgs( container:Container<undefined>, name:Functions 
 			throw new Error( "Invalid argument provided to the function." );
 		} );
 
-	const argsList = new ArgListToken( expressionTokens );
+	const expressionList = new ExpressionListToken( listTokens );
 
-	return _getExpression( container, name, argsList );
+	return _getExpression( container, name, expressionList );
 }
 
 function _getExpressionWithPatterns( container:Container<undefined>, name:Functions | IRIToken, patterns:Pattern[] ) {
@@ -755,7 +755,7 @@ function _getExpressionWithPatterns( container:Container<undefined>, name:Functi
 
 function getNamedExpressionFn( container:Container<undefined>, name:Functions, limit?:number, transformer?:Transformer ) {
 	return ( ...expressions:(ValidExpression | undefined)[] ) =>
-		_getExpressionWithArgs( container, name, expressions, limit, transformer );
+		_getExpressionWithList( container, name, expressions, limit, transformer );
 }
 
 function getPatternExpressionFn( container:Container<undefined>, name:Functions ) {
@@ -773,7 +773,7 @@ function getIRIExpressionFn( container:Container<undefined>, transformer:Transfo
 			? container.iriResolver.resolve( resource )
 			: resource.getSubject();
 
-		return _getExpressionWithArgs( container, iri, expressions, undefined, transformer );
+		return _getExpressionWithList( container, iri, expressions, undefined, transformer );
 	}
 }
 
@@ -789,7 +789,7 @@ function getRegexExpressionFn( container:Container<undefined>, name:Functions, l
 
 		if( flags ) expressions.push( flags );
 
-		return _getExpressionWithArgs( container, name, expressions, limit, transformer );
+		return _getExpressionWithList( container, name, expressions, limit, transformer );
 	}
 }
 

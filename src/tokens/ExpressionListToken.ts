@@ -6,8 +6,8 @@ const DISTINCT = "DISTINCT" as const;
 // TODO: Document
 // TODO: Test
 
-export class ArgListToken implements TokenNode {
-	readonly token:"argList" = "argList";
+export class ExpressionListToken implements TokenNode {
+	readonly token:"expressionList" = "expressionList";
 
 	readonly expressions:ExpressionToken[];
 	readonly distinct:boolean;
