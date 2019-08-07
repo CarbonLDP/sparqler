@@ -72,7 +72,7 @@ export function getTokenContainerString( { spaces, tags, tokensSeparator, tokens
 	tokensSeparator?:string;
 	tokens:TokenNode[],
 } ):string {
-	if( ! tokens.length ) return tags.open + tags.close;
+	if( !tokens.length ) return tags.open + tags.close;
 
 	const generalSeparator:string = getSeparator( spaces );
 
@@ -81,16 +81,20 @@ export function getTokenContainerString( { spaces, tags, tokensSeparator, tokens
 		const strToken:string = token.toString( tokensSpaces );
 
 		// No separator or last one
-		if( ! tokensSeparator || index === array.length - 1 ) return strToken;
+		if( !tokensSeparator || index === array.length - 1 ) return strToken;
 
-		// Optional when not triple token
-		if( tokensSeparator === "." && token.token !== "subject" ) return strToken;
+		// Optional when not triple and not node triple
+		if( tokensSeparator === "." && !(
+			token.token === "subject" ||
+			token.token === "collection" ||
+			token.token === "blankNodeProperty"
+		) ) return strToken;
 
 		return strToken + tokensSeparator;
 	} );
 
 
-	if( strArrayTokens.length === 1 && ! strArrayTokens[ 0 ].includes( "\n" ) )
+	if( strArrayTokens.length === 1 && !strArrayTokens[ 0 ].includes( "\n" ) )
 		return tags.open + " " + strArrayTokens + " " + tags.close;
 
 

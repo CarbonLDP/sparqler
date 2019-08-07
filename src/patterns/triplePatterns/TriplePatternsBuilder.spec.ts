@@ -11,15 +11,16 @@ import { LiteralToken } from "../../tokens/LiteralToken";
 import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 import { PropertyToken } from "../../tokens/PropertyToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
-import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
 import { Pattern } from "../Pattern";
 
+import { Literal } from "./Literal";
 import { RDFLiteral } from "./RDFLiteral";
+import { Resource } from "./Resource";
 import { TriplePatternsBuilder } from "./TriplePatternsBuilder";
 import { TripleSubject } from "./TripleSubject";
+import { Variable } from "./Variable";
 
 
 describe( "TriplePatternsBuilder", () => {
@@ -93,8 +94,8 @@ describe( "TriplePatternsBuilder", () => {
 			expect( builder.resource ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "should return triple pattern", () => {
-			const spy:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
+		it( "should return a Resource", () => {
+			const spy:jasmine.Spy = spyOn( Resource, "createFrom" )
 				.and.callThrough();
 
 			const returned = builder.resource( "resource/" );
@@ -105,20 +106,20 @@ describe( "TriplePatternsBuilder", () => {
 		it( "should create pattern with IRIToken", () => {
 			builder.resource( "resource/" );
 
-			type TheContainer = Container<TripleToken<IRIRefToken>>;
+			type TheContainer = Container<IRIRefToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new IRIRefToken( "resource/" ) ),
+				targetToken: new IRIRefToken( "resource/" ),
 			} ) )
 		} );
 
 		it( "should create pattern with PrefixedNameToken", () => {
 			builder.resource( "ex:resource/" );
 
-			type TheContainer = Container<TripleToken<PrefixedNameToken>>;
+			type TheContainer = Container<PrefixedNameToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new PrefixedNameToken( "ex", "resource/" ) ),
+				targetToken: new PrefixedNameToken( "ex", "resource/" ),
 			} ) );
 		} );
 
@@ -145,8 +146,8 @@ describe( "TriplePatternsBuilder", () => {
 			expect( builder.var ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "should return triple pattern", () => {
-			const spy:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
+		it( "should return a Variable", () => {
+			const spy:jasmine.Spy = spyOn( Variable, "createFrom" )
 				.and.callThrough();
 
 			const returned = builder.var( "var" );
@@ -157,10 +158,10 @@ describe( "TriplePatternsBuilder", () => {
 		it( "should create pattern with VariableToken", () => {
 			builder.var( "var" );
 
-			type TheContainer = Container<TripleToken<VariableToken>>;
+			type TheContainer = Container<VariableToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new VariableToken( "var" ) ),
+				targetToken: new VariableToken( "var" ),
 			} ) )
 		} );
 
@@ -180,7 +181,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return triple pattern when string", () => {
-			const spy:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
+			const spy:jasmine.Spy = spyOn( Literal, "createFrom" )
 				.and.callThrough();
 
 			const returned = builder.literal( "value" );
@@ -188,7 +189,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return triple pattern when number", () => {
-			const spy:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
+			const spy:jasmine.Spy = spyOn( Literal, "createFrom" )
 				.and.callThrough();
 
 			const returned = builder.literal( 100 );
@@ -196,7 +197,7 @@ describe( "TriplePatternsBuilder", () => {
 		} );
 
 		it( "should return triple pattern when boolean", () => {
-			const spy:jasmine.Spy = spyOn( TripleSubject, "createFrom" )
+			const spy:jasmine.Spy = spyOn( Literal, "createFrom" )
 				.and.callThrough();
 
 			const returned = builder.literal( true );
@@ -215,30 +216,30 @@ describe( "TriplePatternsBuilder", () => {
 		it( "should create pattern with RDFLiteralToken when string", () => {
 			builder.literal( "value" );
 
-			type TheContainer = Container<TripleToken<RDFLiteralToken>>;
+			type TheContainer = Container<RDFLiteralToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new RDFLiteralToken( "value" ) ),
+				targetToken: new RDFLiteralToken( "value" ),
 			} ) )
 		} );
 
 		it( "should create pattern with LiteralToken when number", () => {
 			builder.literal( 100 );
 
-			type TheContainer = Container<TripleToken<LiteralToken>>;
+			type TheContainer = Container<LiteralToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new LiteralToken( 100 ) ),
+				targetToken: new LiteralToken( 100 ),
 			} ) )
 		} );
 
 		it( "should create pattern with LiteralToken when boolean", () => {
 			builder.literal( true );
 
-			type TheContainer = Container<TripleToken<LiteralToken>>;
+			type TheContainer = Container<LiteralToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new LiteralToken( true ) ),
+				targetToken: new LiteralToken( true ),
 			} ) )
 		} );
 
@@ -274,10 +275,10 @@ describe( "TriplePatternsBuilder", () => {
 		it( "should create pattern with CollectionToken", () => {
 			builder.collection();
 
-			type TheContainer = Container<TripleToken<CollectionToken>>;
+			type TheContainer = Container<CollectionToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new CollectionToken() ),
+				targetToken: new CollectionToken(),
 			} ) )
 		} );
 
@@ -291,10 +292,10 @@ describe( "TriplePatternsBuilder", () => {
 				builder.literal( "another" ),
 			);
 
-			type TheContainer = Container<TripleToken<CollectionToken>>;
+			type TheContainer = Container<CollectionToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
-			expect( newContainer.targetToken.subject ).toEqual( new CollectionToken()
+			expect( newContainer.targetToken ).toEqual( new CollectionToken()
 				.addObject( new LiteralToken( "string" ) )
 				.addObject( new LiteralToken( 100 ) )
 				.addObject( new LiteralToken( true ) )
@@ -356,33 +357,33 @@ describe( "TriplePatternsBuilder", () => {
 		it( "should create pattern with BlankNodeToken when label name", () => {
 			builder.blankNode( "label" );
 
-			type TheContainer = Container<TripleToken<BlankNodeToken>>;
+			type TheContainer = Container<BlankNodeToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new BlankNodeToken( "_:label" ) ),
+				targetToken: new BlankNodeToken( "_:label" ),
 			} ) )
 		} );
 
 		it( "should create pattern with BlankNodeToken when complete name", () => {
 			builder.blankNode( "_:label" );
 
-			type TheContainer = Container<TripleToken<BlankNodeToken>>;
+			type TheContainer = Container<BlankNodeToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new BlankNodeToken( "_:label" ) ),
+				targetToken: new BlankNodeToken( "_:label" ),
 			} ) )
 		} );
 
 		it( "should create pattern with BlankNodeToken when NO label", () => {
 			builder.blankNode();
 
-			type TheContainer = Container<TripleToken<BlankNodeToken>>;
+			type TheContainer = Container<BlankNodeToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( new BlankNodeToken() ),
+				targetToken: new BlankNodeToken(),
 			} ) )
 		} );
 
@@ -396,11 +397,11 @@ describe( "TriplePatternsBuilder", () => {
 		it( "should create pattern with BlankNodePropertyToken when function", () => {
 			builder.blankNode( _ => _.has( "prop", "value" ) );
 
-			type TheContainer = Container<TripleToken<BlankNodePropertyToken>>;
+			type TheContainer = Container<BlankNodePropertyToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
 			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new SubjectToken( jasmine.any( BlankNodePropertyToken ) as any ),
+				targetToken: jasmine.any( BlankNodePropertyToken ) as any,
 			} ) )
 		} );
 
@@ -417,10 +418,10 @@ describe( "TriplePatternsBuilder", () => {
 				] )
 			);
 
-			type TheContainer = Container<TripleToken<BlankNodePropertyToken>>;
+			type TheContainer = Container<BlankNodePropertyToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
-			expect( newContainer.targetToken.subject ).toEqual( new BlankNodePropertyToken()
+			expect( newContainer.targetToken ).toEqual( new BlankNodePropertyToken()
 				.addProperty( new PropertyToken( new IRIRefToken( "prop" ) )
 					.addObject( new LiteralToken( "value" ) )
 				)

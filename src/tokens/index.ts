@@ -2,6 +2,7 @@ export { BaseToken } from "./BaseToken";
 export { BindToken } from "./BindToken";
 export { BlankNodePropertyToken } from "./BlankNodePropertyToken";
 export { BlankNodeToken } from "./BlankNodeToken";
+export { BracketedExpressionToken } from "./BracketedExpressionToken";
 export { CollectionToken } from "./CollectionToken";
 export { ConstructToken } from "./ConstructToken";
 export { ExpressionListToken } from "./ExpressionListToken";

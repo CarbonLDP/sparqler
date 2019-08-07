@@ -44,7 +44,7 @@ function getHasFn<C extends Container<ValuesToken>>( container:C ):MultipleValue
 		parsedValues.push( values.map( convertValue ) );
 
 		const targetToken = cloneElement( container.targetToken, { values: parsedValues } );
-		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
+		const newContainer = cloneElement( container, { targetToken } );
 
 		return MultipleValuesPatternMore.createFrom( newContainer, {} );
 	};

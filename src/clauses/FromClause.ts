@@ -62,7 +62,7 @@ function getFromFn<C extends Container<QueryToken<SelectToken | AskToken>>, T ex
 		const newContainer = cloneElement( container, {
 			iriResolver,
 			targetToken: queryToken,
-		} as Partial<C> );
+		} );
 
 		return FromClause.createFrom( genericFactory, newContainer, {} );
 	}

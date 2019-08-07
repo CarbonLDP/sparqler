@@ -123,7 +123,7 @@ function createValuesFn<C extends Container<QueryToken | SubSelectToken>, T exte
 		values.forEach( ( valuesRow ) => token.addValues( ...valuesRow.map( convertValue ) ) );
 
 		const targetToken = cloneElement( container.targetToken, { values: token } );
-		const newContainer = cloneElement( container, { iriResolver, targetToken } as Partial<C> );
+		const newContainer = cloneElement( container, { iriResolver, targetToken } );
 		return genericFactory( newContainer, {} );
 	}
 }

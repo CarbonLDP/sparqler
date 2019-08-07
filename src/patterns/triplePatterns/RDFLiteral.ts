@@ -1,14 +1,13 @@
 import { Container } from "../../data/Container";
 import { cloneElement } from "../../data/utils";
+import { IRIToken } from "../../tokens/IRIToken";
 
 import { LanguageToken } from "../../tokens/LanguageToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
 
 import { XSD } from "../../utils/XSD";
 
 import { Literal } from "./Literal";
-import { TripleSubject } from "./TripleSubject";
 
 
 /**
@@ -35,29 +34,26 @@ export interface RDFLiteral extends Literal {
 }
 
 
-function getWithTypeFn<C extends Container<SubjectToken<RDFLiteralToken>>>( container:C ):RDFLiteral[ "withType" ] {
+function getWithTypeFn<C extends Container<RDFLiteralToken>>( container:C ):RDFLiteral[ "withType" ] {
 	return type => {
 		if( type in XSD ) type = XSD[ type as keyof typeof XSD ];
 
 		const iriType = container.iriResolver.resolve( type, true );
-		const subject = cloneElement( container.targetToken.subject, { type: iriType } );
+		const targetToken:RDFLiteralToken = cloneElement<"type", RDFLiteralToken, { type: IRIToken }>( container.targetToken, { type: iriType } );
+		// const newContainer:C = cloneElement<C, "targetToken", { targetToken:RDFLiteralToken }>( container, { targetToken } );
+		const newContainer:C = cloneElement( container, { targetToken } );
 
-		const targetToken = cloneElement( container.targetToken, { subject } );
-		const newContainer:C = cloneElement( container, { targetToken } as Partial<C> );
-
-		return TripleSubject.createFrom( newContainer, {} );
+		return Literal.createFrom( newContainer, {} );
 	}
 }
 
-function getWithLanguageFn<C extends Container<SubjectToken<RDFLiteralToken>>>( container:C ):RDFLiteral[ "withLanguage" ] {
+function getWithLanguageFn<C extends Container<RDFLiteralToken>>( container:C ):RDFLiteral[ "withLanguage" ] {
 	return language => {
 		const langToken = new LanguageToken( language );
-		const subject = cloneElement( container.targetToken.subject, { language: langToken } );
+		const targetToken = cloneElement( container.targetToken, { language: langToken } );
+		const newContainer:C = cloneElement( container, { targetToken } );
 
-		const targetToken = cloneElement( container.targetToken, { subject } );
-		const newContainer:C = cloneElement( container, { targetToken } as Partial<C> );
-
-		return TripleSubject.createFrom( newContainer, {} );
+		return Literal.createFrom( newContainer, {} );
 	}
 }
 
@@ -78,10 +74,10 @@ export const RDFLiteral:{
 	 * @return The {@link TripleSubject} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<C extends Container<SubjectToken<RDFLiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral;
+	createFrom<C extends Container<RDFLiteralToken>, O extends object>( container:C, object:O ):O & RDFLiteral;
 } = {
-	createFrom<C extends Container<SubjectToken<RDFLiteralToken>>, O extends object>( container:C, object:O ):O & RDFLiteral {
-		return TripleSubject.createFrom( container, Object.assign( object, {
+	createFrom<C extends Container<RDFLiteralToken>, O extends object>( container:C, object:O ):O & RDFLiteral {
+		return Literal.createFrom( container, Object.assign( object, {
 			withType: getWithTypeFn( container ),
 			withLanguage: getWithLanguageFn( container ),
 		} ) );

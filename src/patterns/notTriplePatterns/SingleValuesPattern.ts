@@ -45,7 +45,7 @@ function getHasFn<C extends Container<ValuesToken>>( container:C ):SingleValuesP
 		values[ 0 ] = values[ 0 ].concat( convertValue( value as SupportedNativeTypes ) );
 
 		const targetToken = cloneElement( container.targetToken, { values } );
-		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
+		const newContainer = cloneElement( container, { targetToken } );
 
 		return SingleValuesPatternMore.createFrom( newContainer, {} );
 	};

@@ -7,14 +7,12 @@ import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { getIRIToken } from "../../tokens/IRIToken";
 import { LiteralToken } from "../../tokens/LiteralToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 
 import { XSD } from "../../utils/XSD";
 
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";
-import { TripleSubject } from "../triplePatterns/TripleSubject";
 
 import { MultipleValuesPattern, MultipleValuesPatternMore } from "./MultipleValuesPattern";
 
@@ -41,16 +39,16 @@ describe( "MultipleValuesPattern", () => {
 	} );
 
 	function getResource( iri:string ):Resource {
-		return TripleSubject.createFrom( new Container( {
+		return Resource.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 
 	function getLiteral( value:string ):Literal {
-		return TripleSubject.createFrom( new Container( {
+		return Literal.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new LiteralToken( value ) ),
+			targetToken: new LiteralToken( value ),
 		} ), {} );
 	}
 
@@ -221,16 +219,16 @@ describe( "MultipleValuesPatternMore", () => {
 	} );
 
 	function getResource( iri:string ):Resource {
-		return TripleSubject.createFrom( new Container( {
+		return Resource.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 
 	function getLiteral( value:string ):Literal {
-		return TripleSubject.createFrom( new Container( {
+		return Literal.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new LiteralToken( value ) ),
+			targetToken: new LiteralToken( value ),
 		} ), {} );
 	}
 

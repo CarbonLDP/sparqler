@@ -13,12 +13,10 @@ import { PathSequenceToken } from "../../tokens/PathSequenceToken";
 import { PathToken } from "../../tokens/PathToken";
 import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
 import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
 
 import { Resource } from "../triplePatterns/Resource";
-import { TripleSubject } from "../triplePatterns/TripleSubject";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";
@@ -92,9 +90,9 @@ describe( "FluentPath", () => {
 
 
 	function createResource( iri:string ):Resource {
-		return TripleSubject.createFrom( new Container( {
+		return Resource.createFrom( new Container( {
 			iriResolver: new IRIResolver(),
-			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 

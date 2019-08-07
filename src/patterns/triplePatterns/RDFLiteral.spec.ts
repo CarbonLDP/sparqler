@@ -6,8 +6,6 @@ import { IRIResolver } from "../../data/IRIResolver";
 import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { LanguageToken } from "../../tokens/LanguageToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
-import { TripleToken } from "../../tokens/TripleToken";
 
 import { XSD } from "../../utils/XSD";
 
@@ -21,7 +19,7 @@ describe( "RDFLiteral", () => {
 		expect( RDFLiteral ).toEqual( jasmine.any( Object ) );
 	} );
 
-	let container:Container<TripleToken<RDFLiteralToken>>;
+	let container:Container<RDFLiteralToken>;
 	beforeEach( () => {
 		const vocab:string = "https://example.com/ns#";
 
@@ -30,7 +28,7 @@ describe( "RDFLiteral", () => {
 
 		container = new Container( {
 			iriResolver,
-			targetToken: new SubjectToken( new RDFLiteralToken( "value" ) )
+			targetToken: new RDFLiteralToken( "value" )
 		} );
 
 		spyContainers.install();
@@ -66,6 +64,7 @@ describe( "RDFLiteral", () => {
 				withLanguage: jasmine.any( Function ),
 
 				// Inherit
+				getExpression: jasmine.any( Function ),
 				getSubject: jasmine.any( Function ),
 				has: jasmine.any( Function ),
 			} );
@@ -91,6 +90,7 @@ describe( "RDFLiteral", () => {
 			const returned = literal.withType( "string" );
 
 			expect( returned ).toEqual( {
+				getExpression: jasmine.any( Function ),
 				getSubject: jasmine.any( Function ),
 				has: jasmine.any( Function ),
 			} );
@@ -99,24 +99,24 @@ describe( "RDFLiteral", () => {
 		it( "should add relative XSD type", () => {
 			literal.withType( "string" );
 
-			const newContainer:Container<TripleToken<RDFLiteralToken>> = spyContainers.getLast();
-			expect( newContainer.targetToken.subject.type )
+			const newContainer:Container<RDFLiteralToken> = spyContainers.getLast();
+			expect( newContainer.targetToken.type )
 				.toEqual( new IRIRefToken( XSD.string ) );
 		} );
 
 		it( "should add absolute XSD type", () => {
 			literal.withType( XSD.string );
 
-			const newContainer:Container<TripleToken<RDFLiteralToken>> = spyContainers.getLast();
-			expect( newContainer.targetToken.subject.type )
+			const newContainer:Container<RDFLiteralToken> = spyContainers.getLast();
+			expect( newContainer.targetToken.type )
 				.toEqual( new IRIRefToken( XSD.string ) );
 		} );
 
 		it( "should add custom type", () => {
 			literal.withType( "http://example.com/ns#type" );
 
-			const newContainer:Container<TripleToken<RDFLiteralToken>> = spyContainers.getLast();
-			expect( newContainer.targetToken.subject.type )
+			const newContainer:Container<RDFLiteralToken> = spyContainers.getLast();
+			expect( newContainer.targetToken.type )
 				.toEqual( new IRIRefToken( "http://example.com/ns#type" ) );
 		} );
 
@@ -139,6 +139,7 @@ describe( "RDFLiteral", () => {
 			const returned = literal.withLanguage( "string" );
 
 			expect( returned ).toEqual( {
+				getExpression: jasmine.any( Function ),
 				getSubject: jasmine.any( Function ),
 				has: jasmine.any( Function ),
 			} );
@@ -147,8 +148,8 @@ describe( "RDFLiteral", () => {
 		it( "should add language tag", () => {
 			literal.withLanguage( "en" );
 
-			const newContainer:Container<TripleToken<RDFLiteralToken>> = spyContainers.getLast();
-			expect( newContainer.targetToken.subject.language )
+			const newContainer:Container<RDFLiteralToken> = spyContainers.getLast();
+			expect( newContainer.targetToken.language )
 				.toEqual( new LanguageToken( "en" ) );
 		} );
 

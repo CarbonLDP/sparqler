@@ -7,8 +7,7 @@ import { CollectionToken } from "../../tokens/CollectionToken";
 import { IRIToken } from "../../tokens/IRIToken";
 import { ObjectToken } from "../../tokens/ObjectToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
-import { TripleToken } from "../../tokens/TripleToken";
+import { TripleNodeToken } from "../../tokens/TripleNodeToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
 import { Pattern } from "../Pattern";
@@ -78,21 +77,16 @@ export interface TriplePatternsBuilder {
 }
 
 
-function _getPatternContainer<T extends ObjectToken>( container:Container<undefined>, token:T ):Container<TripleToken<T>> {
+function _getNewContainer<T extends ObjectToken>( container:Container<undefined>, token:T ):Container<T> {
 	return new Container( {
 		iriResolver: container.iriResolver,
-		targetToken: new SubjectToken( token ),
+		targetToken: token,
 	} );
 }
 
-function _getTripleSubject<T extends ObjectToken>( container:Container<undefined>, token:T ):TripleSubject<T> {
-	const patternContainer = _getPatternContainer( container, token );
-	return TripleSubject.createFrom( patternContainer, {} );
-}
-
-function _getNodeSubject<T extends ObjectToken>( container:Container<undefined>, token:T ):TripleSubject<T> & Pattern<TripleToken<T>> {
-	const patternContainer = _getPatternContainer( container, token );
-	return Factory.createFrom<typeof patternContainer, TripleSubject<T>, Pattern<TripleToken<T>>>(
+function _getNodeSubject<T extends TripleNodeToken>( container:Container<undefined>, token:T ):TripleSubject<T> & Pattern<T> {
+	const patternContainer = _getNewContainer( container, token );
+	return Factory.createFrom<typeof patternContainer, TripleSubject<T>, Pattern<T>>(
 		TripleSubject.createFrom,
 		Pattern.createFrom,
 	)( patternContainer, {} );
@@ -102,14 +96,16 @@ function _getNodeSubject<T extends ObjectToken>( container:Container<undefined>,
 function getResourceFn( container:Container<undefined> ):TriplePatternsBuilder[ "resource" ] {
 	return iri => {
 		const token:IRIToken = container.iriResolver.resolve( iri );
-		return _getTripleSubject( container, token );
+		const newContainer = _getNewContainer( container, token );
+		return Resource.createFrom( newContainer, {} );
 	}
 }
 
 function getVarFn( container:Container<undefined> ):TriplePatternsBuilder[ "var" ] {
 	return name => {
 		const token:VariableToken = new VariableToken( name );
-		return _getTripleSubject( container, token );
+		const newContainer = _getNewContainer( container, token );
+		return Variable.createFrom( newContainer, {} );
 	}
 }
 
@@ -119,12 +115,13 @@ function getLiteralFn( container:Container<undefined> ):TriplePatternsBuilder[ "
 			? new RDFLiteralToken( value )
 			: convertValue( value );
 
-		if( token instanceof RDFLiteralToken ) {
-			const patternContainer = _getPatternContainer( container, token );
-			return RDFLiteral.createFrom( patternContainer, {} );
-		}
+		const newContainer = _getNewContainer( container, token );
 
-		return _getTripleSubject( container, token );
+		const factory = token instanceof RDFLiteralToken
+			? RDFLiteral.createFrom
+			: Literal.createFrom;
+
+		return factory( newContainer as Container<RDFLiteralToken>, {} );
 	}
 }
 
@@ -144,7 +141,8 @@ function _getBlankNode( container:Container<undefined>, label?:string ):BlankNod
 		label = "_:" + label;
 
 	const token:BlankNodeToken = new BlankNodeToken( label );
-	return _getTripleSubject( container, token );
+	const newContainer = _getNewContainer( container, token );
+	return TripleSubject.createFrom( newContainer, {} );
 }
 
 function _getBlankNodeProperty( container:Container<undefined>, builderFn:( selfBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty {

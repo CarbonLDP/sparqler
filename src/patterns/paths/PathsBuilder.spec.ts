@@ -6,10 +6,8 @@ import { IRIResolver } from "../../data/IRIResolver";
 import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { IRIToken } from "../../tokens/IRIToken";
 import { PathToken } from "../../tokens/PathToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
 
 import { Resource } from "../triplePatterns/Resource";
-import { TripleSubject } from "../triplePatterns/TripleSubject";
 
 import { Path } from "./Path";
 import { PathsBuilder } from "./PathsBuilder";
@@ -66,9 +64,9 @@ describe( "PathsBuilder", () => {
 
 
 	function createResource( iri:string ):Resource {
-		return TripleSubject.createFrom( new Container( {
+		return Resource.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 

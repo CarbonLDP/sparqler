@@ -5,7 +5,6 @@ import { RDFLiteralToken } from "./RDFLiteralToken";
 import { VariableToken } from "./VariableToken";
 
 
-// TODO: Add `BracketedExpression`
 /**
  * Alias with the tokens that comprehends all the kinds of primary expressions.
  *

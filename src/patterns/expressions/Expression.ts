@@ -1,8 +1,8 @@
 import { Container } from "../../data/Container";
 import { ExpressionToken } from "../../tokens/ExpressionToken";
 
-export interface Expression {
-	getExpression():ExpressionToken;
+export interface Expression<T extends ExpressionToken = ExpressionToken> {
+	getExpression():T;
 }
 
 /**
@@ -19,9 +19,9 @@ export const Expression:{
 	 * @return The {@link Expression} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<C extends Container<ExpressionToken>, O extends object>( container:C, object:O ):O & Expression;
+	createFrom<T extends ExpressionToken, C extends Container<T>, O extends object>( container:C, object:O ):O & Expression<T>;
 } = {
-	createFrom<C extends Container<ExpressionToken>, O extends object>( container:C, object:O ):O & Expression {
+	createFrom<T extends ExpressionToken, C extends Container<T>, O extends object>( container:C, object:O ):O & Expression<T> {
 		return Object.assign( object, {
 			getExpression: () => container.targetToken,
 		} );

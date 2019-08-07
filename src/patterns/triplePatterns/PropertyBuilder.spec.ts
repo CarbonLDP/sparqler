@@ -6,16 +6,17 @@ import { IRIResolver } from "../../data/IRIResolver";
 
 import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { IRIRefToken } from "../../tokens/IRIRefToken";
+import { ObjectToken } from "../../tokens/ObjectToken";
 import { PathToken } from "../../tokens/PathToken";
 import { PropertyToken } from "../../tokens/PropertyToken";
 import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
+
 import { Path } from "../paths/Path";
 
 import { PropertyBuilder, PropertyBuilderMore } from "./PropertyBuilder";
 import { Resource } from "./Resource";
-import { TripleSubject } from "./TripleSubject";
 import { Variable } from "./Variable";
 
 
@@ -27,7 +28,7 @@ describe( "PropertyBuilder", () => {
 	} );
 
 	let genericFactory:Factory<any, { generic:boolean }>;
-	let container:Container<TripleToken | BlankNodePropertyToken>;
+	let container:Container<ObjectToken>;
 	beforeEach( () => {
 		genericFactory = ( container1, object ) => Object.assign( object, {
 			generic: true,
@@ -40,7 +41,7 @@ describe( "PropertyBuilder", () => {
 
 		container = new Container( {
 			iriResolver,
-			targetToken: new SubjectToken( new IRIRefToken( "" ) )
+			targetToken: new IRIRefToken( "" )
 		} );
 
 		spyContainers.install();
@@ -51,16 +52,16 @@ describe( "PropertyBuilder", () => {
 	} );
 
 	function getVariable( name:string ):Variable {
-		return TripleSubject.createFrom( new Container( {
+		return Variable.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new VariableToken( name ) ),
+			targetToken: new VariableToken( name ),
 		} ), {} );
 	}
 
 	function getResource( iri:string ):Resource {
-		return TripleSubject.createFrom( new Container( {
+		return Resource.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 
@@ -223,16 +224,16 @@ describe( "PropertyBuilderMore", () => {
 	} );
 
 	function getVariable( name:string ):Variable {
-		return TripleSubject.createFrom( new Container( {
+		return Variable.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new VariableToken( name ) ),
+			targetToken: new VariableToken( name ),
 		} ), {} );
 	}
 
 	function getResource( iri:string ):Resource {
-		return TripleSubject.createFrom( new Container( {
+		return Resource.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 

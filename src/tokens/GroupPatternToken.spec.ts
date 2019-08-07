@@ -1,3 +1,5 @@
+import { BlankNodePropertyToken } from "./BlankNodePropertyToken";
+import { CollectionToken } from "./CollectionToken";
 import { GroupPatternToken } from "./GroupPatternToken";
 import { OptionalToken } from "./OptionalToken";
 import { PatternToken } from "./PatternToken";
@@ -98,7 +100,7 @@ describe( "GroupPatternToken", ():void => {
 			expect( token.toString( 0 ) ).toBe( "{}" );
 		} );
 
-		it( "should return the SPARQL group statement with pattern", ():void => {
+		it( "should return the SPARQL group statement with triple pattern", ():void => {
 			const token:GroupPatternToken = new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
 					.addProperty( new PropertyToken( "a" )
@@ -120,7 +122,7 @@ describe( "GroupPatternToken", ():void => {
 			);
 		} );
 
-		it( "should return the pretty SPARQL group statement with pattern", ():void => {
+		it( "should return the pretty SPARQL group statement with triple pattern", ():void => {
 			const token:GroupPatternToken = new GroupPatternToken()
 				.addPattern( new SubjectToken( new VariableToken( "subj1" ) )
 					.addProperty( new PropertyToken( "a" )
@@ -139,6 +141,34 @@ describe( "GroupPatternToken", ():void => {
 				"{\n" +
 				"    ?subj1 a ?obj1.\n" +
 				"    ?subj1 a ?obj1\n" +
+				"}"
+			);
+		} );
+
+
+		it( "should return the pretty SPARQL group statement with node pattern", ():void => {
+			const token:GroupPatternToken = new GroupPatternToken()
+				.addPattern( new SubjectToken(
+					new BlankNodePropertyToken()
+						.addProperty( new PropertyToken( "a" )
+							.addObject( new VariableToken( "obj1" ) ),
+						)
+					)
+						.addProperty( new PropertyToken( "a" )
+							.addObject( new VariableToken( "obj2" ) ),
+						),
+					new SubjectToken( new CollectionToken().addObject( new VariableToken( "obj1" ) ) )
+						.addProperty( new PropertyToken( "a" )
+							.addObject( new VariableToken( "obj2" ) ),
+						),
+				)
+			;
+
+
+			expect( token.toString( 0 ) ).toBe( "" +
+				"{\n" +
+				"    [ a ?obj1 ] a ?obj2.\n" +
+				"    ( ?obj1 ) a ?obj2\n" +
 				"}"
 			);
 		} );

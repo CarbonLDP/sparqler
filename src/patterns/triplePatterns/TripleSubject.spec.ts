@@ -4,8 +4,7 @@ import { Container } from "../../data/Container";
 import { IRIResolver } from "../../data/IRIResolver";
 
 import { IRIRefToken } from "../../tokens/IRIRefToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
-import { TripleToken } from "../../tokens/TripleToken";
+import { ObjectToken } from "../../tokens/ObjectToken";
 
 import { TripleSubject } from "./TripleSubject";
 
@@ -17,7 +16,7 @@ describe( "TripleSubject", () => {
 		expect( TripleSubject ).toEqual( jasmine.any( Object ) );
 	} );
 
-	let container:Container<TripleToken<any>>;
+	let container:Container<ObjectToken>;
 	beforeEach( () => {
 		const vocab:string = "https://example.com/ns#";
 
@@ -26,7 +25,7 @@ describe( "TripleSubject", () => {
 
 		container = new Container( {
 			iriResolver,
-			targetToken: new SubjectToken( new IRIRefToken( "" ) )
+			targetToken: new IRIRefToken( "" )
 		} );
 
 		spyContainers.install();
@@ -79,12 +78,12 @@ describe( "TripleSubject", () => {
 		} );
 
 
-		it( "should return subject from the TripleToken", () => {
+		it( "should return the target ObjectToken", () => {
 			const triplePattern:TripleSubject<any> = TripleSubject
 				.createFrom( container, {} );
 
 			const returned = triplePattern.getSubject();
-			expect( returned ).toBe( container.targetToken.subject );
+			expect( returned ).toBe( container.targetToken );
 		} );
 
 	} );

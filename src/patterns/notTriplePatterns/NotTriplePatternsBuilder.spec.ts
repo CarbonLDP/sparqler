@@ -14,12 +14,11 @@ import { MinusPatternToken } from "../../tokens/MinusPatternToken";
 import { OptionalToken } from "../../tokens/OptionalToken";
 import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 import { ServicePatternToken } from "../../tokens/ServicePatternToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
 import { UnionPatternToken } from "../../tokens/UnionPatternToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
-import { TripleSubject } from "../triplePatterns/TripleSubject";
+import { Resource } from "../triplePatterns/Resource";
 import { Variable } from "../triplePatterns/Variable";
 
 import { MultipleValuesPattern } from "./MultipleValuesPattern";
@@ -53,9 +52,16 @@ describe( "NotTriplePatternsBuilder", () => {
 	} );
 
 	function getVariable( name:string ):Variable {
-		return TripleSubject.createFrom( new Container( {
+		return Variable.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new VariableToken( name ) ),
+			targetToken: new VariableToken( name ),
+		} ), {} );
+	}
+
+	function getResource( iri:string ):Resource {
+		return Resource.createFrom( new Container( {
+			iriResolver: container.iriResolver,
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 
@@ -492,7 +498,7 @@ describe( "NotTriplePatternsBuilder", () => {
 		} );
 
 		it( "should create pattern with IRIToken", () => {
-			builder.service( { getSubject: () => new IRIRefToken( "service/" ), has: () => ({}) as any }, [] );
+			builder.service( getResource( "service/" ), [] );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -503,7 +509,7 @@ describe( "NotTriplePatternsBuilder", () => {
 		} );
 
 		it( "should create pattern with VariableToken", () => {
-			builder.service( { getSubject: () => new VariableToken( "service" ), has: () => ({}) as any }, [] );
+			builder.service( getVariable( "service" ), [] );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -597,7 +603,7 @@ describe( "NotTriplePatternsBuilder", () => {
 		} );
 
 		it( "should create pattern with IRIToken", () => {
-			builder.serviceSilent( { getSubject: () => new IRIRefToken( "service/" ), has: () => ({}) as any }, [] );
+			builder.serviceSilent( getResource( "service/" ), [] );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -608,7 +614,7 @@ describe( "NotTriplePatternsBuilder", () => {
 		} );
 
 		it( "should create pattern with VariableToken", () => {
-			builder.serviceSilent( { getSubject: () => new VariableToken( "service" ), has: () => ({}) as any }, [] );
+			builder.serviceSilent( getVariable( "service" ), [] );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();

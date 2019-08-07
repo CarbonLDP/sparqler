@@ -12,12 +12,10 @@ import { PathNegatedToken } from "../../tokens/PathNegatedToken";
 import { PathSequenceToken } from "../../tokens/PathSequenceToken";
 import { PathToken } from "../../tokens/PathToken";
 import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
 import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
 
 import { Resource } from "../triplePatterns/Resource";
-import { TripleSubject } from "../triplePatterns/TripleSubject";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";
@@ -90,9 +88,9 @@ describe( "PathBuilder", () => {
 
 
 	function createResource( iri:string ):Resource {
-		return TripleSubject.createFrom( new Container( {
+		return Resource.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 

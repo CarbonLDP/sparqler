@@ -1,12 +1,14 @@
-import { Container } from "../../../data/Container";
-import { IRIResolver } from "../../../data/IRIResolver";
-import { XSD } from "../../../utils/XSD";
-import { TriplePatternsBuilder } from "../../triplePatterns/TriplePatternsBuilder";
-import { Expression } from "../Expression";
-import { PrimaryExpression } from "../PrimaryExpression";
+import { Container } from "../../data/Container";
+import { IRIResolver } from "../../data/IRIResolver";
+import { XSD } from "../../utils/XSD";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
+import { TriplePatternsBuilder } from "../triplePatterns/TriplePatternsBuilder";
+import { Expression } from "./Expression";
+import { FunctionExpression } from "./FunctionExpression";
 import { FunctionsBuilder } from "./FunctionsBuilder";
 
-type GenericFn = ( ...expressions:PrimaryExpression[] ) => Expression;
+
+type GenericFn = ( ...expressions:(Expression | SupportedNativeTypes)[] ) => FunctionExpression;
 
 describe( "FunctionsBuilder", () => {
 
@@ -215,6 +217,11 @@ describe( "FunctionsBuilder", () => {
 		} );
 
 
+		it( "should create function with empty pattern", () => {
+			const expression = builder.exists();
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "EXISTS {}" );
+		} );
+
 		it( "should create function using single pattern", () => {
 			const expression = builder.exists( triplesBuilder.resource( "ex:resource-1" ).has( "ex:property-1", false ) );
 			expect( expression.getExpression().toString( 0 ) ).toEqual( "EXISTS { ex:resource-1 ex:property-1 false }" );
@@ -261,6 +268,11 @@ describe( "FunctionsBuilder", () => {
 		} );
 
 
+		it( "should create function with empty pattern", () => {
+			const expression = builder.notExists();
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "NOT EXISTS {}" );
+		} );
+
 		it( "should create function using single pattern", () => {
 			const expression = builder.notExists( triplesBuilder.resource( "ex:resource-1" ).has( "ex:property-1", false ) );
 			expect( expression.getExpression().toString( 0 ) ).toEqual( "NOT EXISTS { ex:resource-1 ex:property-1 false }" );
@@ -292,8 +304,6 @@ describe( "FunctionsBuilder", () => {
 		} );
 
 	} );
-
-	// TODO: Add tests using expressions
 
 	describe( "FunctionsBuilder.sameTerm", () => {
 

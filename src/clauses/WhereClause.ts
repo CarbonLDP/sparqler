@@ -62,7 +62,7 @@ function getWhereFn<C extends Container<QueryToken<QueryClauseToken>>, T extends
 			.addPattern( ...patterns );
 
 		const queryToken:QueryToken = cloneElement( container.targetToken, { queryClause: query } );
-		const newContainer = cloneElement( container, { iriResolver, targetToken: queryToken } as Partial<C> );
+		const newContainer = cloneElement( container, { iriResolver, targetToken: queryToken } );
 
 		const groupClause:GroupClause<T> = GroupClause.createFrom( genericFactory, newContainer, {} );
 		return genericFactory( newContainer, groupClause );

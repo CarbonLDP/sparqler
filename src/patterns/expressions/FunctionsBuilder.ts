@@ -1,19 +1,29 @@
-import { Container } from "../../../data/Container";
-import { isAbsolute } from "../../../iri/utils";
-import { ExpressionListToken } from "../../../tokens/ExpressionListToken";
-import { ExpressionToken } from "../../../tokens/ExpressionToken";
-import { FunctionToken } from "../../../tokens/FunctionToken";
-import { GroupPatternToken } from "../../../tokens/GroupPatternToken";
-import { IRIToken } from "../../../tokens/IRIToken";
-import { VariableToken } from "../../../tokens/VariableToken";
-import { Pattern } from "../../Pattern";
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
-import { Resource } from "../../triplePatterns/Resource";
-import { Variable } from "../../triplePatterns/Variable";
-import { convertValue } from "../../utils";
-import { Expression } from "../Expression";
-import { PrimaryExpression } from "../PrimaryExpression";
+import { Container } from "../../data/Container";
 
+import { isAbsolute } from "../../iri/utils";
+
+import { ExpressionListToken } from "../../tokens/ExpressionListToken";
+import { ExpressionToken } from "../../tokens/ExpressionToken";
+import { FunctionToken } from "../../tokens/FunctionToken";
+import { GroupPatternToken } from "../../tokens/GroupPatternToken";
+import { IRIToken } from "../../tokens/IRIToken";
+import { VariableToken } from "../../tokens/VariableToken";
+
+import { Pattern } from "../Pattern";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
+
+import { Resource } from "../triplePatterns/Resource";
+import { Variable } from "../triplePatterns/Variable";
+
+import { convertValue } from "../utils";
+
+import { Expression } from "./Expression";
+import { FunctionExpression } from "./FunctionExpression";
+
+
+/**
+ * Const enum with the names of every function
+ */
 const enum Functions {
 	STR = "STR",
 	LANG = "LANG",
@@ -82,7 +92,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param variable - Variable to evaluate if it's associated to a value.
 	 */
-	bound( variable:Variable | string ):Expression;
+	bound( variable:Variable | string ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that evaluates {@param condition} and then
@@ -96,7 +106,7 @@ export interface FunctionsBuilder {
 	 * @param consequent - Expression to return its value when the condition is evaluated to `true`.
 	 * @param alternative - Expression to returns its value when the condition is evaluated to `false.`
 	 */
-	if( condition:PrimaryExpression, consequent:PrimaryExpression, alternative:PrimaryExpression ):Expression;
+	if( condition:Expression | SupportedNativeTypes, consequent:Expression | SupportedNativeTypes, alternative:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the value of the first expression
@@ -107,7 +117,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param expressions - Expressions to be evaluated for the non-raising error one.
 	 */
-	coalesce( ...expressions:PrimaryExpression[] ):Expression;
+	coalesce( ...expressions:(Expression | SupportedNativeTypes)[] ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param patterns}
@@ -118,7 +128,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param patterns - Patterns to evaluate if matches the data set.
 	 */
-	exists( patterns:Pattern[] ):Expression;
+	exists( patterns:Pattern[] ):FunctionExpression;
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param patterns}
 	 * matches the data set, or `false` otherwise.
@@ -128,7 +138,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param patterns - Patterns to evaluate if matches the data set.
 	 */
-	exists( ...patterns:Pattern[] ):Expression;
+	exists( ...patterns:Pattern[] ):FunctionExpression;
 	/**
 	 * Creates an {@link Expression} that returns `false` if {@param patterns}
 	 * matches the data set, or `true` otherwise.
@@ -138,7 +148,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param patterns - Patterns to evaluate if not matches the data set.
 	 */
-	notExists( patterns:Pattern[] ):Expression;
+	notExists( patterns:Pattern[] ):FunctionExpression;
 	/**
 	 * Creates an {@link Expression} that returns `false` if {@param patterns}
 	 * matches the data set, or `true` otherwise.
@@ -148,7 +158,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param patterns - Patterns to evaluate if not matches the data set.
 	 */
-	notExists( ...patterns:Pattern[] ):Expression;
+	notExists( ...patterns:Pattern[] ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term1} and
@@ -160,7 +170,7 @@ export interface FunctionsBuilder {
 	 * @param term1 - Expression to evaluate its value against {@param term2}.
 	 * @param term2 - Expression to evaluate its value against {@param term1}.
 	 */
-	sameTerm( term1:PrimaryExpression, term2:PrimaryExpression ):Expression;
+	sameTerm( term1:Expression | SupportedNativeTypes, term2:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
@@ -171,7 +181,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	isIRI( term:PrimaryExpression ):Expression;
+	isIRI( term:Expression | SupportedNativeTypes ):FunctionExpression;
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
 	 * an URI. Returns `false` otherwise.
@@ -181,7 +191,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	isURI( term:PrimaryExpression ):Expression;
+	isURI( term:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
@@ -192,7 +202,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	isBlank( term:PrimaryExpression ):Expression;
+	isBlank( term:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
@@ -203,7 +213,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	isLiteral( term:PrimaryExpression ):Expression;
+	isLiteral( term:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
@@ -214,7 +224,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	isNumeric( term:PrimaryExpression ):Expression;
+	isNumeric( term:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the string representation of
@@ -225,7 +235,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term - Expression to evaluate its value.
 	 */
-	str( term:PrimaryExpression ):Expression;
+	str( term:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the language tag of
@@ -236,7 +246,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param literal - Expression to evaluate its value lang.
 	 */
-	lang( literal:PrimaryExpression ):Expression;
+	lang( literal:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the datatype IRI of
@@ -247,7 +257,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param literal - Expression to evaluate its value lang.
 	 */
-	datatype( literal:PrimaryExpression ):Expression;
+	datatype( literal:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that constructs an IRI by resolving
@@ -258,7 +268,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param argument - Expression to construct an IRI with its value.
 	 */
-	iri( argument:PrimaryExpression ):Expression;
+	iri( argument:Expression | SupportedNativeTypes ):FunctionExpression;
 	/**
 	 * Creates an {@link Expression} that constructs a URI by resolving
 	 * {@param argument}.
@@ -268,7 +278,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param argument - Expression to construct a URI with its value.
 	 */
-	uri( argument:PrimaryExpression ):Expression;
+	uri( argument:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that constructs a blank node that is
@@ -281,7 +291,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param literal - Optional expression to use its value for the blank node creation.
 	 */
-	bnode( literal?:PrimaryExpression ):Expression;
+	bnode( literal?:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that constructs an RDF literal with
@@ -294,7 +304,7 @@ export interface FunctionsBuilder {
 	 * @param lexicalForm - Expresion with a string value to use as the lexical form of the literal.
 	 * @param dataType - Expresion with an IRI value to use as the datatype of the literal.
 	 */
-	strDT( lexicalForm:PrimaryExpression, dataType:PrimaryExpression ):Expression;
+	strDT( lexicalForm:Expression | SupportedNativeTypes, dataType:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that constructs an RDF literal with the
@@ -307,7 +317,7 @@ export interface FunctionsBuilder {
 	 * @param lexicalForm - Expresion with a string value to use as the lexical form of the literal.
 	 * @param languageTag - Expresion with a string value to use as the language tag of the literal.
 	 */
-	strLang( lexicalForm:PrimaryExpression, languageTag:PrimaryExpression ):Expression;
+	strLang( lexicalForm:Expression | SupportedNativeTypes, languageTag:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns an IRI from the
@@ -316,14 +326,14 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-uuid}
 	 * for more information.
 	 */
-	uuid():Expression;
+	uuid():FunctionExpression;
 	/**
 	 * Creates an {@link Expression} that returns a string with an UUID.
 	 *
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-struuid}
 	 * for more information.
 	 */
-	strUUID():Expression;
+	strUUID():FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the number of characters
@@ -334,7 +344,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param str - Expression to count the characters of its string value.
 	 */
-	strLen( str:PrimaryExpression ):Expression;
+	strLen( str:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns a the portion of the
@@ -352,7 +362,7 @@ export interface FunctionsBuilder {
 	 * @param starting Expression with the index from where to start the portion to take.
 	 * @param length Expression with the number of characters of the portion to take.
 	 */
-	substr( source:PrimaryExpression, starting:PrimaryExpression, length?:PrimaryExpression ):Expression;
+	substr( source:Expression | SupportedNativeTypes, starting:Expression | SupportedNativeTypes, length?:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the {@param str} value
@@ -363,7 +373,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param str Expression with the string value to convert.
 	 */
-	uCase( str:PrimaryExpression ):Expression;
+	uCase( str:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the {@param str} value
@@ -374,7 +384,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param str Expression with the string value to convert.
 	 */
-	lCase( str:PrimaryExpression ):Expression;
+	lCase( str:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the `true` of the value of
@@ -387,7 +397,7 @@ export interface FunctionsBuilder {
 	 * @param arg1 Expression with the string value to check it starts with {@param arg2}.
 	 * @param arg2 Expression with the string value to check it's the start of {@param arg1}.
 	 */
-	strStarts( arg1:PrimaryExpression, arg2:PrimaryExpression ):Expression;
+	strStarts( arg1:Expression | SupportedNativeTypes, arg2:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the `true` of the value of
@@ -400,7 +410,7 @@ export interface FunctionsBuilder {
 	 * @param arg1 Expression with the string value to check it ends with {@param arg2}.
 	 * @param arg2 Expression with the string value to check it's the end of {@param arg1}.
 	 */
-	strEnds( arg1:PrimaryExpression, arg2:PrimaryExpression ):Expression;
+	strEnds( arg1:Expression | SupportedNativeTypes, arg2:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the `true` of the value of
@@ -413,7 +423,7 @@ export interface FunctionsBuilder {
 	 * @param arg1 Expression with the string value to check it contains {@param arg2}.
 	 * @param arg2 Expression with the string value to check it's contained by {@param arg1}.
 	 */
-	contains( arg1:PrimaryExpression, arg2:PrimaryExpression ):Expression;
+	contains( arg1:Expression | SupportedNativeTypes, arg2:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the part the {@param arg1}
@@ -425,7 +435,7 @@ export interface FunctionsBuilder {
 	 * @param arg1 Expression with the string value to check and return the preceded part.
 	 * @param arg2 Expression with the string value to check where it appears in {@param arg1}.
 	 */
-	strBefore( arg1:PrimaryExpression, arg2:PrimaryExpression ):Expression;
+	strBefore( arg1:Expression | SupportedNativeTypes, arg2:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the part the {@param arg1}
@@ -437,7 +447,7 @@ export interface FunctionsBuilder {
 	 * @param arg1 Expression with the string value to check and return the followed part.
 	 * @param arg2 Expression with the string value to check where it appears in {@param arg1}.
 	 */
-	strAfter( arg1:PrimaryExpression, arg2:PrimaryExpression ):Expression;
+	strAfter( arg1:Expression | SupportedNativeTypes, arg2:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns a literal with the encoded
@@ -448,7 +458,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param literal Expression with the string value to encode.
 	 */
-	encodeForUri( literal:PrimaryExpression ):Expression;
+	encodeForUri( literal:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the concatenation of the
@@ -459,7 +469,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param literals Expressions with the string values to concatenate.
 	 */
-	concat( ...literals:PrimaryExpression[] ):Expression;
+	concat( ...literals:(Expression | SupportedNativeTypes)[] ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param languageTag}
@@ -472,7 +482,7 @@ export interface FunctionsBuilder {
 	 * @param languageTag Expressions with the language tag to be checked.
 	 * @param languageRange Expression with the language range that {@param languageTag} will be checked against.
 	 */
-	langMatches( languageTag:PrimaryExpression, languageRange:PrimaryExpression ):Expression;
+	langMatches( languageTag:Expression | SupportedNativeTypes, languageRange:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param text}
@@ -486,8 +496,8 @@ export interface FunctionsBuilder {
 	 * @param pattern Expression with the regular expression used as the matcher.
 	 * @param flags Optional expression with the matching rules to be applied.
 	 */
-	regex( text:PrimaryExpression, pattern:PrimaryExpression, flags?:PrimaryExpression ):Expression;
-	regex( text:PrimaryExpression, pattern:RegExp ):Expression;
+	regex( text:Expression | SupportedNativeTypes, pattern:Expression | SupportedNativeTypes, flags?:Expression | SupportedNativeTypes ):FunctionExpression;
+	regex( text:Expression | SupportedNativeTypes, pattern:RegExp ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns a string produced by the
@@ -504,8 +514,8 @@ export interface FunctionsBuilder {
 	 * @param replacement Expression with the string or pattern to use as the replacement.
 	 * @param flags Optional expression with the matching rules to be applied.
 	 */
-	replace( text:PrimaryExpression, pattern:PrimaryExpression, replacement:PrimaryExpression, flags?:PrimaryExpression ):Expression;
-	replace( text:PrimaryExpression, pattern:RegExp, replacement:PrimaryExpression ):Expression;
+	replace( text:Expression | SupportedNativeTypes, pattern:Expression | SupportedNativeTypes, replacement:Expression | SupportedNativeTypes, flags?:Expression | SupportedNativeTypes ):FunctionExpression;
+	replace( text:Expression | SupportedNativeTypes, pattern:RegExp, replacement:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the absolute value of
@@ -516,7 +526,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term Expressions with the numeric value to get its absolute value.
 	 */
-	abs( term:PrimaryExpression ):Expression;
+	abs( term:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the number with no fractional
@@ -529,7 +539,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term Expressions with the numeric value to get its round value.
 	 */
-	round( term:PrimaryExpression ):Expression;
+	round( term:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the closest to negative infinity
@@ -540,7 +550,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term Expressions with the numeric value to get its ceil value.
 	 */
-	ceil( term:PrimaryExpression ):Expression;
+	ceil( term:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the closest to positive infinity
@@ -551,7 +561,7 @@ export interface FunctionsBuilder {
 	 *
 	 * @param term Expressions with the numeric value to get its floor value.
 	 */
-	floor( term:PrimaryExpression ):Expression;
+	floor( term:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns a pseudo-random number
@@ -560,7 +570,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#idp2130040}
 	 * for more information.
 	 */
-	rand():Expression;
+	rand():FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns a `xsd:dateType` value for
@@ -569,7 +579,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-now}
 	 * for more information.
 	 */
-	now():Expression;
+	now():FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the year part of the
@@ -578,7 +588,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-year}
 	 * for more information.
 	 */
-	year( dateTime:PrimaryExpression ):Expression;
+	year( dateTime:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the month part of the
@@ -587,7 +597,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-month}
 	 * for more information.
 	 */
-	month( dateTime:PrimaryExpression ):Expression;
+	month( dateTime:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the day part of the
@@ -596,7 +606,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-day}
 	 * for more information.
 	 */
-	day( dateTime:PrimaryExpression ):Expression;
+	day( dateTime:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the hours part of the
@@ -605,7 +615,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-hours}
 	 * for more information.
 	 */
-	hours( dateTime:PrimaryExpression ):Expression;
+	hours( dateTime:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the minutes part of the
@@ -614,7 +624,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-minutes}
 	 * for more information.
 	 */
-	minutes( dateTime:PrimaryExpression ):Expression;
+	minutes( dateTime:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the seconds part of the
@@ -623,7 +633,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-seconds}
 	 * for more information.
 	 */
-	seconds( dateTime:PrimaryExpression ):Expression;
+	seconds( dateTime:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the timezone part of the
@@ -635,7 +645,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-timezone}
 	 * for more information.
 	 */
-	timezone( dateTime:PrimaryExpression ):Expression;
+	timezone( dateTime:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the timezone part of the
@@ -647,7 +657,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-tz}
 	 * for more information.
 	 */
-	tz( dateTime:PrimaryExpression ):Expression;
+	tz( dateTime:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the MD5 checksum, calculated
@@ -656,7 +666,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-md5}
 	 * for more information.
 	 */
-	md5( literal:PrimaryExpression ):Expression;
+	md5( literal:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the SHA1 checksum, calculated
@@ -665,7 +675,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha1}
 	 * for more information.
 	 */
-	sha1( literal:PrimaryExpression ):Expression;
+	sha1( literal:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the SHA256 checksum, calculated
@@ -674,7 +684,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha256}
 	 * for more information.
 	 */
-	sha256( literal:PrimaryExpression ):Expression;
+	sha256( literal:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the SHA384 checksum, calculated
@@ -683,7 +693,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha384}
 	 * for more information.
 	 */
-	sha384( literal:PrimaryExpression ):Expression;
+	sha384( literal:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that returns the SHA512 checksum, calculated
@@ -692,7 +702,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha512}
 	 * for more information.
 	 */
-	sha512( literal:PrimaryExpression ):Expression;
+	sha512( literal:Expression | SupportedNativeTypes ):FunctionExpression;
 
 	/**
 	 * Creates an {@link Expression} that executes a function
@@ -701,7 +711,7 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#ririOrFunction}
 	 * for more information.
 	 */
-	custom( resource:Resource | string, ...args:PrimaryExpression[] ):Expression;
+	custom( resource:Resource | string, ...args:(Expression | SupportedNativeTypes)[] ):FunctionExpression;
 	/**
 	 * Creates an {@link Expression} that executes a function
 	 * declared by a custom IRI reducing to only distinct arguments.
@@ -709,22 +719,24 @@ export interface FunctionsBuilder {
 	 * See {@link https://www.w3.org/TR/sparql11-query/#ririOrFunction}
 	 * for more information.
 	 */
-	customDistinct( resource:Resource | string, ...args:PrimaryExpression[] ):Expression;
+	customDistinct( resource:Resource | string, ...args:(Expression | SupportedNativeTypes)[] ):FunctionExpression;
 }
+
 
 // Static transformers
 type Transformer = ( value:any ) => ExpressionToken;
+
 const literalTransformer = convertValue;
+
 const variableTransformer = ( variable:string ) => new VariableToken( variable );
+
 
 // Expressions implementation
 
-type ValidExpression = PrimaryExpression | SupportedNativeTypes;
+function _getExpression( container:Container<undefined>, name:Functions | IRIToken, listOrPatterns:ExpressionListToken | GroupPatternToken ):FunctionExpression {
+	const targetToken = new FunctionToken( name, listOrPatterns );
 
-function _getExpression( container:Container<undefined>, name:Functions | IRIToken, listOrPatterns:ExpressionListToken | GroupPatternToken ) {
-	const targetToken:ExpressionToken = new FunctionToken( name, listOrPatterns );
-
-	const newContainer:Container<ExpressionToken> = new Container( {
+	const newContainer = new Container( {
 		...container,
 		targetToken,
 	} );
@@ -732,7 +744,7 @@ function _getExpression( container:Container<undefined>, name:Functions | IRITok
 	return Expression.createFrom( newContainer, {} )
 }
 
-function _getExpressionWithList( container:Container<undefined>, name:Functions | IRIToken, list:(ValidExpression | undefined)[], limit?:number, transformer?:Transformer, distinct?:boolean ) {
+function _getExpressionWithList( container:Container<undefined>, name:Functions | IRIToken, list:(Expression | SupportedNativeTypes | undefined)[], limit?:number, transformer?:Transformer, distinct?:boolean ) {
 	const listTokens:ExpressionToken[] = list
 		.slice( 0, limit )
 		.filter( _ => _ !== undefined )
@@ -743,9 +755,6 @@ function _getExpressionWithList( container:Container<undefined>, name:Functions 
 
 				if( "getExpression" in arg )
 					return arg.getExpression();
-				if( "getSubject" in arg )
-					return arg.getSubject();
-
 			}
 
 			if( transformer )
@@ -759,7 +768,7 @@ function _getExpressionWithList( container:Container<undefined>, name:Functions 
 	return _getExpression( container, name, expressionList );
 }
 
-function _getExpressionWithPatterns( container:Container<undefined>, name:Functions | IRIToken, patterns:Pattern[] ) {
+function _getExpressionWithPatterns( container:Container<undefined>, name:Functions, patterns:Pattern[] ) {
 	const patternTokens = patterns.map( _ => _.getPattern() );
 
 	const groupPatternToken = new GroupPatternToken()
@@ -769,7 +778,7 @@ function _getExpressionWithPatterns( container:Container<undefined>, name:Functi
 }
 
 function getNamedExpressionFn( container:Container<undefined>, name:Functions, limit?:number, transformer?:Transformer ) {
-	return ( ...expressions:(ValidExpression | undefined)[] ) =>
+	return ( ...expressions:(Expression | SupportedNativeTypes | undefined)[] ) =>
 		_getExpressionWithList( container, name, expressions, limit, transformer );
 }
 
@@ -783,7 +792,7 @@ function getPatternExpressionFn( container:Container<undefined>, name:Functions 
 }
 
 function getIRIExpressionFn( container:Container<undefined>, transformer:Transformer, distinct?:boolean ) {
-	return ( resource:Resource | string, ...expressions:ValidExpression[] ) => {
+	return ( resource:Resource | string, ...expressions:(Expression | SupportedNativeTypes)[] ) => {
 		const iri = typeof resource === "string"
 			? container.iriResolver.resolve( resource )
 			: resource.getSubject();
@@ -793,9 +802,9 @@ function getIRIExpressionFn( container:Container<undefined>, transformer:Transfo
 }
 
 function getRegexExpressionFn( container:Container<undefined>, name:Functions, limit:number, transformer?:Transformer ) {
-	return ( ...rawExpressions:(ValidExpression | RegExp | undefined)[] ) => {
+	return ( ...rawExpressions:(Expression | SupportedNativeTypes | RegExp | undefined)[] ) => {
 		let flags:string | undefined;
-		const expressions:(ValidExpression | undefined)[] = rawExpressions.map( value => {
+		const expressions:(Expression | SupportedNativeTypes | undefined)[] = rawExpressions.map( value => {
 			if( !(value instanceof RegExp) ) return value;
 
 			flags = value.flags;
@@ -832,7 +841,6 @@ export const FunctionsBuilder:{
 		const generalTransformer = ( value:SupportedNativeTypes ):ExpressionToken => typeof value === "string" && isAbsolute( value )
 			? iriTransformer( value ) : literalTransformer( value );
 
-		// FIXME: Add limit of arguments
 		return Object.assign( object, {
 			bound: getNamedExpressionFn( container, Functions.BOUND, 1, variableTransformer ),
 			if: getNamedExpressionFn( container, Functions.IF, 3, generalTransformer ),
