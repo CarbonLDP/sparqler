@@ -43,17 +43,22 @@ export class InterfaceAndConstExport implements Processor {
 				let exportDoc:ConstantExport = new ConstExportDoc(host, doc.moduleDoc, doc.symbol)
 				doc.constants = [exportDoc];
 				exportDoc.members = [];
-				let container;
 				try {
-					container = doc.constants[0].declaration.type.members[0];
+					let members = doc.constants[0].declaration.type.members;
+					this.docs.push(exportDoc);
+					members.forEach(member => {
+						let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, member.symbol, member);
+						exportDoc.members.push(methodDoc);
+						this.docs.push(methodDoc);
+					})
 				}
 				catch {
-					container = doc.constants[0].variableDeclaration.initializer.nextContainer;
+					let container = doc.constants[0].variableDeclaration.initializer.nextContainer;
+					let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, container.symbol, container);
+					exportDoc.members.push(methodDoc);
+					this.docs.push(exportDoc);
+					this.docs.push(methodDoc);
 				}
-				let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, container.symbol, container);
-				exportDoc.members.push(methodDoc);
-				this.docs.push(exportDoc);
-				this.docs.push(methodDoc);
 				break;
 			default:
 				let log:any;
