@@ -35,6 +35,7 @@ export class SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends Fi
 	 * @param finishAskFactory Factory for finishing an ASK query.
 	 */
      // TODO: Fix link syntax
+     // TODO: Interface not showing up in Dgeni
 	constructor(
 		finishSelectFactory:FinishFactory<SELECT> = FinishClause.createFrom as FinishFactory<SELECT>,
 		finishAskFactory:FinishFactory<ASK> = FinishClause.createFrom as FinishFactory<ASK>,

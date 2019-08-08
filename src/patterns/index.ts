@@ -13,14 +13,17 @@ export { OptionalPattern } from "./notTriplePatterns/OptionalPattern"
 export { ServicePattern } from "./notTriplePatterns/ServicePattern"
 export { SingleValuesPattern } from "./notTriplePatterns/SingleValuesPattern"
 export { UnionPattern } from "./notTriplePatterns/UnionPattern"
+export { NotTriplePatternsBuilder } from "./notTriplePatterns/NotTriplePatternsBuilder"
 
 export { DeniableFluentPath } from "./paths/DeniableFluentPath";
 export { FluentPath } from "./paths/FluentPath";
 export { FluentPathContainer } from "./paths/FluentPathContainer";
 export { Path } from "./paths/Path";
 export { PathBuilder } from "./paths/PathBuilder";
+export { PathsBuilder } from "./paths/PathsBuilder";
 
 export { TriplePattern } from "./triplePatterns/TriplePattern"
+export { TriplePatternsBuilder } from "./triplePatterns/TriplePatternsBuilder"
 export { TripleSubject } from "./triplePatterns/TripleSubject"
 export { BlankNode } from "./triplePatterns/BlankNode"
 export { BlankNodeBuilder } from "./triplePatterns/BlankNodeBuilder"
@@ -30,6 +33,7 @@ export { Literal } from "./triplePatterns/Literal"
 export { RDFLiteral } from "./triplePatterns/RDFLiteral"
 export { Resource } from "./triplePatterns/Resource"
 export { Variable } from "./triplePatterns/Variable"
+export { PropertyBuilder } from "./triplePatterns/PropertyBuilder"
 
 export { Pattern } from "./Pattern";
 export { PatternBuilder } from "./PatternBuilder";

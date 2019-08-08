@@ -1,3 +1,4 @@
+export { AskClause } from "./AskClause";
 export { FinishClause } from "./FinishClause";
 export { FromClause } from "./FromClause";
 export { GroupClause } from "./GroupClause";

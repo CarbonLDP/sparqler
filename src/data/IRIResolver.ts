@@ -8,6 +8,7 @@ import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
 /**
  * Map type of the stored prefixes used by {@link IRIResolver}.
  */
+ // TODO: Not showing in Dgeni
 export type PrefixMap = Map<string, boolean>;
 
 
