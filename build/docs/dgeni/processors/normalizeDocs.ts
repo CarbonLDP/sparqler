@@ -59,6 +59,7 @@ export class NormalizeDocs implements Processor {
 					break;
 			}
 		} );
+		return docs;
 	}
 
 	_normalizeClass( doc:ClassExportDoc ):void {
@@ -79,7 +80,7 @@ export class NormalizeDocs implements Processor {
 
 	_normalizeInterface( doc:ParameterDoc & InterfaceExportDoc ):void {
 		this._normalizeContainer( doc );
-		this._ensureCorrectDescription(doc);
+		this._removeConstantsFromMainDocument(doc);
 		
 		if( doc.members ) doc.members
 			.filter<IndexMemberDoc>( isIndex )
@@ -117,7 +118,7 @@ export class NormalizeDocs implements Processor {
 		} );
 	}
 	
-	_ensureCorrectDescription(doc:any){
+	_removeConstantsFromMainDocument(doc:any){
 		// Not only an interface
 		if( ! (doc.symbol.flags ^ SymbolFlags.Interface) ) return;
 
@@ -127,21 +128,9 @@ export class NormalizeDocs implements Processor {
 		switch( getExportDocType( doc.symbol ) ) {
 			case "const":
 				let host:Host = new Host();
-					let exportDoc = new ConstExportDoc(host, doc.moduleDoc, doc.symbol)
-					exportDoc.id = `${exportDoc.id}Const`
-					doc.constants = [exportDoc];					
-					this.docs.push(exportDoc);
-					doc.constants[0].members = [];
-					try {
-						let container = doc.constants[0].variableDeclaration.type.nextContainer;
-						let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, container.symbol, container);
-						doc.constants[0].members.push(methodDoc)
-					} catch {
-						let container = doc.constants[0].variableDeclaration.initializer.nextContainer;
-						let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, container.symbol, container);
-						doc.constants[0].members.push(methodDoc)
-					}
-				// Add correct content in interface description
+				let index = this.docs.indexOf(doc.constants[0])
+				let numberOfMembers = doc.constants[0].members.length;
+				this.docs.splice(index, numberOfMembers+1);
 				doc.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! );
 				break;
 			default:
