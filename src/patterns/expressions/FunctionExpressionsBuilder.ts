@@ -79,6 +79,13 @@ const enum Functions {
 	REGEX = "REGEX",
 	EXISTS = "EXISTS ",
 	NOT_EXISTS = "NOT EXISTS ",
+	COUNT = "COUNT",
+	SUM = "SUM",
+	MIN = "MIN",
+	MAX = "MAX",
+	AVG = "AVG",
+	SAMPLE = "SAMPLE",
+	GROUP_CONCAT = "GROUP_CONCAT",
 }
 
 
@@ -723,6 +730,171 @@ export interface FunctionExpressionsBuilder {
 	 * for more information.
 	 */
 	customDistinct( resource:Resource | string, ...args:(Expression | SupportedNativeTypes)[] ):FunctionExpression;
+
+	/**
+	 * Creates an {@link Expression} that counts the number of times
+	 * the given expression has a solution over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggCount}
+	 * for more information.
+	 *
+	 * @param expression - Expression to be counted
+	 */
+	count( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+	/**
+	 * Creates an {@link Expression} that counts the number of times
+	 * the given expression has a bound for every distinct sequence over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggCount}
+	 * for more information.
+	 *
+	 * @param expression - Expression to be counted
+	 */
+	countDistinct( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+	/**
+	 * Creates an {@link Expression} that counts the number of solutions
+	 * over the group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggCount}
+	 * for more information.
+	 */
+	countAll():FunctionExpression;
+	/**
+	 * Creates an {@link Expression} that counts the number of distinct
+	 * solution sequences over the group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggCount}
+	 * for more information.
+	 */
+	countAllDistinct():FunctionExpression;
+
+	/**
+	 * Creates an {@link Expression} that returns the value of the sum
+	 * of the given expression's values over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggSum}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values to be summed.
+	 */
+	sum( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+	/**
+	 * Creates an {@link Expression} that returns the value of the sum
+	 * of the given expression's values for every distinct sequence over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggSum}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values to be summed.
+	 */
+	sumDistinct( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+
+	/**
+	 * Creates an {@link Expression} that returns the average value
+	 * of the given expression's values over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggAvg}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values to calculate its average.
+	 */
+	avg( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+	/**
+	 * Creates an {@link Expression} that returns the average value
+	 * of the given expression's values for every distinct sequence over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggAvg}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values to calculate its average.
+	 */
+	avgDistinct( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+
+	/**
+	 * Creates an {@link Expression} that returns the minimum value
+	 * of the given expression's values over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggMin}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values to calculate its minimum.
+	 */
+	min( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+	/**
+	 * Creates an {@link Expression} that returns the minimum value
+	 * of the given expression's values for every distinct sequence over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggMin}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values to calculate its minimum.
+	 */
+	minDistinct( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+
+	/**
+	 * Creates an {@link Expression} that returns the maximum value
+	 * of the given expression's values over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggMax}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values to calculate its maximum.
+	 */
+	max( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+	/**
+	 * Creates an {@link Expression} that returns the maximum value
+	 * of the given expression's values for every distinct sequence over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggMax}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values to calculate its maximum.
+	 */
+	maxDistinct( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+
+	/**
+	 * Creates an {@link Expression} that returns the string concatenation
+	 * of the given expression's values over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values to calculate its maximum.
+	 * @param separator - Optional separator character used in the concatenation, where by default its a space.
+	 */
+	groupConcat( expression:Expression | SupportedNativeTypes, separator?:string ):FunctionExpression;
+	/**
+	 * Creates an {@link Expression} that returns the string concatenation
+	 * of the given expression's values for every distinct sequence over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values to calculate its maximum.
+	 * @param separator - Optional separator character used in the concatenation, where by default its a space.
+	 */
+	groupConcatDistinct( expression:Expression | SupportedNativeTypes, separator?:string ):FunctionExpression;
+
+	/**
+	 * Creates an {@link Expression} that returns an arbitrary value
+	 * from the given expression's values over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggSample}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values from where to select the value.
+	 */
+	sample( expression:Expression | SupportedNativeTypes ):FunctionExpression;
+	/**
+	 * Creates an {@link Expression} that returns an arbitrary value
+	 * from the given expression's values for every distinct sequence over the solution group.
+	 *
+	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggSample}
+	 * for more information.
+	 *
+	 * @param expression - Expression of the values from where to select the value.
+	 */
+	sampleDistinct( expression:Expression | SupportedNativeTypes ):FunctionExpression;
 }
 
 
@@ -747,8 +919,10 @@ function _getExpression( container:Container<undefined>, name:Functions | IRITok
 	return Expression.createFrom( newContainer, {} )
 }
 
-function _getExpressionWithList( container:Container<undefined>, name:Functions | IRIToken, list:(Expression | SupportedNativeTypes | undefined)[], limit?:number, transformer?:Transformer, distinct?:boolean ) {
-	const listTokens:ExpressionToken[] = list
+function _getExpressionTokens( expressions?:(Expression | SupportedNativeTypes | undefined)[], limit?:number, transformer?:Transformer ):ExpressionToken[] | undefined {
+	if( expressions === undefined ) return;
+
+	return expressions
 		.slice( 0, limit )
 		.filter( _ => _ !== undefined )
 		.map( arg => {
@@ -765,32 +939,38 @@ function _getExpressionWithList( container:Container<undefined>, name:Functions 
 
 			throw new Error( "Invalid argument provided to the function." );
 		} );
-
-	const expressionList = new ExpressionListToken( listTokens, distinct );
-
-	return _getExpression( container, name, expressionList );
 }
 
-function _getExpressionWithPatterns( container:Container<undefined>, name:Functions, patterns:Pattern[] ) {
-	const patternTokens = patterns.map( _ => _.getPattern() );
-
-	const groupPatternToken = new GroupPatternToken()
-		.addPattern( ...patternTokens );
-
-	return _getExpression( container, name, groupPatternToken );
+function _getExpressionList( { expressions, transformer, limit, distinct, separator }:{
+	expressions?:(Expression | SupportedNativeTypes | undefined)[];
+	transformer?:Transformer;
+	limit?:number;
+	distinct?:boolean;
+	separator?:string;
+} ) {
+	const listTokens = _getExpressionTokens( expressions, limit, transformer );
+	return new ExpressionListToken( listTokens, distinct, separator );
 }
 
-function getNamedExpressionFn( container:Container<undefined>, name:Functions, limit?:number, transformer?:Transformer ) {
-	return ( ...expressions:(Expression | SupportedNativeTypes | undefined)[] ) =>
-		_getExpressionWithList( container, name, expressions, limit, transformer );
-}
 
 function getPatternExpressionFn( container:Container<undefined>, name:Functions ) {
 	return ( firstPattern?:Pattern | Pattern[], ...restPatterns:Pattern[] ) => {
 		const patterns = Array.isArray( firstPattern ) ? firstPattern
 			: !firstPattern ? [] : [ firstPattern, ...restPatterns ];
 
-		return _getExpressionWithPatterns( container, name, patterns );
+		const patternTokens = patterns.map( _ => _.getPattern() );
+
+		const groupPatternToken = new GroupPatternToken()
+			.addPattern( ...patternTokens );
+
+		return _getExpression( container, name, groupPatternToken );
+	}
+}
+
+function getNamedExpressionFn( container:Container<undefined>, name:Functions, limit?:number, transformer?:Transformer, distinct?:boolean ) {
+	return ( ...expressions:(Expression | SupportedNativeTypes | undefined)[] ) => {
+		const list = _getExpressionList( { expressions, transformer, limit, distinct } );
+		return _getExpression( container, name, list );
 	}
 }
 
@@ -800,26 +980,42 @@ function getIRIExpressionFn( container:Container<undefined>, transformer:Transfo
 			? container.iriResolver.resolve( resource )
 			: resource.getSubject();
 
-		return _getExpressionWithList( container, iri, expressions, undefined, transformer, distinct );
+		const list = _getExpressionList( { expressions, transformer, distinct } );
+		return _getExpression( container, iri, list );
 	}
 }
 
 function getRegexExpressionFn( container:Container<undefined>, name:Functions, limit:number, transformer?:Transformer ) {
 	return ( ...rawExpressions:(Expression | SupportedNativeTypes | RegExp | undefined)[] ) => {
 		let flags:string | undefined;
-		const expressions:(Expression | SupportedNativeTypes | undefined)[] = rawExpressions.map( value => {
-			if( !(value instanceof RegExp) ) return value;
+		const expressions:(Expression | SupportedNativeTypes | undefined)[] = rawExpressions
+			.map( value => {
+				if( !(value instanceof RegExp) ) return value;
 
-			flags = value.flags;
-			return value.source;
-		} );
+				flags = value.flags;
+				return value.source;
+			} );
 
 		if( flags ) expressions.push( flags );
 
-		return _getExpressionWithList( container, name, expressions, limit, transformer );
+		const list = _getExpressionList( { expressions, transformer, limit } );
+		return _getExpression( container, name, list );
 	}
 }
 
+function getAllAggregatorFn( container:Container<undefined>, name:Functions, distinct?:boolean ) {
+	return () => {
+		const list = _getExpressionList( { distinct } );
+		return _getExpression( container, name, list );
+	}
+}
+
+function getSeparatorAggregatorFn( container:Container<undefined>, name:Functions, transformer?:Transformer, distinct?:boolean ) {
+	return ( expression:Expression | SupportedNativeTypes, separator?:string ) => {
+		const list = _getExpressionList( { expressions: [ expression ], transformer, distinct, separator } );
+		return _getExpression( container, name, list );
+	}
+}
 
 /**
  * Constant with the utils for {@link FunctionExpressionsBuilder} objects.
@@ -901,6 +1097,22 @@ export const FunctionExpressionsBuilder:{
 			sha512: getNamedExpressionFn( container, Functions.SHA512, 1, generalTransformer ),
 			custom: getIRIExpressionFn( container, generalTransformer ),
 			customDistinct: getIRIExpressionFn( container, generalTransformer, true ),
+			count: getNamedExpressionFn( container, Functions.COUNT, 1, generalTransformer ),
+			countDistinct: getNamedExpressionFn( container, Functions.COUNT, 1, generalTransformer, true ),
+			countAll: getAllAggregatorFn( container, Functions.COUNT ),
+			countAllDistinct: getAllAggregatorFn( container, Functions.COUNT, true ),
+			sum: getNamedExpressionFn( container, Functions.SUM, 1, generalTransformer ),
+			sumDistinct: getNamedExpressionFn( container, Functions.SUM, 1, generalTransformer, true ),
+			avg: getNamedExpressionFn( container, Functions.AVG, 1, generalTransformer ),
+			avgDistinct: getNamedExpressionFn( container, Functions.AVG, 1, generalTransformer, true ),
+			min: getNamedExpressionFn( container, Functions.MIN, 1, generalTransformer ),
+			minDistinct: getNamedExpressionFn( container, Functions.MIN, 1, generalTransformer, true ),
+			max: getNamedExpressionFn( container, Functions.MAX, 1, generalTransformer ),
+			maxDistinct: getNamedExpressionFn( container, Functions.MAX, 1, generalTransformer, true ),
+			groupConcat: getSeparatorAggregatorFn( container, Functions.GROUP_CONCAT, generalTransformer ),
+			groupConcatDistinct: getSeparatorAggregatorFn( container, Functions.GROUP_CONCAT, generalTransformer, true ),
+			sample: getNamedExpressionFn( container, Functions.SAMPLE, 1, generalTransformer ),
+			sampleDistinct: getNamedExpressionFn( container, Functions.SAMPLE, 1, generalTransformer, true ),
 		} )
 	},
 };

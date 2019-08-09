@@ -42,6 +42,11 @@ describe( "ExpressionListToken", ():void => {
 			expect( token.distinct ).toBe( true );
 		} );
 
+		it( "should initialize separator when provided", ():void => {
+			const token:ExpressionListToken = new ExpressionListToken( [], undefined, ", " );
+			expect( token.separator ).toBe( ", " );
+		} );
+
 	} );
 
 	describe( "ExpressionListToken.toString", ():void => {
@@ -64,65 +69,111 @@ describe( "ExpressionListToken", ():void => {
 		it( "should compact print the list when provided", ():void => {
 			const token:ExpressionListToken = new ExpressionListToken( [] );
 
-			token.expressions.push( new VariableToken( "variable" ) );
+			token.expressions!.push( new VariableToken( "variable" ) );
 			expect( token.toString() ).toBe( `(?variable)` );
 
-			token.expressions.push( new IRIRefToken( "http://example.com/" ) );
+			token.expressions!.push( new IRIRefToken( "http://example.com/" ) );
 			expect( token.toString() ).toBe( `(?variable,<http://example.com/>)` );
 
-			token.expressions.push( new PrefixedNameToken( "ex:resource" ) );
+			token.expressions!.push( new PrefixedNameToken( "ex:resource" ) );
 			expect( token.toString() ).toBe( `(?variable,<http://example.com/>,ex:resource)` );
 
-			token.expressions.push( new LiteralToken( "literal" ) );
+			token.expressions!.push( new LiteralToken( "literal" ) );
 			expect( token.toString() ).toBe( `(?variable,<http://example.com/>,ex:resource,"literal")` );
 		} );
 
 		it( "should pretty print the list when provided", ():void => {
 			const token:ExpressionListToken = new ExpressionListToken( [] );
 
-			token.expressions.push( new VariableToken( "variable" ) );
+			token.expressions!.push( new VariableToken( "variable" ) );
 			expect( token.toString( 0 ) ).toBe( `( ?variable )` );
 
-			token.expressions.push( new IRIRefToken( "http://example.com/" ) );
+			token.expressions!.push( new IRIRefToken( "http://example.com/" ) );
 			expect( token.toString( 0 ) ).toBe( `( ?variable, <http://example.com/> )` );
 
-			token.expressions.push( new PrefixedNameToken( "ex:resource" ) );
+			token.expressions!.push( new PrefixedNameToken( "ex:resource" ) );
 			expect( token.toString( 0 ) ).toBe( `( ?variable, <http://example.com/>, ex:resource )` );
 
-			token.expressions.push( new LiteralToken( "literal" ) );
+			token.expressions!.push( new LiteralToken( "literal" ) );
 			expect( token.toString( 0 ) ).toBe( `( ?variable, <http://example.com/>, ex:resource, "literal" )` );
 		} );
 
 		it( "should compact print the list when provided and distinct set", ():void => {
 			const token:ExpressionListToken = new ExpressionListToken( [], true );
 
-			token.expressions.push( new VariableToken( "variable" ) );
+			token.expressions!.push( new VariableToken( "variable" ) );
 			expect( token.toString() ).toBe( `(DISTINCT ?variable)` );
 
-			token.expressions.push( new IRIRefToken( "http://example.com/" ) );
+			token.expressions!.push( new IRIRefToken( "http://example.com/" ) );
 			expect( token.toString() ).toBe( `(DISTINCT ?variable,<http://example.com/>)` );
 
-			token.expressions.push( new PrefixedNameToken( "ex:resource" ) );
+			token.expressions!.push( new PrefixedNameToken( "ex:resource" ) );
 			expect( token.toString() ).toBe( `(DISTINCT ?variable,<http://example.com/>,ex:resource)` );
 
-			token.expressions.push( new LiteralToken( "literal" ) );
+			token.expressions!.push( new LiteralToken( "literal" ) );
 			expect( token.toString() ).toBe( `(DISTINCT ?variable,<http://example.com/>,ex:resource,"literal")` );
 		} );
 
 		it( "should pretty print the list when provided and distinct set", ():void => {
 			const token:ExpressionListToken = new ExpressionListToken( [], true );
 
-			token.expressions.push( new VariableToken( "variable" ) );
+			token.expressions!.push( new VariableToken( "variable" ) );
 			expect( token.toString( 0 ) ).toBe( `( DISTINCT ?variable )` );
 
-			token.expressions.push( new IRIRefToken( "http://example.com/" ) );
+			token.expressions!.push( new IRIRefToken( "http://example.com/" ) );
 			expect( token.toString( 0 ) ).toBe( `( DISTINCT ?variable, <http://example.com/> )` );
 
-			token.expressions.push( new PrefixedNameToken( "ex:resource" ) );
+			token.expressions!.push( new PrefixedNameToken( "ex:resource" ) );
 			expect( token.toString( 0 ) ).toBe( `( DISTINCT ?variable, <http://example.com/>, ex:resource )` );
 
-			token.expressions.push( new LiteralToken( "literal" ) );
+			token.expressions!.push( new LiteralToken( "literal" ) );
 			expect( token.toString( 0 ) ).toBe( `( DISTINCT ?variable, <http://example.com/>, ex:resource, "literal" )` );
+		} );
+
+
+		it( "should compact print ALL when no expressions", ():void => {
+			const token:ExpressionListToken = new ExpressionListToken();
+
+			expect( token.toString() ).toBe( `(*)` );
+		} );
+
+		it( "should pretty print ALL when no expressions", ():void => {
+			const token:ExpressionListToken = new ExpressionListToken();
+
+			expect( token.toString( 0 ) ).toBe( `( * )` );
+		} );
+
+		it( "should compact print ALL when no expressions and distinct", ():void => {
+			const token:ExpressionListToken = new ExpressionListToken( undefined, true );
+
+			expect( token.toString() ).toBe( `(DISTINCT *)` );
+		} );
+
+		it( "should pretty print ALL when no expressions and distinct", ():void => {
+			const token:ExpressionListToken = new ExpressionListToken( undefined, true );
+
+			expect( token.toString( 0 ) ).toBe( `( DISTINCT * )` );
+		} );
+
+
+		it( "should compact print the list with separator", ():void => {
+			const token:ExpressionListToken = new ExpressionListToken( [ new VariableToken( "variable" ) ], undefined, "," );
+			expect( token.toString() ).toBe( `(?variable; SEPARATOR=",")` );
+		} );
+
+		it( "should pretty print the list with separator", ():void => {
+			const token:ExpressionListToken = new ExpressionListToken( [ new VariableToken( "variable" ) ], undefined, "," );
+			expect( token.toString( 0 ) ).toBe( `( ?variable; SEPARATOR="," )` );
+		} );
+
+		it( "should compact print the list with distinct and separator", ():void => {
+			const token:ExpressionListToken = new ExpressionListToken( [ new VariableToken( "variable" ) ], true, "," );
+			expect( token.toString() ).toBe( `(DISTINCT ?variable; SEPARATOR=",")` );
+		} );
+
+		it( "should pretty print the list with distinct and separator", ():void => {
+			const token:ExpressionListToken = new ExpressionListToken( [ new VariableToken( "variable" ) ], true, "," );
+			expect( token.toString( 0 ) ).toBe( `( DISTINCT ?variable; SEPARATOR="," )` );
 		} );
 
 	} );

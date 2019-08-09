@@ -114,6 +114,22 @@ describe( "FunctionExpressionsBuilder", () => {
 				sha512: jasmine.any( Function ),
 				custom: jasmine.any( Function ),
 				customDistinct: jasmine.any( Function ),
+				count: jasmine.any( Function ),
+				countDistinct: jasmine.any( Function ),
+				countAll: jasmine.any( Function ),
+				countAllDistinct: jasmine.any( Function ),
+				sum: jasmine.any( Function ),
+				sumDistinct: jasmine.any( Function ),
+				avg: jasmine.any( Function ),
+				avgDistinct: jasmine.any( Function ),
+				min: jasmine.any( Function ),
+				minDistinct: jasmine.any( Function ),
+				max: jasmine.any( Function ),
+				maxDistinct: jasmine.any( Function ),
+				groupConcat: jasmine.any( Function ),
+				groupConcatDistinct: jasmine.any( Function ),
+				sample: jasmine.any( Function ),
+				sampleDistinct: jasmine.any( Function ),
 			} );
 		} );
 
@@ -1989,6 +2005,502 @@ describe( "FunctionExpressionsBuilder", () => {
 		it( "should create function using two natives", () => {
 			const expression = builder.customDistinct( "ex:customFn", "ex:resource", "abc" );
 			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn( DISTINCT ex:resource, \"abc\" )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.count", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.count ).toBeDefined();
+			expect( builder.count ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.count( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.count( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.count as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.countDistinct", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.countDistinct ).toBeDefined();
+			expect( builder.countDistinct ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.countDistinct( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.countDistinct( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.countDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.countAll", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.countAll ).toBeDefined();
+			expect( builder.countAll ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function", () => {
+			const expression = builder.countAll();
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( * )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.countAll as GenericFn)( "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( * )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.countAllDistinct", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.countAllDistinct ).toBeDefined();
+			expect( builder.countAllDistinct ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function", () => {
+			const expression = builder.countAllDistinct();
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT * )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.countAllDistinct as GenericFn)( "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT * )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.sum", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.sum ).toBeDefined();
+			expect( builder.sum ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.sum( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.sum( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.sum as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.sumDistinct", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.sumDistinct ).toBeDefined();
+			expect( builder.sumDistinct ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.sumDistinct( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.sumDistinct( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.sumDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.avg", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.avg ).toBeDefined();
+			expect( builder.avg ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.avg( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.avg( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.avg as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.avgDistinct", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.avgDistinct ).toBeDefined();
+			expect( builder.avgDistinct ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.avgDistinct( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.avgDistinct( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.avgDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.min", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.min ).toBeDefined();
+			expect( builder.min ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.min( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.min( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.min as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.minDistinct", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.minDistinct ).toBeDefined();
+			expect( builder.minDistinct ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.minDistinct( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.minDistinct( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.minDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.max", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.max ).toBeDefined();
+			expect( builder.max ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.max( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.max( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.max as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.maxDistinct", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.maxDistinct ).toBeDefined();
+			expect( builder.maxDistinct ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.maxDistinct( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.maxDistinct( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.maxDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.groupConcat", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.groupConcat ).toBeDefined();
+			expect( builder.groupConcat ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.groupConcat( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.groupConcat( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( ?foo )" );
+		} );
+
+		it( "should create function with expression and separator", () => {
+			const expression = builder.groupConcat( triplesBuilder.var( "foo" ), ", " );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( ?foo; SEPARATOR=", " )` );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.groupConcat as GenericFn)( triplesBuilder.var( "foo" ), ", ", "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( ?foo; SEPARATOR=", " )` );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.groupConcatDistinct", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.groupConcatDistinct ).toBeDefined();
+			expect( builder.groupConcatDistinct ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.groupConcatDistinct( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( DISTINCT ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.groupConcatDistinct( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( DISTINCT ?foo )" );
+		} );
+
+		it( "should create function with expression and separator", () => {
+			const expression = builder.groupConcatDistinct( triplesBuilder.var( "foo" ), ", " );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( DISTINCT ?foo; SEPARATOR=", " )` );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.groupConcatDistinct as GenericFn)( triplesBuilder.var( "foo" ), ", ", "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( DISTINCT ?foo; SEPARATOR=", " )` );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.sample", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.sample ).toBeDefined();
+			expect( builder.sample ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.sample( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.sample( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.sample as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( ?foo )" );
+		} );
+
+	} );
+
+	describe( "FunctionExpressionsBuilder.sampleDistinct", () => {
+
+		let builder:FunctionExpressionsBuilder;
+		beforeEach( () => {
+			builder = FunctionExpressionsBuilder
+				.createFrom( container, {} );
+		} );
+
+		it( "should exists", () => {
+			expect( builder.sampleDistinct ).toBeDefined();
+			expect( builder.sampleDistinct ).toEqual( jasmine.any( Function ) );
+		} );
+
+		it( "should create function with native", () => {
+			const expression = builder.sampleDistinct( "ex:resource" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ex:resource )" );
+		} );
+
+		it( "should create function with expression", () => {
+			const expression = builder.sampleDistinct( triplesBuilder.var( "foo" ) );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ?foo )" );
+		} );
+
+
+		it( "should not add extra parameters", () => {
+			const expression = (builder.sampleDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
+			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ?foo )" );
 		} );
 
 	} );
