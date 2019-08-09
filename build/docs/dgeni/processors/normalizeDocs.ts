@@ -130,6 +130,7 @@ export class NormalizeDocs implements Processor {
 				let host:Host = new Host();
 				let index = this.docs.indexOf(doc.constants[0])
 				let numberOfMembers = doc.constants[0].members.length;
+				doc.constants[0].members.forEach(member => {this._normalizeParams(member)})
 				this.docs.splice(index, numberOfMembers+1);
 				doc.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! );
 				break;
