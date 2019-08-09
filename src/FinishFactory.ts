@@ -18,5 +18,4 @@ import { QueryToken } from "./tokens/QueryToken";
  * custom functionality for the custom factory.
  */
  // TODO: Fix link syntax
- // TODO: Fix Type Alias '<T extends Interface>' not showing in dgeni
 export type FinishFactory<T extends FinishClause> = Factory<Container<QueryToken>, T>;

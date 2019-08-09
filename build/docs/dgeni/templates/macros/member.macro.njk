@@ -36,7 +36,7 @@
 
 {% macro type( typeDoc ) %}
     {% set typeString %}
-        type {{ typeDoc.name }} = {{ typeDoc.typeDefinition }}
+        type {{ typeDoc.name }} {{typeDoc.typeParameters}} = {{ typeDoc.typeDefinition }}
     {% endset %}
     {{ base( typeString, typeDoc ) }}
 {% endmacro %}
