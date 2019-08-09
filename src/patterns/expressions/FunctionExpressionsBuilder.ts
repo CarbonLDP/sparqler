@@ -82,7 +82,10 @@ const enum Functions {
 }
 
 
-export interface FunctionsBuilder {
+/**
+ * Builder for function expressions.
+ */
+export interface FunctionExpressionsBuilder {
 	/**
 	 * Creates an {@link Expression} that returns true if {@param variable}
 	 * is bound to a value.
@@ -819,24 +822,24 @@ function getRegexExpressionFn( container:Container<undefined>, name:Functions, l
 
 
 /**
- * Constant with the utils for {@link FunctionsBuilder} objects.
+ * Constant with the utils for {@link FunctionExpressionsBuilder} objects.
  */
-export const FunctionsBuilder:{
+export const FunctionExpressionsBuilder:{
 	/**
-	 * Factory function that allows to crete a {@link FunctionsBuilder}
+	 * Factory function that allows to crete a {@link FunctionExpressionsBuilder}
 	 * from the {@param object} provided.
 	 *
 	 * @param container The related container with the data for the
-	 * {@link FunctionsBuilder} statement.
+	 * {@link FunctionExpressionsBuilder} statement.
 	 * @param object The base base from where to create the
-	 * {@link FunctionsBuilder} statement.
+	 * {@link FunctionExpressionsBuilder} statement.
 	 *
-	 * @return The {@link FunctionsBuilder} statement created from the
+	 * @return The {@link FunctionExpressionsBuilder} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<O extends object>( container:Container<undefined>, object:O ):O & FunctionsBuilder;
+	createFrom<O extends object>( container:Container<undefined>, object:O ):O & FunctionExpressionsBuilder;
 } = {
-	createFrom<O extends object>( container:Container<undefined>, object:O ):O & FunctionsBuilder {
+	createFrom<O extends object>( container:Container<undefined>, object:O ):O & FunctionExpressionsBuilder {
 		const iriTransformer = ( iri:string ):IRIToken => container.iriResolver.resolve( iri );
 		const generalTransformer = ( value:SupportedNativeTypes ):ExpressionToken => typeof value === "string" && isAbsolute( value )
 			? iriTransformer( value ) : literalTransformer( value );

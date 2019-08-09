@@ -1,20 +1,24 @@
 import { Container } from "../../data/Container";
 import { IRIResolver } from "../../data/IRIResolver";
+
 import { XSD } from "../../utils/XSD";
+
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
+
 import { TriplePatternsBuilder } from "../triplePatterns/TriplePatternsBuilder";
+
 import { Expression } from "./Expression";
 import { FunctionExpression } from "./FunctionExpression";
-import { FunctionsBuilder } from "./FunctionsBuilder";
+import { FunctionExpressionsBuilder } from "./FunctionExpressionsBuilder";
 
 
 type GenericFn = ( ...expressions:(Expression | SupportedNativeTypes)[] ) => FunctionExpression;
 
-describe( "FunctionsBuilder", () => {
+describe( "FunctionExpressionsBuilder", () => {
 
 	it( "should exists", () => {
-		expect( FunctionsBuilder ).toBeDefined();
-		expect( FunctionsBuilder ).toEqual( jasmine.any( Object ) );
+		expect( FunctionExpressionsBuilder ).toBeDefined();
+		expect( FunctionExpressionsBuilder ).toEqual( jasmine.any( Object ) );
 	} );
 
 	let container:Container<undefined>;
@@ -33,24 +37,24 @@ describe( "FunctionsBuilder", () => {
 	} );
 
 
-	describe( "FunctionsBuilder.createFrom", () => {
+	describe( "FunctionExpressionsBuilder.createFrom", () => {
 
 		it( "should exists", () => {
-			expect( FunctionsBuilder.createFrom ).toBeDefined();
-			expect( FunctionsBuilder.createFrom ).toEqual( jasmine.any( Function ) );
+			expect( FunctionExpressionsBuilder.createFrom ).toBeDefined();
+			expect( FunctionExpressionsBuilder.createFrom ).toEqual( jasmine.any( Function ) );
 		} );
 
 		it( "should extend the object provided", () => {
 			const myObject:{} = {};
-			const finishPattern:FunctionsBuilder = FunctionsBuilder
+			const finishPattern:FunctionExpressionsBuilder = FunctionExpressionsBuilder
 				.createFrom( container, myObject );
 
 			expect( myObject ).toBe( finishPattern );
 		} );
 
 
-		it( "should create a FunctionsBuilder object", () => {
-			const finishPattern:FunctionsBuilder = FunctionsBuilder
+		it( "should create a FunctionExpressionsBuilder object", () => {
+			const finishPattern:FunctionExpressionsBuilder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 
 			expect( finishPattern ).toEqual( {
@@ -116,11 +120,11 @@ describe( "FunctionsBuilder", () => {
 	} );
 
 
-	describe( "FunctionsBuilder.bound", () => {
+	describe( "FunctionExpressionsBuilder.bound", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -150,11 +154,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.if", () => {
+	describe( "FunctionExpressionsBuilder.if", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -182,11 +186,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.coalesce", () => {
+	describe( "FunctionExpressionsBuilder.coalesce", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -203,11 +207,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.exists", () => {
+	describe( "FunctionExpressionsBuilder.exists", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -254,11 +258,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.notExists", () => {
+	describe( "FunctionExpressionsBuilder.notExists", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -305,11 +309,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.sameTerm", () => {
+	describe( "FunctionExpressionsBuilder.sameTerm", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -337,11 +341,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.isIRI", () => {
+	describe( "FunctionExpressionsBuilder.isIRI", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -369,11 +373,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.isURI", () => {
+	describe( "FunctionExpressionsBuilder.isURI", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -401,11 +405,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.isBlank", () => {
+	describe( "FunctionExpressionsBuilder.isBlank", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -433,11 +437,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.isLiteral", () => {
+	describe( "FunctionExpressionsBuilder.isLiteral", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -465,11 +469,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.isNumeric", () => {
+	describe( "FunctionExpressionsBuilder.isNumeric", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -497,11 +501,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.str", () => {
+	describe( "FunctionExpressionsBuilder.str", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -529,11 +533,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.lang", () => {
+	describe( "FunctionExpressionsBuilder.lang", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -561,11 +565,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.datatype", () => {
+	describe( "FunctionExpressionsBuilder.datatype", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -593,11 +597,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.iri", () => {
+	describe( "FunctionExpressionsBuilder.iri", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -625,11 +629,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.uri", () => {
+	describe( "FunctionExpressionsBuilder.uri", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -657,11 +661,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.bnode", () => {
+	describe( "FunctionExpressionsBuilder.bnode", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -689,11 +693,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.strDT", () => {
+	describe( "FunctionExpressionsBuilder.strDT", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -721,11 +725,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.strLang", () => {
+	describe( "FunctionExpressionsBuilder.strLang", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -753,11 +757,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.uuid", () => {
+	describe( "FunctionExpressionsBuilder.uuid", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -780,11 +784,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.strUUID", () => {
+	describe( "FunctionExpressionsBuilder.strUUID", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -807,11 +811,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.strLen", () => {
+	describe( "FunctionExpressionsBuilder.strLen", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -839,11 +843,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.substr", () => {
+	describe( "FunctionExpressionsBuilder.substr", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -881,11 +885,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.uCase", () => {
+	describe( "FunctionExpressionsBuilder.uCase", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -913,11 +917,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.lCase", () => {
+	describe( "FunctionExpressionsBuilder.lCase", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -945,11 +949,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.strStarts", () => {
+	describe( "FunctionExpressionsBuilder.strStarts", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -977,11 +981,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.strEnds", () => {
+	describe( "FunctionExpressionsBuilder.strEnds", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1009,11 +1013,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.contains", () => {
+	describe( "FunctionExpressionsBuilder.contains", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1041,11 +1045,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.strBefore", () => {
+	describe( "FunctionExpressionsBuilder.strBefore", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1073,11 +1077,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.strAfter", () => {
+	describe( "FunctionExpressionsBuilder.strAfter", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1105,11 +1109,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.encodeForUri", () => {
+	describe( "FunctionExpressionsBuilder.encodeForUri", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1137,11 +1141,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.concat", () => {
+	describe( "FunctionExpressionsBuilder.concat", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1163,11 +1167,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.langMatches", () => {
+	describe( "FunctionExpressionsBuilder.langMatches", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1195,11 +1199,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.regex", () => {
+	describe( "FunctionExpressionsBuilder.regex", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1247,11 +1251,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.replace", () => {
+	describe( "FunctionExpressionsBuilder.replace", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1299,11 +1303,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.abs", () => {
+	describe( "FunctionExpressionsBuilder.abs", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1331,11 +1335,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.round", () => {
+	describe( "FunctionExpressionsBuilder.round", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1363,11 +1367,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.ceil", () => {
+	describe( "FunctionExpressionsBuilder.ceil", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1395,11 +1399,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.floor", () => {
+	describe( "FunctionExpressionsBuilder.floor", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1427,11 +1431,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.rand", () => {
+	describe( "FunctionExpressionsBuilder.rand", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1454,11 +1458,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.now", () => {
+	describe( "FunctionExpressionsBuilder.now", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1481,11 +1485,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.year", () => {
+	describe( "FunctionExpressionsBuilder.year", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1513,11 +1517,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.month", () => {
+	describe( "FunctionExpressionsBuilder.month", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1545,11 +1549,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.day", () => {
+	describe( "FunctionExpressionsBuilder.day", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1577,11 +1581,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.hours", () => {
+	describe( "FunctionExpressionsBuilder.hours", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1609,11 +1613,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.minutes", () => {
+	describe( "FunctionExpressionsBuilder.minutes", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1641,11 +1645,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.seconds", () => {
+	describe( "FunctionExpressionsBuilder.seconds", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1673,11 +1677,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.timezone", () => {
+	describe( "FunctionExpressionsBuilder.timezone", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1705,11 +1709,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.tz", () => {
+	describe( "FunctionExpressionsBuilder.tz", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1737,11 +1741,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.md5", () => {
+	describe( "FunctionExpressionsBuilder.md5", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1769,11 +1773,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.sha1", () => {
+	describe( "FunctionExpressionsBuilder.sha1", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1801,11 +1805,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.sha256", () => {
+	describe( "FunctionExpressionsBuilder.sha256", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1833,11 +1837,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.sha384", () => {
+	describe( "FunctionExpressionsBuilder.sha384", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1865,11 +1869,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.sha512", () => {
+	describe( "FunctionExpressionsBuilder.sha512", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1897,11 +1901,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.custom", () => {
+	describe( "FunctionExpressionsBuilder.custom", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
@@ -1943,11 +1947,11 @@ describe( "FunctionsBuilder", () => {
 
 	} );
 
-	describe( "FunctionsBuilder.customDistinct", () => {
+	describe( "FunctionExpressionsBuilder.customDistinct", () => {
 
-		let builder:FunctionsBuilder;
+		let builder:FunctionExpressionsBuilder;
 		beforeEach( () => {
-			builder = FunctionsBuilder
+			builder = FunctionExpressionsBuilder
 				.createFrom( container, {} );
 		} );
 
