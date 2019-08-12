@@ -1,4 +1,4 @@
-import { PrimaryExpressionToken } from "./PrimaryExpressionToken";
+import { RelationalExpressionToken } from "./RelationalExpressionToken";
 
 
 /**
@@ -6,4 +6,4 @@ import { PrimaryExpressionToken } from "./PrimaryExpressionToken";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rExpression}
  */
-export type ExpressionToken = PrimaryExpressionToken;
+export type ExpressionToken = RelationalExpressionToken;
