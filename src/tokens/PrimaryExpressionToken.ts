@@ -1,3 +1,4 @@
+import { BracketedExpressionToken } from "./BracketedExpressionToken";
 import { FunctionToken } from "./FunctionToken";
 import { IRIToken } from "./IRIToken";
 import { LiteralToken } from "./LiteralToken";
@@ -10,4 +11,10 @@ import { VariableToken } from "./VariableToken";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rPrimaryExpression}
  */
-export type PrimaryExpressionToken = FunctionToken | VariableToken | IRIToken | RDFLiteralToken | LiteralToken;
+export type PrimaryExpressionToken =
+	| BracketedExpressionToken
+	| FunctionToken
+	| VariableToken
+	| IRIToken
+	| RDFLiteralToken
+	| LiteralToken;
