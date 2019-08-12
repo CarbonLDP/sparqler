@@ -6,7 +6,7 @@ import { VariableOrIRIToken } from "./VariableOrIRIToken";
 /**
  * The token of the `SERVICE` statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rServiceGraphPattern}
+ * @see https://www.w3.org/TR/sparql11-query/#rServiceGraphPattern
  */
 export class ServicePatternToken implements TokenNode {
 	readonly token:"servicePattern" = "servicePattern";

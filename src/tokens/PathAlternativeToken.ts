@@ -4,7 +4,7 @@ import { PathInAlternativeToken } from "./PathInAlternativeToken";
 /**
  * Token for the alternative paths statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rPathAlternative}
+ * @see https://www.w3.org/TR/sparql11-query/#rPathAlternative
  */
 export class PathAlternativeToken<T extends PathInAlternativeToken = PathInAlternativeToken> {
 	readonly token:"pathAlternative" = "pathAlternative";

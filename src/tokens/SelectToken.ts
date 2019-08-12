@@ -6,7 +6,7 @@ import { SharedSelectToken } from "./SharedSelectToken";
 /**
  * The token of the `SELECT` query statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rSelectQuery}
+ * @see https://www.w3.org/TR/sparql11-query/#rSelectQuery
  */
 export class SelectToken extends SharedSelectToken {
 	readonly token:"select" = "select";

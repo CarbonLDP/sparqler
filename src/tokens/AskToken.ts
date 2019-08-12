@@ -6,7 +6,7 @@ import { SharedQueryClauseToken } from "./SharedQueryClauseToken";
 /**
  * The token of the `ASK` query statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rAskQuery}
+ * @see https://www.w3.org/TR/sparql11-query/#rAskQuery
  */
 export class AskToken extends SharedQueryClauseToken {
 	readonly token:"ask" = "ask";

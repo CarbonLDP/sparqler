@@ -12,7 +12,7 @@ import { Pattern } from "../Pattern";
  * Interface with the methods available to finish a sub-query.
  *
  * Extends {@link FinishClause} to be compatible with the clauses
- * system, and {@link Pattern} with the {@link Pattern.getPattern}
+ * system, and {@link Pattern} with the {@link Pattern#getPattern `Pattern.getPattern`}
  * method that is the one used to retrieve the sub-query pattern.
  */
 export interface FinishPattern extends Pattern<SubSelectToken>, FinishClause {

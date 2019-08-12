@@ -6,8 +6,8 @@ import { TokenNode } from "./TokenNode";
 /**
  * The token of a collection triples node.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rCollection}
- * @see {@link https://www.w3.org/TR/sparql11-query/#rCollectionPath}
+ * @see https://www.w3.org/TR/sparql11-query/#rCollection
+ * @see https://www.w3.org/TR/sparql11-query/#rCollectionPath
  */
 export class CollectionToken implements TokenNode {
 	readonly token:"collection" = "collection";

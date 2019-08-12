@@ -6,7 +6,7 @@ import { TripleToken } from "./TripleToken";
 /**
  * The token of the `CONSTRUCT` query statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rConstructQuery}
+ * @see https://www.w3.org/TR/sparql11-query/#rConstructQuery
  */
 export class ConstructToken extends SharedQueryClauseToken {
 	readonly token:"construct" = "construct";

@@ -28,7 +28,7 @@ import { Path } from "./Path";
 /**
  * Builder with the methods that helps you to construct any path.
  *
- * See {@link https://www.w3.org/TR/sparql11-query/#propertypaths} for
+ * See https://www.w3.org/TR/sparql11-query/#propertypaths for
  * more information.
  */
 export interface PathBuilder {

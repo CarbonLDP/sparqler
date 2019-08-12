@@ -6,6 +6,6 @@ import { SharedSubPathToken } from "./SharedSubPathToken";
 /**
  * Token of the group accepted by {@link PathNegatedToken}.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rPathNegatedPropertySet}
+ * @see https://www.w3.org/TR/sparql11-query/#rPathNegatedPropertySet
  */
 export type SubPathInNegatedToken = SharedSubPathToken<undefined | PathInNegatedToken | PathAlternativeToken<PathInNegatedToken>>;

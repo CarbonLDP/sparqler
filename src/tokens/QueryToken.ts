@@ -9,7 +9,7 @@ import { ValuesToken } from "./ValuesToken";
 /**
  * Token of a complete query statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rQuery}
+ * @see https://www.w3.org/TR/sparql11-query/#rQuery
  */
 export class QueryToken<T extends QueryClauseToken | undefined = QueryClauseToken | undefined> implements TokenNode {
 	readonly token:"query" = "query";

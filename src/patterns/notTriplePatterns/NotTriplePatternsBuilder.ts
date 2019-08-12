@@ -43,7 +43,7 @@ export interface NotTriplePatternsBuilder {
 	 * Creates a {@link GraphPattern} for the target named graph
 	 * specified by {@param iri}, having the patterns specified.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#accessByLabel}
+	 * See https://www.w3.org/TR/sparql11-query/#accessByLabel
 	 * for more information.
 	 *
 	 * @param iri The target graph to have the patterns.
@@ -55,7 +55,7 @@ export interface NotTriplePatternsBuilder {
 	 * Creates a {@link GroupPattern} for the patterns specified,
 	 * where will group the patterns in a new pattern.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#GroupPatterns}
+	 * See https://www.w3.org/TR/sparql11-query/#GroupPatterns
 	 * for more information.
 	 *
 	 * @param patterns The patterns to be enclosed in a group.
@@ -66,9 +66,9 @@ export interface NotTriplePatternsBuilder {
 	 * Creates a {@link UnionPattern} for the patterns specified,
 	 * where will group the pattern to be used as an alternative
 	 * matching for another group declared by the subsequents
-	 * {@link UnionPattern.and} methods.
+	 * {@link UnionPattern#and `UnionPattern.and`} methods.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#alternatives}
+	 * See https://www.w3.org/TR/sparql11-query/#alternatives
 	 * for more information.
 	 *
 	 * @param patterns The patterns to be enclosed in a group.
@@ -79,7 +79,7 @@ export interface NotTriplePatternsBuilder {
 	 * Creates an {@link OptionalPattern} for the patterns specified,
 	 * which will be considered as optional to match and retrieve.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#optionals}
+	 * See https://www.w3.org/TR/sparql11-query/#optionals
 	 * for more information.
 	 *
 	 * @param patterns The patterns to be enclosed in a optional
@@ -91,7 +91,7 @@ export interface NotTriplePatternsBuilder {
 	 * Creates a {@link MinusPattern} for the patterns specified
 	 * which will be excluded from the query.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#neg-minus}
+	 * See https://www.w3.org/TR/sparql11-query/#neg-minus
 	 * for more information.
 	 *
 	 * @param patterns The patterns to be enclosed in a minus
@@ -103,7 +103,7 @@ export interface NotTriplePatternsBuilder {
 	 * Creates a {@link ServicePattern} for the target resource
 	 * service and the patterns specified.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-federated-query/}
+	 * See https://www.w3.org/TR/sparql11-federated-query/
 	 * for more information.
 	 *
 	 * @param resource The service where to execute the federated
@@ -115,7 +115,7 @@ export interface NotTriplePatternsBuilder {
 	 * Creates a silent {@link ServicePattern} for the target resource
 	 * service and the patterns specified.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-federated-query/}
+	 * See https://www.w3.org/TR/sparql11-federated-query/
 	 * for more information.
 	 *
 	 * @param resource The service where to execute the federated
@@ -129,8 +129,8 @@ export interface NotTriplePatternsBuilder {
 	 * Create a {@link FilterPattern} for the raw constraint.
 	 *
 	 * This is used to exclude values or entire patterns.
-	 * See {@link https://www.w3.org/TR/sparql11-query/#termConstraint
-     * and {@link https://www.w3.org/TR/sparql11-query/#negation} to
+	 * See https://www.w3.org/TR/sparql11-query/#termConstraint
+     * and https://www.w3.org/TR/sparql11-query/#negation to
 	 * know more.
 	 *
 	 * @param rawConstraint The RAW constraint to filter.
@@ -141,7 +141,7 @@ export interface NotTriplePatternsBuilder {
 	 * Created a {@link BindPattern} for the raw expression
 	 * into the variable specified.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#bind}
+	 * See https://www.w3.org/TR/sparql11-query/#bind
 	 * for more information.
 	 *
 	 * @param rawExpression The RAW expression to assign.
@@ -156,7 +156,7 @@ export interface NotTriplePatternsBuilder {
 	 *
 	 * This is used to assign data to an specific variable.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#inline-data}
+	 * See https://www.w3.org/TR/sparql11-query/#inline-data
 	 * for more information.
 	 *
 	 * @param variable The variable to assign data.
@@ -168,7 +168,7 @@ export interface NotTriplePatternsBuilder {
 	 *
 	 * This is used to assign data to multiple variables.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#inline-data}
+	 * See https://www.w3.org/TR/sparql11-query/#inline-data
 	 * for more information.
 	 *
 	 * @param variables The variables to assign data.

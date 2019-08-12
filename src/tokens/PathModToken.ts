@@ -5,7 +5,7 @@ import { TokenNode } from "./TokenNode";
 /**
  * Token for the primary path with an specific mod.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rPathMod}
+ * @see https://www.w3.org/TR/sparql11-query/#rPathMod
  */
 export class PathModToken implements TokenNode {
 	readonly token:"pathMod" = "pathMod";

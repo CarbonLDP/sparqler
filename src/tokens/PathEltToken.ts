@@ -5,6 +5,6 @@ import { PathPrimaryToken } from "./PathPrimaryToken";
 /**
  * Alias for the elt path statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rPathElt}
+ * @see https://www.w3.org/TR/sparql11-query/#rPathElt
  */
 export type PathEltToken = PathPrimaryToken | PathModToken;

@@ -12,7 +12,7 @@ const NAMESPACE_REGEX:RegExp = /^([A-Za-z](([A-Za-z_\-0-9]|\.)*[A-Za-z_\-0-9])?)
 /**
  * The token of the prefixed named term.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rPrefixedName}
+ * @see https://www.w3.org/TR/sparql11-query/#rPrefixedName
  */
 export class PrefixedNameToken implements TokenNode {
 	readonly token:"prefixedName" = "prefixedName";

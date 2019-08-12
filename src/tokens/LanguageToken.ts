@@ -10,7 +10,7 @@ const LANGUAGE_REGEX:RegExp = /^[a-zA-Z]+(-[a-zA-Z0-9]+)*$/;
 /**
  * The token of the language tag term.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rLANGTAG}
+ * @see https://www.w3.org/TR/sparql11-query/#rLANGTAG
  */
 export class LanguageToken implements TokenNode {
 	readonly token:"language" = "language";

@@ -5,7 +5,7 @@ import { TokenNode } from "./TokenNode";
 /**
  * The token of the `PREFIX` statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rPrefixDecl}
+ * @see https://www.w3.org/TR/sparql11-query/#rPrefixDecl
  */
 export class PrefixToken implements TokenNode {
 	readonly token:"prefix" = "prefix";

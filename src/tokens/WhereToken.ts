@@ -5,7 +5,7 @@ import { TokenNode } from "./TokenNode";
 /**
  * The token for `WHERE` statements.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rWhereClause}
+ * @see https://www.w3.org/TR/sparql11-query/#rWhereClause
  */
 export class WhereToken implements TokenNode {
 	token:"where" = "where";
