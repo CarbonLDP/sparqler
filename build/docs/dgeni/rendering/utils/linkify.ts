@@ -98,7 +98,8 @@ export function linkify( str:string, getLinkInfo, doc:Document, escape:boolean =
 		.replace( IDENTIFIERS_REGEX, ( match:string, before:string, identifier:string ) => {
 			const linkInfo = getLinkInfo( identifier, identifier, doc );
 
-			if( ! linkInfo.valid ) {
+			// In case the link starts with '#' or '.', the link is not valid unless it's part of the MDN Documentation.
+			if( ! linkInfo.valid || linkInfo.url.startsWith("#") || linkInfo.url.startsWith(".")) {
 				if( ! MDN_IDENTIFIERS.includes( identifier ) ) return match;
 
 				linkInfo.url = MDN_URL + identifier;
