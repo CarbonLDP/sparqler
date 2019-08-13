@@ -1,4 +1,4 @@
-import { RelationalExpressionToken } from "./RelationalExpressionToken";
+import { ConditionalOrExpressionToken } from "./ConditionalOrExpressionToken";
 
 
 /**
@@ -6,4 +6,4 @@ import { RelationalExpressionToken } from "./RelationalExpressionToken";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rExpression}
  */
-export type ExpressionToken = RelationalExpressionToken;
+export type ExpressionToken = ConditionalOrExpressionToken;

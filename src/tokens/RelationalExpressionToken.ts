@@ -1,4 +1,4 @@
-import { AdditiveExpressionToken } from "./AdditiveExpressionToken";
+import { NumericExpressionToken } from "./NumericExpressionToken";
 import { RelationalOperationToken } from "./RelationalOperationToken";
 
 
@@ -9,4 +9,4 @@ import { RelationalOperationToken } from "./RelationalOperationToken";
  */
 export type RelationalExpressionToken =
 	| RelationalOperationToken
-	| AdditiveExpressionToken;
+	| NumericExpressionToken;
