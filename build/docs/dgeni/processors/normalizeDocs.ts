@@ -4,7 +4,6 @@ import {
 } from "dgeni";
 import { ClassExportDoc } from "dgeni-packages/typescript/api-doc-types/ClassExportDoc";
 import { ContainerExportDoc } from "dgeni-packages/typescript/api-doc-types/ContainerExportDoc";
-import { ConstExportDoc } from "dgeni-packages/typescript/api-doc-types/ConstExportDoc";
 import { FunctionExportDoc } from "dgeni-packages/typescript/api-doc-types/FunctionExportDoc";
 import { InterfaceExportDoc } from "dgeni-packages/typescript/api-doc-types/InterfaceExportDoc";
 import { MemberDoc } from "dgeni-packages/typescript/api-doc-types/MemberDoc";
@@ -23,6 +22,10 @@ interface JSDocParam {
 	name:string;
 	optional?:boolean;
 	type?:string;
+}
+
+interface ExtendedClassExportDoc extends ClassExportDoc {
+	interface?: InterfaceExportDoc & ParameterDoc;
 }
 
 interface IndexMemberDoc extends MethodMemberDoc {
@@ -62,7 +65,7 @@ export class NormalizeDocs implements Processor {
 		return docs;
 	}
 
-	_normalizeClass( doc:ClassExportDoc ):void {
+	_normalizeClass( doc:ExtendedClassExportDoc ):void {
 		this._normalizeContainer( doc );
 
 		if( doc.constructorDoc )
@@ -76,6 +79,11 @@ export class NormalizeDocs implements Processor {
 			doc.extendsClauses.forEach( info =>
 				this._normalizeClass( info.doc as ClassExportDoc ),
 			);
+			
+			if (doc.interface) {
+				let host = new Host();
+				doc.interface.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! );
+			}
 	}
 
 	_normalizeInterface( doc:ParameterDoc & InterfaceExportDoc ):void {

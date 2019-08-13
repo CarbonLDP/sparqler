@@ -4,7 +4,7 @@ import { Package } from "dgeni";
 import { navigationProcessor } from "./processors/navigation";
 import { normalizeDocsProcessor } from "./processors/normalizeDocs";
 import { privateFilterProcessor } from "./processors/private-filter";
-import { interfaceAndConstExport } from "./processors/interfaceAndConstExport";
+import { multipleExports } from "./processors/multipleExports";
 // Config marked lib
 import "./rendering/config-marked";
 // Nunjucks filters
@@ -38,7 +38,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 	.processor( privateFilterProcessor )
 	.processor( navigationProcessor )
 	.processor( normalizeDocsProcessor )
-	.processor(interfaceAndConstExport)
+	.processor(multipleExports)
 
 	.config( function( log ) {
 		log.level = "info";

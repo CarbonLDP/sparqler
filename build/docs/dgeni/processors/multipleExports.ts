@@ -4,25 +4,33 @@ import { getExportDocType } from "dgeni-packages/typescript/services/TsParser";
 import { Host } from "dgeni-packages/typescript/services/ts-host/host";
 import { ConstExportDoc } from "dgeni-packages/typescript/api-doc-types/ConstExportDoc";
 import { MethodMemberDoc } from "dgeni-packages/typescript/api-doc-types/MethodMemberDoc";
+import { InterfaceExportDoc } from "dgeni-packages/typescript/api-doc-types/InterfaceExportDoc";
 
 
-export function interfaceAndConstExport():InterfaceAndConstExport {
-	return new InterfaceAndConstExport();
+export function multipleExports():MultipleExports {
+	return new MultipleExports();
 }
 
 interface ConstantExport extends ConstExportDoc {
 	members?: MethodMemberDoc[];
 }
 
-export class InterfaceAndConstExport implements Processor {
+export class MultipleExports implements Processor {
 
 	$runBefore = [ "parsing-tags" ];
 	docs: DocCollection;
 	$process( docs:DocCollection ) {
 		this.docs = docs;
 		docs.forEach( doc => {
-            if (doc.docType !== "interface") return;
-			this._ensureCorrectDescription(doc);
+			switch( doc.docType ) {
+				case "class":
+					this._ensureClassAndInterface( doc );
+					break;
+
+				case "interface":
+					this._ensureInterfaceAndConstant( doc );
+					break;
+			}
 		});
 		
 		return this.docs;
@@ -30,7 +38,7 @@ export class InterfaceAndConstExport implements Processor {
 	
 	
 	
-	_ensureCorrectDescription(doc: any) {
+	_ensureInterfaceAndConstant(doc: any) {
 		// Not only an interface
 		if( ! (doc.symbol.flags ^ SymbolFlags.Interface) ) return;
 
@@ -68,6 +76,29 @@ export class InterfaceAndConstExport implements Processor {
 
 		// Return interface flag
 		doc.symbol.flags = doc.symbol.flags | SymbolFlags.Interface;
+	}
+	
+	_ensureClassAndInterface(doc: any) {
+		// If it is just a class return
+		if (! (doc.symbol.flags ^ SymbolFlags.Class )) return;
+		
+		// Remove class flag temporarily
+		doc.symbol.flags = doc.symbol.flags ^ SymbolFlags.Class;
+		
+		switch( getExportDocType( doc.symbol ) ) {
+			case "interface":
+				let host:Host = new Host();
+				let exportDoc:InterfaceExportDoc = new InterfaceExportDoc(host, doc.moduleDoc, doc.symbol);
+				doc.interface = exportDoc
+				break;
+			default:
+				let log:any;
+				log.error( `Other declaration merged for ${ doc.name }` );
+				break;
+		}
+			
+		// Return class flag
+		doc.symbol.flags = doc.symbol.flags | SymbolFlags.Class;
 	}
 
 }

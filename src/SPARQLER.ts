@@ -11,7 +11,7 @@ import { QueryToken } from "./tokens/QueryToken";
 
 /**
  * Interface with the same name fo the SPARQLER class, that helps
- * in the definition of the methods decorated by {@link QueryClause.createFrom}
+ * in the definition of the methods decorated by {@link QueryClause#createFrom `QueryClause.createFrom`}
  */
 export interface SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends FinishClause = FinishClause> extends QueryClause<SELECT, ASK> {
 }
