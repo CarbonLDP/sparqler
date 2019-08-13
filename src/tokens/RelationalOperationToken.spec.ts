@@ -14,51 +14,49 @@ describe( "RelationalOperationToken", ():void => {
 	describe( "RelationalOperationToken.constructor", ():void => {
 
 		it( "should exists", ():void => {
-			const token:RelationalOperationToken = new RelationalOperationToken( new VariableToken( "foo" ) );
+			const token:RelationalOperationToken = new RelationalOperationToken( "=", new VariableToken( "foo" ) );
 			expect( token ).toBeDefined();
 			expect( token ).toEqual( jasmine.any( RelationalOperationToken ) );
 		} );
 
 
 		it( "should extends BinaryOperationToken", ():void => {
-			const token:RelationalOperationToken = new RelationalOperationToken( new VariableToken( "foo" ) );
+			const token:RelationalOperationToken = new RelationalOperationToken( "=", new VariableToken( "foo" ) );
 			expect( token ).toEqual( jasmine.any( BinaryOperationToken ) );
 		} );
 
 	} );
 
 
-	describe( "RelationalOperationToken.addOperation", () => {
+	describe( "RelationalOperationToken.addOperand", () => {
 
 		it( "should exist", () => {
-			expect( RelationalOperationToken.prototype.addOperation ).toBeDefined();
-			expect( RelationalOperationToken.prototype.addOperation ).toEqual( jasmine.any( Function ) );
+			expect( RelationalOperationToken.prototype.addOperand ).toBeDefined();
+			expect( RelationalOperationToken.prototype.addOperand ).toEqual( jasmine.any( Function ) );
 		} );
 
 
 		it( "should add operation", () => {
-			const token = new RelationalOperationToken( new VariableToken( "foo" ) );
+			const token = new RelationalOperationToken( "=", new VariableToken( "foo" ) );
 
-			token.addOperation( new VariableToken( "bar" ), "=" );
-			expect( token.operations ).toEqual( [ "=" ] );
-			expect( token.expressions ).toEqual( [ new VariableToken( "bar" ) ] );
+			token.addOperand( new VariableToken( "bar" ) );
+			expect( token.operands ).toEqual( [ new VariableToken( "foo" ), new VariableToken( "bar" ) ] );
 		} );
 
 		it( "should return self", () => {
-			const token = new RelationalOperationToken( new VariableToken( "foo" ) );
+			const token = new RelationalOperationToken( "=", new VariableToken( "foo" ) );
 
-			const returned = token.addOperation( new VariableToken( "bar" ), "=" );
+			const returned = token.addOperand( new VariableToken( "bar" ) );
 			expect( returned ).toBe( token );
 		} );
 
 		it( "should replace operation", () => {
-			const token = new RelationalOperationToken( new VariableToken( "foo" ) );
+			const token = new RelationalOperationToken( "=", new VariableToken( "foo" ) );
 
-			token.addOperation( new VariableToken( "bar" ), "=" );
-			token.addOperation( new VariableToken( "baz" ), "!=" );
+			token.addOperand( new VariableToken( "bar" ) );
+			token.addOperand( new VariableToken( "baz" ) );
 
-			expect( token.operations ).toEqual( [ "!=" ] );
-			expect( token.expressions ).toEqual( [ new VariableToken( "baz" ) ] );
+			expect( token.operands ).toEqual( [ new VariableToken( "foo" ), new VariableToken( "baz" ) ] );
 		} );
 
 	} );

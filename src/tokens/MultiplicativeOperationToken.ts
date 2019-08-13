@@ -7,6 +7,6 @@ import { UnaryExpressionToken } from "./UnaryExpressionToken";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rMultiplicativeExpression}
  */
-export class MultiplicativeOperationToken extends BinaryOperationToken<UnaryExpressionToken, "*" | "/"> {
+export class MultiplicativeOperationToken extends BinaryOperationToken<"*" | "/", UnaryExpressionToken> {
 	readonly token:"multiplicativeOperation" = "multiplicativeOperation";
 }

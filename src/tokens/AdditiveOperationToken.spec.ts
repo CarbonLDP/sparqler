@@ -14,14 +14,14 @@ describe( "AdditiveOperationToken", ():void => {
 	describe( "AdditiveOperationToken.constructor", ():void => {
 
 		it( "should exists", ():void => {
-			const token:AdditiveOperationToken = new AdditiveOperationToken( new VariableToken( "foo" ) );
+			const token:AdditiveOperationToken = new AdditiveOperationToken( "+", new VariableToken( "foo" ) );
 			expect( token ).toBeDefined();
 			expect( token ).toEqual( jasmine.any( AdditiveOperationToken ) );
 		} );
 
 
 		it( "should extends BinaryOperationToken", ():void => {
-			const token:AdditiveOperationToken = new AdditiveOperationToken( new VariableToken( "foo" ) );
+			const token:AdditiveOperationToken = new AdditiveOperationToken( "+", new VariableToken( "foo" ) );
 			expect( token ).toEqual( jasmine.any( BinaryOperationToken ) );
 		} );
 

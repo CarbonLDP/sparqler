@@ -1,4 +1,5 @@
 import { BinaryOperationToken } from "./BinaryOperationToken";
+import { ConditionalAndExpressionToken } from "./ConditionalAndExpressionToken";
 import { ValueLogicalToken } from "./ValueLogicalToken";
 
 
@@ -7,10 +8,6 @@ import { ValueLogicalToken } from "./ValueLogicalToken";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rConditionalOrExpression}
  */
-export class ConditionalOrOperationToken extends BinaryOperationToken<ValueLogicalToken, "||"> {
+export class ConditionalOrOperationToken extends BinaryOperationToken<"||", ConditionalAndExpressionToken> {
 	readonly token:"conditionalOrOperation" = "conditionalOrOperation";
-
-	addOperation( expression:ValueLogicalToken ):this {
-		return super.addOperation( expression, "||" );
-	}
 }

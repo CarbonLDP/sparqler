@@ -7,17 +7,14 @@ import { NumericExpressionToken } from "./NumericExpressionToken";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rRelationalExpression}
  */
-export class RelationalOperationToken extends BinaryOperationToken<NumericExpressionToken, "=" | "!=" | "<" | ">" | "<=" | ">="> {
+export class RelationalOperationToken extends BinaryOperationToken<"=" | "!=" | "<" | ">" | "<=" | ">=", NumericExpressionToken> {
 	readonly token:"relationalOperation" = "relationalOperation";
 
-	readonly operations!:[ "=" | "!=" | "<" | ">" | "<=" | ">=" ];
-	readonly expressions!:[ NumericExpressionToken ];
+	readonly operands!:[ NumericExpressionToken ] | [ NumericExpressionToken, NumericExpressionToken ];
 
 
-	addOperation( expression:NumericExpressionToken, operation:"=" | "!=" | "<" | ">" | "<=" | ">=" ):this {
-		this.expressions[ 0 ] = expression;
-		this.operations[ 0 ] = operation;
-
-		return this;
+	addOperand( operand:NumericExpressionToken ):this {
+		this.operands.length = 1;
+		return super.addOperand( operand );
 	}
 }

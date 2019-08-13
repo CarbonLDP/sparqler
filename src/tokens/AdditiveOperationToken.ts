@@ -7,6 +7,6 @@ import { MultiplicativeExpressionToken } from "./MultiplicativeExpressionToken";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rAdditiveExpression}
  */
-export class AdditiveOperationToken extends BinaryOperationToken<MultiplicativeExpressionToken, "+" | "-"> {
+export class AdditiveOperationToken extends BinaryOperationToken<"+" | "-", MultiplicativeExpressionToken> {
 	readonly token:"additiveOperation" = "additiveOperation";
 }

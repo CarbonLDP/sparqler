@@ -10,12 +10,12 @@ import { TokenNode } from "./TokenNode";
 export class UnaryOperationToken implements TokenNode {
 	readonly token:"unaryOperation" = "unaryOperation";
 
-	readonly expression:PrimaryExpressionToken;
-	readonly operation:"!" | "+" | "-";
+	readonly operator:"!" | "+" | "-";
+	readonly operand:PrimaryExpressionToken;
 
-	constructor( expression:PrimaryExpressionToken, operation:"!" | "+" | "-" ) {
-		this.expression = expression;
-		this.operation = operation;
+	constructor( operator:"!" | "+" | "-", operand:PrimaryExpressionToken ) {
+		this.operator = operator;
+		this.operand = operand;
 	}
 
 
@@ -23,8 +23,8 @@ export class UnaryOperationToken implements TokenNode {
 		const separator = spaces !== undefined
 			? " " : "";
 
-		return this.operation + separator +
-			this.expression.toString( spaces )
+		return this.operator + separator +
+			this.operand.toString( spaces )
 			;
 	}
 }

@@ -13,7 +13,7 @@ describe( "UnaryOperationToken", ():void => {
 	describe( "UnaryOperationToken.constructor", ():void => {
 
 		it( "should exists", ():void => {
-			const token:UnaryOperationToken = new UnaryOperationToken( new VariableToken( "foo" ), "!" );
+			const token:UnaryOperationToken = new UnaryOperationToken( "!", new VariableToken( "foo" ) );
 			expect( token ).toBeDefined();
 			expect( token ).toEqual( jasmine.any( UnaryOperationToken ) );
 		} );
@@ -21,13 +21,13 @@ describe( "UnaryOperationToken", ():void => {
 
 		it( "should initialize expression", ():void => {
 			const expression = new VariableToken( "foo" );
-			const token:UnaryOperationToken = new UnaryOperationToken( expression, "!" );
-			expect( token.expression ).toBe( expression );
+			const token:UnaryOperationToken = new UnaryOperationToken( "!", expression );
+			expect( token.operand ).toBe( expression );
 		} );
 
 		it( "should initialize operation", ():void => {
-			const token:UnaryOperationToken = new UnaryOperationToken( new VariableToken( "foo" ), "!" );
-			expect( token.operation ).toBe( "!" );
+			const token:UnaryOperationToken = new UnaryOperationToken( "!", new VariableToken( "foo" ) );
+			expect( token.operator ).toBe( "!" );
 		} );
 
 	} );
@@ -41,12 +41,12 @@ describe( "UnaryOperationToken", ():void => {
 		} );
 
 		it( "should compact print", ():void => {
-			const token:UnaryOperationToken = new UnaryOperationToken( new VariableToken( "foo" ), "!" );
+			const token:UnaryOperationToken = new UnaryOperationToken( "!", new VariableToken( "foo" ) );
 			expect( token.toString() ).toBe( "!?foo" );
 		} );
 
 		it( "should pretty print", ():void => {
-			const token:UnaryOperationToken = new UnaryOperationToken( new VariableToken( "foo" ), "!" );
+			const token:UnaryOperationToken = new UnaryOperationToken( "!", new VariableToken( "foo" ) );
 			expect( token.toString( 0 ) ).toBe( "! ?foo" );
 		} );
 

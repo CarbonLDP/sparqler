@@ -7,10 +7,6 @@ import { ValueLogicalToken } from "./ValueLogicalToken";
  *
  * @see {@link https://www.w3.org/TR/sparql11-query/#rConditionalAndExpression}
  */
-export class ConditionalAndOperationToken extends BinaryOperationToken<ValueLogicalToken, "&&"> {
+export class ConditionalAndOperationToken extends BinaryOperationToken<"&&", ValueLogicalToken> {
 	readonly token:"conditionalAndOperation" = "conditionalAndOperation";
-
-	addOperation( expression:ValueLogicalToken ):this {
-		return super.addOperation( expression, "&&" );
-	}
 }
