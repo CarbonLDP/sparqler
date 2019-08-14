@@ -34,7 +34,7 @@
                 <div class="content">
                     <a class="item" href="/{{ moduleDoc.id }}">
                         {%- set module -%}
-                            import {} from "SPARQLER{{ '/' + moduleDoc.id if moduleDoc.name !== 'index' }}"
+                            import {} from "sparqler{{ '/' + moduleDoc.id if moduleDoc.name !== 'index' }}"
                         {%- endset %}
                         <code class="highlight language-typescript">{{ module | highlight('typescript', doc) }}</code>
                     </a>
