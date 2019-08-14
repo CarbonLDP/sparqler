@@ -38,7 +38,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 	.processor( privateFilterProcessor )
 	.processor( navigationProcessor )
 	.processor( normalizeDocsProcessor )
-	.processor(multipleExports)
+	.processor( multipleExports )
 
 	.config( function( log ) {
 		log.level = "info";
@@ -60,13 +60,6 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 			pathTemplate: "/${id}/",
 			outputPathTemplate: "${id}/index.html",
 		} );
-
-		// computePathsProcessor.pathTemplates.push( {
-		// 	docTypes: [ "member" ],
-		// 	pathTemplate: "${containerDoc.path}#${name}",
-		// 	getOutputPath: () => {
-		// 	},
-		// } );
 
 		computePathsProcessor.pathTemplates.push( {
 			docTypes: [ "index" ],
@@ -103,6 +96,7 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 		];
 	} )
 
+	// Configure the processor to accept the '@param' tag.
 	.config(function (inlineTagProcessor, getInjectables) {
 		inlineTagProcessor.inlineTagDefinitions.push( ...getInjectables([
 			paramInLineTag
@@ -116,16 +110,6 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 
 		// Standard patterns for matching docs to templates
 		templateFinder.templatePatterns = [
-			// '${ doc.template }',
-			// '${ doc.id }.${ doc.docType }.template.html',
-			// '${ doc.id }.template.html',
-			// '${ doc.docType }.template.html',
-			// '${ doc.id }.${ doc.docType }.template.js',
-			// '${ doc.id }.template.js',
-			// '${ doc.docType }.template.js',
-			// '${ doc.id }.${ doc.docType }.template.json',
-			// '${ doc.id }.template.json',
-			// '${ doc.docType }.template.json',
 			"${ doc.docType }.template.njk",
 			"${ doc.docType }.macro.njk",
 		];

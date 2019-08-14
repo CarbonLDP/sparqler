@@ -46,22 +46,27 @@ export class MultipleExports implements Processor {
 		doc.symbol.flags = doc.symbol.flags ^ SymbolFlags.Interface;
 
 		switch( getExportDocType( doc.symbol ) ) {
+			
+			// If it is an interface with a constant merged export:
 			case "const":
 				let host:Host = new Host();
-				let exportDoc:ConstantExport = new ConstExportDoc(host, doc.moduleDoc, doc.symbol)
-				doc.constants = [exportDoc];
-				exportDoc.members = [];
+				let exportDoc:ConstantExport = new ConstExportDoc(host, doc.moduleDoc, doc.symbol) //Create constant document
+				doc.constants = [exportDoc]; // Add the constant's document to the Interface Document as a reference
+				exportDoc.members = []; // Array for possible methods within the constant
 				try {
-					let members = doc.constants[0].declaration.type.members;
+					let members = doc.constants[0].declaration.type.members; //If the constant has a description, it will be stored here.
 					this.docs.push(exportDoc);
-					members.forEach(member => {
+					members.forEach(member => { 
+						// Create method document and push it to both the constant document as well as the full document's list.
 						let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, member.symbol, member);
 						exportDoc.members.push(methodDoc);
 						this.docs.push(methodDoc);
 					})
 				}
 				catch {
+					// If the constant doesn't have a description, it will be stored here.
 					let container = doc.constants[0].variableDeclaration.initializer.nextContainer;
+					// Create method document and push it to both the constant document as well as the full document's list.
 					let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, container.symbol, container);
 					exportDoc.members.push(methodDoc);
 					this.docs.push(exportDoc);
@@ -88,8 +93,8 @@ export class MultipleExports implements Processor {
 		switch( getExportDocType( doc.symbol ) ) {
 			case "interface":
 				let host:Host = new Host();
-				let exportDoc:InterfaceExportDoc = new InterfaceExportDoc(host, doc.moduleDoc, doc.symbol);
-				doc.interface = exportDoc
+				let exportDoc:InterfaceExportDoc = new InterfaceExportDoc(host, doc.moduleDoc, doc.symbol); // Create Interface export document
+				doc.interface = exportDoc; // Keep a reference to the interface inside the class document
 				break;
 			default:
 				let log:any;

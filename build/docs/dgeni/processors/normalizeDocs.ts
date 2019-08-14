@@ -86,9 +86,9 @@ export class NormalizeDocs implements Processor {
 			}
 	}
 
-	_normalizeInterface( doc:ParameterDoc & InterfaceExportDoc ):void {
+	_normalizeInterface( doc:InterfaceExportDoc ):void {
 		this._normalizeContainer( doc );
-		this._removeConstantsFromMainDocument(doc);
+		this._normalizeInterfaceWithConstant(doc);
 		
 		if( doc.members ) doc.members
 			.filter<IndexMemberDoc>( isIndex )
@@ -126,21 +126,22 @@ export class NormalizeDocs implements Processor {
 		} );
 	}
 	
-	_removeConstantsFromMainDocument(doc:any){
+	_normalizeInterfaceWithConstant(doc:any){
 		// Not only an interface
 		if( ! (doc.symbol.flags ^ SymbolFlags.Interface) ) return;
 
 		// Remove interface momentary
 		doc.symbol.flags = doc.symbol.flags ^ SymbolFlags.Interface;
 
+		// If it is an interface with a constant merged export:
 		switch( getExportDocType( doc.symbol ) ) {
 			case "const":
 				let host:Host = new Host();
-				let index = this.docs.indexOf(doc.constants[0])
-				let numberOfMembers = doc.constants[0].members.length;
-				doc.constants[0].members.forEach(member => {this._normalizeParams(member)})
-				this.docs.splice(index, numberOfMembers+1);
-				doc.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! );
+				let index = this.docs.indexOf(doc.constants[0]) // get the index of the consant from full document list
+				let numberOfMembers = doc.constants[0].members.length; // get the number of methods associated with that constant
+				doc.constants[0].members.forEach(member => {this._normalizeParams(member)}) // for each method normalize it's parameters
+				this.docs.splice(index, numberOfMembers+1); // remove the constant and members from the full document list
+				doc.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! ); // update interface description
 				break;
 			default:
 				let log:any;
