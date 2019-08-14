@@ -5,12 +5,9 @@ import { ExportDoc } from "dgeni-packages/typescript/api-doc-types/ExportDoc";
 export function isDefault():TagDef {
 	return {
 		name: "isDefault",
-		defaultFn( doc:ApiDoc ):boolean {
-			if( ! isExportDoc( doc ) ) return;
-
-			const sameExportID:( doc:ExportDoc ) => boolean = sameID.bind( null, doc );
-			return doc.moduleDoc.exports.filter( sameExportID ).length > 1;
-		},
+		transforms: () => {
+			return true;
+		}
 	};
 }
 

@@ -21,6 +21,7 @@ export interface SPARQLER<SELECT extends FinishClause = FinishClause, ASK extend
  *
  * See {@link QueryClause} for know the methods available for
  * construct the queries.
+ * @isDefault
  */
 export class SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends FinishClause = FinishClause> implements SPARQLER<SELECT, ASK> {
 
