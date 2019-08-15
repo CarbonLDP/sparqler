@@ -1,5 +1,6 @@
 import { AdditiveOperationToken } from "./AdditiveOperationToken";
 import { MultiplicativeExpressionToken } from "./MultiplicativeExpressionToken";
+import { TokenNode } from "./TokenNode";
 
 
 /**
@@ -10,3 +11,14 @@ import { MultiplicativeExpressionToken } from "./MultiplicativeExpressionToken";
 export type AdditiveExpressionToken =
 	| AdditiveOperationToken
 	| MultiplicativeExpressionToken;
+
+
+// TODO: Document
+export const AdditiveExpressionToken:{
+	is( token:TokenNode ):token is AdditiveExpressionToken;
+} = {
+	is: ( token ):token is AdditiveExpressionToken =>
+		token.token === "additiveOperation" ||
+		MultiplicativeExpressionToken.is( token )
+	,
+};

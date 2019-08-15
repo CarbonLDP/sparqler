@@ -1,4 +1,5 @@
 import { PrimaryExpressionToken } from "./PrimaryExpressionToken";
+import { TokenNode } from "./TokenNode";
 import { UnaryOperationToken } from "./UnaryOperationToken";
 
 
@@ -10,3 +11,14 @@ import { UnaryOperationToken } from "./UnaryOperationToken";
 export type UnaryExpressionToken =
 	| UnaryOperationToken
 	| PrimaryExpressionToken;
+
+
+// TODO: Document
+export const UnaryExpressionToken:{
+	is( token:TokenNode ):token is UnaryExpressionToken;
+} = {
+	is: ( token ):token is UnaryExpressionToken =>
+		token.token === "conditionalAndOperation" ||
+		PrimaryExpressionToken.is( token )
+	,
+};

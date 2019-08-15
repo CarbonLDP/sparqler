@@ -3,6 +3,7 @@ import { FunctionToken } from "./FunctionToken";
 import { IRIToken } from "./IRIToken";
 import { LiteralToken } from "./LiteralToken";
 import { RDFLiteralToken } from "./RDFLiteralToken";
+import { TokenNode } from "./TokenNode";
 import { VariableToken } from "./VariableToken";
 
 
@@ -18,3 +19,17 @@ export type PrimaryExpressionToken =
 	| IRIToken
 	| RDFLiteralToken
 	| LiteralToken;
+
+
+export const PrimaryExpressionToken:{
+	is( token:TokenNode ):token is PrimaryExpressionToken;
+} = {
+	is: ( token ):token is PrimaryExpressionToken =>
+		token.token === "bracketedExpression" ||
+		token.token === "function" ||
+		token.token === "variable" ||
+		// TODO: Create to IRIToken.is
+		token.token === "iri" || token.token === "prefixedName" ||
+		token.token === "literal"
+	,
+};

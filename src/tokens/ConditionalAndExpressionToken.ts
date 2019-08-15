@@ -1,4 +1,5 @@
 import { ConditionalAndOperationToken } from "./ConditionalAndOperationToken";
+import { TokenNode } from "./TokenNode";
 import { ValueLogicalToken } from "./ValueLogicalToken";
 
 
@@ -10,3 +11,14 @@ import { ValueLogicalToken } from "./ValueLogicalToken";
 export type ConditionalAndExpressionToken =
 	| ConditionalAndOperationToken
 	| ValueLogicalToken;
+
+
+// TODO: Document
+export const ConditionalAndExpressionToken:{
+	is( token:TokenNode ):token is ConditionalAndExpressionToken;
+} = {
+	is: ( token ):token is ConditionalAndExpressionToken =>
+		token.token === "conditionalAndOperation" ||
+		ValueLogicalToken.is( token )
+	,
+};

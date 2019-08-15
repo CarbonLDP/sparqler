@@ -1,4 +1,5 @@
 import { ExpressionListToken } from "./ExpressionListToken";
+import { ExpressionToken } from "./ExpressionToken";
 import { NumericExpressionToken } from "./NumericExpressionToken";
 import { TokenNode } from "./TokenNode";
 
@@ -11,21 +12,21 @@ import { TokenNode } from "./TokenNode";
 export class InclusionExpressionToken implements TokenNode {
 	readonly token:"inclusionExpression" = "inclusionExpression";
 
-	readonly expression:NumericExpressionToken;
-	readonly operation:"IN" | "NOT IN";
-	readonly list:ExpressionListToken;
+	readonly operator:"IN" | "NOT IN";
+	readonly operand:NumericExpressionToken;
+	readonly expressionList:ExpressionListToken;
 
-	constructor( expression:NumericExpressionToken, operation:"IN" | "NOT IN", list:ExpressionListToken ) {
-		this.expression = expression;
-		this.operation = operation;
-		this.list = list;
+	constructor( operator:"IN" | "NOT IN", operand:NumericExpressionToken, expressions:ExpressionToken[] ) {
+		this.operand = operand;
+		this.operator = operator;
+		this.expressionList = new ExpressionListToken( expressions );
 	}
 
 
 	toString( spaces?:number ):string {
-		return this.expression.toString( 0 ) + " " +
-			this.operation + " " +
-			this.list.toString( spaces );
+		return this.operand.toString( 0 ) + " " +
+			this.operator + " " +
+			this.expressionList.toString( spaces );
 	}
 
 }

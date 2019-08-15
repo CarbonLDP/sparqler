@@ -1,5 +1,6 @@
 import { ConditionalAndExpressionToken } from "./ConditionalAndExpressionToken";
 import { ConditionalOrOperationToken } from "./ConditionalOrOperationToken";
+import { TokenNode } from "./TokenNode";
 
 
 /**
@@ -10,3 +11,14 @@ import { ConditionalOrOperationToken } from "./ConditionalOrOperationToken";
 export type ConditionalOrExpressionToken =
 	| ConditionalOrOperationToken
 	| ConditionalAndExpressionToken;
+
+
+// TODO: Document
+export const ConditionalOrExpressionToken:{
+	is( token:TokenNode ):token is ConditionalOrExpressionToken;
+} = {
+	is: ( token ):token is ConditionalOrExpressionToken =>
+		token.token === "conditionalOrOperation" ||
+		ConditionalAndExpressionToken.is( token )
+	,
+};

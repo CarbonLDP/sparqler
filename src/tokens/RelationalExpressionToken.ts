@@ -1,5 +1,7 @@
+import { InclusionExpressionToken } from "./InclusionExpressionToken";
 import { NumericExpressionToken } from "./NumericExpressionToken";
 import { RelationalOperationToken } from "./RelationalOperationToken";
+import { TokenNode } from "./TokenNode";
 
 
 /**
@@ -9,4 +11,17 @@ import { RelationalOperationToken } from "./RelationalOperationToken";
  */
 export type RelationalExpressionToken =
 	| RelationalOperationToken
+	| InclusionExpressionToken
 	| NumericExpressionToken;
+
+
+// TODO: Document
+export const RelationalExpressionToken:{
+	is( token:TokenNode ):token is RelationalExpressionToken;
+} = {
+	is: ( token ):token is RelationalExpressionToken =>
+		token.token === "relationalOperation" ||
+		token.token === "inclusionExpression" ||
+		NumericExpressionToken.is( token )
+	,
+};

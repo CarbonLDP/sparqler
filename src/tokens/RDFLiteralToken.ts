@@ -9,7 +9,6 @@ import { LiteralToken } from "./LiteralToken";
  * @see {@link https://www.w3.org/TR/sparql11-query/#rRDFLiteral}
  */
 export class RDFLiteralToken extends LiteralToken {
-	readonly value!:string;
 	readonly type?:IRIToken;
 	readonly language?:LanguageToken;
 
@@ -18,7 +17,7 @@ export class RDFLiteralToken extends LiteralToken {
 	constructor( value:string, typeOrLanguage?:IRIToken | LanguageToken ) {
 		super( value );
 
-		if( ! typeOrLanguage ) return;
+		if( !typeOrLanguage ) return;
 
 
 		if( typeOrLanguage.token === "language" ) {
