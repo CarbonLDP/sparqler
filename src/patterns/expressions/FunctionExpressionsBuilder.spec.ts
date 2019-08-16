@@ -8,11 +8,10 @@ import { SupportedNativeTypes } from "../SupportedNativeTypes";
 import { TriplePatternsBuilder } from "../triplePatterns/TriplePatternsBuilder";
 
 import { Expression } from "./Expression";
-import { FunctionExpression } from "./FunctionExpression";
 import { FunctionExpressionsBuilder } from "./FunctionExpressionsBuilder";
 
 
-type GenericFn = ( ...expressions:(Expression | SupportedNativeTypes)[] ) => FunctionExpression;
+type GenericFn = ( ...expressions:(Expression | SupportedNativeTypes)[] ) => Expression;
 
 describe( "FunctionExpressionsBuilder", () => {
 

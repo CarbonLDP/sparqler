@@ -1,5 +1,6 @@
 import { Container } from "../../../data/Container";
 import { cloneElement } from "../../../data/utils";
+
 import { BinaryOperationToken } from "../../../tokens/BinaryOperationToken";
 import { BracketedExpressionToken } from "../../../tokens/BracketedExpressionToken";
 import { ExpressionToken } from "../../../tokens/ExpressionToken";
@@ -7,16 +8,11 @@ import { InclusionExpressionToken } from "../../../tokens/InclusionExpressionTok
 import { NumericExpressionToken } from "../../../tokens/NumericExpressionToken";
 import { PrimaryExpressionToken } from "../../../tokens/PrimaryExpressionToken";
 import { UnaryOperationToken } from "../../../tokens/UnaryOperationToken";
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
+
 import { Expression } from "../Expression";
-import { _getTransformer } from "../utils";
 
+import { _expressionTransformerFn, SupportedTypes } from "./utils";
 
-type SupportedParameter = Expression | SupportedNativeTypes | ExpressionToken;
-
-
-const _expressionTransformerFn =
-	_getTransformer<Expression>( "getExpression" );
 
 const _getOperandTransformerFn =
 	<T extends ExpressionToken>
@@ -24,7 +20,7 @@ const _getOperandTransformerFn =
 		( container:Container<any> ) => {
 			const transformer = _expressionTransformerFn( container );
 
-			return ( operand:SupportedParameter ) => {
+			return ( operand:SupportedTypes ) => {
 				const token = transformer( operand );
 
 				return isValid( token ) ? token
@@ -40,7 +36,7 @@ export function getUnaryOperationFn(
 ) {
 	const transformer = _getOperandTransformerFn( PrimaryExpressionToken.is )( container );
 
-	const operationFn = ( expression:SupportedParameter ) => {
+	const operationFn = ( expression:SupportedTypes ) => {
 		const operand = transformer( expression );
 		const targetToken = new UnaryOperationToken( operator, operand );
 
@@ -67,7 +63,7 @@ export function getBinaryOperationFn<T extends string, W extends ExpressionToken
 ) {
 	const transformer = _getOperandTransformerFn<W>( isValid )( container );
 
-	const operationFn = ( leftExpression:SupportedParameter, ...restExpression:SupportedParameter[] ) => {
+	const operationFn = ( leftExpression:SupportedTypes, ...restExpression:SupportedTypes[] ) => {
 		const leftOperand = transformer( leftExpression );
 		const targetToken = new TokenClass( operator, leftOperand );
 
@@ -85,7 +81,7 @@ export function getBinaryOperationFn<T extends string, W extends ExpressionToken
 	};
 
 	return container.targetToken
-		? ( operand:SupportedParameter ) => operationFn( container.targetToken!, operand )
+		? ( operand:SupportedTypes ) => operationFn( container.targetToken!, operand )
 		: operationFn;
 }
 
@@ -96,7 +92,7 @@ export function getInclusionFn(
 	const transformer = _getOperandTransformerFn( NumericExpressionToken.is )( container );
 	const baseTransformer = _expressionTransformerFn( container );
 
-	const operationFn = ( expression:SupportedParameter, ...expressions:SupportedParameter[] ) => {
+	const operationFn = ( expression:SupportedTypes, ...expressions:SupportedTypes[] ) => {
 		const operand = transformer( expression );
 		const operands = expressions.map( baseTransformer );
 
@@ -109,6 +105,6 @@ export function getInclusionFn(
 	};
 
 	return container.targetToken
-		? ( ...expressions:SupportedParameter[] ) => operationFn( container.targetToken!, ...expressions )
+		? ( ...expressions:SupportedTypes[] ) => operationFn( container.targetToken!, ...expressions )
 		: operationFn;
 }

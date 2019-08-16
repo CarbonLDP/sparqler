@@ -6,11 +6,10 @@ import { SupportedNativeTypes } from "../SupportedNativeTypes";
 import { TriplePatternsBuilder } from "../triplePatterns/TriplePatternsBuilder";
 
 import { Expression } from "./Expression";
-import { FunctionExpression } from "./FunctionExpression";
 import { OperationExpressionsBuilder } from "./OperationExpressionsBuilder";
 
 
-type GenericFn = ( ...expressions:(Expression | SupportedNativeTypes)[] ) => FunctionExpression;
+type GenericFn = ( ...expressions:(Expression | SupportedNativeTypes)[] ) => Expression;
 
 describe( "OperationExpressionsBuilder", () => {
 

@@ -1,91 +1,21 @@
 import { Container } from "../../data/Container";
 
-import { isAbsolute } from "../../iri/utils";
-
-import { ExpressionListToken } from "../../tokens/ExpressionListToken";
-import { ExpressionToken } from "../../tokens/ExpressionToken";
-import { FunctionToken } from "../../tokens/FunctionToken";
-import { GroupPatternToken } from "../../tokens/GroupPatternToken";
-import { IRIToken } from "../../tokens/IRIToken";
-import { VariableToken } from "../../tokens/VariableToken";
-
 import { Pattern } from "../Pattern";
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { Resource } from "../triplePatterns/Resource";
 import { Variable } from "../triplePatterns/Variable";
 
-import { convertValue } from "../utils";
-
 import { Expression } from "./Expression";
-
-
-/**
- * Const enum with the names of every function
- */
-const enum Functions {
-	STR = "STR",
-	LANG = "LANG",
-	LANG_MATCHES = "LANGMATCHES",
-	DATATYPE = "DATATYPE",
-	BOUND = "BOUND",
-	IRI = "IRI",
-	URI = "URI",
-	BNODE = "BNODE",
-	RAND = "RAND",
-	ABS = "ABS",
-	CEIL = "CEIL",
-	FLOOR = "FLOOR",
-	ROUND = "ROUND",
-	CONCAT = "CONCAT",
-	SUBSTR = "SUBSTR",
-	STRLEN = "STRLEN",
-	REPLACE = "REPLACE",
-	UCASE = "UCASE",
-	LCASE = "LCASE",
-	ENCODE_FOR_URI = "ENCODE_FOR_URI",
-	CONTAINS = "CONTAINS",
-	STR_STARTS = "STRSTARTS",
-	STR_ENDS = "STRENDS",
-	STR_BEFORE = "STRBEFORE",
-	STR_AFTER = "STRAFTER",
-	YEAR = "YEAR",
-	MONTH = "MONTH",
-	DAY = "DAY",
-	HOURS = "HOURS",
-	MINUTES = "MINUTES",
-	SECONDS = "SECONDS",
-	TIMEZONE = "TIMEZONE",
-	TZ = "TZ",
-	NOW = "NOW",
-	UUID = "UUID",
-	STR_UUID = "STRUUID",
-	MD5 = "MD5",
-	SHA1 = "SHA1",
-	SHA256 = "SHA256",
-	SHA384 = "SHA384",
-	SHA512 = "SHA512",
-	COALESCE = "COALESCE",
-	IF = "IF",
-	STR_LANG = "STRLANG",
-	STR_DT = "STRDT",
-	SAME_TERM = "sameTerm",
-	IS_IRI = "isIRI",
-	IS_URI = "isURI",
-	IS_BLANK = "isBLANK",
-	IS_LITERAL = "isLITERAL",
-	IS_NUMERIC = "isNUMERIC",
-	REGEX = "REGEX",
-	EXISTS = "EXISTS ",
-	NOT_EXISTS = "NOT EXISTS ",
-	COUNT = "COUNT",
-	SUM = "SUM",
-	MIN = "MIN",
-	MAX = "MAX",
-	AVG = "AVG",
-	SAMPLE = "SAMPLE",
-	GROUP_CONCAT = "GROUP_CONCAT",
-}
+import {
+	Functions,
+	getBaseFunctionFn,
+	getCustomFunctionFn,
+	getPatternFunctionFn,
+	getRegexFunctionFn,
+	getSeparatorFunctionFn,
+	getVariableFunctionFn
+} from "./fns/functionFn";
 
 
 /**
@@ -897,124 +827,8 @@ export interface FunctionExpressionsBuilder {
 }
 
 
-// Static transformers
-type Transformer = ( value:any ) => ExpressionToken;
-
-const literalTransformer = convertValue;
-
-const variableTransformer = ( variable:string ) => new VariableToken( variable );
-
-
 // Expressions implementation
 
-function _getExpression( container:Container<undefined>, name:Functions | IRIToken, listOrPatterns:ExpressionListToken | GroupPatternToken ):Expression {
-	const targetToken = new FunctionToken( name, listOrPatterns );
-
-	const newContainer = new Container( {
-		...container,
-		targetToken,
-	} );
-
-	return Expression.createFrom( newContainer, {} )
-}
-
-function _getExpressionTokens( expressions?:(Expression | SupportedNativeTypes | undefined)[], limit?:number, transformer?:Transformer ):ExpressionToken[] | undefined {
-	if( expressions === undefined ) return;
-
-	return expressions
-		.slice( 0, limit )
-		.filter( _ => _ !== undefined )
-		.map( arg => {
-			if( typeof arg === "object" ) {
-				if( "token" in arg )
-					return arg;
-
-				if( "getExpression" in arg )
-					return arg.getExpression();
-			}
-
-			if( transformer )
-				return transformer( arg );
-
-			throw new Error( "Invalid argument provided to the function." );
-		} );
-}
-
-function _getExpressionList( { expressions, transformer, limit, distinct, separator }:{
-	expressions?:(Expression | SupportedNativeTypes | undefined)[];
-	transformer?:Transformer;
-	limit?:number;
-	distinct?:boolean;
-	separator?:string;
-} ) {
-	const listTokens = _getExpressionTokens( expressions, limit, transformer );
-	return new ExpressionListToken( listTokens, distinct, separator );
-}
-
-
-function getPatternExpressionFn( container:Container<undefined>, name:Functions ) {
-	return ( firstPattern?:Pattern | Pattern[], ...restPatterns:Pattern[] ) => {
-		const patterns = Array.isArray( firstPattern ) ? firstPattern
-			: !firstPattern ? [] : [ firstPattern, ...restPatterns ];
-
-		const patternTokens = patterns.map( _ => _.getPattern() );
-
-		const groupPatternToken = new GroupPatternToken()
-			.addPattern( ...patternTokens );
-
-		return _getExpression( container, name, groupPatternToken );
-	}
-}
-
-function getNamedExpressionFn( container:Container<undefined>, name:Functions, limit?:number, transformer?:Transformer, distinct?:boolean ) {
-	return ( ...expressions:(Expression | SupportedNativeTypes | undefined)[] ) => {
-		const list = _getExpressionList( { expressions, transformer, limit, distinct } );
-		return _getExpression( container, name, list );
-	}
-}
-
-function getIRIExpressionFn( container:Container<undefined>, transformer:Transformer, distinct?:boolean ) {
-	return ( resource:Resource | string, ...expressions:(Expression | SupportedNativeTypes)[] ) => {
-		const iri = typeof resource === "string"
-			? container.iriResolver.resolve( resource )
-			: resource.getSubject();
-
-		const list = _getExpressionList( { expressions, transformer, distinct } );
-		return _getExpression( container, iri, list );
-	}
-}
-
-function getRegexExpressionFn( container:Container<undefined>, name:Functions, limit:number, transformer?:Transformer ) {
-	return ( ...rawExpressions:(Expression | SupportedNativeTypes | RegExp | undefined)[] ) => {
-		let flags:string | undefined;
-		const expressions:(Expression | SupportedNativeTypes | undefined)[] = rawExpressions
-			.map( value => {
-				if( !(value instanceof RegExp) ) return value;
-
-				flags = value.flags;
-				return value.source;
-			} );
-
-		if( flags ) expressions.push( flags );
-
-		const list = _getExpressionList( { expressions, transformer, limit } );
-		return _getExpression( container, name, list );
-	}
-}
-
-function getAllAggregatorFn( container:Container<undefined>, name:Functions, distinct?:boolean ) {
-	return () => {
-		const list = _getExpressionList( { distinct } );
-		return _getExpression( container, name, list );
-	}
-}
-
-function getSeparatorAggregatorFn( container:Container<undefined>, name:Functions, transformer?:Transformer, distinct?:boolean ) {
-	return ( expression:Expression | SupportedNativeTypes, separator?:string ) => {
-		const list = _getExpressionList( { expressions: [ expression ], transformer, distinct, separator } );
-		return _getExpression( container, name, list );
-	}
-}
 
 /**
  * Constant with the utils for {@link FunctionExpressionsBuilder} objects.
@@ -1035,83 +849,79 @@ export const FunctionExpressionsBuilder:{
 	createFrom<O extends object>( container:Container<undefined>, object:O ):O & FunctionExpressionsBuilder;
 } = {
 	createFrom<O extends object>( container:Container<undefined>, object:O ):O & FunctionExpressionsBuilder {
-		const iriTransformer = ( iri:string ):IRIToken => container.iriResolver.resolve( iri );
-		const generalTransformer = ( value:SupportedNativeTypes ):ExpressionToken => typeof value === "string" && isAbsolute( value )
-			? iriTransformer( value ) : literalTransformer( value );
-
 		return Object.assign( object, {
-			bound: getNamedExpressionFn( container, Functions.BOUND, 1, variableTransformer ),
-			if: getNamedExpressionFn( container, Functions.IF, 3, generalTransformer ),
-			coalesce: getNamedExpressionFn( container, Functions.COALESCE, undefined, generalTransformer ),
-			exists: getPatternExpressionFn( container, Functions.EXISTS ),
-			notExists: getPatternExpressionFn( container, Functions.NOT_EXISTS ),
-			sameTerm: getNamedExpressionFn( container, Functions.SAME_TERM, 2, generalTransformer ),
-			isIRI: getNamedExpressionFn( container, Functions.IS_IRI, 1, generalTransformer ),
-			isURI: getNamedExpressionFn( container, Functions.IS_URI, 1, generalTransformer ),
-			isBlank: getNamedExpressionFn( container, Functions.IS_BLANK, 1, generalTransformer ),
-			isLiteral: getNamedExpressionFn( container, Functions.IS_LITERAL, 1, generalTransformer ),
-			isNumeric: getNamedExpressionFn( container, Functions.IS_NUMERIC, 1, generalTransformer ),
-			str: getNamedExpressionFn( container, Functions.STR, 1, generalTransformer ),
-			lang: getNamedExpressionFn( container, Functions.LANG, 1, generalTransformer ),
-			datatype: getNamedExpressionFn( container, Functions.DATATYPE, 1, generalTransformer ),
-			iri: getNamedExpressionFn( container, Functions.IRI, 1, generalTransformer ),
-			uri: getNamedExpressionFn( container, Functions.URI, 1, generalTransformer ),
-			bnode: getNamedExpressionFn( container, Functions.BNODE, 1, generalTransformer ),
-			strDT: getNamedExpressionFn( container, Functions.STR_DT, 2, generalTransformer ),
-			strLang: getNamedExpressionFn( container, Functions.STR_LANG, 2, generalTransformer ),
-			uuid: getNamedExpressionFn( container, Functions.UUID, 0 ),
-			strUUID: getNamedExpressionFn( container, Functions.STR_UUID, 0 ),
-			strLen: getNamedExpressionFn( container, Functions.STRLEN, 1, generalTransformer ),
-			substr: getNamedExpressionFn( container, Functions.SUBSTR, 3, generalTransformer ),
-			uCase: getNamedExpressionFn( container, Functions.UCASE, 1, generalTransformer ),
-			lCase: getNamedExpressionFn( container, Functions.LCASE, 1, generalTransformer ),
-			strStarts: getNamedExpressionFn( container, Functions.STR_STARTS, 2, generalTransformer ),
-			strEnds: getNamedExpressionFn( container, Functions.STR_ENDS, 2, generalTransformer ),
-			contains: getNamedExpressionFn( container, Functions.CONTAINS, 2, generalTransformer ),
-			strBefore: getNamedExpressionFn( container, Functions.STR_BEFORE, 2, generalTransformer ),
-			strAfter: getNamedExpressionFn( container, Functions.STR_AFTER, 2, generalTransformer ),
-			encodeForUri: getNamedExpressionFn( container, Functions.ENCODE_FOR_URI, 1, generalTransformer ),
-			concat: getNamedExpressionFn( container, Functions.CONCAT, undefined, generalTransformer ),
-			langMatches: getNamedExpressionFn( container, Functions.LANG_MATCHES, 2, generalTransformer ),
-			regex: getRegexExpressionFn( container, Functions.REGEX, 3, generalTransformer ),
-			replace: getRegexExpressionFn( container, Functions.REPLACE, 4, generalTransformer ),
-			abs: getNamedExpressionFn( container, Functions.ABS, 1, generalTransformer ),
-			round: getNamedExpressionFn( container, Functions.ROUND, 1, generalTransformer ),
-			ceil: getNamedExpressionFn( container, Functions.CEIL, 1, generalTransformer ),
-			floor: getNamedExpressionFn( container, Functions.FLOOR, 1, generalTransformer ),
-			rand: getNamedExpressionFn( container, Functions.RAND, 0 ),
-			now: getNamedExpressionFn( container, Functions.NOW, 0 ),
-			year: getNamedExpressionFn( container, Functions.YEAR, 1, generalTransformer ),
-			month: getNamedExpressionFn( container, Functions.MONTH, 1, generalTransformer ),
-			day: getNamedExpressionFn( container, Functions.DAY, 1, generalTransformer ),
-			hours: getNamedExpressionFn( container, Functions.HOURS, 1, generalTransformer ),
-			minutes: getNamedExpressionFn( container, Functions.MINUTES, 1, generalTransformer ),
-			seconds: getNamedExpressionFn( container, Functions.SECONDS, 1, generalTransformer ),
-			timezone: getNamedExpressionFn( container, Functions.TIMEZONE, 1, generalTransformer ),
-			tz: getNamedExpressionFn( container, Functions.TZ, 1, generalTransformer ),
-			md5: getNamedExpressionFn( container, Functions.MD5, 1, generalTransformer ),
-			sha1: getNamedExpressionFn( container, Functions.SHA1, 1, generalTransformer ),
-			sha256: getNamedExpressionFn( container, Functions.SHA256, 1, generalTransformer ),
-			sha384: getNamedExpressionFn( container, Functions.SHA384, 1, generalTransformer ),
-			sha512: getNamedExpressionFn( container, Functions.SHA512, 1, generalTransformer ),
-			custom: getIRIExpressionFn( container, generalTransformer ),
-			customDistinct: getIRIExpressionFn( container, generalTransformer, true ),
-			count: getNamedExpressionFn( container, Functions.COUNT, 1, generalTransformer ),
-			countDistinct: getNamedExpressionFn( container, Functions.COUNT, 1, generalTransformer, true ),
-			countAll: getAllAggregatorFn( container, Functions.COUNT ),
-			countAllDistinct: getAllAggregatorFn( container, Functions.COUNT, true ),
-			sum: getNamedExpressionFn( container, Functions.SUM, 1, generalTransformer ),
-			sumDistinct: getNamedExpressionFn( container, Functions.SUM, 1, generalTransformer, true ),
-			avg: getNamedExpressionFn( container, Functions.AVG, 1, generalTransformer ),
-			avgDistinct: getNamedExpressionFn( container, Functions.AVG, 1, generalTransformer, true ),
-			min: getNamedExpressionFn( container, Functions.MIN, 1, generalTransformer ),
-			minDistinct: getNamedExpressionFn( container, Functions.MIN, 1, generalTransformer, true ),
-			max: getNamedExpressionFn( container, Functions.MAX, 1, generalTransformer ),
-			maxDistinct: getNamedExpressionFn( container, Functions.MAX, 1, generalTransformer, true ),
-			groupConcat: getSeparatorAggregatorFn( container, Functions.GROUP_CONCAT, generalTransformer ),
-			groupConcatDistinct: getSeparatorAggregatorFn( container, Functions.GROUP_CONCAT, generalTransformer, true ),
-			sample: getNamedExpressionFn( container, Functions.SAMPLE, 1, generalTransformer ),
-			sampleDistinct: getNamedExpressionFn( container, Functions.SAMPLE, 1, generalTransformer, true ),
+			bound: getVariableFunctionFn( container, Functions.BOUND ),
+			if: getBaseFunctionFn( container, Functions.IF, 3 ),
+			coalesce: getBaseFunctionFn( container, Functions.COALESCE, undefined ),
+			exists: getPatternFunctionFn( container, Functions.EXISTS ),
+			notExists: getPatternFunctionFn( container, Functions.NOT_EXISTS ),
+			sameTerm: getBaseFunctionFn( container, Functions.SAME_TERM, 2 ),
+			isIRI: getBaseFunctionFn( container, Functions.IS_IRI, 1 ),
+			isURI: getBaseFunctionFn( container, Functions.IS_URI, 1 ),
+			isBlank: getBaseFunctionFn( container, Functions.IS_BLANK, 1 ),
+			isLiteral: getBaseFunctionFn( container, Functions.IS_LITERAL, 1 ),
+			isNumeric: getBaseFunctionFn( container, Functions.IS_NUMERIC, 1 ),
+			str: getBaseFunctionFn( container, Functions.STR, 1 ),
+			lang: getBaseFunctionFn( container, Functions.LANG, 1 ),
+			datatype: getBaseFunctionFn( container, Functions.DATATYPE, 1 ),
+			iri: getBaseFunctionFn( container, Functions.IRI, 1 ),
+			uri: getBaseFunctionFn( container, Functions.URI, 1 ),
+			bnode: getBaseFunctionFn( container, Functions.BNODE, 1 ),
+			strDT: getBaseFunctionFn( container, Functions.STR_DT, 2 ),
+			strLang: getBaseFunctionFn( container, Functions.STR_LANG, 2 ),
+			uuid: getBaseFunctionFn( container, Functions.UUID, 0 ),
+			strUUID: getBaseFunctionFn( container, Functions.STR_UUID, 0 ),
+			strLen: getBaseFunctionFn( container, Functions.STRLEN, 1 ),
+			substr: getBaseFunctionFn( container, Functions.SUBSTR, 3 ),
+			uCase: getBaseFunctionFn( container, Functions.UCASE, 1 ),
+			lCase: getBaseFunctionFn( container, Functions.LCASE, 1 ),
+			strStarts: getBaseFunctionFn( container, Functions.STR_STARTS, 2 ),
+			strEnds: getBaseFunctionFn( container, Functions.STR_ENDS, 2 ),
+			contains: getBaseFunctionFn( container, Functions.CONTAINS, 2 ),
+			strBefore: getBaseFunctionFn( container, Functions.STR_BEFORE, 2 ),
+			strAfter: getBaseFunctionFn( container, Functions.STR_AFTER, 2 ),
+			encodeForUri: getBaseFunctionFn( container, Functions.ENCODE_FOR_URI, 1 ),
+			concat: getBaseFunctionFn( container, Functions.CONCAT, undefined ),
+			langMatches: getBaseFunctionFn( container, Functions.LANG_MATCHES, 2 ),
+			regex: getRegexFunctionFn( container, Functions.REGEX, 3 ),
+			replace: getRegexFunctionFn( container, Functions.REPLACE, 4 ),
+			abs: getBaseFunctionFn( container, Functions.ABS, 1 ),
+			round: getBaseFunctionFn( container, Functions.ROUND, 1 ),
+			ceil: getBaseFunctionFn( container, Functions.CEIL, 1 ),
+			floor: getBaseFunctionFn( container, Functions.FLOOR, 1 ),
+			rand: getBaseFunctionFn( container, Functions.RAND, 0 ),
+			now: getBaseFunctionFn( container, Functions.NOW, 0 ),
+			year: getBaseFunctionFn( container, Functions.YEAR, 1 ),
+			month: getBaseFunctionFn( container, Functions.MONTH, 1 ),
+			day: getBaseFunctionFn( container, Functions.DAY, 1 ),
+			hours: getBaseFunctionFn( container, Functions.HOURS, 1 ),
+			minutes: getBaseFunctionFn( container, Functions.MINUTES, 1 ),
+			seconds: getBaseFunctionFn( container, Functions.SECONDS, 1 ),
+			timezone: getBaseFunctionFn( container, Functions.TIMEZONE, 1 ),
+			tz: getBaseFunctionFn( container, Functions.TZ, 1 ),
+			md5: getBaseFunctionFn( container, Functions.MD5, 1 ),
+			sha1: getBaseFunctionFn( container, Functions.SHA1, 1 ),
+			sha256: getBaseFunctionFn( container, Functions.SHA256, 1 ),
+			sha384: getBaseFunctionFn( container, Functions.SHA384, 1 ),
+			sha512: getBaseFunctionFn( container, Functions.SHA512, 1 ),
+			custom: getCustomFunctionFn( container ),
+			customDistinct: getCustomFunctionFn( container, true ),
+			count: getBaseFunctionFn( container, Functions.COUNT, 1 ),
+			countDistinct: getBaseFunctionFn( container, Functions.COUNT, 1, true ),
+			countAll: getBaseFunctionFn( container, Functions.COUNT, null ),
+			countAllDistinct: getBaseFunctionFn( container, Functions.COUNT, null, true ),
+			sum: getBaseFunctionFn( container, Functions.SUM, 1 ),
+			sumDistinct: getBaseFunctionFn( container, Functions.SUM, 1, true ),
+			avg: getBaseFunctionFn( container, Functions.AVG, 1 ),
+			avgDistinct: getBaseFunctionFn( container, Functions.AVG, 1, true ),
+			min: getBaseFunctionFn( container, Functions.MIN, 1 ),
+			minDistinct: getBaseFunctionFn( container, Functions.MIN, 1, true ),
+			max: getBaseFunctionFn( container, Functions.MAX, 1 ),
+			maxDistinct: getBaseFunctionFn( container, Functions.MAX, 1, true ),
+			groupConcat: getSeparatorFunctionFn( container, Functions.GROUP_CONCAT ),
+			groupConcatDistinct: getSeparatorFunctionFn( container, Functions.GROUP_CONCAT, true ),
+			sample: getBaseFunctionFn( container, Functions.SAMPLE, 1 ),
+			sampleDistinct: getBaseFunctionFn( container, Functions.SAMPLE, 1, true ),
 		} )
 	},
 };
