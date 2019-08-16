@@ -52,10 +52,15 @@ export class Navigation implements Processor {
 		// Change document properties
 		doc.docType = "index";
 		doc.id = "";
+		doc.isDefault = false;
 
 		let exported:boolean = false;
 		doc.exports = doc.exports.filter( exportDoc => {
-			if( exported && exportDoc.name === "SPARQLER" || exported && exportDoc.name === "default") return false;
+			if (exported && exportDoc.name === "default"){
+				doc.isDefault = true;
+				return false;
+			}
+			if( exported && exportDoc.name === "SPARQLER") return false;
 
 			// Remove `index` from id
 			exportDoc.id = exportDoc.id.substr( 6 );
