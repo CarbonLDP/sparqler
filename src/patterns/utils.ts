@@ -37,9 +37,9 @@ const _is = <T>( value:unknown, property:PropertyKey ):value is T =>
 	typeof value === "object" && !!value && property in value;
 
 export const _getTransformer =
-	<Wrapper extends { [P in keyof Wrapper]:() => TokenNode | IRIToken | LiteralToken }>
-	( property:keyof Wrapper ) => {
-		type Token = ReturnType<Wrapper[typeof property]>;
+	<K extends string, Wrapper extends { [P in K]:() => TokenNode | IRIToken | LiteralToken }>
+	( property:K ) => {
+		type Token = ReturnType<Wrapper[K]>;
 		type ReturnTokens = Token | IRIToken | LiteralToken;
 
 		return ( container:Container<any> ) =>

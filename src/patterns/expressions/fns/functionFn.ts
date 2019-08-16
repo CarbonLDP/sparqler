@@ -183,7 +183,7 @@ export function getRegexFunctionFn( container:Container<ExpressionToken | undefi
 
 
 export function getSeparatorFunctionFn( container:Container<ExpressionToken | undefined>, name:Functions, distinct?:boolean ) {
-	return ( expression:SupportedTypes | string, separator?:string ) => {
+	return ( expression?:SupportedTypes | string, separator?:string ) => {
 		// If self function, then separator is the first argument
 		if( container.targetToken )
 			separator = expression as string;

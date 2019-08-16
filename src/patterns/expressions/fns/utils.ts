@@ -8,4 +8,4 @@ export type SupportedTypes = Expression | SupportedNativeTypes | ExpressionToken
 
 
 export const _expressionTransformerFn =
-	_getTransformer<Expression>( "getExpression" );
+	_getTransformer<"getExpression", Expression>( "getExpression" );

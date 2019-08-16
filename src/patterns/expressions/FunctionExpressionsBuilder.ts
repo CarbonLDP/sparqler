@@ -235,7 +235,6 @@ export interface FunctionExpressionsBuilder {
 	/**
 	 * Creates an {@link Expression} that constructs an RDF literal with
 	 * {@param lexicalForm} and {@param dataType} specified.
-	 * node label.
 	 *
 	 * See https://www.w3.org/TR/sparql11-query/#func-strdt
 	 * for more information.
@@ -248,7 +247,6 @@ export interface FunctionExpressionsBuilder {
 	/**
 	 * Creates an {@link Expression} that constructs an RDF literal with the
 	 * {@param lexicalForm} and {@param languageTag} specified.
-	 * node label.
 	 *
 	 * See https://www.w3.org/TR/sparql11-query/#func-strlang
 	 * for more information.
@@ -326,7 +324,7 @@ export interface FunctionExpressionsBuilder {
 	lCase( str:Expression | SupportedNativeTypes ):Expression;
 
 	/**
-	 * Creates an {@link Expression} that returns the `true` of the value of
+	 * Creates an {@link Expression} that returns the `true` of the value if
 	 * {@param arg1} starts with the value of {@param arg2}, otherwise it
 	 * returns `false`.
 	 *
@@ -339,7 +337,7 @@ export interface FunctionExpressionsBuilder {
 	strStarts( arg1:Expression | SupportedNativeTypes, arg2:Expression | SupportedNativeTypes ):Expression;
 
 	/**
-	 * Creates an {@link Expression} that returns the `true` of the value of
+	 * Creates an {@link Expression} that returns the `true` if the value of
 	 * {@param arg1} ends with the value of {@param arg2}, otherwise it
 	 * returns `false`.
 	 *
@@ -352,7 +350,7 @@ export interface FunctionExpressionsBuilder {
 	strEnds( arg1:Expression | SupportedNativeTypes, arg2:Expression | SupportedNativeTypes ):Expression;
 
 	/**
-	 * Creates an {@link Expression} that returns the `true` of the value of
+	 * Creates an {@link Expression} that returns the `true` if the value of
 	 * {@param arg1} contains the value of {@param arg2} as a substring,
 	 * otherwise it returns `false`.
 	 *
@@ -425,7 +423,7 @@ export interface FunctionExpressionsBuilder {
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param text}
-	 * value matches {@param pattern} regular expression, applying the
+	 * value matches the {@param pattern} regular expression, applying the
 	 * {@param flags} rules if defined.
 	 *
 	 * See https://www.w3.org/TR/sparql11-query/#func-regex
@@ -436,6 +434,16 @@ export interface FunctionExpressionsBuilder {
 	 * @param flags Optional expression with the matching rules to be applied.
 	 */
 	regex( text:Expression | SupportedNativeTypes, pattern:Expression | SupportedNativeTypes, flags?:Expression | SupportedNativeTypes ):Expression;
+	/**
+	 * Creates an {@link Expression} that returns `true` if {@param text}
+	 * value matches the {@param pattern} regular expression.
+	 *
+	 * See https://www.w3.org/TR/sparql11-query/#func-regex
+	 * for more information.
+	 *
+	 * @param text Expressions with string value to be checked.
+	 * @param pattern Regex used as the matcher.
+	 */
 	regex( text:Expression | SupportedNativeTypes, pattern:RegExp ):Expression;
 
 	/**
@@ -454,6 +462,20 @@ export interface FunctionExpressionsBuilder {
 	 * @param flags Optional expression with the matching rules to be applied.
 	 */
 	replace( text:Expression | SupportedNativeTypes, pattern:Expression | SupportedNativeTypes, replacement:Expression | SupportedNativeTypes, flags?:Expression | SupportedNativeTypes ):Expression;
+	/**
+	 * Creates an {@link Expression} that returns a string produced by the
+	 * {@param text} value by replacing each non-overlapping occurrence of
+	 * the {@param pattern} regular expression with the {@param replacement}
+	 * string.
+	 *
+	 *
+	 * See https://www.w3.org/TR/sparql11-query/#func-replace
+	 * for more information.
+	 *
+	 * @param text Expressions with string value to replace with the respective replacement.
+	 * @param pattern RegExp used as the matcher.
+	 * @param replacement Expression with the string or pattern to use as the replacement.
+	 */
 	replace( text:Expression | SupportedNativeTypes, pattern:RegExp, replacement:Expression | SupportedNativeTypes ):Expression;
 
 	/**
