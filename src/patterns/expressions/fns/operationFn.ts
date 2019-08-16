@@ -94,10 +94,11 @@ export function getInclusionFn(
 	operator:InclusionExpressionToken["operator"],
 ) {
 	const transformer = _getOperandTransformerFn( NumericExpressionToken.is )( container );
+	const baseTransformer = _expressionTransformerFn( container );
 
 	const operationFn = ( expression:SupportedParameter, ...expressions:SupportedParameter[] ) => {
 		const operand = transformer( expression );
-		const operands = expressions.map( transformer );
+		const operands = expressions.map( baseTransformer );
 
 		const targetToken = new InclusionExpressionToken( operator, operand, operands );
 

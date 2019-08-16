@@ -25,7 +25,7 @@ export class InclusionExpressionToken implements TokenNode {
 
 	toString( spaces?:number ):string {
 		return this.operand.toString( 0 ) + " " +
-			this.operator + " " +
+			this.operator +
 			this.expressionList.toString( spaces );
 	}
 

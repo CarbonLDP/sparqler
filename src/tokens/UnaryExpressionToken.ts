@@ -18,7 +18,7 @@ export const UnaryExpressionToken:{
 	is( token:TokenNode ):token is UnaryExpressionToken;
 } = {
 	is: ( token ):token is UnaryExpressionToken =>
-		token.token === "conditionalAndOperation" ||
+		token.token === "unaryOperation" ||
 		PrimaryExpressionToken.is( token )
 	,
 };
