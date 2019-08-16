@@ -96,7 +96,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns true if {@param variable}
 	 * is bound to a value.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-bound}
+	 * See https://www.w3.org/TR/sparql11-query/#func-bound
 	 * for more information.
 	 *
 	 * @param variable - Variable to evaluate if it's associated to a value.
@@ -108,7 +108,7 @@ export interface FunctionExpressionsBuilder {
 	 * returns the {@param consequent} value if the condition is true,
 	 * otherwise it returns {@param alternative}.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-if}
+	 * See https://www.w3.org/TR/sparql11-query/#func-if
 	 * for more information.
 	 *
 	 * @param condition - Expression to evaluate for its effective boolean value.
@@ -121,7 +121,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the value of the first expression
 	 * from the {@param expressions} list that evaluates without error.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-coalesce}
+	 * See https://www.w3.org/TR/sparql11-query/#func-coalesce
 	 * for more information.
 	 *
 	 * @param expressions - Expressions to be evaluated for the non-raising error one.
@@ -132,7 +132,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns `true` if {@param patterns}
 	 * matches the data set, or `false` otherwise.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-filter-exists}
+	 * See https://www.w3.org/TR/sparql11-query/#func-filter-exists
 	 * for more information.
 	 *
 	 * @param patterns - Patterns to evaluate if matches the data set.
@@ -142,7 +142,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns `true` if {@param patterns}
 	 * matches the data set, or `false` otherwise.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-filter-exists}
+	 * See https://www.w3.org/TR/sparql11-query/#func-filter-exists
 	 * for more information.
 	 *
 	 * @param patterns - Patterns to evaluate if matches the data set.
@@ -152,7 +152,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns `false` if {@param patterns}
 	 * matches the data set, or `true` otherwise.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-filter-exists}
+	 * See https://www.w3.org/TR/sparql11-query/#func-filter-exists
 	 * for more information.
 	 *
 	 * @param patterns - Patterns to evaluate if not matches the data set.
@@ -162,7 +162,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns `false` if {@param patterns}
 	 * matches the data set, or `true` otherwise.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-filter-exists}
+	 * See https://www.w3.org/TR/sparql11-query/#func-filter-exists
 	 * for more information.
 	 *
 	 * @param patterns - Patterns to evaluate if not matches the data set.
@@ -173,7 +173,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns `true` if {@param term1} and
 	 * {@param term2} are the same RDF term, or `false` otherwise.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sameTerm}
+	 * See https://www.w3.org/TR/sparql11-query/#func-sameTerm
 	 * for more information.
 	 *
 	 * @param term1 - Expression to evaluate its value against {@param term2}.
@@ -185,7 +185,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
 	 * an IRI. Returns `false` otherwise.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-isIRI}
+	 * See https://www.w3.org/TR/sparql11-query/#func-isIRI
 	 * for more information.
 	 *
 	 * @param term - Expression to evaluate its value.
@@ -195,7 +195,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
 	 * an URI. Returns `false` otherwise.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-isIRI}
+	 * See https://www.w3.org/TR/sparql11-query/#func-isIRI
 	 * for more information.
 	 *
 	 * @param term - Expression to evaluate its value.
@@ -206,7 +206,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
 	 * a blank node. Returns `false` otherwise.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-isBlank}
+	 * See https://www.w3.org/TR/sparql11-query/#func-isBlank
 	 * for more information.
 	 *
 	 * @param term - Expression to evaluate its value.
@@ -217,7 +217,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
 	 * a literal. Returns `false` otherwise.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-isLiteral}
+	 * See https://www.w3.org/TR/sparql11-query/#func-isLiteral
 	 * for more information.
 	 *
 	 * @param term - Expression to evaluate its value.
@@ -228,7 +228,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns `true` if {@param term} is
 	 * a numeric value. Returns `false` otherwise.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-isNumeric}
+	 * See https://www.w3.org/TR/sparql11-query/#func-isNumeric
 	 * for more information.
 	 *
 	 * @param term - Expression to evaluate its value.
@@ -239,7 +239,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the string representation of
 	 * {@param term}.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-str}
+	 * See https://www.w3.org/TR/sparql11-query/#func-str
 	 * for more information.
 	 *
 	 * @param term - Expression to evaluate its value.
@@ -250,7 +250,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the language tag of
 	 * {@param literal}.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-lang}
+	 * See https://www.w3.org/TR/sparql11-query/#func-lang
 	 * for more information.
 	 *
 	 * @param literal - Expression to evaluate its value lang.
@@ -261,7 +261,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the datatype IRI of
 	 * {@param literal}.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-datatype}
+	 * See https://www.w3.org/TR/sparql11-query/#func-datatype
 	 * for more information.
 	 *
 	 * @param literal - Expression to evaluate its value lang.
@@ -272,7 +272,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that constructs an IRI by resolving
 	 * {@param argument}.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-iri}
+	 * See https://www.w3.org/TR/sparql11-query/#func-iri
 	 * for more information.
 	 *
 	 * @param argument - Expression to construct an IRI with its value.
@@ -282,7 +282,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that constructs a URI by resolving
 	 * {@param argument}.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-iri}
+	 * See https://www.w3.org/TR/sparql11-query/#func-iri
 	 * for more information.
 	 *
 	 * @param argument - Expression to construct a URI with its value.
@@ -295,7 +295,7 @@ export interface FunctionExpressionsBuilder {
 	 * If {@param literal} is provided, it will be used as base for the blank
 	 * node label.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-bnode}
+	 * See https://www.w3.org/TR/sparql11-query/#func-bnode
 	 * for more information.
 	 *
 	 * @param literal - Optional expression to use its value for the blank node creation.
@@ -307,7 +307,7 @@ export interface FunctionExpressionsBuilder {
 	 * {@param lexicalForm} and {@param dataType} specified.
 	 * node label.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strdt}
+	 * See https://www.w3.org/TR/sparql11-query/#func-strdt
 	 * for more information.
 	 *
 	 * @param lexicalForm - Expresion with a string value to use as the lexical form of the literal.
@@ -320,7 +320,7 @@ export interface FunctionExpressionsBuilder {
 	 * {@param lexicalForm} and {@param languageTag} specified.
 	 * node label.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strlang}
+	 * See https://www.w3.org/TR/sparql11-query/#func-strlang
 	 * for more information.
 	 *
 	 * @param lexicalForm - Expresion with a string value to use as the lexical form of the literal.
@@ -332,14 +332,14 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns an IRI from the
 	 * {@link https://www.ietf.org/rfc/rfc4122.txt UUID URN scheme}.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-uuid}
+	 * See https://www.w3.org/TR/sparql11-query/#func-uuid
 	 * for more information.
 	 */
 	uuid():Expression;
 	/**
 	 * Creates an {@link Expression} that returns a string with an UUID.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-struuid}
+	 * See https://www.w3.org/TR/sparql11-query/#func-struuid
 	 * for more information.
 	 */
 	strUUID():Expression;
@@ -348,7 +348,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the number of characters
 	 * of the {@param str} expression value.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strlen}
+	 * See https://www.w3.org/TR/sparql11-query/#func-strlen
 	 * for more information.
 	 *
 	 * @param str - Expression to count the characters of its string value.
@@ -364,7 +364,7 @@ export interface FunctionExpressionsBuilder {
 	 *
 	 * The index of the first character of a string is 1.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-substr}
+	 * See https://www.w3.org/TR/sparql11-query/#func-substr
 	 * for more information.
 	 *
 	 * @param source Expression with the string value to extract the portion from.
@@ -377,7 +377,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the {@param str} value
 	 * converted to uppercase.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-ucase}
+	 * See https://www.w3.org/TR/sparql11-query/#func-ucase
 	 * for more information.
 	 *
 	 * @param str Expression with the string value to convert.
@@ -388,7 +388,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the {@param str} value
 	 * converted to lowercase.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-lcase}
+	 * See https://www.w3.org/TR/sparql11-query/#func-lcase
 	 * for more information.
 	 *
 	 * @param str Expression with the string value to convert.
@@ -400,7 +400,7 @@ export interface FunctionExpressionsBuilder {
 	 * {@param arg1} starts with the value of {@param arg2}, otherwise it
 	 * returns `false`.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strstarts}
+	 * See https://www.w3.org/TR/sparql11-query/#func-strstarts
 	 * for more information.
 	 *
 	 * @param arg1 Expression with the string value to check it starts with {@param arg2}.
@@ -413,7 +413,7 @@ export interface FunctionExpressionsBuilder {
 	 * {@param arg1} ends with the value of {@param arg2}, otherwise it
 	 * returns `false`.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strends}
+	 * See https://www.w3.org/TR/sparql11-query/#func-strends
 	 * for more information.
 	 *
 	 * @param arg1 Expression with the string value to check it ends with {@param arg2}.
@@ -426,7 +426,7 @@ export interface FunctionExpressionsBuilder {
 	 * {@param arg1} contains the value of {@param arg2} as a substring,
 	 * otherwise it returns `false`.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strends}
+	 * See https://www.w3.org/TR/sparql11-query/#func-strends
 	 * for more information.
 	 *
 	 * @param arg1 Expression with the string value to check it contains {@param arg2}.
@@ -438,7 +438,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the part the {@param arg1}
 	 * value that precedes the first occurrence of {@param arg2} value.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strends}
+	 * See https://www.w3.org/TR/sparql11-query/#func-strends
 	 * for more information.
 	 *
 	 * @param arg1 Expression with the string value to check and return the preceded part.
@@ -450,7 +450,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the part the {@param arg1}
 	 * value that follows the first occurrence of {@param arg2} value.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-strafter}
+	 * See https://www.w3.org/TR/sparql11-query/#func-strafter
 	 * for more information.
 	 *
 	 * @param arg1 Expression with the string value to check and return the followed part.
@@ -462,7 +462,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns a literal with the encoded
 	 * special characters that the value of the {@param literal} provided may have.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-encode}
+	 * See https://www.w3.org/TR/sparql11-query/#func-encode
 	 * for more information.
 	 *
 	 * @param literal Expression with the string value to encode.
@@ -473,7 +473,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the concatenation of the
 	 * string values of the {@param literals} provided.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-concat}
+	 * See https://www.w3.org/TR/sparql11-query/#func-concat
 	 * for more information.
 	 *
 	 * @param literals Expressions with the string values to concatenate.
@@ -485,7 +485,7 @@ export interface FunctionExpressionsBuilder {
 	 * value matches {@param languageRange} as defined in
 	 * {@link https://www.ietf.org/rfc/rfc4647.txt Matching of Language}.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-langMatches}
+	 * See https://www.w3.org/TR/sparql11-query/#func-langMatches
 	 * for more information.
 	 *
 	 * @param languageTag Expressions with the language tag to be checked.
@@ -498,7 +498,7 @@ export interface FunctionExpressionsBuilder {
 	 * value matches {@param pattern} regular expression, applying the
 	 * {@param flags} rules if defined.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-regex}
+	 * See https://www.w3.org/TR/sparql11-query/#func-regex
 	 * for more information.
 	 *
 	 * @param text Expressions with string value to be checked.
@@ -515,7 +515,7 @@ export interface FunctionExpressionsBuilder {
 	 * string, applying the {@param flags} rules if defined.
 	 *
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-replace}
+	 * See https://www.w3.org/TR/sparql11-query/#func-replace
 	 * for more information.
 	 *
 	 * @param text Expressions with string value to replace with the respective replacement.
@@ -530,7 +530,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the absolute value of
 	 * {@param term}.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-abs}
+	 * See https://www.w3.org/TR/sparql11-query/#func-abs
 	 * for more information.
 	 *
 	 * @param term Expressions with the numeric value to get its absolute value.
@@ -543,7 +543,7 @@ export interface FunctionExpressionsBuilder {
 	 * If there are two such numbers, then the one that is closest to positive
 	 * infinity is returned.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-round}
+	 * See https://www.w3.org/TR/sparql11-query/#func-round
 	 * for more information.
 	 *
 	 * @param term Expressions with the numeric value to get its round value.
@@ -554,7 +554,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the closest to negative infinity
 	 * number with no fractional part that is closest to the {@param term} value.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-ceil}
+	 * See https://www.w3.org/TR/sparql11-query/#func-ceil
 	 * for more information.
 	 *
 	 * @param term Expressions with the numeric value to get its ceil value.
@@ -565,7 +565,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the closest to positive infinity
 	 * number with no fractional part that is closest to the {@param term} value.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-floor}
+	 * See https://www.w3.org/TR/sparql11-query/#func-floor
 	 * for more information.
 	 *
 	 * @param term Expressions with the numeric value to get its floor value.
@@ -576,7 +576,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns a pseudo-random number
 	 * between 0 (inclusive) and 1.0e0 (exclusive).
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#idp2130040}
+	 * See https://www.w3.org/TR/sparql11-query/#idp2130040
 	 * for more information.
 	 */
 	rand():Expression;
@@ -585,7 +585,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns a `xsd:dateType` value for
 	 * the current query execution.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-now}
+	 * See https://www.w3.org/TR/sparql11-query/#func-now
 	 * for more information.
 	 */
 	now():Expression;
@@ -594,7 +594,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the year part of the
 	 * {@param dateTime} value as an integer.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-year}
+	 * See https://www.w3.org/TR/sparql11-query/#func-year
 	 * for more information.
 	 */
 	year( dateTime:Expression | SupportedNativeTypes ):Expression;
@@ -603,7 +603,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the month part of the
 	 * {@param dateTime} value as an integer.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-month}
+	 * See https://www.w3.org/TR/sparql11-query/#func-month
 	 * for more information.
 	 */
 	month( dateTime:Expression | SupportedNativeTypes ):Expression;
@@ -612,7 +612,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the day part of the
 	 * {@param dateTime} value as an integer.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-day}
+	 * See https://www.w3.org/TR/sparql11-query/#func-day
 	 * for more information.
 	 */
 	day( dateTime:Expression | SupportedNativeTypes ):Expression;
@@ -621,7 +621,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the hours part of the
 	 * {@param dateTime} value as an integer.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-hours}
+	 * See https://www.w3.org/TR/sparql11-query/#func-hours
 	 * for more information.
 	 */
 	hours( dateTime:Expression | SupportedNativeTypes ):Expression;
@@ -630,7 +630,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the minutes part of the
 	 * {@param dateTime} value as an integer.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-minutes}
+	 * See https://www.w3.org/TR/sparql11-query/#func-minutes
 	 * for more information.
 	 */
 	minutes( dateTime:Expression | SupportedNativeTypes ):Expression;
@@ -639,7 +639,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the seconds part of the
 	 * {@param dateTime} value as a decimal.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-seconds}
+	 * See https://www.w3.org/TR/sparql11-query/#func-seconds
 	 * for more information.
 	 */
 	seconds( dateTime:Expression | SupportedNativeTypes ):Expression;
@@ -651,7 +651,7 @@ export interface FunctionExpressionsBuilder {
 	 * Beware that using a Date object will generate a literal in ISO 8601
 	 * format with the `Z` timezone.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-timezone}
+	 * See https://www.w3.org/TR/sparql11-query/#func-timezone
 	 * for more information.
 	 */
 	timezone( dateTime:Expression | SupportedNativeTypes ):Expression;
@@ -663,7 +663,7 @@ export interface FunctionExpressionsBuilder {
 	 * Beware that using a Date object will generate a literal in ISO 8601
 	 * format with the `Z` timezone.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-tz}
+	 * See https://www.w3.org/TR/sparql11-query/#func-tz
 	 * for more information.
 	 */
 	tz( dateTime:Expression | SupportedNativeTypes ):Expression;
@@ -672,7 +672,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the MD5 checksum, calculated
 	 * on the UTF-8 representation of the string {@param literal} provided.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-md5}
+	 * See https://www.w3.org/TR/sparql11-query/#func-md5
 	 * for more information.
 	 */
 	md5( literal:Expression | SupportedNativeTypes ):Expression;
@@ -681,7 +681,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the SHA1 checksum, calculated
 	 * on the UTF-8 representation of the string {@param literal} provided.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha1}
+	 * See https://www.w3.org/TR/sparql11-query/#func-sha1
 	 * for more information.
 	 */
 	sha1( literal:Expression | SupportedNativeTypes ):Expression;
@@ -690,7 +690,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the SHA256 checksum, calculated
 	 * on the UTF-8 representation of the string {@param literal} provided.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha256}
+	 * See https://www.w3.org/TR/sparql11-query/#func-sha256
 	 * for more information.
 	 */
 	sha256( literal:Expression | SupportedNativeTypes ):Expression;
@@ -699,7 +699,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the SHA384 checksum, calculated
 	 * on the UTF-8 representation of the string {@param literal} provided.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha384}
+	 * See https://www.w3.org/TR/sparql11-query/#func-sha384
 	 * for more information.
 	 */
 	sha384( literal:Expression | SupportedNativeTypes ):Expression;
@@ -708,7 +708,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the SHA512 checksum, calculated
 	 * on the UTF-8 representation of the string {@param literal} provided.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#func-sha512}
+	 * See https://www.w3.org/TR/sparql11-query/#func-sha512
 	 * for more information.
 	 */
 	sha512( literal:Expression | SupportedNativeTypes ):Expression;
@@ -717,7 +717,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that executes a function
 	 * declared by a custom IRI.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#ririOrFunction}
+	 * See https://www.w3.org/TR/sparql11-query/#ririOrFunction
 	 * for more information.
 	 */
 	custom( resource:Resource | string, ...args:(Expression | SupportedNativeTypes)[] ):Expression;
@@ -725,7 +725,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that executes a function
 	 * declared by a custom IRI reducing to only distinct arguments.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#ririOrFunction}
+	 * See https://www.w3.org/TR/sparql11-query/#ririOrFunction
 	 * for more information.
 	 */
 	customDistinct( resource:Resource | string, ...args:(Expression | SupportedNativeTypes)[] ):Expression;
@@ -734,7 +734,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that counts the number of times
 	 * the given expression has a solution over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggCount}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggCount
 	 * for more information.
 	 *
 	 * @param expression - Expression to be counted
@@ -744,7 +744,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that counts the number of times
 	 * the given expression has a bound for every distinct sequence over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggCount}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggCount
 	 * for more information.
 	 *
 	 * @param expression - Expression to be counted
@@ -754,7 +754,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that counts the number of solutions
 	 * over the group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggCount}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggCount
 	 * for more information.
 	 */
 	countAll():Expression;
@@ -762,7 +762,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that counts the number of distinct
 	 * solution sequences over the group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggCount}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggCount
 	 * for more information.
 	 */
 	countAllDistinct():Expression;
@@ -771,7 +771,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the value of the sum
 	 * of the given expression's values over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggSum}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggSum
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values to be summed.
@@ -781,7 +781,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the value of the sum
 	 * of the given expression's values for every distinct sequence over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggSum}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggSum
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values to be summed.
@@ -792,7 +792,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the average value
 	 * of the given expression's values over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggAvg}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggAvg
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values to calculate its average.
@@ -802,7 +802,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the average value
 	 * of the given expression's values for every distinct sequence over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggAvg}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggAvg
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values to calculate its average.
@@ -813,7 +813,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the minimum value
 	 * of the given expression's values over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggMin}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggMin
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values to calculate its minimum.
@@ -823,7 +823,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the minimum value
 	 * of the given expression's values for every distinct sequence over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggMin}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggMin
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values to calculate its minimum.
@@ -834,7 +834,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the maximum value
 	 * of the given expression's values over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggMax}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggMax
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values to calculate its maximum.
@@ -844,7 +844,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the maximum value
 	 * of the given expression's values for every distinct sequence over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggMax}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggMax
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values to calculate its maximum.
@@ -855,7 +855,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the string concatenation
 	 * of the given expression's values over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values to calculate its maximum.
@@ -866,7 +866,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns the string concatenation
 	 * of the given expression's values for every distinct sequence over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values to calculate its maximum.
@@ -878,7 +878,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns an arbitrary value
 	 * from the given expression's values over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggSample}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggSample
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values from where to select the value.
@@ -888,7 +888,7 @@ export interface FunctionExpressionsBuilder {
 	 * Creates an {@link Expression} that returns an arbitrary value
 	 * from the given expression's values for every distinct sequence over the solution group.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#defn_aggSample}
+	 * See https://www.w3.org/TR/sparql11-query/#defn_aggSample
 	 * for more information.
 	 *
 	 * @param expression - Expression of the values from where to select the value.
