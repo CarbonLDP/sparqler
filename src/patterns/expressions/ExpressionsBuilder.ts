@@ -10,7 +10,7 @@ import { OperationExpressionsBuilder } from "./OperationExpressionsBuilder";
  * See https://www.w3.org/TR/sparql11-query/#expressions for
  * more information.
  */
-interface ExpressionsBuilder extends FunctionExpressionsBuilder, OperationExpressionsBuilder {
+export interface ExpressionsBuilder extends FunctionExpressionsBuilder, OperationExpressionsBuilder {
 }
 
 

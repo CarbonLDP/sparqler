@@ -193,20 +193,16 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * converted to uppercase.
 	 *
 	 * See {@link FunctionExpressionsBuilder.uCase} for the complete version of this method.
-	 *
-	 * @param str Expression with the string value to convert.
 	 */
-	uCase( str:Expression | SupportedNativeTypes ):Expression;
+	uCase():Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the self value
 	 * converted to lowercase.
 	 *
 	 * See {@link FunctionExpressionsBuilder.lCase} for the complete version of this method.
-	 *
-	 * @param str Expression with the string value to convert.
 	 */
-	lCase( str:Expression | SupportedNativeTypes ):Expression;
+	lCase():Expression;
 
 	/**
 	 * Creates an {@link Expression} that returns the `true` if the self value
@@ -785,8 +781,6 @@ export const Expression:{
 			bnode: getBaseFunctionFn( container, Functions.BNODE, 1 ),
 			strDT: getBaseFunctionFn( container, Functions.STR_DT, 2 ),
 			strLang: getBaseFunctionFn( container, Functions.STR_LANG, 2 ),
-			uuid: getBaseFunctionFn( container, Functions.UUID, 0 ),
-			strUUID: getBaseFunctionFn( container, Functions.STR_UUID, 0 ),
 			strLen: getBaseFunctionFn( container, Functions.STRLEN, 1 ),
 			substr: getBaseFunctionFn( container, Functions.SUBSTR, 3 ),
 			uCase: getBaseFunctionFn( container, Functions.UCASE, 1 ),
@@ -805,8 +799,6 @@ export const Expression:{
 			round: getBaseFunctionFn( container, Functions.ROUND, 1 ),
 			ceil: getBaseFunctionFn( container, Functions.CEIL, 1 ),
 			floor: getBaseFunctionFn( container, Functions.FLOOR, 1 ),
-			rand: getBaseFunctionFn( container, Functions.RAND, 0 ),
-			now: getBaseFunctionFn( container, Functions.NOW, 0 ),
 			year: getBaseFunctionFn( container, Functions.YEAR, 1 ),
 			month: getBaseFunctionFn( container, Functions.MONTH, 1 ),
 			day: getBaseFunctionFn( container, Functions.DAY, 1 ),
@@ -822,8 +814,6 @@ export const Expression:{
 			sha512: getBaseFunctionFn( container, Functions.SHA512, 1 ),
 			count: getBaseFunctionFn( container, Functions.COUNT, 1 ),
 			countDistinct: getBaseFunctionFn( container, Functions.COUNT, 1, true ),
-			countAll: getBaseFunctionFn( container, Functions.COUNT, null ),
-			countAllDistinct: getBaseFunctionFn( container, Functions.COUNT, null, true ),
 			sum: getBaseFunctionFn( container, Functions.SUM, 1 ),
 			sumDistinct: getBaseFunctionFn( container, Functions.SUM, 1, true ),
 			avg: getBaseFunctionFn( container, Functions.AVG, 1 ),

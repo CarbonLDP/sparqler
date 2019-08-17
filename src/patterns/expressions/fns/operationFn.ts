@@ -34,9 +34,13 @@ export function getUnaryOperationFn(
 	container:Container<ExpressionToken | undefined>,
 	operator:UnaryOperationToken["operator"],
 ) {
-	const transformer = _getOperandTransformerFn( PrimaryExpressionToken.is )( container );
+	return ( expression:SupportedTypes ) => {
+		// Replace argument by the contained
+		if( container.targetToken ) {
+			expression = container.targetToken;
+		}
 
-	const operationFn = ( expression:SupportedTypes ) => {
+		const transformer = _getOperandTransformerFn( PrimaryExpressionToken.is )( container );
 		const operand = transformer( expression );
 		const targetToken = new UnaryOperationToken( operator, operand );
 
@@ -45,10 +49,6 @@ export function getUnaryOperationFn(
 
 		return Expression.createFrom( newContainer, {} );
 	};
-
-	return container.targetToken
-		? () => operationFn( container.targetToken! )
-		: operationFn;
 }
 
 
@@ -61,9 +61,14 @@ export function getBinaryOperationFn<T extends string, W extends ExpressionToken
 	operator:T,
 	limit?:true,
 ) {
-	const transformer = _getOperandTransformerFn<W>( isValid )( container );
+	return ( leftExpression:SupportedTypes, ...restExpression:SupportedTypes[] ) => {
+		// Replace first argument by the contained
+		if( container.targetToken ) {
+			restExpression.unshift( leftExpression );
+			leftExpression = container.targetToken;
+		}
 
-	const operationFn = ( leftExpression:SupportedTypes, ...restExpression:SupportedTypes[] ) => {
+		const transformer = _getOperandTransformerFn<W>( isValid )( container );
 		const leftOperand = transformer( leftExpression );
 		const targetToken = new TokenClass( operator, leftOperand );
 
@@ -79,21 +84,23 @@ export function getBinaryOperationFn<T extends string, W extends ExpressionToken
 
 		return Expression.createFrom( newContainer, {} );
 	};
-
-	return container.targetToken
-		? ( operand:SupportedTypes ) => operationFn( container.targetToken!, operand )
-		: operationFn;
 }
 
 export function getInclusionFn(
 	container:Container<ExpressionToken | undefined>,
 	operator:InclusionExpressionToken["operator"],
 ) {
-	const transformer = _getOperandTransformerFn( NumericExpressionToken.is )( container );
-	const baseTransformer = _expressionTransformerFn( container );
+	return ( expression:SupportedTypes, ...expressions:SupportedTypes[] ) => {
+		// Replace first argument by the contained
+		if( container.targetToken ) {
+			expressions.unshift( expression );
+			expression = container.targetToken;
+		}
 
-	const operationFn = ( expression:SupportedTypes, ...expressions:SupportedTypes[] ) => {
+		const transformer = _getOperandTransformerFn( NumericExpressionToken.is )( container );
 		const operand = transformer( expression );
+
+		const baseTransformer = _expressionTransformerFn( container );
 		const operands = expressions.map( baseTransformer );
 
 		const targetToken = new InclusionExpressionToken( operator, operand, operands );
@@ -103,8 +110,4 @@ export function getInclusionFn(
 
 		return Expression.createFrom( newContainer, {} );
 	};
-
-	return container.targetToken
-		? ( ...expressions:SupportedTypes[] ) => operationFn( container.targetToken!, ...expressions )
-		: operationFn;
 }
