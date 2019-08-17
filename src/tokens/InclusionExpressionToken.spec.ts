@@ -51,23 +51,23 @@ describe( "InclusionExpressionToken", ():void => {
 
 		it( "should compact print empty", ():void => {
 			const token:InclusionExpressionToken = new InclusionExpressionToken( "IN", new VariableToken( "foo" ), [] );
-			expect( token.toString() ).toBe( "?foo IN ()" );
+			expect( token.toString() ).toBe( "?foo IN()" );
 		} );
 
 		it( "should pretty print empty", ():void => {
 			const token:InclusionExpressionToken = new InclusionExpressionToken( "IN", new VariableToken( "foo" ), [] );
-			expect( token.toString( 0 ) ).toBe( "?foo IN ()" );
+			expect( token.toString( 0 ) ).toBe( "?foo IN()" );
 		} );
 
 
 		it( "should compact print with multiple expressions", ():void => {
 			const token:InclusionExpressionToken = new InclusionExpressionToken( "IN", new VariableToken( "foo" ), [ new VariableToken( "bar" ), new VariableToken( "baz" ) ] );
-			expect( token.toString() ).toBe( "?foo IN (?bar,?baz)" );
+			expect( token.toString() ).toBe( "?foo IN(?bar,?baz)" );
 		} );
 
 		it( "should pretty print with multiple expressions", ():void => {
 			const token:InclusionExpressionToken = new InclusionExpressionToken( "IN", new VariableToken( "foo" ), [ new VariableToken( "bar" ), new VariableToken( "baz" ) ] );
-			expect( token.toString( 0 ) ).toBe( "?foo IN ( ?bar, ?baz )" );
+			expect( token.toString( 0 ) ).toBe( "?foo IN( ?bar, ?baz )" );
 		} );
 
 	} );
