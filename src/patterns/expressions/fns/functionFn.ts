@@ -1,15 +1,21 @@
 import { Container } from "../../../data/Container";
+import { Factory } from "../../../data/Factory";
 import { cloneElement } from "../../../data/utils";
+
 import { ExpressionListToken } from "../../../tokens/ExpressionListToken";
 import { ExpressionToken } from "../../../tokens/ExpressionToken";
 import { FunctionToken } from "../../../tokens/FunctionToken";
 import { GroupPatternToken } from "../../../tokens/GroupPatternToken";
 import { IRIToken } from "../../../tokens/IRIToken";
 import { VariableToken } from "../../../tokens/VariableToken";
+
 import { Pattern } from "../../Pattern";
+
 import { Resource } from "../../triplePatterns/Resource";
 import { Variable } from "../../triplePatterns/Variable";
+
 import { Expression } from "../Expression";
+
 import { _expressionTransformerFn, SupportedTypes } from "./utils";
 
 
@@ -82,6 +88,7 @@ export const enum Functions {
 
 
 function _getExpression(
+	factory:Factory<Container<ExpressionToken>, Expression>,
 	container:Container<any>,
 	name:Functions | IRIToken,
 	listOrPatterns:ExpressionListToken | GroupPatternToken
@@ -91,12 +98,13 @@ function _getExpression(
 	const newContainer:Container<ExpressionToken> =
 		cloneElement( container, { targetToken } );
 
-	return Expression.createFrom( newContainer, {} )
+	return factory( newContainer, {} )
 }
 
 // Special Pattern Function Generator
 
 export function getPatternFunctionFn(
+	factory:Factory<Container<ExpressionToken>, Expression>,
 	container:Container<undefined>,
 	name:Functions,
 ) {
@@ -109,7 +117,7 @@ export function getPatternFunctionFn(
 		const groupPatternToken = new GroupPatternToken()
 			.addPattern( ...patternTokens );
 
-		return _getExpression( container, name, groupPatternToken );
+		return _getExpression( factory, container, name, groupPatternToken );
 	}
 }
 
@@ -117,6 +125,7 @@ export function getPatternFunctionFn(
 // Base Function Generator
 
 export function getBaseFunctionFn(
+	factory:Factory<Container<ExpressionToken>, Expression>,
 	container:Container<ExpressionToken | undefined>,
 	name:Functions | IRIToken,
 	// Set a limit of expressions, or no data if `null`
@@ -137,7 +146,7 @@ export function getBaseFunctionFn(
 				.map( _expressionTransformerFn( container ) );
 
 		const list = new ExpressionListToken( listTokens, distinct, separator );
-		return _getExpression( container, name, list );
+		return _getExpression( factory, container, name, list );
 	}
 }
 
@@ -145,26 +154,36 @@ export function getBaseFunctionFn(
 // Specialized Function Generators
 
 export function getVariableFunctionFn(
+	factory:Factory<Container<ExpressionToken>, Expression>,
 	container:Container<ExpressionToken | undefined>,
 	name:Functions | IRIToken,
 ) {
 	return ( variable:Variable | VariableToken | string ) => {
 		if( typeof variable === "string" ) variable = new VariableToken( variable );
-		return getBaseFunctionFn( container, name, undefined )( variable )
+		return getBaseFunctionFn( factory, container, name, undefined )( variable )
 	}
 }
 
-export function getCustomFunctionFn( container:Container<undefined>, distinct?:boolean ) {
+export function getCustomFunctionFn(
+	factory:Factory<Container<ExpressionToken>, Expression>,
+	container:Container<undefined>,
+	distinct?:boolean,
+) {
 	return ( resource:Resource | string, ...expressions:SupportedTypes[] ) => {
 		const iri = typeof resource === "string"
 			? container.iriResolver.resolve( resource )
 			: resource.getSubject();
 
-		return getBaseFunctionFn( container, iri, undefined, distinct )( ...expressions );
+		return getBaseFunctionFn( factory, container, iri, undefined, distinct )( ...expressions );
 	}
 }
 
-export function getRegexFunctionFn( container:Container<ExpressionToken | undefined>, name:Functions, limit:number ) {
+export function getRegexFunctionFn(
+	factory:Factory<Container<ExpressionToken>, Expression>,
+	container:Container<ExpressionToken | undefined>,
+	name:Functions,
+	limit:number,
+) {
 	return ( ...rawExpressions:(SupportedTypes | RegExp | undefined)[] ) => {
 		let flags:string | undefined;
 		const expressions:(SupportedTypes | undefined)[] = rawExpressions
@@ -177,17 +196,22 @@ export function getRegexFunctionFn( container:Container<ExpressionToken | undefi
 
 		if( flags ) expressions.push( flags );
 
-		return getBaseFunctionFn( container, name, limit )( ...expressions );
+		return getBaseFunctionFn( factory, container, name, limit )( ...expressions );
 	}
 }
 
 
-export function getSeparatorFunctionFn( container:Container<ExpressionToken | undefined>, name:Functions, distinct?:boolean ) {
+export function getSeparatorFunctionFn(
+	factory:Factory<Container<ExpressionToken>, Expression>,
+	container:Container<ExpressionToken | undefined>,
+	name:Functions,
+	distinct?:boolean,
+) {
 	return ( expression?:SupportedTypes | string, separator?:string ) => {
 		// If self function, then separator is the first argument
 		if( container.targetToken )
 			separator = expression as string;
 
-		return getBaseFunctionFn( container, name, 1, distinct, separator )( expression );
+		return getBaseFunctionFn( factory, container, name, 1, distinct, separator )( expression );
 	}
 }

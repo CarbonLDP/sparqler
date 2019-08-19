@@ -1,4 +1,5 @@
 import { Container } from "../../../data/Container";
+import { Factory } from "../../../data/Factory";
 import { cloneElement } from "../../../data/utils";
 
 import { BinaryOperationToken } from "../../../tokens/BinaryOperationToken";
@@ -31,6 +32,7 @@ const _getOperandTransformerFn =
 
 
 export function getUnaryOperationFn(
+	factory:Factory<Container<ExpressionToken>, Expression>,
 	container:Container<ExpressionToken | undefined>,
 	operator:UnaryOperationToken["operator"],
 ) {
@@ -47,7 +49,7 @@ export function getUnaryOperationFn(
 		const newContainer:Container<UnaryOperationToken> =
 			cloneElement( container, { targetToken } );
 
-		return Expression.createFrom( newContainer, {} );
+		return factory( newContainer, {} );
 	};
 }
 
@@ -55,6 +57,7 @@ export function getUnaryOperationFn(
 type BinaryExpressionToken<W extends ExpressionToken, E extends ExpressionToken> = E extends BinaryOperationToken<any, W> ? E : never;
 
 export function getBinaryOperationFn<T extends string, W extends ExpressionToken, B extends BinaryExpressionToken<W, ExpressionToken>>(
+	factory:Factory<Container<ExpressionToken>, Expression>,
 	container:Container<ExpressionToken | undefined>,
 	TokenClass:new( operator:T, operand:W ) => B,
 	isValid:( value:ExpressionToken ) => value is W,
@@ -82,11 +85,12 @@ export function getBinaryOperationFn<T extends string, W extends ExpressionToken
 		const newContainer:Container<B> =
 			cloneElement( container, { targetToken } );
 
-		return Expression.createFrom( newContainer, {} );
+		return factory( newContainer, {} );
 	};
 }
 
 export function getInclusionFn(
+	factory:Factory<Container<ExpressionToken>, Expression>,
 	container:Container<ExpressionToken | undefined>,
 	operator:InclusionExpressionToken["operator"],
 ) {
@@ -108,6 +112,6 @@ export function getInclusionFn(
 		const newContainer:Container<InclusionExpressionToken> =
 			cloneElement( container, { targetToken } );
 
-		return Expression.createFrom( newContainer, {} );
+		return factory( newContainer, {} );
 	};
 }
