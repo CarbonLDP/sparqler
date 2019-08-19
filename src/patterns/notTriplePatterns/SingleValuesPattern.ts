@@ -3,13 +3,14 @@ import { cloneElement } from "../../data/utils";
 
 import { ValuesToken } from "../../tokens/ValuesToken";
 
+import { convertValue } from "../../utils/transformers";
+
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";
 
 import { Undefined } from "../Undefined";
-import { convertValue } from "../utils";
 
 import { NotTriplePattern } from "./NotTriplePattern";
 
@@ -41,7 +42,7 @@ export interface SingleValuesPatternMore extends NotTriplePattern<ValuesToken> {
 function getHasFn<C extends Container<ValuesToken>>( container:C ):SingleValuesPattern[ "has" ] {
 	return value => {
 		const values = container.targetToken.values.slice();
-		if( ! values.length ) values.push( [] );
+		if( !values.length ) values.push( [] );
 		values[ 0 ] = values[ 0 ].concat( convertValue( value as SupportedNativeTypes ) );
 
 		const targetToken = cloneElement( container.targetToken, { values } );

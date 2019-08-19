@@ -10,11 +10,12 @@ import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
+import { convertValue } from "../../utils/transformers";
+
 import { Path } from "../paths/Path";
 import { getPropertyToken } from "../paths/utils";
 
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
-import { convertValue } from "../utils";
 
 import { BlankNodeProperty } from "./BlankNodeProperty";
 import { Collection } from "./Collection";

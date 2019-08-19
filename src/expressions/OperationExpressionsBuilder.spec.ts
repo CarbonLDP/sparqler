@@ -1,9 +1,8 @@
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../data/Container";
+import { IRIResolver } from "../data/IRIResolver";
 
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
-
-import { TriplePatternsBuilder } from "../triplePatterns/TriplePatternsBuilder";
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
+import { TriplePatternsBuilder } from "../patterns/triplePatterns/TriplePatternsBuilder";
 
 import { Expression } from "./Expression";
 import { OperationExpressionsBuilder } from "./OperationExpressionsBuilder";

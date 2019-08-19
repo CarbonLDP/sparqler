@@ -1,6 +1,9 @@
-import { ExpressionToken } from "../../../tokens/ExpressionToken";
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
-import { _getTransformer } from "../../utils";
+import { SupportedNativeTypes } from "../../patterns/SupportedNativeTypes";
+
+import { ExpressionToken } from "../../tokens/ExpressionToken";
+
+import { _getTransformer } from "../../utils/transformers";
+
 import { Expression } from "../Expression";
 
 

@@ -89,10 +89,11 @@ export interface SelectClause<T extends FinishClause> {
  *
  * @private
  */
-function getSelectFn<C extends Container<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED" ):SelectClause<T>[ "select" ] {
+function getSelectFn<C extends Container<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED", limit?:true ):SelectClause<T>[ "select" ] {
 	return ( ...variables:string[] ) => {
 		const queryClause:SelectToken = new SelectToken( modifier );
-		if( variables.length ) queryClause.addVariable( ...variables.map( x => new VariableToken( x ) ) );
+
+		if( !limit && variables.length ) queryClause.addVariable( ...variables.map( x => new VariableToken( x ) ) );
 
 		const queryToken:QueryToken<SelectToken> = cloneElement( container.targetToken, { queryClause } );
 		const newContainer:Container<QueryToken<SelectToken>> = new Container( {
@@ -130,9 +131,9 @@ export const SelectClause:{
 			select: getSelectFn( genericFactory, container ),
 			selectDistinct: getSelectFn( genericFactory, container, "DISTINCT" ),
 			selectReduced: getSelectFn( genericFactory, container, "REDUCED" ),
-			selectAll: () => getSelectFn( genericFactory, container )(),
-			selectAllDistinct: () => getSelectFn( genericFactory, container, "DISTINCT" )(),
-			selectAllReduced: () => getSelectFn( genericFactory, container, "REDUCED" )(),
+			selectAll: getSelectFn( genericFactory, container, undefined, true ),
+			selectAllDistinct: getSelectFn( genericFactory, container, "DISTINCT", true ),
+			selectAllReduced: getSelectFn( genericFactory, container, "REDUCED", true ),
 		} );
 	},
 };

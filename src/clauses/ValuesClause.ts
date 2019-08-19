@@ -8,12 +8,13 @@ import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 import { Literal } from "../patterns/triplePatterns/Literal";
 import { Resource } from "../patterns/triplePatterns/Resource";
 import { Undefined } from "../patterns/Undefined";
-import { convertValue } from "../patterns/utils";
 
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 import { ValuesToken } from "../tokens/ValuesToken";
 import { VariableToken } from "../tokens/VariableToken";
+
+import { convertValue } from "../utils/transformers";
 
 import { FinishClause } from "./FinishClause";
 
@@ -85,7 +86,7 @@ function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIRe
 		valuesOrBuilder;
 
 	// When single variable
-	if( ! Array.isArray( rawValues ) )
+	if( !Array.isArray( rawValues ) )
 		return [ [ rawValues ] ];
 
 	if( isSingle )
@@ -117,7 +118,7 @@ function createValuesFn<C extends Container<QueryToken | SubSelectToken>, T exte
 		const variables:VariableToken[] = _normalizeVariables( variableOrVariables );
 		token.addVariables( ...variables );
 
-		const isSingle:boolean = ! Array.isArray( variableOrVariables );
+		const isSingle:boolean = !Array.isArray( variableOrVariables );
 		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
 		const values:Values[][] = _normalizeRawValues( valuesOrBuilder, iriResolver, isSingle );
 		values.forEach( ( valuesRow ) => token.addValues( ...valuesRow.map( convertValue ) ) );

@@ -1,18 +1,17 @@
-import { Container } from "../../../data/Container";
-import { Factory } from "../../../data/Factory";
-import { cloneElement } from "../../../data/utils";
+import { Container } from "../../data/Container";
+import { Factory } from "../../data/Factory";
+import { cloneElement } from "../../data/utils";
 
-import { ExpressionListToken } from "../../../tokens/ExpressionListToken";
-import { ExpressionToken } from "../../../tokens/ExpressionToken";
-import { FunctionToken } from "../../../tokens/FunctionToken";
-import { GroupPatternToken } from "../../../tokens/GroupPatternToken";
-import { IRIToken } from "../../../tokens/IRIToken";
-import { VariableToken } from "../../../tokens/VariableToken";
+import { Pattern } from "../../patterns/Pattern";
+import { Resource } from "../../patterns/triplePatterns/Resource";
+import { Variable } from "../../patterns/triplePatterns/Variable";
 
-import { Pattern } from "../../Pattern";
-
-import { Resource } from "../../triplePatterns/Resource";
-import { Variable } from "../../triplePatterns/Variable";
+import { ExpressionListToken } from "../../tokens/ExpressionListToken";
+import { ExpressionToken } from "../../tokens/ExpressionToken";
+import { FunctionToken } from "../../tokens/FunctionToken";
+import { GroupPatternToken } from "../../tokens/GroupPatternToken";
+import { IRIToken } from "../../tokens/IRIToken";
+import { VariableToken } from "../../tokens/VariableToken";
 
 import { Expression } from "../Expression";
 

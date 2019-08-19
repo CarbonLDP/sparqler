@@ -1,14 +1,14 @@
-import { Container } from "../../../data/Container";
-import { Factory } from "../../../data/Factory";
-import { cloneElement } from "../../../data/utils";
+import { Container } from "../../data/Container";
+import { Factory } from "../../data/Factory";
+import { cloneElement } from "../../data/utils";
 
-import { BinaryOperationToken } from "../../../tokens/BinaryOperationToken";
-import { BracketedExpressionToken } from "../../../tokens/BracketedExpressionToken";
-import { ExpressionToken } from "../../../tokens/ExpressionToken";
-import { InclusionExpressionToken } from "../../../tokens/InclusionExpressionToken";
-import { NumericExpressionToken } from "../../../tokens/NumericExpressionToken";
-import { PrimaryExpressionToken } from "../../../tokens/PrimaryExpressionToken";
-import { UnaryOperationToken } from "../../../tokens/UnaryOperationToken";
+import { BinaryOperationToken } from "../../tokens/BinaryOperationToken";
+import { BracketedExpressionToken } from "../../tokens/BracketedExpressionToken";
+import { ExpressionToken } from "../../tokens/ExpressionToken";
+import { InclusionExpressionToken } from "../../tokens/InclusionExpressionToken";
+import { NumericExpressionToken } from "../../tokens/NumericExpressionToken";
+import { PrimaryExpressionToken } from "../../tokens/PrimaryExpressionToken";
+import { UnaryOperationToken } from "../../tokens/UnaryOperationToken";
 
 import { Expression } from "../Expression";
 

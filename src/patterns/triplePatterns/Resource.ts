@@ -1,9 +1,9 @@
 import { Container } from "../../data/Container";
 import { Factory } from "../../data/Factory";
 
-import { IRIToken } from "../../tokens/IRIToken";
+import { Expression } from "../../expressions/Expression";
 
-import { Expression } from "../expressions/Expression";
+import { IRIToken } from "../../tokens/IRIToken";
 
 import { TripleSubject } from "./TripleSubject";
 

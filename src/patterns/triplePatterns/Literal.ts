@@ -1,9 +1,9 @@
 import { Container } from "../../data/Container";
 import { Factory } from "../../data/Factory";
 
-import { LiteralToken } from "../../tokens/LiteralToken";
+import { Expression } from "../../expressions/Expression";
 
-import { Expression } from "../expressions/Expression";
+import { LiteralToken } from "../../tokens/LiteralToken";
 
 import { TripleSubject } from "./TripleSubject";
 

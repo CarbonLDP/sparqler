@@ -1,5 +1,10 @@
 import { Container } from "../data/Container";
+
 import { isAbsolute } from "../iri/utils";
+
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
+import { TripleSubject } from "../patterns/triplePatterns/TripleSubject";
+
 import { getIRIToken, IRIToken } from "../tokens/IRIToken";
 import { LiteralToken } from "../tokens/LiteralToken";
 import { ObjectToken } from "../tokens/ObjectToken";
@@ -8,10 +13,7 @@ import { TermToken } from "../tokens/TermToken";
 import { TokenNode } from "../tokens/TokenNode";
 import { VariableToken } from "../tokens/VariableToken";
 
-import { XSD } from "../utils/XSD";
-
-import { SupportedNativeTypes } from "./SupportedNativeTypes";
-import { TripleSubject } from "./triplePatterns/TripleSubject";
+import { XSD } from "./XSD";
 
 
 export function convertValue( value:"UNDEF" ):"UNDEF";
