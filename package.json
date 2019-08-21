@@ -27,6 +27,7 @@
   "es2015": "dist/.esm2015/index.js",
   "typings": "dist/.types/index.d.ts",
   "scripts": {
+    "postinstall": "cd build/docs/semantic-ui && gulp build",
     "build": "gulp build",
     "start": "npm run-script build",
     "test": "gulp test"
