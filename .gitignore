@@ -174,3 +174,4 @@ DerivedData
 # Semantic UI
 **/semantic-ui/dist/
 !**/semantic-ui/gulpfile.js
+!**/semantic-ui/tasks/**
