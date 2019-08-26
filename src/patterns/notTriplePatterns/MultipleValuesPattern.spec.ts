@@ -1,7 +1,7 @@
 import { spyContainers } from "../../../test/spies/clones";
 
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../../core/containers/Container";
+import { IRIResolver } from "../../core/iri/IRIResolver";
 
 import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { getIRIToken } from "../../tokens/IRIToken";
@@ -9,7 +9,7 @@ import { LiteralToken } from "../../tokens/LiteralToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 
-import { XSD } from "../../utils/XSD";
+import { XSD } from "../../vocabularies/XSD";
 
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";

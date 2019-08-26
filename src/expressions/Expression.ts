@@ -1,4 +1,4 @@
-import { Container } from "../data/Container";
+import { Container } from "../core/containers/Container";
 import { Variable } from "../patterns/triplePatterns/Variable";
 
 import { SupportedNativeTypes } from "../SupportedNativeTypes";

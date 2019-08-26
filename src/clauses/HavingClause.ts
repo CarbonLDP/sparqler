@@ -1,5 +1,5 @@
-import { Container } from "../data/Container";
-import { Factory } from "../data/Factory";
+import { Container } from "../core/containers/Container";
+import { Factory } from "../core/factories/Factory";
 
 import { HavingToken } from "../tokens/HavingToken";
 import { QueryClauseToken } from "../tokens/QueryClauseToken";

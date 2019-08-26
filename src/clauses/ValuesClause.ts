@@ -1,10 +1,11 @@
 import { Builder } from "../Builder";
 
-import { Container } from "../data/Container";
-import { Factory } from "../data/Factory";
-import { IRIResolver } from "../data/IRIResolver";
-import { cloneElement } from "../data/utils";
+import { Container } from "../core/containers/Container";
+import { cloneElement } from "../core/containers/utils";
+import { Factory } from "../core/factories/Factory";
+import { IRIResolver } from "../core/iri/IRIResolver";
 
+import { _valuesTransformerFn } from "../patterns/notTriplePatterns/fns/utils";
 import { Literal } from "../patterns/triplePatterns/Literal";
 import { Resource } from "../patterns/triplePatterns/Resource";
 import { Undefined } from "../patterns/Undefined";
@@ -15,8 +16,6 @@ import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 import { ValuesToken } from "../tokens/ValuesToken";
 import { VariableToken } from "../tokens/VariableToken";
-
-import { convertValue } from "../utils/transformers";
 
 import { FinishClause } from "./FinishClause";
 
@@ -123,7 +122,7 @@ function createValuesFn<C extends Container<QueryToken | SubSelectToken>, T exte
 		const isSingle:boolean = !Array.isArray( variableOrVariables );
 		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
 		const values:Values[][] = _normalizeRawValues( valuesOrBuilder, iriResolver, isSingle );
-		values.forEach( ( valuesRow ) => token.addValues( ...valuesRow.map( convertValue ) ) );
+		values.forEach( ( valuesRow ) => token.addValues( ...valuesRow.map( _valuesTransformerFn( container ) ) ) );
 
 		const targetToken = cloneElement( container.targetToken, { values: token } );
 		const newContainer = cloneElement( container, { iriResolver, targetToken } );

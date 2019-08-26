@@ -1,6 +1,6 @@
 import { _assigmentTransformer } from "../../clauses/utils";
 
-import { Container } from "../../data/Container";
+import { Container } from "../../core/containers/Container";
 
 import { Projectable } from "../../expressions/Projectable";
 
@@ -138,9 +138,9 @@ export const SubSelectPattern:{
 			select: getSelectFn( container ),
 			selectDistinct: getSelectFn( container, "DISTINCT" ),
 			selectReduced: getSelectFn( container, "REDUCED" ),
-			selectAll: () => getSelectFn( container )(),
-			selectAllDistinct: () => getSelectFn( container, "DISTINCT" )(),
-			selectAllReduced: () => getSelectFn( container, "REDUCED" )(),
+			selectAll: getSelectFn( container, undefined, true ),
+			selectAllDistinct: getSelectFn( container, "DISTINCT", true ),
+			selectAllReduced: getSelectFn( container, "REDUCED", true ),
 		} );
 	},
 };

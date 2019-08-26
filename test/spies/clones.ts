@@ -1,5 +1,5 @@
-import { Container } from "../../src/data/Container";
-import * as DataUtilsModule from "../../src/data/utils";
+import { Container } from "../../src/core/containers/Container";
+import * as DataUtilsModule from "../../src/core/containers/utils";
 
 import { TokenNode } from "../../src/tokens/TokenNode";
 

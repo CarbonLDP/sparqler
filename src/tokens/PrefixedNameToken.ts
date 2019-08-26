@@ -1,4 +1,4 @@
-import { isPrefixed } from "../iri/utils";
+import { isPrefixed } from "../core/iri/utils";
 
 import { TokenNode } from "./TokenNode";
 

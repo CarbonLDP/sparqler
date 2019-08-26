@@ -1,8 +1,8 @@
 import { spyContainers } from "../../../test/spies/clones";
 
-import { Container } from "../../data/Container";
-import { Factory } from "../../data/Factory";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../../core/containers/Container";
+import { Factory } from "../../core/factories/Factory";
+import { IRIResolver } from "../../core/iri/IRIResolver";
 
 import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { IRIRefToken } from "../../tokens/IRIRefToken";

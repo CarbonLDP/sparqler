@@ -1,13 +1,13 @@
 import { spyContainers } from "../../../test/spies/clones";
 
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../../core/containers/Container";
+import { IRIResolver } from "../../core/iri/IRIResolver";
 
 import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { LanguageToken } from "../../tokens/LanguageToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 
-import { XSD } from "../../utils/XSD";
+import { XSD } from "../../vocabularies/XSD";
 
 import { RDFLiteral } from "./RDFLiteral";
 

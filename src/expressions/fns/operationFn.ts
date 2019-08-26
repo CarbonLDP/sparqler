@@ -1,6 +1,6 @@
-import { Container } from "../../data/Container";
-import { Factory } from "../../data/Factory";
-import { cloneElement } from "../../data/utils";
+import { Container } from "../../core/containers/Container";
+import { Factory } from "../../core/factories/Factory";
+import { cloneElement } from "../../core/containers/utils";
 
 import { BinaryOperationToken } from "../../tokens/BinaryOperationToken";
 import { BracketedExpressionToken } from "../../tokens/BracketedExpressionToken";
@@ -36,14 +36,14 @@ export function getUnaryOperationFn(
 	container:Container<ExpressionToken | undefined>,
 	operator:UnaryOperationToken["operator"],
 ) {
-	return ( expression:SupportedTypes ) => {
+	return ( expression?:SupportedTypes ) => {
 		// Replace argument by the contained
 		if( container.targetToken ) {
 			expression = container.targetToken;
 		}
 
 		const transformer = _getOperandTransformerFn( PrimaryExpressionToken.is )( container );
-		const operand = transformer( expression );
+		const operand = transformer( expression! );
 		const targetToken = new UnaryOperationToken( operator, operand );
 
 		const newContainer:Container<UnaryOperationToken> =

@@ -1,5 +1,5 @@
-import { IRIRefToken } from "../tokens/IRIRefToken";
-import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
+import { IRIRefToken } from "../../tokens/IRIRefToken";
+import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 
 import { IRIResolver } from "./IRIResolver";
 

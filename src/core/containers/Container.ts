@@ -1,6 +1,6 @@
-import { TokenNode } from "../tokens/TokenNode";
+import { TokenNode } from "../../tokens/TokenNode";
 
-import { IRIResolver } from "./IRIResolver";
+import { IRIResolver } from "../iri/IRIResolver";
 
 
 /**

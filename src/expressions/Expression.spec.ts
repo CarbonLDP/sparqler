@@ -1,12 +1,12 @@
-import { Container } from "../data/Container";
-import { IRIResolver } from "../data/IRIResolver";
+import { Container } from "../core/containers/Container";
+import { IRIResolver } from "../core/iri/IRIResolver";
 import { TriplePatternsBuilder } from "../patterns/triplePatterns/TriplePatternsBuilder";
 
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { VariableToken } from "../tokens/VariableToken";
 
-import { XSD } from "../utils/XSD";
+import { XSD } from "../vocabularies/XSD";
 
 import { Expression } from "./Expression";
 import { ExpressionsBuilder } from "./ExpressionsBuilder";

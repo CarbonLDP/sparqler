@@ -1,6 +1,11 @@
-import { Container } from "../../data/Container";
-import { Factory } from "../../data/Factory";
-import { cloneElement } from "../../data/utils";
+import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
+import { Factory } from "../../core/factories/Factory";
+
+import { Path } from "../../paths/Path";
+import { getPropertyToken } from "../../paths/utils";
+
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 
 import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { ObjectToken } from "../../tokens/ObjectToken";
@@ -10,15 +15,9 @@ import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
-import { convertValue } from "../../utils/transformers";
-
-import { Path } from "../../paths/Path";
-import { getPropertyToken } from "../../paths/utils";
-
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
-
 import { BlankNodeProperty } from "./BlankNodeProperty";
 import { Collection } from "./Collection";
+import { _subjectTransformerFn } from "./fns/utils";
 import { Literal } from "./Literal";
 import { Resource } from "./Resource";
 import { Variable } from "./Variable";
@@ -99,7 +98,7 @@ function getHasFn<T extends object, C extends Container<TripleToken | ObjectToke
 		const propertyToken:PropertyToken = new PropertyToken( verbToken );
 
 		objects = Array.isArray( objects ) ? objects : [ objects ];
-		propertyToken.addObject( ...objects.map( convertValue ) );
+		propertyToken.addObject( ...objects.map( _subjectTransformerFn( container ) ) );
 
 		const newContainer:C2 = _getNewContainer( container, propertyToken );
 

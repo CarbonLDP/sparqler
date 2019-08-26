@@ -1,27 +1,16 @@
-import { Container } from "../../data/Container";
-import { Factory } from "../../data/Factory";
+import { Container } from "../../core/containers/Container";
 
-import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
-import { BlankNodeToken } from "../../tokens/BlankNodeToken";
-import { CollectionToken } from "../../tokens/CollectionToken";
-import { IRIToken } from "../../tokens/IRIToken";
-import { ObjectToken } from "../../tokens/ObjectToken";
-import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
-import { TripleNodeToken } from "../../tokens/TripleNodeToken";
-import { VariableToken } from "../../tokens/VariableToken";
-
-import { convertValue } from "../../utils/transformers";
-
-import { Pattern } from "../Pattern";
 import { SupportedNativeTypes } from "../../SupportedNativeTypes";
+
 import { BlankNode } from "./BlankNode";
 import { BlankNodeBuilder } from "./BlankNodeBuilder";
 import { BlankNodeProperty } from "./BlankNodeProperty";
 import { Collection } from "./Collection";
+import { getLiteralFn, getResourceFn, getVarFn } from "./fns/graphTermFn";
+import { getBlankNodeFn, getCollectionFn } from "./fns/triplesNodeFn";
 import { Literal } from "./Literal";
 import { RDFLiteral } from "./RDFLiteral";
 import { Resource } from "./Resource";
-import { TripleSubject } from "./TripleSubject";
 import { Variable } from "./Variable";
 
 
@@ -75,101 +64,6 @@ export interface TriplePatternsBuilder {
 	 * `has` and `and` methods.
 	 */
 	blankNode( builderFn:( selfBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty;
-}
-
-
-function _getNewContainer<T extends ObjectToken>( container:Container<undefined>, token:T ):Container<T> {
-	return new Container( {
-		iriResolver: container.iriResolver,
-		targetToken: token,
-	} );
-}
-
-function _getNodeSubject<T extends TripleNodeToken>( container:Container<undefined>, token:T ):TripleSubject<T> & Pattern<T> {
-	const patternContainer = _getNewContainer( container, token );
-	return Factory.createFrom<typeof patternContainer, TripleSubject<T>, Pattern<T>>(
-		TripleSubject.createFrom,
-		Pattern.createFrom,
-	)( patternContainer, {} );
-}
-
-
-function getResourceFn( container:Container<undefined> ):TriplePatternsBuilder[ "resource" ] {
-	return iri => {
-		const token:IRIToken = container.iriResolver.resolve( iri );
-		const newContainer = _getNewContainer( container, token );
-		return Resource.createFrom( newContainer, {} );
-	}
-}
-
-function getVarFn( container:Container<undefined> ):TriplePatternsBuilder[ "var" ] {
-	return name => {
-		const token:VariableToken = new VariableToken( name );
-		const newContainer = _getNewContainer( container, token );
-		return Variable.createFrom( newContainer, {} );
-	}
-}
-
-function getLiteralFn( container:Container<undefined> ):TriplePatternsBuilder[ "literal" ] {
-	return ( value:string | number | boolean | Date ):any => {
-		const token = typeof value === "string"
-			? new RDFLiteralToken( value )
-			: convertValue( value );
-
-		const newContainer = _getNewContainer( container, token );
-
-		const factory = token instanceof RDFLiteralToken
-			? RDFLiteral.createFrom
-			: Literal.createFrom;
-
-		return factory( newContainer as Container<RDFLiteralToken>, {} );
-	}
-}
-
-
-type Values = SupportedNativeTypes | Resource | BlankNode | Variable | Literal | Collection | BlankNodeProperty;
-
-function getCollectionFn( container:Container<undefined> ):TriplePatternsBuilder[ "collection" ] {
-	return ( ...values:Values[] ) => {
-		const token:CollectionToken = new CollectionToken()
-			.addObject( ...values.map( convertValue ) );
-		return _getNodeSubject( container, token );
-	}
-}
-
-function _getBlankNode( container:Container<undefined>, label?:string ):BlankNode {
-	if( label && !label.startsWith( "_:" ) )
-		label = "_:" + label;
-
-	const token:BlankNodeToken = new BlankNodeToken( label );
-	const newContainer = _getNewContainer( container, token );
-	return TripleSubject.createFrom( newContainer, {} );
-}
-
-function _getBlankNodeProperty( container:Container<undefined>, builderFn:( selfBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty {
-	const token:BlankNodePropertyToken = new BlankNodePropertyToken();
-
-	const builderContainer:Container<BlankNodePropertyToken> = new Container( {
-		iriResolver: container.iriResolver,
-		targetToken: token,
-	} );
-
-	const builder:BlankNodeBuilder = BlankNodeBuilder.createFrom( builderContainer, {} );
-	builderFn( builder );
-
-	if( token.properties.length < 1 )
-		throw new Error( "At least one property must be specified by the self builder." );
-
-	return _getNodeSubject( container, token );
-}
-
-function getBlankNodeFn( container:Container<undefined> ):TriplePatternsBuilder[ "blankNode" ] {
-	return ( labelOrBuilderFn?:string | (( selfBuilder:BlankNodeBuilder ) => any) ):any => {
-		if( typeof labelOrBuilderFn === "function" )
-			return _getBlankNodeProperty( container, labelOrBuilderFn );
-
-		return _getBlankNode( container, labelOrBuilderFn );
-	};
 }
 
 

@@ -1,4 +1,4 @@
-import { QueryToken } from "../tokens/QueryToken";
+import { QueryToken } from "../../tokens/QueryToken";
 
 import { cloneElement } from "./utils";
 

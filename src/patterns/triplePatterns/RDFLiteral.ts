@@ -1,11 +1,11 @@
-import { Container } from "../../data/Container";
-import { cloneElement } from "../../data/utils";
+import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
 import { IRIToken } from "../../tokens/IRIToken";
 
 import { LanguageToken } from "../../tokens/LanguageToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 
-import { XSD } from "../../utils/XSD";
+import { XSD } from "../../vocabularies/XSD";
 
 import { Literal } from "./Literal";
 

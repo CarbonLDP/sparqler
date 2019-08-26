@@ -1,5 +1,5 @@
-import { Container } from "../../data/Container";
-import { cloneElement } from "../../data/utils";
+import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
 
 import { Variable } from "../../patterns/triplePatterns/Variable";
 

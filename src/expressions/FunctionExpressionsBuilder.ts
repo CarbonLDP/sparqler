@@ -1,4 +1,4 @@
-import { Container } from "../data/Container";
+import { Container } from "../core/containers/Container";
 
 import { Pattern } from "../patterns/Pattern";
 import { Resource } from "../patterns/triplePatterns/Resource";

@@ -1,5 +1,5 @@
-import { Container } from "../data/Container";
-import { IRIResolver } from "../data/IRIResolver";
+import { Container } from "../core/containers/Container";
+import { IRIResolver } from "../core/iri/IRIResolver";
 
 import { GroupPatternToken } from "../tokens/GroupPatternToken";
 import { PatternToken } from "../tokens/PatternToken";

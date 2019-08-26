@@ -1,4 +1,4 @@
-import { Container } from "../../data/Container";
+import { Container } from "../../core/containers/Container";
 
 import { BindToken } from "../../tokens/BindToken";
 import { FilterToken } from "../../tokens/FilterToken";

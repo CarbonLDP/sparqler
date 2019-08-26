@@ -1,8 +1,8 @@
-import { isBNodeLabel, isPrefixed, isRelative } from "../iri/utils";
+import { isBNodeLabel, isPrefixed, isRelative } from "./utils";
 
-import { IRIRefToken } from "../tokens/IRIRefToken";
-import { IRIToken } from "../tokens/IRIToken";
-import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
+import { IRIRefToken } from "../../tokens/IRIRefToken";
+import { IRIToken } from "../../tokens/IRIToken";
+import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 
 
 /**

@@ -1,7 +1,7 @@
-import { Factory } from "../data/Factory";
-import { IRIResolver } from "../data/IRIResolver";
-import { QueryUnitContainer } from "../data/QueryUnitContainer";
-import { cloneElement } from "../data/utils";
+import { QueryUnitContainer } from "../core/containers/QueryUnitContainer";
+import { cloneElement } from "../core/containers/utils";
+import { Factory } from "../core/factories/Factory";
+import { IRIResolver } from "../core/iri/IRIResolver";
 
 import { BaseToken } from "../tokens/BaseToken";
 import { IRIRefToken } from "../tokens/IRIRefToken";
@@ -62,56 +62,59 @@ export interface QueryClause<SELECT extends FinishClause, ASK extends FinishClau
 /**
  * @see {@link QueryClause.base}
  */
-function base<SELECT extends FinishClause, ASK extends FinishClause>( this:QueryUnitContainer<SELECT, ASK>, iri:string ):QueryClause<SELECT, ASK> {
-	const token:BaseToken = new BaseToken( new IRIRefToken( iri ) );
+function base<SELECT extends FinishClause, ASK extends FinishClause>( container:QueryUnitContainer<SELECT, ASK> ) {
+	return ( iri:string ) => {
+		const token:BaseToken = new BaseToken( new IRIRefToken( iri ) );
 
-	const prologues:QueryToken[ "prologues" ] = this.targetToken
-		.prologues.concat( token );
+		const prologues:QueryToken[ "prologues" ] = container.targetToken
+			.prologues.concat( token );
 
-	const queryToken:QueryToken = cloneElement( this.targetToken, { prologues } );
-	const container:QueryUnitContainer<SELECT, ASK> = cloneElement( this, { targetToken: queryToken } );
+		const queryToken:QueryToken = cloneElement( container.targetToken, { prologues } );
+		const newContainer:QueryUnitContainer<SELECT, ASK> = cloneElement( container, { targetToken: queryToken } );
 
-	return QueryClause.createFrom( container, {} );
+		return QueryClause.createFrom<typeof container, SELECT, ASK, {}>( newContainer, {} );
+	};
 }
 
 /**
  * @see {@link QueryClause.vocab}
  */
-function vocab<SELECT extends FinishClause, ASK extends FinishClause>( this:QueryUnitContainer<SELECT, ASK>, iri:string ):QueryClause<SELECT, ASK> {
-	const iriResolver:IRIResolver = new IRIResolver( this.iriResolver, iri );
-	const container:QueryUnitContainer<SELECT, ASK> = cloneElement( this, { iriResolver } );
+function vocab<SELECT extends FinishClause, ASK extends FinishClause>( container:QueryUnitContainer<SELECT, ASK> ) {
+	return ( iri:string ) => {
+		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver, iri );
+		const newContainer:QueryUnitContainer<SELECT, ASK> = cloneElement( container, { iriResolver } );
 
-	return QueryClause.createFrom( container, {} );
+		return QueryClause.createFrom<typeof container, SELECT, ASK, {}>( newContainer, {} );
+	}
 }
 
 /**
  * @see {@link QueryClause.prefix}
  */
-function prefix<SELECT extends FinishClause, ASK extends FinishClause>( this:QueryUnitContainer<SELECT, ASK>, name:string, iri:string ):QueryClause<SELECT, ASK> {
-	const iriResolver:IRIResolver = new IRIResolver( this.iriResolver );
+function prefix<SELECT extends FinishClause, ASK extends FinishClause>( container:QueryUnitContainer<SELECT, ASK> ) {
+	return ( name:string, iri:string ) => {
+		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
+		const prologues = container.targetToken.prologues.slice();
 
+		if( iriResolver.prefixes.has( name ) ) {
+			const index:number = prologues
+				.findIndex( token => token.token === "prefix" && token.namespace === name );
 
-	const prologues = this.targetToken.prologues.slice();
+			if( index !== -1 )
+				prologues.splice( index, 1 );
+		}
 
-	if( iriResolver.prefixes.has( name ) ) {
-		const index:number = prologues
-			.findIndex( token => token.token === "prefix" && token.namespace === name );
+		prologues.push( new PrefixToken( name, new IRIRefToken( iri ) ) );
+		iriResolver.prefixes.set( name, false );
 
-		if( index !== - 1 )
-			prologues.splice( index, 1 );
+		const queryToken:QueryToken = cloneElement( container.targetToken, { prologues } );
+		const newContainer:QueryUnitContainer<SELECT, ASK> = cloneElement( container, {
+			iriResolver,
+			targetToken: queryToken,
+		} );
+
+		return QueryClause.createFrom<typeof container, SELECT, ASK, {}>( newContainer, {} );
 	}
-
-	prologues.push( new PrefixToken( name, new IRIRefToken( iri ) ) );
-	iriResolver.prefixes.set( name, false );
-
-
-	const queryToken:QueryToken = cloneElement( this.targetToken, { prologues } );
-	const container:QueryUnitContainer<SELECT, ASK> = cloneElement( this, {
-		iriResolver,
-		targetToken: queryToken,
-	} );
-
-	return QueryClause.createFrom( container, {} );
 }
 
 
@@ -143,9 +146,9 @@ export const QueryClause:{
 			selectFactory,
 			askFactory,
 		)( container, Object.assign( object, {
-			base: base.bind( container ),
-			vocab: vocab.bind( container ),
-			prefix: prefix.bind( container ),
+			base: base( container ),
+			vocab: vocab( container ),
+			prefix: prefix( container ),
 		} ) );
 	},
 };

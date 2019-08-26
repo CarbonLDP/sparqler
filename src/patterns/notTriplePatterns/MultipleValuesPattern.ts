@@ -1,17 +1,16 @@
-import { Container } from "../../data/Container";
-import { cloneElement } from "../../data/utils";
+import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
 
 import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 
 import { ValuesToken } from "../../tokens/ValuesToken";
-
-import { convertValue } from "../../utils/transformers";
 
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";
 
 import { Undefined } from "../Undefined";
 
+import { _valuesTransformerFn } from "./fns/utils";
 import { NotTriplePattern } from "./NotTriplePattern";
 
 
@@ -42,7 +41,7 @@ export interface MultipleValuesPatternMore extends NotTriplePattern<ValuesToken>
 function getHasFn<C extends Container<ValuesToken>>( container:C ):MultipleValuesPattern[ "has" ] {
 	return ( ...values:(SupportedNativeTypes | Resource | Literal | Undefined)[] ) => {
 		const parsedValues = container.targetToken.values.slice();
-		parsedValues.push( values.map( convertValue ) );
+		parsedValues.push( values.map( _valuesTransformerFn( container ) ) );
 
 		const targetToken = cloneElement( container.targetToken, { values: parsedValues } );
 		const newContainer = cloneElement( container, { targetToken } );

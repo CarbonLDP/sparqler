@@ -1,18 +1,16 @@
 export * from "./"
 
 import * as clauses from "./clauses";
-import * as data from "./data";
+import * as core from "./core";
 import * as expressions from "./expressions";
-import * as iri from "./iri";
 import * as patterns from "./patterns";
 import * as tokens from "./tokens";
-import * as utils from "./utils";
+import * as utils from "./vocabularies";
 
 export {
 	clauses,
-	data,
+	core,
 	expressions,
-	iri,
 	patterns,
 	tokens,
 	utils,

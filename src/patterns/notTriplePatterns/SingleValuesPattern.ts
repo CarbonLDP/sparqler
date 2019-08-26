@@ -1,16 +1,15 @@
-import { Container } from "../../data/Container";
-import { cloneElement } from "../../data/utils";
+import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
 
 import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 
 import { ValuesToken } from "../../tokens/ValuesToken";
 
-import { convertValue } from "../../utils/transformers";
-
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";
 
 import { Undefined } from "../Undefined";
+import { _valuesTransformerFn } from "./fns/utils";
 
 import { NotTriplePattern } from "./NotTriplePattern";
 
@@ -43,7 +42,7 @@ function getHasFn<C extends Container<ValuesToken>>( container:C ):SingleValuesP
 	return value => {
 		const values = container.targetToken.values.slice();
 		if( !values.length ) values.push( [] );
-		values[ 0 ] = values[ 0 ].concat( convertValue( value as SupportedNativeTypes ) );
+		values[ 0 ] = values[ 0 ].concat( _valuesTransformerFn( container )( value ) );
 
 		const targetToken = cloneElement( container.targetToken, { values } );
 		const newContainer = cloneElement( container, { targetToken } );

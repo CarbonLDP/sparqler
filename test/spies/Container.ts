@@ -1,5 +1,5 @@
-import * as ContainerModule from "../../src/data/Container";
-import { Container } from "../../src/data/Container";
+import * as ContainerModule from "../../src/core/containers/Container";
+import { Container } from "../../src/core/containers/Container";
 
 
 let containerSpy:jasmine.Spy | undefined;

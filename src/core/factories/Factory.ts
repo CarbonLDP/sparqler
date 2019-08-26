@@ -1,6 +1,6 @@
-import { TokenNode } from "../tokens/TokenNode";
+import { TokenNode } from "../../tokens/TokenNode";
 
-import { Container } from "./Container";
+import { Container } from "../containers/Container";
 
 
 /**
