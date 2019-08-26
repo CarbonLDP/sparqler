@@ -1,7 +1,7 @@
-import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
-import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
-import { PathNegatedToken } from "../../tokens/PathNegatedToken";
-import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
+import { PathAlternativeToken } from "../tokens/PathAlternativeToken";
+import { PathInNegatedToken } from "../tokens/PathInNegatedToken";
+import { PathNegatedToken } from "../tokens/PathNegatedToken";
+import { SubPathInNegatedToken } from "../tokens/SubPathInNegatedToken";
 
 import { FluentPath } from "./FluentPath";
 import { FluentPathContainer } from "./FluentPathContainer";

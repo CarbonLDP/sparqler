@@ -1,13 +1,13 @@
-import { spyContainers } from "../../../test/spies/FluentPathContainer";
+import { spyContainers } from "../../test/spies/FluentPathContainer";
 
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../data/Container";
+import { IRIResolver } from "../data/IRIResolver";
 
-import { IRIRefToken } from "../../tokens/IRIRefToken";
-import { IRIToken } from "../../tokens/IRIToken";
-import { PathToken } from "../../tokens/PathToken";
+import { IRIRefToken } from "../tokens/IRIRefToken";
+import { IRIToken } from "../tokens/IRIToken";
+import { PathToken } from "../tokens/PathToken";
 
-import { Resource } from "../triplePatterns/Resource";
+import { Resource } from "../patterns/triplePatterns/Resource";
 
 import { Path } from "./Path";
 import { PathsBuilder } from "./PathsBuilder";

@@ -1,20 +1,19 @@
-import { IRIToken } from "../../tokens/IRIToken";
-import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
-import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
-import { PathInverseToken } from "../../tokens/PathInverseToken";
-import { PathModToken } from "../../tokens/PathModToken";
-import { PathNegatedToken } from "../../tokens/PathNegatedToken";
-import { PathSequenceToken } from "../../tokens/PathSequenceToken";
-import { PathToken } from "../../tokens/PathToken";
-import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
-import { SubPathToken } from "../../tokens/SubPathToken";
-
-import { Resource } from "../triplePatterns/Resource";
+import { Resource } from "../patterns/triplePatterns/Resource";
+import { IRIToken } from "../tokens/IRIToken";
+import { PathAlternativeToken } from "../tokens/PathAlternativeToken";
+import { PathInNegatedToken } from "../tokens/PathInNegatedToken";
+import { PathInverseToken } from "../tokens/PathInverseToken";
+import { PathModToken } from "../tokens/PathModToken";
+import { PathNegatedToken } from "../tokens/PathNegatedToken";
+import { PathSequenceToken } from "../tokens/PathSequenceToken";
+import { PathToken } from "../tokens/PathToken";
+import { SubPathInNegatedToken } from "../tokens/SubPathInNegatedToken";
+import { SubPathToken } from "../tokens/SubPathToken";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";
-
 import { FluentPathContainer } from "./FluentPathContainer";
+
 import { getAlternativeFn } from "./fns/alternativeFn";
 import { getInverseFn } from "./fns/inverseFn";
 import { getModFn } from "./fns/modFn";

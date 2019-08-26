@@ -19,10 +19,10 @@ export interface SPARQLER<SELECT extends FinishClause = FinishClause, ASK extend
 /**
  * Class that allows to create the SPARQL query builder.
  *
- * See {@link QueryClause} for know the methods available for
+ * See {@link QueryClause} for the available methods to
  * construct the queries.
  */
-export class SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends FinishClause = FinishClause> implements SPARQLER<SELECT, ASK> {
+export class SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends FinishClause = FinishClause> implements QueryClause<SELECT, ASK> {
 
 	/**
 	 * Constructor that allows to create query builder with custom finish

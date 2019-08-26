@@ -1,9 +1,9 @@
-import { Container, ContainerData } from "../../data/Container";
+import { Container, ContainerData } from "../data/Container";
 
-import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
-import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
-import { PathToken } from "../../tokens/PathToken";
-import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
+import { PathAlternativeToken } from "../tokens/PathAlternativeToken";
+import { PathInNegatedToken } from "../tokens/PathInNegatedToken";
+import { PathToken } from "../tokens/PathToken";
+import { SubPathInNegatedToken } from "../tokens/SubPathInNegatedToken";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";

@@ -1,10 +1,10 @@
-import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
-import { PathToken } from "../../../tokens/PathToken";
-import { SharedSubPathToken } from "../../../tokens/SharedSubPathToken";
-import { SubPathInNegatedToken } from "../../../tokens/SubPathInNegatedToken";
-import { SubPathToken } from "../../../tokens/SubPathToken";
+import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
+import { PathToken } from "../../tokens/PathToken";
+import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
+import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
+import { SubPathToken } from "../../tokens/SubPathToken";
 
-import { Resource } from "../../triplePatterns/Resource";
+import { Resource } from "../../patterns/triplePatterns/Resource";
 import { DeniableFluentPath } from "../DeniableFluentPath";
 
 import { FluentPath } from "../FluentPath";

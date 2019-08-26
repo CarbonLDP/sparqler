@@ -14,11 +14,11 @@ export { ServicePattern } from "./notTriplePatterns/ServicePattern"
 export { SingleValuesPattern } from "./notTriplePatterns/SingleValuesPattern"
 export { UnionPattern } from "./notTriplePatterns/UnionPattern"
 
-export { DeniableFluentPath } from "./paths/DeniableFluentPath";
-export { FluentPath } from "./paths/FluentPath";
-export { FluentPathContainer } from "./paths/FluentPathContainer";
-export { Path } from "./paths/Path";
-export { PathBuilder } from "./paths/PathBuilder";
+export { DeniableFluentPath } from "../paths/DeniableFluentPath";
+export { FluentPath } from "../paths/FluentPath";
+export { FluentPathContainer } from "../paths/FluentPathContainer";
+export { Path } from "../paths/Path";
+export { PathBuilder } from "../paths/PathBuilder";
 
 export { TriplePattern } from "./triplePatterns/TriplePattern"
 export { TripleSubject } from "./triplePatterns/TripleSubject"
@@ -33,5 +33,5 @@ export { Variable } from "./triplePatterns/Variable"
 
 export { Pattern } from "./Pattern";
 export { PatternBuilder } from "./PatternBuilder";
-export { SupportedNativeTypes } from "./SupportedNativeTypes";
+export { SupportedNativeTypes } from "../SupportedNativeTypes";
 export { Undefined } from "./Undefined";

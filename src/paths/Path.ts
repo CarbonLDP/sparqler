@@ -1,6 +1,6 @@
-import { Container } from "../../data/Container";
+import { Container } from "../data/Container";
 
-import { PathToken } from "../../tokens/PathToken";
+import { PathToken } from "../tokens/PathToken";
 
 
 /**

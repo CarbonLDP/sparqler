@@ -1,7 +1,7 @@
-import { IRIToken } from "../../../tokens/IRIToken";
-import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
-import { PathToken } from "../../../tokens/PathToken";
-import { SharedSubPathToken } from "../../../tokens/SharedSubPathToken";
+import { IRIToken } from "../../tokens/IRIToken";
+import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
+import { PathToken } from "../../tokens/PathToken";
+import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
 
 
 /**

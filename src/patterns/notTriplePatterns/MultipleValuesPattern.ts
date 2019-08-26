@@ -1,11 +1,11 @@
 import { Container } from "../../data/Container";
 import { cloneElement } from "../../data/utils";
 
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
+
 import { ValuesToken } from "../../tokens/ValuesToken";
 
 import { convertValue } from "../../utils/transformers";
-
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";

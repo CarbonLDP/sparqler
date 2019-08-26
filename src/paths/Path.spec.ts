@@ -1,8 +1,8 @@
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../data/Container";
+import { IRIResolver } from "../data/IRIResolver";
 
-import { IRIRefToken } from "../../tokens/IRIRefToken";
-import { IRIToken } from "../../tokens/IRIToken";
+import { IRIRefToken } from "../tokens/IRIRefToken";
+import { IRIToken } from "../tokens/IRIToken";
 
 
 import { Path } from "./Path";

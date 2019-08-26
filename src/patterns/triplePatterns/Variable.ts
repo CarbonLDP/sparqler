@@ -2,6 +2,7 @@ import { Container } from "../../data/Container";
 import { Factory } from "../../data/Factory";
 
 import { Expression } from "../../expressions/Expression";
+import { Projectable } from "../../expressions/Projectable";
 
 import { VariableToken } from "../../tokens/VariableToken";
 
@@ -12,7 +13,7 @@ import { TripleSubject } from "./TripleSubject";
  * Wrapper for easier usage of SPARQL variables as objects and for
  * declaring triple pattern as its subject.
  */
-export interface Variable extends TripleSubject<VariableToken>, Expression<VariableToken> {}
+export interface Variable extends TripleSubject<VariableToken>, Expression<VariableToken>, Projectable<VariableToken> {}
 
 
 /**
@@ -33,8 +34,13 @@ export const Variable:{
 	 */
 	createFrom<C extends Container<VariableToken>, O extends object>( container:C, object:O ):O & Variable;
 } = {
-	createFrom: Factory.createFrom<Container<VariableToken>, TripleSubject<VariableToken>, Expression<VariableToken>>(
+	createFrom: Factory.createFrom<Container<VariableToken>,
+		TripleSubject<VariableToken>,
+		Expression<VariableToken>,
+		Projectable<VariableToken>>
+	(
 		TripleSubject.createFrom,
 		Expression.createFrom,
-	)
+		Projectable.createFrom,
+	),
 };

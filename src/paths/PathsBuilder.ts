@@ -1,9 +1,9 @@
-import { Container } from "../../data/Container";
+import { Container } from "../data/Container";
 
-import { IRIToken } from "../../tokens/IRIToken";
-import { PathToken } from "../../tokens/PathToken";
+import { Resource } from "../patterns/triplePatterns/Resource";
 
-import { Resource } from "../triplePatterns/Resource";
+import { IRIToken } from "../tokens/IRIToken";
+import { PathToken } from "../tokens/PathToken";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";

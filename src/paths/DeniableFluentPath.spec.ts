@@ -1,17 +1,17 @@
-import { spyContainers } from "../../../test/spies/FluentPathContainer";
+import { spyContainers } from "../../test/spies/FluentPathContainer";
 
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../data/Container";
+import { IRIResolver } from "../data/IRIResolver";
 
-import { IRIRefToken } from "../../tokens/IRIRefToken";
-import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
-import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
-import { PathInverseToken } from "../../tokens/PathInverseToken";
-import { PathNegatedToken } from "../../tokens/PathNegatedToken";
-import { PathToken } from "../../tokens/PathToken";
-import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
-import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
-import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
+import { IRIRefToken } from "../tokens/IRIRefToken";
+import { PathAlternativeToken } from "../tokens/PathAlternativeToken";
+import { PathInNegatedToken } from "../tokens/PathInNegatedToken";
+import { PathInverseToken } from "../tokens/PathInverseToken";
+import { PathNegatedToken } from "../tokens/PathNegatedToken";
+import { PathToken } from "../tokens/PathToken";
+import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
+import { SharedSubPathToken } from "../tokens/SharedSubPathToken";
+import { SubPathInNegatedToken } from "../tokens/SubPathInNegatedToken";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";

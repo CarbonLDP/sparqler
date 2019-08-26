@@ -1,13 +1,15 @@
+import { Builder } from "../Builder";
+
 import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
 import { IRIResolver } from "../data/IRIResolver";
 import { cloneElement } from "../data/utils";
 
-import { PatternBuilder } from "../patterns/PatternBuilder";
-import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 import { Literal } from "../patterns/triplePatterns/Literal";
 import { Resource } from "../patterns/triplePatterns/Resource";
 import { Undefined } from "../patterns/Undefined";
+
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
@@ -39,7 +41,7 @@ export interface ValuesClause<T extends FinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variable:string, valuesBuilder:( builder:PatternBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
+	values( variable:string, valuesBuilder:( builder:Builder ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
 
 	/**
 	 * Set the values of multiple variables to be combined into the results
@@ -62,7 +64,7 @@ export interface ValuesClause<T extends FinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variables:string[], valuesBuilder:( builder:PatternBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
+	values( variables:string[], valuesBuilder:( builder:Builder ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
 }
 
 
@@ -71,8 +73,8 @@ type Values = SupportedNativeTypes | Resource | Literal | "UNDEF";
 type ValuesOrBuilder =
 	| (SupportedNativeTypes | SupportedNativeTypes[])
 	| (SupportedNativeTypes[] | SupportedNativeTypes[][])
-	| (( builder:PatternBuilder ) => Values | Values[])
-	| (( builder:PatternBuilder ) => Values[] | Values[][])
+	| (( builder:Builder ) => Values | Values[])
+	| (( builder:Builder ) => Values[] | Values[][])
 	;
 
 function _normalizeVariables( variableOrVariables:string | string [] ):VariableToken[] {
@@ -82,7 +84,7 @@ function _normalizeVariables( variableOrVariables:string | string [] ):VariableT
 
 function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIResolver, isSingle:boolean ):Values[][] {
 	let rawValues:Values | (Values | Values[])[] = typeof valuesOrBuilder === "function" ?
-		valuesOrBuilder( PatternBuilder.create( iriResolver ) ) :
+		valuesOrBuilder( Builder.create( iriResolver ) ) :
 		valuesOrBuilder;
 
 	// When single variable

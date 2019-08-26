@@ -1,8 +1,10 @@
 import { Container } from "../data/Container";
+import { Variable } from "../patterns/triplePatterns/Variable";
 
-import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { AdditiveOperationToken } from "../tokens/AdditiveOperationToken";
+import { AssigmentToken } from "../tokens/AssigmentToken";
 import { ConditionalAndExpressionToken } from "../tokens/ConditionalAndExpressionToken";
 import { ConditionalAndOperationToken } from "../tokens/ConditionalAndOperationToken";
 import { ConditionalOrOperationToken } from "../tokens/ConditionalOrOperationToken";
@@ -13,9 +15,11 @@ import { NumericExpressionToken } from "../tokens/NumericExpressionToken";
 import { RelationalExpressionToken } from "../tokens/RelationalExpressionToken";
 import { RelationalOperationToken } from "../tokens/RelationalOperationToken";
 import { UnaryExpressionToken } from "../tokens/UnaryExpressionToken";
+import { getAsFn } from "./fns/asFn";
 
 import { Functions, getBaseFunctionFn, getRegexFunctionFn, getSeparatorFunctionFn } from "./fns/functionFn";
 import { getBinaryOperationFn, getInclusionFn, getUnaryOperationFn } from "./fns/operationFn";
+import { Projectable } from "./Projectable";
 
 
 /**
@@ -739,12 +743,14 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 */
 	minus():Expression;
 
+	as( variable:string | Variable ):Projectable<AssigmentToken>;
 
 	/**
 	 * Returns the {@link ExpressionToken} of the expression.
 	 */
 	getExpression():T;
 }
+
 
 /**
  * Constant with the utils for {@link Expression} objects.
@@ -826,6 +832,7 @@ export const Expression:{
 			groupConcatDistinct: getSeparatorFunctionFn( Expression.createFrom, container, Functions.GROUP_CONCAT, true ),
 			sample: getBaseFunctionFn( Expression.createFrom, container, Functions.SAMPLE, 1 ),
 			sampleDistinct: getBaseFunctionFn( Expression.createFrom, container, Functions.SAMPLE, 1, true ),
+
 			// Operations
 			or: getBinaryOperationFn( Expression.createFrom, container, ConditionalOrOperationToken, ConditionalAndExpressionToken.is, "||" ),
 			and: getBinaryOperationFn( Expression.createFrom, container, ConditionalAndOperationToken, RelationalExpressionToken.is, "&&" ),
@@ -844,6 +851,10 @@ export const Expression:{
 			not: getUnaryOperationFn( Expression.createFrom, container, "!" ),
 			plus: getUnaryOperationFn( Expression.createFrom, container, "+" ),
 			minus: getUnaryOperationFn( Expression.createFrom, container, "-" ),
+
+			// Projection
+			as: getAsFn( container ),
+
 			// Self
 			getExpression: () => container.targetToken,
 		} );

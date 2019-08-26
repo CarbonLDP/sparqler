@@ -2,10 +2,11 @@ import { Container } from "../data/Container";
 
 import { isAbsolute } from "../iri/utils";
 
-import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 import { TripleSubject } from "../patterns/triplePatterns/TripleSubject";
 
-import { getIRIToken, IRIToken } from "../tokens/IRIToken";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
+
+import { getIRIToken } from "../tokens/IRIToken";
 import { LiteralToken } from "../tokens/LiteralToken";
 import { ObjectToken } from "../tokens/ObjectToken";
 import { RDFLiteralToken } from "../tokens/RDFLiteralToken";
@@ -35,21 +36,33 @@ export function convertValue( value:SupportedNativeTypes | TripleSubject<Variabl
 }
 
 
-const _is = <T>( value:unknown, property:PropertyKey ):value is T =>
+const _is = <T>( value:unknown, property:string ):value is T =>
 	typeof value === "object" && !!value && property in value;
 
-export const _getTransformer =
-	<K extends string, Wrapper extends { [P in K]:() => TokenNode | IRIToken | LiteralToken }>
-	( property:K ) => {
-		type Token = ReturnType<Wrapper[K]>;
-		type ReturnTokens = Token | IRIToken | LiteralToken;
 
-		return ( container:Container<any> ) =>
-			( value:Wrapper | Token | SupportedNativeTypes ):ReturnTokens => _is<Wrapper>( value, property )
-				? value[ property ]() as Token
-				: _is<Token>( value, "token" )
+export type Transformer<W, T extends TokenNode> = ( value:W ) => T;
+
+
+export const _getBaseTransformer =
+	<K extends string, Wrapper extends { [P in K]:() => TokenNode }>
+	( property:K ) => {
+		return <RestTransformer extends Transformer<SupportedNativeTypes, TokenNode>>( restTransformer:RestTransformer ) =>
+			( value:Wrapper | ReturnType<Wrapper[K]> | SupportedNativeTypes ) => _is<Wrapper>( value, property )
+				? value[ property ]() as ReturnType<Wrapper[K]>
+				: _is<ReturnType<Wrapper[K]>>( value, "token" )
 					? value
-					: typeof value === "string" && isAbsolute( value )
-						? container.iriResolver.resolve( value )
-						: convertValue( value )
-	};
+					: restTransformer( value ) as ReturnType<RestTransformer>;
+	}
+;
+
+
+export const _getTransformer =
+	<K extends string, Wrapper extends { [P in K]:() => TokenNode }>
+	( property:K ) =>
+		( container:Container<any> ) =>
+			_getBaseTransformer<K, Wrapper>
+			( property )( value =>
+				typeof value === "string" && isAbsolute( value )
+					? container.iriResolver.resolve( value )
+					: convertValue( value )
+			);

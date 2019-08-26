@@ -13,7 +13,7 @@ import { VariableToken } from "../../tokens/VariableToken";
 import { convertValue } from "../../utils/transformers";
 
 import { Pattern } from "../Pattern";
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 import { BlankNode } from "./BlankNode";
 import { BlankNodeBuilder } from "./BlankNodeBuilder";
 import { BlankNodeProperty } from "./BlankNodeProperty";

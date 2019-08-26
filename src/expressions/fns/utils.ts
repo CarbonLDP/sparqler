@@ -1,4 +1,4 @@
-import { SupportedNativeTypes } from "../../patterns/SupportedNativeTypes";
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 
 import { ExpressionToken } from "../../tokens/ExpressionToken";
 

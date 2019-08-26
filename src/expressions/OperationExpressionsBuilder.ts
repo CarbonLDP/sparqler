@@ -1,6 +1,6 @@
 import { Container } from "../data/Container";
 
-import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { AdditiveOperationToken } from "../tokens/AdditiveOperationToken";
 import { ConditionalAndExpressionToken } from "../tokens/ConditionalAndExpressionToken";

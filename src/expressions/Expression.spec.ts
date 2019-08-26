@@ -1,8 +1,8 @@
 import { Container } from "../data/Container";
 import { IRIResolver } from "../data/IRIResolver";
-
-import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 import { TriplePatternsBuilder } from "../patterns/triplePatterns/TriplePatternsBuilder";
+
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { VariableToken } from "../tokens/VariableToken";
 
@@ -144,6 +144,9 @@ describe( "Expression", () => {
 				not: jasmine.any( Function ),
 				plus: jasmine.any( Function ),
 				minus: jasmine.any( Function ),
+
+				as: jasmine.any( Function ),
+
 				getExpression: jasmine.any( Function ),
 			} );
 		} );
@@ -161,6 +164,27 @@ describe( "Expression", () => {
 		it( "should return targetToken", () => {
 			const token = expression.getExpression();
 			expect( token ).toBe( container.targetToken );
+		} );
+
+	} );
+
+
+	describe( "Expression.as", () => {
+
+		let expression:Expression;
+		beforeEach( () => {
+			expression = Expression.createFrom( container, {} );
+		} );
+
+
+		it( "should create assigment with string variable", () => {
+			const token = expression.as( "bar" );
+			expect( token.getProjection().toString() ).toBe( `(?foo AS ?bar)` );
+		} );
+
+		it( "should create assigment with object variable", () => {
+			const token = expression.as( triplesBuilder.var( "bar" ) );
+			expect( token.getProjection().toString() ).toBe( `(?foo AS ?bar)` );
 		} );
 
 	} );

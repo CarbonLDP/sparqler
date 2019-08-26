@@ -1,7 +1,12 @@
 import { spyContainers } from "../../../test/spies/Container";
 
+import { Builder } from "../../Builder";
+
 import { Container } from "../../data/Container";
 import { IRIResolver } from "../../data/IRIResolver";
+import { AssigmentToken } from "../../tokens/AssigmentToken";
+import { ExpressionListToken } from "../../tokens/ExpressionListToken";
+import { FunctionToken } from "../../tokens/FunctionToken";
 
 import { SubSelectToken } from "../../tokens/SubSelectToken";
 import { VariableToken } from "../../tokens/VariableToken";
@@ -18,11 +23,14 @@ describe( "SubSelectPattern", () => {
 	} );
 
 	let container:Container<undefined>;
+	let builder:Builder;
 	beforeEach( () => {
 		container = new Container( {
 			iriResolver: new IRIResolver(),
 			targetToken: void 0,
 		} );
+
+		builder = Builder.createFrom( container, {} );
 
 		spyContainers.install();
 	} );
@@ -97,24 +105,50 @@ describe( "SubSelectPattern", () => {
 				.toEqual( new SubSelectToken() )
 		} );
 
-		it( "should add SELECT with a variable", () => {
+		it( "should add SELECT with a string variable", () => {
 			selectPattern.select( "a" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "a" ) );
 		} );
 
-		it( "should add SELECT with three variable", () => {
+		it( "should add SELECT with three string variable", () => {
 			selectPattern.select( "a", "b", "c" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "a" ) );
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "b" ) );
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "c" ) );
+		} );
+
+		it( "should add SELECT with three object variable", () => {
+			selectPattern.select( builder.var( "a" ), builder.var( "b" ), builder.var( "c" ) );
+
+			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
+			expect( newContainer.targetToken.projections )
+				.toContain( new VariableToken( "a" ) );
+			expect( newContainer.targetToken.projections )
+				.toContain( new VariableToken( "b" ) );
+			expect( newContainer.targetToken.projections )
+				.toContain( new VariableToken( "c" ) );
+		} );
+
+		it( "should add SELECT with an assignment", () => {
+			selectPattern.select( builder.count( builder.var( "foo" ) ).as( builder.var( "bar" ) ) );
+
+			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
+			expect( newContainer.targetToken.projections )
+				.toContain( new AssigmentToken(
+					new FunctionToken(
+						"COUNT",
+						new ExpressionListToken( [ new VariableToken( "foo" ) ] )
+					),
+					new VariableToken( "bar" )
+				) );
 		} );
 
 	} );
@@ -155,7 +189,7 @@ describe( "SubSelectPattern", () => {
 			selectPattern.selectDistinct( "a" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "a" ) );
 		} );
 
@@ -163,11 +197,11 @@ describe( "SubSelectPattern", () => {
 			selectPattern.selectDistinct( "a", "b", "c" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "a" ) );
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "b" ) );
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "c" ) );
 		} );
 
@@ -209,7 +243,7 @@ describe( "SubSelectPattern", () => {
 			selectPattern.selectReduced( "a" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "a" ) );
 		} );
 
@@ -217,11 +251,11 @@ describe( "SubSelectPattern", () => {
 			selectPattern.selectReduced( "a", "b", "c" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "a" ) );
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "b" ) );
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toContain( new VariableToken( "c" ) );
 		} );
 
@@ -260,11 +294,11 @@ describe( "SubSelectPattern", () => {
 				.toEqual( new SubSelectToken() )
 		} );
 
-		it( "should ignore variables", () => {
+		it( "should ignore projections", () => {
 			selectPattern.selectAll.call<any, any, any>( null, "a", "b" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toEqual( [] );
 		} );
 
@@ -302,11 +336,11 @@ describe( "SubSelectPattern", () => {
 				.toEqual( new SubSelectToken( "DISTINCT" ) );
 		} );
 
-		it( "should ignore variables", () => {
+		it( "should ignore projections", () => {
 			selectPattern.selectAllDistinct.call<any, any, any>( null, "a", "b" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toEqual( [] );
 		} );
 
@@ -344,11 +378,11 @@ describe( "SubSelectPattern", () => {
 				.toEqual( new SubSelectToken( "REDUCED" ) );
 		} );
 
-		it( "should ignore variables", () => {
+		it( "should ignore projections", () => {
 			selectPattern.selectAllReduced.call<any, any, any>( null, "a", "b" );
 
 			const newContainer:Container<SubSelectToken> = spyContainers.getLast();
-			expect( newContainer.targetToken.variables )
+			expect( newContainer.targetToken.projections )
 				.toEqual( [] );
 		} );
 

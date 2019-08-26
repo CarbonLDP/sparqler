@@ -1,21 +1,21 @@
-import { spyContainers } from "../../../test/spies/FluentPathContainer";
+import { spyContainers } from "../../test/spies/FluentPathContainer";
 
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../data/Container";
+import { IRIResolver } from "../data/IRIResolver";
 
-import { IRIRefToken } from "../../tokens/IRIRefToken";
-import { IRIToken } from "../../tokens/IRIToken";
-import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
-import { PathInverseToken } from "../../tokens/PathInverseToken";
-import { PathModToken } from "../../tokens/PathModToken";
-import { PathNegatedToken } from "../../tokens/PathNegatedToken";
-import { PathSequenceToken } from "../../tokens/PathSequenceToken";
-import { PathToken } from "../../tokens/PathToken";
-import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
-import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
-import { SubPathToken } from "../../tokens/SubPathToken";
+import { Resource } from "../patterns/triplePatterns/Resource";
 
-import { Resource } from "../triplePatterns/Resource";
+import { IRIRefToken } from "../tokens/IRIRefToken";
+import { IRIToken } from "../tokens/IRIToken";
+import { PathAlternativeToken } from "../tokens/PathAlternativeToken";
+import { PathInverseToken } from "../tokens/PathInverseToken";
+import { PathModToken } from "../tokens/PathModToken";
+import { PathNegatedToken } from "../tokens/PathNegatedToken";
+import { PathSequenceToken } from "../tokens/PathSequenceToken";
+import { PathToken } from "../tokens/PathToken";
+import { SharedSubPathToken } from "../tokens/SharedSubPathToken";
+import { SubPathInNegatedToken } from "../tokens/SubPathInNegatedToken";
+import { SubPathToken } from "../tokens/SubPathToken";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";

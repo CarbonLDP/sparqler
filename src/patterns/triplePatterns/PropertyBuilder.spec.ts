@@ -13,7 +13,7 @@ import { SubjectToken } from "../../tokens/SubjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
-import { Path } from "../paths/Path";
+import { Path } from "../../paths/Path";
 
 import { PropertyBuilder, PropertyBuilderMore } from "./PropertyBuilder";
 import { Resource } from "./Resource";

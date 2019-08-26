@@ -1,5 +1,5 @@
-import * as ContainerModule from "../../src/patterns/paths/FluentPathContainer";
-import { FluentPathContainer } from "../../src/patterns/paths/FluentPathContainer";
+import * as ContainerModule from "../../src/paths/FluentPathContainer";
+import { FluentPathContainer } from "../../src/paths/FluentPathContainer";
 
 
 let containerSpy:jasmine.Spy | undefined;
@@ -13,12 +13,12 @@ export const spyContainers = {
 	},
 
 	getLast<T extends FluentPathContainer<any>>():T {
-		if( ! containerSpy ) throw new Error( "The spy container has not been installed." );
+		if( !containerSpy ) throw new Error( "The spy container has not been installed." );
 
 		const target:jasmine.CallInfo | undefined = containerSpy
 			.calls.mostRecent();
 
-		if( ! target ) throw new Error( "No FluentPathContainer was created." );
+		if( !target ) throw new Error( "No FluentPathContainer was created." );
 		return target.object;
 	}
 };

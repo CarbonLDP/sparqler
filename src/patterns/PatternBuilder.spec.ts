@@ -74,32 +74,7 @@ describe( "PatternBuilder", ():void => {
 				selectAll: jasmine.any( Function ),
 				selectAllDistinct: jasmine.any( Function ),
 				selectAllReduced: jasmine.any( Function ),
-
-				path: jasmine.any( Function ),
 			} );
-		} );
-
-	} );
-
-	describe( "PatternBuilder.create", () => {
-
-		it( "should exists", () => {
-			expect( PatternBuilder.create ).toBeDefined();
-			expect( PatternBuilder.create ).toEqual( jasmine.any( Function ) );
-		} );
-
-
-		it( "should call .createFrom", () => {
-			const spy:jasmine.Spy = spyOn( PatternBuilder, "createFrom" );
-
-			PatternBuilder.create( iriResolver );
-
-			const expectedContainer:Container<undefined> = new Container( {
-				iriResolver,
-				targetToken: void 0,
-			} );
-			expect( spy ).toHaveBeenCalledWith( expectedContainer, {} );
-
 		} );
 
 	} );

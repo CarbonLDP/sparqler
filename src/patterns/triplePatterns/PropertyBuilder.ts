@@ -12,10 +12,10 @@ import { VariableToken } from "../../tokens/VariableToken";
 
 import { convertValue } from "../../utils/transformers";
 
-import { Path } from "../paths/Path";
-import { getPropertyToken } from "../paths/utils";
+import { Path } from "../../paths/Path";
+import { getPropertyToken } from "../../paths/utils";
 
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 
 import { BlankNodeProperty } from "./BlankNodeProperty";
 import { Collection } from "./Collection";

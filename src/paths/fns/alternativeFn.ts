@@ -1,9 +1,9 @@
-import { PathAlternativeToken } from "../../../tokens/PathAlternativeToken";
-import { PathInAlternativeToken } from "../../../tokens/PathInAlternativeToken";
-import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
-import { PathToken } from "../../../tokens/PathToken";
+import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
+import { PathInAlternativeToken } from "../../tokens/PathInAlternativeToken";
+import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
+import { PathToken } from "../../tokens/PathToken";
 
-import { Resource } from "../../triplePatterns/Resource";
+import { Resource } from "../../patterns/triplePatterns/Resource";
 
 import { DeniableFluentPath } from "../DeniableFluentPath";
 import { FluentPath } from "../FluentPath";

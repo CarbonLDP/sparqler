@@ -1,8 +1,8 @@
-import { PathInSequenceToken } from "../../../tokens/PathInSequenceToken";
-import { PathSequenceToken } from "../../../tokens/PathSequenceToken";
-import { PathToken } from "../../../tokens/PathToken";
+import { PathInSequenceToken } from "../../tokens/PathInSequenceToken";
+import { PathSequenceToken } from "../../tokens/PathSequenceToken";
+import { PathToken } from "../../tokens/PathToken";
 
-import { Resource } from "../../triplePatterns/Resource";
+import { Resource } from "../../patterns/triplePatterns/Resource";
 
 import { FluentPath } from "../FluentPath";
 import { FluentPathContainer } from "../FluentPathContainer";

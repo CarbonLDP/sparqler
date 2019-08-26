@@ -1,13 +1,19 @@
+import { Builder } from "../Builder";
+
 import { Container } from "../data/Container";
 import { Factory } from "../data/Factory";
+import { IRIResolver } from "../data/IRIResolver";
 import { cloneElement } from "../data/utils";
+
+import { Projectable } from "../expressions/Projectable";
 
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
-import { VariableToken } from "../tokens/VariableToken";
 
 import { FinishClause } from "./FinishClause";
 import { FromClause } from "./FromClause";
+
+import { _assigmentTransformer } from "./utils";
 
 
 /**
@@ -20,9 +26,21 @@ export interface SelectClause<T extends FinishClause> {
 	 * @param variables The list of variables.
 	 * IF no variable is provided, the behaviour will be the same
 	 * as {@link SelectClause.selectAll}
+	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
 	select( ...variables:string[] ):FromClause<T>;
+	/**
+	 * Set a list of variables, constructed by the builder helper,
+	 * to be retrieved by the query.
+	 *
+	 * @param variablesFunction Function that retrieves the variables and assignments..
+	 * IF no variable is provided, the behaviour will be the same
+	 * as {@link SelectClause.selectAll}
+	 *
+	 * @returns Object with the methods to keep constructing the query.
+	 */
+	select( variablesFunction:( builder:Builder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
 	 * Set a list of variables to be retrieved by the query ensuring no
@@ -31,9 +49,22 @@ export interface SelectClause<T extends FinishClause> {
 	 * @param variables The list of variables.
 	 * IF no variable is provided, the behaviour will be the same
 	 * as {@link SelectClause.selectAllDistinct}
+	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
 	selectDistinct( ...variables:string[] ):FromClause<T>;
+	/**
+	 * Set a list of variables, constructed by the builder helper,
+	 * to be retrieved by the query ensuring no
+	 * repetitions in the set of solutions.
+	 *
+	 * @param variablesFunction Function that retrieves the variables and assignments..
+	 * IF no variable is provided, the behaviour will be the same
+	 * as {@link SelectClause.selectAllDistinct}
+	 *
+	 * @returns Object with the methods to keep constructing the query.
+	 */
+	selectDistinct( variablesFunction:( builder:Builder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
 	 * Set a list of variables to be retrieved by the query permitting
@@ -43,9 +74,23 @@ export interface SelectClause<T extends FinishClause> {
 	 * @param variables The list of variables.
 	 * IF no variable is provided, the behaviour will be the same
 	 * as {@link SelectClause.selectAllReduced}
+	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
 	selectReduced( ...variables:string[] ):FromClause<T>;
+	/**
+	 * Set a list of variables, constructed by the builder helper,
+	 * to be retrieved by the query permitting
+	 * eliminations of non-distinct solutions, but not ensuring a set of
+	 * unique ones.
+	 *
+	 * @param variablesFunction Function that retrieves the variables and assignments..
+	 * IF no variable is provided, the behaviour will be the same
+	 * as {@link SelectClause.selectAllReduced}
+	 *
+	 * @returns Object with the methods to keep constructing the query.
+	 */
+	selectDistinct( variablesFunction:( builder:Builder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
 	 * Set that the query must return all the solutions for the variables
@@ -83,6 +128,7 @@ export interface SelectClause<T extends FinishClause> {
  * that the {@link SelectClause} receives.
  * @param container The container with the query data for the statement.
  * @param modifier The optional modifier of the SELECT queries.
+ * @param limit Optional flag to limit arguments to none.
  *
  * @returns A generic "select" function that shares the {@link SelectClause.select} signature.
  * It behaviour depends of the {@param modifier} set.
@@ -90,14 +136,31 @@ export interface SelectClause<T extends FinishClause> {
  * @private
  */
 function getSelectFn<C extends Container<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED", limit?:true ):SelectClause<T>[ "select" ] {
-	return ( ...variables:string[] ) => {
+	return ( variableOrFunction?:string | (( builder:Builder ) => (string | Projectable) | (string | Projectable)[]), ...variables:(string | Projectable)[] ) => {
+		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
+
+		// Executes builder function
+		if( typeof variableOrFunction === "function" ) {
+			const builder = Builder.create( iriResolver );
+			const varBuilder = variableOrFunction.call( undefined, builder );
+			variables = Array.isArray( varBuilder ) ? varBuilder : [ varBuilder ];
+
+		} else if( variableOrFunction !== undefined ) {
+			// Add variable to the array when valid value
+			variables.unshift( variableOrFunction );
+		}
+
 		const queryClause:SelectToken = new SelectToken( modifier );
 
-		if( !limit && variables.length ) queryClause.addVariable( ...variables.map( x => new VariableToken( x ) ) );
+		// Add tokens when is not limited (ALL)
+		if( !limit && variables.length ) {
+			const tokens = variables.map( _assigmentTransformer );
+			queryClause.addProjection( ...tokens );
+		}
 
 		const queryToken:QueryToken<SelectToken> = cloneElement( container.targetToken, { queryClause } );
 		const newContainer:Container<QueryToken<SelectToken>> = new Container( {
-			iriResolver: container.iriResolver,
+			iriResolver: iriResolver,
 			targetToken: queryToken,
 		} );
 

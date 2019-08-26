@@ -1,10 +1,10 @@
-import { IRIToken } from "../../../tokens/IRIToken";
-import { PathEltToken } from "../../../tokens/PathEltToken";
-import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
-import { PathInverseToken } from "../../../tokens/PathInverseToken";
-import { PathToken } from "../../../tokens/PathToken";
+import { IRIToken } from "../../tokens/IRIToken";
+import { PathEltToken } from "../../tokens/PathEltToken";
+import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
+import { PathInverseToken } from "../../tokens/PathInverseToken";
+import { PathToken } from "../../tokens/PathToken";
 
-import { Resource } from "../../triplePatterns/Resource";
+import { Resource } from "../../patterns/triplePatterns/Resource";
 
 import { DeniableFluentPath } from "../DeniableFluentPath";
 import { FluentPath } from "../FluentPath";
