@@ -3,8 +3,6 @@ import { spyContainers } from "../../test/spies/clones";
 import { Container } from "../core/containers/Container";
 import { IRIResolver } from "../core/iri/IRIResolver";
 
-import { PatternBuilder } from "../patterns/PatternBuilder";
-
 import { IRIRefToken } from "../tokens/IRIRefToken";
 import { getIRIToken } from "../tokens/IRIToken";
 import { LiteralToken } from "../tokens/LiteralToken";
@@ -13,6 +11,8 @@ import { QueryToken } from "../tokens/QueryToken";
 import { RDFLiteralToken } from "../tokens/RDFLiteralToken";
 import { ValuesToken } from "../tokens/ValuesToken";
 import { VariableToken } from "../tokens/VariableToken";
+
+import { ValuesBuilder } from "../ValuesBuilder";
 
 import { XSD } from "../vocabularies/XSD";
 
@@ -252,19 +252,22 @@ describe( "ValuesClause", () => {
 						.toContain( [] );
 				} );
 
-				it( "should provide PatternBuilder", () => {
+				it( "should provide ValuesBuilder", () => {
 					const spy:jasmine.Spy = jasmine.createSpy()
 						.and.returnValue( [] );
 
 					valuesClause.values( "var", spy );
-					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<PatternBuilder>( {
+					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<ValuesBuilder>( {
 						var: jasmine.any( Function ),
 						resource: jasmine.any( Function ),
 
-						graph: jasmine.any( Function ),
-						bind: jasmine.any( Function ),
+						path: jasmine.any( Function ),
 
-						select: jasmine.any( Function ),
+						isBlank: jasmine.any( Function ),
+						count: jasmine.any( Function ),
+
+						add: jasmine.any( Function ),
+						not: jasmine.any( Function ),
 					} ) );
 				} );
 
@@ -534,19 +537,22 @@ describe( "ValuesClause", () => {
 				} );
 
 
-				it( "should provide PatternBuilder", () => {
+				it( "should provide ValuesBuilder", () => {
 					const spy:jasmine.Spy = jasmine.createSpy()
 						.and.returnValue( [] );
 
 					valuesClause.values( [ "var" ], spy );
-					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<PatternBuilder>( {
+					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<ValuesBuilder>( {
 						var: jasmine.any( Function ),
 						resource: jasmine.any( Function ),
 
-						graph: jasmine.any( Function ),
-						bind: jasmine.any( Function ),
+						path: jasmine.any( Function ),
 
-						select: jasmine.any( Function ),
+						isBlank: jasmine.any( Function ),
+						count: jasmine.any( Function ),
+
+						add: jasmine.any( Function ),
+						not: jasmine.any( Function ),
 					} ) );
 				} );
 

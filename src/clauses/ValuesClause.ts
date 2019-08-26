@@ -1,5 +1,3 @@
-import { Builder } from "../Builder";
-
 import { Container } from "../core/containers/Container";
 import { cloneElement } from "../core/containers/utils";
 import { Factory } from "../core/factories/Factory";
@@ -16,6 +14,8 @@ import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 import { ValuesToken } from "../tokens/ValuesToken";
 import { VariableToken } from "../tokens/VariableToken";
+
+import { ValuesBuilder } from "../ValuesBuilder";
 
 import { FinishClause } from "./FinishClause";
 
@@ -40,7 +40,7 @@ export interface ValuesClause<T extends FinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variable:string, valuesBuilder:( builder:Builder ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
+	values( variable:string, valuesBuilder:( builder:ValuesBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
 
 	/**
 	 * Set the values of multiple variables to be combined into the results
@@ -63,7 +63,7 @@ export interface ValuesClause<T extends FinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variables:string[], valuesBuilder:( builder:Builder ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
+	values( variables:string[], valuesBuilder:( builder:ValuesBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
 }
 
 
@@ -72,8 +72,8 @@ type Values = SupportedNativeTypes | Resource | Literal | "UNDEF";
 type ValuesOrBuilder =
 	| (SupportedNativeTypes | SupportedNativeTypes[])
 	| (SupportedNativeTypes[] | SupportedNativeTypes[][])
-	| (( builder:Builder ) => Values | Values[])
-	| (( builder:Builder ) => Values[] | Values[][])
+	| (( builder:ValuesBuilder ) => Values | Values[])
+	| (( builder:ValuesBuilder ) => Values[] | Values[][])
 	;
 
 function _normalizeVariables( variableOrVariables:string | string [] ):VariableToken[] {
@@ -83,7 +83,7 @@ function _normalizeVariables( variableOrVariables:string | string [] ):VariableT
 
 function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIResolver, isSingle:boolean ):Values[][] {
 	let rawValues:Values | (Values | Values[])[] = typeof valuesOrBuilder === "function" ?
-		valuesOrBuilder( Builder.create( iriResolver ) ) :
+		valuesOrBuilder( ValuesBuilder.create( iriResolver ) ) :
 		valuesOrBuilder;
 
 	// When single variable

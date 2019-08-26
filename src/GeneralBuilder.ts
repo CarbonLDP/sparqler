@@ -20,7 +20,7 @@ import { SupportedNativeTypes } from "./SupportedNativeTypes";
 /**
  * Helper builder for generate all the SPARQLER objects.
  */
-export interface Builder extends PatternBuilder, PathsBuilder, ExpressionsBuilder {
+export interface GeneralBuilder extends PatternBuilder, PathsBuilder, ExpressionsBuilder {
 	/**
 	 * Creates an operation {@link Expression} that returns the numeric
 	 * {@param expression} with its sing reversed.
@@ -46,43 +46,43 @@ export interface Builder extends PatternBuilder, PathsBuilder, ExpressionsBuilde
 
 
 /**
- * Constant with the utils for {@link Builder} objects.
+ * Constant with the utils for {@link GeneralBuilder} objects.
  */
-export const Builder:{
+export const GeneralBuilder:{
 	/**
-	 * Function that crete a {@link Builder}.
+	 * Function that crete a {@link GeneralBuilder}.
 	 *
 	 * @param iriResolver The iri resolver that will use the
 	 * pattern builder.
 	 *
-	 * @return The {@link Builder} created.
+	 * @return The {@link GeneralBuilder} created.
 	 */
-	create( iriResolver:IRIResolver ):Builder;
+	create( iriResolver:IRIResolver ):GeneralBuilder;
 	/**
-	 * Factory function that allows to crete a {@link Builder}
+	 * Factory function that allows to crete a {@link GeneralBuilder}
 	 * from the {@param object} provided.
 	 *
 	 * @param container The related container with the data for the
-	 * {@link Builder} statement.
+	 * {@link GeneralBuilder} statement.
 	 * @param object The base base from where to create the
-	 * {@link Builder} statement.
+	 * {@link GeneralBuilder} statement.
 	 *
-	 * @return The {@link Builder} statement created from the
+	 * @return The {@link GeneralBuilder} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<C extends Container<undefined>, O extends object>( container:C, object:O ):O & Builder;
+	createFrom<C extends Container<undefined>, O extends object>( container:C, object:O ):O & GeneralBuilder;
 } = {
-	create( iriResolver:IRIResolver ):Builder {
+	create( iriResolver:IRIResolver ):GeneralBuilder {
 		const container:Container<undefined> = new Container( {
 			iriResolver,
 			targetToken: void 0,
 		} );
 
-		return Builder
+		return GeneralBuilder
 			.createFrom( container, {} );
 	},
 
-	createFrom<C extends Container<undefined>, O extends object>( container:C, object:O ):O & Builder {
+	createFrom<C extends Container<undefined>, O extends object>( container:C, object:O ):O & GeneralBuilder {
 		return Factory.createFrom(
 			PatternBuilder.createFrom,
 			PathsBuilder.createFrom,

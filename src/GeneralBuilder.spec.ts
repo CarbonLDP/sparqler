@@ -1,9 +1,10 @@
-import { Builder } from "./Builder";
+import { GeneralBuilder } from "./GeneralBuilder";
+
 import { Container } from "./core/containers/Container";
 import { IRIResolver } from "./core/iri/IRIResolver";
 
 
-describe( "Builder", ():void => {
+describe( "GeneralBuilder", ():void => {
 
 	let iriResolver:IRIResolver;
 	let container:Container<undefined>;
@@ -18,29 +19,29 @@ describe( "Builder", ():void => {
 	} );
 
 	it( "should exists", ():void => {
-		expect( Builder ).toBeDefined();
-		expect( Builder ).toEqual( jasmine.any( Object ) );
+		expect( GeneralBuilder ).toBeDefined();
+		expect( GeneralBuilder ).toEqual( jasmine.any( Object ) );
 	} );
 
 
-	describe( "Builder.createFrom", () => {
+	describe( "GeneralBuilder.createFrom", () => {
 
 		it( "should exists", () => {
-			expect( Builder.createFrom ).toBeDefined();
-			expect( Builder.createFrom ).toEqual( jasmine.any( Function ) );
+			expect( GeneralBuilder.createFrom ).toBeDefined();
+			expect( GeneralBuilder.createFrom ).toEqual( jasmine.any( Function ) );
 		} );
 
 		it( "should extend the object provided", () => {
 			const myObject:{} = {};
-			const finishPattern:Builder = Builder
+			const finishPattern:GeneralBuilder = GeneralBuilder
 				.createFrom( container, myObject );
 
 			expect( myObject ).toBe( finishPattern );
 		} );
 
 
-		it( "should create a Builder object", () => {
-			const finishPattern:Builder = Builder
+		it( "should create a GeneralBuilder object", () => {
+			const finishPattern:GeneralBuilder = GeneralBuilder
 				.createFrom( container, {} );
 
 			expect( finishPattern ).toEqual( {
@@ -173,18 +174,18 @@ describe( "Builder", ():void => {
 
 	} );
 
-	describe( "Builder.create", () => {
+	describe( "GeneralBuilder.create", () => {
 
 		it( "should exists", () => {
-			expect( Builder.create ).toBeDefined();
-			expect( Builder.create ).toEqual( jasmine.any( Function ) );
+			expect( GeneralBuilder.create ).toBeDefined();
+			expect( GeneralBuilder.create ).toEqual( jasmine.any( Function ) );
 		} );
 
 
 		it( "should call .createFrom", () => {
-			const spy:jasmine.Spy = spyOn( Builder, "createFrom" );
+			const spy:jasmine.Spy = spyOn( GeneralBuilder, "createFrom" );
 
-			Builder.create( iriResolver );
+			GeneralBuilder.create( iriResolver );
 
 			const expectedContainer:Container<undefined> = new Container( {
 				iriResolver,

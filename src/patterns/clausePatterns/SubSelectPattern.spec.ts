@@ -1,7 +1,5 @@
 import { spyContainers } from "../../../test/spies/Container";
 
-import { Builder } from "../../Builder";
-
 import { Container } from "../../core/containers/Container";
 import { IRIResolver } from "../../core/iri/IRIResolver";
 import { AssigmentToken } from "../../tokens/AssigmentToken";
@@ -10,6 +8,8 @@ import { FunctionToken } from "../../tokens/FunctionToken";
 
 import { SubSelectToken } from "../../tokens/SubSelectToken";
 import { VariableToken } from "../../tokens/VariableToken";
+
+import { ValuesBuilder } from "../../ValuesBuilder";
 
 import { SubSelectPattern } from "./SubSelectPattern";
 import { WherePattern } from "./WherePattern";
@@ -23,14 +23,14 @@ describe( "SubSelectPattern", () => {
 	} );
 
 	let container:Container<undefined>;
-	let builder:Builder;
+	let builder:ValuesBuilder;
 	beforeEach( () => {
 		container = new Container( {
 			iriResolver: new IRIResolver(),
 			targetToken: void 0,
 		} );
 
-		builder = Builder.createFrom( container, {} );
+		builder = ValuesBuilder.createFrom( container, {} );
 
 		spyContainers.install();
 	} );

@@ -1,12 +1,15 @@
 import { Container } from "../../../core/containers/Container";
-import { cloneElement } from "../../../core/containers/utils";
 import { Factory } from "../../../core/factories/Factory";
+
 import { SupportedNativeTypes } from "../../../SupportedNativeTypes";
+
 import { BlankNodePropertyToken } from "../../../tokens/BlankNodePropertyToken";
 import { BlankNodeToken } from "../../../tokens/BlankNodeToken";
 import { CollectionToken } from "../../../tokens/CollectionToken";
 import { TripleNodeToken } from "../../../tokens/TripleNodeToken";
+
 import { Pattern } from "../../Pattern";
+
 import { BlankNode } from "../BlankNode";
 import { BlankNodeBuilder } from "../BlankNodeBuilder";
 import { BlankNodeProperty } from "../BlankNodeProperty";
@@ -15,15 +18,16 @@ import { Literal } from "../Literal";
 import { Resource } from "../Resource";
 import { TripleSubject } from "../TripleSubject";
 import { Variable } from "../Variable";
+
 import { _subjectTransformerFn } from "./utils";
 
 
 function _getNodeSubject<T extends TripleNodeToken>( container:Container<undefined>, targetToken:T ):TripleSubject<T> & Pattern<T> {
-	const patternContainer:Container<T> = cloneElement( container, { targetToken } );
-	return Factory.createFrom<typeof patternContainer, TripleSubject<T>, Pattern<T>>(
+	const newContainer = new Container( { ...container, targetToken } );
+	return Factory.createFrom<typeof newContainer, TripleSubject<T>, Pattern<T>>(
 		TripleSubject.createFrom,
 		Pattern.createFrom,
-	)( patternContainer, {} );
+	)( newContainer, {} );
 }
 
 
@@ -32,7 +36,7 @@ function _getBlankNode( container:Container<undefined>, label?:string ):BlankNod
 		label = "_:" + label;
 
 	const targetToken:BlankNodeToken = new BlankNodeToken( label );
-	const newContainer:Container<BlankNodeToken> = cloneElement( container, { targetToken } );
+	const newContainer = new Container( { ...container, targetToken } );
 	return TripleSubject.createFrom( newContainer, {} );
 }
 
