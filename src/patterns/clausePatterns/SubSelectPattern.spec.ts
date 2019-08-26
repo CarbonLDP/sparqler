@@ -2,10 +2,10 @@ import { spyContainers } from "../../../test/spies/Container";
 
 import { Container } from "../../core/containers/Container";
 import { IRIResolver } from "../../core/iri/IRIResolver";
+
 import { AssigmentToken } from "../../tokens/AssigmentToken";
 import { ExpressionListToken } from "../../tokens/ExpressionListToken";
 import { FunctionToken } from "../../tokens/FunctionToken";
-
 import { SubSelectToken } from "../../tokens/SubSelectToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
