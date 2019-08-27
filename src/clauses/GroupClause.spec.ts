@@ -2,10 +2,16 @@ import { spyContainers } from "../../test/spies/clones";
 
 import { Container } from "../core/containers/Container";
 import { IRIResolver } from "../core/iri/IRIResolver";
+import { AssigmentToken } from "../tokens/AssigmentToken";
+import { BracketedExpressionToken } from "../tokens/BracketedExpressionToken";
+import { ExpressionListToken } from "../tokens/ExpressionListToken";
+import { FunctionToken } from "../tokens/FunctionToken";
 
 import { GroupToken } from "../tokens/GroupToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
+import { UnaryOperationToken } from "../tokens/UnaryOperationToken";
+import { VariableToken } from "../tokens/VariableToken";
 
 import { FinishClause } from "./FinishClause";
 import { GroupClause } from "./GroupClause";
@@ -120,12 +126,58 @@ describe( "GroupClause", () => {
 				.toContain( jasmine.any( GroupToken ) );
 		} );
 
-		it( "should add GROUP BY token with the condition", () => {
-			groupClause.groupBy( "raw condition" );
+		it( "should add GROUP BY token with a Variable", () => {
+			groupClause.groupBy( _ => _.var( "foo" ) );
 
 			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
 			expect( newContainer.targetToken.queryClause.modifiers )
-				.toContain( new GroupToken( "raw condition" ) );
+				.toContain( new GroupToken( [
+					new VariableToken( "foo" ),
+				] ) );
+		} );
+
+		it( "should add GROUP BY token with a Function", () => {
+			groupClause.groupBy( _ => _.isIRI( _.var( "foo" ) ) );
+
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			expect( newContainer.targetToken.queryClause.modifiers )
+				.toContain( new GroupToken( [
+					new FunctionToken(
+						"isIRI",
+						new ExpressionListToken( [ new VariableToken( "foo" ) ] )
+					),
+				] ) );
+		} );
+
+		it( "should add GROUP BY token with another Expression", () => {
+			groupClause.groupBy( _ => _.not( _.var( "foo" ) ) );
+
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			expect( newContainer.targetToken.queryClause.modifiers )
+				.toContain( new GroupToken( [
+					new BracketedExpressionToken(
+						new UnaryOperationToken(
+							"!",
+							new VariableToken( "foo" )
+						)
+					),
+				] ) );
+		} );
+
+		it( "should add GROUP BY token with Assigment", () => {
+			groupClause.groupBy( _ => _.not( _.var( "foo" ) ).as( "bar" ) );
+
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			expect( newContainer.targetToken.queryClause.modifiers )
+				.toContain( new GroupToken( [
+					new AssigmentToken(
+						new UnaryOperationToken(
+							"!",
+							new VariableToken( "foo" )
+						),
+						new VariableToken( "bar" )
+					),
+				] ) );
 		} );
 
 	} );

@@ -1,4 +1,8 @@
+import { AssigmentToken } from "./AssigmentToken";
+import { BracketedExpressionToken } from "./BracketedExpressionToken";
+import { FunctionToken } from "./FunctionToken";
 import { TokenNode } from "./TokenNode";
+import { VariableToken } from "./VariableToken";
 
 
 /**
@@ -9,14 +13,18 @@ import { TokenNode } from "./TokenNode";
 export class GroupToken implements TokenNode {
 	readonly token:"group" = "group";
 
-	readonly rawCondition:string;
+	readonly conditions:(FunctionToken | BracketedExpressionToken | AssigmentToken | VariableToken)[];
 
-	constructor( rawCondition:string ) {
-		this.rawCondition = rawCondition;
+	constructor( conditions:(FunctionToken | BracketedExpressionToken | AssigmentToken | VariableToken)[] ) {
+		this.conditions = conditions;
 	}
 
 
 	toString( spaces?:number ):string {
-		return `GROUP BY ${ this.rawCondition }`;
+		const conditionsStr = this.conditions
+			.map( _ => _.toString( spaces ) )
+			.join( " " );
+
+		return `GROUP BY ${ conditionsStr }`;
 	}
 }
