@@ -1,6 +1,5 @@
 import { AssigmentToken } from "./AssigmentToken";
-import { BracketedExpressionToken } from "./BracketedExpressionToken";
-import { FunctionToken } from "./FunctionToken";
+import { ConstraintToken } from "./ConstraintToken";
 import { TokenNode } from "./TokenNode";
 import { VariableToken } from "./VariableToken";
 
@@ -13,9 +12,9 @@ import { VariableToken } from "./VariableToken";
 export class GroupToken implements TokenNode {
 	readonly token:"group" = "group";
 
-	readonly conditions:(FunctionToken | BracketedExpressionToken | AssigmentToken | VariableToken)[];
+	readonly conditions:(ConstraintToken | AssigmentToken | VariableToken)[];
 
-	constructor( conditions:(FunctionToken | BracketedExpressionToken | AssigmentToken | VariableToken)[] ) {
+	constructor( conditions:(ConstraintToken | AssigmentToken | VariableToken)[] ) {
 		this.conditions = conditions;
 	}
 
