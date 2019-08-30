@@ -1,5 +1,6 @@
 import { Container } from "../core/containers/Container";
 import { Factory } from "../core/factories/Factory";
+import { _is } from "../core/transformers";
 
 import { Expression } from "../expressions/Expression";
 import { Projectable } from "../expressions/Projectable";
@@ -60,9 +61,13 @@ type SupportedTypes = Expression | Projectable | SupportedNativeTypes;
  */
 function getGroupByFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
 	return ( conditionOrFn:SupportedTypes | (( builder:GeneralBuilder ) => SupportedTypes | SupportedTypes[]), ...restConditions:SupportedTypes[] ) => {
+		const targetToken:GroupToken = new GroupToken( [] );
+		const newContainer = cloneSolutionModifierContainer( container, targetToken );
+
 		if( typeof conditionOrFn === "function" ) {
 			// Create conditions from function
-			const fnConditions = conditionOrFn.call( undefined, GeneralBuilder.create( container.iriResolver ) );
+			const builder = newContainer.getBuilder();
+			const fnConditions = conditionOrFn.call( undefined, builder );
 			restConditions = Array.isArray( fnConditions ) ? fnConditions : [ fnConditions ];
 
 		} else if( conditionOrFn ) {
@@ -70,15 +75,13 @@ function getGroupByFn<C extends Container<QueryToken<QueryClauseToken> | SubSele
 			restConditions.unshift( conditionOrFn );
 		}
 
-		const conditionTokens = restConditions
-			.map( condition =>
-				typeof condition === "object" && "getProjection" in condition
-					? condition.getProjection()
-					: _conditionTransformer( condition )
-			);
+		restConditions.forEach( condition => {
+			const conditionToken = _is<Projectable>( condition, "getProjection" )
+				? condition.getProjection()
+				: _conditionTransformer( condition );
 
-		const token:GroupToken = new GroupToken( conditionTokens );
-		const newContainer = cloneSolutionModifierContainer( container, token );
+			targetToken.conditions.push( conditionToken );
+		} );
 
 		const havingClause:HavingClause<T> = HavingClause.createFrom( genericFactory, newContainer, {} );
 		return genericFactory( newContainer, havingClause );

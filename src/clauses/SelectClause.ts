@@ -137,11 +137,15 @@ export interface SelectClause<T extends FinishClause> {
  */
 function getSelectFn<C extends Container<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED", limit?:true ):SelectClause<T>[ "select" ] {
 	return ( variableOrFunction?:string | (( builder:GeneralBuilder ) => (string | Projectable) | (string | Projectable)[]), ...variables:(string | Projectable)[] ) => {
-		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
+		const queryClause:SelectToken = new SelectToken( modifier );
+		const newContainer:Container<QueryToken<SelectToken>> = new Container( {
+			iriResolver: new IRIResolver( container.iriResolver ),
+			targetToken: cloneElement( container.targetToken, { queryClause } ),
+		} );
 
 		// Executes builder function
 		if( typeof variableOrFunction === "function" ) {
-			const builder = GeneralBuilder.create( iriResolver );
+			const builder = newContainer.getBuilder();
 			const varBuilder = variableOrFunction.call( undefined, builder );
 			variables = Array.isArray( varBuilder ) ? varBuilder : [ varBuilder ];
 
@@ -150,19 +154,11 @@ function getSelectFn<C extends Container<QueryToken>, T extends FinishClause>( g
 			variables.unshift( variableOrFunction );
 		}
 
-		const queryClause:SelectToken = new SelectToken( modifier );
-
 		// Add tokens when is not limited (ALL)
 		if( !limit && variables.length ) {
 			const tokens = variables.map( _assigmentTransformer );
 			queryClause.addProjection( ...tokens );
 		}
-
-		const queryToken:QueryToken<SelectToken> = cloneElement( container.targetToken, { queryClause } );
-		const newContainer:Container<QueryToken<SelectToken>> = new Container( {
-			iriResolver: iriResolver,
-			targetToken: queryToken,
-		} );
 
 		return FromClause.createFrom( genericFactory, newContainer, {} );
 	};

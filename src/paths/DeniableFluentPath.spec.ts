@@ -1,21 +1,18 @@
-import { spyContainers } from "../../test/spies/FluentPathContainer";
+import { getFluentPathContainer } from "../../test/factories/FluentPathContainer";
+import { spyContainers } from "../../test/spies/clones";
 
 import { Container } from "../core/containers/Container";
-import { IRIResolver } from "../core/iri/IRIResolver";
 
 import { IRIRefToken } from "../tokens/IRIRefToken";
 import { PathAlternativeToken } from "../tokens/PathAlternativeToken";
 import { PathInNegatedToken } from "../tokens/PathInNegatedToken";
 import { PathInverseToken } from "../tokens/PathInverseToken";
 import { PathNegatedToken } from "../tokens/PathNegatedToken";
-import { PathToken } from "../tokens/PathToken";
 import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
 import { SharedSubPathToken } from "../tokens/SharedSubPathToken";
 import { SubPathInNegatedToken } from "../tokens/SubPathInNegatedToken";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
-import { FluentPath } from "./FluentPath";
-import { FluentPathContainer } from "./FluentPathContainer";
 
 
 describe( "DeniableFluentPath", () => {
@@ -33,15 +30,6 @@ describe( "DeniableFluentPath", () => {
 		spyContainers.uninstall();
 	} );
 
-	function getContainer<T extends PathToken>( token:T ):FluentPathContainer<T> {
-		return new FluentPathContainer( {
-			iriResolver: new IRIResolver(),
-			targetToken: token,
-			fluentPathFactory: FluentPath.createFrom,
-			deniableFluentPathFactory: DeniableFluentPath.createFrom,
-		} );
-	}
-
 
 	describe( "DeniableFluentPath.createFrom", () => {
 
@@ -53,7 +41,7 @@ describe( "DeniableFluentPath", () => {
 		it( "should extend the object provided", () => {
 			const myObject:{} = {};
 			const path:DeniableFluentPath<any> = DeniableFluentPath
-				.createFrom( getContainer( "a" ), myObject );
+				.createFrom( getFluentPathContainer( "a" ), myObject );
 
 			expect( myObject ).toBe( path );
 		} );
@@ -61,7 +49,7 @@ describe( "DeniableFluentPath", () => {
 
 		it( "should create a DeniableFluentPath object", () => {
 			const path:DeniableFluentPath<any> = DeniableFluentPath
-				.createFrom( getContainer( "a" ), {} );
+				.createFrom( getFluentPathContainer( "a" ), {} );
 
 			expect( path ).toEqual( {
 				negated: jasmine.any( Function ),
@@ -86,7 +74,7 @@ describe( "DeniableFluentPath", () => {
 
 
 	function getPath<T extends PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>>( token:T ):DeniableFluentPath<T> {
-		return DeniableFluentPath.createFrom( getContainer( token ), {} );
+		return DeniableFluentPath.createFrom( getFluentPathContainer( token ), {} );
 	}
 
 

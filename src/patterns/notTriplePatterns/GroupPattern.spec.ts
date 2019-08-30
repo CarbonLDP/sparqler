@@ -1,6 +1,6 @@
 import { MockPattern } from "../../../test/mocks/MockPattern";
 import { MockPatternToken } from "../../../test/mocks/MockPatternToken";
-import { spyContainers } from "../../../test/spies/Container";
+import { spyContainers } from "../../../test/spies/clones";
 
 import { Container } from "../../core/containers/Container";
 import { IRIResolver } from "../../core/iri/IRIResolver";

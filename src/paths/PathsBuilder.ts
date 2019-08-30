@@ -1,4 +1,5 @@
 import { Container } from "../core/containers/Container";
+import { cloneElement } from "../core/containers/utils";
 
 import { Resource } from "../patterns/triplePatterns/Resource";
 
@@ -23,8 +24,7 @@ export interface PathsBuilder {
 
 
 function _getContainer<T extends PathToken | undefined>( container:Container<undefined>, targetToken?:T ):FluentPathContainer<T> {
-	return new FluentPathContainer<T>( {
-		...container,
+	return cloneElement( container, {
 		targetToken: targetToken!,
 		fluentPathFactory: FluentPath.createFrom,
 		deniableFluentPathFactory: DeniableFluentPath.createFrom,

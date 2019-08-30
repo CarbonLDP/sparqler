@@ -1,3 +1,4 @@
+import { GeneralBuilder } from "../../GeneralBuilder";
 import { TokenNode } from "../../tokens/TokenNode";
 
 import { IRIResolver } from "../iri/IRIResolver";
@@ -50,6 +51,16 @@ export class Container<TOKEN extends TokenNode | "a" | undefined> implements Con
 		this.targetToken = data.targetToken;
 
 		if( new.target === Container ) Object.freeze( this );
+	}
+
+
+	getBuilder():GeneralBuilder {
+		const tempContainer = new Container( {
+			iriResolver: this.iriResolver,
+			targetToken: undefined,
+		} );
+
+		return GeneralBuilder.createFrom( tempContainer, {} );
 	}
 
 }

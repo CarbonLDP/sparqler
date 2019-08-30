@@ -1,6 +1,5 @@
 import { Container } from "./core/containers/Container";
 import { Factory } from "./core/factories/Factory";
-import { IRIResolver } from "./core/iri/IRIResolver";
 
 import { Expression } from "./expressions/Expression";
 import { ExpressionsBuilder } from "./expressions/ExpressionsBuilder";
@@ -50,15 +49,6 @@ export interface GeneralBuilder extends PatternBuilder, PathsBuilder, Expression
  */
 export const GeneralBuilder:{
 	/**
-	 * Function that crete a {@link GeneralBuilder}.
-	 *
-	 * @param iriResolver The iri resolver that will use the
-	 * pattern builder.
-	 *
-	 * @return The {@link GeneralBuilder} created.
-	 */
-	create( iriResolver:IRIResolver ):GeneralBuilder;
-	/**
 	 * Factory function that allows to crete a {@link GeneralBuilder}
 	 * from the {@param object} provided.
 	 *
@@ -70,18 +60,8 @@ export const GeneralBuilder:{
 	 * @return The {@link GeneralBuilder} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<C extends Container<undefined>, O extends object>( container:C, object:O ):O & GeneralBuilder;
+	createFrom<C extends Container<any>, O extends object>( container:C, object:O ):O & GeneralBuilder;
 } = {
-	create( iriResolver:IRIResolver ):GeneralBuilder {
-		const container:Container<undefined> = new Container( {
-			iriResolver,
-			targetToken: void 0,
-		} );
-
-		return GeneralBuilder
-			.createFrom( container, {} );
-	},
-
 	createFrom<C extends Container<undefined>, O extends object>( container:C, object:O ):O & GeneralBuilder {
 		return Factory.createFrom(
 			PatternBuilder.createFrom,

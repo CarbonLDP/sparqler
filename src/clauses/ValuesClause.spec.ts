@@ -3,6 +3,8 @@ import { spyContainers } from "../../test/spies/clones";
 import { Container } from "../core/containers/Container";
 import { IRIResolver } from "../core/iri/IRIResolver";
 
+import { GeneralBuilder } from "../GeneralBuilder";
+
 import { IRIRefToken } from "../tokens/IRIRefToken";
 import { getIRIToken } from "../tokens/IRIToken";
 import { LiteralToken } from "../tokens/LiteralToken";
@@ -11,8 +13,6 @@ import { QueryToken } from "../tokens/QueryToken";
 import { RDFLiteralToken } from "../tokens/RDFLiteralToken";
 import { ValuesToken } from "../tokens/ValuesToken";
 import { VariableToken } from "../tokens/VariableToken";
-
-import { ValuesBuilder } from "../ValuesBuilder";
 
 import { XSD } from "../vocabularies/XSD";
 
@@ -107,7 +107,7 @@ describe( "ValuesClause", () => {
 				it( "should add VALUES token", () => {
 					valuesClause.values( "var", "val" );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values )
 						.toEqual( jasmine.any( ValuesToken ) );
 				} );
@@ -115,7 +115,7 @@ describe( "ValuesClause", () => {
 				it( "should add Variable", () => {
 					valuesClause.values( "var", "val" );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.variables )
 						.toContain( new VariableToken( "var" ) );
 				} );
@@ -123,7 +123,7 @@ describe( "ValuesClause", () => {
 				it( "should add string value", () => {
 					valuesClause.values( "var", "val" );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [ new LiteralToken( "val" ) ] );
 				} );
@@ -131,7 +131,7 @@ describe( "ValuesClause", () => {
 				it( "should add number value", () => {
 					valuesClause.values( "var", 10 );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [ new LiteralToken( 10 ) ] );
 				} );
@@ -140,7 +140,7 @@ describe( "ValuesClause", () => {
 					const date:Date = new Date();
 					valuesClause.values( "var", date );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
 				} );
@@ -171,7 +171,7 @@ describe( "ValuesClause", () => {
 				it( "should add VALUES token", () => {
 					valuesClause.values( "var", [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values )
 						.toEqual( jasmine.any( ValuesToken ) );
 				} );
@@ -179,7 +179,7 @@ describe( "ValuesClause", () => {
 				it( "should add Variable", () => {
 					valuesClause.values( "var", [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.variables )
 						.toContain( new VariableToken( "var" ) );
 				} );
@@ -187,7 +187,7 @@ describe( "ValuesClause", () => {
 				it( "should add empty values", () => {
 					valuesClause.values( "var", [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [] );
 				} );
@@ -196,7 +196,7 @@ describe( "ValuesClause", () => {
 					const date:Date = new Date();
 					valuesClause.values( "var", [ "val", 10, date ] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [
 							new LiteralToken( "val" ),
@@ -231,7 +231,7 @@ describe( "ValuesClause", () => {
 				it( "should add VALUES token", () => {
 					valuesClause.values( "var", () => [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values )
 						.toEqual( jasmine.any( ValuesToken ) );
 				} );
@@ -239,7 +239,7 @@ describe( "ValuesClause", () => {
 				it( "should add Variable", () => {
 					valuesClause.values( "var", () => [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.variables )
 						.toContain( new VariableToken( "var" ) );
 				} );
@@ -247,17 +247,17 @@ describe( "ValuesClause", () => {
 				it( "should add empty values", () => {
 					valuesClause.values( "var", () => [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [] );
 				} );
 
-				it( "should provide ValuesBuilder", () => {
+				it( "should provide GeneralBuilder", () => {
 					const spy:jasmine.Spy = jasmine.createSpy()
 						.and.returnValue( [] );
 
 					valuesClause.values( "var", spy );
-					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<ValuesBuilder>( {
+					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<GeneralBuilder>( {
 						var: jasmine.any( Function ),
 						resource: jasmine.any( Function ),
 
@@ -275,7 +275,7 @@ describe( "ValuesClause", () => {
 				it( "should add string value", () => {
 					valuesClause.values( "var", () => "val" );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [ new LiteralToken( "val" ) ] );
 				} );
@@ -284,7 +284,7 @@ describe( "ValuesClause", () => {
 					const date:Date = new Date();
 					valuesClause.values( "var", () => date );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
 				} );
@@ -292,7 +292,7 @@ describe( "ValuesClause", () => {
 				it( "should add string pattern value", () => {
 					valuesClause.values( "var", _ => _.literal( "val" ) );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [ new RDFLiteralToken( "val" ) ] );
 				} );
@@ -300,7 +300,7 @@ describe( "ValuesClause", () => {
 				it( "should add pattern IRI value", () => {
 					valuesClause.values( "var", _ => _.resource( "https://example.com/" ) );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [ new IRIRefToken( "https://example.com/" ) ] );
 				} );
@@ -308,7 +308,7 @@ describe( "ValuesClause", () => {
 				it( "should add pattern Prefixed Name value", () => {
 					valuesClause.values( "var", _ => _.resource( "ex:resource/" ) );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [ new PrefixedNameToken( "ex", "resource/" ) ] );
 				} );
@@ -316,7 +316,7 @@ describe( "ValuesClause", () => {
 				it( "should set prefix used whe Prefixed Name value", () => {
 					valuesClause.values( "var", _ => _.resource( "ex:resource/" ) );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.iriResolver.prefixes ).toEqual( new Map( [
 						[ "ex", true ],
 					] ) )
@@ -334,7 +334,7 @@ describe( "ValuesClause", () => {
 						_.resource( "ex:resource/" )
 					] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [
 							new LiteralToken( "val" ),
@@ -376,7 +376,7 @@ describe( "ValuesClause", () => {
 				it( "should add VALUES token", () => {
 					valuesClause.values( [], [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values )
 						.toEqual( jasmine.any( ValuesToken ) );
 				} );
@@ -384,7 +384,7 @@ describe( "ValuesClause", () => {
 				it( "should add empty variables", () => {
 					valuesClause.values( [], [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.variables )
 						.toEqual( [] );
 				} );
@@ -392,7 +392,7 @@ describe( "ValuesClause", () => {
 				it( "should add variables", () => {
 					valuesClause.values( [ "var1", "var2" ], [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.variables )
 						.toContain( new VariableToken( "var1" ) );
 					expect( newContainer.targetToken.values!.variables )
@@ -403,7 +403,7 @@ describe( "ValuesClause", () => {
 				it( "should add empty values", () => {
 					valuesClause.values( [], [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toEqual( [ [] ] );
 				} );
@@ -411,7 +411,7 @@ describe( "ValuesClause", () => {
 				it( "should add native values", () => {
 					valuesClause.values( [ "var1", "var2" ], [ "val1", 10 ] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [
 							new LiteralToken( "val1" ),
@@ -445,7 +445,7 @@ describe( "ValuesClause", () => {
 				it( "should add VALUES token", () => {
 					valuesClause.values( [], [ [] ] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values )
 						.toEqual( jasmine.any( ValuesToken ) );
 				} );
@@ -453,7 +453,7 @@ describe( "ValuesClause", () => {
 				it( "should add empty variables", () => {
 					valuesClause.values( [], [ [] ] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.variables )
 						.toEqual( [] );
 				} );
@@ -461,7 +461,7 @@ describe( "ValuesClause", () => {
 				it( "should add variables", () => {
 					valuesClause.values( [ "var1", "var2" ], [ [] ] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.variables )
 						.toContain( new VariableToken( "var1" ) );
 					expect( newContainer.targetToken.values!.variables )
@@ -472,7 +472,7 @@ describe( "ValuesClause", () => {
 				it( "should add empty values", () => {
 					valuesClause.values( [ "var" ], [ [] ] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [] );
 				} );
@@ -480,7 +480,7 @@ describe( "ValuesClause", () => {
 				it( "should add native values", () => {
 					valuesClause.values( [ "var1", "var2" ], [ [ "val1" ], [ 10 ] ] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [ new LiteralToken( "val1" ) ] );
 					expect( newContainer.targetToken.values!.values )
@@ -513,7 +513,7 @@ describe( "ValuesClause", () => {
 				it( "should add VALUES token", () => {
 					valuesClause.values( [ "var" ], () => [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values )
 						.toEqual( jasmine.any( ValuesToken ) );
 				} );
@@ -521,7 +521,7 @@ describe( "ValuesClause", () => {
 				it( "should add empty variables", () => {
 					valuesClause.values( [], () => [ [] ] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.variables )
 						.toEqual( [] );
 				} );
@@ -529,7 +529,7 @@ describe( "ValuesClause", () => {
 				it( "should add variables", () => {
 					valuesClause.values( [ "var1", "var2" ], () => [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.variables )
 						.toContain( new VariableToken( "var1" ) );
 					expect( newContainer.targetToken.values!.variables )
@@ -537,12 +537,12 @@ describe( "ValuesClause", () => {
 				} );
 
 
-				it( "should provide ValuesBuilder", () => {
+				it( "should provide GeneralBuilder", () => {
 					const spy:jasmine.Spy = jasmine.createSpy()
 						.and.returnValue( [] );
 
 					valuesClause.values( [ "var" ], spy );
-					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<ValuesBuilder>( {
+					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<GeneralBuilder>( {
 						var: jasmine.any( Function ),
 						resource: jasmine.any( Function ),
 
@@ -560,7 +560,7 @@ describe( "ValuesClause", () => {
 				it( "should add empty single values", () => {
 					valuesClause.values( [], () => [] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toEqual( [ [] ] );
 				} );
@@ -568,7 +568,7 @@ describe( "ValuesClause", () => {
 				it( "should add empty multiple values", () => {
 					valuesClause.values( [ "var1", "var2" ], () => [ [], [] ] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toEqual( [ [], [] ] );
 				} );
@@ -580,7 +580,7 @@ describe( "ValuesClause", () => {
 						_.resource( "https://example.com/" )
 					] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [
 							new LiteralToken( "val1" ),
@@ -597,7 +597,7 @@ describe( "ValuesClause", () => {
 						[ _.resource( "https://example.com/" ), _.resource( "ex:resource/" ) ],
 					] );
 
-					const newContainer:Container<QueryToken> = spyContainers.getLast();
+					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [
 							new LiteralToken( "val1" ),

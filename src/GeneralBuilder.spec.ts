@@ -1,7 +1,7 @@
-import { GeneralBuilder } from "./GeneralBuilder";
-
 import { Container } from "./core/containers/Container";
 import { IRIResolver } from "./core/iri/IRIResolver";
+
+import { GeneralBuilder } from "./GeneralBuilder";
 
 
 describe( "GeneralBuilder", ():void => {
@@ -170,29 +170,6 @@ describe( "GeneralBuilder", ():void => {
 				// Mixed
 				minus: jasmine.any( Function ),
 			} );
-		} );
-
-	} );
-
-	describe( "GeneralBuilder.create", () => {
-
-		it( "should exists", () => {
-			expect( GeneralBuilder.create ).toBeDefined();
-			expect( GeneralBuilder.create ).toEqual( jasmine.any( Function ) );
-		} );
-
-
-		it( "should call .createFrom", () => {
-			const spy:jasmine.Spy = spyOn( GeneralBuilder, "createFrom" );
-
-			GeneralBuilder.create( iriResolver );
-
-			const expectedContainer:Container<undefined> = new Container( {
-				iriResolver,
-				targetToken: void 0,
-			} );
-			expect( spy ).toHaveBeenCalledWith( expectedContainer, {} );
-
 		} );
 
 	} );

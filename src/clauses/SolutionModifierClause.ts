@@ -1,5 +1,6 @@
 import { Container } from "../core/containers/Container";
 import { cloneElement } from "../core/containers/utils";
+import { IRIResolver } from "../core/iri/IRIResolver";
 
 import { QueryClauseToken } from "../tokens/QueryClauseToken";
 import { QueryToken } from "../tokens/QueryToken";
@@ -12,7 +13,8 @@ export function cloneSolutionModifierContainer<C extends Container<QueryToken<Qu
 		_cloneFromQuery( container.targetToken, token ) :
 		_cloneFromClause( container.targetToken, token );
 
-	return cloneElement( container, { targetToken } );
+	const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
+	return cloneElement( container, { iriResolver, targetToken } );
 }
 
 function _cloneFromClause<T extends QueryClauseToken | SubSelectToken>( this:void, clauseToken:T, token:SolutionModifierToken ):T {

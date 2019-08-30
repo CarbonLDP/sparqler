@@ -98,7 +98,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT token", () => {
 			selectClause.select();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( jasmine.any( SelectToken ) );
 		} );
@@ -106,7 +106,7 @@ describe( "SelectClause", () => {
 		it( "should add empty SELECT when no token", () => {
 			selectClause.select();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( new SelectToken() )
 		} );
@@ -115,7 +115,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT with a string variable", () => {
 			selectClause.select( "a" );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toContain( new VariableToken( "a" ) );
 		} );
@@ -123,7 +123,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT with three string variable", () => {
 			selectClause.select( "a", "b", "c" );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toContain( new VariableToken( "a" ) );
 			expect( newContainer.targetToken.queryClause.projections )
@@ -136,7 +136,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT with a Variable using the builder", () => {
 			selectClause.select( _ => _.var( "a" ) );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toContain( new VariableToken( "a" ) );
 		} );
@@ -145,7 +145,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT with an Assigment using the builder", () => {
 			selectClause.select( _ => _.count( "foo" ).as( "bar" ) );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toContain( new AssigmentToken(
 					new FunctionToken(
@@ -185,7 +185,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT token", () => {
 			selectClause.selectDistinct();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( jasmine.any( SelectToken ) );
 		} );
@@ -193,7 +193,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT token with DISTINCT", () => {
 			selectClause.selectDistinct();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( new SelectToken( "DISTINCT" ) );
 		} );
@@ -201,7 +201,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT with a variable", () => {
 			selectClause.selectDistinct( "a" );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toContain( new VariableToken( "a" ) );
 		} );
@@ -209,7 +209,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT with three variable", () => {
 			selectClause.selectDistinct( "a", "b", "c" );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toContain( new VariableToken( "a" ) );
 			expect( newContainer.targetToken.queryClause.projections )
@@ -247,7 +247,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT token", () => {
 			selectClause.selectReduced();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( jasmine.any( SelectToken ) );
 		} );
@@ -255,7 +255,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT token with DISTINCT", () => {
 			selectClause.selectReduced();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( new SelectToken( "REDUCED" ) );
 		} );
@@ -263,7 +263,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT with a variable", () => {
 			selectClause.selectReduced( "a" );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toContain( new VariableToken( "a" ) );
 		} );
@@ -271,7 +271,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT with three variable", () => {
 			selectClause.selectReduced( "a", "b", "c" );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toContain( new VariableToken( "a" ) );
 			expect( newContainer.targetToken.queryClause.projections )
@@ -310,7 +310,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT token", () => {
 			selectClause.selectAll();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( jasmine.any( SelectToken ) );
 		} );
@@ -318,7 +318,7 @@ describe( "SelectClause", () => {
 		it( "should add empty SELECT when no token", () => {
 			selectClause.selectAll();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( new SelectToken() )
 		} );
@@ -326,7 +326,7 @@ describe( "SelectClause", () => {
 		it( "should ignore projections", () => {
 			selectClause.selectAll.call<any, any, any>( null, "a", "b" );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toEqual( [] );
 		} );
@@ -360,7 +360,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT token", () => {
 			selectClause.selectAllDistinct();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( jasmine.any( SelectToken ) );
 		} );
@@ -368,7 +368,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT token with DISTINCT", () => {
 			selectClause.selectAllDistinct();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( new SelectToken( "DISTINCT" ) );
 		} );
@@ -376,7 +376,7 @@ describe( "SelectClause", () => {
 		it( "should ignore projections", () => {
 			selectClause.selectAllDistinct.call<any, any, any>( null, "a", "b" );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toEqual( [] );
 		} );
@@ -410,7 +410,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT token", () => {
 			selectClause.selectAllReduced();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( jasmine.any( SelectToken ) );
 		} );
@@ -418,7 +418,7 @@ describe( "SelectClause", () => {
 		it( "should add SELECT token with DISTINCT", () => {
 			selectClause.selectAllReduced();
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause )
 				.toEqual( new SelectToken( "REDUCED" ) );
 		} );
@@ -426,7 +426,7 @@ describe( "SelectClause", () => {
 		it( "should ignore projections", () => {
 			selectClause.selectAllReduced.call<any, any, any>( null, "a", "b" );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.projections )
 				.toEqual( [] );
 		} );

@@ -1,4 +1,5 @@
 import { Container } from "../../../core/containers/Container";
+import { cloneElement } from "../../../core/containers/utils";
 import { _transformNatives } from "../../../core/transformers";
 
 import { IRIToken } from "../../../tokens/IRIToken";
@@ -14,7 +15,7 @@ import { Variable } from "../Variable";
 export function getResourceFn( container:Container<undefined> ) {
 	return ( iri:string ):Resource => {
 		const targetToken:IRIToken = container.iriResolver.resolve( iri );
-		const newContainer = new Container( { ...container, targetToken } );
+		const newContainer = cloneElement( container, { targetToken } );
 
 		return Resource.createFrom( newContainer, {} );
 	}
@@ -23,7 +24,7 @@ export function getResourceFn( container:Container<undefined> ) {
 export function getVarFn( container:Container<undefined> ) {
 	return ( name:string ):Variable => {
 		const targetToken:VariableToken = new VariableToken( name );
-		const newContainer = new Container( { ...container, targetToken } );
+		const newContainer = cloneElement( container, { targetToken } );
 
 		return Variable.createFrom( newContainer, {} );
 	}
@@ -35,7 +36,7 @@ export function getLiteralFn( container:Container<undefined> ) {
 			? new RDFLiteralToken( value )
 			: _transformNatives( value );
 
-		const newContainer = new Container( { ...container, targetToken } );
+		const newContainer = cloneElement( container, { targetToken } );
 
 		const factory = targetToken instanceof RDFLiteralToken
 			? RDFLiteral.createFrom

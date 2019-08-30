@@ -121,7 +121,7 @@ describe( "GroupClause", () => {
 		it( "should add GROUP BY token", () => {
 			groupClause.groupBy( "" );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.modifiers )
 				.toContain( jasmine.any( GroupToken ) );
 		} );
@@ -129,7 +129,7 @@ describe( "GroupClause", () => {
 		it( "should add GROUP BY token with a Variable", () => {
 			groupClause.groupBy( _ => _.var( "foo" ) );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.modifiers )
 				.toContain( new GroupToken( [
 					new VariableToken( "foo" ),
@@ -139,7 +139,7 @@ describe( "GroupClause", () => {
 		it( "should add GROUP BY token with a Function", () => {
 			groupClause.groupBy( _ => _.isIRI( _.var( "foo" ) ) );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.modifiers )
 				.toContain( new GroupToken( [
 					new FunctionToken(
@@ -152,7 +152,7 @@ describe( "GroupClause", () => {
 		it( "should add GROUP BY token with another Expression", () => {
 			groupClause.groupBy( _ => _.not( _.var( "foo" ) ) );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.modifiers )
 				.toContain( new GroupToken( [
 					new BracketedExpressionToken(
@@ -167,7 +167,7 @@ describe( "GroupClause", () => {
 		it( "should add GROUP BY token with Assigment", () => {
 			groupClause.groupBy( _ => _.not( _.var( "foo" ) ).as( "bar" ) );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.modifiers )
 				.toContain( new GroupToken( [
 					new AssigmentToken(

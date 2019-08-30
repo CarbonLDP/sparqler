@@ -18,7 +18,7 @@ export const _transformNatives = ( value:SupportedNativeTypes ) =>
 export type Transformer<W, T extends TokenNode | string> = ( value:W ) => T;
 
 
-const _is = <T>( value:unknown, property:string ):value is T =>
+export const _is = <T extends {}>( value:unknown, property:keyof T ):value is T =>
 	typeof value === "object" && !!value && property in value;
 
 export const _getBaseTransformer =

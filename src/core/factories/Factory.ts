@@ -8,7 +8,7 @@ import { Container } from "../containers/Container";
  * of function that are used to create the instances of the objects
  * related to external data stored in a {@link Container}.
  */
-export interface Factory<CONTAINER extends Container<TokenNode>, TARGET extends object> extends Function {
+export interface Factory<CONTAINER extends Container<any>, TARGET extends object> extends Function {
 	/**
 	 * The function signature of the factory.
 	 *

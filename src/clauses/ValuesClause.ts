@@ -3,6 +3,8 @@ import { cloneElement } from "../core/containers/utils";
 import { Factory } from "../core/factories/Factory";
 import { IRIResolver } from "../core/iri/IRIResolver";
 
+import { GeneralBuilder } from "../GeneralBuilder";
+
 import { _valuesTransformerFn } from "../patterns/notTriplePatterns/fns/utils";
 import { Literal } from "../patterns/triplePatterns/Literal";
 import { Resource } from "../patterns/triplePatterns/Resource";
@@ -14,8 +16,6 @@ import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 import { ValuesToken } from "../tokens/ValuesToken";
 import { VariableToken } from "../tokens/VariableToken";
-
-import { ValuesBuilder } from "../ValuesBuilder";
 
 import { FinishClause } from "./FinishClause";
 
@@ -40,7 +40,7 @@ export interface ValuesClause<T extends FinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variable:string, valuesBuilder:( builder:ValuesBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
+	values( variable:string, valuesBuilder:( builder:GeneralBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
 
 	/**
 	 * Set the values of multiple variables to be combined into the results
@@ -63,7 +63,7 @@ export interface ValuesClause<T extends FinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variables:string[], valuesBuilder:( builder:ValuesBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
+	values( variables:string[], valuesBuilder:( builder:GeneralBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
 }
 
 
@@ -72,8 +72,8 @@ type Values = SupportedNativeTypes | Resource | Literal | "UNDEF";
 type ValuesOrBuilder =
 	| (SupportedNativeTypes | SupportedNativeTypes[])
 	| (SupportedNativeTypes[] | SupportedNativeTypes[][])
-	| (( builder:ValuesBuilder ) => Values | Values[])
-	| (( builder:ValuesBuilder ) => Values[] | Values[][])
+	| (( builder:GeneralBuilder ) => Values | Values[])
+	| (( builder:GeneralBuilder ) => Values[] | Values[][])
 	;
 
 function _normalizeVariables( variableOrVariables:string | string [] ):VariableToken[] {
@@ -81,9 +81,9 @@ function _normalizeVariables( variableOrVariables:string | string [] ):VariableT
 	return variables.map( x => new VariableToken( x ) );
 }
 
-function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIResolver, isSingle:boolean ):Values[][] {
+function _normalizeRawValues( container:Container<any>, valuesOrBuilder:ValuesOrBuilder, isSingle:boolean ):Values[][] {
 	let rawValues:Values | (Values | Values[])[] = typeof valuesOrBuilder === "function" ?
-		valuesOrBuilder( ValuesBuilder.create( iriResolver ) ) :
+		valuesOrBuilder( container.getBuilder() ) :
 		valuesOrBuilder;
 
 	// When single variable
@@ -114,18 +114,20 @@ function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIRe
  */
 function createValuesFn<C extends Container<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):ValuesClause<T>[ "values" ] {
 	return ( variableOrVariables:string | string [], valuesOrBuilder:ValuesOrBuilder ) => {
-		const token:ValuesToken = new ValuesToken();
+		const valuesToken:ValuesToken = new ValuesToken();
+
+		const newContainer = cloneElement( container, {
+			iriResolver: new IRIResolver( container.iriResolver ),
+			targetToken: cloneElement( container.targetToken, { values: valuesToken } ),
+		} );
 
 		const variables:VariableToken[] = _normalizeVariables( variableOrVariables );
-		token.addVariables( ...variables );
+		valuesToken.addVariables( ...variables );
 
 		const isSingle:boolean = !Array.isArray( variableOrVariables );
-		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
-		const values:Values[][] = _normalizeRawValues( valuesOrBuilder, iriResolver, isSingle );
-		values.forEach( ( valuesRow ) => token.addValues( ...valuesRow.map( _valuesTransformerFn( container ) ) ) );
+		const values:Values[][] = _normalizeRawValues( newContainer, valuesOrBuilder, isSingle );
+		values.forEach( ( valuesRow ) => valuesToken.addValues( ...valuesRow.map( _valuesTransformerFn( container ) ) ) );
 
-		const targetToken = cloneElement( container.targetToken, { values: token } );
-		const newContainer = cloneElement( container, { iriResolver, targetToken } );
 		return genericFactory( newContainer, {} );
 	}
 }

@@ -1,6 +1,7 @@
 import { _assigmentTransformer } from "../../clauses/utils";
 
 import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
 
 import { Projectable } from "../../expressions/Projectable";
 
@@ -106,10 +107,7 @@ function getSelectFn( container:Container<undefined>, modifier?:"DISTINCT" | "RE
 		if( !limit && projections.length )
 			targetToken.addProjection( ...projections.map( _assigmentTransformer ) );
 
-		const newContainer:Container<SubSelectToken> = new Container( {
-			iriResolver: container.iriResolver,
-			targetToken
-		} );
+		const newContainer:Container<SubSelectToken> = cloneElement( container, { targetToken } );
 		return WherePattern.createFrom( newContainer, {} );
 	};
 }

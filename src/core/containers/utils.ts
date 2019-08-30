@@ -8,7 +8,7 @@
  * @return The shallow clone with the replaces values, in read-only
  * using the {@link Object.freeze} method.
  */
-export function cloneElement<K extends keyof T, T extends object, W extends { [P in K]?:any }>( element:T, newValues:{ [P in K]:W[P] } = {} as W ):Readonly<T & W> {
+export function cloneElement<K extends keyof T | string, T extends object, W extends { [P in K]?:any }>( element:T, newValues:{ [P in K]:W[P] } = {} as W ):Readonly<T & W> {
 	const base:T = Object.create( Object.getPrototypeOf( element ) );
 
 	const clone:T & W = Object

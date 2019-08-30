@@ -1,4 +1,5 @@
-import { spyContainers } from "../../test/spies/FluentPathContainer";
+import { getFluentPathContainer } from "../../test/factories/FluentPathContainer";
+import { spyContainers } from "../../test/spies/clones";
 
 import { Container } from "../core/containers/Container";
 import { IRIResolver } from "../core/iri/IRIResolver";
@@ -34,12 +35,7 @@ describe( "PathBuilder", () => {
 
 	let container:FluentPathContainer<undefined>;
 	beforeEach( () => {
-		container = new FluentPathContainer( {
-			iriResolver: new IRIResolver(),
-			targetToken: void 0,
-			fluentPathFactory: FluentPath.createFrom,
-			deniableFluentPathFactory: DeniableFluentPath.createFrom,
-		} );
+		container = getFluentPathContainer( undefined );
 
 		spyContainers.install();
 	} );

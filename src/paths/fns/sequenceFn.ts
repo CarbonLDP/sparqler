@@ -1,8 +1,10 @@
+import { cloneElement } from "../../core/containers/utils";
+
+import { Resource } from "../../patterns/triplePatterns/Resource";
+
 import { PathInSequenceToken } from "../../tokens/PathInSequenceToken";
 import { PathSequenceToken } from "../../tokens/PathSequenceToken";
 import { PathToken } from "../../tokens/PathToken";
-
-import { Resource } from "../../patterns/triplePatterns/Resource";
 
 import { FluentPath } from "../FluentPath";
 import { FluentPathContainer } from "../FluentPathContainer";
@@ -27,7 +29,7 @@ export function getSequenceFn( container:FluentPathContainer<undefined | PathTok
 			.map( path => getPropertyToken( container, path ) );
 
 		// [In FluentPath] Add to process when not sequence
-		if( container.targetToken && ! (container.targetToken instanceof PathSequenceToken) )
+		if( container.targetToken && !(container.targetToken instanceof PathSequenceToken) )
 			tokensParams.unshift( container.targetToken );
 
 		const processedTokens:PathInSequenceToken[] = tokensParams
@@ -41,10 +43,7 @@ export function getSequenceFn( container:FluentPathContainer<undefined | PathTok
 		const targetToken:PathSequenceToken = new PathSequenceToken();
 		targetToken.paths.push( ...processedTokens );
 
-		const newContainer:FluentPathContainer<PathSequenceToken> = new FluentPathContainer( {
-			...container,
-			targetToken,
-		} );
+		const newContainer:FluentPathContainer<PathSequenceToken> = cloneElement( container, { targetToken } );
 
 		return container.fluentPathFactory( newContainer, {} );
 	}

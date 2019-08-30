@@ -1,4 +1,5 @@
 import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
 
 import { BindToken } from "../../tokens/BindToken";
 import { FilterToken } from "../../tokens/FilterToken";
@@ -178,10 +179,7 @@ export interface NotTriplePatternsBuilder {
 
 
 function _getPatternContainer<T extends NotTripleToken>( container:Container<undefined>, targetToken:T ):Container<T> {
-	return new Container( {
-		iriResolver: container.iriResolver,
-		targetToken,
-	} )
+	return cloneElement( container, { targetToken } );
 }
 
 function _getPattern<T extends NotTripleToken>( container:Container<undefined>, token:T ):NotTriplePattern<T> {

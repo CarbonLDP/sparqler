@@ -1,4 +1,5 @@
 import { Container } from "../../../core/containers/Container";
+import { cloneElement } from "../../../core/containers/utils";
 import { Factory } from "../../../core/factories/Factory";
 
 import { SupportedNativeTypes } from "../../../SupportedNativeTypes";
@@ -23,7 +24,7 @@ import { _subjectTransformerFn } from "./utils";
 
 
 function _getNodeSubject<T extends TripleNodeToken>( container:Container<undefined>, targetToken:T ):TripleSubject<T> & Pattern<T> {
-	const newContainer = new Container( { ...container, targetToken } );
+	const newContainer = cloneElement( container, { targetToken } );
 	return Factory.createFrom<typeof newContainer, TripleSubject<T>, Pattern<T>>(
 		TripleSubject.createFrom,
 		Pattern.createFrom,
@@ -36,25 +37,21 @@ function _getBlankNode( container:Container<undefined>, label?:string ):BlankNod
 		label = "_:" + label;
 
 	const targetToken:BlankNodeToken = new BlankNodeToken( label );
-	const newContainer = new Container( { ...container, targetToken } );
+	const newContainer = cloneElement( container, { targetToken } );
 	return TripleSubject.createFrom( newContainer, {} );
 }
 
 function _getBlankNodeProperty( container:Container<undefined>, builderFn:( selfBuilder:BlankNodeBuilder ) => any ):BlankNodeProperty {
-	const token:BlankNodePropertyToken = new BlankNodePropertyToken();
-
-	const builderContainer:Container<BlankNodePropertyToken> = new Container( {
-		iriResolver: container.iriResolver,
-		targetToken: token,
-	} );
+	const targetToken:BlankNodePropertyToken = new BlankNodePropertyToken();
+	const builderContainer = cloneElement( container, { targetToken } );
 
 	const builder:BlankNodeBuilder = BlankNodeBuilder.createFrom( builderContainer, {} );
 	builderFn( builder );
 
-	if( token.properties.length < 1 )
+	if( targetToken.properties.length < 1 )
 		throw new Error( "At least one property must be specified by the self builder." );
 
-	return _getNodeSubject( container, token );
+	return _getNodeSubject( container, targetToken );
 }
 
 export function getBlankNodeFn( container:Container<undefined> ) {

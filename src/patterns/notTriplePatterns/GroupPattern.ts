@@ -1,4 +1,5 @@
 import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
 
 import { GroupPatternToken } from "../../tokens/GroupPatternToken";
 import { UnionPatternToken } from "../../tokens/UnionPatternToken";
@@ -30,13 +31,10 @@ function getUnionFn( container:Container<GroupPatternToken> ):GroupPattern[ "uni
 		const newGroupToken:GroupPatternToken = new GroupPatternToken();
 		newGroupToken.patterns.push( ...patterns.map( x => x.getPattern() ) );
 
-		const unionToken:UnionPatternToken = new UnionPatternToken();
-		unionToken.groupPatterns.push( container.targetToken, newGroupToken );
+		const targetToken:UnionPatternToken = new UnionPatternToken();
+		targetToken.groupPatterns.push( container.targetToken, newGroupToken );
 
-		const newContainer = new Container( {
-			iriResolver: container.iriResolver,
-			targetToken: unionToken,
-		} );
+		const newContainer = cloneElement( container, { targetToken } );
 		return UnionPattern.createFrom( newContainer, {} );
 	}
 }
