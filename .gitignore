@@ -15,7 +15,6 @@ build/*.js
 build/*.map
 build/docs/dgeni/**/*.js
 build/docs/dgeni/**/*.map
-dist/
 docs/
 !build/*
 
@@ -172,6 +171,5 @@ DerivedData
 .vscode/
 
 # Semantic UI
-**/semantic-ui/dist/
-!**/semantic-ui/gulpfile.js
-!**/semantic-ui/tasks/**
+**/semantic-ui/
+!**/semantic-ui/src

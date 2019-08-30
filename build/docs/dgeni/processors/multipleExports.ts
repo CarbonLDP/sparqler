@@ -7,8 +7,8 @@ import { MethodMemberDoc } from "dgeni-packages/typescript/api-doc-types/MethodM
 import { InterfaceExportDoc } from "dgeni-packages/typescript/api-doc-types/InterfaceExportDoc";
 
 
-export function multipleExports():MultipleExports {
-	return new MultipleExports();
+export function multipleExports(tsHost:Host, log:any):MultipleExports {
+	return new MultipleExports(tsHost, log);
 }
 
 interface ConstantExport extends ConstExportDoc {
@@ -19,6 +19,18 @@ export class MultipleExports implements Processor {
 
 	$runBefore = [ "parsing-tags" ];
 	docs: DocCollection;
+	
+	private readonly tsHost:Host;
+	private readonly log:any;
+
+	constructor( tsHost:Host, log:any ) {
+		this.$runBefore = [ "parsing-tags" ];
+
+		this.tsHost = tsHost;
+		this.log = log;
+
+	}
+	
 	$process( docs:DocCollection ) {
 		this.docs = docs;
 		docs.forEach( doc => {
@@ -74,8 +86,7 @@ export class MultipleExports implements Processor {
 				}
 				break;
 			default:
-				let log:any;
-				log.error( `Other declaration merged for ${ doc.name }` );
+				this.log.error( `Other declaration merged for ${ doc.name }` );
 				break;
 		}
 
@@ -97,8 +108,7 @@ export class MultipleExports implements Processor {
 				doc.interface = exportDoc; // Keep a reference to the interface inside the class document
 				break;
 			default:
-				let log:any;
-				log.error( `Other declaration merged for ${ doc.name }` );
+				this.log.error( `Other declaration merged for ${ doc.name }` );
 				break;
 		}
 			

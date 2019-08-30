@@ -19,7 +19,7 @@ export interface RDFLiteral extends Literal {
 	/**
 	 * Add an specific type to the RDFLiteral.
 	 *
-	 * Relative types of the [XMLSchema](https://www.w3.org/2001/XMLSchema-datatypes")
+	 * Relative types of the [XMLSchema](https://www.w3.org/2001/XMLSchema-datatypes)
 	 * can be provided and resolved internally.
 	 *
 	 * @param type The IRI type to be added.

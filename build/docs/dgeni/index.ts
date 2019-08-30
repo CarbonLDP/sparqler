@@ -13,10 +13,6 @@ import { linkifyFilter } from "./rendering/filters/linkify";
 import { nullifyEmptyFilter } from "./rendering/filters/nullifyEmpty";
 // Nunjucks tags
 import { highlightTag } from "./rendering/tags/highlight";
-// Dgeni doc tags
-import { isDefault } from "./tags-def/isDefault";
-import { module } from "./tags-def/module";
-import { typeParameters } from "./tags-def/typeParameters";
 // Dgeni inline tags
 import { paramInLineTag } from "./inline-tags-def/paramInlineTag"
 
@@ -74,13 +70,6 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 		} );
 	} )
 
-	// Configure custom JsDoc tags.
-	.config( function( parseTagsProcessor ) {
-		parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat( [
-			{ name: "docs-private" },
-		] );
-	} )
-
 	// Configure the processor for understanding TypeScript.
 	.config( function( readTypeScriptModules ) {
 		readTypeScriptModules.basePath = sourceDir;
@@ -124,13 +113,6 @@ const apiDocsPackage = new Package( "sparqler-api-docs", [
 			highlightTag,
 		] ) );
 	} )
-	.config( function( parseTagsProcessor, getInjectables ) {
-		parseTagsProcessor.tagDefinitions.push( ...getInjectables( [
-			module,
-			typeParameters,
-			isDefault,
-		] ) );
-	} );
 
 
 export = apiDocsPackage;

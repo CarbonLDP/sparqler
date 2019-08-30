@@ -1,5 +1,4 @@
 import { build } from "./tasks/build";
-import { docsAddImages, docsCleanImages } from "./tasks/docs";
 
 export default build;
 

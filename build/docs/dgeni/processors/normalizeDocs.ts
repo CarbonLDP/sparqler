@@ -34,8 +34,8 @@ interface IndexMemberDoc extends MethodMemberDoc {
 
 const PARAM_REGEX:RegExp = /([^:?]+)(\?)?(?:: (.+))?/;
 
-export function normalizeDocsProcessor():NormalizeDocs {
-	return new NormalizeDocs();
+export function normalizeDocsProcessor(tsHost:Host, log:any):NormalizeDocs {
+	return new NormalizeDocs(tsHost, log);
 }
 
 export class NormalizeDocs implements Processor {
@@ -43,6 +43,19 @@ export class NormalizeDocs implements Processor {
 	$runAfter = [ "processing-docs" ];
 	$runBefore = [ "docs-processed" ];
 	docs: DocCollection;
+
+	private readonly tsHost:Host;
+	private readonly log:any;
+
+	constructor( tsHost:Host, log:any ) {
+		this.$runAfter = [ "processing-docs" ];
+		this.$runBefore = [ "docs-processed" ];
+
+		this.tsHost = tsHost;
+		this.log = log;
+
+	}
+
 	$process( docs:DocCollection ) {
 		this.docs = docs;
 		docs.forEach( doc => {
@@ -81,8 +94,7 @@ export class NormalizeDocs implements Processor {
 			);
 			
 			if (doc.interface) {
-				let host = new Host();
-				doc.interface.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! );
+				doc.interface.description = this.tsHost.getContent( doc.symbol.getDeclarations()![ 0 ]! );
 			}
 	}
 
@@ -136,16 +148,14 @@ export class NormalizeDocs implements Processor {
 		// If it is an interface with a constant merged export:
 		switch( getExportDocType( doc.symbol ) ) {
 			case "const":
-				let host:Host = new Host();
 				let index = this.docs.indexOf(doc.constants[0]) // get the index of the consant from full document list
 				let numberOfMembers = doc.constants[0].members.length; // get the number of methods associated with that constant
 				doc.constants[0].members.forEach(member => {this._normalizeParams(member)}) // for each method normalize it's parameters
 				this.docs.splice(index, numberOfMembers+1); // remove the constant and members from the full document list
-				doc.description = host.getContent( doc.symbol.getDeclarations()![ 0 ]! ); // update interface description
+				doc.description = this.tsHost.getContent( doc.symbol.getDeclarations()![ 0 ]! ); // update interface description
 				break;
 			default:
-				let log:any;
-				log.error( `Other declaration merged for ${ doc.name }` );
+				this.log.error( `Other declaration merged for ${ doc.name }` );
 				break;
 		}
 
