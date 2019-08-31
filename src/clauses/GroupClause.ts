@@ -14,7 +14,7 @@ import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
 import { FinishClause } from "./FinishClause";
-import { _conditionTransformer } from "./fns/utils";
+import { _constraintTransformer } from "./fns/utils";
 import { HavingClause } from "./HavingClause";
 import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
 
@@ -75,10 +75,12 @@ function getGroupByFn<C extends Container<QueryToken<QueryClauseToken> | SubSele
 			restConditions.unshift( conditionOrFn );
 		}
 
+		const transformer = _constraintTransformer( newContainer );
+
 		restConditions.forEach( condition => {
 			const conditionToken = _is<Projectable>( condition, "getProjection" )
 				? condition.getProjection()
-				: _conditionTransformer( condition );
+				: transformer( condition );
 
 			targetToken.conditions.push( conditionToken );
 		} );

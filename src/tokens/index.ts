@@ -1,10 +1,13 @@
+// TODO: Add missing reexports
 export { BaseToken } from "./BaseToken";
 export { BindToken } from "./BindToken";
 export { BlankNodePropertyToken } from "./BlankNodePropertyToken";
 export { BlankNodeToken } from "./BlankNodeToken";
 export { BracketedExpressionToken } from "./BracketedExpressionToken";
 export { CollectionToken } from "./CollectionToken";
+export { ConstraintToken } from "./ConstraintToken";
 export { ConstructToken } from "./ConstructToken";
+export { ExplicitOrderConditionToken } from "./ExplicitOrderConditionToken";
 export { ExpressionListToken } from "./ExpressionListToken";
 export { ExpressionToken } from "./ExpressionToken";
 export { FilterToken } from "./FilterToken";

@@ -39,6 +39,7 @@ describe( "GroupToken", ():void => {
 			expect( GroupToken.prototype.toString ).toEqual( jasmine.any( Function ) );
 		} );
 
+
 		it( "should print the SPARQL statement with Variable", ():void => {
 			const token:GroupToken = new GroupToken( [ new VariableToken( "foo" ) ] );
 			expect( token.toString() ).toBe( "GROUP BY ?foo" );

@@ -18,10 +18,6 @@ import { FluentPath } from "./FluentPath";
  * paths builder and objects.
  */
 export interface FluentPathContainer<T extends PathToken | undefined> extends Container<T> {
-	fluentPathFactory:
-		<W extends PathToken, O extends object>( container:FluentPathContainer<W>, object:O ) => O & FluentPath<W>;
-	// Factory<FluentPathContainer<PathToken>, FluentPath<PathToken>>;
-	deniableFluentPathFactory:
-		<W extends PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>, O extends object>( container:FluentPathContainer<W>, object:O ) => O & DeniableFluentPath<W>;
-	// }Factory<FluentPathContainer<PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>>, DeniableFluentPath<PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>>>;
+	fluentPathFactory:<W extends PathToken, O extends object>( container:FluentPathContainer<W>, object:O ) => O & FluentPath<W>;
+	deniableFluentPathFactory:<W extends PathInNegatedToken | SubPathInNegatedToken | PathAlternativeToken<PathInNegatedToken>, O extends object>( container:FluentPathContainer<W>, object:O ) => O & DeniableFluentPath<W>;
 }

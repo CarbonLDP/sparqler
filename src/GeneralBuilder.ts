@@ -9,6 +9,7 @@ import { PathsBuilder } from "./paths/PathsBuilder";
 
 import { MinusPattern } from "./patterns/notTriplePatterns/MinusPattern";
 import { getMinusFn, NotTriplePatternsBuilder } from "./patterns/notTriplePatterns/NotTriplePatternsBuilder";
+import { OrderBuilder } from "./patterns/orders/OrderBuilder";
 
 import { Pattern } from "./patterns/Pattern";
 import { PatternBuilder } from "./patterns/PatternBuilder";
@@ -19,7 +20,7 @@ import { SupportedNativeTypes } from "./SupportedNativeTypes";
 /**
  * Helper builder for generate all the SPARQLER objects.
  */
-export interface GeneralBuilder extends PatternBuilder, PathsBuilder, ExpressionsBuilder {
+export interface GeneralBuilder extends PatternBuilder, PathsBuilder, ExpressionsBuilder, OrderBuilder {
 	/**
 	 * Creates an operation {@link Expression} that returns the numeric
 	 * {@param expression} with its sing reversed.
@@ -67,6 +68,7 @@ export const GeneralBuilder:{
 			PatternBuilder.createFrom,
 			PathsBuilder.createFrom,
 			ExpressionsBuilder.createFrom,
+			OrderBuilder.createFrom,
 		)( container, Object.assign( object, {
 			minus: ( expressionOrPattens:Expression | SupportedNativeTypes | Pattern | Pattern[] ) => {
 				if(

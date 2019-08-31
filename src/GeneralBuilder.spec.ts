@@ -169,6 +169,9 @@ describe( "GeneralBuilder", ():void => {
 
 				// Mixed
 				minus: jasmine.any( Function ),
+
+				asc: jasmine.any( Function ),
+				desc: jasmine.any( Function ),
 			} );
 		} );
 

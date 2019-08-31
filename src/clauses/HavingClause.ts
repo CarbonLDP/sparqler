@@ -12,7 +12,7 @@ import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
 import { FinishClause } from "./FinishClause";
-import { _conditionTransformer } from "./fns/utils";
+import { _constraintTransformer } from "./fns/utils";
 import { OrderClause } from "./OrderClause";
 import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
 
@@ -73,8 +73,9 @@ function getHavingFn<C extends Container<QueryToken<QueryClauseToken> | SubSelec
 			restConditions.unshift( conditionOrFn );
 		}
 
+		const transformer = _constraintTransformer( newContainer );
 		restConditions.forEach( condition => {
-			const conditionToken = _conditionTransformer( condition );
+			const conditionToken = transformer( condition );
 			targetToken.conditions.push( conditionToken );
 		} );
 

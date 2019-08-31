@@ -2,10 +2,17 @@ import { spyContainers } from "../../test/spies/clones";
 
 import { Container } from "../core/containers/Container";
 import { IRIResolver } from "../core/iri/IRIResolver";
+import { BracketedExpressionToken } from "../tokens/BracketedExpressionToken";
+import { ExplicitOrderConditionToken } from "../tokens/ExplicitOrderConditionToken";
+import { ExpressionListToken } from "../tokens/ExpressionListToken";
+import { FunctionToken } from "../tokens/FunctionToken";
+import { HavingToken } from "../tokens/HavingToken";
 
 import { OrderToken } from "../tokens/OrderToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
+import { UnaryOperationToken } from "../tokens/UnaryOperationToken";
+import { VariableToken } from "../tokens/VariableToken";
 
 import { FinishClause } from "./FinishClause";
 import { LimitOffsetClause } from "./LimitOffsetClause";
@@ -112,12 +119,57 @@ describe( "OrderClause", () => {
 				.toContain( jasmine.any( OrderToken ) );
 		} );
 
-		it( "should add ORDER BY token with the condition", () => {
-			orderClause.orderBy( "raw condition" );
+		it( "should add ORDER BY token with a Var", () => {
+			orderClause.orderBy( _ => _.var( "foo" ) );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.modifiers )
-				.toContain( new OrderToken( "raw condition" ) );
+				.toContain( new OrderToken( [
+					new VariableToken( "foo" ),
+				] ) );
+		} );
+
+		it( "should add ORDER BY token with a Function", () => {
+			orderClause.orderBy( _ => _.isIRI( _.var( "foo" ) ) );
+
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
+			expect( newContainer.targetToken.queryClause.modifiers )
+				.toContain( new OrderToken( [
+					new FunctionToken(
+						"isIRI",
+						new ExpressionListToken( [ new VariableToken( "foo" ) ] )
+					),
+				] ) );
+		} );
+
+		it( "should add ORDER BY token with another Expression", () => {
+			orderClause.orderBy( _ => _.not( _.var( "foo" ) ) );
+
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
+			expect( newContainer.targetToken.queryClause.modifiers )
+				.toContain( new OrderToken( [
+					new BracketedExpressionToken(
+						new UnaryOperationToken(
+							"!",
+							new VariableToken( "foo" )
+						)
+					),
+				] ) );
+		} );
+
+		it( "should add ORDER BY token with another explicit order", () => {
+			orderClause.orderBy( _ => _.desc( _.var( "foo" ) ) );
+
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
+			expect( newContainer.targetToken.queryClause.modifiers )
+				.toContain( new OrderToken( [
+					new ExplicitOrderConditionToken(
+						"DESC",
+						new BracketedExpressionToken(
+							new VariableToken( "foo" )
+						)
+					),
+				] ) );
 		} );
 
 	} );

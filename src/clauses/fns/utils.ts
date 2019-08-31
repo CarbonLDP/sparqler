@@ -1,5 +1,7 @@
-import { _getBaseTransformer, _transformNatives } from "../../core/transformers";
+import { Container } from "../../core/containers/Container";
+
 import { Expression } from "../../expressions/Expression";
+import { _expressionTransformerFn } from "../../expressions/fns/utils";
 
 import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 
@@ -8,16 +10,12 @@ import { ConstraintToken } from "../../tokens/ConstraintToken";
 import { ExpressionToken } from "../../tokens/ExpressionToken";
 
 
-const __preConditionTransformer = _getBaseTransformer<"getExpression", Expression>
-	( "getExpression" )
-	( _transformNatives )
-;
+export const _constraintTransformer = ( container:Container<any> ) =>
+	( value:SupportedNativeTypes | Expression | ExpressionToken ):ConstraintToken => {
+		const preToken = _expressionTransformerFn( container )( value );
 
-export const _conditionTransformer = ( value:SupportedNativeTypes | Expression | ExpressionToken ):ConstraintToken => {
-	const preToken = __preConditionTransformer( value );
+		if( preToken.token === "bracketedExpression" || preToken.token === "function" )
+			return preToken;
 
-	if( preToken.token === "bracketedExpression" || preToken.token === "function" )
-		return preToken;
-
-	return new BracketedExpressionToken( preToken );
-};
+		return new BracketedExpressionToken( preToken );
+	};

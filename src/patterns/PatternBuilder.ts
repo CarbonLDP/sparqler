@@ -6,6 +6,7 @@ import { NotTriplePatternsBuilder } from "./notTriplePatterns/NotTriplePatternsB
 import { TriplePatternsBuilder } from "./triplePatterns/TriplePatternsBuilder";
 
 
+// TODO: Rename to PatternsBuilder
 /**
  * Helper builder for generate patters.
  */
