@@ -7,6 +7,7 @@ import { IRIResolver } from "../../core/iri/IRIResolver";
 import { AssigmentToken } from "../../tokens/AssigmentToken";
 
 import { BindToken } from "../../tokens/BindToken";
+import { BracketedExpressionToken } from "../../tokens/BracketedExpressionToken";
 import { FilterToken } from "../../tokens/FilterToken";
 import { GraphToken } from "../../tokens/GraphToken";
 import { GroupPatternToken } from "../../tokens/GroupPatternToken";
@@ -674,20 +675,24 @@ describe( "NotTriplePatternsBuilder", () => {
 			const spy:jasmine.Spy = spyOn( NotTriplePattern, "createFrom" )
 				.and.callThrough();
 
-			const returned = builder.filter( "?var > 0" );
+			const returned = builder.filter( getVariable( "foo" ) );
 			expect( returned ).toBe( spy.calls.mostRecent().returnValue );
 		} );
 
 
 		it( "should create pattern with string FilterToken", () => {
-			builder.filter( "?var > 0" );
+			builder.filter( getVariable( "foo" ) );
 
 			type TheContainer = Container<FilterToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
-			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new FilterToken( "?var > 0" ),
-			} ) )
+			expect( newContainer.targetToken ).toEqual(
+				new FilterToken(
+					new BracketedExpressionToken(
+						new VariableToken( "foo" )
+					)
+				)
+			);
 		} );
 
 	} );

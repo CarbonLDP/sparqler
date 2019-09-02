@@ -1,7 +1,6 @@
-import { SPARQLER } from "../src";
-import { PatternBuilder } from "../src/patterns";
+import { GeneralBuilder, SPARQLER } from "../src";
 
-function getExamplePatterns( _:PatternBuilder ) {
+function getExamplePatterns( _:GeneralBuilder ) {
 	return [
 		_.selectAll()
 			.where( [
@@ -106,8 +105,8 @@ function getExamplePatterns( _:PatternBuilder ) {
 		_.bind( "?v = ?v1", "equal" ),
 		_.bind( "?v2 = ?v1", _.var( "equal2" ) ),
 
-		_.filter( "( ?v = ?v2 )" ),
-		_.filter( "BNODE( ?s )" ),
+		_.filter( _.var( "v" ).equals( _.var( "v2" ) ) ),
+		_.filter( _.bnode( _.var( "s" ) ) ),
 	];
 }
 

@@ -1,3 +1,4 @@
+import { _constraintTransformer } from "../../clauses/fns/utils";
 import { Container } from "../../core/containers/Container";
 import { cloneElement } from "../../core/containers/utils";
 import { _is } from "../../core/transformers";
@@ -135,16 +136,17 @@ export interface NotTriplePatternsBuilder {
 
 
 	/**
-	 * Create a {@link FilterPattern} for the raw constraint.
+	 * Create a {@link FilterPattern} for the expression constraint.
 	 *
 	 * This is used to exclude values or entire patterns.
-	 * See {@link https://www.w3.org/TR/sparql11-query/#termConstraint
-     * and {@link https://www.w3.org/TR/sparql11-query/#negation} to
+	 *
+	 * See https://www.w3.org/TR/sparql11-query/#termConstraint
+	 * and https://www.w3.org/TR/sparql11-query/#negation to
 	 * know more.
 	 *
-	 * @param rawConstraint The RAW constraint to filter.
+	 * @param constraint The expression constraint to use as filter.
 	 */
-	filter( rawConstraint:string ):FilterPattern;
+	filter( constraint:Expression ):FilterPattern;
 
 	/**
 	 * Created a {@link BindPattern} for the expression
@@ -284,8 +286,11 @@ function getServiceFn( container:Container<undefined>, modifier?:"SILENT" ):NotT
 
 
 function getFilterFn( container:Container<undefined> ):NotTriplePatternsBuilder[ "filter" ] {
-	return ( rawConstraint:string ) => {
-		const token:FilterToken = new FilterToken( rawConstraint );
+	const transformer = _constraintTransformer( container );
+
+	return ( constraint:Expression ) => {
+		const constraintToken = transformer( constraint );
+		const token:FilterToken = new FilterToken( constraintToken );
 
 		return _getPattern( container, token );
 	}

@@ -1,4 +1,8 @@
+import { BracketedExpressionToken } from "./BracketedExpressionToken";
 import { FilterToken } from "./FilterToken";
+import { IRIRefToken } from "./IRIRefToken";
+import { UnaryOperationToken } from "./UnaryOperationToken";
+import { VariableToken } from "./VariableToken";
 
 
 describe( "FilterToken", ():void => {
@@ -11,19 +15,21 @@ describe( "FilterToken", ():void => {
 	describe( "FilterToken.constructor", ():void => {
 
 		it( "should be instantiable", ():void => {
-			const token:FilterToken = new FilterToken( "" );
+			const token:FilterToken = new FilterToken( new BracketedExpressionToken( new IRIRefToken( "" ) ) );
 
 			expect( token ).toBeDefined();
 			expect( token ).toEqual( jasmine.any( FilterToken ) );
 		} );
 
 		it( "should assign the provided constraint", ():void => {
-			const token:FilterToken = new FilterToken( "the constraint" );
-			expect( token.constraint ).toBe( "the constraint" );
+			const constraint = new BracketedExpressionToken( new IRIRefToken( "" ) );
+			const token:FilterToken = new FilterToken( constraint );
+			expect( token.constraint ).toBe( constraint );
 		} );
 
 		it( "should assign `filter` as token name", ():void => {
-			expect( new FilterToken( "" ).token ).toBe( "filter" );
+			const token:FilterToken = new FilterToken( new BracketedExpressionToken( new IRIRefToken( "" ) ) );
+			expect( token.token ).toBe( "filter" );
 		} );
 
 	} );
@@ -35,9 +41,14 @@ describe( "FilterToken", ():void => {
 			expect( FilterToken.prototype.toString ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "should print the SPARQL filter statement", ():void => {
-			const token:FilterToken = new FilterToken( "?var = 1" );
-			expect( token.toString() ).toBe( "FILTER( ?var = 1 )" );
+		it( "should compact print the SPARQL FILTER statement", ():void => {
+			const token:FilterToken = new FilterToken( new BracketedExpressionToken( new UnaryOperationToken( "!", new VariableToken( "foo" ) ) ) );
+			expect( token.toString() ).toBe( "FILTER(!?foo)" );
+		} );
+
+		it( "should pretty print the SPARQL FILTER statement", ():void => {
+			const token:FilterToken = new FilterToken( new BracketedExpressionToken( new UnaryOperationToken( "!", new VariableToken( "foo" ) ) ) );
+			expect( token.toString( 0 ) ).toBe( "FILTER( ! ?foo )" );
 		} );
 
 	} );
