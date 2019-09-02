@@ -1,7 +1,7 @@
 import { Container } from "../../core/containers/Container";
 import { Factory } from "../../core/factories/Factory";
 
-import { Expression } from "../../expressions/Expression";
+import { Expression } from "../expressions/Expression";
 
 import { LiteralToken } from "../../tokens/LiteralToken";
 

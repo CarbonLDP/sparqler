@@ -9,7 +9,7 @@ import { LiteralToken } from "../../tokens/LiteralToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 
-import { XSD } from "../../vocabularies/XSD";
+import { XSD } from "../../utils/XSD";
 
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";

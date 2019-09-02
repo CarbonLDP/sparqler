@@ -1,26 +1,22 @@
 import { Container } from "./core/containers/Container";
 import { Factory } from "./core/factories/Factory";
 
-import { Expression } from "./expressions/Expression";
-import { ExpressionsBuilder } from "./expressions/ExpressionsBuilder";
-import { getUnaryOperationFn } from "./expressions/fns/operationFn";
-
-import { PathsBuilder } from "./paths/PathsBuilder";
-
+import { Expression } from "./patterns/expressions/Expression";
+import { ExpressionsBuilder } from "./patterns/expressions/ExpressionsBuilder";
+import { getUnaryOperationFn } from "./patterns/expressions/fns/operationFn";
 import { MinusPattern } from "./patterns/notTriplePatterns/MinusPattern";
 import { getMinusFn, NotTriplePatternsBuilder } from "./patterns/notTriplePatterns/NotTriplePatternsBuilder";
 import { OrderBuilder } from "./patterns/orders/OrderBuilder";
-
 import { Pattern } from "./patterns/Pattern";
 import { PatternBuilder } from "./patterns/PatternBuilder";
 
-import { SupportedNativeTypes } from "./SupportedNativeTypes";
+import { SupportedNativeTypes } from "./patterns/SupportedNativeTypes";
 
 
 /**
  * Helper builder for generate all the SPARQLER objects.
  */
-export interface GeneralBuilder extends PatternBuilder, PathsBuilder, ExpressionsBuilder, OrderBuilder {
+export interface GeneralBuilder extends PatternBuilder, ExpressionsBuilder, OrderBuilder {
 	/**
 	 * Creates an operation {@link Expression} that returns the numeric
 	 * {@param expression} with its sing reversed.
@@ -66,7 +62,6 @@ export const GeneralBuilder:{
 	createFrom<C extends Container<undefined>, O extends object>( container:C, object:O ):O & GeneralBuilder {
 		return Factory.createFrom(
 			PatternBuilder.createFrom,
-			PathsBuilder.createFrom,
 			ExpressionsBuilder.createFrom,
 			OrderBuilder.createFrom,
 		)( container, Object.assign( object, {

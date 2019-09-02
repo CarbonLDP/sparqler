@@ -2,7 +2,7 @@ import { Container } from "../../../core/containers/Container";
 import { isAbsolute, isBNodeLabel } from "../../../core/iri/utils";
 import { _getBaseTransformer, _transformNatives } from "../../../core/transformers";
 
-import { SupportedNativeTypes } from "../../../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 
 import { BlankNodeToken } from "../../../tokens/BlankNodeToken";
 import { ObjectToken } from "../../../tokens/ObjectToken";

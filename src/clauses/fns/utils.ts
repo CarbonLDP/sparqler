@@ -1,9 +1,9 @@
 import { Container } from "../../core/containers/Container";
 
-import { Expression } from "../../expressions/Expression";
-import { _expressionTransformerFn } from "../../expressions/fns/utils";
+import { Expression } from "../../patterns/expressions/Expression";
+import { _expressionTransformerFn } from "../../patterns/expressions/fns/utils";
 
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../../patterns/SupportedNativeTypes";
 
 import { BracketedExpressionToken } from "../../tokens/BracketedExpressionToken";
 import { ConstraintToken } from "../../tokens/ConstraintToken";

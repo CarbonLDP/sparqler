@@ -2,6 +2,12 @@ export { FinishPattern } from "./clausePatterns/FinishPattern"
 export { SubSelectPattern } from "./clausePatterns/SubSelectPattern"
 export { WherePattern } from "./clausePatterns/WherePattern"
 
+export { Expression } from "./expressions/Expression";
+export { ExpressionsBuilder } from "./expressions/ExpressionsBuilder";
+export { FunctionExpressionsBuilder } from "./expressions/FunctionExpressionsBuilder";
+export { OperationExpressionsBuilder } from "./expressions/OperationExpressionsBuilder";
+export { Projectable } from "./expressions/Projectable";
+
 export { NotTriplePattern } from "./notTriplePatterns/NotTriplePattern"
 export { BindPattern } from "./notTriplePatterns/BindPattern"
 export { FilterPattern } from "./notTriplePatterns/FilterPattern"
@@ -14,11 +20,11 @@ export { ServicePattern } from "./notTriplePatterns/ServicePattern"
 export { SingleValuesPattern } from "./notTriplePatterns/SingleValuesPattern"
 export { UnionPattern } from "./notTriplePatterns/UnionPattern"
 
-export { DeniableFluentPath } from "../paths/DeniableFluentPath";
-export { FluentPath } from "../paths/FluentPath";
-export { FluentPathContainer } from "../paths/FluentPathContainer";
-export { Path } from "../paths/Path";
-export { PathBuilder } from "../paths/PathBuilder";
+export { DeniableFluentPath } from "./paths/DeniableFluentPath";
+export { FluentPath } from "./paths/FluentPath";
+export { FluentPathContainer } from "./paths/FluentPathContainer";
+export { Path } from "./paths/Path";
+export { PathBuilder } from "./paths/PathBuilder";
 
 export { TriplePattern } from "./triplePatterns/TriplePattern"
 export { TripleSubject } from "./triplePatterns/TripleSubject"
@@ -33,5 +39,5 @@ export { Variable } from "./triplePatterns/Variable"
 
 export { Pattern } from "./Pattern";
 export { PatternBuilder } from "./PatternBuilder";
-export { SupportedNativeTypes } from "../SupportedNativeTypes";
+export { SupportedNativeTypes } from "./SupportedNativeTypes";
 export { Undefined } from "./Undefined";

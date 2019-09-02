@@ -2,13 +2,13 @@ import { Container } from "../core/containers/Container";
 import { Factory } from "../core/factories/Factory";
 import { _is } from "../core/transformers";
 
-import { Expression } from "../expressions/Expression";
-import { Projectable } from "../expressions/Projectable";
+import { Expression } from "../patterns/expressions/Expression";
+import { Projectable } from "../patterns/expressions/Projectable";
 
 import { GeneralBuilder } from "../GeneralBuilder";
 import { OrderCondition } from "../patterns/orders/OrderCondition";
 
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { OrderToken } from "../tokens/OrderToken";
 import { QueryClauseToken } from "../tokens/QueryClauseToken";

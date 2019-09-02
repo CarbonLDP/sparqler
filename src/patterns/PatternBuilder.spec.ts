@@ -74,6 +74,9 @@ describe( "PatternBuilder", ():void => {
 				selectAll: jasmine.any( Function ),
 				selectAllDistinct: jasmine.any( Function ),
 				selectAllReduced: jasmine.any( Function ),
+
+
+				path: jasmine.any( Function ),
 			} );
 		} );
 

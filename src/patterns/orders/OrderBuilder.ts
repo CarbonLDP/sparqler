@@ -1,10 +1,10 @@
 import { Container } from "../../core/containers/Container";
 import { cloneElement } from "../../core/containers/utils";
 
-import { Expression } from "../../expressions/Expression";
-import { _expressionTransformerFn } from "../../expressions/fns/utils";
+import { Expression } from "../expressions/Expression";
+import { _expressionTransformerFn } from "../expressions/fns/utils";
 
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { BracketedExpressionToken } from "../../tokens/BracketedExpressionToken";
 import { ExplicitOrderConditionToken } from "../../tokens/ExplicitOrderConditionToken";

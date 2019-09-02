@@ -3,7 +3,7 @@ import { cloneElement } from "../core/containers/utils";
 import { Factory } from "../core/factories/Factory";
 import { IRIResolver } from "../core/iri/IRIResolver";
 
-import { Projectable } from "../expressions/Projectable";
+import { Projectable } from "../patterns/expressions/Projectable";
 
 import { GeneralBuilder } from "../GeneralBuilder";
 

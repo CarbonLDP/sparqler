@@ -10,7 +10,7 @@ import { Literal } from "../patterns/triplePatterns/Literal";
 import { Resource } from "../patterns/triplePatterns/Resource";
 import { Undefined } from "../patterns/Undefined";
 
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";

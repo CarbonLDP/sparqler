@@ -2,10 +2,10 @@ import { Container } from "../../core/containers/Container";
 import { cloneElement } from "../../core/containers/utils";
 import { Factory } from "../../core/factories/Factory";
 
-import { Path } from "../../paths/Path";
-import { getPropertyToken } from "../../paths/utils";
+import { Path } from "../paths/Path";
+import { getPropertyToken } from "../paths/utils";
 
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
 import { ObjectToken } from "../../tokens/ObjectToken";

@@ -1,6 +1,6 @@
 import { Container } from "../../core/containers/Container";
 
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { BlankNode } from "./BlankNode";
 import { BlankNodeBuilder } from "./BlankNodeBuilder";

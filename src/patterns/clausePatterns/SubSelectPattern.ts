@@ -3,7 +3,7 @@ import { _assigmentTransformer } from "../../clauses/utils";
 import { Container } from "../../core/containers/Container";
 import { cloneElement } from "../../core/containers/utils";
 
-import { Projectable } from "../../expressions/Projectable";
+import { Projectable } from "../expressions/Projectable";
 
 import { SubSelectToken } from "../../tokens/SubSelectToken";
 

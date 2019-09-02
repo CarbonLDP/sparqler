@@ -1,8 +1,8 @@
 import { Container } from "../../core/containers/Container";
 import { Factory } from "../../core/factories/Factory";
 
-import { Expression } from "../../expressions/Expression";
-import { Projectable } from "../../expressions/Projectable";
+import { Expression } from "../expressions/Expression";
+import { Projectable } from "../expressions/Projectable";
 
 import { VariableToken } from "../../tokens/VariableToken";
 

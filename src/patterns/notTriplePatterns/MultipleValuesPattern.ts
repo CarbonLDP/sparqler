@@ -1,7 +1,7 @@
 import { Container } from "../../core/containers/Container";
 import { cloneElement } from "../../core/containers/utils";
 
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { ValuesToken } from "../../tokens/ValuesToken";
 

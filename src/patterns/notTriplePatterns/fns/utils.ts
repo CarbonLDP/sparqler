@@ -2,7 +2,7 @@ import { Container } from "../../../core/containers/Container";
 import { isAbsolute } from "../../../core/iri/utils";
 import { _getBaseTransformer, _transformNatives } from "../../../core/transformers";
 
-import { SupportedNativeTypes } from "../../../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 import { IRIToken } from "../../../tokens/IRIToken";
 import { LiteralToken } from "../../../tokens/LiteralToken";
 import { RDFLiteralToken } from "../../../tokens/RDFLiteralToken";

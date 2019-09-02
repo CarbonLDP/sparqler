@@ -7,7 +7,7 @@ import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { LanguageToken } from "../../tokens/LanguageToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 
-import { XSD } from "../../vocabularies/XSD";
+import { XSD } from "../../utils/XSD";
 
 import { RDFLiteral } from "./RDFLiteral";
 

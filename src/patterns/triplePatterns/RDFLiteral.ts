@@ -5,7 +5,7 @@ import { IRIToken } from "../../tokens/IRIToken";
 import { LanguageToken } from "../../tokens/LanguageToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 
-import { XSD } from "../../vocabularies/XSD";
+import { XSD } from "../../utils/XSD";
 
 import { Literal } from "./Literal";
 

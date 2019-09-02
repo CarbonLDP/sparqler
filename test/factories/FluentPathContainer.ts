@@ -1,9 +1,9 @@
 import { Container } from "../../src/core/containers/Container";
 import { IRIResolver } from "../../src/core/iri/IRIResolver";
 
-import { DeniableFluentPath } from "../../src/paths/DeniableFluentPath";
-import { FluentPath } from "../../src/paths/FluentPath";
-import { FluentPathContainer } from "../../src/paths/FluentPathContainer";
+import { DeniableFluentPath } from "../../src/patterns/paths/DeniableFluentPath";
+import { FluentPath } from "../../src/patterns/paths/FluentPath";
+import { FluentPathContainer } from "../../src/patterns/paths/FluentPathContainer";
 
 import { PathToken } from "../../src/tokens/PathToken";
 

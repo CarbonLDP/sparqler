@@ -2,7 +2,7 @@ import { Container } from "../../../core/containers/Container";
 import { cloneElement } from "../../../core/containers/utils";
 import { Factory } from "../../../core/factories/Factory";
 
-import { SupportedNativeTypes } from "../../../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 
 import { BlankNodePropertyToken } from "../../../tokens/BlankNodePropertyToken";
 import { BlankNodeToken } from "../../../tokens/BlankNodeToken";

@@ -3,6 +3,7 @@ import { Factory } from "../core/factories/Factory";
 
 import { SubSelectPattern } from "./clausePatterns/SubSelectPattern";
 import { NotTriplePatternsBuilder } from "./notTriplePatterns/NotTriplePatternsBuilder";
+import { PathsBuilder } from "./paths/PathsBuilder";
 import { TriplePatternsBuilder } from "./triplePatterns/TriplePatternsBuilder";
 
 
@@ -10,7 +11,7 @@ import { TriplePatternsBuilder } from "./triplePatterns/TriplePatternsBuilder";
 /**
  * Helper builder for generate patters.
  */
-export interface PatternBuilder extends TriplePatternsBuilder, NotTriplePatternsBuilder, SubSelectPattern {
+export interface PatternBuilder extends TriplePatternsBuilder, NotTriplePatternsBuilder, SubSelectPattern, PathsBuilder {
 }
 
 
@@ -37,6 +38,7 @@ export const PatternBuilder:{
 			TriplePatternsBuilder.createFrom,
 			NotTriplePatternsBuilder.createFrom,
 			SubSelectPattern.createFrom,
+			PathsBuilder.createFrom,
 		)( container, object );
 	},
 };

@@ -1,11 +1,11 @@
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { getIRIToken } from "../tokens/IRIToken";
 import { LiteralToken } from "../tokens/LiteralToken";
 import { RDFLiteralToken } from "../tokens/RDFLiteralToken";
 import { TokenNode } from "../tokens/TokenNode";
 
-import { XSD } from "../vocabularies/XSD";
+import { XSD } from "../utils/XSD";
 
 
 export const _transformNatives = ( value:SupportedNativeTypes ) =>

@@ -1,10 +1,10 @@
 import { Container } from "../core/containers/Container";
 import { Factory } from "../core/factories/Factory";
 
-import { Expression } from "../expressions/Expression";
+import { Expression } from "../patterns/expressions/Expression";
 
 import { GeneralBuilder } from "../GeneralBuilder";
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { HavingToken } from "../tokens/HavingToken";
 import { QueryClauseToken } from "../tokens/QueryClauseToken";

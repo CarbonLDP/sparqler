@@ -1,4 +1,4 @@
-import { Projectable } from "../expressions/Projectable";
+import { Projectable } from "../patterns/expressions/Projectable";
 
 import { VariableToken } from "../tokens/VariableToken";
 
