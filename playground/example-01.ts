@@ -1,6 +1,7 @@
-import { GeneralBuilder, SPARQLER } from "../src";
+import { SPARQLER } from "../src";
+import { PatternBuilder } from "../src/patterns";
 
-function getExamplePatterns( _:GeneralBuilder ) {
+function getExamplePatterns( _:PatternBuilder ) {
 	return [
 		_.selectAll()
 			.where( [

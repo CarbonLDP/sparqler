@@ -1,4 +1,4 @@
-import { GeneralBuilder } from "../../GeneralBuilder";
+import { PatternBuilder } from "../../patterns/PatternBuilder";
 import { TokenNode } from "../../tokens/TokenNode";
 
 import { IRIResolver } from "../iri/IRIResolver";
@@ -54,13 +54,13 @@ export class Container<TOKEN extends TokenNode | "a" | undefined> implements Con
 	}
 
 
-	getBuilder():GeneralBuilder {
+	getBuilder():PatternBuilder {
 		const tempContainer = new Container( {
 			iriResolver: this.iriResolver,
 			targetToken: undefined,
 		} );
 
-		return GeneralBuilder.createFrom( tempContainer, {} );
+		return PatternBuilder.createFrom( tempContainer, {} );
 	}
 
 }

@@ -4,8 +4,7 @@ import { _is } from "../core/transformers";
 
 import { Expression } from "../patterns/expressions/Expression";
 import { Projectable } from "../patterns/expressions/Projectable";
-
-import { GeneralBuilder } from "../GeneralBuilder";
+import { PatternBuilder } from "../patterns/PatternBuilder";
 import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { GroupToken } from "../tokens/GroupToken";
@@ -42,7 +41,7 @@ export interface GroupClause<T extends FinishClause> extends HavingClause<T> {
 	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	groupBy( conditionsFn:( builder:GeneralBuilder ) => (Expression | Projectable | SupportedNativeTypes) | (Expression | Projectable | SupportedNativeTypes)[] ):HavingClause<T> & T;
+	groupBy( conditionsFn:( builder:PatternBuilder ) => (Expression | Projectable | SupportedNativeTypes) | (Expression | Projectable | SupportedNativeTypes)[] ):HavingClause<T> & T;
 }
 
 
@@ -60,7 +59,7 @@ type SupportedTypes = Expression | Projectable | SupportedNativeTypes;
  * @private
  */
 function getGroupByFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
-	return ( conditionOrFn:SupportedTypes | (( builder:GeneralBuilder ) => SupportedTypes | SupportedTypes[]), ...restConditions:SupportedTypes[] ) => {
+	return ( conditionOrFn:SupportedTypes | (( builder:PatternBuilder ) => SupportedTypes | SupportedTypes[]), ...restConditions:SupportedTypes[] ) => {
 		const targetToken:GroupToken = new GroupToken( [] );
 		const newContainer = cloneSolutionModifierContainer( container, targetToken );
 

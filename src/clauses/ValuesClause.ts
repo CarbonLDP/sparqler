@@ -3,8 +3,7 @@ import { cloneElement } from "../core/containers/utils";
 import { Factory } from "../core/factories/Factory";
 import { IRIResolver } from "../core/iri/IRIResolver";
 
-import { GeneralBuilder } from "../GeneralBuilder";
-
+import { PatternBuilder } from "../patterns/PatternBuilder";
 import { _valuesTransformerFn } from "../patterns/notTriplePatterns/fns/utils";
 import { Literal } from "../patterns/triplePatterns/Literal";
 import { Resource } from "../patterns/triplePatterns/Resource";
@@ -40,7 +39,7 @@ export interface ValuesClause<T extends FinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variable:string, valuesBuilder:( builder:GeneralBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
+	values( variable:string, valuesBuilder:( builder:PatternBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined) | (SupportedNativeTypes | Resource | Literal | Undefined)[] ):T;
 
 	/**
 	 * Set the values of multiple variables to be combined into the results
@@ -63,7 +62,7 @@ export interface ValuesClause<T extends FinishClause> {
 	 * @param valuesBuilder Functions that returns the values to be added.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	values( variables:string[], valuesBuilder:( builder:GeneralBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
+	values( variables:string[], valuesBuilder:( builder:PatternBuilder ) => (SupportedNativeTypes | Resource | Literal | Undefined)[] | (SupportedNativeTypes | Resource | Literal | Undefined)[][] ):T;
 }
 
 
@@ -72,8 +71,8 @@ type Values = SupportedNativeTypes | Resource | Literal | "UNDEF";
 type ValuesOrBuilder =
 	| (SupportedNativeTypes | SupportedNativeTypes[])
 	| (SupportedNativeTypes[] | SupportedNativeTypes[][])
-	| (( builder:GeneralBuilder ) => Values | Values[])
-	| (( builder:GeneralBuilder ) => Values[] | Values[][])
+	| (( builder:PatternBuilder ) => Values | Values[])
+	| (( builder:PatternBuilder ) => Values[] | Values[][])
 	;
 
 function _normalizeVariables( variableOrVariables:string | string [] ):VariableToken[] {

@@ -4,8 +4,7 @@ import { Factory } from "../core/factories/Factory";
 import { IRIResolver } from "../core/iri/IRIResolver";
 
 import { Projectable } from "../patterns/expressions/Projectable";
-
-import { GeneralBuilder } from "../GeneralBuilder";
+import { PatternBuilder } from "../patterns/PatternBuilder";
 
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
@@ -40,7 +39,7 @@ export interface SelectClause<T extends FinishClause> {
 	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	select( variablesFunction:( builder:GeneralBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
+	select( variablesFunction:( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
 	 * Set a list of variables to be retrieved by the query ensuring no
@@ -64,7 +63,7 @@ export interface SelectClause<T extends FinishClause> {
 	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	selectDistinct( variablesFunction:( builder:GeneralBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
+	selectDistinct( variablesFunction:( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
 	 * Set a list of variables to be retrieved by the query permitting
@@ -90,7 +89,7 @@ export interface SelectClause<T extends FinishClause> {
 	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	selectDistinct( variablesFunction:( builder:GeneralBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
+	selectDistinct( variablesFunction:( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
 	 * Set that the query must return all the solutions for the variables
@@ -136,7 +135,7 @@ export interface SelectClause<T extends FinishClause> {
  * @private
  */
 function getSelectFn<C extends Container<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED", limit?:true ):SelectClause<T>[ "select" ] {
-	return ( variableOrFunction?:string | (( builder:GeneralBuilder ) => (string | Projectable) | (string | Projectable)[]), ...variables:(string | Projectable)[] ) => {
+	return ( variableOrFunction?:string | (( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[]), ...variables:(string | Projectable)[] ) => {
 		const queryClause:SelectToken = new SelectToken( modifier );
 		const newContainer:Container<QueryToken<SelectToken>> = new Container( {
 			iriResolver: new IRIResolver( container.iriResolver ),

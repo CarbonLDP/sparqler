@@ -2,8 +2,7 @@ import { Container } from "../core/containers/Container";
 import { Factory } from "../core/factories/Factory";
 
 import { Expression } from "../patterns/expressions/Expression";
-
-import { GeneralBuilder } from "../GeneralBuilder";
+import { PatternBuilder } from "../patterns/PatternBuilder";
 import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { HavingToken } from "../tokens/HavingToken";
@@ -40,7 +39,7 @@ export interface HavingClause<T extends FinishClause> extends OrderClause<T> {
 	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	having( conditionsFn:( builder:GeneralBuilder ) => (Expression | SupportedNativeTypes) | (Expression | SupportedNativeTypes)[] ):OrderClause<T> & T;
+	having( conditionsFn:( builder:PatternBuilder ) => (Expression | SupportedNativeTypes) | (Expression | SupportedNativeTypes)[] ):OrderClause<T> & T;
 }
 
 
@@ -58,7 +57,7 @@ type SupportedTypes = Expression | SupportedNativeTypes;
  * @private
  */
 function getHavingFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):HavingClause<T>[ "having" ] {
-	return ( conditionOrFn:SupportedTypes | (( builder:GeneralBuilder ) => SupportedTypes | SupportedTypes[]), ...restConditions:SupportedTypes[] ) => {
+	return ( conditionOrFn:SupportedTypes | (( builder:PatternBuilder ) => SupportedTypes | SupportedTypes[]), ...restConditions:SupportedTypes[] ) => {
 		const targetToken:HavingToken = new HavingToken( [] );
 		const newContainer = cloneSolutionModifierContainer( container, targetToken );
 

@@ -3,7 +3,7 @@ import { spyContainers } from "../../../test/spies/clones";
 import { Container } from "../../core/containers/Container";
 import { IRIResolver } from "../../core/iri/IRIResolver";
 
-import { GeneralBuilder } from "../../GeneralBuilder";
+import { PatternBuilder } from "../PatternBuilder";
 
 import { AssigmentToken } from "../../tokens/AssigmentToken";
 import { ExpressionListToken } from "../../tokens/ExpressionListToken";
@@ -23,14 +23,14 @@ describe( "SubSelectPattern", () => {
 	} );
 
 	let container:Container<undefined>;
-	let builder:GeneralBuilder;
+	let builder:PatternBuilder;
 	beforeEach( () => {
 		container = new Container( {
 			iriResolver: new IRIResolver(),
 			targetToken: void 0,
 		} );
 
-		builder = GeneralBuilder.createFrom( container, {} );
+		builder = PatternBuilder.createFrom( container, {} );
 
 		spyContainers.install();
 	} );

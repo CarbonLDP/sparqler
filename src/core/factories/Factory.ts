@@ -43,7 +43,7 @@ export const Factory:{
 	createFrom<CONTAINER extends Container<any>, TARGET1 extends object, TARGET2 extends object>( factory1:Factory<CONTAINER, TARGET1>, factory2:Factory<CONTAINER, TARGET2> ):Factory<CONTAINER, TARGET1 & TARGET2>;
 	/**
 	 * Created a new factory function that applies the three factory
-	 * function provided.
+	 * functions provided.
 	 *
 	 * @param factory1 The first factory function to be applied.
 	 * @param factory2 The second factory function to be applied.
@@ -52,7 +52,7 @@ export const Factory:{
 	createFrom<CONTAINER extends Container<any>, TARGET1 extends object, TARGET2 extends object, TARGET3 extends object>( factory1:Factory<CONTAINER, TARGET1>, factory2:Factory<CONTAINER, TARGET2>, factory3:Factory<CONTAINER, TARGET3> ):Factory<CONTAINER, TARGET1 & TARGET2 & TARGET3>;
 	/**
 	 * Created a new factory function that applies the three factory
-	 * function provided.
+	 * functions provided.
 	 *
 	 * @param factory1 The first factory function to be applied.
 	 * @param factory2 The second factory function to be applied.
@@ -60,6 +60,29 @@ export const Factory:{
 	 * @param factory4 The fourth factory function to be applied.
 	 */
 	createFrom<CONTAINER extends Container<any>, TARGET1 extends object, TARGET2 extends object, TARGET3 extends object, TARGET4 extends object>( factory1:Factory<CONTAINER, TARGET1>, factory2:Factory<CONTAINER, TARGET2>, factory3:Factory<CONTAINER, TARGET3>, factory4:Factory<CONTAINER, TARGET4> ):Factory<CONTAINER, TARGET1 & TARGET2 & TARGET3 & TARGET4>;
+	/**
+	 * Created a new factory function that applies the five factory
+	 * functions provided.
+	 *
+	 * @param factory1 The first factory function to be applied.
+	 * @param factory2 The second factory function to be applied.
+	 * @param factory3 The third factory function to be applied.
+	 * @param factory4 The fourth factory function to be applied.
+	 * @param factory5 The fifth factory function to be applied.
+	 */
+	createFrom<CONTAINER extends Container<any>, TARGET1 extends object, TARGET2 extends object, TARGET3 extends object, TARGET4 extends object, TARGET5 extends object>( factory1:Factory<CONTAINER, TARGET1>, factory2:Factory<CONTAINER, TARGET2>, factory3:Factory<CONTAINER, TARGET3>, factory4:Factory<CONTAINER, TARGET4>, factory5:Factory<CONTAINER, TARGET5> ):Factory<CONTAINER, TARGET1 & TARGET2 & TARGET3 & TARGET4 & TARGET5>;
+	/**
+	 * Created a new factory function that applies the six factory
+	 * functions provided.
+	 *
+	 * @param factory1 The first factory function to be applied.
+	 * @param factory2 The second factory function to be applied.
+	 * @param factory3 The third factory function to be applied.
+	 * @param factory4 The fourth factory function to be applied.
+	 * @param factory5 The fifth factory function to be applied.
+	 * @param factory6 The sixth factory function to be applied.
+	 */
+	createFrom<CONTAINER extends Container<any>, TARGET1 extends object, TARGET2 extends object, TARGET3 extends object, TARGET4 extends object, TARGET5 extends object, TARGET6 extends object>( factory1:Factory<CONTAINER, TARGET1>, factory2:Factory<CONTAINER, TARGET2>, factory3:Factory<CONTAINER, TARGET3>, factory4:Factory<CONTAINER, TARGET4>, factory5:Factory<CONTAINER, TARGET5>, factory6:Factory<CONTAINER, TARGET6> ):Factory<CONTAINER, TARGET1 & TARGET2 & TARGET3 & TARGET4 & TARGET5 & TARGET6>;
 } = {
 	createFrom( ...factories:Factory<any, any>[] ):Factory<any, any> {
 		return <W extends object>( container:Container<any>, object:W ):W & any => {

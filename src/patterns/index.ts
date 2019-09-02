@@ -20,6 +20,9 @@ export { ServicePattern } from "./notTriplePatterns/ServicePattern"
 export { SingleValuesPattern } from "./notTriplePatterns/SingleValuesPattern"
 export { UnionPattern } from "./notTriplePatterns/UnionPattern"
 
+export { OrderBuilder } from "./orders/OrderBuilder";
+export { OrderCondition } from "./orders/OrderCondition";
+
 export { DeniableFluentPath } from "./paths/DeniableFluentPath";
 export { FluentPath } from "./paths/FluentPath";
 export { FluentPathContainer } from "./paths/FluentPathContainer";

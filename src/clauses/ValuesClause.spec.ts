@@ -3,7 +3,7 @@ import { spyContainers } from "../../test/spies/clones";
 import { Container } from "../core/containers/Container";
 import { IRIResolver } from "../core/iri/IRIResolver";
 
-import { GeneralBuilder } from "../GeneralBuilder";
+import { PatternBuilder } from "../patterns/PatternBuilder";
 
 import { IRIRefToken } from "../tokens/IRIRefToken";
 import { getIRIToken } from "../tokens/IRIToken";
@@ -252,12 +252,12 @@ describe( "ValuesClause", () => {
 						.toContain( [] );
 				} );
 
-				it( "should provide GeneralBuilder", () => {
+				it( "should provide PatternBuilder", () => {
 					const spy:jasmine.Spy = jasmine.createSpy()
 						.and.returnValue( [] );
 
 					valuesClause.values( "var", spy );
-					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<GeneralBuilder>( {
+					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<PatternBuilder>( {
 						var: jasmine.any( Function ),
 						resource: jasmine.any( Function ),
 
@@ -537,12 +537,12 @@ describe( "ValuesClause", () => {
 				} );
 
 
-				it( "should provide GeneralBuilder", () => {
+				it( "should provide PatternBuilder", () => {
 					const spy:jasmine.Spy = jasmine.createSpy()
 						.and.returnValue( [] );
 
 					valuesClause.values( [ "var" ], spy );
-					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<GeneralBuilder>( {
+					expect( spy ).toHaveBeenCalledWith( jasmine.objectContaining<PatternBuilder>( {
 						var: jasmine.any( Function ),
 						resource: jasmine.any( Function ),
 

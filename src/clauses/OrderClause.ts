@@ -5,7 +5,7 @@ import { _is } from "../core/transformers";
 import { Expression } from "../patterns/expressions/Expression";
 import { Projectable } from "../patterns/expressions/Projectable";
 
-import { GeneralBuilder } from "../GeneralBuilder";
+import { PatternBuilder } from "../patterns/PatternBuilder";
 import { OrderCondition } from "../patterns/orders/OrderCondition";
 
 import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
@@ -44,7 +44,7 @@ export interface OrderClause<T extends FinishClause> extends LimitOffsetClause<T
 	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	orderBy( conditionsFn:( builder:GeneralBuilder ) => (Expression | OrderCondition | SupportedNativeTypes) | (Expression | OrderCondition | SupportedNativeTypes)[] ):LimitOffsetClause<T> & T;
+	orderBy( conditionsFn:( builder:PatternBuilder ) => (Expression | OrderCondition | SupportedNativeTypes) | (Expression | OrderCondition | SupportedNativeTypes)[] ):LimitOffsetClause<T> & T;
 }
 
 
@@ -63,7 +63,7 @@ type SupportedTypes = Expression | OrderCondition | SupportedNativeTypes;
  * @private
  */
 function getOrderByFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):OrderClause<T>[ "orderBy" ] {
-	return ( conditionOrFn:SupportedTypes | (( builder:GeneralBuilder ) => SupportedTypes | SupportedTypes[]), ...restConditions:SupportedTypes[] ) => {
+	return ( conditionOrFn:SupportedTypes | (( builder:PatternBuilder ) => SupportedTypes | SupportedTypes[]), ...restConditions:SupportedTypes[] ) => {
 		const targetToken:OrderToken = new OrderToken( [] );
 		const newContainer = cloneSolutionModifierContainer( container, targetToken );
 
