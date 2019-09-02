@@ -42,12 +42,12 @@ describe( "HavingToken", ():void => {
 
 		it( "should compact print the SPARQL statement with Expression", ():void => {
 			const token:HavingToken = new HavingToken( [ new BracketedExpressionToken( new UnaryOperationToken( "!", new VariableToken( "foo" ) ) ) ] );
-			expect( token.toString() ).toBe( "GROUP BY (!?foo)" );
+			expect( token.toString() ).toBe( "HAVING (!?foo)" );
 		} );
 
 		it( "should pretty print the SPARQL statement with Expression", ():void => {
 			const token:HavingToken = new HavingToken( [ new BracketedExpressionToken( new UnaryOperationToken( "!", new VariableToken( "foo" ) ) ) ] );
-			expect( token.toString( 0 ) ).toBe( "GROUP BY ( ! ?foo )" );
+			expect( token.toString( 0 ) ).toBe( "HAVING ( ! ?foo )" );
 		} );
 
 	} );

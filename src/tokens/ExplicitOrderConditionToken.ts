@@ -7,7 +7,7 @@ import { TokenNode } from "./TokenNode";
  * @see https://www.w3.org/TR/sparql11-query/#rOrderCondition
  */
 export class ExplicitOrderConditionToken implements TokenNode {
-	readonly token:"explicitOderCondition" = "explicitOderCondition";
+	readonly token:"explicitOrderCondition" = "explicitOrderCondition";
 
 	readonly flow:"ASC" | "DESC";
 	readonly condition:BracketedExpressionToken;
