@@ -4,6 +4,7 @@ import { spyContainers } from "../../../test/spies/clones";
 
 import { Container } from "../../core/containers/Container";
 import { IRIResolver } from "../../core/iri/IRIResolver";
+import { AssigmentToken } from "../../tokens/AssigmentToken";
 
 import { BindToken } from "../../tokens/BindToken";
 import { FilterToken } from "../../tokens/FilterToken";
@@ -724,32 +725,46 @@ describe( "NotTriplePatternsBuilder", () => {
 			} ) )
 		} );
 
-		it( "should add the RAW expression", () => {
-			builder.bind( "?var > 0", "result" );
+		it( "should create BIND with RAW expression and RAW variable", () => {
+			builder.bind( "ex:foo", "bar" );
 
 			type TheContainer = Container<BindToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
-			expect( newContainer.targetToken.expression ).toEqual( "?var > 0" );
+			expect( newContainer.targetToken ).toEqual( new BindToken(
+				new AssigmentToken(
+					new PrefixedNameToken( "ex", "foo" ),
+					new VariableToken( "bar" ),
+				)
+			) );
 		} );
 
-		it( "should add the variable when string", () => {
-			builder.bind( "?var > 0", "result" );
+		it( "should create BIND with expression and RAW variable", () => {
+			builder.bind( getResource( "foo" ), "bar" );
 
 			type TheContainer = Container<BindToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
-			expect( newContainer.targetToken.variable ).toEqual( new VariableToken( "result" ) );
+			expect( newContainer.targetToken ).toEqual( new BindToken(
+				new AssigmentToken(
+					new IRIRefToken( "foo" ),
+					new VariableToken( "bar" ),
+				)
+			) );
 		} );
 
-		it( "should add the variable when Variable", () => {
-			const variable:Variable = getVariable( "result" );
-			builder.bind( "?var > 0", variable );
+		it( "should create BIND with expression and variable", () => {
+			builder.bind( getResource( "foo" ), getVariable( "bar" ) );
 
 			type TheContainer = Container<BindToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
-			expect( newContainer.targetToken.variable ).toEqual( new VariableToken( "result" ) );
+			expect( newContainer.targetToken ).toEqual( new BindToken(
+				new AssigmentToken(
+					new IRIRefToken( "foo" ),
+					new VariableToken( "bar" ),
+				)
+			) );
 		} );
 
 	} );

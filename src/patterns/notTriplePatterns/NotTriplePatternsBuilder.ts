@@ -1,6 +1,14 @@
 import { Container } from "../../core/containers/Container";
 import { cloneElement } from "../../core/containers/utils";
+import { _is } from "../../core/transformers";
 
+import { Expression } from "../../expressions/Expression";
+import { _expressionTransformerFn } from "../../expressions/fns/utils";
+import { Projectable } from "../../expressions/Projectable";
+
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
+
+import { AssigmentToken } from "../../tokens/AssigmentToken";
 import { BindToken } from "../../tokens/BindToken";
 import { FilterToken } from "../../tokens/FilterToken";
 import { GraphToken } from "../../tokens/GraphToken";
@@ -139,17 +147,25 @@ export interface NotTriplePatternsBuilder {
 	filter( rawConstraint:string ):FilterPattern;
 
 	/**
-	 * Created a {@link BindPattern} for the raw expression
+	 * Created a {@link BindPattern} for the expression
 	 * into the variable specified.
 	 *
-	 * See {@link https://www.w3.org/TR/sparql11-query/#bind}
+	 * See https://www.w3.org/TR/sparql11-query/#bind
 	 * for more information.
 	 *
-	 * @param rawExpression The RAW expression to assign.
+	 * @param expression The expression to assign.
 	 * @param variable The variable to be assigned.
 	 */
-	// TODO: Add expression support for this patterns
-	bind( rawExpression:string, variable:string | Variable ):BindPattern;
+	bind( expression:Expression | SupportedNativeTypes, variable:string | Variable ):BindPattern;
+	/**
+	 * Created a {@link BindPattern} from the assigment specified.
+	 *
+	 * See https://www.w3.org/TR/sparql11-query/#bind
+	 * for more information.
+	 *
+	 * @param assigment The full assigment to bind.
+	 */
+	bind( assigment:Projectable<AssigmentToken> ):BindPattern;
 
 	/**
 	 * Create a {@link SingleValuesPattern} for the variable
@@ -276,14 +292,21 @@ function getFilterFn( container:Container<undefined> ):NotTriplePatternsBuilder[
 }
 
 function getBindFn( container:Container<undefined> ):NotTriplePatternsBuilder[ "bind" ] {
-	return ( rawExpression:string, variable:string | Variable ) => {
-		const parsedVar = typeof variable === "string" ?
-			new VariableToken( variable ) :
-			variable.getSubject();
+	const transformer = _expressionTransformerFn( container );
 
-		const token:BindToken = new BindToken( rawExpression, parsedVar );
+	return ( expressionOrAssigment:Expression | Projectable<AssigmentToken> | SupportedNativeTypes, variable?:string | Variable ) => {
+		const variableToken = variable === undefined ? variable
+			: typeof variable === "string"
+				? new VariableToken( variable )
+				: variable.getSubject();
 
-		return _getPattern( container, token );
+		const assigment = _is<Projectable>( expressionOrAssigment, "getProjection" )
+			? expressionOrAssigment.getProjection()
+			: new AssigmentToken( transformer( expressionOrAssigment ), variableToken! );
+
+		const targetToken = new BindToken( assigment );
+
+		return _getPattern( container, targetToken );
 	}
 }
 

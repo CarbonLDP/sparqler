@@ -743,6 +743,12 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 */
 	minus():Expression;
 
+
+	/**
+	 * Creates an assigment to a variable from the current expression.
+	 *
+	 * @param variable Name or variable where the expression value will be assigned.
+	 */
 	as( variable:string | Variable ):Projectable<AssigmentToken>;
 
 	/**
