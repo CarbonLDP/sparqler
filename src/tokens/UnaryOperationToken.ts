@@ -5,7 +5,7 @@ import { TokenNode } from "./TokenNode";
 /**
  * Token that represents the unary operations for expressions.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rUnaryExpression}
+ * @see https://www.w3.org/TR/sparql11-query/#rUnaryExpression
  */
 export class UnaryOperationToken implements TokenNode {
 	readonly token:"unaryOperation" = "unaryOperation";

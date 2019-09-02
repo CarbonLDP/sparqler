@@ -6,7 +6,6 @@ import { IRIResolver } from "../core/iri/IRIResolver";
 import { PatternBuilder } from "../patterns/PatternBuilder";
 
 import { IRIRefToken } from "../tokens/IRIRefToken";
-import { getIRIToken } from "../tokens/IRIToken";
 import { LiteralToken } from "../tokens/LiteralToken";
 import { PrefixedNameToken } from "../tokens/PrefixedNameToken";
 import { QueryToken } from "../tokens/QueryToken";
@@ -142,7 +141,7 @@ describe( "ValuesClause", () => {
 
 					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
-						.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
+						.toContain( [ new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ) ] );
 				} );
 
 			} );
@@ -201,7 +200,7 @@ describe( "ValuesClause", () => {
 						.toContain( [
 							new LiteralToken( "val" ),
 							new LiteralToken( 10 ),
-							new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
+							new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ),
 						] );
 				} );
 
@@ -286,7 +285,7 @@ describe( "ValuesClause", () => {
 
 					const newContainer:Container<QueryToken> = spyContainers.getFirst();
 					expect( newContainer.targetToken.values!.values )
-						.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
+						.toContain( [ new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ) ] );
 				} );
 
 				it( "should add string pattern value", () => {
@@ -339,7 +338,7 @@ describe( "ValuesClause", () => {
 						.toContain( [
 							new LiteralToken( "val" ),
 							new LiteralToken( 10 ),
-							new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
+							new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ),
 							new RDFLiteralToken( "val" ),
 							new IRIRefToken( "https://example.com/" ),
 							new PrefixedNameToken( "ex", "resource/" ),
@@ -606,7 +605,7 @@ describe( "ValuesClause", () => {
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [
 							new LiteralToken( 10 ),
-							new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
+							new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ),
 						] );
 					expect( newContainer.targetToken.values!.values )
 						.toContain( [

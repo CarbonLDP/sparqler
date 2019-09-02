@@ -4,7 +4,6 @@ import { Container } from "../../core/containers/Container";
 import { IRIResolver } from "../../core/iri/IRIResolver";
 
 import { IRIRefToken } from "../../tokens/IRIRefToken";
-import { getIRIToken } from "../../tokens/IRIToken";
 import { LiteralToken } from "../../tokens/LiteralToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
@@ -142,7 +141,7 @@ describe( "MultipleValuesPattern", () => {
 
 			const newContainer:Container<ValuesToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.values )
-				.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
+				.toContain( [ new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ) ] );
 		} );
 
 		it( "should add single Resource value", () => {
@@ -186,7 +185,7 @@ describe( "MultipleValuesPattern", () => {
 				.toContain( [
 					new LiteralToken( "val" ),
 					new LiteralToken( 10 ),
-					new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
+					new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ),
 					new IRIRefToken( "resource/" ),
 					new LiteralToken( "value" ),
 					"UNDEF",
@@ -322,7 +321,7 @@ describe( "MultipleValuesPatternMore", () => {
 
 			const newContainer:Container<ValuesToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.values )
-				.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
+				.toContain( [ new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ) ] );
 		} );
 
 		it( "should add single Resource value", () => {
@@ -366,7 +365,7 @@ describe( "MultipleValuesPatternMore", () => {
 				.toContain( [
 					new LiteralToken( "val" ),
 					new LiteralToken( 10 ),
-					new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ),
+					new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ),
 					new IRIRefToken( "resource/" ),
 					new LiteralToken( "value" ),
 					"UNDEF",

@@ -1,6 +1,6 @@
 import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
-import { getIRIToken } from "../tokens/IRIToken";
+import { IRIRefToken } from "../tokens/IRIRefToken";
 import { LiteralToken } from "../tokens/LiteralToken";
 import { RDFLiteralToken } from "../tokens/RDFLiteralToken";
 import { TokenNode } from "../tokens/TokenNode";
@@ -10,7 +10,7 @@ import { XSD } from "../utils/XSD";
 
 export const _transformNatives = ( value:SupportedNativeTypes ) =>
 	value instanceof Date
-		? new RDFLiteralToken( value.toISOString(), getIRIToken( XSD.dateTime ) )
+		? new RDFLiteralToken( value.toISOString(), new IRIRefToken( XSD.dateTime ) )
 		: new LiteralToken( value )
 ;
 

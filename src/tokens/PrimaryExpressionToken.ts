@@ -10,7 +10,7 @@ import { VariableToken } from "./VariableToken";
 /**
  * Alias with the tokens that comprehends all the kinds of primary expressions.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rPrimaryExpression}
+ * @see https://www.w3.org/TR/sparql11-query/#rPrimaryExpression
  */
 export type PrimaryExpressionToken =
 	| BracketedExpressionToken
@@ -21,15 +21,22 @@ export type PrimaryExpressionToken =
 	| LiteralToken;
 
 
+/**
+ * Constant with the utils for {@link PrimaryExpressionToken} objects.
+ */
 export const PrimaryExpressionToken:{
+	/**
+	 * Return true if the {@param token} is a valid {@link PrimaryExpressionToken}.
+	 *
+	 * @param token Token to be checked.
+	 */
 	is( token:TokenNode ):token is PrimaryExpressionToken;
 } = {
 	is: ( token ):token is PrimaryExpressionToken =>
 		token.token === "bracketedExpression" ||
 		token.token === "function" ||
 		token.token === "variable" ||
-		// TODO: Create to IRIToken.is
-		token.token === "iri" || token.token === "prefixedName" ||
+		IRIToken.is( token ) ||
 		token.token === "literal"
 	,
 };

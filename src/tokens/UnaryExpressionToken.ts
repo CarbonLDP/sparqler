@@ -6,15 +6,22 @@ import { UnaryOperationToken } from "./UnaryOperationToken";
 /**
  * Alias with the tokens that comprehends all the kinds of unary expressions.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rUnaryExpression}
+ * @see https://www.w3.org/TR/sparql11-query/#rUnaryExpression
  */
 export type UnaryExpressionToken =
 	| UnaryOperationToken
 	| PrimaryExpressionToken;
 
 
-// TODO: Document
+/**
+ * Constant with the utils for {@link UnaryExpressionToken} objects.
+ */
 export const UnaryExpressionToken:{
+	/**
+	 * Return true if the {@param token} is a valid {@link UnaryExpressionToken}.
+	 *
+	 * @param token Token to be checked.
+	 */
 	is( token:TokenNode ):token is UnaryExpressionToken;
 } = {
 	is: ( token ):token is UnaryExpressionToken =>

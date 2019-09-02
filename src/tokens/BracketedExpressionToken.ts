@@ -5,7 +5,7 @@ import { TokenNode } from "./TokenNode";
 /**
  * Token that represents the a bracketed expression.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rBrackettedExpression}
+ * @see https://www.w3.org/TR/sparql11-query/#rBrackettedExpression
  */
 export class BracketedExpressionToken implements TokenNode {
 	readonly token:"bracketedExpression" = "bracketedExpression";

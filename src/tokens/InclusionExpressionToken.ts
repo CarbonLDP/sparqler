@@ -7,7 +7,7 @@ import { TokenNode } from "./TokenNode";
 /**
  * Token that represents the relational inclusion expression.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rRelationalExpression}
+ * @see https://www.w3.org/TR/sparql11-query/#rRelationalExpression
  */
 export class InclusionExpressionToken implements TokenNode {
 	readonly token:"inclusionExpression" = "inclusionExpression";

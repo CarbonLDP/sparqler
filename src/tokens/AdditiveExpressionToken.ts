@@ -6,15 +6,22 @@ import { TokenNode } from "./TokenNode";
 /**
  * Alias with the tokens that comprehends all the kinds of additive expressions.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rAdditiveExpression}
+ * @see https://www.w3.org/TR/sparql11-query/#rAdditiveExpression
  */
 export type AdditiveExpressionToken =
 	| AdditiveOperationToken
 	| MultiplicativeExpressionToken;
 
 
-// TODO: Document
+/**
+ * Constant with the utils for {@link AdditiveExpressionToken} objects.
+ */
 export const AdditiveExpressionToken:{
+	/**
+	 * Return true if the {@param token} is a valid {@link AdditiveExpressionToken}.
+	 *
+	 * @param token Token to be checked.
+	 */
 	is( token:TokenNode ):token is AdditiveExpressionToken;
 } = {
 	is: ( token ):token is AdditiveExpressionToken =>

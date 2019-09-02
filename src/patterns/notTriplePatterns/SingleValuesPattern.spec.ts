@@ -4,7 +4,6 @@ import { Container } from "../../core/containers/Container";
 import { IRIResolver } from "../../core/iri/IRIResolver";
 
 import { IRIRefToken } from "../../tokens/IRIRefToken";
-import { getIRIToken } from "../../tokens/IRIToken";
 import { LiteralToken } from "../../tokens/LiteralToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
@@ -141,7 +140,7 @@ describe( "SingleValuesPattern", () => {
 
 			const newContainer:Container<ValuesToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.values )
-				.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
+				.toContain( [ new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ) ] );
 		} );
 
 		it( "should add Resource value", () => {
@@ -296,7 +295,7 @@ describe( "SingleValuesPatternMore", () => {
 
 			const newContainer:Container<ValuesToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.values )
-				.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
+				.toContain( [ new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ) ] );
 		} );
 
 		it( "should add Resource value", () => {

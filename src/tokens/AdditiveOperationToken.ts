@@ -5,7 +5,7 @@ import { MultiplicativeExpressionToken } from "./MultiplicativeExpressionToken";
 /**
  * Token that represents the additive operations for expressions.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rAdditiveExpression}
+ * @see https://www.w3.org/TR/sparql11-query/#rAdditiveExpression
  */
 export class AdditiveOperationToken extends BinaryOperationToken<"+" | "-", MultiplicativeExpressionToken> {
 	readonly token:"additiveOperation" = "additiveOperation";

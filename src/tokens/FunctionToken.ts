@@ -7,8 +7,8 @@ import { TokenNode } from "./TokenNode";
 /**
  * Token that represents the build-in and custom functions.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rBuiltInCall}
- * @see {@link https://www.w3.org/TR/sparql11-query/#ririOrFunction}
+ * @see https://www.w3.org/TR/sparql11-query/#rBuiltInCall
+ * @see https://www.w3.org/TR/sparql11-query/#ririOrFunction
  */
 export class FunctionToken implements TokenNode {
 	readonly token:"function" = "function";
