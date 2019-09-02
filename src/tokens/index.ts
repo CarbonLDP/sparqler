@@ -30,7 +30,6 @@ export { IRIToken } from "./IRIToken";
 export { LanguageToken } from "./LanguageToken";
 export { LimitToken } from "./LimitToken";
 export { LiteralToken } from "./LiteralToken";
-// TODO: Add missing reexports
 export { MinusPatternToken } from "./MinusPatternToken";
 export { MultiplicativeExpressionToken } from "./MultiplicativeExpressionToken";
 export { MultiplicativeOperationToken } from "./MultiplicativeOperationToken";
