@@ -39,10 +39,11 @@ export interface SingleValuesPatternMore extends NotTriplePattern<ValuesToken> {
  * @private
  */
 function getHasFn<C extends Container<ValuesToken>>( container:C ):SingleValuesPattern[ "has" ] {
+	const transformer = _valuesTransformerFn( container );
+
 	return value => {
 		const values = container.targetToken.values.slice();
-		if( !values.length ) values.push( [] );
-		values[ 0 ] = values[ 0 ].concat( _valuesTransformerFn( container )( value ) );
+		values.push( [ transformer( value ) ] );
 
 		const targetToken = cloneElement( container.targetToken, { values } );
 		const newContainer = cloneElement( container, { targetToken } );
