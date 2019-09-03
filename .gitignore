@@ -171,5 +171,5 @@ DerivedData
 .vscode/
 
 # Semantic UI
-**/semantic-ui/
-!**/semantic-ui/src
+**/semantic-ui/*
+!**/semantic-ui/src/
