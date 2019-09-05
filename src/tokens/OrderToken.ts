@@ -1,3 +1,5 @@
+import { ConstraintToken } from "./ConstraintToken";
+import { ExplicitOrderConditionToken } from "./ExplicitOrderConditionToken";
 import { TokenNode } from "./TokenNode";
 import { VariableToken } from "./VariableToken";
 
@@ -9,17 +11,18 @@ import { VariableToken } from "./VariableToken";
  */
 export class OrderToken implements TokenNode {
 	readonly token:"order" = "order";
-	readonly condition:VariableToken | string;
-	readonly flow?:string;
 
-	constructor( condition:VariableToken | string, flow?:"ASC" | "DESC" ) {
-		this.condition = condition;
-		if( flow ) this.flow = flow;
+	readonly conditions:(ExplicitOrderConditionToken | ConstraintToken | VariableToken)[];
+
+	constructor( conditions:(ExplicitOrderConditionToken | ConstraintToken | VariableToken)[] ) {
+		this.conditions = conditions;
 	}
 
 	toString( spaces?:number ):string {
-		return "ORDER BY " + (this.flow ?
-			`${ this.flow }( ${ this.condition } )` :
-			`${ this.condition }`);
+		const conditionsStr = this.conditions
+			.map( _ => _.toString( spaces ) )
+			.join( " " );
+
+		return `ORDER BY ${ conditionsStr }`;
 	}
 }

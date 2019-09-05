@@ -1,3 +1,4 @@
+import { ConstraintToken } from "./ConstraintToken";
 import { TokenNode } from "./TokenNode";
 
 
@@ -8,13 +9,14 @@ import { TokenNode } from "./TokenNode";
  */
 export class FilterToken implements TokenNode {
 	readonly token:"filter" = "filter";
-	readonly constraint:string;
 
-	constructor( constraint:string ) {
+	readonly constraint:ConstraintToken;
+
+	constructor( constraint:ConstraintToken ) {
 		this.constraint = constraint;
 	}
 
 	toString( spaces?:number ):string {
-		return `FILTER( ${ this.constraint } )`;
+		return `FILTER${ this.constraint.toString( spaces ) }`;
 	}
 }

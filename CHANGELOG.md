@@ -18,12 +18,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - [#45](https://github.com/CarbonLDP/sparqler/issues/45) - Not adding all the elements in a single variable values pattern
+- [#4](https://github.com/CarbonLDP/sparqler/issues/4) - Add support for SPARQL expressions
+    <br>Example:<br>
+    ```typescript
+    import { SPARQLER } from "sparqler";
+    import { PatternBuilder } from "sparqler/patterns";
+  
+    new SPARQLER()
+        .select( (_:PatternBuilder) => ([
+            _.var("foo"),
+            _.max(_.var("baz")).as( "total" ),
+        ]) )
+        .where( (_:PatternBuilder) => ([
+            // Using the same object methods
+            _.bind( _.var("bar").multiply( 0.5 ), "baz" ),
+            // Using the builder methods
+            _.filter( _.gte( _.var("bar"), 10 ) ),
+        ]))
+        .groupBy( (_:PatternBuilder) => ([ _.var("foo") ]) )
+    ;
+    ```
 
 ## [0.6.0] (2018-09-20)
 
 - [#33](https://github.com/CarbonLDP/sparqler/issues/33) - Full support for property paths
     <br>Example:<br>
-    ```typescript {
+    ```typescript
     ( _:PathBuilder ) => _
       .inverse( "ex:path1" ) // ^ex:path1
         .then( "ex:path2" )   // ^ex:path1 / ex:path2

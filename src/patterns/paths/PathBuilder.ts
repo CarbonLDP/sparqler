@@ -1,3 +1,4 @@
+import { Resource } from "../triplePatterns/Resource";
 import { IRIToken } from "../../tokens/IRIToken";
 import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
 import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
@@ -9,12 +10,10 @@ import { PathToken } from "../../tokens/PathToken";
 import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
 
-import { Resource } from "../triplePatterns/Resource";
-
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";
-
 import { FluentPathContainer } from "./FluentPathContainer";
+
 import { getAlternativeFn } from "./fns/alternativeFn";
 import { getInverseFn } from "./fns/inverseFn";
 import { getModFn } from "./fns/modFn";

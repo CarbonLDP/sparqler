@@ -1,11 +1,13 @@
 import { MockPattern } from "../../../test/mocks/MockPattern";
 import { MockPatternToken } from "../../../test/mocks/MockPatternToken";
-import { spyContainers } from "../../../test/spies/Container";
+import { spyContainers } from "../../../test/spies/clones";
 
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../../core/containers/Container";
+import { IRIResolver } from "../../core/iri/IRIResolver";
+import { AssigmentToken } from "../../tokens/AssigmentToken";
 
 import { BindToken } from "../../tokens/BindToken";
+import { BracketedExpressionToken } from "../../tokens/BracketedExpressionToken";
 import { FilterToken } from "../../tokens/FilterToken";
 import { GraphToken } from "../../tokens/GraphToken";
 import { GroupPatternToken } from "../../tokens/GroupPatternToken";
@@ -14,12 +16,11 @@ import { MinusPatternToken } from "../../tokens/MinusPatternToken";
 import { OptionalToken } from "../../tokens/OptionalToken";
 import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 import { ServicePatternToken } from "../../tokens/ServicePatternToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
 import { UnionPatternToken } from "../../tokens/UnionPatternToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
-import { TripleSubject } from "../triplePatterns/TripleSubject";
+import { Resource } from "../triplePatterns/Resource";
 import { Variable } from "../triplePatterns/Variable";
 
 import { MultipleValuesPattern } from "./MultipleValuesPattern";
@@ -53,9 +54,16 @@ describe( "NotTriplePatternsBuilder", () => {
 	} );
 
 	function getVariable( name:string ):Variable {
-		return TripleSubject.createFrom( new Container( {
+		return Variable.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new VariableToken( name ) ),
+			targetToken: new VariableToken( name ),
+		} ), {} );
+	}
+
+	function getResource( iri:string ):Resource {
+		return Resource.createFrom( new Container( {
+			iriResolver: container.iriResolver,
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 
@@ -492,7 +500,7 @@ describe( "NotTriplePatternsBuilder", () => {
 		} );
 
 		it( "should create pattern with IRIToken", () => {
-			builder.service( { getSubject: () => new IRIRefToken( "service/" ), has: () => ({}) as any }, [] );
+			builder.service( getResource( "service/" ), [] );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -503,7 +511,7 @@ describe( "NotTriplePatternsBuilder", () => {
 		} );
 
 		it( "should create pattern with VariableToken", () => {
-			builder.service( { getSubject: () => new VariableToken( "service" ), has: () => ({}) as any }, [] );
+			builder.service( getVariable( "service" ), [] );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -597,7 +605,7 @@ describe( "NotTriplePatternsBuilder", () => {
 		} );
 
 		it( "should create pattern with IRIToken", () => {
-			builder.serviceSilent( { getSubject: () => new IRIRefToken( "service/" ), has: () => ({}) as any }, [] );
+			builder.serviceSilent( getResource( "service/" ), [] );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -608,7 +616,7 @@ describe( "NotTriplePatternsBuilder", () => {
 		} );
 
 		it( "should create pattern with VariableToken", () => {
-			builder.serviceSilent( { getSubject: () => new VariableToken( "service" ), has: () => ({}) as any }, [] );
+			builder.serviceSilent( getVariable( "service" ), [] );
 
 			type TheContainer = Container<ServicePatternToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
@@ -667,20 +675,24 @@ describe( "NotTriplePatternsBuilder", () => {
 			const spy:jasmine.Spy = spyOn( NotTriplePattern, "createFrom" )
 				.and.callThrough();
 
-			const returned = builder.filter( "?var > 0" );
+			const returned = builder.filter( getVariable( "foo" ) );
 			expect( returned ).toBe( spy.calls.mostRecent().returnValue );
 		} );
 
 
 		it( "should create pattern with string FilterToken", () => {
-			builder.filter( "?var > 0" );
+			builder.filter( getVariable( "foo" ) );
 
 			type TheContainer = Container<FilterToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
-			expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
-				targetToken: new FilterToken( "?var > 0" ),
-			} ) )
+			expect( newContainer.targetToken ).toEqual(
+				new FilterToken(
+					new BracketedExpressionToken(
+						new VariableToken( "foo" )
+					)
+				)
+			);
 		} );
 
 	} );
@@ -718,32 +730,46 @@ describe( "NotTriplePatternsBuilder", () => {
 			} ) )
 		} );
 
-		it( "should add the RAW expression", () => {
-			builder.bind( "?var > 0", "result" );
+		it( "should create BIND with RAW expression and RAW variable", () => {
+			builder.bind( "ex:foo", "bar" );
 
 			type TheContainer = Container<BindToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
-			expect( newContainer.targetToken.expression ).toEqual( "?var > 0" );
+			expect( newContainer.targetToken ).toEqual( new BindToken(
+				new AssigmentToken(
+					new PrefixedNameToken( "ex", "foo" ),
+					new VariableToken( "bar" ),
+				)
+			) );
 		} );
 
-		it( "should add the variable when string", () => {
-			builder.bind( "?var > 0", "result" );
+		it( "should create BIND with expression and RAW variable", () => {
+			builder.bind( getResource( "foo" ), "bar" );
 
 			type TheContainer = Container<BindToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
-			expect( newContainer.targetToken.variable ).toEqual( new VariableToken( "result" ) );
+			expect( newContainer.targetToken ).toEqual( new BindToken(
+				new AssigmentToken(
+					new IRIRefToken( "foo" ),
+					new VariableToken( "bar" ),
+				)
+			) );
 		} );
 
-		it( "should add the variable when Variable", () => {
-			const variable:Variable = getVariable( "result" );
-			builder.bind( "?var > 0", variable );
+		it( "should create BIND with expression and variable", () => {
+			builder.bind( getResource( "foo" ), getVariable( "bar" ) );
 
 			type TheContainer = Container<BindToken>;
 			const newContainer:TheContainer = spyContainers.getLast();
 
-			expect( newContainer.targetToken.variable ).toEqual( new VariableToken( "result" ) );
+			expect( newContainer.targetToken ).toEqual( new BindToken(
+				new AssigmentToken(
+					new IRIRefToken( "foo" ),
+					new VariableToken( "bar" ),
+				)
+			) );
 		} );
 
 	} );

@@ -46,27 +46,27 @@ describe( "SharedSelectToken", ():void => {
 			expect( token.modifier ).toBe( "REDUCED" );
 		} );
 
-		it( "should initialize variables", ():void => {
+		it( "should initialize projections", ():void => {
 			const token:SharedSelectToken = new MockSharedSelectToken();
-			expect( token.variables ).toEqual( [] );
+			expect( token.projections ).toEqual( [] );
 		} );
 
 	} );
 
-	describe( "SharedSelectToken.addVariable", ():void => {
+	describe( "SharedSelectToken.addProjection", ():void => {
 
 		it( "should exists", ():void => {
-			expect( SharedSelectToken.prototype.addVariable ).toBeDefined();
-			expect( SharedSelectToken.prototype.addVariable ).toEqual( jasmine.any( Function ) );
+			expect( SharedSelectToken.prototype.addProjection ).toBeDefined();
+			expect( SharedSelectToken.prototype.addProjection ).toEqual( jasmine.any( Function ) );
 		} );
 
 		it( "should add single triple", ():void => {
 			const token:SharedSelectToken = new MockSharedSelectToken();
 
 			const variable:VariableToken = new VariableToken( "var" );
-			token.addVariable( variable );
+			token.addProjection( variable );
 
-			expect( token.variables ).toEqual( [ variable ] );
+			expect( token.projections ).toEqual( [ variable ] );
 		} );
 
 		it( "should add multiple triples", ():void => {
@@ -74,28 +74,28 @@ describe( "SharedSelectToken", ():void => {
 
 			const variable1:VariableToken = new VariableToken( "var1" );
 			const variable2:VariableToken = new VariableToken( "var2" );
-			token.addVariable( variable1, variable2 );
+			token.addProjection( variable1, variable2 );
 
-			expect( token.variables ).toEqual( [ variable1, variable2 ] );
+			expect( token.projections ).toEqual( [ variable1, variable2 ] );
 		} );
 
 		it( "should append triples added", ():void => {
 			const token:SharedSelectToken = new MockSharedSelectToken();
 
 			const firstVariable:VariableToken = new VariableToken( "first_var" );
-			token.addVariable( firstVariable );
+			token.addProjection( firstVariable );
 
 			const newVariable:VariableToken = new VariableToken( "new_var" );
-			token.addVariable( newVariable );
+			token.addProjection( newVariable );
 
-			expect( token.variables ).toEqual( [ firstVariable, newVariable ] );
+			expect( token.projections ).toEqual( [ firstVariable, newVariable ] );
 		} );
 
 		it( "should return itself", ():void => {
 			const token:SharedSelectToken = new MockSharedSelectToken();
 
 			const variable:VariableToken = new VariableToken( "var" );
-			const returnedValue:SharedSelectToken = token.addVariable( variable );
+			const returnedValue:SharedSelectToken = token.addProjection( variable );
 
 			expect( returnedValue ).toBe( token );
 		} );
@@ -145,19 +145,19 @@ describe( "SharedSelectToken", ():void => {
 			expect( token.toString( 0 ) ).toEqual( "SELECT REDUCED *" );
 		} );
 
-		it( "should print the shared SPARQL select with variables", ():void => {
+		it( "should print the shared SPARQL select with projections", ():void => {
 			const token:SharedSelectToken = new MockSharedSelectToken()
-				.addVariable( new VariableToken( "subj" ) )
-				.addVariable( new VariableToken( "obj" ) )
+				.addProjection( new VariableToken( "subj" ) )
+				.addProjection( new VariableToken( "obj" ) )
 			;
 
 			expect( token.toString() ).toEqual( "SELECT ?subj ?obj" );
 		} );
 
-		it( "should print the pretty shared SPARQL select with variables", ():void => {
+		it( "should print the pretty shared SPARQL select with projections", ():void => {
 			const token:SharedSelectToken = new MockSharedSelectToken()
-				.addVariable( new VariableToken( "subj" ) )
-				.addVariable( new VariableToken( "obj" ) )
+				.addProjection( new VariableToken( "subj" ) )
+				.addProjection( new VariableToken( "obj" ) )
 			;
 
 			expect( token.toString( 0 ) ).toEqual( "SELECT ?subj ?obj" );

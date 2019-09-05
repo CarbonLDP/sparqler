@@ -1,5 +1,11 @@
-import { Container } from "../data/Container";
-import { Factory } from "../data/Factory";
+import { Container } from "../core/containers/Container";
+import { Factory } from "../core/factories/Factory";
+import { _is } from "../core/transformers";
+
+import { Expression } from "../patterns/expressions/Expression";
+import { Projectable } from "../patterns/expressions/Projectable";
+import { PatternBuilder } from "../patterns/PatternBuilder";
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { GroupToken } from "../tokens/GroupToken";
 import { QueryClauseToken } from "../tokens/QueryClauseToken";
@@ -7,6 +13,7 @@ import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
 import { FinishClause } from "./FinishClause";
+import { _constraintTransformer } from "./fns/utils";
 import { HavingClause } from "./HavingClause";
 import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
 
@@ -16,17 +23,29 @@ import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
  */
 export interface GroupClause<T extends FinishClause> extends HavingClause<T> {
 	/**
-	 * Set a condition to be divide the solutions returned by the query
+	 * Set the conditions to divide the solutions returned by the query
 	 * into one or more groups.
 	 *
-	 * @param rawCondition Raw condition to be applied to the solutions grouping.
+	 * @param condition First required condition to be applied to the solutions grouping.
+	 * @param restConditions Optional conditions to also be applied to the solutions grouping.
 	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	// TODO: create group condition expressions
-	groupBy( rawCondition:string ):HavingClause<T> & T;
+	groupBy( condition:Expression | Projectable | SupportedNativeTypes, ...restConditions:(Expression | Projectable | SupportedNativeTypes)[] ):HavingClause<T> & T;
+	/**
+	 * Set the conditions to divide the solutions returned by the query
+	 * into one or more groups.
+	 *
+	 * @param conditionsFn Function that create the conditions to be applied
+	 * to the solutions grouping.
+	 *
+	 * @returns Object with the methods to keep constructing the query.
+	 */
+	groupBy( conditionsFn:( builder:PatternBuilder ) => (Expression | Projectable | SupportedNativeTypes) | (Expression | Projectable | SupportedNativeTypes)[] ):HavingClause<T> & T;
 }
 
+
+type SupportedTypes = Expression | Projectable | SupportedNativeTypes;
 
 /**
  * Function that creates the {@link GroupClause.groupBy} function.
@@ -40,9 +59,30 @@ export interface GroupClause<T extends FinishClause> extends HavingClause<T> {
  * @private
  */
 function getGroupByFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):GroupClause<T>[ "groupBy" ] {
-	return ( rawCondition:string ) => {
-		const token:GroupToken = new GroupToken( rawCondition );
-		const newContainer = cloneSolutionModifierContainer( container, token );
+	return ( conditionOrFn:SupportedTypes | (( builder:PatternBuilder ) => SupportedTypes | SupportedTypes[]), ...restConditions:SupportedTypes[] ) => {
+		const targetToken:GroupToken = new GroupToken( [] );
+		const newContainer = cloneSolutionModifierContainer( container, targetToken );
+
+		if( typeof conditionOrFn === "function" ) {
+			// Create conditions from function
+			const builder = newContainer.getBuilder();
+			const fnConditions = conditionOrFn.call( undefined, builder );
+			restConditions = Array.isArray( fnConditions ) ? fnConditions : [ fnConditions ];
+
+		} else if( conditionOrFn ) {
+			// Return first condition to array
+			restConditions.unshift( conditionOrFn );
+		}
+
+		const transformer = _constraintTransformer( newContainer );
+
+		restConditions.forEach( condition => {
+			const conditionToken = _is<Projectable>( condition, "getProjection" )
+				? condition.getProjection()
+				: transformer( condition );
+
+			targetToken.conditions.push( conditionToken );
+		} );
 
 		const havingClause:HavingClause<T> = HavingClause.createFrom( genericFactory, newContainer, {} );
 		return genericFactory( newContainer, havingClause );

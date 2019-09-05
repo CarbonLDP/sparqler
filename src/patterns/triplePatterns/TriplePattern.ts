@@ -1,4 +1,4 @@
-import { Container } from "../../data/Container";
+import { Container } from "../../core/containers/Container";
 
 import { ObjectToken } from "../../tokens/ObjectToken";
 import { TripleToken } from "../../tokens/TripleToken";

@@ -1,12 +1,11 @@
-import { Container } from "../data/Container";
-import { Factory } from "../data/Factory";
-import { IRIResolver } from "../data/IRIResolver";
-import { cloneElement } from "../data/utils";
+import { Container } from "../core/containers/Container";
+import { cloneElement } from "../core/containers/utils";
+import { Factory } from "../core/factories/Factory";
+import { IRIResolver } from "../core/iri/IRIResolver";
 
-import { Pattern } from "../patterns/Pattern";
 import { PatternBuilder } from "../patterns/PatternBuilder";
+import { Pattern } from "../patterns/Pattern";
 
-import { PatternToken } from "../tokens/PatternToken";
 import { QueryClauseToken } from "../tokens/QueryClauseToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { WhereToken } from "../tokens/WhereToken";
@@ -35,13 +34,6 @@ export interface WhereClause<T extends FinishClause> {
 }
 
 
-function _getPatterns( iriResolver:IRIResolver, patternFunction:( builder:PatternBuilder ) => Pattern | Pattern[] ):PatternToken[] {
-	const patternOrPatterns:Pattern | Pattern[] = patternFunction( PatternBuilder.create( iriResolver ) );
-	const patterns:Pattern[] = Array.isArray( patternOrPatterns ) ? patternOrPatterns : [ patternOrPatterns ];
-
-	return patterns.map( x => x.getPattern() );
-}
-
 /**
  * Function that creates the {@link WhereClause.where} function.
  *
@@ -55,14 +47,16 @@ function _getPatterns( iriResolver:IRIResolver, patternFunction:( builder:Patter
  */
 function getWhereFn<C extends Container<QueryToken<QueryClauseToken>>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):WhereClause<T>[ "where" ] {
 	return ( patternFunction:( builder:PatternBuilder ) => Pattern | Pattern[] ) => {
-		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
-		const patterns:PatternToken[] = _getPatterns( iriResolver, patternFunction );
+		const queryClause = cloneElement( container.targetToken.queryClause, { where: new WhereToken() } );
 
-		const query = cloneElement( container.targetToken.queryClause, { where: new WhereToken() } )
-			.addPattern( ...patterns );
+		const newContainer = cloneElement( container, {
+			iriResolver: new IRIResolver( container.iriResolver ),
+			targetToken: cloneElement( container.targetToken, { queryClause } ),
+		} );
 
-		const queryToken:QueryToken = cloneElement( container.targetToken, { queryClause: query } );
-		const newContainer = cloneElement( container, { iriResolver, targetToken: queryToken } as Partial<C> );
+		const patternsBuilder = patternFunction.call( undefined, newContainer.getBuilder() );
+		const patterns:Pattern[] = Array.isArray( patternsBuilder ) ? patternsBuilder : [ patternsBuilder ];
+		queryClause.addPattern( ...patterns.map( _ => _.getPattern() ) );
 
 		const groupClause:GroupClause<T> = GroupClause.createFrom( genericFactory, newContainer, {} );
 		return genericFactory( newContainer, groupClause );

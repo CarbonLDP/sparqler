@@ -43,9 +43,9 @@ describe( "SelectToken", ():void => {
 			expect( token.modifier ).toBe( "REDUCED" );
 		} );
 
-		it( "should initialize variables", ():void => {
+		it( "should initialize projections", ():void => {
 			const token:SelectToken = new SelectToken();
-			expect( token.variables ).toEqual( [] );
+			expect( token.projections ).toEqual( [] );
 		} );
 
 		it( "should initialize datasets", ():void => {
@@ -69,20 +69,20 @@ describe( "SelectToken", ():void => {
 
 	} );
 
-	describe( "SelectToken.addVariable", ():void => {
+	describe( "SelectToken.addProjection", ():void => {
 
 		it( "should exists", ():void => {
-			expect( SelectToken.prototype.addVariable ).toBeDefined();
-			expect( SelectToken.prototype.addVariable ).toEqual( jasmine.any( Function ) );
+			expect( SelectToken.prototype.addProjection ).toBeDefined();
+			expect( SelectToken.prototype.addProjection ).toEqual( jasmine.any( Function ) );
 		} );
 
 		it( "should add single triple", ():void => {
 			const token:SelectToken = new SelectToken();
 
 			const variable:VariableToken = new VariableToken( "var" );
-			token.addVariable( variable );
+			token.addProjection( variable );
 
-			expect( token.variables ).toEqual( [ variable ] );
+			expect( token.projections ).toEqual( [ variable ] );
 		} );
 
 		it( "should add multiple triples", ():void => {
@@ -90,28 +90,28 @@ describe( "SelectToken", ():void => {
 
 			const variable1:VariableToken = new VariableToken( "var1" );
 			const variable2:VariableToken = new VariableToken( "var2" );
-			token.addVariable( variable1, variable2 );
+			token.addProjection( variable1, variable2 );
 
-			expect( token.variables ).toEqual( [ variable1, variable2 ] );
+			expect( token.projections ).toEqual( [ variable1, variable2 ] );
 		} );
 
 		it( "should append triples added", ():void => {
 			const token:SelectToken = new SelectToken();
 
 			const firstVariable:VariableToken = new VariableToken( "first_var" );
-			token.addVariable( firstVariable );
+			token.addProjection( firstVariable );
 
 			const newVariable:VariableToken = new VariableToken( "new_var" );
-			token.addVariable( newVariable );
+			token.addProjection( newVariable );
 
-			expect( token.variables ).toEqual( [ firstVariable, newVariable ] );
+			expect( token.projections ).toEqual( [ firstVariable, newVariable ] );
 		} );
 
 		it( "should return itself", ():void => {
 			const token:SelectToken = new SelectToken();
 
 			const variable:VariableToken = new VariableToken( "var" );
-			const returnedValue:SelectToken = token.addVariable( variable );
+			const returnedValue:SelectToken = token.addProjection( variable );
 
 			expect( returnedValue ).toBe( token );
 		} );
@@ -259,10 +259,10 @@ describe( "SelectToken", ():void => {
 			expect( token.toString( 0 ) ).toEqual( "SELECT REDUCED *\nWHERE {}" );
 		} );
 
-		it( "should print the SPARQL select with variables", ():void => {
+		it( "should print the SPARQL select with projections", ():void => {
 			const token:SelectToken = new SelectToken()
-				.addVariable( new VariableToken( "subj" ) )
-				.addVariable( new VariableToken( "obj" ) )
+				.addProjection( new VariableToken( "subj" ) )
+				.addProjection( new VariableToken( "obj" ) )
 			;
 
 			expect( token.toString() ).toEqual( "" +
@@ -271,10 +271,10 @@ describe( "SelectToken", ():void => {
 			);
 		} );
 
-		it( "should print the pretty SPARQL select with variables", ():void => {
+		it( "should print the pretty SPARQL select with projections", ():void => {
 			const token:SelectToken = new SelectToken()
-				.addVariable( new VariableToken( "subj" ) )
-				.addVariable( new VariableToken( "obj" ) )
+				.addProjection( new VariableToken( "subj" ) )
+				.addProjection( new VariableToken( "obj" ) )
 			;
 
 			expect( token.toString( 0 ) ).toEqual( "" +

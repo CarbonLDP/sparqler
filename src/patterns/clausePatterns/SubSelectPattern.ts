@@ -1,7 +1,11 @@
-import { Container } from "../../data/Container";
+import { _assigmentTransformer } from "../../clauses/utils";
+
+import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
+
+import { Projectable } from "../expressions/Projectable";
 
 import { SubSelectToken } from "../../tokens/SubSelectToken";
-import { VariableToken } from "../../tokens/VariableToken";
 
 import { WherePattern } from "./WherePattern";
 
@@ -11,43 +15,43 @@ import { WherePattern } from "./WherePattern";
  */
 export interface SubSelectPattern {
 	/**
-	 * Set a list of variables to be retrieved by the sub-query.
+	 * Set a list of variables and/or assignments to be retrieved by the sub-query.
 	 *
-	 * @param variables The list of variables.
+	 * @param projections The list of variables and/or assignments.
 	 * IF no variable is provided, the behaviour will be the same
 	 * as {@link SubSelectPattern.selectAll}
 	 *
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
-	select( ...variables:string[] ):WherePattern;
+	select( ...projections:(string | Projectable)[] ):WherePattern;
 
 	/**
-	 * Set a list of variables to be retrieved by the sub-query
+	 * Set a list of variables and/or assignments to be retrieved by the sub-query
 	 * ensuring no repetitions in the set of solutions.
 	 *
-	 * @param variables The list of variables.
+	 * @param projections The list of variables and/or assignments.
 	 * IF no variable is provided, the behaviour will be the same
 	 * as {@link SubSelectPattern.selectAllDistinct}
 	 *
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
-	selectDistinct( ...variables:string[] ):WherePattern;
+	selectDistinct( ...projections:(string | Projectable)[] ):WherePattern;
 
 	/**
-	 * Set a list of variables to be retrieved by the sub-query
+	 * Set a list of variables and/or assignments to be retrieved by the sub-query
 	 * permitting eliminations of non-distinct solutions, but not
 	 * ensuring a set of unique ones.
 	 *
-	 * @param variables The list of variables.
+	 * @param projections The list of variables and/or assignments.
 	 * IF no variable is provided, the behaviour will be the same
 	 * as {@link SubSelectPattern.selectAllReduced}
 	 *
 	 * @returns Object with the methods to keep constructing the
 	 * sub-query.
 	 */
-	selectReduced( ...variables:string[] ):WherePattern;
+	selectReduced( ...projections:(string | Projectable)[] ):WherePattern;
 
 	/**
 	 * Set that the sub-query must return all the solutions for the
@@ -87,6 +91,7 @@ export interface SubSelectPattern {
  *
  * @param container The container with the query data for the statement.
  * @param modifier The optional modifier of the SELECT queries.
+ * @param limit Optional flag to limit arguments to none.
  *
  * @returns A generic "select" function that shares the
  * {@link SubSelectPattern.select} signature. It behaviour depends of
@@ -94,15 +99,15 @@ export interface SubSelectPattern {
  *
  * @private
  */
-function getSelectFn( container:Container<undefined>, modifier?:"DISTINCT" | "REDUCED" ):SubSelectPattern[ "select" ] {
-	return ( ...variables:string[] ) => {
+function getSelectFn( container:Container<undefined>, modifier?:"DISTINCT" | "REDUCED", limit?:true ):SubSelectPattern[ "select" ] {
+	return ( ...projections:(string | Projectable)[] ) => {
 		const targetToken:SubSelectToken = new SubSelectToken( modifier );
-		if( variables.length ) targetToken.addVariable( ...variables.map( x => new VariableToken( x ) ) );
 
-		const newContainer:Container<SubSelectToken> = new Container( {
-			iriResolver: container.iriResolver,
-			targetToken
-		} );
+		// Add tokens when is not limited (ALL)
+		if( !limit && projections.length )
+			targetToken.addProjection( ...projections.map( _assigmentTransformer ) );
+
+		const newContainer:Container<SubSelectToken> = cloneElement( container, { targetToken } );
 		return WherePattern.createFrom( newContainer, {} );
 	};
 }
@@ -131,9 +136,9 @@ export const SubSelectPattern:{
 			select: getSelectFn( container ),
 			selectDistinct: getSelectFn( container, "DISTINCT" ),
 			selectReduced: getSelectFn( container, "REDUCED" ),
-			selectAll: () => getSelectFn( container )(),
-			selectAllDistinct: () => getSelectFn( container, "DISTINCT" )(),
-			selectAllReduced: () => getSelectFn( container, "REDUCED" )(),
+			selectAll: getSelectFn( container, undefined, true ),
+			selectAllDistinct: getSelectFn( container, "DISTINCT", true ),
+			selectAllReduced: getSelectFn( container, "REDUCED", true ),
 		} );
 	},
 };

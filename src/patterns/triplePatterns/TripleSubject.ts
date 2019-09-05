@@ -1,5 +1,5 @@
-import { Container } from "../../data/Container";
-import { Factory } from "../../data/Factory";
+import { Container } from "../../core/containers/Container";
+import { Factory } from "../../core/factories/Factory";
 
 import { ObjectToken } from "../../tokens/ObjectToken";
 import { TripleToken } from "../../tokens/TripleToken";
@@ -36,12 +36,12 @@ export const TripleSubject:{
 	 * @return The {@link TripleSubject} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<T extends ObjectToken, C extends Container<TripleToken<T>>, O extends object>( container:C, object:O ):O & TripleSubject<T>;
+	createFrom<T extends ObjectToken, C extends Container<T>, C2 extends Container<TripleToken<T>>, O extends object>( container:C, object:O ):O & TripleSubject<T>;
 } = {
-	createFrom<T extends ObjectToken, C extends Container<TripleToken<T>>, O extends object>( container:C, object:O ):O & TripleSubject<T> {
-		const triplePatternFactory:Factory<C, TriplePattern<T>> = TriplePattern.createFrom;
+	createFrom<T extends ObjectToken, C extends Container<T>, C2 extends Container<TripleToken<T>>, O extends object>( container:C, object:O ):O & TripleSubject<T> {
+		const triplePatternFactory:Factory<C2, TriplePattern<T>> = TriplePattern.createFrom;
 		return PropertyBuilder.createFrom( triplePatternFactory, container, Object.assign( object, {
-			getSubject: () => container.targetToken.subject,
+			getSubject: () => container.targetToken,
 		} ) );
 	}
 };

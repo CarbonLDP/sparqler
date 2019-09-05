@@ -1,4 +1,7 @@
+import { BracketedExpressionToken } from "./BracketedExpressionToken";
+import { ExplicitOrderConditionToken } from "./ExplicitOrderConditionToken";
 import { OrderToken } from "./OrderToken";
+import { UnaryOperationToken } from "./UnaryOperationToken";
 import { VariableToken } from "./VariableToken";
 
 
@@ -12,37 +15,19 @@ describe( "OrderToken", ():void => {
 	describe( "OrderToken.constructor", ():void => {
 
 		it( "should be instantiable", ():void => {
-			const token:OrderToken = new OrderToken( "" );
+			const token:OrderToken = new OrderToken( [] );
 			expect( token ).toBeDefined();
 			expect( token ).toEqual( jasmine.any( OrderToken ) );
 		} );
 
-		it( "should assign the condition string", ():void => {
-			const token:OrderToken = new OrderToken( "the condition" );
-			expect( token.condition ).toBe( "the condition" );
+		it( "should assign the conditions", ():void => {
+			const conditions:OrderToken[ "conditions" ] = [];
+			const token:OrderToken = new OrderToken( conditions );
+			expect( token.conditions ).toBe( conditions );
 		} );
 
-		it( "should assign the condition variable", ():void => {
-			const variable:VariableToken = new VariableToken( "var" );
-			const token:OrderToken = new OrderToken( variable );
-			expect( token.condition ).toBe( variable );
-		} );
-
-		it( "should not assign flow order if no provided", ():void => {
-			const token:OrderToken = new OrderToken( "" );
-			expect( token.flow ).toBeUndefined();
-		} );
-
-		it( "should assign the flow provided", ():void => {
-			const token1:OrderToken = new OrderToken( "", "ASC" );
-			expect( token1.flow ).toBe( "ASC" );
-
-			const token2:OrderToken = new OrderToken( "", "DESC" );
-			expect( token2.flow ).toBe( "DESC" );
-		} );
-
-		it( "should assign `order` as token name", ():void => {
-			const token:OrderToken = new OrderToken( "" );
+		it( "should assign the token name", ():void => {
+			const token:OrderToken = new OrderToken( [] );
 			expect( token.token ).toBe( "order" );
 		} );
 
@@ -55,19 +40,30 @@ describe( "OrderToken", ():void => {
 			expect( OrderToken.prototype.toString ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "should return the SPARQL order statement when no flor order", ():void => {
-			const token:OrderToken = new OrderToken( new VariableToken( "var" ) );
-			expect( token.toString() ).toBe( "ORDER BY ?var" );
+
+		it( "should print the SPARQL statement with Variable", ():void => {
+			const token:OrderToken = new OrderToken( [ new VariableToken( "foo" ) ] );
+			expect( token.toString() ).toBe( "ORDER BY ?foo" );
 		} );
 
-		it( "should return the SPARQL order statement with ascending order", ():void => {
-			const token:OrderToken = new OrderToken( new VariableToken( "var" ), "ASC" );
-			expect( token.toString() ).toBe( "ORDER BY ASC( ?var )" );
+		it( "should compact print the SPARQL statement with Expression", ():void => {
+			const token:OrderToken = new OrderToken( [ new BracketedExpressionToken( new UnaryOperationToken( "!", new VariableToken( "foo" ) ) ) ] );
+			expect( token.toString() ).toBe( "ORDER BY (!?foo)" );
 		} );
 
-		it( "should return the SPARQL order statement with descending order", ():void => {
-			const token:OrderToken = new OrderToken( new VariableToken( "var" ), "DESC" );
-			expect( token.toString() ).toBe( "ORDER BY DESC( ?var )" );
+		it( "should pretty print the SPARQL statement with Expression", ():void => {
+			const token:OrderToken = new OrderToken( [ new BracketedExpressionToken( new UnaryOperationToken( "!", new VariableToken( "foo" ) ) ) ] );
+			expect( token.toString( 0 ) ).toBe( "ORDER BY ( ! ?foo )" );
+		} );
+
+		it( "should compact print the SPARQL statement with explicit order", ():void => {
+			const token:OrderToken = new OrderToken( [ new ExplicitOrderConditionToken( "DESC", new BracketedExpressionToken( new UnaryOperationToken( "!", new VariableToken( "foo" ) ) ) ) ] );
+			expect( token.toString() ).toBe( "ORDER BY DESC (!?foo)" );
+		} );
+
+		it( "should pretty print the SPARQL statement with explicit order", ():void => {
+			const token:OrderToken = new OrderToken( [ new ExplicitOrderConditionToken( "DESC", new BracketedExpressionToken( new UnaryOperationToken( "!", new VariableToken( "foo" ) ) ) ) ] );
+			expect( token.toString( 0 ) ).toBe( "ORDER BY DESC ( ! ?foo )" );
 		} );
 
 	} );

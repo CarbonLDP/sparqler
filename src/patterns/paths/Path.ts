@@ -1,10 +1,10 @@
-import { Container } from "../../data/Container";
+import { Container } from "../../core/containers/Container";
 
 import { PathToken } from "../../tokens/PathToken";
 
 
 /**
- * Object that contains the a property path.
+ * Object that contains a property path.
  */
 export interface Path<T extends PathToken = PathToken> {
 	getPath():T;

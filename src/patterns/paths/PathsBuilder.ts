@@ -1,9 +1,10 @@
-import { Container } from "../../data/Container";
+import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
+
+import { Resource } from "../triplePatterns/Resource";
 
 import { IRIToken } from "../../tokens/IRIToken";
 import { PathToken } from "../../tokens/PathToken";
-
-import { Resource } from "../triplePatterns/Resource";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";
@@ -23,8 +24,7 @@ export interface PathsBuilder {
 
 
 function _getContainer<T extends PathToken | undefined>( container:Container<undefined>, targetToken?:T ):FluentPathContainer<T> {
-	return new FluentPathContainer<T>( {
-		...container,
+	return cloneElement( container, {
 		targetToken: targetToken!,
 		fluentPathFactory: FluentPath.createFrom,
 		deniableFluentPathFactory: DeniableFluentPath.createFrom,

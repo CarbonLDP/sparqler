@@ -2,6 +2,12 @@ export { FinishPattern } from "./clausePatterns/FinishPattern"
 export { SubSelectPattern } from "./clausePatterns/SubSelectPattern"
 export { WherePattern } from "./clausePatterns/WherePattern"
 
+export { Expression } from "./expressions/Expression";
+export { ExpressionsBuilder } from "./expressions/ExpressionsBuilder";
+export { FunctionExpressionsBuilder } from "./expressions/FunctionExpressionsBuilder";
+export { OperationExpressionsBuilder } from "./expressions/OperationExpressionsBuilder";
+export { Projectable } from "./expressions/Projectable";
+
 export { NotTriplePattern } from "./notTriplePatterns/NotTriplePattern"
 export { BindPattern } from "./notTriplePatterns/BindPattern"
 export { FilterPattern } from "./notTriplePatterns/FilterPattern"
@@ -13,6 +19,9 @@ export { OptionalPattern } from "./notTriplePatterns/OptionalPattern"
 export { ServicePattern } from "./notTriplePatterns/ServicePattern"
 export { SingleValuesPattern } from "./notTriplePatterns/SingleValuesPattern"
 export { UnionPattern } from "./notTriplePatterns/UnionPattern"
+
+export { OrderBuilder } from "./orders/OrderBuilder";
+export { OrderCondition } from "./orders/OrderCondition";
 
 export { DeniableFluentPath } from "./paths/DeniableFluentPath";
 export { FluentPath } from "./paths/FluentPath";
