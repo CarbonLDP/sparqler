@@ -23,22 +23,24 @@ export interface PatternBuilder extends TriplePatternsBuilder, NotTriplePatterns
 	 * Creates an operation {@link Expression} that returns the numeric
 	 * {@param expression} with its sing reversed.
 	 *
-	 * _Conflict with {@link NotTriplePatternsBuilder.minus}_
-	 * See {@link OperationExpressionsBuilder.minus} for the original method.
+	 * _Conflict with {@link NotTriplePatternsBuilder#minus `NotTriplePattersBuilder.minus`}_
+	 * See {@link OperationExpressionsBuilder#minus `OperationExpressionsBuilder.minus`} for the original method.
 	 *
 	 * @param expression - Numeric expression to return with the sign reversed.
 	 */
+	//TODO: Fix link syntax
 	minus( expression:Expression | SupportedNativeTypes ):Expression;
 	/**
 	 * Creates a {@link MinusPattern} for the patterns specified
 	 * which will be excluded from the query.
 	 *
-	 * _Conflict with {@link OperationExpressionsBuilder.minus}_
-	 * See {@link NotTriplePatternsBuilder.minus} for the original method.
+	 * _Conflict with {@link OperationExpressionsBuilder#minus `OperationExpressionsBuilder.minus`}_
+	 * See {@link NotTriplePatternsBuilder#minus `NotTriplePattersBuilder.minus`} for the original method.
 	 *
 	 * @param patterns The patterns to be enclosed in a minus
 	 * group.
 	 */
+	//TODO: Fix link syntax
 	minus( patterns:Pattern | Pattern[] ):MinusPattern;
 }
 
