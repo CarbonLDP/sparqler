@@ -1,3 +1,4 @@
+import { ConstraintToken } from "./ConstraintToken";
 import { TokenNode } from "./TokenNode";
 
 
@@ -9,14 +10,18 @@ import { TokenNode } from "./TokenNode";
 export class HavingToken implements TokenNode {
 	readonly token:"having" = "having";
 
-	readonly rawCondition:string;
+	readonly conditions:ConstraintToken[];
 
-	constructor( rawCondition:string ) {
-		this.rawCondition = rawCondition;
+	constructor( conditions:ConstraintToken[] ) {
+		this.conditions = conditions;
 	}
 
 
 	toString( spaces?:number ):string {
-		return `HAVING ${ this.rawCondition }`;
+		const conditionsStr = this.conditions
+			.map( _ => _.toString( spaces ) )
+			.join( " " );
+
+		return `HAVING ${ conditionsStr }`;
 	}
 }

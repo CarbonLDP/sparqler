@@ -1,3 +1,4 @@
+import { AssigmentToken } from "./AssigmentToken";
 import { SharedQueryClauseToken } from "./SharedQueryClauseToken";
 import { VariableToken } from "./VariableToken";
 
@@ -10,18 +11,18 @@ export abstract class SharedSelectToken extends SharedQueryClauseToken {
 	abstract readonly token:string;
 
 	readonly modifier?:"DISTINCT" | "REDUCED";
-	readonly variables:VariableToken[];
+	readonly projections:(VariableToken | AssigmentToken)[];
 
 	protected constructor( modifier?:"DISTINCT" | "REDUCED" ) {
 		super();
 
 		this.modifier = modifier;
-		this.variables = [];
+		this.projections = [];
 	}
 
 
-	addVariable( ...variables:VariableToken[] ):this {
-		this.variables.push( ...variables );
+	addProjection( ...projections:(VariableToken | AssigmentToken)[] ):this {
+		this.projections.push( ...projections );
 		return this;
 	}
 
@@ -31,9 +32,13 @@ export abstract class SharedSelectToken extends SharedQueryClauseToken {
 
 		if( this.modifier ) query += ` ${ this.modifier }`;
 
-		query += this.variables.length ?
-			` ${ this.variables.join( " " ) }` :
-			" *";
+		if( this.projections.length ) {
+			query += " " + this.projections
+				.map( _ => _.toString( spaces ) )
+				.join( " " )
+		} else {
+			query += " *";
+		}
 
 		return query;
 	}

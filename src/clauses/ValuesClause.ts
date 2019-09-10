@@ -1,14 +1,15 @@
-import { Container } from "../data/Container";
-import { Factory } from "../data/Factory";
-import { IRIResolver } from "../data/IRIResolver";
-import { cloneElement } from "../data/utils";
+import { Container } from "../core/containers/Container";
+import { cloneElement } from "../core/containers/utils";
+import { Factory } from "../core/factories/Factory";
+import { IRIResolver } from "../core/iri/IRIResolver";
 
 import { PatternBuilder } from "../patterns/PatternBuilder";
-import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
+import { _valuesTransformerFn } from "../patterns/notTriplePatterns/fns/utils";
 import { Literal } from "../patterns/triplePatterns/Literal";
 import { Resource } from "../patterns/triplePatterns/Resource";
 import { Undefined } from "../patterns/Undefined";
-import { convertValue } from "../patterns/utils";
+
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
@@ -79,13 +80,13 @@ function _normalizeVariables( variableOrVariables:string | string [] ):VariableT
 	return variables.map( x => new VariableToken( x ) );
 }
 
-function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIResolver, isSingle:boolean ):Values[][] {
+function _normalizeRawValues( container:Container<any>, valuesOrBuilder:ValuesOrBuilder, isSingle:boolean ):Values[][] {
 	let rawValues:Values | (Values | Values[])[] = typeof valuesOrBuilder === "function" ?
-		valuesOrBuilder( PatternBuilder.create( iriResolver ) ) :
+		valuesOrBuilder( container.getBuilder() ) :
 		valuesOrBuilder;
 
 	// When single variable
-	if( ! Array.isArray( rawValues ) )
+	if( !Array.isArray( rawValues ) )
 		return [ [ rawValues ] ];
 
 	if( isSingle )
@@ -112,18 +113,20 @@ function _normalizeRawValues( valuesOrBuilder:ValuesOrBuilder, iriResolver:IRIRe
  */
 function createValuesFn<C extends Container<QueryToken | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):ValuesClause<T>[ "values" ] {
 	return ( variableOrVariables:string | string [], valuesOrBuilder:ValuesOrBuilder ) => {
-		const token:ValuesToken = new ValuesToken();
+		const valuesToken:ValuesToken = new ValuesToken();
+
+		const newContainer = cloneElement( container, {
+			iriResolver: new IRIResolver( container.iriResolver ),
+			targetToken: cloneElement( container.targetToken, { values: valuesToken } ),
+		} );
 
 		const variables:VariableToken[] = _normalizeVariables( variableOrVariables );
-		token.addVariables( ...variables );
+		valuesToken.addVariables( ...variables );
 
-		const isSingle:boolean = ! Array.isArray( variableOrVariables );
-		const iriResolver:IRIResolver = new IRIResolver( container.iriResolver );
-		const values:Values[][] = _normalizeRawValues( valuesOrBuilder, iriResolver, isSingle );
-		values.forEach( ( valuesRow ) => token.addValues( ...valuesRow.map( convertValue ) ) );
+		const isSingle:boolean = !Array.isArray( variableOrVariables );
+		const values:Values[][] = _normalizeRawValues( newContainer, valuesOrBuilder, isSingle );
+		values.forEach( ( valuesRow ) => valuesToken.addValues( ...valuesRow.map( _valuesTransformerFn( container ) ) ) );
 
-		const targetToken = cloneElement( container.targetToken, { values: token } );
-		const newContainer = cloneElement( container, { iriResolver, targetToken } as Partial<C> );
 		return genericFactory( newContainer, {} );
 	}
 }

@@ -1,20 +1,17 @@
 import { spyContainers } from "../../../test/spies/clones";
 
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../../core/containers/Container";
+import { IRIResolver } from "../../core/iri/IRIResolver";
 
 import { IRIRefToken } from "../../tokens/IRIRefToken";
-import { getIRIToken } from "../../tokens/IRIToken";
 import { LiteralToken } from "../../tokens/LiteralToken";
 import { RDFLiteralToken } from "../../tokens/RDFLiteralToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 
 import { XSD } from "../../utils/XSD";
 
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";
-import { TripleSubject } from "../triplePatterns/TripleSubject";
 
 import { SingleValuesPattern, SingleValuesPatternMore } from "./SingleValuesPattern";
 
@@ -41,16 +38,16 @@ describe( "SingleValuesPattern", () => {
 	} );
 
 	function getResource( iri:string ):Resource {
-		return TripleSubject.createFrom( new Container( {
+		return Resource.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 
 	function getLiteral( value:string ):Literal {
-		return TripleSubject.createFrom( new Container( {
+		return Literal.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new LiteralToken( value ) ),
+			targetToken: new LiteralToken( value ),
 		} ), {} );
 	}
 
@@ -143,7 +140,7 @@ describe( "SingleValuesPattern", () => {
 
 			const newContainer:Container<ValuesToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.values )
-				.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
+				.toContain( [ new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ) ] );
 		} );
 
 		it( "should add Resource value", () => {
@@ -181,11 +178,15 @@ describe( "SingleValuesPatternMore", () => {
 		expect( SingleValuesPatternMore ).toEqual( jasmine.any( Object ) );
 	} );
 
+	let firstMockValues:any[];
 	let container:Container<ValuesToken>;
 	beforeEach( () => {
+		firstMockValues = [ "Value that will not be matched" ];
+
 		container = new Container( {
 			iriResolver: new IRIResolver(),
 			targetToken: new ValuesToken()
+				.addValues( ...firstMockValues )
 		} );
 
 		spyContainers.install();
@@ -196,16 +197,16 @@ describe( "SingleValuesPatternMore", () => {
 	} );
 
 	function getResource( iri:string ):Resource {
-		return TripleSubject.createFrom( new Container( {
+		return Resource.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 
 	function getLiteral( value:string ):Literal {
-		return TripleSubject.createFrom( new Container( {
+		return Literal.createFrom( new Container( {
 			iriResolver: container.iriResolver,
-			targetToken: new SubjectToken( new LiteralToken( value ) ),
+			targetToken: new LiteralToken( value ),
 		} ), {} );
 	}
 
@@ -273,7 +274,7 @@ describe( "SingleValuesPatternMore", () => {
 
 		it( "should not mutate container token", () => {
 			pattern.and( "val" );
-			expect( container.targetToken.values ).toEqual( [] );
+			expect( container.targetToken.values ).toEqual( [ firstMockValues ] );
 		} );
 
 		it( "should add string value", () => {
@@ -298,7 +299,7 @@ describe( "SingleValuesPatternMore", () => {
 
 			const newContainer:Container<ValuesToken> = spyContainers.getLast();
 			expect( newContainer.targetToken.values )
-				.toContain( [ new RDFLiteralToken( date.toISOString(), getIRIToken( XSD.dateTime ) ) ] );
+				.toContain( [ new RDFLiteralToken( date.toISOString(), new IRIRefToken( XSD.dateTime ) ) ] );
 		} );
 
 		it( "should add Resource value", () => {

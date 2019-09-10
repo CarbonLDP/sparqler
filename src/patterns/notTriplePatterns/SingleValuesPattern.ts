@@ -1,15 +1,15 @@
-import { Container } from "../../data/Container";
-import { cloneElement } from "../../data/utils";
-
-import { ValuesToken } from "../../tokens/ValuesToken";
+import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
 
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
+
+import { ValuesToken } from "../../tokens/ValuesToken";
 
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";
 
 import { Undefined } from "../Undefined";
-import { convertValue } from "../utils";
+import { _valuesTransformerFn } from "./fns/utils";
 
 import { NotTriplePattern } from "./NotTriplePattern";
 
@@ -39,13 +39,14 @@ export interface SingleValuesPatternMore extends NotTriplePattern<ValuesToken> {
  * @private
  */
 function getHasFn<C extends Container<ValuesToken>>( container:C ):SingleValuesPattern[ "has" ] {
+	const transformer = _valuesTransformerFn( container );
+
 	return value => {
 		const values = container.targetToken.values.slice();
-		if( ! values.length ) values.push( [] );
-		values[ 0 ] = values[ 0 ].concat( convertValue( value as SupportedNativeTypes ) );
+		values.push( [ transformer( value ) ] );
 
 		const targetToken = cloneElement( container.targetToken, { values } );
-		const newContainer = cloneElement( container, { targetToken } as Partial<C> );
+		const newContainer = cloneElement( container, { targetToken } );
 
 		return SingleValuesPatternMore.createFrom( newContainer, {} );
 	};

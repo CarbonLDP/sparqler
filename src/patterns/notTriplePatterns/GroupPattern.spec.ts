@@ -1,9 +1,9 @@
 import { MockPattern } from "../../../test/mocks/MockPattern";
 import { MockPatternToken } from "../../../test/mocks/MockPatternToken";
-import { spyContainers } from "../../../test/spies/Container";
+import { spyContainers } from "../../../test/spies/clones";
 
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../../core/containers/Container";
+import { IRIResolver } from "../../core/iri/IRIResolver";
 
 import { GroupPatternToken } from "../../tokens/GroupPatternToken";
 import { UnionPatternToken } from "../../tokens/UnionPatternToken";

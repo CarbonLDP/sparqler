@@ -1,13 +1,18 @@
-import { Container } from "../data/Container";
-import { Factory } from "../data/Factory";
-import { cloneElement } from "../data/utils";
+import { Container } from "../core/containers/Container";
+import { cloneElement } from "../core/containers/utils";
+import { Factory } from "../core/factories/Factory";
+import { IRIResolver } from "../core/iri/IRIResolver";
+
+import { Projectable } from "../patterns/expressions/Projectable";
+import { PatternBuilder } from "../patterns/PatternBuilder";
 
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
-import { VariableToken } from "../tokens/VariableToken";
 
 import { FinishClause } from "./FinishClause";
 import { FromClause } from "./FromClause";
+
+import { _assigmentTransformer } from "./utils";
 
 
 /**
@@ -19,11 +24,27 @@ export interface SelectClause<T extends FinishClause> {
 	 *
 	 * @param variables The list of variables.
 	 * IF no variable is provided, the behaviour will be the same
+<<<<<<< HEAD
 	 * as {@link SelectClause#selectAll `SelectClause.selectAll`}
+=======
+	 * as {@link SelectClause.selectAll}
+	 *
+>>>>>>> master
 	 * @returns Object with the methods to keep constructing the query.
 	 */
 	 // TODO: Fix link syntax
 	select( ...variables:string[] ):FromClause<T>;
+	/**
+	 * Set a list of variables, constructed by the builder helper,
+	 * to be retrieved by the query.
+	 *
+	 * @param variablesFunction Function that retrieves the variables and assignments..
+	 * IF no variable is provided, the behaviour will be the same
+	 * as {@link SelectClause.selectAll}
+	 *
+	 * @returns Object with the methods to keep constructing the query.
+	 */
+	select( variablesFunction:( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
 	 * Set a list of variables to be retrieved by the query ensuring no
@@ -36,6 +57,18 @@ export interface SelectClause<T extends FinishClause> {
 	 */
 	 // TODO: Fix link syntax
 	selectDistinct( ...variables:string[] ):FromClause<T>;
+	/**
+	 * Set a list of variables, constructed by the builder helper,
+	 * to be retrieved by the query ensuring no
+	 * repetitions in the set of solutions.
+	 *
+	 * @param variablesFunction Function that retrieves the variables and assignments..
+	 * IF no variable is provided, the behaviour will be the same
+	 * as {@link SelectClause.selectAllDistinct}
+	 *
+	 * @returns Object with the methods to keep constructing the query.
+	 */
+	selectDistinct( variablesFunction:( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
 	 * Set a list of variables to be retrieved by the query permitting
@@ -49,6 +82,19 @@ export interface SelectClause<T extends FinishClause> {
 	 */
 	 // TODO: Fix link syntax
 	selectReduced( ...variables:string[] ):FromClause<T>;
+	/**
+	 * Set a list of variables, constructed by the builder helper,
+	 * to be retrieved by the query permitting
+	 * eliminations of non-distinct solutions, but not ensuring a set of
+	 * unique ones.
+	 *
+	 * @param variablesFunction Function that retrieves the variables and assignments..
+	 * IF no variable is provided, the behaviour will be the same
+	 * as {@link SelectClause.selectAllReduced}
+	 *
+	 * @returns Object with the methods to keep constructing the query.
+	 */
+	selectDistinct( variablesFunction:( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
 	 * Set that the query must return all the solutions for the variables
@@ -86,22 +132,37 @@ export interface SelectClause<T extends FinishClause> {
  * that the {@link SelectClause} receives.
  * @param container The container with the query data for the statement.
  * @param modifier The optional modifier of the SELECT queries.
+ * @param limit Optional flag to limit arguments to none.
  *
  * @returns A generic "select" function that shares the {@link SelectClause.select} signature.
  * It behaviour depends of the {@param modifier} set.
  *
  * @private
  */
-function getSelectFn<C extends Container<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED" ):SelectClause<T>[ "select" ] {
-	return ( ...variables:string[] ) => {
+function getSelectFn<C extends Container<QueryToken>, T extends FinishClause>( genericFactory:Factory<Container<QueryToken<SelectToken>>, T>, container:C, modifier?:"DISTINCT" | "REDUCED", limit?:true ):SelectClause<T>[ "select" ] {
+	return ( variableOrFunction?:string | (( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[]), ...variables:(string | Projectable)[] ) => {
 		const queryClause:SelectToken = new SelectToken( modifier );
-		if( variables.length ) queryClause.addVariable( ...variables.map( x => new VariableToken( x ) ) );
-
-		const queryToken:QueryToken<SelectToken> = cloneElement( container.targetToken, { queryClause } );
 		const newContainer:Container<QueryToken<SelectToken>> = new Container( {
-			iriResolver: container.iriResolver,
-			targetToken: queryToken,
+			iriResolver: new IRIResolver( container.iriResolver ),
+			targetToken: cloneElement( container.targetToken, { queryClause } ),
 		} );
+
+		// Executes builder function
+		if( typeof variableOrFunction === "function" ) {
+			const builder = newContainer.getBuilder();
+			const varBuilder = variableOrFunction.call( undefined, builder );
+			variables = Array.isArray( varBuilder ) ? varBuilder : [ varBuilder ];
+
+		} else if( variableOrFunction !== undefined ) {
+			// Add variable to the array when valid value
+			variables.unshift( variableOrFunction );
+		}
+
+		// Add tokens when is not limited (ALL)
+		if( !limit && variables.length ) {
+			const tokens = variables.map( _assigmentTransformer );
+			queryClause.addProjection( ...tokens );
+		}
 
 		return FromClause.createFrom( genericFactory, newContainer, {} );
 	};
@@ -133,9 +194,9 @@ export const SelectClause:{
 			select: getSelectFn( genericFactory, container ),
 			selectDistinct: getSelectFn( genericFactory, container, "DISTINCT" ),
 			selectReduced: getSelectFn( genericFactory, container, "REDUCED" ),
-			selectAll: () => getSelectFn( genericFactory, container )(),
-			selectAllDistinct: () => getSelectFn( genericFactory, container, "DISTINCT" )(),
-			selectAllReduced: () => getSelectFn( genericFactory, container, "REDUCED" )(),
+			selectAll: getSelectFn( genericFactory, container, undefined, true ),
+			selectAllDistinct: getSelectFn( genericFactory, container, "DISTINCT", true ),
+			selectAllReduced: getSelectFn( genericFactory, container, "REDUCED", true ),
 		} );
 	},
 };

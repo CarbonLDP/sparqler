@@ -1,11 +1,16 @@
 import { spyContainers } from "../../test/spies/clones";
 
-import { Container } from "../data/Container";
-import { IRIResolver } from "../data/IRIResolver";
+import { Container } from "../core/containers/Container";
+import { IRIResolver } from "../core/iri/IRIResolver";
 
+import { BracketedExpressionToken } from "../tokens/BracketedExpressionToken";
+import { ExpressionListToken } from "../tokens/ExpressionListToken";
+import { FunctionToken } from "../tokens/FunctionToken";
 import { HavingToken } from "../tokens/HavingToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";
+import { UnaryOperationToken } from "../tokens/UnaryOperationToken";
+import { VariableToken } from "../tokens/VariableToken";
 
 import { FinishClause } from "./FinishClause";
 import { HavingClause } from "./HavingClause";
@@ -116,12 +121,32 @@ describe( "HavingClause", () => {
 				.toContain( jasmine.any( HavingToken ) );
 		} );
 
-		it( "should add HAVING token with the condition", () => {
-			havingClause.having( "raw condition" );
+		it( "should add GROUP BY token with a Function", () => {
+			havingClause.having( _ => _.isIRI( _.var( "foo" ) ) );
 
-			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getLast();
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
 			expect( newContainer.targetToken.queryClause.modifiers )
-				.toContain( new HavingToken( "raw condition" ) );
+				.toContain( new HavingToken( [
+					new FunctionToken(
+						"isIRI",
+						new ExpressionListToken( [ new VariableToken( "foo" ) ] )
+					),
+				] ) );
+		} );
+
+		it( "should add GROUP BY token with another Expression", () => {
+			havingClause.having( _ => _.not( _.var( "foo" ) ) );
+
+			const newContainer:Container<QueryToken<SelectToken>> = spyContainers.getFirst();
+			expect( newContainer.targetToken.queryClause.modifiers )
+				.toContain( new HavingToken( [
+					new BracketedExpressionToken(
+						new UnaryOperationToken(
+							"!",
+							new VariableToken( "foo" )
+						)
+					),
+				] ) );
 		} );
 
 	} );

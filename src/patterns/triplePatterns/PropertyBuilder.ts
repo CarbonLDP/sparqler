@@ -1,21 +1,23 @@
-import { Container } from "../../data/Container";
-import { Factory } from "../../data/Factory";
-import { cloneElement } from "../../data/utils";
-
-import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
-import { PathToken } from "../../tokens/PathToken";
-import { PropertyToken } from "../../tokens/PropertyToken";
-import { TripleToken } from "../../tokens/TripleToken";
-import { VariableToken } from "../../tokens/VariableToken";
+import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
+import { Factory } from "../../core/factories/Factory";
 
 import { Path } from "../paths/Path";
 import { getPropertyToken } from "../paths/utils";
 
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
-import { convertValue } from "../utils";
+
+import { BlankNodePropertyToken } from "../../tokens/BlankNodePropertyToken";
+import { ObjectToken } from "../../tokens/ObjectToken";
+import { PathToken } from "../../tokens/PathToken";
+import { PropertyToken } from "../../tokens/PropertyToken";
+import { SubjectToken } from "../../tokens/SubjectToken";
+import { TripleToken } from "../../tokens/TripleToken";
+import { VariableToken } from "../../tokens/VariableToken";
 
 import { BlankNodeProperty } from "./BlankNodeProperty";
 import { Collection } from "./Collection";
+import { _subjectTransformerFn } from "./fns/utils";
 import { Literal } from "./Literal";
 import { Resource } from "./Resource";
 import { Variable } from "./Variable";
@@ -57,12 +59,28 @@ type Objects = SupportedNativeTypes | Resource | Variable | Literal | Collection
 function _cloneContainer<C extends Container<TripleToken | BlankNodePropertyToken>>( container:C, propertyToken:PropertyToken ):C {
 	const properties = container.targetToken.properties.concat( propertyToken );
 	const targetToken = cloneElement( container.targetToken, { properties } );
-	return cloneElement( container, { targetToken } as Partial<C> );
+	return cloneElement( container, { targetToken } );
 }
 
 function _updateContainer<C extends Container<TripleToken | BlankNodePropertyToken>>( container:C, propertyToken:PropertyToken ):C {
 	container.targetToken.properties.push( propertyToken );
 	return container;
+}
+
+function _getNewContainer<C extends Container<TripleToken | ObjectToken>, C2 extends Container<TripleToken | BlankNodePropertyToken>>( container:C, property:PropertyToken ):C2 {
+	if( container.targetToken.token === "subject" ) {
+		return _cloneContainer( container as Container<TripleToken>, property ) as C2;
+	}
+
+	// TODO: Is this the best solution?
+	if( container.targetToken.token === "blankNodeProperty" ) {
+		return _updateContainer( container as Container<BlankNodePropertyToken>, property ) as any as C2;
+	}
+
+	const newContainer:Container<TripleToken> = cloneElement( container, {
+		targetToken: new SubjectToken( container.targetToken ),
+	} );
+	return _updateContainer( newContainer, property ) as C2;
 }
 
 /**
@@ -74,17 +92,15 @@ function _updateContainer<C extends Container<TripleToken | BlankNodePropertyTok
  *
  * @private
  */
-function getHasFn<T extends object, C extends Container<TripleToken | BlankNodePropertyToken>>( genericFactory:Factory<C, T>, container:C ):PropertyBuilder<T>[ "has" ] {
+function getHasFn<T extends object, C extends Container<TripleToken | ObjectToken>, C2 extends Container<TripleToken | BlankNodePropertyToken>>( genericFactory:Factory<C2, T>, container:C ):PropertyBuilder<T>[ "has" ] {
 	return ( property:string | Variable | Resource | Path, objects:Objects | Objects[] ) => {
 		const verbToken:VariableToken | PathToken = getPropertyToken( container, property );
 		const propertyToken:PropertyToken = new PropertyToken( verbToken );
 
 		objects = Array.isArray( objects ) ? objects : [ objects ];
-		propertyToken.addObject( ...objects.map( convertValue ) );
+		propertyToken.addObject( ...objects.map( _subjectTransformerFn( container ) ) );
 
-		const newContainer = container.targetToken.token === "subject" ?
-			_cloneContainer( container, propertyToken ) :
-			_updateContainer( container, propertyToken );
+		const newContainer:C2 = _getNewContainer( container, propertyToken );
 
 		const genericObject:T = genericFactory( newContainer, {} );
 		return PropertyBuilderMore.createFrom( genericFactory, newContainer, genericObject );
@@ -110,9 +126,9 @@ export const PropertyBuilder:{
 	 * @return The {@link PropertyBuilder} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<T extends object, C extends Container<TripleToken | BlankNodePropertyToken>, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & PropertyBuilder<T>;
+	createFrom<T extends object, C extends Container<ObjectToken>, C2 extends Container<TripleToken>, O extends object>( genericFactory:Factory<C2, T>, container:C, object:O ):O & PropertyBuilder<T>;
 } = {
-	createFrom<T extends object, C extends Container<TripleToken | BlankNodePropertyToken>, O extends object>( genericFactory:Factory<C, T>, container:C, object:O ):O & PropertyBuilder<T> {
+	createFrom<T extends object, C extends Container<ObjectToken>, C2 extends Container<TripleToken>, O extends object>( genericFactory:Factory<C2, T>, container:C, object:O ):O & PropertyBuilder<T> {
 		return Object.assign( object, {
 			has: getHasFn( genericFactory, container ),
 		} );

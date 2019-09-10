@@ -105,7 +105,6 @@
       <option name="RIGHT_MARGIN" value="125" />
       <option name="BLANK_LINES_AROUND_METHOD_IN_INTERFACE" value="0" />
       <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
-      <option name="SPACE_AROUND_UNARY_OPERATOR" value="true" />
       <option name="SPACE_WITHIN_METHOD_CALL_PARENTHESES" value="true" />
       <option name="SPACE_WITHIN_METHOD_PARENTHESES" value="true" />
       <option name="SPACE_WITHIN_IF_PARENTHESES" value="true" />

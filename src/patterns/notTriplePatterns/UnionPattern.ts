@@ -1,5 +1,5 @@
-import { Container } from "../../data/Container";
-import { cloneElement } from "../../data/utils";
+import { Container } from "../../core/containers/Container";
+import { cloneElement } from "../../core/containers/utils";
 
 import { GroupPatternToken } from "../../tokens/GroupPatternToken";
 import { UnionPatternToken } from "../../tokens/UnionPatternToken";
@@ -29,12 +29,9 @@ function getAndFn( container:Container<UnionPatternToken> ):UnionPattern[ "and" 
 		newGroupToken.patterns.push( ...patterns.map( x => x.getPattern() ) );
 
 		const groupPatterns = container.targetToken.groupPatterns.concat( newGroupToken );
-		const unionToken:UnionPatternToken = cloneElement( container.targetToken, { groupPatterns } );
+		const targetToken:UnionPatternToken = cloneElement( container.targetToken, { groupPatterns } );
 
-		const newContainer = new Container( {
-			iriResolver: container.iriResolver,
-			targetToken: unionToken,
-		} );
+		const newContainer:Container<UnionPatternToken> = cloneElement( container, { targetToken } );
 		return UnionPattern.createFrom( newContainer, {} );
 	}
 }

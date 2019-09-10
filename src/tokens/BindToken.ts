@@ -1,3 +1,4 @@
+import { AssigmentToken } from "./AssigmentToken";
 import { TokenNode } from "./TokenNode";
 import { VariableToken } from "./VariableToken";
 
@@ -10,16 +11,14 @@ import { VariableToken } from "./VariableToken";
 export class BindToken implements TokenNode {
 	readonly token:"bind" = "bind";
 
-	readonly expression:string;
-	readonly variable:VariableToken;
+	readonly assigment:AssigmentToken;
 
-	constructor( expression:string, variable:VariableToken ) {
-		this.expression = expression;
-		this.variable = variable;
+	constructor( assigment:AssigmentToken ) {
+		this.assigment = assigment;
 	}
 
 
 	toString( spaces?:number ):string {
-		return `BIND(${ this.expression } AS ${ this.variable })`;
+		return `BIND${ this.assigment.toString( spaces ) }`;
 	}
 }

@@ -1,11 +1,16 @@
+import { cloneElement } from "../../../core/containers/utils";
+
+import { Resource } from "../../triplePatterns/Resource";
+
 import { PathModToken } from "../../../tokens/PathModToken";
 import { PathPrimaryToken } from "../../../tokens/PathPrimaryToken";
 import { PathToken } from "../../../tokens/PathToken";
-import { Resource } from "../../triplePatterns/Resource";
+
 import { FluentPath } from "../FluentPath";
 import { FluentPathContainer } from "../FluentPathContainer";
 import { Path } from "../Path";
 import { getPropertyToken } from "../utils";
+
 import { _getTokenWrapper } from "./utils";
 
 
@@ -26,10 +31,7 @@ export function getModFn( container:FluentPathContainer<undefined | PathToken>, 
 		const inModToken:PathPrimaryToken = _getInModToken( token );
 		const targetToken:PathModToken = new PathModToken( inModToken, mod );
 
-		const newContainer:FluentPathContainer<PathModToken> = new FluentPathContainer( {
-			...container,
-			targetToken,
-		} );
+		const newContainer:FluentPathContainer<PathModToken> = cloneElement( container, { targetToken } );
 
 		return container.fluentPathFactory( newContainer, {} );
 	};

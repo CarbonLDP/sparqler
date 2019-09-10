@@ -1,9 +1,11 @@
+import { cloneElement } from "../../../core/containers/utils";
+
+import { Resource } from "../../triplePatterns/Resource";
+
 import { PathAlternativeToken } from "../../../tokens/PathAlternativeToken";
 import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
 import { PathNegatedToken } from "../../../tokens/PathNegatedToken";
 import { SubPathInNegatedToken } from "../../../tokens/SubPathInNegatedToken";
-
-import { Resource } from "../../triplePatterns/Resource";
 
 import { FluentPath } from "../FluentPath";
 import { FluentPathContainer } from "../FluentPathContainer";
@@ -39,10 +41,7 @@ export function getNegatedFn( container:FluentPathContainer<undefined | PathInNe
 		const inNegatedToken:PathInNegatedToken | SubPathInNegatedToken = _getInNegatedToken( token );
 		const targetToken:PathNegatedToken = new PathNegatedToken( inNegatedToken );
 
-		const newContainer:FluentPathContainer<PathNegatedToken> = new FluentPathContainer( {
-			...container,
-			targetToken,
-		} );
+		const newContainer:FluentPathContainer<PathNegatedToken> = cloneElement( container, { targetToken } );
 
 		return container.fluentPathFactory( newContainer, {} );
 	}

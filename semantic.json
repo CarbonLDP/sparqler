@@ -19,5 +19,5 @@
   "autoInstall": false,
   "rtl": false,
   "components": ["reset", "site", "button", "container", "divider", "header", "icon", "image", "input", "label", "list", "segment", "menu", "message", "table", "item", "search"],
-  "version": "2.7.6"
+  "version": "2.7.8"
 }

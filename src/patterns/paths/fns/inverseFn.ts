@@ -1,10 +1,12 @@
+import { cloneElement } from "../../../core/containers/utils";
+
+import { Resource } from "../../triplePatterns/Resource";
+
 import { IRIToken } from "../../../tokens/IRIToken";
 import { PathEltToken } from "../../../tokens/PathEltToken";
 import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
 import { PathInverseToken } from "../../../tokens/PathInverseToken";
 import { PathToken } from "../../../tokens/PathToken";
-
-import { Resource } from "../../triplePatterns/Resource";
 
 import { DeniableFluentPath } from "../DeniableFluentPath";
 import { FluentPath } from "../FluentPath";
@@ -36,10 +38,7 @@ export function getInverseFn<T extends PathToken>( container:FluentPathContainer
 		const inInverseToken:PathEltToken = _getInInverseToken( token );
 		const targetToken:TargetToken = new PathInverseToken( inInverseToken ) as TargetToken;
 
-		const newContainer:FluentPathContainer<TargetToken> = new FluentPathContainer( {
-			...container,
-			targetToken,
-		} );
+		const newContainer:FluentPathContainer<TargetToken> = cloneElement( container, { targetToken } );
 
 
 		if( _isBasePrimitive( token ) )

@@ -1,11 +1,11 @@
-import { Container } from "../../data/Container";
+import { Container } from "../../core/containers/Container";
+
+import { Resource } from "../triplePatterns/Resource";
+import { Variable } from "../triplePatterns/Variable";
 
 import { IRIToken } from "../../tokens/IRIToken";
 import { PathToken } from "../../tokens/PathToken";
 import { VariableToken } from "../../tokens/VariableToken";
-
-import { Resource } from "../triplePatterns/Resource";
-import { Variable } from "../triplePatterns/Variable";
 
 import { Path } from "./Path";
 

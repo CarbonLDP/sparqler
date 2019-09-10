@@ -1,5 +1,9 @@
-import { Container } from "../data/Container";
-import { Factory } from "../data/Factory";
+import { Container } from "../core/containers/Container";
+import { Factory } from "../core/factories/Factory";
+
+import { Expression } from "../patterns/expressions/Expression";
+import { PatternBuilder } from "../patterns/PatternBuilder";
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { HavingToken } from "../tokens/HavingToken";
 import { QueryClauseToken } from "../tokens/QueryClauseToken";
@@ -7,6 +11,7 @@ import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";
 
 import { FinishClause } from "./FinishClause";
+import { _constraintTransformer } from "./fns/utils";
 import { OrderClause } from "./OrderClause";
 import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
 
@@ -16,19 +21,29 @@ import { cloneSolutionModifierContainer } from "./SolutionModifierClause";
  */
 export interface HavingClause<T extends FinishClause> extends OrderClause<T> {
 	/**
-	 * Set a condition to filter the sequence of solutions the query will
+	 * Set the conditions to filter the sequence of solutions the query will
 	 * retrieve.
 	 *
-	 * Notice: The current version of SPARQLER does not evaluate the condition
-	 * for possible errors
+	 * @param condition First required condition to be applied to the solutions filtering.
+	 * @param restConditions Optional conditions to also be applied to the solutions filtering.
 	 *
-	 * @param rawCondition Raw condition to be applied for the solutions filtering.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	// TODO: create having condition expressions
-	having( rawCondition:string ):OrderClause<T> & T;
+	having( condition:Expression | SupportedNativeTypes, ...restConditions:(Expression | SupportedNativeTypes)[] ):OrderClause<T> & T;
+	/**
+	 * Set the conditions to filter the sequence of solutions the query will
+	 * retrieve.
+	 *
+	 * @param conditionsFn Function that create the conditions to be applied
+	 * to the solutions filtering.
+	 *
+	 * @returns Object with the methods to keep constructing the query.
+	 */
+	having( conditionsFn:( builder:PatternBuilder ) => (Expression | SupportedNativeTypes) | (Expression | SupportedNativeTypes)[] ):OrderClause<T> & T;
 }
 
+
+type SupportedTypes = Expression | SupportedNativeTypes;
 
 /**
  * Function that creates the {@link HavingClause.having} function.
@@ -42,9 +57,26 @@ export interface HavingClause<T extends FinishClause> extends OrderClause<T> {
  * @private
  */
 function getHavingFn<C extends Container<QueryToken<QueryClauseToken> | SubSelectToken>, T extends FinishClause>( genericFactory:Factory<C, T>, container:C ):HavingClause<T>[ "having" ] {
-	return ( rawCondition:string ) => {
-		const token:HavingToken = new HavingToken( rawCondition );
-		const newContainer = cloneSolutionModifierContainer( container, token );
+	return ( conditionOrFn:SupportedTypes | (( builder:PatternBuilder ) => SupportedTypes | SupportedTypes[]), ...restConditions:SupportedTypes[] ) => {
+		const targetToken:HavingToken = new HavingToken( [] );
+		const newContainer = cloneSolutionModifierContainer( container, targetToken );
+
+		if( typeof conditionOrFn === "function" ) {
+			// Create conditions from function
+			const builder = newContainer.getBuilder();
+			const fnConditions = conditionOrFn.call( undefined, builder );
+			restConditions = Array.isArray( fnConditions ) ? fnConditions : [ fnConditions ];
+
+		} else if( conditionOrFn ) {
+			// Return first condition to array
+			restConditions.unshift( conditionOrFn );
+		}
+
+		const transformer = _constraintTransformer( newContainer );
+		restConditions.forEach( condition => {
+			const conditionToken = transformer( condition );
+			targetToken.conditions.push( conditionToken );
+		} );
 
 		const orderClause:OrderClause<T> = OrderClause.createFrom( genericFactory, newContainer, {} );
 		return genericFactory( newContainer, orderClause );

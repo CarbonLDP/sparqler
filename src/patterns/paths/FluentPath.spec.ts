@@ -1,7 +1,10 @@
-import { spyContainers } from "../../../test/spies/FluentPathContainer";
+import { getFluentPathContainer } from "../../../test/factories/FluentPathContainer";
+import { spyContainers } from "../../../test/spies/clones";
 
-import { Container } from "../../data/Container";
-import { IRIResolver } from "../../data/IRIResolver";
+import { Container } from "../../core/containers/Container";
+import { IRIResolver } from "../../core/iri/IRIResolver";
+
+import { Resource } from "../triplePatterns/Resource";
 
 import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { IRIToken } from "../../tokens/IRIToken";
@@ -13,16 +16,9 @@ import { PathSequenceToken } from "../../tokens/PathSequenceToken";
 import { PathToken } from "../../tokens/PathToken";
 import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
-import { SubjectToken } from "../../tokens/SubjectToken";
 import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
-
-import { Resource } from "../triplePatterns/Resource";
-import { TripleSubject } from "../triplePatterns/TripleSubject";
-
-import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";
-import { FluentPathContainer } from "./FluentPathContainer";
 import { Path } from "./Path";
 
 
@@ -41,15 +37,6 @@ describe( "FluentPath", () => {
 		spyContainers.uninstall();
 	} );
 
-	function getContainer<T extends PathToken>( token:T ):FluentPathContainer<T> {
-		return new FluentPathContainer( {
-			iriResolver: new IRIResolver(),
-			targetToken: token,
-			fluentPathFactory: FluentPath.createFrom,
-			deniableFluentPathFactory: DeniableFluentPath.createFrom,
-		} );
-	}
-
 
 	describe( "FluentPath.createFrom", () => {
 
@@ -61,7 +48,7 @@ describe( "FluentPath", () => {
 		it( "should extend the object provided", () => {
 			const myObject:{} = {};
 			const path:FluentPath = FluentPath
-				.createFrom( getContainer( "a" ), myObject );
+				.createFrom( getFluentPathContainer( "a" ), myObject );
 
 			expect( myObject ).toBe( path );
 		} );
@@ -69,7 +56,7 @@ describe( "FluentPath", () => {
 
 		it( "should create a FluentPath object", () => {
 			const path:FluentPath = FluentPath
-				.createFrom( getContainer( "a" ), {} );
+				.createFrom( getFluentPathContainer( "a" ), {} );
 
 			expect( path ).toEqual( {
 				subPath: jasmine.any( Function ),
@@ -92,9 +79,9 @@ describe( "FluentPath", () => {
 
 
 	function createResource( iri:string ):Resource {
-		return TripleSubject.createFrom( new Container( {
+		return Resource.createFrom( new Container( {
 			iriResolver: new IRIResolver(),
-			targetToken: new SubjectToken( new IRIRefToken( iri ) ),
+			targetToken: new IRIRefToken( iri ),
 		} ), {} );
 	}
 
@@ -108,7 +95,7 @@ describe( "FluentPath", () => {
 
 
 	function getPath<T extends PathToken>( token:T ):FluentPath<T> {
-		return FluentPath.createFrom( getContainer( token ), {} );
+		return FluentPath.createFrom( getFluentPathContainer( token ), {} );
 	}
 
 

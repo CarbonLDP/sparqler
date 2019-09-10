@@ -1,6 +1,6 @@
-import { Container } from "../data/Container";
-import { Factory } from "../data/Factory";
-import { cloneElement } from "../data/utils";
+import { Container } from "../core/containers/Container";
+import { Factory } from "../core/factories/Factory";
+import { cloneElement } from "../core/containers/utils";
 import { AskToken } from "../tokens/AskToken";
 
 import { QueryToken } from "../tokens/QueryToken";
