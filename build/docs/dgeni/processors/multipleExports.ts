@@ -61,8 +61,7 @@ export class MultipleExports implements Processor {
 			
 			// If it is an interface with a constant merged export:
 			case "const":
-				let host:Host = new Host();
-				let exportDoc:ConstantExport = new ConstExportDoc(host, doc.moduleDoc, doc.symbol) //Create constant document
+				let exportDoc:ConstantExport = new ConstExportDoc(this.tsHost, doc.moduleDoc, doc.symbol) //Create constant document
 				doc.constants = [exportDoc]; // Add the constant's document to the Interface Document as a reference
 				exportDoc.members = []; // Array for possible methods within the constant
 				try {
@@ -70,7 +69,7 @@ export class MultipleExports implements Processor {
 					this.docs.push(exportDoc);
 					members.forEach(member => { 
 						// Create method document and push it to both the constant document as well as the full document's list.
-						let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, member.symbol, member);
+						let methodDoc:MethodMemberDoc = new MethodMemberDoc(this.tsHost, doc, member.symbol, member);
 						exportDoc.members.push(methodDoc);
 						this.docs.push(methodDoc);
 					})
@@ -79,7 +78,7 @@ export class MultipleExports implements Processor {
 					// If the constant doesn't have a description, it will be stored here.
 					let container = doc.constants[0].variableDeclaration.initializer.nextContainer;
 					// Create method document and push it to both the constant document as well as the full document's list.
-					let methodDoc:MethodMemberDoc = new MethodMemberDoc(host, doc, container.symbol, container);
+					let methodDoc:MethodMemberDoc = new MethodMemberDoc(this.tsHost, doc, container.symbol, container);
 					exportDoc.members.push(methodDoc);
 					this.docs.push(exportDoc);
 					this.docs.push(methodDoc);
