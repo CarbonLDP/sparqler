@@ -5,7 +5,7 @@ import { TokenNode } from "./TokenNode";
 /**
  * Token for the sequence paths statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rPathSequence}
+ * @see https://www.w3.org/TR/sparql11-query/#rPathSequence
  */
 export class PathSequenceToken implements TokenNode {
 	readonly token:"pathSequence" = "pathSequence";

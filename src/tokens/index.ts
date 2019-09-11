@@ -43,6 +43,7 @@ export { PathAlternativeToken } from "./PathAlternativeToken";
 export { PathEltToken } from "./PathEltToken";
 export { PathInAlternativeToken } from "./PathInAlternativeToken";
 export { PathInNegatedToken } from "./PathInNegatedToken";
+export { PathInSequenceToken } from "./PathInSequenceToken";
 export { PathInverseToken } from "./PathInverseToken";
 export { PathModToken } from "./PathModToken";
 export { PathNegatedToken } from "./PathNegatedToken";

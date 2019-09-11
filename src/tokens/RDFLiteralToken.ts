@@ -6,7 +6,7 @@ import { LiteralToken } from "./LiteralToken";
 /**
  * The token of the RDF Literal term.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rRDFLiteral}
+ * @see https://www.w3.org/TR/sparql11-query/#rRDFLiteral
  */
 export class RDFLiteralToken extends LiteralToken {
 	readonly type?:IRIToken;

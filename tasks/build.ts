@@ -2,6 +2,7 @@ import fs from "fs";
 import gulp from "gulp";
 
 import { cleaner, CONFIG } from "./common";
+import { docsBuildProd } from "./docs";
 import { preparePackage } from "./packages";
 import { bundle } from "./rollup";
 
@@ -24,5 +25,6 @@ export const build = gulp.series(
 		generateTypes,
 		bundle,
 		preparePackage,
+		docsBuildProd
 	),
 );

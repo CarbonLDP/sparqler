@@ -31,3 +31,13 @@ export {
 	testNode,
 	testWatch,
 } from "./tasks/tests";
+
+export {
+	docsBuildDev,
+	docsBuildProd,
+	docsHTML,
+	docsBundle,
+	docsImages,
+	docsCleanImages,
+	docsAddImages,
+} from "./tasks/docs"

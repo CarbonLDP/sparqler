@@ -1,3 +1,6 @@
+/**
+ * Object that defines the vocabulary of the data-types defined in the XML Schema Definition Language (XSD).
+ */
 export const XSD:{
 	namespace:"http://www.w3.org/2001/XMLSchema#",
 

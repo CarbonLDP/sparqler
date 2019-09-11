@@ -7,7 +7,7 @@ import { VariableToken } from "./VariableToken";
 /**
  * The token of the `GROUP BY` statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rGroupClause}
+ * @see https://www.w3.org/TR/sparql11-query/#rGroupClause
  */
 export class OrderToken implements TokenNode {
 	readonly token:"order" = "order";

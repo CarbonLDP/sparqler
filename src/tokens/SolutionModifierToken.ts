@@ -8,6 +8,6 @@ import { OrderToken } from "./OrderToken";
 /**
  * Alias for grouping the modifiers a query can have.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rSolutionModifier}
+ * @see https://www.w3.org/TR/sparql11-query/#rSolutionModifier
  */
 export type SolutionModifierToken = GroupToken | HavingToken | OrderToken | LimitToken | OffsetToken;

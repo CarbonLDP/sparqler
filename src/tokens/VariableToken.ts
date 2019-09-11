@@ -11,7 +11,7 @@ const NAME_REGEX:RegExp = /^((?:[0-9A-Z_a-z\xC0-\xD6\xD8-\xF6\xF8-\u02FF\u0370-\
  *
  * Currently only supports variables with `?` sign.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rVar}
+ * @see https://www.w3.org/TR/sparql11-query/#rVar
  */
 export class VariableToken implements TokenNode {
 	readonly token:"variable" = "variable";

@@ -13,7 +13,7 @@ import { SharedSubPathToken } from "../../../tokens/SharedSubPathToken";
  *
  * @param symbols The name of the tokens to be wrapped.
  *
- * @private
+ *
  */
 export function _getTokenWrapper<T extends PathToken>( ...symbols:string[] ):( token:PathToken ) => T {
 	return ( token:PathToken ):any => {
@@ -32,7 +32,7 @@ export function _getTokenWrapper<T extends PathToken>( ...symbols:string[] ):( t
  * i.e. if the token is `"a"` or a {@link IRIToken}.
  *
  * @param token the token to be verified.
- * @private
+ *
  */
 export function _isBasePrimitive( token:PathToken ):token is IRIToken | "a" {
 	return token === "a"
@@ -45,7 +45,7 @@ export function _isBasePrimitive( token:PathToken ):token is IRIToken | "a" {
  * Verify is the token provided is a {@link PathInNegatedToken}.
  *
  * @param token The token to be verified.
- * @private
+ * 
  */
 export function _isPathInNegatedToken( token:PathToken ):token is PathInNegatedToken {
 	return _isBasePrimitive( token )

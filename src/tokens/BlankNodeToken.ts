@@ -9,7 +9,7 @@ const LABEL_REGEX:RegExp = /^_:[A-Za-z0-9_]([A-Za-z0-9_\-.]*[A-Za-z0-9_\-])?$/;
 /**
  * The token of a blank node resource.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rBlankNode}
+ * @see https://www.w3.org/TR/sparql11-query/#rBlankNode
  */
 export class BlankNodeToken implements TokenNode {
 	readonly token:"blankNode" = "blankNode";

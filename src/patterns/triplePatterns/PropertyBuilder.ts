@@ -84,7 +84,7 @@ function _getNewContainer<C extends Container<TripleToken | ObjectToken>, C2 ext
 }
 
 /**
- * Function that creates a generic {@link PropertyBuilder.has} function.
+ * Function that creates a generic {@link PropertyBuilder#has `PropertyBuilder.has`} function.
  * This function is used for create {@link PropertyBuilder} and {@link PropertyBuilderMore}
  *
  * @param genericFactory The factory of the generic expected to be returned.
@@ -117,7 +117,7 @@ export const PropertyBuilder:{
 	 * from the {@param object} provided.
 	 *
 	 * @param genericFactory The factory of the generic expected to
-	 * be returned by the {@link PropertyBuilder.has} method.
+	 * be returned by the {@link PropertyBuilder#has `PropertyBuilder.has`} method.
 	 * @param container The related container with the data for the
 	 * {@link PropertyBuilder} statement.
 	 * @param object The base base from where to create the

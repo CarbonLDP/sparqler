@@ -11,8 +11,12 @@ test/**/*.map
 playground/**/*.js
 playground/**/*.map
 
-build/**/*.js
-build/**/*.map
+build/*.js
+build/*.map
+build/docs/dgeni/**/*.js
+build/docs/dgeni/**/*.map
+docs/
+!build/*
 
 tasks/**/*.js
 tasks/**/*.map
@@ -165,3 +169,7 @@ DerivedData
 
 # VSCode
 .vscode/
+
+# Semantic UI
+**/semantic-ui/*
+!**/semantic-ui/src/

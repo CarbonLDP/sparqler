@@ -5,7 +5,7 @@ import { TokenNode } from "./TokenNode";
 /**
  * The token of the `FILTER` statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rFilter}
+ * @see https://www.w3.org/TR/sparql11-query/#rFilter
  */
 export class FilterToken implements TokenNode {
 	readonly token:"filter" = "filter";

@@ -28,8 +28,9 @@ export interface FinishClause {
 	toPrettyString():string;
 
 	/**
-	 * Return the same result as {@link FinishClause.toPrettyString}
+	 * Return the same result as {@link FinishClause#toPrettyString `FinishClause.toPrettyString`}
 	 */
+	 // TODO: Fix link syntax
 	toString():string;
 
 

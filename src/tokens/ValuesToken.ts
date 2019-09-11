@@ -9,8 +9,8 @@ import { VariableToken } from "./VariableToken";
 /**
  * The token of the `VALUES` clause or pattern statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rValuesClause}
- * @see {@link https://www.w3.org/TR/sparql11-query/#rInlineData}
+ * @see https://www.w3.org/TR/sparql11-query/#rValuesClause
+ * @see https://www.w3.org/TR/sparql11-query/#rInlineData
  */
 export class ValuesToken implements TokenNode {
 	readonly token:"values" = "values";

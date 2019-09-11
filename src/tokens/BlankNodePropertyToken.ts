@@ -6,8 +6,8 @@ import { TokenNode } from "./TokenNode";
 /**
  * The generic token of a blank node property list.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rBlankNodePropertyList}
- * @see {@link https://www.w3.org/TR/sparql11-query/#rBlankNodePropertyListPath}
+ * @see https://www.w3.org/TR/sparql11-query/#rBlankNodePropertyList
+ * @see https://www.w3.org/TR/sparql11-query/#rBlankNodePropertyListPath
  */
 export class BlankNodePropertyToken implements TokenNode {
 	readonly token:"blankNodeProperty" = "blankNodeProperty";

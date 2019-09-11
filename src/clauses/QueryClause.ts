@@ -28,12 +28,13 @@ export interface QueryClause<SELECT extends FinishClause, ASK extends FinishClau
 	/**
 	 * Add a base IRI the query uses to resolve any relative IRIs.
 	 *
-	 * If a default vocabulary is set with the {@link QueryClause.vocab}
+	 * If a default vocabulary is set with the {@link QueryClause#vocab `QueryClause.vocab`}
 	 * method, the base is ignored for relative predicates.
 	 *
 	 * @param iri IRI to be used as the query BASE.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
+     // TODO: Fix link syntax
 	base( iri:string ):QueryClause<SELECT, ASK>;
 
 	/**

@@ -7,7 +7,7 @@ import { TokenNode } from "./TokenNode";
 /**
  * Alias for any IRI token.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#riri}
+ * @see https://www.w3.org/TR/sparql11-query/#riri
  */
 export type IRIToken = IRIRefToken | PrefixedNameToken;
 

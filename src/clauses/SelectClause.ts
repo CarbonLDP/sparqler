@@ -24,10 +24,10 @@ export interface SelectClause<T extends FinishClause> {
 	 *
 	 * @param variables The list of variables.
 	 * IF no variable is provided, the behaviour will be the same
-	 * as {@link SelectClause.selectAll}
-	 *
+	 * as {@link SelectClause#selectAll `SelectClause.selectAll`}
 	 * @returns Object with the methods to keep constructing the query.
 	 */
+	 // TODO: Fix link syntax
 	select( ...variables:string[] ):FromClause<T>;
 	/**
 	 * Set a list of variables, constructed by the builder helper,
@@ -35,10 +35,11 @@ export interface SelectClause<T extends FinishClause> {
 	 *
 	 * @param variablesFunction Function that retrieves the variables and assignments..
 	 * IF no variable is provided, the behaviour will be the same
-	 * as {@link SelectClause.selectAll}
+	 * as {@link SelectClause#selectAll `SelectClause.selectAll`}
 	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
+	// TODO: Fix link syntax
 	select( variablesFunction:( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
@@ -47,10 +48,10 @@ export interface SelectClause<T extends FinishClause> {
 	 *
 	 * @param variables The list of variables.
 	 * IF no variable is provided, the behaviour will be the same
-	 * as {@link SelectClause.selectAllDistinct}
-	 *
+	 * as {@link SelectClause#selectAllDistinct `SelectClause.selectAllDistinct`}
 	 * @returns Object with the methods to keep constructing the query.
 	 */
+	 // TODO: Fix link syntax
 	selectDistinct( ...variables:string[] ):FromClause<T>;
 	/**
 	 * Set a list of variables, constructed by the builder helper,
@@ -59,10 +60,11 @@ export interface SelectClause<T extends FinishClause> {
 	 *
 	 * @param variablesFunction Function that retrieves the variables and assignments..
 	 * IF no variable is provided, the behaviour will be the same
-	 * as {@link SelectClause.selectAllDistinct}
+	 * as {@link SelectClause#selectAllDistinct `SelectClause.selectAllDistinct`}
 	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
+	// TODO: Fix link syntax
 	selectDistinct( variablesFunction:( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**
@@ -72,10 +74,10 @@ export interface SelectClause<T extends FinishClause> {
 	 *
 	 * @param variables The list of variables.
 	 * IF no variable is provided, the behaviour will be the same
-	 * as {@link SelectClause.selectAllReduced}
-	 *
+	 * as {@link SelectClause#selectAllReduced `SelectClause.selectAllReduced`}
 	 * @returns Object with the methods to keep constructing the query.
 	 */
+	 // TODO: Fix link syntax
 	selectReduced( ...variables:string[] ):FromClause<T>;
 	/**
 	 * Set a list of variables, constructed by the builder helper,
@@ -85,10 +87,11 @@ export interface SelectClause<T extends FinishClause> {
 	 *
 	 * @param variablesFunction Function that retrieves the variables and assignments..
 	 * IF no variable is provided, the behaviour will be the same
-	 * as {@link SelectClause.selectAllReduced}
+	 * as {@link SelectClause#selectAllReduced `SelectClause.selectAllReduced`}
 	 *
 	 * @returns Object with the methods to keep constructing the query.
 	 */
+	// TODO: Fix link syntax
 	selectDistinct( variablesFunction:( builder:PatternBuilder ) => (string | Projectable) | (string | Projectable)[] ):FromClause<T>;
 
 	/**

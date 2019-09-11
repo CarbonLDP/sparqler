@@ -257,8 +257,7 @@ export interface FunctionExpressionsBuilder {
 	strLang( lexicalForm:Expression | SupportedNativeTypes, languageTag:Expression | SupportedNativeTypes ):Expression;
 
 	/**
-	 * Creates an {@link Expression} that returns an IRI from the
-	 * {@link https://www.ietf.org/rfc/rfc4122.txt UUID URN scheme}.
+	 * Creates an {@link Expression} that returns an IRI from the [UUID URN scheme](https://www.ietf.org/rfc/rfc4122.txt).
 	 *
 	 * See https://www.w3.org/TR/sparql11-query/#func-uuid
 	 * for more information.
@@ -410,8 +409,7 @@ export interface FunctionExpressionsBuilder {
 
 	/**
 	 * Creates an {@link Expression} that returns `true` if {@param languageTag}
-	 * value matches {@param languageRange} as defined in
-	 * {@link https://www.ietf.org/rfc/rfc4647.txt Matching of Language}.
+	 * value matches {@param languageRange} as defined in [Matching of Language](https://www.ietf.org/rfc/rfc4647.txt).
 	 *
 	 * See https://www.w3.org/TR/sparql11-query/#func-langMatches
 	 * for more information.

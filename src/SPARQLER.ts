@@ -11,7 +11,7 @@ import { QueryToken } from "./tokens/QueryToken";
 
 /**
  * Interface with the same name fo the SPARQLER class, that helps
- * in the definition of the methods decorated by {@link QueryClause.createFrom}
+ * in the definition of the methods decorated by {@link QueryClause#createFrom `QueryClause.createFrom`}
  */
 export interface SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends FinishClause = FinishClause> extends QueryClause<SELECT, ASK> {
 }
@@ -28,12 +28,14 @@ export class SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends Fi
 	 * Constructor that allows to create query builder with custom finish
 	 * methods specified by the factories provided if specified.
 	 *
-	 * If no custom factory specified {@link FinishClause.createFrom}
+	 * If no custom factory specified {@link FinishClause#createFrom `FinishClause.createFrom`}
 	 * will be used instead.
 	 *
 	 * @param finishSelectFactory Factory for finishing a SELECT query.
 	 * @param finishAskFactory Factory for finishing an ASK query.
 	 */
+     // TODO: Fix link syntax
+     // TODO: Interface not showing up in Dgeni
 	constructor(
 		finishSelectFactory:FinishFactory<SELECT> = FinishClause.createFrom as FinishFactory<SELECT>,
 		finishAskFactory:FinishFactory<ASK> = FinishClause.createFrom as FinishFactory<ASK>,

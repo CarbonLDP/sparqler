@@ -42,7 +42,7 @@ export const Factory:{
 	 */
 	createFrom<CONTAINER extends Container<any>, TARGET1 extends object, TARGET2 extends object>( factory1:Factory<CONTAINER, TARGET1>, factory2:Factory<CONTAINER, TARGET2> ):Factory<CONTAINER, TARGET1 & TARGET2>;
 	/**
-	 * Created a new factory function that applies the three factory
+	 * Creates a new factory function that applies the three factory
 	 * functions provided.
 	 *
 	 * @param factory1 The first factory function to be applied.
@@ -51,7 +51,7 @@ export const Factory:{
 	 */
 	createFrom<CONTAINER extends Container<any>, TARGET1 extends object, TARGET2 extends object, TARGET3 extends object>( factory1:Factory<CONTAINER, TARGET1>, factory2:Factory<CONTAINER, TARGET2>, factory3:Factory<CONTAINER, TARGET3> ):Factory<CONTAINER, TARGET1 & TARGET2 & TARGET3>;
 	/**
-	 * Created a new factory function that applies the three factory
+	 * Creates a new factory function that applies the four factory
 	 * functions provided.
 	 *
 	 * @param factory1 The first factory function to be applied.

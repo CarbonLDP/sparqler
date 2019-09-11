@@ -6,7 +6,7 @@ import { VariableToken } from "./VariableToken";
 /**
  * The token of the `BIND` statement.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rBind}
+ * @see https://www.w3.org/TR/sparql11-query/#rBind
  */
 export class BindToken implements TokenNode {
 	readonly token:"bind" = "bind";

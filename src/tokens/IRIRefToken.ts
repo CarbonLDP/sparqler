@@ -4,7 +4,7 @@ import { TokenNode } from "./TokenNode";
 /**
  * The token of the IRI term.
  *
- * @see {@link https://www.w3.org/TR/sparql11-query/#rIRIREF}
+ * @see https://www.w3.org/TR/sparql11-query/#rIRIREF
  */
 export class IRIRefToken implements TokenNode {
 	readonly token:"iri" = "iri";
