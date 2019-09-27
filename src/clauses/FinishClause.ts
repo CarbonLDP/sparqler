@@ -41,7 +41,21 @@ export interface FinishClause {
 /**
  * Constant with the utils for {@link FinishClause} objects.
  */
-export const FinishClause = {
+export const FinishClause: {
+	/**
+	 * Factory function that allows to crete a {@link FinishClause}
+	 * from the {@param object} provided.
+	 *
+	 * @param container The related container with the data for the
+	 * {@link FinishClause} statement.
+	 * @param object The base base from where to create the
+	 * {@link FinishClause} statement.
+	 *
+	 * @return The {@link FinishClause} statement created from the
+	 * {@param object} provided.
+	 */
+	createFrom<O extends object>(container:Container<TokenNode>, object:O ):O & FinishClause ;
+} = {
 	createFrom<O extends object>( container:Container<TokenNode>, object:O ):O & FinishClause {
 		const toPrettyString:FinishClause[ "toPrettyString" ] = () =>
 			container.targetToken.toString( 0 );
