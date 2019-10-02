@@ -27,7 +27,6 @@
   "es2015": "dist/.esm2015/index.js",
   "typings": "dist/.types/index.d.ts",
   "scripts": {
-    "postinstall": "npm run --prefix node_modules/fomantic-ui build",
     "build": "gulp build",
     "start": "npm run-script build",
     "test": "gulp test"
@@ -59,7 +58,6 @@
     "dgeni": "^0.4.12",
     "dgeni-packages": "^0.28.1",
     "file-loader": "^1.1.11",
-    "fomantic-ui": "^2.7.6",
     "glob": "^7.1.2",
     "gulp": "^4.0.2",
     "gulp-filter": "5.0.1",
