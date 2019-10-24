@@ -11,12 +11,6 @@ test/**/*.map
 playground/**/*.js
 playground/**/*.map
 
-build/*.js
-build/*.map
-build/docs/dgeni/**/*.js
-build/docs/dgeni/**/*.map
-docs/
-!build/*
 
 tasks/**/*.js
 tasks/**/*.map
