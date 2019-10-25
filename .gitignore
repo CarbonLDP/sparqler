@@ -11,6 +11,8 @@ test/**/*.map
 playground/**/*.js
 playground/**/*.map
 
+docs/
+!build/docs/
 
 tasks/**/*.js
 tasks/**/*.map
