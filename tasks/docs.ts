@@ -10,10 +10,7 @@ const outputDir:string = path.resolve( projectRootDir, "docs/" );
 const descriptionTemplate:string = path.join(projectRootDir, "build/docs/templates/documentation-description.njk");
 
 export const docsClean:gulp.TaskFunction = () =>
-	del( [
-		`${outputDir}/**`, `!${outputDir}`,
-		`!${outputDir}/templates`, `!${outputDir}/templates/**`,
-	] );
+	del( [outputDir] );
 docsClean.displayName = "docs:clean";
 
 export const generateDocumentation:( env:"development" | "production") => gulp.TaskFunction = env => {
