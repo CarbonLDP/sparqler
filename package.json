@@ -51,6 +51,7 @@
     "@types/rollup-plugin-node-resolve": "^4.0.0",
     "@types/rollup-plugin-sourcemaps": "^0.4.0",
     "@types/source-map-support": "^0.4.1",
+    "carbonldp-ts-docs-engine": "^1.0.0",
     "del": "3.0.0",
     "glob": "^7.1.2",
     "gulp": "^4.0.2",
