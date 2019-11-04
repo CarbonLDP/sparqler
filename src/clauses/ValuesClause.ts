@@ -3,13 +3,12 @@ import { cloneElement } from "../core/containers/utils";
 import { Factory } from "../core/factories/Factory";
 import { IRIResolver } from "../core/iri/IRIResolver";
 
-import { PatternBuilder } from "../patterns/PatternBuilder";
 import { _valuesTransformerFn } from "../patterns/notTriplePatterns/fns/utils";
+import { PatternBuilder } from "../patterns/PatternBuilder";
+import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 import { Literal } from "../patterns/triplePatterns/Literal";
 import { Resource } from "../patterns/triplePatterns/Resource";
 import { Undefined } from "../patterns/Undefined";
-
-import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { QueryToken } from "../tokens/QueryToken";
 import { SubSelectToken } from "../tokens/SubSelectToken";

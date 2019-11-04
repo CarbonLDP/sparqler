@@ -1,8 +1,7 @@
 import { GroupPatternToken } from "./GroupPatternToken";
-import { UnionPatternToken } from "./UnionPatternToken";
-import { PatternToken } from "./PatternToken";
 import { PropertyToken } from "./PropertyToken";
 import { SubjectToken } from "./SubjectToken";
+import { UnionPatternToken } from "./UnionPatternToken";
 import { VariableToken } from "./VariableToken";
 
 

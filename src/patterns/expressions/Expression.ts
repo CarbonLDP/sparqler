@@ -1,7 +1,4 @@
 import { Container } from "../../core/containers/Container";
-import { Variable } from "../triplePatterns/Variable";
-
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { AdditiveOperationToken } from "../../tokens/AdditiveOperationToken";
 import { AssigmentToken } from "../../tokens/AssigmentToken";
@@ -15,6 +12,11 @@ import { NumericExpressionToken } from "../../tokens/NumericExpressionToken";
 import { RelationalExpressionToken } from "../../tokens/RelationalExpressionToken";
 import { RelationalOperationToken } from "../../tokens/RelationalOperationToken";
 import { UnaryExpressionToken } from "../../tokens/UnaryExpressionToken";
+
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
+
+import { Variable } from "../triplePatterns/Variable";
+
 import { getAsFn } from "./fns/asFn";
 
 import { Functions, getBaseFunctionFn, getRegexFunctionFn, getSeparatorFunctionFn } from "./fns/functionFn";
@@ -38,8 +40,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 *
 	 * @param consequent - Expression to return its value when the self value is evaluated to `true`.
 	 * @param alternative - Expression to returns its value when the self value is evaluated to `false.`
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	if( consequent:Expression | SupportedNativeTypes, alternative:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -49,8 +51,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#coalesce `FunctionExpressionsBuilder.coalesce`}  for the complete version of this method.
 	 *
 	 * @param expressions - Extra expressions to be evaluated for the non-raising error one.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	coalesce( ...expressions:(Expression | SupportedNativeTypes)[] ):Expression;
 
 	/**
@@ -60,8 +62,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#sameTerm `FunctionExpressionsBuilder.sameTerm`}  for the complete version of this method.
 	 *
 	 * @param term - Expression to evaluate its value against the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	sameTerm( term:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -69,16 +71,16 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * an IRI. Returns `false` otherwise.
 	 *
 	 * See {@link FunctionExpressionsBuilder#isIRI `FunctionExpressionsBuilder.isIRI`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	isIRI():Expression;
 	/**
 	 * Creates an {@link Expression} that returns `true` if the self value is
 	 * an URI. Returns `false` otherwise.
 	 *
 	 * See {@link FunctionExpressionsBuilder#isURI `FunctionExpressionsBuilder.isURI`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	isURI():Expression;
 
 	/**
@@ -86,8 +88,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * a blank node. Returns `false` otherwise.
 	 *
 	 * See {@link FunctionExpressionsBuilder#isBlank `FunctionExpressionsBuilder.isBlank`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	isBlank():Expression;
 
 	/**
@@ -96,8 +98,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 *
 	 *
 	 * See {@link FunctionExpressionsBuilder#isLiteral `FunctionExpressionsBuilder.isLiteral`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	isLiteral():Expression;
 
 	/**
@@ -105,8 +107,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * a numeric value. Returns `false` otherwise.
 	 *
 	 * See {@link FunctionExpressionsBuilder#isNumeric `FunctionExpressionsBuilder.isNumeric`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	isNumeric():Expression;
 
 	/**
@@ -114,8 +116,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * the self value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#str `FunctionExpressionsBuilder.str`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	str():Expression;
 
 	/**
@@ -123,8 +125,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * the self value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#lang `FunctionExpressionsBuilder.lang`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	lang():Expression;
 
 	/**
@@ -132,8 +134,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * the self value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#datatype `FunctionExpressionsBuilder.datatype`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	datatype():Expression;
 
 	/**
@@ -141,16 +143,16 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * the self value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#iri `FunctionExpressionsBuilder.iri`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	iri():Expression;
 	/**
 	 * Creates an {@link Expression} that constructs a URI by resolving
 	 * the self value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#uri `FunctionExpressionsBuilder.uri`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	uri():Expression;
 
 	/**
@@ -158,8 +160,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * the self value as base for the blank node label.
 	 *
 	 * See {@link FunctionExpressionsBuilder#bnode `FunctionExpressionsBuilder.bnode`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	bnode():Expression;
 
 	/**
@@ -169,8 +171,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#strDT `FunctionExpressionsBuilder.strDT`}  for the complete version of this method.
 	 *
 	 * @param dataType - Expresion with an IRI value to use as the datatype of the literal.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	strDT( dataType:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -180,8 +182,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#strLang `FunctionExpressionsBuilder.strLang`}  for the complete version of this method.
 	 *
 	 * @param languageTag - Expresion with a string value to use as the language tag of the literal.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	strLang( languageTag:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -189,8 +191,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * of the self value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#strLen `FunctionExpressionsBuilder.strLen`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	strLen():Expression;
 
 	/**
@@ -206,8 +208,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 *
 	 * @param starting Expression with the index from where to start the portion to take.
 	 * @param length Expression with the number of characters of the portion to take.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	substr( starting:Expression | SupportedNativeTypes, length?:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -215,8 +217,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * converted to uppercase.
 	 *
 	 * See {@link FunctionExpressionsBuilder#uCase `FunctionExpressionsBuilder.uCase`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	uCase():Expression;
 
 	/**
@@ -224,8 +226,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * converted to lowercase.
 	 *
 	 * See {@link FunctionExpressionsBuilder#lCase `FunctionExpressionsBuilder.lCase`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	lCase():Expression;
 
 	/**
@@ -236,8 +238,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#strStarts `FunctionExpressionsBuilder.strStarts`}  for the complete version of this method.
 	 *
 	 * @param arg Expression with the string value to check it's the start of the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	strStarts( arg:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -247,8 +249,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#strEnds `FunctionExpressionsBuilder.strEnds`}  for the complete version of this method.
 	 *
 	 * @param arg Expression with the string value to check it's the end of the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	strEnds( arg:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -258,8 +260,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#contains `FunctionExpressionsBuilder.contains`}  for the complete version of this method.
 	 *
 	 * @param arg Expression with the string value to check it's contained by the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	contains( arg:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -269,8 +271,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#strBefore `FunctionExpressionsBuilder.strBefore`}  for the complete version of this method.
 	 *
 	 * @param arg Expression with the string value to check where it appears in the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	strBefore( arg:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -280,8 +282,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#strAfter `FunctionExpressionsBuilder.strAfter`}  for the complete version of this method.
 	 *
 	 * @param arg Expression with the string value to check where it appears in the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	strAfter( arg:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -289,8 +291,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * special characters that the self value provided may have.
 	 *
 	 * See {@link FunctionExpressionsBuilder#encodeForUri `FunctionExpressionsBuilder.encodeForUri`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	encodeForUri():Expression;
 
 	/**
@@ -300,8 +302,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#concat `FunctionExpressionsBuilder.concat`}  for the complete version of this method.
 	 *
 	 * @param literals Expressions with the string values to concatenate to the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	concat( ...literals:(Expression | SupportedNativeTypes)[] ):Expression;
 
 	/**
@@ -311,8 +313,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#langMatches `FunctionExpressionsBuilder.langMatches`}  for the complete version of this method.
 	 *
 	 * @param languageRange Expression with the language range that the self lang tag value will be checked against.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	langMatches( languageRange:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -324,8 +326,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 *
 	 * @param pattern Expression with the regular expression used as the matcher.
 	 * @param flags Optional expression with the matching rules to be applied.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	regex( pattern:Expression | SupportedNativeTypes, flags?:Expression | SupportedNativeTypes ):Expression;
 	/**
 	 * Creates an {@link Expression} that returns `true` if self text value
@@ -334,8 +336,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#regex `FunctionExpressionsBuilder.regex`}  for the complete version of this method.
 	 *
 	 * @param pattern RegExp used as the matcher.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	regex( pattern:RegExp ):Expression;
 
 	/**
@@ -349,8 +351,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * @param pattern Expression with the regular expression used as the matcher.
 	 * @param replacement Expression with the string or pattern to use as the replacement.
 	 * @param flags Optional expression with the matching rules to be applied.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	replace( pattern:Expression | SupportedNativeTypes, replacement:Expression | SupportedNativeTypes, flags?:Expression | SupportedNativeTypes ):Expression;
 	/**
 	 * Creates an {@link Expression} that returns a string produced by the
@@ -362,8 +364,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 *
 	 * @param pattern RegExp used as the matcher.
 	 * @param replacement Expression with the string or pattern to use as the replacement.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	replace( pattern:RegExp, replacement:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -371,8 +373,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * the self value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#abs `FunctionExpressionsBuilder.abs`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	abs():Expression;
 
 	/**
@@ -382,8 +384,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * infinity is returned.
 	 *
 	 * See {@link FunctionExpressionsBuilder#round `FunctionExpressionsBuilder.round`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	round():Expression;
 
 	/**
@@ -391,8 +393,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * number with no fractional part that is closest to the elf value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#ceil `FunctionExpressionsBuilder.ceil`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	ceil():Expression;
 
 	/**
@@ -400,8 +402,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * number with no fractional part that is closest to the self value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#replace `FunctionExpressionsBuilder.replace`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	floor():Expression;
 
 	/**
@@ -409,8 +411,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * self value as an integer.
 	 *
 	 * See {@link FunctionExpressionsBuilder#year `FunctionExpressionsBuilder.year`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	year():Expression;
 
 	/**
@@ -418,8 +420,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * self value as an integer.
 	 *
 	 * See {@link FunctionExpressionsBuilder#month `FunctionExpressionsBuilder.month`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	month():Expression;
 
 	/**
@@ -427,8 +429,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * self value as an integer.
 	 *
 	 * See {@link FunctionExpressionsBuilder#day `FunctionExpressionsBuilder.day`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	day():Expression;
 
 	/**
@@ -436,8 +438,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * self value as an integer.
 	 *
 	 * See {@link FunctionExpressionsBuilder#hours `FunctionExpressionsBuilder.hours`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	hours():Expression;
 
 	/**
@@ -445,8 +447,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * self value as an integer.
 	 *
 	 * See {@link FunctionExpressionsBuilder#minutes `FunctionExpressionsBuilder.minutes`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	minutes():Expression;
 
 	/**
@@ -454,8 +456,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * self value as a decimal.
 	 *
 	 * See {@link FunctionExpressionsBuilder#seconds `FunctionExpressionsBuilder.seconds`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	seconds():Expression;
 
 	/**
@@ -466,8 +468,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * format with the `Z` timezone.
 	 *
 	 * See {@link FunctionExpressionsBuilder#timezone `FunctionExpressionsBuilder.timezone`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	timezone():Expression;
 
 	/**
@@ -478,8 +480,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * format with the `Z` timezone.
 	 *
 	 * See {@link FunctionExpressionsBuilder#tz `FunctionExpressionsBuilder.tz`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	tz():Expression;
 
 	/**
@@ -487,8 +489,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * on the UTF-8 representation of the self string value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#md5 `FunctionExpressionsBuilder.md5`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	md5():Expression;
 
 	/**
@@ -496,8 +498,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * on the UTF-8 representation of the self string value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#sha1 `FunctionExpressionsBuilder.sha1`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	sha1():Expression;
 
 	/**
@@ -505,8 +507,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * on the UTF-8 representation of the self string value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#sha256 `FunctionExpressionsBuilder.sha256`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	sha256():Expression;
 
 	/**
@@ -514,8 +516,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * on the UTF-8 representation of the self string value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#sha384 `FunctionExpressionsBuilder.sha384`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	sha384():Expression;
 
 	/**
@@ -523,8 +525,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * on the UTF-8 representation of the self string value.
 	 *
 	 * See {@link FunctionExpressionsBuilder#sha512 `FunctionExpressionsBuilder.sha512`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	sha512():Expression;
 
 	/**
@@ -532,16 +534,16 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * the self expression has a solution over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#count `FunctionExpressionsBuilder.count`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	count():Expression;
 	/**
 	 * Creates an {@link Expression} that counts the number of times
 	 * the self expression has a bound for every distinct sequence over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#count `FunctionExpressionsBuilder.count`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	countDistinct():Expression;
 
 	/**
@@ -549,16 +551,16 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * of the self expression's values over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#sum `FunctionExpressionsBuilder.sum`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	sum():Expression;
 	/**
 	 * Creates an {@link Expression} that returns the value of the sum
 	 * of the self expression's values for every distinct sequence over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#sumDistinct `FunctionExpressionsBuilder.sumDistinct`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	sumDistinct():Expression;
 
 	/**
@@ -566,16 +568,16 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * of the self expression's values over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#avg `FunctionExpressionsBuilder.avg`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	avg():Expression;
 	/**
 	 * Creates an {@link Expression} that returns the average value
 	 * of the self expression's values for every distinct sequence over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#avgDistinct `FunctionExpressionsBuilder.avgDistinct`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	avgDistinct():Expression;
 
 	/**
@@ -583,16 +585,16 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * of the self expression's values over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#min `FunctionExpressionsBuilder.min`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	min():Expression;
 	/**
 	 * Creates an {@link Expression} that returns the minimum value
 	 * of the self expression's values for every distinct sequence over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#minDistinct `FunctionExpressionsBuilder.minDistinct`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	minDistinct():Expression;
 
 	/**
@@ -600,16 +602,16 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * of the self expression's values over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#max `FunctionExpressionsBuilder.max`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	max():Expression;
 	/**
 	 * Creates an {@link Expression} that returns the maximum value
 	 * of the self expression's values for every distinct sequence over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#maxDistinct `FunctionExpressionsBuilder.maxDistinct`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	maxDistinct():Expression;
 
 	/**
@@ -619,8 +621,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#groupConcat `FunctionExpressionsBuilder.groupConcat`}  for the complete version of this method.
 	 *
 	 * @param separator - Optional separator character used in the concatenation, where by default its a space.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	groupConcat( separator?:string ):Expression;
 	/**
 	 * Creates an {@link Expression} that returns the string concatenation
@@ -629,8 +631,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link FunctionExpressionsBuilder#groupConcatDistinct `FunctionExpressionsBuilder.groupConcatDistinct`}  for the complete version of this method.
 	 *
 	 * @param separator - Optional separator character used in the concatenation, where by default its a space.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	groupConcatDistinct( separator?:string ):Expression;
 
 	/**
@@ -638,16 +640,16 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * from the self expression's values over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#sample `FunctionExpressionsBuilder.sample`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	sample():Expression;
 	/**
 	 * Creates an {@link Expression} that returns an arbitrary value
 	 * from the self expression's values for every distinct sequence over the solution group.
 	 *
 	 * See {@link FunctionExpressionsBuilder#sampleDistinct `FunctionExpressionsBuilder.sampleDistinct`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	sampleDistinct():Expression;
 
 	/**
@@ -657,8 +659,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#or `OperationExpressionsBuilder.or`}  for the complete version of this method.
 	 *
 	 * @param restExpressions - Expressions to construct a logical OR with the previous expression.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	or( ...restExpressions:(Expression | SupportedNativeTypes)[] ):Expression;
 	/**
 	 * Creates an operation {@link Expression} that returns logical ANDs
@@ -667,8 +669,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#and `OperationExpressionsBuilder.and`}  for the complete version of this method.
 	 *
 	 * @param restExpressions - Expressions to construct a logical AND with the previous expression.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	and( ...restExpressions:(Expression | SupportedNativeTypes)[] ):Expression;
 
 	/**
@@ -678,8 +680,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#equals `OperationExpressionsBuilder.equals`}  for the complete version of this method.
 	 *
 	 * @param rightExpression - Right expression to be compared against the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	equals( rightExpression:Expression | SupportedNativeTypes ):Expression;
 	/**
 	 * Creates an operation {@link Expression} that returns `true` if
@@ -688,8 +690,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#notEquals `OperationExpressionsBuilder.notEquals`}  for the complete version of this method.
 	 *
 	 * @param rightExpression - Right expression to be compared against the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	notEquals( rightExpression:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -699,8 +701,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#lt `OperationExpressionsBuilder.lt`}  for the complete version of this method.
 	 *
 	 * @param rightExpression - Right expression to be compared against the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	lt( rightExpression:Expression | SupportedNativeTypes ):Expression;
 	/**
 	 * Creates an operation {@link Expression} that returns `true` if
@@ -709,8 +711,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#lte `OperationExpressionsBuilder.lte`}  for the complete version of this method.
 	 *
 	 * @param rightExpression - Right expression to be compared against the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	lte( rightExpression:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -720,8 +722,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#gt `OperationExpressionsBuilder.gt`}  for the complete version of this method.
 	 *
 	 * @param rightExpression - Right expression to be compared against the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	gt( rightExpression:Expression | SupportedNativeTypes ):Expression;
 	/**
 	 * Creates an operation {@link Expression} that returns `true` if
@@ -730,8 +732,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#gte `OperationExpressionsBuilder.gte`}  for the complete version of this method.
 	 *
 	 * @param rightExpression - Right expression to be compared against the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	gte( rightExpression:Expression | SupportedNativeTypes ):Expression;
 
 	/**
@@ -741,8 +743,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#in `OperationExpressionsBuilder.in`}  for the complete version of this method.
 	 *
 	 * @param rightExpressions - Expressions to compare its values against the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	in( ...rightExpressions:(Expression | SupportedNativeTypes)[] ):Expression;
 	/**
 	 * Creates an operation {@link Expression} that returns true whether
@@ -751,8 +753,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#notIn `OperationExpressionsBuilder.notIn`}  for the complete version of this method.
 	 *
 	 * @param rightExpressions - Expressions to compare its values against the self value.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	notIn( ...rightExpressions:(Expression | SupportedNativeTypes)[] ):Expression;
 
 	/**
@@ -762,8 +764,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#add `OperationExpressionsBuilder.add`}  for the complete version of this method.
 	 *
 	 * @param restExpressions - Expressions to construct an arithmetic sum with the previous expression.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	add( ...restExpressions:(Expression | SupportedNativeTypes)[] ):Expression;
 	/**
 	 * Creates an operation {@link Expression} that returns the arithmetic difference
@@ -772,8 +774,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#subtract `OperationExpressionsBuilder.subtract`}  for the complete version of this method.
 	 *
 	 * @param restExpressions - Expressions to construct an arithmetic difference with the previous expression.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	subtract( ...restExpressions:(Expression | SupportedNativeTypes)[] ):Expression;
 
 	/**
@@ -783,8 +785,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#multiply `OperationExpressionsBuilder.multiply`}  for the complete version of this method.
 	 *
 	 * @param restExpressions - Expressions to construct an arithmetic product with the previous expression.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	multiply( ...restExpressions:(Expression | SupportedNativeTypes)[] ):Expression;
 	/**
 	 * Creates an operation {@link Expression} that returns the arithmetic quotient
@@ -793,8 +795,8 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * See {@link OperationExpressionsBuilder#divide `OperationExpressionsBuilder.divide`}  for the complete version of this method.
 	 *
 	 * @param restExpressions - Expressions to construct an arithmetic quotient with the previous expression.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	divide( ...restExpressions:(Expression | SupportedNativeTypes)[] ):Expression;
 
 	/**
@@ -802,24 +804,24 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	 * if the effective boolean value of the self value is false.
 	 *
 	 * See {@link OperationExpressionsBuilder#not `OperationExpressionsBuilder.not`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	not():Expression;
 	/**
 	 * Creates an operation {@link Expression} that returns the numeric
 	 * self value with its sing unchanged.
 	 *
 	 * See {@link OperationExpressionsBuilder#plus `OperationExpressionsBuilder.plus`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	plus():Expression;
 	/**
 	 * Creates an operation {@link Expression} that returns the numeric
 	 * self value with its sing reversed.
 	 *
 	 * See {@link OperationExpressionsBuilder#minus `OperationExpressionsBuilder.minus`}  for the complete version of this method.
-	  */
-	 //TODO: Fix Link Syntax
+	 */
+	//TODO: Fix Link Syntax
 	minus():Expression;
 
 

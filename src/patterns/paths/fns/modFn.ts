@@ -1,10 +1,10 @@
 import { cloneElement } from "../../../core/containers/utils";
 
-import { Resource } from "../../triplePatterns/Resource";
-
 import { PathModToken } from "../../../tokens/PathModToken";
 import { PathPrimaryToken } from "../../../tokens/PathPrimaryToken";
 import { PathToken } from "../../../tokens/PathToken";
+
+import { Resource } from "../../triplePatterns/Resource";
 
 import { FluentPath } from "../FluentPath";
 import { FluentPathContainer } from "../FluentPathContainer";

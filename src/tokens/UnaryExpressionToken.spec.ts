@@ -3,7 +3,6 @@ import { ExpressionListToken } from "./ExpressionListToken";
 import { FunctionToken } from "./FunctionToken";
 import { IRIRefToken } from "./IRIRefToken";
 import { PrefixedNameToken } from "./PrefixedNameToken";
-import { PrimaryExpressionToken } from "./PrimaryExpressionToken";
 import { UnaryExpressionToken } from "./UnaryExpressionToken";
 import { UnaryOperationToken } from "./UnaryOperationToken";
 import { VariableToken } from "./VariableToken";

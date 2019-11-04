@@ -3,13 +3,13 @@ import { spyContainers } from "../../../test/spies/clones";
 import { Container } from "../../core/containers/Container";
 import { IRIResolver } from "../../core/iri/IRIResolver";
 
-import { PatternBuilder } from "../PatternBuilder";
-
 import { AssigmentToken } from "../../tokens/AssigmentToken";
 import { ExpressionListToken } from "../../tokens/ExpressionListToken";
 import { FunctionToken } from "../../tokens/FunctionToken";
 import { SubSelectToken } from "../../tokens/SubSelectToken";
 import { VariableToken } from "../../tokens/VariableToken";
+
+import { PatternBuilder } from "../PatternBuilder";
 
 import { SubSelectPattern } from "./SubSelectPattern";
 import { WherePattern } from "./WherePattern";

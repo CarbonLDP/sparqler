@@ -1,7 +1,7 @@
 import { spyContainers } from "../../test/spies/clones";
 
-import { IRIResolver } from "../core/iri/IRIResolver";
 import { QueryUnitContainer } from "../core/containers/QueryUnitContainer";
+import { IRIResolver } from "../core/iri/IRIResolver";
 
 import { BaseToken } from "../tokens/BaseToken";
 import { IRIRefToken } from "../tokens/IRIRefToken";

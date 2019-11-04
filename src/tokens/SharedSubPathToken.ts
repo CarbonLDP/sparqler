@@ -17,7 +17,7 @@ export class SharedSubPathToken<T extends PathToken | undefined> implements Toke
 	}
 
 	toString():string {
-		if( ! this.path ) return "()";
+		if( !this.path ) return "()";
 		return `(${ this.path })`;
 	}
 }

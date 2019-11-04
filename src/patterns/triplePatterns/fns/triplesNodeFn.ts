@@ -2,14 +2,14 @@ import { Container } from "../../../core/containers/Container";
 import { cloneElement } from "../../../core/containers/utils";
 import { Factory } from "../../../core/factories/Factory";
 
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
-
 import { BlankNodePropertyToken } from "../../../tokens/BlankNodePropertyToken";
 import { BlankNodeToken } from "../../../tokens/BlankNodeToken";
 import { CollectionToken } from "../../../tokens/CollectionToken";
 import { TripleNodeToken } from "../../../tokens/TripleNodeToken";
 
 import { Pattern } from "../../Pattern";
+
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 
 import { BlankNode } from "../BlankNode";
 import { BlankNodeBuilder } from "../BlankNodeBuilder";

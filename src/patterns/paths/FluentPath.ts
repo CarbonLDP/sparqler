@@ -1,5 +1,3 @@
-import { Resource } from "../triplePatterns/Resource";
-
 import { IRIToken } from "../../tokens/IRIToken";
 import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
 import { PathInNegatedToken } from "../../tokens/PathInNegatedToken";
@@ -8,6 +6,7 @@ import { PathModToken } from "../../tokens/PathModToken";
 import { PathSequenceToken } from "../../tokens/PathSequenceToken";
 import { PathToken } from "../../tokens/PathToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
+import { Resource } from "../triplePatterns/Resource";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPathContainer } from "./FluentPathContainer";

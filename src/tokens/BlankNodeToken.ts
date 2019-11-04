@@ -16,8 +16,8 @@ export class BlankNodeToken implements TokenNode {
 	readonly label?:string;
 
 	constructor( label?:string ) {
-		if( ! label ) return;
-		if( ! LABEL_REGEX.test( label ) ) throw new Error( "Invalid blank node label." );
+		if( !label ) return;
+		if( !LABEL_REGEX.test( label ) ) throw new Error( "Invalid blank node label." );
 		this.label = label;
 	}
 

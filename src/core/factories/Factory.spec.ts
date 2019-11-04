@@ -1,8 +1,10 @@
 import { TokenNode } from "../../tokens/TokenNode";
 
 import { Container } from "../containers/Container";
-import { Factory } from "./Factory";
+
 import { IRIResolver } from "../iri/IRIResolver";
+
+import { Factory } from "./Factory";
 
 
 describe( "Factory", () => {

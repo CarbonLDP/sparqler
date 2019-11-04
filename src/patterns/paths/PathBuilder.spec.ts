@@ -2,9 +2,6 @@ import { getFluentPathContainer } from "../../../test/factories/FluentPathContai
 import { spyContainers } from "../../../test/spies/clones";
 
 import { Container } from "../../core/containers/Container";
-import { IRIResolver } from "../../core/iri/IRIResolver";
-
-import { Resource } from "../triplePatterns/Resource";
 
 import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { IRIToken } from "../../tokens/IRIToken";
@@ -18,8 +15,7 @@ import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
 import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
 
-import { DeniableFluentPath } from "./DeniableFluentPath";
-import { FluentPath } from "./FluentPath";
+import { Resource } from "../triplePatterns/Resource";
 import { FluentPathContainer } from "./FluentPathContainer";
 
 import { Path } from "./Path";

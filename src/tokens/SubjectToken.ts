@@ -32,7 +32,7 @@ export class SubjectToken<T extends VariableOrTermToken | TripleNodeToken = Vari
 	toString( spaces?:number ):string {
 		let query:string = this.subject.toString( spaces );
 
-		let separator:string = ! this.properties.length ? ""
+		let separator:string = !this.properties.length ? ""
 			: (this.subject.token === "collection" || this.subject.token === "blankNodeProperty")
 			&& query.includes( "\n" ) ? "\n"
 				: " ";

@@ -1,10 +1,10 @@
-import { NumericExpressionToken } from "./NumericExpressionToken";
 import { AdditiveOperationToken } from "./AdditiveOperationToken";
 import { BracketedExpressionToken } from "./BracketedExpressionToken";
 import { ExpressionListToken } from "./ExpressionListToken";
 import { FunctionToken } from "./FunctionToken";
 import { IRIRefToken } from "./IRIRefToken";
 import { MultiplicativeOperationToken } from "./MultiplicativeOperationToken";
+import { NumericExpressionToken } from "./NumericExpressionToken";
 import { PrefixedNameToken } from "./PrefixedNameToken";
 import { UnaryOperationToken } from "./UnaryOperationToken";
 import { VariableToken } from "./VariableToken";

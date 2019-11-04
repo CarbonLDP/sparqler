@@ -1,11 +1,11 @@
 import { cloneElement } from "../../../core/containers/utils";
 
-import { Resource } from "../../triplePatterns/Resource";
-
 import { PathAlternativeToken } from "../../../tokens/PathAlternativeToken";
 import { PathInAlternativeToken } from "../../../tokens/PathInAlternativeToken";
 import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
 import { PathToken } from "../../../tokens/PathToken";
+
+import { Resource } from "../../triplePatterns/Resource";
 
 import { DeniableFluentPath } from "../DeniableFluentPath";
 import { FluentPath } from "../FluentPath";
@@ -33,7 +33,7 @@ export function getAlternativeFn<T extends PathToken>( container:FluentPathConta
 			.map( path => getPropertyToken( container, path ) );
 
 		// [In FluentPath] Add to process when not alternative
-		if( container.targetToken && ! (container.targetToken instanceof PathAlternativeToken) )
+		if( container.targetToken && !(container.targetToken instanceof PathAlternativeToken) )
 			tokensParams.unshift( container.targetToken );
 
 		const processedTokens:PathInAlternativeToken[] = tokensParams

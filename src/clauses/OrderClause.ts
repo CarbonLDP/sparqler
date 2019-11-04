@@ -4,10 +4,8 @@ import { _is } from "../core/transformers";
 
 import { Expression } from "../patterns/expressions/Expression";
 import { Projectable } from "../patterns/expressions/Projectable";
-
-import { PatternBuilder } from "../patterns/PatternBuilder";
 import { OrderCondition } from "../patterns/orders/OrderCondition";
-
+import { PatternBuilder } from "../patterns/PatternBuilder";
 import { SupportedNativeTypes } from "../patterns/SupportedNativeTypes";
 
 import { OrderToken } from "../tokens/OrderToken";

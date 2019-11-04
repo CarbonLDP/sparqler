@@ -2,10 +2,6 @@ import { Container } from "../../../core/containers/Container";
 import { cloneElement } from "../../../core/containers/utils";
 import { Factory } from "../../../core/factories/Factory";
 
-import { Pattern } from "../../Pattern";
-import { Resource } from "../../triplePatterns/Resource";
-import { Variable } from "../../triplePatterns/Variable";
-
 import { ExpressionListToken } from "../../../tokens/ExpressionListToken";
 import { ExpressionToken } from "../../../tokens/ExpressionToken";
 import { FunctionToken } from "../../../tokens/FunctionToken";
@@ -13,6 +9,9 @@ import { GroupPatternToken } from "../../../tokens/GroupPatternToken";
 import { IRIToken } from "../../../tokens/IRIToken";
 import { VariableToken } from "../../../tokens/VariableToken";
 
+import { Pattern } from "../../Pattern";
+import { Resource } from "../../triplePatterns/Resource";
+import { Variable } from "../../triplePatterns/Variable";
 import { Expression } from "../Expression";
 
 import { _expressionTransformerFn, SupportedTypes } from "./utils";

@@ -30,7 +30,7 @@ export interface FinishClause {
 	/**
 	 * Return the same result as {@link FinishClause#toPrettyString `FinishClause.toPrettyString`}
 	 */
-	 // TODO: Fix link syntax
+	// TODO: Fix link syntax
 	toString():string;
 
 
@@ -41,7 +41,7 @@ export interface FinishClause {
 /**
  * Constant with the utils for {@link FinishClause} objects.
  */
-export const FinishClause: {
+export const FinishClause:{
 	/**
 	 * Factory function that allows to crete a {@link FinishClause}
 	 * from the {@param object} provided.
@@ -54,7 +54,7 @@ export const FinishClause: {
 	 * @return The {@link FinishClause} statement created from the
 	 * {@param object} provided.
 	 */
-	createFrom<O extends object>(container:Container<TokenNode>, object:O ):O & FinishClause ;
+	createFrom<O extends object>( container:Container<TokenNode>, object:O ):O & FinishClause;
 } = {
 	createFrom<O extends object>( container:Container<TokenNode>, object:O ):O & FinishClause {
 		const toPrettyString:FinishClause[ "toPrettyString" ] = () =>

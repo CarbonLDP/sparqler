@@ -17,5 +17,5 @@ import { QueryToken } from "./tokens/QueryToken";
  * to be used internally so the expected behaviour applies with added
  * custom functionality for the custom factory.
  */
- // TODO: Fix link syntax
+// TODO: Fix link syntax
 export type FinishFactory<T extends FinishClause> = Factory<Container<QueryToken>, T>;

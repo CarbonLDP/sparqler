@@ -1,7 +1,5 @@
 import { Container } from "../../core/containers/Container";
 
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
-
 import { AdditiveOperationToken } from "../../tokens/AdditiveOperationToken";
 import { ConditionalAndExpressionToken } from "../../tokens/ConditionalAndExpressionToken";
 import { ConditionalAndOperationToken } from "../../tokens/ConditionalAndOperationToken";
@@ -12,6 +10,8 @@ import { NumericExpressionToken } from "../../tokens/NumericExpressionToken";
 import { RelationalExpressionToken } from "../../tokens/RelationalExpressionToken";
 import { RelationalOperationToken } from "../../tokens/RelationalOperationToken";
 import { UnaryExpressionToken } from "../../tokens/UnaryExpressionToken";
+
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { Expression } from "./Expression";
 import { getBinaryOperationFn, getInclusionFn, getUnaryOperationFn } from "./fns/operationFn";

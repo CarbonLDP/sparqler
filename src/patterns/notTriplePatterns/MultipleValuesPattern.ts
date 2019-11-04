@@ -1,9 +1,9 @@
 import { Container } from "../../core/containers/Container";
 import { cloneElement } from "../../core/containers/utils";
 
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
-
 import { ValuesToken } from "../../tokens/ValuesToken";
+
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { Literal } from "../triplePatterns/Literal";
 import { Resource } from "../triplePatterns/Resource";

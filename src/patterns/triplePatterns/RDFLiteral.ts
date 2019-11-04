@@ -39,8 +39,7 @@ function getWithTypeFn<C extends Container<RDFLiteralToken>>( container:C ):RDFL
 		if( type in XSD ) type = XSD[ type as keyof typeof XSD ];
 
 		const iriType = container.iriResolver.resolve( type, true );
-		const targetToken:RDFLiteralToken = cloneElement<"type", RDFLiteralToken, { type: IRIToken }>( container.targetToken, { type: iriType } );
-		// const newContainer:C = cloneElement<C, "targetToken", { targetToken:RDFLiteralToken }>( container, { targetToken } );
+		const targetToken:RDFLiteralToken = cloneElement<"type", RDFLiteralToken, { type:IRIToken }>( container.targetToken, { type: iriType } );
 		const newContainer:C = cloneElement( container, { targetToken } );
 
 		return Literal.createFrom( newContainer, {} );

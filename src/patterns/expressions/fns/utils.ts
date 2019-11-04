@@ -2,9 +2,9 @@ import { Container } from "../../../core/containers/Container";
 import { isAbsolute } from "../../../core/iri/utils";
 import { _getBaseTransformer, _transformNatives } from "../../../core/transformers";
 
-import { SupportedNativeTypes } from "../../SupportedNativeTypes";
-
 import { ExpressionToken } from "../../../tokens/ExpressionToken";
+
+import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 
 import { Expression } from "../Expression";
 

@@ -1,11 +1,11 @@
 import { Container } from "../../../core/containers/Container";
 import { cloneElement } from "../../../core/containers/utils";
 
-import { Variable } from "../../triplePatterns/Variable";
-
 import { AssigmentToken } from "../../../tokens/AssigmentToken";
 import { ExpressionToken } from "../../../tokens/ExpressionToken";
 import { VariableToken } from "../../../tokens/VariableToken";
+
+import { Variable } from "../../triplePatterns/Variable";
 
 import { Projectable } from "../Projectable";
 

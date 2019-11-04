@@ -1,7 +1,5 @@
 import { AssigmentToken } from "./AssigmentToken";
 import { BindToken } from "./BindToken";
-import { ExpressionListToken } from "./ExpressionListToken";
-import { FunctionToken } from "./FunctionToken";
 import { IRIRefToken } from "./IRIRefToken";
 import { UnaryOperationToken } from "./UnaryOperationToken";
 import { VariableToken } from "./VariableToken";

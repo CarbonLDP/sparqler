@@ -24,11 +24,11 @@ export class PrefixedNameToken implements TokenNode {
 	constructor( prefixedOrNamespace:string, localName?:string ) {
 		let namespace:string = prefixedOrNamespace;
 		if( localName === void 0 ) {
-			if( ! isPrefixed( prefixedOrNamespace ) ) throw new Error( "Invalid prefixed name." );
+			if( !isPrefixed( prefixedOrNamespace ) ) throw new Error( "Invalid prefixed name." );
 			[ namespace, localName ] = prefixedOrNamespace.split( /:(.*)/ );
 		}
 
-		if( ! NAMESPACE_REGEX.test( namespace ) ) throw new Error( "Invalid prefixed namespace." );
+		if( !NAMESPACE_REGEX.test( namespace ) ) throw new Error( "Invalid prefixed namespace." );
 		this.namespace = namespace;
 
 		const [ , ln1, ln2, ln3 ] = localName.split( /^(.)(?:(.*)?(.))?$/ );
