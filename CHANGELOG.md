@@ -13,11 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- ### Breaking Changes -->
 
-## [Unreleased]
+## [0.7.0] (2019-11-05)
 
-### Fixed
+### Added
 
-- [#45](https://github.com/CarbonLDP/sparqler/issues/45) - Not adding all the elements in a single variable values pattern
 - [#4](https://github.com/CarbonLDP/sparqler/issues/4) - Add support for SPARQL expressions
     <br>Example:<br>
     ```typescript
@@ -39,7 +38,40 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     ;
     ```
 
+### Fixed
+
+- [#45](https://github.com/CarbonLDP/sparqler/issues/45) - Not adding all the elements in a single variable values pattern
+
+### Breaking Changes
+
+- [#4](https://github.com/CarbonLDP/sparqler/issues/4) - The following methods now accept Expression objects, instead of RAW
+expression strings:
+    - BIND
+    - FILTER
+    - GROUP BY
+    - HAVING
+    - ORDER BY
+    
+    <br>Example:<br>
+    ```typescript
+    import { SPARQLER } from "sparqler";
+    import { PatternBuilder } from "sparqler/patterns";
+  
+    new SPARQLER()
+        .select( "foo", "baz" )
+        .where( (_:PatternBuilder) => ([
+            // Using the same object methods
+            _.bind( _.var("bar").multiply( 0.5 ), "baz" ),
+            // Using the builder methods
+            _.filter( _.gte( _.var("bar"), 10 ) ),
+        ]))
+        .groupBy( (_:PatternBuilder) => ([ _.var("foo") ]) )
+    ;
+    ```
+
 ## [0.6.0] (2018-09-20)
+
+### Added
 
 - [#33](https://github.com/CarbonLDP/sparqler/issues/33) - Full support for property paths
     <br>Example:<br>
@@ -153,8 +185,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - First release
 
 
-[Unreleased]: https://github.com/CarbonLDP/sparqler/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/CarbonLDP/sparqler/compare/v0.7.0...HEAD
 
+[0.7.0]: https://github.com/CarbonLDP/sparqler/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/CarbonLDP/sparqler/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/CarbonLDP/sparqler/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/CarbonLDP/sparqler/compare/v0.3.1...v0.4.0
