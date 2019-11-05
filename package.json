@@ -1,6 +1,6 @@
 {
   "name": "sparqler",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "registry": "npm",
   "description": "SPARQL query buildER for JavaScript/TypeScript",
   "repository": {
