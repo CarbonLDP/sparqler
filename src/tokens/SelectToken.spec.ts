@@ -305,7 +305,7 @@ describe( "SelectToken", ():void => {
 				new FromToken( new PrefixedNameToken( "ex:resource" ) ),
 			);
 
-			expect( token.toString(0 ) ).toEqual( "" +
+			expect( token.toString( 0 ) ).toEqual( "" +
 				"SELECT *\n" +
 				"FROM <resource/>\n" +
 				"FROM ex:resource\n" +

@@ -1,17 +1,17 @@
 export function isAbsolute( iri:string ):boolean {
-	return iri.indexOf( ":" ) !== - 1;
+	return iri.indexOf( ":" ) !== -1;
 }
 
 export function hasProtocol( iri:string ):boolean {
-	return iri.indexOf( "://" ) !== - 1;
+	return iri.indexOf( "://" ) !== -1;
 }
 
 export function isRelative( iri:string ):boolean {
-	return ! isAbsolute( iri );
+	return !isAbsolute( iri );
 }
 
 export function isIRI( iri:string ):boolean {
-	return hasProtocol( iri ) || ! isAbsolute( iri );
+	return hasProtocol( iri ) || !isAbsolute( iri );
 }
 
 
@@ -21,5 +21,5 @@ export function isBNodeLabel( label:string ):boolean {
 
 
 export function isPrefixed( iri:string ):boolean {
-	return /^(?!_:)[^]*?:/.test( iri ) && ! hasProtocol( iri );
+	return /^(?!_:)[^]*?:/.test( iri ) && !hasProtocol( iri );
 }

@@ -1,8 +1,8 @@
 import { Container } from "../core/containers/Container";
-import { Factory } from "../core/factories/Factory";
 import { cloneElement } from "../core/containers/utils";
-import { AskToken } from "../tokens/AskToken";
+import { Factory } from "../core/factories/Factory";
 
+import { AskToken } from "../tokens/AskToken";
 import { QueryToken } from "../tokens/QueryToken";
 
 import { FinishClause } from "./FinishClause";

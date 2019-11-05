@@ -1,10 +1,10 @@
 import { Container } from "../../core/containers/Container";
 import { cloneElement } from "../../core/containers/utils";
 
-import { Resource } from "../triplePatterns/Resource";
-
 import { IRIToken } from "../../tokens/IRIToken";
 import { PathToken } from "../../tokens/PathToken";
+
+import { Resource } from "../triplePatterns/Resource";
 
 import { DeniableFluentPath } from "./DeniableFluentPath";
 import { FluentPath } from "./FluentPath";

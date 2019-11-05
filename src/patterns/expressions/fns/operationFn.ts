@@ -1,6 +1,6 @@
 import { Container } from "../../../core/containers/Container";
-import { Factory } from "../../../core/factories/Factory";
 import { cloneElement } from "../../../core/containers/utils";
+import { Factory } from "../../../core/factories/Factory";
 
 import { BinaryOperationToken } from "../../../tokens/BinaryOperationToken";
 import { BracketedExpressionToken } from "../../../tokens/BracketedExpressionToken";

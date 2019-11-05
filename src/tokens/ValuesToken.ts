@@ -42,7 +42,7 @@ export class ValuesToken implements TokenNode {
 	}
 
 	private _getVariablesStr():string {
-		if( ! this.variables.length ) return "()";
+		if( !this.variables.length ) return "()";
 
 		const variables:string = this.variables.join( " " );
 		if( this.variables.length === 1 ) return variables;
@@ -51,7 +51,7 @@ export class ValuesToken implements TokenNode {
 	}
 
 	private _getValuesStr( spaces?:number ):string {
-		if( ! this.values.length ) return "{}";
+		if( !this.values.length ) return "{}";
 
 		if( this.variables.length === 1 ) {
 			const values:string = this.values
@@ -59,7 +59,7 @@ export class ValuesToken implements TokenNode {
 				.map( x => x[ 0 ] )
 				.join( " " );
 
-			if( ! values ) return "{}";
+			if( !values ) return "{}";
 			return "{ " + values + " }";
 		}
 

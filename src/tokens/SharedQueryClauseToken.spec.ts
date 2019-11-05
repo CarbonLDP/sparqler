@@ -19,7 +19,7 @@ describe( "SharedQueryClauseToken", ():void => {
 		}
 
 		toString( spaces?:number ):string {
-			return this.where +  " " + this.modifiers;
+			return this.where + " " + this.modifiers;
 		}
 	}
 

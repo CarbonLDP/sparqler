@@ -2,8 +2,9 @@ import { FinishClause } from "../../clauses/FinishClause";
 
 import { QueryToken } from "../../tokens/QueryToken";
 
-import { Container } from "./Container";
 import { IRIResolver } from "../iri/IRIResolver";
+
+import { Container } from "./Container";
 import { QueryUnitContainer } from "./QueryUnitContainer";
 
 

@@ -1,8 +1,8 @@
+import { _getBaseTransformer } from "../core/transformers";
+
 import { Projectable } from "../patterns/expressions/Projectable";
 
 import { VariableToken } from "../tokens/VariableToken";
-
-import { _getBaseTransformer } from "../core/transformers";
 
 
 export const _assigmentTransformer = _getBaseTransformer<"getProjection", Projectable>

@@ -1,5 +1,5 @@
-import { SubPathInNegatedToken } from "./SubPathInNegatedToken";
 import { PathInNegatedToken } from "./PathInNegatedToken";
+import { SubPathInNegatedToken } from "./SubPathInNegatedToken";
 import { TokenNode } from "./TokenNode";
 
 

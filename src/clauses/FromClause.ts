@@ -1,9 +1,9 @@
 import { Container } from "../core/containers/Container";
+import { cloneElement } from "../core/containers/utils";
 import { Factory } from "../core/factories/Factory";
 import { IRIResolver } from "../core/iri/IRIResolver";
-import { cloneElement } from "../core/containers/utils";
-import { AskToken } from "../tokens/AskToken";
 
+import { AskToken } from "../tokens/AskToken";
 import { FromToken } from "../tokens/FromToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";

@@ -1,5 +1,6 @@
-import { NotTriplePattern } from "./NotTriplePattern";
 import { GraphToken } from "../../tokens/GraphToken";
+
+import { NotTriplePattern } from "./NotTriplePattern";
 
 
 /**

@@ -1,11 +1,11 @@
 import { Container } from "../../core/containers/Container";
 import { IRIResolver } from "../../core/iri/IRIResolver";
 
-import { TriplePatternsBuilder } from "../triplePatterns/TriplePatternsBuilder";
+import { XSD } from "../../utils/XSD";
 
 import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
-import { XSD } from "../../utils/XSD";
+import { TriplePatternsBuilder } from "../triplePatterns/TriplePatternsBuilder";
 
 import { Expression } from "./Expression";
 import { FunctionExpressionsBuilder } from "./FunctionExpressionsBuilder";

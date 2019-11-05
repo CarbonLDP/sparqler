@@ -1,11 +1,12 @@
 import { FinishClause } from "../../clauses/FinishClause";
-import { AskToken } from "../../tokens/AskToken";
 
+import { AskToken } from "../../tokens/AskToken";
 import { QueryToken } from "../../tokens/QueryToken";
 import { SelectToken } from "../../tokens/SelectToken";
 
-import { Container, ContainerData } from "./Container";
 import { Factory } from "../factories/Factory";
+
+import { Container, ContainerData } from "./Container";
 
 
 /**

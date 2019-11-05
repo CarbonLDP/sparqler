@@ -1,5 +1,5 @@
-import { SharedQueryClauseToken } from "./SharedQueryClauseToken";
 import { getSeparator, getTokenContainerString } from "./printing";
+import { SharedQueryClauseToken } from "./SharedQueryClauseToken";
 import { TripleToken } from "./TripleToken";
 
 

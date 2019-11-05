@@ -1,5 +1,5 @@
-import { SharedSelectToken } from "./SharedSelectToken";
 import { addSpaces, getIndentation, getSeparator, INDENTATION_SPACES } from "./printing";
+import { SharedSelectToken } from "./SharedSelectToken";
 import { ValuesToken } from "./ValuesToken";
 
 

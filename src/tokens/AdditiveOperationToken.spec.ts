@@ -1,5 +1,5 @@
-import { BinaryOperationToken } from "./BinaryOperationToken";
 import { AdditiveOperationToken } from "./AdditiveOperationToken";
+import { BinaryOperationToken } from "./BinaryOperationToken";
 import { VariableToken } from "./VariableToken";
 
 

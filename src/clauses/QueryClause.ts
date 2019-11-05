@@ -34,7 +34,7 @@ export interface QueryClause<SELECT extends FinishClause, ASK extends FinishClau
 	 * @param iri IRI to be used as the query BASE.
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-     // TODO: Fix link syntax
+	// TODO: Fix link syntax
 	base( iri:string ):QueryClause<SELECT, ASK>;
 
 	/**

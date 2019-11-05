@@ -17,7 +17,7 @@ export class LanguageToken implements TokenNode {
 	readonly tag:string;
 
 	constructor( tag:string ) {
-		if( ! LANGUAGE_REGEX.test( tag ) ) throw new Error( `"${ tag }" is an invalid language tag.` );
+		if( !LANGUAGE_REGEX.test( tag ) ) throw new Error( `"${ tag }" is an invalid language tag.` );
 		this.tag = tag;
 	}
 

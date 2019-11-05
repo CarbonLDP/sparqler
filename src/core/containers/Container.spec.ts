@@ -1,7 +1,8 @@
 import { TokenNode } from "../../tokens/TokenNode";
 
-import { Container } from "./Container";
 import { IRIResolver } from "../iri/IRIResolver";
+
+import { Container } from "./Container";
 
 
 describe( "Container", () => {

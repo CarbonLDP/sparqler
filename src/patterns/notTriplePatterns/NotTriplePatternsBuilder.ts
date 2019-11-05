@@ -3,12 +3,6 @@ import { Container } from "../../core/containers/Container";
 import { cloneElement } from "../../core/containers/utils";
 import { _is } from "../../core/transformers";
 
-import { Expression } from "../expressions/Expression";
-import { _expressionTransformerFn } from "../expressions/fns/utils";
-import { Projectable } from "../expressions/Projectable";
-
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
-
 import { AssigmentToken } from "../../tokens/AssigmentToken";
 import { BindToken } from "../../tokens/BindToken";
 import { FilterToken } from "../../tokens/FilterToken";
@@ -22,7 +16,12 @@ import { UnionPatternToken } from "../../tokens/UnionPatternToken";
 import { ValuesToken } from "../../tokens/ValuesToken";
 import { VariableToken } from "../../tokens/VariableToken";
 
+import { Expression } from "../expressions/Expression";
+import { _expressionTransformerFn } from "../expressions/fns/utils";
+import { Projectable } from "../expressions/Projectable";
+
 import { Pattern } from "../Pattern";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
 import { Resource } from "../triplePatterns/Resource";
 import { Variable } from "../triplePatterns/Variable";
 import { Undefined } from "../Undefined";

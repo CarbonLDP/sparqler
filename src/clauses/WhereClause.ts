@@ -3,8 +3,8 @@ import { cloneElement } from "../core/containers/utils";
 import { Factory } from "../core/factories/Factory";
 import { IRIResolver } from "../core/iri/IRIResolver";
 
-import { PatternBuilder } from "../patterns/PatternBuilder";
 import { Pattern } from "../patterns/Pattern";
+import { PatternBuilder } from "../patterns/PatternBuilder";
 
 import { QueryClauseToken } from "../tokens/QueryClauseToken";
 import { QueryToken } from "../tokens/QueryToken";

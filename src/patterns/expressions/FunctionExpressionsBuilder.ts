@@ -1,10 +1,10 @@
 import { Container } from "../../core/containers/Container";
 
 import { Pattern } from "../Pattern";
+import { SupportedNativeTypes } from "../SupportedNativeTypes";
+
 import { Resource } from "../triplePatterns/Resource";
 import { Variable } from "../triplePatterns/Variable";
-
-import { SupportedNativeTypes } from "../SupportedNativeTypes";
 
 import { Expression } from "./Expression";
 import {

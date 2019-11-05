@@ -1,7 +1,7 @@
-import { VariableOrIRIToken } from "./VariableOrIRIToken";
 import { GroupPatternToken } from "./GroupPatternToken";
 import { PatternToken } from "./PatternToken";
 import { TokenNode } from "./TokenNode";
+import { VariableOrIRIToken } from "./VariableOrIRIToken";
 
 
 /**

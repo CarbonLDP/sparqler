@@ -1,8 +1,8 @@
 import { FinishClause } from "./clauses/FinishClause";
 import { QueryClause } from "./clauses/QueryClause";
 
-import { IRIResolver } from "./core/iri/IRIResolver";
 import { QueryUnitContainer } from "./core/containers/QueryUnitContainer";
+import { IRIResolver } from "./core/iri/IRIResolver";
 
 import { FinishFactory } from "./FinishFactory";
 
@@ -34,8 +34,8 @@ export class SPARQLER<SELECT extends FinishClause = FinishClause, ASK extends Fi
 	 * @param finishSelectFactory Factory for finishing a SELECT query.
 	 * @param finishAskFactory Factory for finishing an ASK query.
 	 */
-     // TODO: Fix link syntax
-     // TODO: Interface not showing up in Dgeni
+	// TODO: Fix link syntax
+	// TODO: Interface not showing up in Dgeni
 	constructor(
 		finishSelectFactory:FinishFactory<SELECT> = FinishClause.createFrom as FinishFactory<SELECT>,
 		finishAskFactory:FinishFactory<ASK> = FinishClause.createFrom as FinishFactory<ASK>,

@@ -1,6 +1,7 @@
 import { AdditiveOperationToken } from "./AdditiveOperationToken";
 import { BracketedExpressionToken } from "./BracketedExpressionToken";
 import { ConditionalAndOperationToken } from "./ConditionalAndOperationToken";
+import { ConditionalOrExpressionToken } from "./ConditionalOrExpressionToken";
 import { ConditionalOrOperationToken } from "./ConditionalOrOperationToken";
 import { ExpressionListToken } from "./ExpressionListToken";
 import { FunctionToken } from "./FunctionToken";
@@ -10,7 +11,6 @@ import { MultiplicativeOperationToken } from "./MultiplicativeOperationToken";
 import { PrefixedNameToken } from "./PrefixedNameToken";
 import { RelationalOperationToken } from "./RelationalOperationToken";
 import { UnaryOperationToken } from "./UnaryOperationToken";
-import { ConditionalOrExpressionToken } from "./ConditionalOrExpressionToken";
 import { VariableToken } from "./VariableToken";
 
 

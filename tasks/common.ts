@@ -1,7 +1,6 @@
-import path from "path";
-
 import del from "del";
 import gulp from "gulp";
+import path from "path";
 
 
 export const tasker = <T extends gulp.TaskFunction & Function>( fn:T ) => ( name?:string ) => {

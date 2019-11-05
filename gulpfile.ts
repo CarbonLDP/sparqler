@@ -35,9 +35,4 @@ export {
 export {
 	docsBuildDev,
 	docsBuildProd,
-	docsHTML,
-	docsBundle,
-	docsImages,
-	docsCleanImages,
-	docsAddImages,
 } from "./tasks/docs"

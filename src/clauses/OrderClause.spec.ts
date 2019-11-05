@@ -2,12 +2,11 @@ import { spyContainers } from "../../test/spies/clones";
 
 import { Container } from "../core/containers/Container";
 import { IRIResolver } from "../core/iri/IRIResolver";
+
 import { BracketedExpressionToken } from "../tokens/BracketedExpressionToken";
 import { ExplicitOrderConditionToken } from "../tokens/ExplicitOrderConditionToken";
 import { ExpressionListToken } from "../tokens/ExpressionListToken";
 import { FunctionToken } from "../tokens/FunctionToken";
-import { HavingToken } from "../tokens/HavingToken";
-
 import { OrderToken } from "../tokens/OrderToken";
 import { QueryToken } from "../tokens/QueryToken";
 import { SelectToken } from "../tokens/SelectToken";

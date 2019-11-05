@@ -4,8 +4,6 @@ import { spyContainers } from "../../../test/spies/clones";
 import { Container } from "../../core/containers/Container";
 import { IRIResolver } from "../../core/iri/IRIResolver";
 
-import { Resource } from "../triplePatterns/Resource";
-
 import { IRIRefToken } from "../../tokens/IRIRefToken";
 import { IRIToken } from "../../tokens/IRIToken";
 import { PathAlternativeToken } from "../../tokens/PathAlternativeToken";
@@ -18,6 +16,8 @@ import { PrefixedNameToken } from "../../tokens/PrefixedNameToken";
 import { SharedSubPathToken } from "../../tokens/SharedSubPathToken";
 import { SubPathInNegatedToken } from "../../tokens/SubPathInNegatedToken";
 import { SubPathToken } from "../../tokens/SubPathToken";
+
+import { Resource } from "../triplePatterns/Resource";
 import { FluentPath } from "./FluentPath";
 import { Path } from "./Path";
 

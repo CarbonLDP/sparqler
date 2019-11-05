@@ -1,14 +1,14 @@
 import { cloneElement } from "../../../core/containers/utils";
 
-import { Resource } from "../../triplePatterns/Resource";
-
 import { PathInNegatedToken } from "../../../tokens/PathInNegatedToken";
 import { PathToken } from "../../../tokens/PathToken";
 import { SharedSubPathToken } from "../../../tokens/SharedSubPathToken";
 import { SubPathInNegatedToken } from "../../../tokens/SubPathInNegatedToken";
 import { SubPathToken } from "../../../tokens/SubPathToken";
-import { DeniableFluentPath } from "../DeniableFluentPath";
 
+import { Resource } from "../../triplePatterns/Resource";
+
+import { DeniableFluentPath } from "../DeniableFluentPath";
 import { FluentPath } from "../FluentPath";
 import { FluentPathContainer } from "../FluentPathContainer";
 import { Path } from "../Path";

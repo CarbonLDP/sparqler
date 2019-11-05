@@ -18,7 +18,7 @@ export class VariableToken implements TokenNode {
 	readonly name:string;
 
 	constructor( name:string ) {
-		if( ! NAME_REGEX.test( name ) ) throw new Error( "Invalid variable name" );
+		if( !NAME_REGEX.test( name ) ) throw new Error( "Invalid variable name" );
 
 		this.name = name;
 	}

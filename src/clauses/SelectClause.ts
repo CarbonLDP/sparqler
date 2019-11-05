@@ -27,7 +27,7 @@ export interface SelectClause<T extends FinishClause> {
 	 * as {@link SelectClause#selectAll `SelectClause.selectAll`}
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	 // TODO: Fix link syntax
+	// TODO: Fix link syntax
 	select( ...variables:string[] ):FromClause<T>;
 	/**
 	 * Set a list of variables, constructed by the builder helper,
@@ -51,7 +51,7 @@ export interface SelectClause<T extends FinishClause> {
 	 * as {@link SelectClause#selectAllDistinct `SelectClause.selectAllDistinct`}
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	 // TODO: Fix link syntax
+	// TODO: Fix link syntax
 	selectDistinct( ...variables:string[] ):FromClause<T>;
 	/**
 	 * Set a list of variables, constructed by the builder helper,
@@ -77,7 +77,7 @@ export interface SelectClause<T extends FinishClause> {
 	 * as {@link SelectClause#selectAllReduced `SelectClause.selectAllReduced`}
 	 * @returns Object with the methods to keep constructing the query.
 	 */
-	 // TODO: Fix link syntax
+	// TODO: Fix link syntax
 	selectReduced( ...variables:string[] ):FromClause<T>;
 	/**
 	 * Set a list of variables, constructed by the builder helper,

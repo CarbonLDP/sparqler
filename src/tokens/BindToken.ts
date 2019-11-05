@@ -1,6 +1,5 @@
 import { AssigmentToken } from "./AssigmentToken";
 import { TokenNode } from "./TokenNode";
-import { VariableToken } from "./VariableToken";
 
 
 /**

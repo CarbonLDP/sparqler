@@ -1,6 +1,6 @@
 import { IRIToken } from "./IRIToken";
-import { SubPathToken } from "./SubPathToken";
 import { PathNegatedToken } from "./PathNegatedToken";
+import { SubPathToken } from "./SubPathToken";
 
 
 /**
