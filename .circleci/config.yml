@@ -1,0 +1,165 @@
+workspace_root: &workspace_root /home/circleci
+workspace_path: &workspace_path workspace
+workspace: &workspace /home/circleci/workspace
+
+defaults: &defaults
+  working_directory: *workspace
+  docker:
+    - image: circleci/node:9
+
+version: 2
+jobs:
+  build:
+    <<: *defaults
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+          # Since we are using internal packages (docs-generator), using a fallback cache can sometimes break the build
+          # - v1-dependencies-
+
+      - run:
+          name: Install npm dependencies
+          command: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Build package
+          command: npm start
+
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - *workspace_path
+
+  test:
+    working_directory: *workspace
+
+    docker:
+      - image: circleci/node:9-browsers
+
+    steps:
+      - attach_workspace:
+          at: *workspace_root
+
+      - run:
+          name: Run tests
+          command: npm test
+
+  deploy_npm:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: *workspace_root
+
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > "${CIRCLE_WORKING_DIRECTORY}/dist/.npmrc"
+
+      - run:
+          name: Publish package
+          command: |
+            NPM_TAG="latest"
+            if [[ ${CIRCLE_TAG} =~ ^v.*-[a-zA-Z]+\.[0-9]+$ ]]; then
+            	NPM_TAG="next"
+            fi
+
+            cd dist
+            npm publish --tag ${NPM_TAG}
+                        
+  deploy_docs:
+    <<: *defaults
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "88:40:77:16:49:23:99:69:df:a3:ad:ac:21:ec:b3:8e"
+
+      - attach_workspace:
+          at: *workspace_root
+
+      - run:
+          name: Auth with github
+          command: |
+            mkdir -p ~/.ssh/
+            ssh-keyscan -Ht rsa github.com >> ~/.ssh/known_hosts
+
+      - run:
+          name: Publish gh-pages
+          command: |
+            # Fail script when any non-zero command
+            set -e
+
+            # Config GIT
+            git config --global user.email "$GH_EMAIL"
+            git config --global user.name "$GH_NAME"
+
+            # Clone GitHub Pages branch
+            git clone --single-branch --branch gh-pages $CIRCLE_REPOSITORY_URL gh-pages
+
+            # Clean GitHub Pages
+            echo -e "\nClean gh-pages directory"
+            cd gh-pages
+            git rm -rf .
+
+            # Copy docs to GitHub Pages
+            echo -e "\nCopy docs into gh-pages directory"
+            cd ..
+            cp -av docs/* gh-pages
+            # Copy Circle CI config
+            mkdir -p gh-pages/.circleci
+            cp -av .circleci/config.yml gh-pages/.circleci/config.yml
+            # Add .nojekyll file
+            touch .nojekyll
+
+            # Publish new GitHub Pages
+            echo -e "\nDeploy gh-pages branch"
+            cd gh-pages
+            git add -A
+            git commit -m "Circle CI deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
+            git push origin gh-pages
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore:
+                - gh-pages
+      - test:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore:
+                - gh-pages
+      - deploy_npm:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-.+)?/
+      - deploy_docs:
+          requires:
+            - deploy_npm
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
