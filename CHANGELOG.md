@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- ### Breaking Changes -->
 
+## [Unreleased]
+
+### Fixed
+
+- [#52](https://github.com/CarbonLDP/sparqler/issues/52) - Merging the FILTER keyword with the label of a function expression
+
 ## [0.7.0] (2019-11-05)
 
 ### Added
