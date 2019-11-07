@@ -14,10 +14,10 @@ export { FilterPattern } from "./notTriplePatterns/FilterPattern"
 export { GraphPattern } from "./notTriplePatterns/GraphPattern"
 export { GroupPattern } from "./notTriplePatterns/GroupPattern"
 export { MinusPattern } from "./notTriplePatterns/MinusPattern"
-export { MultipleValuesPattern } from "./notTriplePatterns/MultipleValuesPattern"
+export { MultipleValuesPattern, MultipleValuesPatternMore } from "./notTriplePatterns/MultipleValuesPattern"
 export { OptionalPattern } from "./notTriplePatterns/OptionalPattern"
 export { ServicePattern } from "./notTriplePatterns/ServicePattern"
-export { SingleValuesPattern } from "./notTriplePatterns/SingleValuesPattern"
+export { SingleValuesPattern, SingleValuesPatternMore } from "./notTriplePatterns/SingleValuesPattern"
 export { UnionPattern } from "./notTriplePatterns/UnionPattern"
 export { NotTriplePatternsBuilder } from "./notTriplePatterns/NotTriplePatternsBuilder"
 
@@ -42,7 +42,7 @@ export { Literal } from "./triplePatterns/Literal"
 export { RDFLiteral } from "./triplePatterns/RDFLiteral"
 export { Resource } from "./triplePatterns/Resource"
 export { Variable } from "./triplePatterns/Variable"
-export { PropertyBuilder } from "./triplePatterns/PropertyBuilder"
+export { PropertyBuilder, PropertyBuilderMore } from "./triplePatterns/PropertyBuilder"
 
 export { Pattern } from "./Pattern";
 export { PatternBuilder } from "./PatternBuilder";
