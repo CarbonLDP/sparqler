@@ -259,7 +259,6 @@ describe( "PatternBuilder", ():void => {
 
 		} );
 
-
 		describe( "When OperationExpressionsBuilder", () => {
 
 			let builder:PatternBuilder;

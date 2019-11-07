@@ -68,7 +68,7 @@ export const PatternBuilder:{
 			NotTriplePatternsBuilder.createFrom
 		)( container, object );
 
-		const _patternSupper = Object.assign( {}, patternBuilder );
+		const _patternSuper = Object.assign( {}, patternBuilder );
 
 		const fullBuilder = Factory.createFrom(
 			SubSelectPattern.createFrom,
@@ -77,16 +77,16 @@ export const PatternBuilder:{
 			OrderBuilder.createFrom,
 		)( container, patternBuilder );
 
-		const _expressionSupper = Object.assign( {}, fullBuilder );
+		const _expressionSuper = Object.assign( {}, fullBuilder );
 
 		return Object.assign( fullBuilder, {
 			minus: ( expressionOrPattens:Expression | SupportedNativeTypes | Pattern | Pattern[] ) => {
 				if( typeof expressionOrPattens === "object" && (
 					Array.isArray( expressionOrPattens ) ||
 					"getPattern" in expressionOrPattens
-				) ) return _patternSupper.minus( expressionOrPattens );
+				) ) return _patternSuper.minus( expressionOrPattens );
 
-				return _expressionSupper.minus( expressionOrPattens );
+				return _expressionSuper.minus( expressionOrPattens );
 			},
 		} );
 	},
