@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - [#52](https://github.com/CarbonLDP/sparqler/issues/52) - Merging the FILTER keyword with the label of a function expression
-- [#53](https://github.com/CarbonLDP/sparqler/issues/53) - `PatternBuilder.minus()` method not returning a Pattern when a sub-Pattern(s) provided
+- [#53](https://github.com/CarbonLDP/sparqler/issues/53) - `PatternBuilder.minus()` method not returning a Pattern when Patterns are provided
 
 ## [0.7.0] (2019-11-05)
 
