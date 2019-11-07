@@ -80,13 +80,13 @@ export const PatternBuilder:{
 		const _expressionSuper = Object.assign( {}, fullBuilder );
 
 		return Object.assign( fullBuilder, {
-			minus: ( expressionOrPattens:Expression | SupportedNativeTypes | Pattern | Pattern[] ) => {
-				if( typeof expressionOrPattens === "object" && (
-					Array.isArray( expressionOrPattens ) ||
-					"getPattern" in expressionOrPattens
-				) ) return _patternSuper.minus( expressionOrPattens );
+			minus: ( expressionOrPatterns:Expression | SupportedNativeTypes | Pattern | Pattern[] ) => {
+				if( typeof expressionOrPatterns === "object" && (
+					Array.isArray( expressionOrPatterns ) ||
+					"getPattern" in expressionOrPatterns
+				) ) return _patternSuper.minus( expressionOrPatterns );
 
-				return _expressionSuper.minus( expressionOrPattens );
+				return _expressionSuper.minus( expressionOrPatterns );
 			},
 		} );
 	},
