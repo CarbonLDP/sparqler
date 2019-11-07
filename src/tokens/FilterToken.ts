@@ -17,6 +17,11 @@ export class FilterToken implements TokenNode {
 	}
 
 	toString( spaces?:number ):string {
-		return `FILTER${ this.constraint.toString( spaces ) }`;
+		let tokenStr:string = "FILTER";
+
+		if( this.constraint.token === "function" )
+			tokenStr += " ";
+
+		return tokenStr + this.constraint.toString( spaces );
 	}
 }
