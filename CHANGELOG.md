@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- ### Breaking Changes -->
 
+## [Unreleased]
+
+### Fixed
+
+- [#53](https://github.com/CarbonLDP/sparqler/issues/53) - `PatternBuilder.minus()` method not returning a Pattern when a sub-Pattern(s) provided
+
 ## [0.7.0] (2019-11-05)
 
 ### Added
