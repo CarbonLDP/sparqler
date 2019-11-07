@@ -255,7 +255,7 @@ function getOptionalFn( container:Container<undefined> ):NotTriplePatternsBuilde
 	}
 }
 
-export function getMinusFn( container:Container<undefined> ):NotTriplePatternsBuilder[ "minus" ] {
+function getMinusFn( container:Container<undefined> ):NotTriplePatternsBuilder[ "minus" ] {
 	return ( patterns:Pattern | Pattern[] ) => {
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
 
