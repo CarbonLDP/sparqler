@@ -147,7 +147,7 @@ describe( "Expression", () => {
 
 				as: jasmine.any( Function ),
 
-				getExpression: jasmine.any( Function ),
+				_getExpression: jasmine.any( Function ),
 			} );
 		} );
 
@@ -162,7 +162,7 @@ describe( "Expression", () => {
 		} );
 
 		it( "should return targetToken", () => {
-			const token = expression.getExpression();
+			const token = expression._getExpression();
 			expect( token ).toBe( container.targetToken );
 		} );
 
@@ -206,18 +206,18 @@ describe( "Expression", () => {
 
 		it( "should create function using expression & triples", () => {
 			const returned = expression.if( triplesBuilder.resource( "ex:resource" ), triplesBuilder.literal( false ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "IF( ?foo, ex:resource, false )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "IF( ?foo, ex:resource, false )" );
 		} );
 
 		it( "should create function using expression & natives", () => {
 			const returned = expression.if( "ex:resource", false );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "IF( ?foo, ex:resource, false )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "IF( ?foo, ex:resource, false )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.if as GenericFn)( "ex:resource", false, "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "IF( ?foo, ex:resource, false )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "IF( ?foo, ex:resource, false )" );
 		} );
 
 	} );
@@ -238,7 +238,7 @@ describe( "Expression", () => {
 
 		it( "should create function using expression, triples & natives", () => {
 			const returned = expression.coalesce( triplesBuilder.resource( "ex:resource-1" ), "ex:resource-2", false, triplesBuilder.literal( "value" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "COALESCE( ?foo, ex:resource-1, ex:resource-2, false, \"value\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "COALESCE( ?foo, ex:resource-1, ex:resource-2, false, \"value\" )" );
 		} );
 
 	} );
@@ -259,18 +259,18 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.sameTerm( triplesBuilder.literal( "value" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "sameTerm( ?foo, \"value\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "sameTerm( ?foo, \"value\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.sameTerm( "value" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "sameTerm( ?foo, \"value\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "sameTerm( ?foo, \"value\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.sameTerm as GenericFn)( "value", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "sameTerm( ?foo, \"value\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "sameTerm( ?foo, \"value\" )" );
 		} );
 
 	} );
@@ -291,12 +291,12 @@ describe( "Expression", () => {
 
 		it( "should create", () => {
 			const returned = expression.isIRI();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "isIRI( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "isIRI( ?foo )" );
 		} );
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.isIRI as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "isIRI( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "isIRI( ?foo )" );
 		} );
 
 	} );
@@ -317,13 +317,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.isURI();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "isURI( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "isURI( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.isURI as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "isURI( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "isURI( ?foo )" );
 		} );
 
 	} );
@@ -344,13 +344,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.isBlank();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "isBLANK( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "isBLANK( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.isBlank as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "isBLANK( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "isBLANK( ?foo )" );
 		} );
 
 	} );
@@ -371,13 +371,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.isLiteral();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "isLITERAL( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "isLITERAL( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.isLiteral as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "isLITERAL( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "isLITERAL( ?foo )" );
 		} );
 
 	} );
@@ -398,13 +398,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.isNumeric();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "isNUMERIC( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "isNUMERIC( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.isNumeric as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "isNUMERIC( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "isNUMERIC( ?foo )" );
 		} );
 
 	} );
@@ -425,13 +425,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.str();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STR( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STR( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.str as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STR( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STR( ?foo )" );
 		} );
 
 	} );
@@ -452,13 +452,13 @@ describe( "Expression", () => {
 
 		it( "should create function using natives", () => {
 			const returned = expression.lang();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "LANG( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "LANG( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.lang as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "LANG( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "LANG( ?foo )" );
 		} );
 
 	} );
@@ -479,13 +479,13 @@ describe( "Expression", () => {
 
 		it( "should create function using natives", () => {
 			const returned = expression.datatype();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "DATATYPE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "DATATYPE( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.datatype as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "DATATYPE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "DATATYPE( ?foo )" );
 		} );
 
 	} );
@@ -506,13 +506,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.iri();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "IRI( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "IRI( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.iri as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "IRI( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "IRI( ?foo )" );
 		} );
 
 	} );
@@ -533,13 +533,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.uri();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "URI( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "URI( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.uri as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "URI( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "URI( ?foo )" );
 		} );
 
 	} );
@@ -560,13 +560,13 @@ describe( "Expression", () => {
 
 		it( "should create function using natives", () => {
 			const returned = expression.bnode();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "BNODE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "BNODE( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.bnode as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "BNODE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "BNODE( ?foo )" );
 		} );
 
 	} );
@@ -587,18 +587,18 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.strDT( triplesBuilder.resource( XSD.integer ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRDT( ?foo, <http://www.w3.org/2001/XMLSchema#integer> )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRDT( ?foo, <http://www.w3.org/2001/XMLSchema#integer> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.strDT( XSD.integer );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRDT( ?foo, <http://www.w3.org/2001/XMLSchema#integer> )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRDT( ?foo, <http://www.w3.org/2001/XMLSchema#integer> )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.strDT as GenericFn)( XSD.integer, "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRDT( ?foo, <http://www.w3.org/2001/XMLSchema#integer> )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRDT( ?foo, <http://www.w3.org/2001/XMLSchema#integer> )" );
 		} );
 
 	} );
@@ -619,18 +619,18 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.strLang( triplesBuilder.literal( "en" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRLANG( ?foo, \"en\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRLANG( ?foo, \"en\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.strLang( "en" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRLANG( ?foo, \"en\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRLANG( ?foo, \"en\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.strLang as GenericFn)( "en", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRLANG( ?foo, \"en\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRLANG( ?foo, \"en\" )" );
 		} );
 
 	} );
@@ -651,18 +651,18 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.strLen();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRLEN( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRLEN( ?foo )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.strLen();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRLEN( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRLEN( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.strLen as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRLEN( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRLEN( ?foo )" );
 		} );
 
 	} );
@@ -683,28 +683,28 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.substr( triplesBuilder.literal( 4 ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SUBSTR( ?foo, 4 )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SUBSTR( ?foo, 4 )" );
 		} );
 
 		it( "should create function with length using triples", () => {
 			const returned = expression.substr( triplesBuilder.literal( 4 ), triplesBuilder.literal( 1 ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SUBSTR( ?foo, 4, 1 )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SUBSTR( ?foo, 4, 1 )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.substr( 4 );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SUBSTR( ?foo, 4 )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SUBSTR( ?foo, 4 )" );
 		} );
 
 		it( "should create function with length using natives", () => {
 			const returned = expression.substr( 4, 1 );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SUBSTR( ?foo, 4, 1 )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SUBSTR( ?foo, 4, 1 )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.substr as GenericFn)( 4, 1, "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SUBSTR( ?foo, 4, 1 )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SUBSTR( ?foo, 4, 1 )" );
 		} );
 
 	} );
@@ -725,13 +725,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.uCase();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "UCASE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "UCASE( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.uCase as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "UCASE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "UCASE( ?foo )" );
 		} );
 
 	} );
@@ -752,13 +752,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.lCase();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "LCASE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "LCASE( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.lCase as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "LCASE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "LCASE( ?foo )" );
 		} );
 
 	} );
@@ -779,18 +779,18 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.strStarts( triplesBuilder.literal( "hell" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRSTARTS( ?foo, \"hell\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRSTARTS( ?foo, \"hell\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.strStarts( "hell" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRSTARTS( ?foo, \"hell\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRSTARTS( ?foo, \"hell\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.strStarts as GenericFn)( "hell", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRSTARTS( ?foo, \"hell\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRSTARTS( ?foo, \"hell\" )" );
 		} );
 
 	} );
@@ -811,18 +811,18 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.strEnds( triplesBuilder.literal( "hell" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRENDS( ?foo, \"hell\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRENDS( ?foo, \"hell\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.strEnds( "hell" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRENDS( ?foo, \"hell\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRENDS( ?foo, \"hell\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.strEnds as GenericFn)( "hell", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRENDS( ?foo, \"hell\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRENDS( ?foo, \"hell\" )" );
 		} );
 
 	} );
@@ -843,18 +843,18 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.contains( triplesBuilder.literal( "el" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "CONTAINS( ?foo, \"el\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "CONTAINS( ?foo, \"el\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.contains( "el" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "CONTAINS( ?foo, \"el\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "CONTAINS( ?foo, \"el\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.contains as GenericFn)( "el", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "CONTAINS( ?foo, \"el\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "CONTAINS( ?foo, \"el\" )" );
 		} );
 
 	} );
@@ -875,18 +875,18 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.strBefore( triplesBuilder.literal( "el" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRBEFORE( ?foo, \"el\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRBEFORE( ?foo, \"el\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.strBefore( "el" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRBEFORE( ?foo, \"el\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRBEFORE( ?foo, \"el\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.strBefore as GenericFn)( "el", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRBEFORE( ?foo, \"el\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRBEFORE( ?foo, \"el\" )" );
 		} );
 
 	} );
@@ -907,18 +907,18 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.strAfter( triplesBuilder.literal( "el" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRAFTER( ?foo, \"el\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRAFTER( ?foo, \"el\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.strAfter( "el" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRAFTER( ?foo, \"el\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRAFTER( ?foo, \"el\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.strAfter as GenericFn)( "el", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "STRAFTER( ?foo, \"el\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "STRAFTER( ?foo, \"el\" )" );
 		} );
 
 	} );
@@ -939,13 +939,13 @@ describe( "Expression", () => {
 
 		it( "should create function using natives", () => {
 			const returned = expression.encodeForUri();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "ENCODE_FOR_URI( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "ENCODE_FOR_URI( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.encodeForUri as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "ENCODE_FOR_URI( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "ENCODE_FOR_URI( ?foo )" );
 		} );
 
 	} );
@@ -966,7 +966,7 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.concat( "foo", triplesBuilder.literal( "bar" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "CONCAT( ?foo, \"foo\", \"bar\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "CONCAT( ?foo, \"foo\", \"bar\" )" );
 		} );
 
 	} );
@@ -987,18 +987,18 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.langMatches( triplesBuilder.literal( "fr" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( ?foo, \"fr\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( ?foo, \"fr\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.langMatches( "fr" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( ?foo, \"fr\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( ?foo, \"fr\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.langMatches as GenericFn)( "fr", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( ?foo, \"fr\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( ?foo, \"fr\" )" );
 		} );
 
 	} );
@@ -1019,38 +1019,38 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.regex( triplesBuilder.literal( "^Foo" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^Foo\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^Foo\" )" );
 		} );
 
 		it( "should create function with flag using triples", () => {
 			const returned = expression.regex( triplesBuilder.literal( "^foo" ), triplesBuilder.literal( "i" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^foo\", \"i\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^foo\", \"i\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.regex( "^Foo" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^Foo\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^Foo\" )" );
 		} );
 
 		it( "should create function with flag using natives", () => {
 			const returned = expression.regex( "^foo", "i" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^foo\", \"i\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^foo\", \"i\" )" );
 		} );
 
 		it( "should create function using regex", () => {
 			const returned = expression.regex( /^Foo/ );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^Foo\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^Foo\" )" );
 		} );
 
 		it( "should create function using regex with flags", () => {
 			const returned = expression.regex( /^foo/i );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^foo\", \"i\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^foo\", \"i\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.regex as GenericFn)( "^foo", "i", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^foo\", \"i\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REGEX( ?foo, \"^foo\", \"i\" )" );
 		} );
 
 	} );
@@ -1071,38 +1071,38 @@ describe( "Expression", () => {
 
 		it( "should create function using triples", () => {
 			const returned = expression.replace( triplesBuilder.literal( "r" ), triplesBuilder.literal( "z" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"r\", \"z\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"r\", \"z\" )" );
 		} );
 
 		it( "should create function with flag using triples", () => {
 			const returned = expression.replace( triplesBuilder.literal( "R" ), triplesBuilder.literal( "z" ), triplesBuilder.literal( "i" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"R\", \"z\", \"i\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"R\", \"z\", \"i\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const returned = expression.replace( "r", "z" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"r\", \"z\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"r\", \"z\" )" );
 		} );
 
 		it( "should create function with flag using natives", () => {
 			const returned = expression.replace( "R", "z", "i" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"R\", \"z\", \"i\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"R\", \"z\", \"i\" )" );
 		} );
 
 		it( "should create function using regex", () => {
 			const returned = expression.replace( /r/, "z" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"r\", \"z\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"r\", \"z\" )" );
 		} );
 
 		it( "should create function using regex with flags", () => {
 			const returned = expression.replace( /R/i, "z" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"R\", \"z\", \"i\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"R\", \"z\", \"i\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.replace as GenericFn)( "R", "z", "i", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"R\", \"z\", \"i\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?foo, \"R\", \"z\", \"i\" )" );
 		} );
 
 	} );
@@ -1123,13 +1123,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.abs();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "ABS( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "ABS( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.abs as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "ABS( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "ABS( ?foo )" );
 		} );
 
 	} );
@@ -1150,13 +1150,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.round();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "ROUND( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "ROUND( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.round as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "ROUND( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "ROUND( ?foo )" );
 		} );
 
 	} );
@@ -1177,13 +1177,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.ceil();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "CEIL( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "CEIL( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.ceil as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "CEIL( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "CEIL( ?foo )" );
 		} );
 
 	} );
@@ -1204,13 +1204,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.floor();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "FLOOR( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "FLOOR( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.floor as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "FLOOR( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "FLOOR( ?foo )" );
 		} );
 
 	} );
@@ -1231,13 +1231,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.year();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "YEAR( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "YEAR( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.year as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "YEAR( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "YEAR( ?foo )" );
 		} );
 
 	} );
@@ -1258,13 +1258,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.month();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MONTH( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MONTH( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.month as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MONTH( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MONTH( ?foo )" );
 		} );
 
 	} );
@@ -1285,13 +1285,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.day();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "DAY( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "DAY( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.day as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "DAY( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "DAY( ?foo )" );
 		} );
 
 	} );
@@ -1312,13 +1312,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.hours();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "HOURS( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "HOURS( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.hours as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "HOURS( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "HOURS( ?foo )" );
 		} );
 
 	} );
@@ -1339,13 +1339,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.minutes();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MINUTES( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MINUTES( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.minutes as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MINUTES( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MINUTES( ?foo )" );
 		} );
 
 	} );
@@ -1366,13 +1366,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.seconds();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SECONDS( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SECONDS( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.seconds as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SECONDS( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SECONDS( ?foo )" );
 		} );
 
 	} );
@@ -1393,13 +1393,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.timezone();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "TIMEZONE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "TIMEZONE( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.timezone as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "TIMEZONE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "TIMEZONE( ?foo )" );
 		} );
 
 	} );
@@ -1420,13 +1420,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.tz();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "TZ( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "TZ( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.tz as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "TZ( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "TZ( ?foo )" );
 		} );
 
 	} );
@@ -1447,13 +1447,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.md5();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MD5( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MD5( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.md5 as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MD5( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MD5( ?foo )" );
 		} );
 
 	} );
@@ -1474,13 +1474,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.sha1();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SHA1( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SHA1( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.sha1 as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SHA1( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SHA1( ?foo )" );
 		} );
 
 	} );
@@ -1501,13 +1501,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.sha256();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SHA256( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SHA256( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.sha256 as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SHA256( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SHA256( ?foo )" );
 		} );
 
 	} );
@@ -1528,13 +1528,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.sha384();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SHA384( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SHA384( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.sha384 as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SHA384( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SHA384( ?foo )" );
 		} );
 
 	} );
@@ -1555,13 +1555,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.sha512();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SHA512( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SHA512( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.sha512 as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SHA512( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SHA512( ?foo )" );
 		} );
 
 	} );
@@ -1582,13 +1582,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.count();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "COUNT( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "COUNT( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.count as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "COUNT( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "COUNT( ?foo )" );
 		} );
 
 	} );
@@ -1609,13 +1609,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.countDistinct();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.countDistinct as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -1636,13 +1636,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.sum();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SUM( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SUM( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.sum as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SUM( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SUM( ?foo )" );
 		} );
 
 	} );
@@ -1663,13 +1663,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.sumDistinct();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.sumDistinct as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -1690,13 +1690,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.avg();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "AVG( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "AVG( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.avg as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "AVG( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "AVG( ?foo )" );
 		} );
 
 	} );
@@ -1717,13 +1717,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.avgDistinct();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.avgDistinct as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -1744,13 +1744,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.min();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MIN( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MIN( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.min as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MIN( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MIN( ?foo )" );
 		} );
 
 	} );
@@ -1771,13 +1771,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.minDistinct();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.minDistinct as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -1798,13 +1798,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.max();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MAX( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MAX( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.max as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MAX( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MAX( ?foo )" );
 		} );
 
 	} );
@@ -1825,13 +1825,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.maxDistinct();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.maxDistinct as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -1852,18 +1852,18 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.groupConcat();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( ?foo )" );
 		} );
 
 		it( "should create function with separator", () => {
 			const returned = expression.groupConcat( ", " );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( ?foo; SEPARATOR=", " )` );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( ?foo; SEPARATOR=", " )` );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.groupConcat as GenericFn)( ", ", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( ?foo; SEPARATOR=", " )` );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( ?foo; SEPARATOR=", " )` );
 		} );
 
 	} );
@@ -1884,18 +1884,18 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.groupConcatDistinct();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( DISTINCT ?foo )" );
 		} );
 
 		it( "should create function with separator", () => {
 			const returned = expression.groupConcatDistinct( ", " );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( DISTINCT ?foo; SEPARATOR=", " )` );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( DISTINCT ?foo; SEPARATOR=", " )` );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.groupConcatDistinct as GenericFn)( ", ", "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( DISTINCT ?foo; SEPARATOR=", " )` );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( DISTINCT ?foo; SEPARATOR=", " )` );
 		} );
 
 	} );
@@ -1916,13 +1916,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.sample();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SAMPLE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SAMPLE( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.sample as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SAMPLE( ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SAMPLE( ?foo )" );
 		} );
 
 	} );
@@ -1943,13 +1943,13 @@ describe( "Expression", () => {
 
 		it( "should create function", () => {
 			const returned = expression.sampleDistinct();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.sampleDistinct as GenericFn)( "extra" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ?foo )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -1971,17 +1971,17 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.or( triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo || ?bar || ?baz" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo || ?bar || ?baz" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.or( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo || \"bar\" || \"baz\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo || \"bar\" || \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.or( expressionsBuilder.or( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo || ( ?baz || ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo || ( ?baz || ?qux )" );
 		} );
 
 	} );
@@ -2002,17 +2002,17 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.and( triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo && ?bar && ?baz" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo && ?bar && ?baz" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.and( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo && \"bar\" && \"baz\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo && \"bar\" && \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.and( expressionsBuilder.or( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo && ( ?baz || ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo && ( ?baz || ?qux )" );
 		} );
 
 	} );
@@ -2034,23 +2034,23 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.equals( triplesBuilder.var( "bar" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo = ?bar" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo = ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.equals( "bar" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo = \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo = \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.equals( expressionsBuilder.or( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo = ( ?baz || ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo = ( ?baz || ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.equals as GenericFn)( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo = \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo = \"bar\"" );
 		} );
 
 	} );
@@ -2071,23 +2071,23 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.notEquals( triplesBuilder.var( "bar" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo != ?bar" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo != ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.notEquals( "bar" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo != \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo != \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.notEquals( expressionsBuilder.and( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo != ( ?baz && ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo != ( ?baz && ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.notEquals as GenericFn)( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo != \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo != \"bar\"" );
 		} );
 
 	} );
@@ -2108,23 +2108,23 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.lt( triplesBuilder.var( "bar" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo < ?bar" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo < ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.lt( "bar" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo < \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo < \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.lt( expressionsBuilder.equals( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo < ( ?baz = ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo < ( ?baz = ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.lt as GenericFn)( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo < \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo < \"bar\"" );
 		} );
 
 	} );
@@ -2145,23 +2145,23 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.lte( triplesBuilder.var( "bar" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo <= ?bar" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo <= ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.lte( "bar" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo <= \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo <= \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.lte( expressionsBuilder.notEquals( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo <= ( ?baz != ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo <= ( ?baz != ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.lte as GenericFn)( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo <= \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo <= \"bar\"" );
 		} );
 
 	} );
@@ -2182,23 +2182,23 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.gt( triplesBuilder.var( "bar" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo > ?bar" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo > ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.gt( "bar" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo > \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo > \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.gt( expressionsBuilder.lt( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo > ( ?baz < ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo > ( ?baz < ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.gt as GenericFn)( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo > \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo > \"bar\"" );
 		} );
 
 	} );
@@ -2219,23 +2219,23 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.gte( triplesBuilder.var( "bar" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo >= ?bar" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo >= ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.gte( "bar" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo >= \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo >= \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.gte( expressionsBuilder.lte( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo >= ( ?baz <= ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo >= ( ?baz <= ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const returned = (expression.gte as GenericFn)( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo >= \"bar\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo >= \"bar\"" );
 		} );
 
 	} );
@@ -2257,17 +2257,17 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.in( triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo IN( ?bar, ?baz )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo IN( ?bar, ?baz )" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.in( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo IN( \"bar\", \"baz\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo IN( \"bar\", \"baz\" )" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.in( expressionsBuilder.gt( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ), true );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo IN( ?baz > ?qux, true )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo IN( ?baz > ?qux, true )" );
 		} );
 
 	} );
@@ -2288,17 +2288,17 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.notIn( triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo NOT IN( ?bar, ?baz )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo NOT IN( ?bar, ?baz )" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.notIn( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo NOT IN( \"bar\", \"baz\" )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo NOT IN( \"bar\", \"baz\" )" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.notIn( expressionsBuilder.gt( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ), true );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo NOT IN( ?baz > ?qux, true )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo NOT IN( ?baz > ?qux, true )" );
 		} );
 
 	} );
@@ -2320,17 +2320,17 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.add( triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo + ?bar + ?baz" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo + ?bar + ?baz" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.add( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo + \"bar\" + \"baz\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo + \"bar\" + \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.add( expressionsBuilder.gt( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo + ( ?baz > ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo + ( ?baz > ?qux )" );
 		} );
 
 	} );
@@ -2351,17 +2351,17 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.subtract( triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo - ?bar - ?baz" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo - ?bar - ?baz" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.subtract( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo - \"bar\" - \"baz\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo - \"bar\" - \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.subtract( expressionsBuilder.gte( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo - ( ?baz >= ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo - ( ?baz >= ?qux )" );
 		} );
 
 	} );
@@ -2383,17 +2383,17 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.multiply( triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo * ?bar * ?baz" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo * ?bar * ?baz" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.multiply( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo * \"bar\" * \"baz\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo * \"bar\" * \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.multiply( expressionsBuilder.add( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo * ( ?baz + ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo * ( ?baz + ?qux )" );
 		} );
 
 	} );
@@ -2414,17 +2414,17 @@ describe( "Expression", () => {
 
 		it( "should create operation using expressions", () => {
 			const returned = expression.divide( triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo / ?bar / ?baz" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo / ?bar / ?baz" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const returned = expression.divide( "bar", "baz" );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo / \"bar\" / \"baz\"" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo / \"bar\" / \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const returned = expression.divide( expressionsBuilder.subtract( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "?foo / ( ?baz - ?qux )" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "?foo / ( ?baz - ?qux )" );
 		} );
 
 	} );
@@ -2446,7 +2446,7 @@ describe( "Expression", () => {
 
 		it( "should create operation", () => {
 			const returned = expression.not();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "! ?foo" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "! ?foo" );
 		} );
 
 	} );
@@ -2467,7 +2467,7 @@ describe( "Expression", () => {
 
 		it( "should create operation", () => {
 			const returned = expression.plus();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "+ ?foo" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "+ ?foo" );
 		} );
 
 	} );
@@ -2488,7 +2488,7 @@ describe( "Expression", () => {
 
 		it( "should create operation", () => {
 			const returned = expression.minus();
-			expect( returned.getExpression().toString( 0 ) ).toEqual( "- ?foo" );
+			expect( returned._getExpression().toString( 0 ) ).toEqual( "- ?foo" );
 		} );
 
 	} );

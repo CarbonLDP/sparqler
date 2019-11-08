@@ -94,33 +94,33 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.or( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.or( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.or( builder.or( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo || ?bar )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo || ?bar )" );
 		} );
 
 
 		it( "should create operation using multiple expressions", () => {
 			const expression = builder.or( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo || ?bar || ?baz" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo || ?bar || ?baz" );
 		} );
 
 		it( "should create operation using multiple natives", () => {
 			const expression = builder.or( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" || \"bar\" || \"baz\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" || \"bar\" || \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported multiple operations", () => {
 			const expression = builder.or( builder.or( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.or( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo || ?bar ) || ( ?baz || ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo || ?bar ) || ( ?baz || ?qux )" );
 		} );
 
 	} );
@@ -141,33 +141,33 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.and( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.and( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.and( builder.or( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo || ?bar )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo || ?bar )" );
 		} );
 
 
 		it( "should create operation using multiple expressions", () => {
 			const expression = builder.and( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo && ?bar && ?baz" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo && ?bar && ?baz" );
 		} );
 
 		it( "should create operation using multiple natives", () => {
 			const expression = builder.and( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" && \"bar\" && \"baz\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" && \"bar\" && \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported multiple operations", () => {
 			const expression = builder.and( builder.or( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.or( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo || ?bar ) && ( ?baz || ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo || ?bar ) && ( ?baz || ?qux )" );
 		} );
 
 	} );
@@ -189,23 +189,23 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using expressions", () => {
 			const expression = builder.equals( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo = ?bar" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo = ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const expression = builder.equals( "foo", "bar" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" = \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" = \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const expression = builder.equals( builder.and( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.or( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo && ?bar ) = ( ?baz || ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo && ?bar ) = ( ?baz || ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.equals as GenericFn)( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" = \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" = \"bar\"" );
 		} );
 
 	} );
@@ -226,23 +226,23 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using expressions", () => {
 			const expression = builder.notEquals( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo != ?bar" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo != ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const expression = builder.notEquals( "foo", "bar" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" != \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" != \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const expression = builder.notEquals( builder.equals( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.and( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo = ?bar ) != ( ?baz && ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo = ?bar ) != ( ?baz && ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.notEquals as GenericFn)( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" != \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" != \"bar\"" );
 		} );
 
 	} );
@@ -263,23 +263,23 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using expressions", () => {
 			const expression = builder.lt( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo < ?bar" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo < ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const expression = builder.lt( "foo", "bar" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" < \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" < \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const expression = builder.lt( builder.notEquals( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.equals( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo != ?bar ) < ( ?baz = ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo != ?bar ) < ( ?baz = ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.lt as GenericFn)( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" < \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" < \"bar\"" );
 		} );
 
 	} );
@@ -300,23 +300,23 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using expressions", () => {
 			const expression = builder.lte( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo <= ?bar" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo <= ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const expression = builder.lte( "foo", "bar" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" <= \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" <= \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const expression = builder.lte( builder.lt( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.notEquals( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo < ?bar ) <= ( ?baz != ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo < ?bar ) <= ( ?baz != ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.lte as GenericFn)( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" <= \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" <= \"bar\"" );
 		} );
 
 	} );
@@ -337,23 +337,23 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using expressions", () => {
 			const expression = builder.gt( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo > ?bar" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo > ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const expression = builder.gt( "foo", "bar" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" > \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" > \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const expression = builder.gt( builder.lte( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.lt( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo <= ?bar ) > ( ?baz < ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo <= ?bar ) > ( ?baz < ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.gt as GenericFn)( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" > \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" > \"bar\"" );
 		} );
 
 	} );
@@ -374,23 +374,23 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using expressions", () => {
 			const expression = builder.gte( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo >= ?bar" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo >= ?bar" );
 		} );
 
 		it( "should create operation using natives", () => {
 			const expression = builder.gte( "foo", "bar" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" >= \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" >= \"bar\"" );
 		} );
 
 		it( "should create operation wrapping non supported operations", () => {
 			const expression = builder.gte( builder.gt( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.lte( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo > ?bar ) >= ( ?baz <= ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo > ?bar ) >= ( ?baz <= ?qux )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.gte as GenericFn)( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" >= \"bar\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" >= \"bar\"" );
 		} );
 
 	} );
@@ -412,33 +412,33 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.in( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo IN()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo IN()" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.in( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" IN()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" IN()" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.in( builder.gte( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar ) IN()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar ) IN()" );
 		} );
 
 
 		it( "should create operation using multiple expressions", () => {
 			const expression = builder.in( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo IN( ?bar, ?baz )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo IN( ?bar, ?baz )" );
 		} );
 
 		it( "should create operation using multiple natives", () => {
 			const expression = builder.in( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" IN( \"bar\", \"baz\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" IN( \"bar\", \"baz\" )" );
 		} );
 
 		it( "should create operation wrapping non supported multiple operations", () => {
 			const expression = builder.in( builder.gte( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.gt( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ), true );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar ) IN( ?baz > ?qux, true )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar ) IN( ?baz > ?qux, true )" );
 		} );
 
 	} );
@@ -459,33 +459,33 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.notIn( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo NOT IN()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo NOT IN()" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.notIn( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" NOT IN()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" NOT IN()" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.notIn( builder.gte( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar ) NOT IN()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar ) NOT IN()" );
 		} );
 
 
 		it( "should create operation using multiple expressions", () => {
 			const expression = builder.notIn( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo NOT IN( ?bar, ?baz )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo NOT IN( ?bar, ?baz )" );
 		} );
 
 		it( "should create operation using multiple natives", () => {
 			const expression = builder.notIn( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" NOT IN( \"bar\", \"baz\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" NOT IN( \"bar\", \"baz\" )" );
 		} );
 
 		it( "should create operation wrapping non supported multiple operations", () => {
 			const expression = builder.notIn( builder.gte( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.gt( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ), true );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar ) NOT IN( ?baz > ?qux, true )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar ) NOT IN( ?baz > ?qux, true )" );
 		} );
 
 	} );
@@ -507,33 +507,33 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.add( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.add( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.add( builder.gte( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar )" );
 		} );
 
 
 		it( "should create operation using multiple expressions", () => {
 			const expression = builder.add( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo + ?bar + ?baz" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo + ?bar + ?baz" );
 		} );
 
 		it( "should create operation using multiple natives", () => {
 			const expression = builder.add( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" + \"bar\" + \"baz\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" + \"bar\" + \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported multiple operations", () => {
 			const expression = builder.add( builder.gte( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.gt( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar ) + ( ?baz > ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo >= ?bar ) + ( ?baz > ?qux )" );
 		} );
 
 	} );
@@ -554,33 +554,33 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.subtract( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.subtract( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.subtract( builder.add( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo + ?bar )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo + ?bar )" );
 		} );
 
 
 		it( "should create operation using multiple expressions", () => {
 			const expression = builder.subtract( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo - ?bar - ?baz" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo - ?bar - ?baz" );
 		} );
 
 		it( "should create operation using multiple natives", () => {
 			const expression = builder.subtract( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" - \"bar\" - \"baz\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" - \"bar\" - \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported multiple operations", () => {
 			const expression = builder.subtract( builder.add( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.gte( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo + ?bar ) - ( ?baz >= ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo + ?bar ) - ( ?baz >= ?qux )" );
 		} );
 
 	} );
@@ -602,33 +602,33 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.multiply( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.multiply( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.multiply( builder.add( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo + ?bar )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo + ?bar )" );
 		} );
 
 
 		it( "should create operation using multiple expressions", () => {
 			const expression = builder.multiply( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo * ?bar * ?baz" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo * ?bar * ?baz" );
 		} );
 
 		it( "should create operation using multiple natives", () => {
 			const expression = builder.multiply( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" * \"bar\" * \"baz\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" * \"bar\" * \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported multiple operations", () => {
 			const expression = builder.multiply( builder.subtract( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.add( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo - ?bar ) * ( ?baz + ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo - ?bar ) * ( ?baz + ?qux )" );
 		} );
 
 	} );
@@ -649,33 +649,33 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.divide( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.divide( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\"" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.divide( builder.multiply( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo * ?bar )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo * ?bar )" );
 		} );
 
 
 		it( "should create operation using multiple expressions", () => {
 			const expression = builder.divide( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ), triplesBuilder.var( "baz" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "?foo / ?bar / ?baz" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "?foo / ?bar / ?baz" );
 		} );
 
 		it( "should create operation using multiple natives", () => {
 			const expression = builder.divide( "foo", "bar", "baz" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "\"foo\" / \"bar\" / \"baz\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "\"foo\" / \"bar\" / \"baz\"" );
 		} );
 
 		it( "should create operation wrapping non supported multiple operations", () => {
 			const expression = builder.divide( builder.multiply( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ), builder.subtract( triplesBuilder.var( "baz" ), triplesBuilder.var( "qux" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "( ?foo * ?bar ) / ( ?baz - ?qux )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "( ?foo * ?bar ) / ( ?baz - ?qux )" );
 		} );
 
 	} );
@@ -697,17 +697,17 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.not( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "! ?foo" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "! ?foo" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.not( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "! \"foo\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "! \"foo\"" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.not( builder.multiply( triplesBuilder.var( "foo" ), triplesBuilder.var( "bar" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "! ( ?foo * ?bar )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "! ( ?foo * ?bar )" );
 		} );
 
 	} );
@@ -728,17 +728,17 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.plus( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "+ ?foo" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "+ ?foo" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.plus( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "+ \"foo\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "+ \"foo\"" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.plus( builder.not( triplesBuilder.var( "foo" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "+ ( ! ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "+ ( ! ?foo )" );
 		} );
 
 	} );
@@ -759,17 +759,17 @@ describe( "OperationExpressionsBuilder", () => {
 
 		it( "should create operation using single expression", () => {
 			const expression = builder.minus( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "- ?foo" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "- ?foo" );
 		} );
 
 		it( "should create operation using single native", () => {
 			const expression = builder.minus( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "- \"foo\"" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "- \"foo\"" );
 		} );
 
 		it( "should create operation wrapping non supported single operation", () => {
 			const expression = builder.minus( builder.plus( triplesBuilder.var( "foo" ) ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "- ( + ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "- ( + ?foo )" );
 		} );
 
 	} );

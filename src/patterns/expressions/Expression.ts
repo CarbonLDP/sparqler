@@ -835,7 +835,7 @@ export interface Expression<T extends ExpressionToken = ExpressionToken> {
 	/**
 	 * Returns the {@link ExpressionToken} of the expression.
 	 */
-	getExpression():T;
+	_getExpression():T;
 }
 
 
@@ -943,7 +943,7 @@ export const Expression:{
 			as: getAsFn( container ),
 
 			// Self
-			getExpression: () => container.targetToken,
+			_getExpression: () => container.targetToken,
 		} );
 	}
 };

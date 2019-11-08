@@ -275,17 +275,17 @@ describe( "PatternBuilder", ():void => {
 
 			it( "should create operation using single expression", () => {
 				const expression = builder.minus( builder.var( "foo" ) );
-				expect( expression.getExpression().toString( 0 ) ).toEqual( "- ?foo" );
+				expect( expression._getExpression().toString( 0 ) ).toEqual( "- ?foo" );
 			} );
 
 			it( "should create operation using single native", () => {
 				const expression = builder.minus( "foo" );
-				expect( expression.getExpression().toString( 0 ) ).toEqual( "- \"foo\"" );
+				expect( expression._getExpression().toString( 0 ) ).toEqual( "- \"foo\"" );
 			} );
 
 			it( "should create operation wrapping non supported single operation", () => {
 				const expression = builder.minus( builder.plus( builder.var( "foo" ) ) );
-				expect( expression.getExpression().toString( 0 ) ).toEqual( "- ( + ?foo )" );
+				expect( expression._getExpression().toString( 0 ) ).toEqual( "- ( + ?foo )" );
 			} );
 
 		} );

@@ -153,18 +153,18 @@ describe( "FunctionExpressionsBuilder", () => {
 			const variable = triplesBuilder.var( "foo" );
 
 			const expression = builder.bound( variable );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "BOUND( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "BOUND( ?foo )" );
 		} );
 
 		it( "should create function using string variable", () => {
 			const expression = builder.bound( "foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "BOUND( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "BOUND( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.bound as GenericFn)( "foo", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "BOUND( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "BOUND( ?foo )" );
 		} );
 
 	} );
@@ -185,18 +185,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using expression & triples", () => {
 			const expression = builder.if( builder.bound( "foo" ), triplesBuilder.resource( "ex:resource" ), triplesBuilder.literal( false ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "IF( BOUND( ?foo ), ex:resource, false )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "IF( BOUND( ?foo ), ex:resource, false )" );
 		} );
 
 		it( "should create function using expression & natives", () => {
 			const expression = builder.if( builder.bound( "foo" ), "ex:resource", false );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "IF( BOUND( ?foo ), ex:resource, false )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "IF( BOUND( ?foo ), ex:resource, false )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.if as GenericFn)( builder.bound( "foo" ), "ex:resource", false, "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "IF( BOUND( ?foo ), ex:resource, false )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "IF( BOUND( ?foo ), ex:resource, false )" );
 		} );
 
 	} );
@@ -217,7 +217,7 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using expression, triples & natives", () => {
 			const expression = builder.coalesce( builder.bound( "foo" ), triplesBuilder.resource( "ex:resource-1" ), "ex:resource-2", false, triplesBuilder.literal( "value" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COALESCE( BOUND( ?foo ), ex:resource-1, ex:resource-2, false, \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COALESCE( BOUND( ?foo ), ex:resource-1, ex:resource-2, false, \"value\" )" );
 		} );
 
 	} );
@@ -238,12 +238,12 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with empty pattern", () => {
 			const expression = builder.exists();
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "EXISTS {}" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "EXISTS {}" );
 		} );
 
 		it( "should create function using single pattern", () => {
 			const expression = builder.exists( triplesBuilder.resource( "ex:resource-1" ).has( "ex:property-1", false ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "EXISTS { ex:resource-1 ex:property-1 false }" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "EXISTS { ex:resource-1 ex:property-1 false }" );
 		} );
 
 		it( "should create function using multiple inline pattern", () => {
@@ -252,7 +252,7 @@ describe( "FunctionExpressionsBuilder", () => {
 				triplesBuilder.resource( "ex:resource-2" ).has( "ex:property-2", "value" )
 			);
 
-			expect( expression.getExpression().toString() ).toEqual( "EXISTS { " +
+			expect( expression._getExpression().toString() ).toEqual( "EXISTS { " +
 				"ex:resource-1 ex:property-1 false. " +
 				"ex:resource-2 ex:property-2 \"value\" " +
 				"}" );
@@ -265,7 +265,7 @@ describe( "FunctionExpressionsBuilder", () => {
 			] );
 
 
-			expect( expression.getExpression().toString() ).toEqual( "EXISTS { " +
+			expect( expression._getExpression().toString() ).toEqual( "EXISTS { " +
 				"ex:resource-1 ex:property-1 false. " +
 				"ex:resource-2 ex:property-2 \"value\" " +
 				"}" );
@@ -289,12 +289,12 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with empty pattern", () => {
 			const expression = builder.notExists();
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "NOT EXISTS {}" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "NOT EXISTS {}" );
 		} );
 
 		it( "should create function using single pattern", () => {
 			const expression = builder.notExists( triplesBuilder.resource( "ex:resource-1" ).has( "ex:property-1", false ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "NOT EXISTS { ex:resource-1 ex:property-1 false }" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "NOT EXISTS { ex:resource-1 ex:property-1 false }" );
 		} );
 
 		it( "should create function using multiple inline pattern", () => {
@@ -303,7 +303,7 @@ describe( "FunctionExpressionsBuilder", () => {
 				triplesBuilder.resource( "ex:resource-2" ).has( "ex:property-2", "value" )
 			);
 
-			expect( expression.getExpression().toString() ).toEqual( "NOT EXISTS { " +
+			expect( expression._getExpression().toString() ).toEqual( "NOT EXISTS { " +
 				"ex:resource-1 ex:property-1 false. " +
 				"ex:resource-2 ex:property-2 \"value\" " +
 				"}" );
@@ -316,7 +316,7 @@ describe( "FunctionExpressionsBuilder", () => {
 			] );
 
 
-			expect( expression.getExpression().toString() ).toEqual( "NOT EXISTS { " +
+			expect( expression._getExpression().toString() ).toEqual( "NOT EXISTS { " +
 				"ex:resource-1 ex:property-1 false. " +
 				"ex:resource-2 ex:property-2 \"value\" " +
 				"}" );
@@ -340,18 +340,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.sameTerm( triplesBuilder.var( "foo" ), triplesBuilder.literal( "value" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "sameTerm( ?foo, \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "sameTerm( ?foo, \"value\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.sameTerm( "foo", "value" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "sameTerm( \"foo\", \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "sameTerm( \"foo\", \"value\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.sameTerm as GenericFn)( "foo", "value", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "sameTerm( \"foo\", \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "sameTerm( \"foo\", \"value\" )" );
 		} );
 
 	} );
@@ -372,18 +372,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.isIRI( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isIRI( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isIRI( ?foo )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.isIRI( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isIRI( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isIRI( ex:resource )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.isIRI as GenericFn)( "ex:resource", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isIRI( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isIRI( ex:resource )" );
 		} );
 
 	} );
@@ -404,18 +404,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.isURI( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isURI( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isURI( ?foo )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.isURI( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isURI( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isURI( ex:resource )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.isURI as GenericFn)( "ex:resource", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isURI( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isURI( ex:resource )" );
 		} );
 
 	} );
@@ -436,18 +436,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.isBlank( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isBLANK( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isBLANK( ?foo )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.isBlank( "value" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isBLANK( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isBLANK( \"value\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.isBlank as GenericFn)( "value", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isBLANK( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isBLANK( \"value\" )" );
 		} );
 
 	} );
@@ -468,18 +468,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.isLiteral( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isLITERAL( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isLITERAL( ?foo )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.isLiteral( "value" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isLITERAL( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isLITERAL( \"value\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.isLiteral as GenericFn)( "value" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isLITERAL( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isLITERAL( \"value\" )" );
 		} );
 
 	} );
@@ -500,18 +500,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.isNumeric( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isNUMERIC( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isNUMERIC( ?foo )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.isNumeric( 1.10 );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isNUMERIC( 1.1 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isNUMERIC( 1.1 )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.isNumeric as GenericFn)( 1.10, "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "isNUMERIC( 1.1 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "isNUMERIC( 1.1 )" );
 		} );
 
 	} );
@@ -532,18 +532,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.str( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STR( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STR( ?foo )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.str( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STR( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STR( ex:resource )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.str as GenericFn)( "ex:resource", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STR( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STR( ex:resource )" );
 		} );
 
 	} );
@@ -564,18 +564,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.lang( triplesBuilder.literal( "hello" ).withLanguage( "en" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "LANG( \"hello\"@en )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "LANG( \"hello\"@en )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.lang( "value" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "LANG( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "LANG( \"value\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.lang as GenericFn)( "value", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "LANG( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "LANG( \"value\" )" );
 		} );
 
 	} );
@@ -596,18 +596,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.datatype( triplesBuilder.literal( "1" ).withType( XSD.integer ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "DATATYPE( \"1\"^^<http://www.w3.org/2001/XMLSchema#integer> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "DATATYPE( \"1\"^^<http://www.w3.org/2001/XMLSchema#integer> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.datatype( "value" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "DATATYPE( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "DATATYPE( \"value\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.datatype as GenericFn)( "value", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "DATATYPE( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "DATATYPE( \"value\" )" );
 		} );
 
 	} );
@@ -628,18 +628,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.iri( triplesBuilder.literal( "ex:resource" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "IRI( \"ex:resource\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "IRI( \"ex:resource\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.iri( "value" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "IRI( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "IRI( \"value\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.iri as GenericFn)( "value", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "IRI( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "IRI( \"value\" )" );
 		} );
 
 	} );
@@ -660,18 +660,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.uri( triplesBuilder.literal( "ex:resource" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "URI( \"ex:resource\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "URI( \"ex:resource\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.uri( "value" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "URI( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "URI( \"value\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.uri as GenericFn)( "value", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "URI( \"value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "URI( \"value\" )" );
 		} );
 
 	} );
@@ -692,18 +692,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.bnode( triplesBuilder.literal( "label" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "BNODE( \"label\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "BNODE( \"label\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.bnode( "label" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "BNODE( \"label\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "BNODE( \"label\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.bnode as GenericFn)( "label", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "BNODE( \"label\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "BNODE( \"label\" )" );
 		} );
 
 	} );
@@ -724,18 +724,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.strDT( triplesBuilder.literal( "123" ), triplesBuilder.resource( XSD.integer ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRDT( \"123\", <http://www.w3.org/2001/XMLSchema#integer> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRDT( \"123\", <http://www.w3.org/2001/XMLSchema#integer> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.strDT( "123", XSD.integer );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRDT( \"123\", <http://www.w3.org/2001/XMLSchema#integer> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRDT( \"123\", <http://www.w3.org/2001/XMLSchema#integer> )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.strDT as GenericFn)( "123", XSD.integer, "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRDT( \"123\", <http://www.w3.org/2001/XMLSchema#integer> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRDT( \"123\", <http://www.w3.org/2001/XMLSchema#integer> )" );
 		} );
 
 	} );
@@ -756,18 +756,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.strLang( triplesBuilder.literal( "hello" ), triplesBuilder.literal( "en" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRLANG( \"hello\", \"en\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRLANG( \"hello\", \"en\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.strLang( "hello", "en" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRLANG( \"hello\", \"en\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRLANG( \"hello\", \"en\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.strLang as GenericFn)( "hello", "en", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRLANG( \"hello\", \"en\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRLANG( \"hello\", \"en\" )" );
 		} );
 
 	} );
@@ -788,13 +788,13 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function", () => {
 			const expression = builder.uuid();
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "UUID()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "UUID()" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.uuid as GenericFn)( "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "UUID()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "UUID()" );
 		} );
 
 	} );
@@ -815,13 +815,13 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function", () => {
 			const expression = builder.strUUID();
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRUUID()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRUUID()" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.strUUID as GenericFn)( "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRUUID()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRUUID()" );
 		} );
 
 	} );
@@ -842,18 +842,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.strLen( triplesBuilder.literal( "hello" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRLEN( \"hello\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRLEN( \"hello\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.strLen( "hello" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRLEN( \"hello\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRLEN( \"hello\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.strLen as GenericFn)( "hello", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRLEN( \"hello\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRLEN( \"hello\" )" );
 		} );
 
 	} );
@@ -874,28 +874,28 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.substr( triplesBuilder.literal( "hello" ), triplesBuilder.literal( 4 ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUBSTR( \"hello\", 4 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUBSTR( \"hello\", 4 )" );
 		} );
 
 		it( "should create function with length using triples", () => {
 			const expression = builder.substr( triplesBuilder.literal( "hello" ), triplesBuilder.literal( 4 ), triplesBuilder.literal( 1 ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUBSTR( \"hello\", 4, 1 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUBSTR( \"hello\", 4, 1 )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.substr( "hello", 4 );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUBSTR( \"hello\", 4 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUBSTR( \"hello\", 4 )" );
 		} );
 
 		it( "should create function with length using natives", () => {
 			const expression = builder.substr( "hello", 4, 1 );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUBSTR( \"hello\", 4, 1 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUBSTR( \"hello\", 4, 1 )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.substr as GenericFn)( "hello", 4, 1, "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUBSTR( \"hello\", 4, 1 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUBSTR( \"hello\", 4, 1 )" );
 		} );
 
 	} );
@@ -916,18 +916,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.uCase( triplesBuilder.literal( "hello" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "UCASE( \"hello\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "UCASE( \"hello\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.uCase( "hello" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "UCASE( \"hello\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "UCASE( \"hello\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.uCase as GenericFn)( "hello", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "UCASE( \"hello\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "UCASE( \"hello\" )" );
 		} );
 
 	} );
@@ -948,18 +948,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.lCase( triplesBuilder.literal( "hello" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "LCASE( \"hello\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "LCASE( \"hello\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.lCase( "hello" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "LCASE( \"hello\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "LCASE( \"hello\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.lCase as GenericFn)( "hello", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "LCASE( \"hello\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "LCASE( \"hello\" )" );
 		} );
 
 	} );
@@ -980,18 +980,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.strStarts( triplesBuilder.literal( "hello" ), triplesBuilder.literal( "hell" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRSTARTS( \"hello\", \"hell\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRSTARTS( \"hello\", \"hell\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.strStarts( "hello", "hell" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRSTARTS( \"hello\", \"hell\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRSTARTS( \"hello\", \"hell\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.strStarts as GenericFn)( "hello", "hell", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRSTARTS( \"hello\", \"hell\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRSTARTS( \"hello\", \"hell\" )" );
 		} );
 
 	} );
@@ -1012,18 +1012,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.strEnds( triplesBuilder.literal( "hello" ), triplesBuilder.literal( "hell" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRENDS( \"hello\", \"hell\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRENDS( \"hello\", \"hell\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.strEnds( "hello", "hell" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRENDS( \"hello\", \"hell\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRENDS( \"hello\", \"hell\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.strEnds as GenericFn)( "hello", "hell", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRENDS( \"hello\", \"hell\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRENDS( \"hello\", \"hell\" )" );
 		} );
 
 	} );
@@ -1044,18 +1044,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.contains( triplesBuilder.literal( "hello" ), triplesBuilder.literal( "el" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "CONTAINS( \"hello\", \"el\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "CONTAINS( \"hello\", \"el\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.contains( "hello", "el" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "CONTAINS( \"hello\", \"el\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "CONTAINS( \"hello\", \"el\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.contains as GenericFn)( "hello", "el", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "CONTAINS( \"hello\", \"el\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "CONTAINS( \"hello\", \"el\" )" );
 		} );
 
 	} );
@@ -1076,18 +1076,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.strBefore( triplesBuilder.literal( "hello" ), triplesBuilder.literal( "el" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRBEFORE( \"hello\", \"el\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRBEFORE( \"hello\", \"el\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.strBefore( "hello", "el" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRBEFORE( \"hello\", \"el\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRBEFORE( \"hello\", \"el\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.strBefore as GenericFn)( "hello", "el", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRBEFORE( \"hello\", \"el\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRBEFORE( \"hello\", \"el\" )" );
 		} );
 
 	} );
@@ -1108,18 +1108,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.strAfter( triplesBuilder.literal( "hello" ), triplesBuilder.literal( "el" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRAFTER( \"hello\", \"el\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRAFTER( \"hello\", \"el\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.strAfter( "hello", "el" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRAFTER( \"hello\", \"el\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRAFTER( \"hello\", \"el\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.strAfter as GenericFn)( "hello", "el", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "STRAFTER( \"hello\", \"el\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "STRAFTER( \"hello\", \"el\" )" );
 		} );
 
 	} );
@@ -1140,18 +1140,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.encodeForUri( triplesBuilder.literal( "some value" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ENCODE_FOR_URI( \"some value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ENCODE_FOR_URI( \"some value\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.encodeForUri( "some value" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ENCODE_FOR_URI( \"some value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ENCODE_FOR_URI( \"some value\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.encodeForUri as GenericFn)( "some value", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ENCODE_FOR_URI( \"some value\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ENCODE_FOR_URI( \"some value\" )" );
 		} );
 
 	} );
@@ -1172,12 +1172,12 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.concat( triplesBuilder.literal( "foo" ), triplesBuilder.literal( "bar" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "CONCAT( \"foo\", \"bar\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "CONCAT( \"foo\", \"bar\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.concat( "foo", "bar" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "CONCAT( \"foo\", \"bar\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "CONCAT( \"foo\", \"bar\" )" );
 		} );
 
 	} );
@@ -1198,18 +1198,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.langMatches( triplesBuilder.literal( "foo" ).withLanguage( "fr-BE" ), triplesBuilder.literal( "fr" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( \"foo\"@fr-BE, \"fr\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( \"foo\"@fr-BE, \"fr\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.langMatches( triplesBuilder.literal( "foo" ).withLanguage( "fr-BE" ), "fr" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( \"foo\"@fr-BE, \"fr\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( \"foo\"@fr-BE, \"fr\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.langMatches as GenericFn)( triplesBuilder.literal( "foo" ).withLanguage( "fr-BE" ), "fr", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( \"foo\"@fr-BE, \"fr\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "LANGMATCHES( \"foo\"@fr-BE, \"fr\" )" );
 		} );
 
 	} );
@@ -1230,38 +1230,38 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.regex( triplesBuilder.var( "Foo" ), triplesBuilder.literal( "^Foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^Foo\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^Foo\" )" );
 		} );
 
 		it( "should create function with flag using triples", () => {
 			const expression = builder.regex( triplesBuilder.var( "Foo" ), triplesBuilder.literal( "^foo" ), triplesBuilder.literal( "i" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^foo\", \"i\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^foo\", \"i\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.regex( triplesBuilder.var( "Foo" ), "^Foo" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^Foo\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^Foo\" )" );
 		} );
 
 		it( "should create function with flag using natives", () => {
 			const expression = builder.regex( triplesBuilder.var( "Foo" ), "^foo", "i" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^foo\", \"i\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^foo\", \"i\" )" );
 		} );
 
 		it( "should create function using regex", () => {
 			const expression = builder.regex( triplesBuilder.var( "Foo" ), /^Foo/ );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^Foo\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^Foo\" )" );
 		} );
 
 		it( "should create function using regex with flags", () => {
 			const expression = builder.regex( triplesBuilder.var( "Foo" ), /^foo/i );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^foo\", \"i\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^foo\", \"i\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.regex as GenericFn)( triplesBuilder.var( "Foo" ), "^foo", "i", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^foo\", \"i\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REGEX( ?Foo, \"^foo\", \"i\" )" );
 		} );
 
 	} );
@@ -1282,38 +1282,38 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.replace( triplesBuilder.var( "Bar" ), triplesBuilder.literal( "r" ), triplesBuilder.literal( "z" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"r\", \"z\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"r\", \"z\" )" );
 		} );
 
 		it( "should create function with flag using triples", () => {
 			const expression = builder.replace( triplesBuilder.var( "Bar" ), triplesBuilder.literal( "R" ), triplesBuilder.literal( "z" ), triplesBuilder.literal( "i" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"R\", \"z\", \"i\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"R\", \"z\", \"i\" )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.replace( triplesBuilder.var( "Bar" ), "r", "z" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"r\", \"z\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"r\", \"z\" )" );
 		} );
 
 		it( "should create function with flag using natives", () => {
 			const expression = builder.replace( triplesBuilder.var( "Bar" ), "R", "z", "i" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"R\", \"z\", \"i\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"R\", \"z\", \"i\" )" );
 		} );
 
 		it( "should create function using regex", () => {
 			const expression = builder.replace( triplesBuilder.var( "Bar" ), /r/, "z" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"r\", \"z\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"r\", \"z\" )" );
 		} );
 
 		it( "should create function using regex with flags", () => {
 			const expression = builder.replace( triplesBuilder.var( "Bar" ), /R/i, "z" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"R\", \"z\", \"i\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"R\", \"z\", \"i\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.replace as GenericFn)( triplesBuilder.var( "Bar" ), "R", "z", "i", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"R\", \"z\", \"i\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "REPLACE( ?Bar, \"R\", \"z\", \"i\" )" );
 		} );
 
 	} );
@@ -1334,18 +1334,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.abs( triplesBuilder.literal( -1.5 ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ABS( -1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ABS( -1.5 )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.abs( -1.5 );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ABS( -1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ABS( -1.5 )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.abs as GenericFn)( -1.5, "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ABS( -1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ABS( -1.5 )" );
 		} );
 
 	} );
@@ -1366,18 +1366,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.round( triplesBuilder.literal( 1.5 ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ROUND( 1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ROUND( 1.5 )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.round( 1.5 );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ROUND( 1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ROUND( 1.5 )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.round as GenericFn)( 1.5, "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ROUND( 1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ROUND( 1.5 )" );
 		} );
 
 	} );
@@ -1398,18 +1398,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.ceil( triplesBuilder.literal( 1.5 ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "CEIL( 1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "CEIL( 1.5 )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.ceil( 1.5 );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "CEIL( 1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "CEIL( 1.5 )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.ceil as GenericFn)( 1.5, "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "CEIL( 1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "CEIL( 1.5 )" );
 		} );
 
 	} );
@@ -1430,18 +1430,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.floor( triplesBuilder.literal( 1.5 ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "FLOOR( 1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "FLOOR( 1.5 )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.floor( 1.5 );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "FLOOR( 1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "FLOOR( 1.5 )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.floor as GenericFn)( 1.5, "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "FLOOR( 1.5 )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "FLOOR( 1.5 )" );
 		} );
 
 	} );
@@ -1462,13 +1462,13 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function", () => {
 			const expression = builder.rand();
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "RAND()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "RAND()" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.rand as GenericFn)( "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "RAND()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "RAND()" );
 		} );
 
 	} );
@@ -1489,13 +1489,13 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function", () => {
 			const expression = builder.now();
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "NOW()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "NOW()" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.now as GenericFn)( "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "NOW()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "NOW()" );
 		} );
 
 	} );
@@ -1516,18 +1516,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.year( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "YEAR( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "YEAR( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.year( new Date( "2011-01-10T14:45:13.815-05:00" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "YEAR( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "YEAR( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.year as GenericFn)( new Date( "2011-01-10T14:45:13.815-05:00" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "YEAR( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "YEAR( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 	} );
@@ -1548,18 +1548,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.month( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MONTH( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MONTH( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.month( new Date( "2011-01-10T14:45:13.815-05:00" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MONTH( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MONTH( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.month as GenericFn)( new Date( "2011-01-10T14:45:13.815-05:00" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MONTH( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MONTH( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 	} );
@@ -1580,18 +1580,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.day( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "DAY( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "DAY( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.day( new Date( "2011-01-10T14:45:13.815-05:00" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "DAY( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "DAY( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.day as GenericFn)( new Date( "2011-01-10T14:45:13.815-05:00" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "DAY( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "DAY( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 	} );
@@ -1612,18 +1612,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.hours( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "HOURS( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "HOURS( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.hours( new Date( "2011-01-10T14:45:13.815-05:00" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "HOURS( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "HOURS( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.hours as GenericFn)( new Date( "2011-01-10T14:45:13.815-05:00" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "HOURS( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "HOURS( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 	} );
@@ -1644,18 +1644,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.minutes( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MINUTES( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MINUTES( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.minutes( new Date( "2011-01-10T14:45:13.815-05:00" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MINUTES( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MINUTES( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.minutes as GenericFn)( new Date( "2011-01-10T14:45:13.815-05:00" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MINUTES( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MINUTES( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 	} );
@@ -1676,18 +1676,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.seconds( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SECONDS( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SECONDS( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.seconds( new Date( "2011-01-10T14:45:13.815-05:00" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SECONDS( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SECONDS( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.seconds as GenericFn)( new Date( "2011-01-10T14:45:13.815-05:00" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SECONDS( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SECONDS( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 	} );
@@ -1708,18 +1708,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.timezone( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "TIMEZONE( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "TIMEZONE( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.timezone( new Date( "2011-01-10T14:45:13.815-05:00" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "TIMEZONE( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "TIMEZONE( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.timezone as GenericFn)( new Date( "2011-01-10T14:45:13.815-05:00" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "TIMEZONE( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "TIMEZONE( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 	} );
@@ -1740,18 +1740,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.tz( triplesBuilder.literal( "2011-01-10T14:45:13.815-05:00" ).withType( XSD.dateTime ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "TZ( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "TZ( \"2011-01-10T14:45:13.815-05:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.tz( new Date( "2011-01-10T14:45:13.815-05:00" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "TZ( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "TZ( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.tz as GenericFn)( new Date( "2011-01-10T14:45:13.815-05:00" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "TZ( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "TZ( \"2011-01-10T19:45:13.815Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> )" );
 		} );
 
 	} );
@@ -1772,18 +1772,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.md5( triplesBuilder.literal( "abc" ).withType( XSD.string ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MD5( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MD5( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.md5( "abc" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MD5( \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MD5( \"abc\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.md5 as GenericFn)( "abc", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MD5( \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MD5( \"abc\" )" );
 		} );
 
 	} );
@@ -1804,18 +1804,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.sha1( triplesBuilder.literal( "abc" ).withType( XSD.string ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA1( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA1( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.sha1( "abc" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA1( \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA1( \"abc\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.sha1 as GenericFn)( "abc", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA1( \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA1( \"abc\" )" );
 		} );
 
 	} );
@@ -1836,18 +1836,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.sha256( triplesBuilder.literal( "abc" ).withType( XSD.string ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA256( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA256( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.sha256( "abc" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA256( \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA256( \"abc\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.sha256 as GenericFn)( "abc", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA256( \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA256( \"abc\" )" );
 		} );
 
 	} );
@@ -1868,18 +1868,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.sha384( triplesBuilder.literal( "abc" ).withType( XSD.string ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA384( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA384( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.sha384( "abc" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA384( \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA384( \"abc\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.sha384 as GenericFn)( "abc", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA384( \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA384( \"abc\" )" );
 		} );
 
 	} );
@@ -1900,18 +1900,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function using triples", () => {
 			const expression = builder.sha512( triplesBuilder.literal( "abc" ).withType( XSD.string ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA512( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA512( \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
 		} );
 
 		it( "should create function using natives", () => {
 			const expression = builder.sha512( "abc" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA512( \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA512( \"abc\" )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.sha512 as GenericFn)( "abc", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SHA512( \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SHA512( \"abc\" )" );
 		} );
 
 	} );
@@ -1932,32 +1932,32 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create empty function with native IRI string", () => {
 			const expression = builder.custom( "https://example.com/ns#customFn" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
 		} );
 
 		it( "should create empty function with native Prefixed string", () => {
 			const expression = builder.custom( "ex:customFn" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
 		} );
 
 		it( "should create empty function with IRI resource", () => {
 			const expression = builder.custom( triplesBuilder.resource( "https://example.com/ns#customFn" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
 		} );
 
 		it( "should create empty function with Prefixed resource", () => {
 			const expression = builder.custom( triplesBuilder.resource( "ex:customFn" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
 		} );
 
 		it( "should create function using two triples", () => {
 			const expression = builder.custom( "ex:customFn", triplesBuilder.var( "foo" ), triplesBuilder.literal( "abc" ).withType( XSD.string ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn( ?foo, \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ex:customFn( ?foo, \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
 		} );
 
 		it( "should create function using two natives", () => {
 			const expression = builder.custom( "ex:customFn", "ex:resource", "abc" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn( ex:resource, \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ex:customFn( ex:resource, \"abc\" )" );
 		} );
 
 	} );
@@ -1978,32 +1978,32 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create empty function with native IRI string", () => {
 			const expression = builder.customDistinct( "https://example.com/ns#customFn" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
 		} );
 
 		it( "should create empty function with native Prefixed string", () => {
 			const expression = builder.customDistinct( "ex:customFn" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
 		} );
 
 		it( "should create empty function with IRI resource", () => {
 			const expression = builder.customDistinct( triplesBuilder.resource( "https://example.com/ns#customFn" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "<https://example.com/ns#customFn>()" );
 		} );
 
 		it( "should create empty function with Prefixed resource", () => {
 			const expression = builder.customDistinct( triplesBuilder.resource( "ex:customFn" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ex:customFn()" );
 		} );
 
 		it( "should create function using two triples", () => {
 			const expression = builder.customDistinct( "ex:customFn", triplesBuilder.var( "foo" ), triplesBuilder.literal( "abc" ).withType( XSD.string ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn( DISTINCT ?foo, \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ex:customFn( DISTINCT ?foo, \"abc\"^^<http://www.w3.org/2001/XMLSchema#string> )" );
 		} );
 
 		it( "should create function using two natives", () => {
 			const expression = builder.customDistinct( "ex:customFn", "ex:resource", "abc" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "ex:customFn( DISTINCT ex:resource, \"abc\" )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "ex:customFn( DISTINCT ex:resource, \"abc\" )" );
 		} );
 
 	} );
@@ -2023,18 +2023,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.count( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COUNT( ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.count( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COUNT( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.count as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COUNT( ?foo )" );
 		} );
 
 	} );
@@ -2054,18 +2054,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.countDistinct( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.countDistinct( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.countDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -2085,13 +2085,13 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function", () => {
 			const expression = builder.countAll();
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( * )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COUNT( * )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.countAll as GenericFn)( "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( * )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COUNT( * )" );
 		} );
 
 	} );
@@ -2111,13 +2111,13 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function", () => {
 			const expression = builder.countAllDistinct();
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT * )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT * )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.countAllDistinct as GenericFn)( "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT * )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "COUNT( DISTINCT * )" );
 		} );
 
 	} );
@@ -2137,18 +2137,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.sum( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUM( ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.sum( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUM( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.sum as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUM( ?foo )" );
 		} );
 
 	} );
@@ -2168,18 +2168,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.sumDistinct( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.sumDistinct( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.sumDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SUM( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -2199,18 +2199,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.avg( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "AVG( ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.avg( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "AVG( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.avg as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "AVG( ?foo )" );
 		} );
 
 	} );
@@ -2230,18 +2230,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.avgDistinct( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.avgDistinct( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.avgDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "AVG( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -2261,18 +2261,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.min( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MIN( ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.min( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MIN( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.min as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MIN( ?foo )" );
 		} );
 
 	} );
@@ -2292,18 +2292,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.minDistinct( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.minDistinct( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.minDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MIN( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -2323,18 +2323,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.max( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MAX( ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.max( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MAX( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.max as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MAX( ?foo )" );
 		} );
 
 	} );
@@ -2354,18 +2354,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.maxDistinct( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.maxDistinct( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.maxDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "MAX( DISTINCT ?foo )" );
 		} );
 
 	} );
@@ -2385,23 +2385,23 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.groupConcat( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.groupConcat( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( ?foo )" );
 		} );
 
 		it( "should create function with expression and separator", () => {
 			const expression = builder.groupConcat( triplesBuilder.var( "foo" ), ", " );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( ?foo; SEPARATOR=", " )` );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( ?foo; SEPARATOR=", " )` );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.groupConcat as GenericFn)( triplesBuilder.var( "foo" ), ", ", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( ?foo; SEPARATOR=", " )` );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( ?foo; SEPARATOR=", " )` );
 		} );
 
 	} );
@@ -2421,23 +2421,23 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.groupConcatDistinct( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( DISTINCT ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( DISTINCT ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.groupConcatDistinct( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "GROUP_CONCAT( DISTINCT ?foo )" );
 		} );
 
 		it( "should create function with expression and separator", () => {
 			const expression = builder.groupConcatDistinct( triplesBuilder.var( "foo" ), ", " );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( DISTINCT ?foo; SEPARATOR=", " )` );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( DISTINCT ?foo; SEPARATOR=", " )` );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.groupConcatDistinct as GenericFn)( triplesBuilder.var( "foo" ), ", ", "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( DISTINCT ?foo; SEPARATOR=", " )` );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( `GROUP_CONCAT( DISTINCT ?foo; SEPARATOR=", " )` );
 		} );
 
 	} );
@@ -2457,18 +2457,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.sample( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SAMPLE( ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.sample( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SAMPLE( ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.sample as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SAMPLE( ?foo )" );
 		} );
 
 	} );
@@ -2488,18 +2488,18 @@ describe( "FunctionExpressionsBuilder", () => {
 
 		it( "should create function with native", () => {
 			const expression = builder.sampleDistinct( "ex:resource" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ex:resource )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ex:resource )" );
 		} );
 
 		it( "should create function with expression", () => {
 			const expression = builder.sampleDistinct( triplesBuilder.var( "foo" ) );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ?foo )" );
 		} );
 
 
 		it( "should not add extra parameters", () => {
 			const expression = (builder.sampleDistinct as GenericFn)( triplesBuilder.var( "foo" ), "extra" );
-			expect( expression.getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ?foo )" );
+			expect( expression._getExpression().toString( 0 ) ).toEqual( "SAMPLE( DISTINCT ?foo )" );
 		} );
 
 	} );

@@ -147,7 +147,7 @@ describe( "RDFLiteral", () => {
 				plus: jasmine.any( Function ),
 				minus: jasmine.any( Function ),
 				as: jasmine.any( Function ),
-				getExpression: jasmine.any( Function ),
+				_getExpression: jasmine.any( Function ),
 			} );
 		} );
 
@@ -254,7 +254,7 @@ describe( "RDFLiteral", () => {
 				plus: jasmine.any( Function ),
 				minus: jasmine.any( Function ),
 				as: jasmine.any( Function ),
-				getExpression: jasmine.any( Function ),
+				_getExpression: jasmine.any( Function ),
 			} );
 		} );
 
@@ -383,7 +383,7 @@ describe( "RDFLiteral", () => {
 				plus: jasmine.any( Function ),
 				minus: jasmine.any( Function ),
 				as: jasmine.any( Function ),
-				getExpression: jasmine.any( Function ),
+				_getExpression: jasmine.any( Function ),
 			} );
 		} );
 

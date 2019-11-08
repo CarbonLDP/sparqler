@@ -13,8 +13,8 @@ export type SupportedTypes = Expression | SupportedNativeTypes | ExpressionToken
 
 
 export const _expressionTransformerFn = ( container:Container<any> ) =>
-	_getBaseTransformer<"getExpression", Expression>
-	( "getExpression" )
+	_getBaseTransformer<"_getExpression", Expression>
+	( "_getExpression" )
 	( ( value:SupportedNativeTypes ) =>
 		typeof value === "string" && isAbsolute( value )
 			? container.iriResolver.resolve( value )
