@@ -214,7 +214,7 @@ function getGraphFn( container:Container<undefined> ):NotTriplePatternsBuilder[ 
 		const token:GraphToken = new GraphToken( varOrIRI );
 
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
-		token.addPattern( ...patterns.map( x => x.getPattern() ) );
+		token.addPattern( ...patterns.map( x => x._getPattern() ) );
 
 		return _getPattern( container, token );
 	}
@@ -225,7 +225,7 @@ function getGroupFn( container:Container<undefined> ):NotTriplePatternsBuilder[ 
 		const token:GroupPatternToken = new GroupPatternToken();
 
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
-		token.patterns.push( ...patterns.map( x => x.getPattern() ) );
+		token.patterns.push( ...patterns.map( x => x._getPattern() ) );
 
 		const patternContainer = _getPatternContainer( container, token );
 		return GroupPattern.createFrom( patternContainer, {} );
@@ -249,7 +249,7 @@ function getOptionalFn( container:Container<undefined> ):NotTriplePatternsBuilde
 		const token:OptionalToken = new OptionalToken();
 
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
-		token.addPattern( ...patterns.map( x => x.getPattern() ) );
+		token.addPattern( ...patterns.map( x => x._getPattern() ) );
 
 		return _getPattern( container, token );
 	}
@@ -261,7 +261,7 @@ function getMinusFn( container:Container<undefined> ):NotTriplePatternsBuilder[ 
 
 		const token:MinusPatternToken = new MinusPatternToken();
 		token.groupPattern.patterns
-			.push( ...patterns.map( x => x.getPattern() ) );
+			.push( ...patterns.map( x => x._getPattern() ) );
 
 		return _getPattern( container, token );
 	}
@@ -277,7 +277,7 @@ function getServiceFn( container:Container<undefined>, modifier?:"SILENT" ):NotT
 
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
 		token.groupPattern.patterns
-			.push( ...patterns.map( x => x.getPattern() ) );
+			.push( ...patterns.map( x => x._getPattern() ) );
 
 		return _getPattern( container, token );
 	}

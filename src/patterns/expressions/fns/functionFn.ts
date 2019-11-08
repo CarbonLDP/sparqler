@@ -110,7 +110,7 @@ export function getPatternFunctionFn(
 		const patterns = Array.isArray( firstPattern ) ? firstPattern
 			: !firstPattern ? [] : [ firstPattern, ...restPatterns ];
 
-		const patternTokens = patterns.map( _ => _.getPattern() );
+		const patternTokens = patterns.map( _ => _._getPattern() );
 
 		const groupPatternToken = new GroupPatternToken()
 			.addPattern( ...patternTokens );

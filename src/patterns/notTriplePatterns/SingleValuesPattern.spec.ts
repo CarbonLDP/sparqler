@@ -76,7 +76,7 @@ describe( "SingleValuesPattern", () => {
 				has: jasmine.any( Function ),
 
 				// Inherit
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} );
 		} );
 
@@ -101,7 +101,7 @@ describe( "SingleValuesPattern", () => {
 			expect( returned ).toEqual( {
 				and: jasmine.any( Function ),
 
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} )
 		} );
 
@@ -235,7 +235,7 @@ describe( "SingleValuesPatternMore", () => {
 				and: jasmine.any( Function ),
 
 				// Inherit
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} );
 		} );
 
@@ -260,7 +260,7 @@ describe( "SingleValuesPatternMore", () => {
 			expect( returned ).toEqual( {
 				and: jasmine.any( Function ),
 
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} )
 		} );
 

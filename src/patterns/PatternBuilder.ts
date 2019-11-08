@@ -83,7 +83,7 @@ export const PatternBuilder:{
 			minus: ( expressionOrPatterns:Expression | SupportedNativeTypes | Pattern | Pattern[] ) => {
 				if( typeof expressionOrPatterns === "object" && (
 					Array.isArray( expressionOrPatterns ) ||
-					"getPattern" in expressionOrPatterns
+					"_getPattern" in expressionOrPatterns
 				) ) return _patternSuper.minus( expressionOrPatterns );
 
 				return _expressionSuper.minus( expressionOrPatterns );

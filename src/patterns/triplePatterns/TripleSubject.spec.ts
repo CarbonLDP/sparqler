@@ -107,7 +107,7 @@ describe( "TripleSubject", () => {
 
 			expect( returned ).toEqual( {
 				// TriplePattern
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 
 				// PropertyBuilderMore
 				and: jasmine.any( Function ),

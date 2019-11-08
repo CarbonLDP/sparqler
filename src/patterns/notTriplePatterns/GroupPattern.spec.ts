@@ -58,7 +58,7 @@ describe( "GroupPattern", () => {
 				union: jasmine.any( Function ),
 
 				// Inherit
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} );
 		} );
 
@@ -83,7 +83,7 @@ describe( "GroupPattern", () => {
 			expect( returned ).toEqual( {
 				and: jasmine.any( Function ),
 
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} )
 		} );
 

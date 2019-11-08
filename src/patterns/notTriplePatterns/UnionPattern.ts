@@ -26,7 +26,7 @@ function getAndFn( container:Container<UnionPatternToken> ):UnionPattern[ "and" 
 	return patterns => {
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
 		const newGroupToken:GroupPatternToken = new GroupPatternToken();
-		newGroupToken.patterns.push( ...patterns.map( x => x.getPattern() ) );
+		newGroupToken.patterns.push( ...patterns.map( x => x._getPattern() ) );
 
 		const groupPatterns = container.targetToken.groupPatterns.concat( newGroupToken );
 		const targetToken:UnionPatternToken = cloneElement( container.targetToken, { groupPatterns } );

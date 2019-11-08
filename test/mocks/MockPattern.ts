@@ -7,7 +7,7 @@ export class MockPattern implements Pattern<MockPatternToken> {
 
 	constructor( private label:string ) {}
 
-	getPattern():MockPatternToken {
+	_getPattern():MockPatternToken {
 		return new MockPatternToken( this.label );
 	}
 

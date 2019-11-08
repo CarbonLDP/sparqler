@@ -40,7 +40,7 @@ function getWhereFn( container:Container<SubSelectToken> ):WherePattern[ "where"
 	return ( patterns:Pattern | Pattern[] ) => {
 		const where:WhereToken = new WhereToken();
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
-		where.groupPattern.patterns.push( ...patterns.map( x => x.getPattern() ) );
+		where.groupPattern.patterns.push( ...patterns.map( x => x._getPattern() ) );
 
 		const targetToken:SubSelectToken = cloneElement( container.targetToken, { where } );
 		const newContainer = cloneElement( container, { targetToken } );

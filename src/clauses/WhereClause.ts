@@ -56,7 +56,7 @@ function getWhereFn<C extends Container<QueryToken<QueryClauseToken>>, T extends
 
 		const patternsBuilder = patternFunction.call( undefined, newContainer.getBuilder() );
 		const patterns:Pattern[] = Array.isArray( patternsBuilder ) ? patternsBuilder : [ patternsBuilder ];
-		queryClause.addPattern( ...patterns.map( _ => _.getPattern() ) );
+		queryClause.addPattern( ...patterns.map( _ => _._getPattern() ) );
 
 		const groupClause:GroupClause<T> = GroupClause.createFrom( genericFactory, newContainer, {} );
 		return genericFactory( newContainer, groupClause );
