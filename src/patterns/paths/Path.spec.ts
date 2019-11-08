@@ -45,7 +45,7 @@ describe( "Path", () => {
 				.createFrom( container, {} );
 
 			expect( finishPattern ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 			} );
 		} );
 
@@ -60,7 +60,7 @@ describe( "Path", () => {
 		} );
 
 		it( "should return targetToken", () => {
-			const token:IRIToken = path.getPath();
+			const token:IRIToken = path._getPath();
 			expect( token ).toBe( container.targetToken );
 		} );
 

@@ -7,7 +7,7 @@ import { PathToken } from "../../tokens/PathToken";
  * Object that contains a property path.
  */
 export interface Path<T extends PathToken = PathToken> {
-	getPath():T;
+	_getPath():T;
 }
 
 
@@ -31,7 +31,7 @@ export const Path:{
 } = {
 	createFrom<T extends PathToken, O extends object>( container:Container<T>, object:O ):O & Path<T> {
 		return Object.assign( object, {
-			getPath: () => container.targetToken,
+			_getPath: () => container.targetToken,
 		} );
 	}
 };

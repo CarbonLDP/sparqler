@@ -95,7 +95,7 @@ describe( "PathsBuilder", () => {
 		it( "should return Path from Resource", () => {
 			const path = builder.path( createResource( "resource/" ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -111,7 +111,7 @@ describe( "PathsBuilder", () => {
 		it( "should return Path from property string", () => {
 			const path = builder.path( "resource/" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -127,7 +127,7 @@ describe( "PathsBuilder", () => {
 		it( "should return Path from keyword a", () => {
 			const path = builder.path( "a" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),

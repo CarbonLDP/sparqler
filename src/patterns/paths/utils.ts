@@ -32,5 +32,5 @@ export function getPropertyToken<T extends PathToken>( container:Container<any>,
 	if( "getSubject" in property )
 		return property.getSubject();
 
-	return property.getPath();
+	return property._getPath();
 }
