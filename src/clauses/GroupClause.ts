@@ -77,8 +77,8 @@ function getGroupByFn<C extends Container<QueryToken<QueryClauseToken> | SubSele
 		const transformer = _constraintTransformer( newContainer );
 
 		restConditions.forEach( condition => {
-			const conditionToken = _is<Projectable>( condition, "getProjection" )
-				? condition.getProjection()
+			const conditionToken = _is<Projectable>( condition, "_getProjection" )
+				? condition._getProjection()
 				: transformer( condition );
 
 			targetToken.conditions.push( conditionToken );

@@ -78,8 +78,8 @@ function getOrderByFn<C extends Container<QueryToken<QueryClauseToken> | SubSele
 
 		const baseTransformer = _constraintTransformer( newContainer );
 		const transformer = ( condition:SupportedTypes ) => {
-			if( _is<Projectable>( condition, "getProjection" ) ) {
-				const projection = condition.getProjection();
+			if( _is<Projectable>( condition, "_getProjection" ) ) {
+				const projection = condition._getProjection();
 				if( projection.token === "variable" ) return projection;
 			}
 

@@ -179,12 +179,12 @@ describe( "Expression", () => {
 
 		it( "should create assigment with string variable", () => {
 			const token = expression.as( "bar" );
-			expect( token.getProjection().toString() ).toBe( `(?foo AS ?bar)` );
+			expect( token._getProjection().toString() ).toBe( `(?foo AS ?bar)` );
 		} );
 
 		it( "should create assigment with object variable", () => {
 			const token = expression.as( triplesBuilder.var( "bar" ) );
-			expect( token.getProjection().toString() ).toBe( `(?foo AS ?bar)` );
+			expect( token._getProjection().toString() ).toBe( `(?foo AS ?bar)` );
 		} );
 
 	} );

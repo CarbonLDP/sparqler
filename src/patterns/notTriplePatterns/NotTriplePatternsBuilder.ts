@@ -304,8 +304,8 @@ function getBindFn( container:Container<undefined> ):NotTriplePatternsBuilder[ "
 				? new VariableToken( variable )
 				: variable.getSubject();
 
-		const assigment = _is<Projectable>( expressionOrAssigment, "getProjection" )
-			? expressionOrAssigment.getProjection()
+		const assigment = _is<Projectable>( expressionOrAssigment, "_getProjection" )
+			? expressionOrAssigment._getProjection()
 			: new AssigmentToken( transformer( expressionOrAssigment ), variableToken! );
 
 		const targetToken = new BindToken( assigment );
