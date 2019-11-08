@@ -29,8 +29,8 @@ export function getPropertyToken<T extends PathToken>( container:Container<any>,
 	if( "token" in property )
 		return property as T;
 
-	if( "getSubject" in property )
-		return property.getSubject();
+	if( "_getSubject" in property )
+		return property._getSubject();
 
 	return property._getPath();
 }

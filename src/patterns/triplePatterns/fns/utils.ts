@@ -10,8 +10,8 @@ import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 import { TripleSubject } from "../TripleSubject";
 
 
-export const _subjectTransformerFn = ( container:Container<any> ) => _getBaseTransformer<"getSubject", TripleSubject<ObjectToken>>
-	( "getSubject" )
+export const _subjectTransformerFn = ( container:Container<any> ) => _getBaseTransformer<"_getSubject", TripleSubject<ObjectToken>>
+	( "_getSubject" )
 	( ( value:SupportedNativeTypes ) =>
 		typeof value === "string" && isAbsolute( value )
 			? isBNodeLabel( value )

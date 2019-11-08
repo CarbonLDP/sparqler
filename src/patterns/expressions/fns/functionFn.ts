@@ -170,7 +170,7 @@ export function getCustomFunctionFn(
 	return ( resource:Resource | string, ...expressions:SupportedTypes[] ) => {
 		const iri = typeof resource === "string"
 			? container.iriResolver.resolve( resource )
-			: resource.getSubject();
+			: resource._getSubject();
 
 		return getBaseFunctionFn( factory, container, iri, undefined, distinct )( ...expressions );
 	}
