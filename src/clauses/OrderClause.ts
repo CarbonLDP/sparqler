@@ -83,8 +83,8 @@ function getOrderByFn<C extends Container<QueryToken<QueryClauseToken> | SubSele
 				if( projection.token === "variable" ) return projection;
 			}
 
-			return _is<OrderCondition>( condition, "getOrderCondition" )
-				? condition.getOrderCondition()
+			return _is<OrderCondition>( condition, "_getOrderCondition" )
+				? condition._getOrderCondition()
 				: baseTransformer( condition );
 		};
 
