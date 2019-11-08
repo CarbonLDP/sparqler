@@ -1,5 +1,10 @@
+import { MockPattern } from "../../test/mocks/MockPattern";
+import { MockPatternToken } from "../../test/mocks/MockPatternToken";
+import { spyContainers } from "../../test/spies/clones";
 import { Container } from "../core/containers/Container";
 import { IRIResolver } from "../core/iri/IRIResolver";
+import { MinusPatternToken } from "../tokens/MinusPatternToken";
+import { NotTriplePattern } from "./notTriplePatterns/NotTriplePattern";
 
 import { PatternBuilder } from "./PatternBuilder";
 
@@ -176,6 +181,113 @@ describe( "PatternBuilder", ():void => {
 				asc: jasmine.any( Function ),
 				desc: jasmine.any( Function ),
 			} );
+		} );
+
+	} );
+
+
+	describe( "PatternBuilder.minus", () => {
+
+		describe( "When NotTriplePatternsBuilder", () => {
+
+
+			let builder:PatternBuilder;
+			beforeEach( () => {
+				builder = PatternBuilder
+					.createFrom( container, {} );
+
+				spyContainers.install();
+			} );
+
+			afterEach( () => {
+				spyContainers.uninstall();
+			} );
+
+			it( "should exists", () => {
+				expect( builder.minus ).toBeDefined();
+				expect( builder.minus ).toEqual( jasmine.any( Function ) );
+			} );
+
+			it( "should return not triple pattern", () => {
+				const spy:jasmine.Spy = spyOn( NotTriplePattern, "createFrom" )
+					.and.callThrough();
+
+				const returned = builder.minus( [] );
+				expect( returned ).toBe( spy.calls.mostRecent().returnValue );
+			} );
+
+
+			it( "should create pattern with OptionalToken", () => {
+				builder.minus( [] );
+
+				type TheContainer = Container<MinusPatternToken>;
+				const newContainer:TheContainer = spyContainers.getLast();
+
+				expect( newContainer ).toEqual( jasmine.objectContaining<TheContainer>( {
+					targetToken: new MinusPatternToken(),
+				} ) )
+			} );
+
+
+			it( "should add the pattern to the token", () => {
+				builder.minus( new MockPattern( "minus pattern" ) );
+
+				type TheContainer = Container<MinusPatternToken>;
+				const newContainer:TheContainer = spyContainers.getLast();
+
+				expect( newContainer.targetToken.groupPattern.patterns )
+					.toContain( new MockPatternToken( "minus pattern" ) );
+			} );
+
+			it( "should add the patterns to the token", () => {
+				builder.minus( [
+					new MockPattern( "minus pattern 1" ),
+					new MockPattern( "minus pattern 2" ),
+					new MockPattern( "minus pattern 3" ),
+				] );
+
+				type TheContainer = Container<MinusPatternToken>;
+				const newContainer:TheContainer = spyContainers.getLast();
+
+				expect( newContainer.targetToken.groupPattern.patterns )
+					.toContain( new MockPatternToken( "minus pattern 1" ) );
+				expect( newContainer.targetToken.groupPattern.patterns )
+					.toContain( new MockPatternToken( "minus pattern 2" ) );
+				expect( newContainer.targetToken.groupPattern.patterns )
+					.toContain( new MockPatternToken( "minus pattern 2" ) );
+			} );
+
+		} );
+
+		describe( "When OperationExpressionsBuilder", () => {
+
+			let builder:PatternBuilder;
+			beforeEach( () => {
+				builder = PatternBuilder
+					.createFrom( container, {} );
+			} );
+
+			it( "should exists", () => {
+				expect( builder.minus ).toBeDefined();
+				expect( builder.minus ).toEqual( jasmine.any( Function ) );
+			} );
+
+
+			it( "should create operation using single expression", () => {
+				const expression = builder.minus( builder.var( "foo" ) );
+				expect( expression.getExpression().toString( 0 ) ).toEqual( "- ?foo" );
+			} );
+
+			it( "should create operation using single native", () => {
+				const expression = builder.minus( "foo" );
+				expect( expression.getExpression().toString( 0 ) ).toEqual( "- \"foo\"" );
+			} );
+
+			it( "should create operation wrapping non supported single operation", () => {
+				const expression = builder.minus( builder.plus( builder.var( "foo" ) ) );
+				expect( expression.getExpression().toString( 0 ) ).toEqual( "- ( + ?foo )" );
+			} );
+
 		} );
 
 	} );
