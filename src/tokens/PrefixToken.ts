@@ -18,6 +18,6 @@ export class PrefixToken implements TokenNode {
 	}
 
 	toString( spaces?:number ):string {
-		return `PREFIX ${ this.namespace }: ${ this.iri }`;
+		return `PREFIX ${ this.namespace }:${ this.iri }`;
 	}
 }

@@ -127,7 +127,7 @@ describe( "QueryToken", ():void => {
 
 			expect( token.toString() ).toBe( "" +
 				"BASE <https://example.com/>\n" +
-				"PREFIX ex: <https://example.com/ns#> " +
+				"PREFIX ex:<https://example.com/ns#> " +
 				"CONSTRUCT {} " +
 				"{}" +
 				"",
@@ -143,7 +143,7 @@ describe( "QueryToken", ():void => {
 
 			expect( token.toString( 0 ) ).toBe( "" +
 				"BASE <https://example.com/>\n" +
-				"PREFIX ex: <https://example.com/ns#>\n" +
+				"PREFIX ex:<https://example.com/ns#>\n" +
 				"CONSTRUCT {}\n" +
 				"WHERE {}" +
 				"",

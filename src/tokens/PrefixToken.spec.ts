@@ -43,9 +43,14 @@ describe( "PrefixToken", ():void => {
 			expect( PrefixToken.prototype.toString ).toEqual( jasmine.any( Function ) );
 		} );
 
-		it( "should return the SPARQL prefix statement", ():void => {
+		it( "should return the compact SPARQL prefix statement", ():void => {
 			const token:PrefixToken = new PrefixToken( "ex", new IRIRefToken( "http://example.com/ns#" ) );
-			expect( token.toString() ).toBe( "PREFIX ex: <http://example.com/ns#>" );
+			expect( token.toString() ).toBe( "PREFIX ex:<http://example.com/ns#>" );
+		} );
+
+		it( "should return the pretty SPARQL prefix statement", ():void => {
+			const token:PrefixToken = new PrefixToken( "ex", new IRIRefToken( "http://example.com/ns#" ) );
+			expect( token.toString( 0 ) ).toBe( "PREFIX ex:<http://example.com/ns#>" );
 		} );
 
 	} );
