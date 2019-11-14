@@ -55,9 +55,9 @@ ORDER BY DESC (?bar)
 ```
 
 Every method generates a different object with the corresponding methods available in that step.
-This means that if you store a query reference and modify it afterwards,
-printing the reference will not have the modification; but this also means
-you can generate different queries using a share base without mutating it:
+This means that, if you store a query reference and modify it afterwards,
+printing the reference will not have the modification. However, this also means that
+ you can generate different queries using a shared base without mutating it:
 
 
 ```javascript
