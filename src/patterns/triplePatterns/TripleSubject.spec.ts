@@ -57,7 +57,7 @@ describe( "TripleSubject", () => {
 				.createFrom( container, {} );
 
 			expect( triplePattern ).toEqual( {
-				getSubject: jasmine.any( Function ),
+				_getSubject: jasmine.any( Function ),
 
 				// Inherit
 				has: jasmine.any( Function ),
@@ -73,8 +73,8 @@ describe( "TripleSubject", () => {
 			const triplePattern:TripleSubject<any> = TripleSubject
 				.createFrom( container, {} );
 
-			expect( triplePattern.getSubject ).toBeDefined();
-			expect( triplePattern.getSubject ).toEqual( jasmine.any( Function ) );
+			expect( triplePattern._getSubject ).toBeDefined();
+			expect( triplePattern._getSubject ).toEqual( jasmine.any( Function ) );
 		} );
 
 
@@ -82,7 +82,7 @@ describe( "TripleSubject", () => {
 			const triplePattern:TripleSubject<any> = TripleSubject
 				.createFrom( container, {} );
 
-			const returned = triplePattern.getSubject();
+			const returned = triplePattern._getSubject();
 			expect( returned ).toBe( container.targetToken );
 		} );
 
@@ -107,7 +107,7 @@ describe( "TripleSubject", () => {
 
 			expect( returned ).toEqual( {
 				// TriplePattern
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 
 				// PropertyBuilderMore
 				and: jasmine.any( Function ),

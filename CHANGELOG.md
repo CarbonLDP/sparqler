@@ -20,6 +20,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [#52](https://github.com/CarbonLDP/sparqler/issues/52) - Merging the FILTER keyword with the label of a function expression
 - [#53](https://github.com/CarbonLDP/sparqler/issues/53) - `PatternBuilder.minus()` method not returning a Pattern when Patterns are provided
 
+### Breaking Changes
+
+- [#47](https://github.com/CarbonLDP/sparqler/issues/47) - Add an `_` at the beginning of internal methods.<br>
+  Affected methods are:<br>
+  - `Pattern.getPattern()` => `Pattern._getPattern()`
+  - `TrippleSubject.getSubject()` => `TrippleSubject._getSubject()`
+  - `Path.getPath()` => `Path._getPath()`
+  - `OrderCondition.getOrderCondition()` => `OrderCondition._getOrderCondition()`
+  - `Expression.getExpression()` => `Expression._getExpression()`
+  - `Projectable.getProjection()` => `Projectable._getProjection()`
+
 ## [0.7.0] (2019-11-05)
 
 ### Added

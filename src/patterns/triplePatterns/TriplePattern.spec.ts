@@ -45,7 +45,7 @@ describe( "TriplePattern", () => {
 				.createFrom( container, {} );
 
 			expect( triplePattern ).toEqual( {
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} );
 		} );
 

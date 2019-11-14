@@ -51,7 +51,7 @@ describe( "FinishPattern", () => {
 				.createFrom( container, {} );
 
 			expect( finishPattern ).toEqual( {
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 
 				toCompactString: jasmine.any( Function ),
 				toPrettyString: jasmine.any( Function ),

@@ -76,7 +76,7 @@ describe( "MultipleValuesPattern", () => {
 				has: jasmine.any( Function ),
 
 				// Inherit
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} );
 		} );
 
@@ -101,7 +101,7 @@ describe( "MultipleValuesPattern", () => {
 			expect( returned ).toEqual( {
 				and: jasmine.any( Function ),
 
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} )
 		} );
 
@@ -256,7 +256,7 @@ describe( "MultipleValuesPatternMore", () => {
 				and: jasmine.any( Function ),
 
 				// Inherit
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} );
 		} );
 
@@ -281,7 +281,7 @@ describe( "MultipleValuesPatternMore", () => {
 			expect( returned ).toEqual( {
 				and: jasmine.any( Function ),
 
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} )
 		} );
 

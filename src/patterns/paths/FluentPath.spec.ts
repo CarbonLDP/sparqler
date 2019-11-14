@@ -71,7 +71,7 @@ describe( "FluentPath", () => {
 				onceOrMore: jasmine.any( Function ),
 
 				// Inherit
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 			} );
 		} );
 
@@ -114,7 +114,7 @@ describe( "FluentPath", () => {
 				.subPath();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -132,7 +132,7 @@ describe( "FluentPath", () => {
 				.subPath();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -150,7 +150,7 @@ describe( "FluentPath", () => {
 				.subPath();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -168,7 +168,7 @@ describe( "FluentPath", () => {
 				.subPath();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -231,7 +231,7 @@ describe( "FluentPath", () => {
 				.or( "a" );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -249,7 +249,7 @@ describe( "FluentPath", () => {
 				.or( createMockPath( new IRIRefToken( "/" ) ) );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -267,7 +267,7 @@ describe( "FluentPath", () => {
 				.or( createMockPath( new PathInverseToken( new IRIRefToken( "/" ) ) ) );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -285,7 +285,7 @@ describe( "FluentPath", () => {
 				.or( createMockPath( new PathModToken( new IRIRefToken( "/" ), "?" ) ) );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -302,7 +302,7 @@ describe( "FluentPath", () => {
 				.or( createMockPath( new PathModToken( new IRIRefToken( "/" ), "?" ) ) );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -320,7 +320,7 @@ describe( "FluentPath", () => {
 				.or( "a" );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -337,7 +337,7 @@ describe( "FluentPath", () => {
 				.or( "a" );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -354,7 +354,7 @@ describe( "FluentPath", () => {
 				.or( createMockPath( new PathAlternativeToken() ) );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -580,7 +580,7 @@ describe( "FluentPath", () => {
 				.then( "a" );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -597,7 +597,7 @@ describe( "FluentPath", () => {
 				.then( createMockPath( new IRIRefToken( "/" ) ) );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -614,7 +614,7 @@ describe( "FluentPath", () => {
 				.then( createMockPath( new PathInverseToken( new IRIRefToken( "/" ) ) ) );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -631,7 +631,7 @@ describe( "FluentPath", () => {
 				.then( createMockPath( new PathModToken( new IRIRefToken( "/" ), "?" ) ) );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -648,7 +648,7 @@ describe( "FluentPath", () => {
 				.then( createMockPath( new PathModToken( new IRIRefToken( "/" ), "?" ) ) );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -666,7 +666,7 @@ describe( "FluentPath", () => {
 				.then( "a" );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -683,7 +683,7 @@ describe( "FluentPath", () => {
 				.then( "a" );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -700,7 +700,7 @@ describe( "FluentPath", () => {
 				.then( createMockPath( new PathAlternativeToken() ) );
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -970,7 +970,7 @@ describe( "FluentPath", () => {
 				.inverse();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -988,7 +988,7 @@ describe( "FluentPath", () => {
 				.inverse();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1006,7 +1006,7 @@ describe( "FluentPath", () => {
 				.inverse();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1024,7 +1024,7 @@ describe( "FluentPath", () => {
 				.inverse();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1136,7 +1136,7 @@ describe( "FluentPath", () => {
 				.oneOrNone();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1153,7 +1153,7 @@ describe( "FluentPath", () => {
 				.oneOrNone();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1170,7 +1170,7 @@ describe( "FluentPath", () => {
 				.oneOrNone();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1264,7 +1264,7 @@ describe( "FluentPath", () => {
 				.zeroOrMore();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1281,7 +1281,7 @@ describe( "FluentPath", () => {
 				.zeroOrMore();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1298,7 +1298,7 @@ describe( "FluentPath", () => {
 				.zeroOrMore();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1392,7 +1392,7 @@ describe( "FluentPath", () => {
 				.onceOrMore();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1409,7 +1409,7 @@ describe( "FluentPath", () => {
 				.onceOrMore();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1426,7 +1426,7 @@ describe( "FluentPath", () => {
 				.onceOrMore();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),

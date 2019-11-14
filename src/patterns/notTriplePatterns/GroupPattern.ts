@@ -29,7 +29,7 @@ function getUnionFn( container:Container<GroupPatternToken> ):GroupPattern[ "uni
 	return patterns => {
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
 		const newGroupToken:GroupPatternToken = new GroupPatternToken();
-		newGroupToken.patterns.push( ...patterns.map( x => x.getPattern() ) );
+		newGroupToken.patterns.push( ...patterns.map( x => x._getPattern() ) );
 
 		const targetToken:UnionPatternToken = new UnionPatternToken();
 		targetToken.groupPatterns.push( container.targetToken, newGroupToken );

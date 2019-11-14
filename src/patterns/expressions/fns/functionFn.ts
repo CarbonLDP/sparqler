@@ -110,7 +110,7 @@ export function getPatternFunctionFn(
 		const patterns = Array.isArray( firstPattern ) ? firstPattern
 			: !firstPattern ? [] : [ firstPattern, ...restPatterns ];
 
-		const patternTokens = patterns.map( _ => _.getPattern() );
+		const patternTokens = patterns.map( _ => _._getPattern() );
 
 		const groupPatternToken = new GroupPatternToken()
 			.addPattern( ...patternTokens );
@@ -170,7 +170,7 @@ export function getCustomFunctionFn(
 	return ( resource:Resource | string, ...expressions:SupportedTypes[] ) => {
 		const iri = typeof resource === "string"
 			? container.iriResolver.resolve( resource )
-			: resource.getSubject();
+			: resource._getSubject();
 
 		return getBaseFunctionFn( factory, container, iri, undefined, distinct )( ...expressions );
 	}

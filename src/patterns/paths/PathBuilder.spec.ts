@@ -111,7 +111,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from Resource", () => {
 			const path = builder.subPath( createResource( "resource/" ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -127,7 +127,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from property string", () => {
 			const path = builder.subPath( "resource/" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -143,7 +143,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from keyword a", () => {
 			const path = builder.subPath( "a" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -159,7 +159,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with IRI", () => {
 			const path = builder.subPath( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -175,7 +175,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with mod path", () => {
 			const path = builder.subPath( createMockPath( new PathModToken( new IRIRefToken( "/" ), "?" ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -190,7 +190,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from empty", () => {
 			const path = builder.subPath();
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -258,7 +258,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from Resource", () => {
 			const path = builder.alternatives( createResource( "resource/" ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -274,7 +274,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from property string", () => {
 			const path = builder.alternatives( "resource/" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -290,7 +290,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from keyword a", () => {
 			const path = builder.alternatives( "a" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -306,7 +306,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with IRI", () => {
 			const path = builder.alternatives( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -322,7 +322,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from inverse path with IRI", () => {
 			const path = builder.alternatives( createMockPath( new PathInverseToken( new IRIRefToken( "/" ) ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -338,7 +338,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with mod path", () => {
 			const path = builder.alternatives( createMockPath( new PathModToken( new IRIRefToken( "/" ), "?" ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -353,7 +353,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with PathAlternativeToken", () => {
 			const path = builder.alternatives( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -564,7 +564,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from Resource", () => {
 			const path = builder.sequences( createResource( "resource/" ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -579,7 +579,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from property string", () => {
 			const path = builder.sequences( "resource/" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -594,7 +594,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from keyword a", () => {
 			const path = builder.sequences( "a" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -609,7 +609,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with supported path", () => {
 			const path = builder.sequences( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -624,7 +624,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with not supported path", () => {
 			const path = builder.sequences( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -836,7 +836,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from Resource", () => {
 			const path = builder.inverse( createResource( "resource/" ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -852,7 +852,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from property string", () => {
 			const path = builder.inverse( "resource/" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -868,7 +868,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from keyword a", () => {
 			const path = builder.inverse( "a" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -884,7 +884,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with supported path", () => {
 			const path = builder.inverse( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -900,7 +900,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with not supported path", () => {
 			const path = builder.inverse( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1001,7 +1001,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from Resource", () => {
 			const path = builder.negated( createResource( "resource/" ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1016,7 +1016,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from property string", () => {
 			const path = builder.negated( "resource/" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1031,7 +1031,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from keyword a", () => {
 			const path = builder.negated( "a" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1046,7 +1046,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with supported path", () => {
 			const path = builder.negated( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1061,7 +1061,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with not supported path", () => {
 			const path = builder.negated( createMockPath( new PathAlternativeToken<IRIToken>() ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1142,7 +1142,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from Resource", () => {
 			const path = builder.oneOrNone( createResource( "resource/" ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1157,7 +1157,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from property string", () => {
 			const path = builder.oneOrNone( "resource/" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1172,7 +1172,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from keyword a", () => {
 			const path = builder.oneOrNone( "a" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1187,7 +1187,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with supported path", () => {
 			const path = builder.oneOrNone( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1202,7 +1202,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with not supported path", () => {
 			const path = builder.oneOrNone( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1303,7 +1303,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from Resource", () => {
 			const path = builder.zeroOrMore( createResource( "resource/" ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1318,7 +1318,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from property string", () => {
 			const path = builder.zeroOrMore( "resource/" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1333,7 +1333,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from keyword a", () => {
 			const path = builder.zeroOrMore( "a" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1348,7 +1348,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with supported path", () => {
 			const path = builder.zeroOrMore( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1363,7 +1363,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with not supported path", () => {
 			const path = builder.zeroOrMore( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1464,7 +1464,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from Resource", () => {
 			const path = builder.onceOrMore( createResource( "resource/" ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1479,7 +1479,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from property string", () => {
 			const path = builder.onceOrMore( "resource/" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1494,7 +1494,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from keyword a", () => {
 			const path = builder.onceOrMore( "a" );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1509,7 +1509,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with supported path", () => {
 			const path = builder.onceOrMore( createMockPath( new IRIRefToken( "/" ) ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -1524,7 +1524,7 @@ describe( "PathBuilder", () => {
 		it( "should return path from path with not supported path", () => {
 			const path = builder.onceOrMore( createMockPath( new PathAlternativeToken() ) );
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),

@@ -11,8 +11,8 @@ import { SupportedNativeTypes } from "../../SupportedNativeTypes";
 import { TripleSubject } from "../../triplePatterns/TripleSubject";
 
 
-export const _valuesTransformerFn = ( container:Container<any> ) => _getBaseTransformer<"getSubject", TripleSubject<IRIToken | RDFLiteralToken | LiteralToken>>
-	( "getSubject" )
+export const _valuesTransformerFn = ( container:Container<any> ) => _getBaseTransformer<"_getSubject", TripleSubject<IRIToken | RDFLiteralToken | LiteralToken>>
+	( "_getSubject" )
 	( ( value:SupportedNativeTypes ) =>
 		value === "UNDEF"
 			? value

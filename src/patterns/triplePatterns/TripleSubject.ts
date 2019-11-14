@@ -16,7 +16,7 @@ export interface TripleSubject<T extends ObjectToken> extends PropertyBuilder<Tr
 	/**
 	 * Return the subject token of the triple.
 	 */
-	getSubject():T;
+	_getSubject():T;
 }
 
 
@@ -41,7 +41,7 @@ export const TripleSubject:{
 	createFrom<T extends ObjectToken, C extends Container<T>, C2 extends Container<TripleToken<T>>, O extends object>( container:C, object:O ):O & TripleSubject<T> {
 		const triplePatternFactory:Factory<C2, TriplePattern<T>> = TriplePattern.createFrom;
 		return PropertyBuilder.createFrom( triplePatternFactory, container, Object.assign( object, {
-			getSubject: () => container.targetToken,
+			_getSubject: () => container.targetToken,
 		} ) );
 	}
 };

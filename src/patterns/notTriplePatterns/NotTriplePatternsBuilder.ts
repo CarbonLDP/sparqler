@@ -209,12 +209,12 @@ function getGraphFn( container:Container<undefined> ):NotTriplePatternsBuilder[ 
 	return ( iriOrVariable:string | Resource | Variable, patterns:Pattern | Pattern[] ) => {
 		const varOrIRI = typeof iriOrVariable === "string" ?
 			container.iriResolver.resolve( iriOrVariable ) :
-			iriOrVariable.getSubject();
+			iriOrVariable._getSubject();
 
 		const token:GraphToken = new GraphToken( varOrIRI );
 
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
-		token.addPattern( ...patterns.map( x => x.getPattern() ) );
+		token.addPattern( ...patterns.map( x => x._getPattern() ) );
 
 		return _getPattern( container, token );
 	}
@@ -225,7 +225,7 @@ function getGroupFn( container:Container<undefined> ):NotTriplePatternsBuilder[ 
 		const token:GroupPatternToken = new GroupPatternToken();
 
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
-		token.patterns.push( ...patterns.map( x => x.getPattern() ) );
+		token.patterns.push( ...patterns.map( x => x._getPattern() ) );
 
 		const patternContainer = _getPatternContainer( container, token );
 		return GroupPattern.createFrom( patternContainer, {} );
@@ -249,7 +249,7 @@ function getOptionalFn( container:Container<undefined> ):NotTriplePatternsBuilde
 		const token:OptionalToken = new OptionalToken();
 
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
-		token.addPattern( ...patterns.map( x => x.getPattern() ) );
+		token.addPattern( ...patterns.map( x => x._getPattern() ) );
 
 		return _getPattern( container, token );
 	}
@@ -261,7 +261,7 @@ function getMinusFn( container:Container<undefined> ):NotTriplePatternsBuilder[ 
 
 		const token:MinusPatternToken = new MinusPatternToken();
 		token.groupPattern.patterns
-			.push( ...patterns.map( x => x.getPattern() ) );
+			.push( ...patterns.map( x => x._getPattern() ) );
 
 		return _getPattern( container, token );
 	}
@@ -271,13 +271,13 @@ function getServiceFn( container:Container<undefined>, modifier?:"SILENT" ):NotT
 	return ( resource:string | Resource | Variable, patterns:Pattern | Pattern[] ) => {
 		const varOrIRI = typeof resource === "string" ?
 			container.iriResolver.resolve( resource ) :
-			resource.getSubject();
+			resource._getSubject();
 
 		const token:ServicePatternToken = new ServicePatternToken( varOrIRI, modifier );
 
 		patterns = Array.isArray( patterns ) ? patterns : [ patterns ];
 		token.groupPattern.patterns
-			.push( ...patterns.map( x => x.getPattern() ) );
+			.push( ...patterns.map( x => x._getPattern() ) );
 
 		return _getPattern( container, token );
 	}
@@ -302,10 +302,10 @@ function getBindFn( container:Container<undefined> ):NotTriplePatternsBuilder[ "
 		const variableToken = variable === undefined ? variable
 			: typeof variable === "string"
 				? new VariableToken( variable )
-				: variable.getSubject();
+				: variable._getSubject();
 
-		const assigment = _is<Projectable>( expressionOrAssigment, "getProjection" )
-			? expressionOrAssigment.getProjection()
+		const assigment = _is<Projectable>( expressionOrAssigment, "_getProjection" )
+			? expressionOrAssigment._getProjection()
 			: new AssigmentToken( transformer( expressionOrAssigment ), variableToken! );
 
 		const targetToken = new BindToken( assigment );
@@ -317,7 +317,7 @@ function getBindFn( container:Container<undefined> ):NotTriplePatternsBuilder[ "
 function getValuesFn( container:Container<undefined> ):NotTriplePatternsBuilder[ "values" ] {
 	return ( ...variables:Variable[] ) => {
 		const token:ValuesToken = new ValuesToken();
-		token.variables.push( ...variables.map( x => x.getSubject() ) );
+		token.variables.push( ...variables.map( x => x._getSubject() ) );
 
 		const patternContainer = _getPatternContainer( container, token );
 

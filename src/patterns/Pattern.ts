@@ -7,7 +7,7 @@ import { PatternToken } from "../tokens/PatternToken";
  * Object that contains any type of pattern.
  */
 export interface Pattern<T extends PatternToken = PatternToken> {
-	getPattern():T;
+	_getPattern():T;
 }
 
 
@@ -31,7 +31,7 @@ export const Pattern:{
 } = {
 	createFrom<T extends PatternToken, C extends Container<T>, O extends object>( container:C, object:O ):O & Pattern<T> {
 		return Object.assign( object, {
-			getPattern: () => container.targetToken,
+			_getPattern: () => container.targetToken,
 		} );
 	},
 };

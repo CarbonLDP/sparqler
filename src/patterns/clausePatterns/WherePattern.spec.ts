@@ -99,7 +99,7 @@ describe( "WherePattern", () => {
 				toString: jasmine.any( Function ),
 				debug: jasmine.any( Function ),
 
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} );
 		} );
 

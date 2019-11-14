@@ -64,7 +64,7 @@ describe( "RDFLiteral", () => {
 				withLanguage: jasmine.any( Function ),
 
 				// Inherit
-				getSubject: jasmine.any( Function ),
+				_getSubject: jasmine.any( Function ),
 				has: jasmine.any( Function ),
 
 
@@ -147,7 +147,7 @@ describe( "RDFLiteral", () => {
 				plus: jasmine.any( Function ),
 				minus: jasmine.any( Function ),
 				as: jasmine.any( Function ),
-				getExpression: jasmine.any( Function ),
+				_getExpression: jasmine.any( Function ),
 			} );
 		} );
 
@@ -171,7 +171,7 @@ describe( "RDFLiteral", () => {
 			const returned = literal.withType( "string" );
 
 			expect( returned ).toEqual( {
-				getSubject: jasmine.any( Function ),
+				_getSubject: jasmine.any( Function ),
 				has: jasmine.any( Function ),
 
 
@@ -254,7 +254,7 @@ describe( "RDFLiteral", () => {
 				plus: jasmine.any( Function ),
 				minus: jasmine.any( Function ),
 				as: jasmine.any( Function ),
-				getExpression: jasmine.any( Function ),
+				_getExpression: jasmine.any( Function ),
 			} );
 		} );
 
@@ -301,7 +301,7 @@ describe( "RDFLiteral", () => {
 			const returned = literal.withLanguage( "string" );
 
 			expect( returned ).toEqual( {
-				getSubject: jasmine.any( Function ),
+				_getSubject: jasmine.any( Function ),
 				has: jasmine.any( Function ),
 
 				if: jasmine.any( Function ),
@@ -383,7 +383,7 @@ describe( "RDFLiteral", () => {
 				plus: jasmine.any( Function ),
 				minus: jasmine.any( Function ),
 				as: jasmine.any( Function ),
-				getExpression: jasmine.any( Function ),
+				_getExpression: jasmine.any( Function ),
 			} );
 		} );
 

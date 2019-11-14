@@ -44,7 +44,7 @@ describe( "Pattern", () => {
 				.createFrom( container, {} );
 
 			expect( triplePattern ).toEqual( {
-				getPattern: jasmine.any( Function ),
+				_getPattern: jasmine.any( Function ),
 			} );
 		} );
 
@@ -59,13 +59,13 @@ describe( "Pattern", () => {
 		} );
 
 		it( "should exists", () => {
-			expect( pattern.getPattern ).toBeDefined();
-			expect( pattern.getPattern ).toEqual( jasmine.any( Function ) );
+			expect( pattern._getPattern ).toBeDefined();
+			expect( pattern._getPattern ).toEqual( jasmine.any( Function ) );
 		} );
 
 
 		it( "should return the targetToken", () => {
-			const returned = pattern.getPattern();
+			const returned = pattern._getPattern();
 			expect( returned ).toBe( container.targetToken );
 		} );
 

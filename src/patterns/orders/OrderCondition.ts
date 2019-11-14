@@ -8,7 +8,7 @@ import { ExplicitOrderConditionToken } from "../../tokens/ExplicitOrderCondition
  * in {@link OrderClause#orderBy}.
  */
 export interface OrderCondition {
-	getOrderCondition():ExplicitOrderConditionToken;
+	_getOrderCondition():ExplicitOrderConditionToken;
 }
 
 
@@ -32,7 +32,7 @@ export const OrderCondition:{
 } = {
 	createFrom<C extends Container<ExplicitOrderConditionToken>, O extends object>( container:C, object:O ):O & OrderCondition {
 		return Object.assign( object, {
-			getOrderCondition: () => container.targetToken,
+			_getOrderCondition: () => container.targetToken,
 		} );
 	},
 };

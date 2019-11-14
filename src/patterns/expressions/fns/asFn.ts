@@ -16,8 +16,8 @@ export function getAsFn(
 	return ( variable:string | Variable | VariableToken ) => {
 		if( typeof variable === "string" )
 			variable = new VariableToken( variable );
-		else if( "getSubject" in variable ) {
-			variable = variable.getSubject();
+		else if( "_getSubject" in variable ) {
+			variable = variable._getSubject();
 		}
 
 		const targetToken = new AssigmentToken( container.targetToken, variable );

@@ -7,7 +7,7 @@ import { ProjectableToken } from "../../tokens/ProjectableToken";
  * Object that returns any kind of projectable data for a select query.
  */
 export interface Projectable<T extends ProjectableToken = ProjectableToken> {
-	getProjection():T;
+	_getProjection():T;
 }
 
 
@@ -31,7 +31,7 @@ export const Projectable:{
 } = {
 	createFrom<T extends ProjectableToken, O extends object>( container:Container<T>, object:O ):O & Projectable<T> {
 		return Object.assign( object, {
-			getProjection: () => container.targetToken,
+			_getProjection: () => container.targetToken,
 		} );
 	}
 };

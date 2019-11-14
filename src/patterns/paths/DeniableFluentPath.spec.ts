@@ -66,7 +66,7 @@ describe( "DeniableFluentPath", () => {
 				zeroOrMore: jasmine.any( Function ),
 				onceOrMore: jasmine.any( Function ),
 
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 			} );
 		} );
 
@@ -93,7 +93,7 @@ describe( "DeniableFluentPath", () => {
 				.negated();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -110,7 +110,7 @@ describe( "DeniableFluentPath", () => {
 				.negated();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -127,7 +127,7 @@ describe( "DeniableFluentPath", () => {
 				.negated();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
@@ -144,7 +144,7 @@ describe( "DeniableFluentPath", () => {
 				.negated();
 
 			expect( path ).toEqual( {
-				getPath: jasmine.any( Function ),
+				_getPath: jasmine.any( Function ),
 
 				subPath: jasmine.any( Function ),
 				or: jasmine.any( Function ),
