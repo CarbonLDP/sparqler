@@ -16,7 +16,7 @@ With [npm](https://npmjs.org/) installed, run
 npm install sparqler
 ```
 
-## Example
+## Usage examples
 
 ```javascript
 import { SPARQLER } from "sparqler";
@@ -95,7 +95,7 @@ WHERE { <> ex:foo ?bar }
 ORDER BY DESC (?bar) # The added order
 ```
 
-## API
+## API Documentation
 
 See https://carbonldp.github.io/sparqler/ for the API documentation.
 
