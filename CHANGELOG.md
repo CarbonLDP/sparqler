@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Breaking Changes
 
-- [#57](https://github.com/CarbonLDP/sparqler/issues/57) - Add an `_` at the beginning of internal methods.<br>
+- [#47](https://github.com/CarbonLDP/sparqler/issues/47) - Add an `_` at the beginning of internal methods.<br>
   Affected methods are:<br>
   - `Pattern.getPattern()` => `Pattern._getPattern()`
   - `TrippleSubject.getSubject()` => `TrippleSubject._getSubject()`
