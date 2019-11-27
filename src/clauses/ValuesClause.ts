@@ -18,6 +18,9 @@ import { VariableToken } from "../tokens/VariableToken";
 import { FinishClause } from "./FinishClause";
 
 
+/**
+ * Interface with the methods to add a VALUES statement.
+ */
 export interface ValuesClause<T extends FinishClause> {
 	/**
 	 * Set the values of a variable to be combined into the results query.
