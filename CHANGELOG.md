@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- ### Breaking Changes -->
 
-## [Unreleased]
+## [0.8.0] (2019-11-26)
 
 ### Fixed
 
@@ -203,8 +203,9 @@ expression strings:
 - First release
 
 
-[Unreleased]: https://github.com/CarbonLDP/sparqler/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/CarbonLDP/sparqler/compare/v0.8.0...HEAD
 
+[0.8.0]: https://github.com/CarbonLDP/sparqler/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/CarbonLDP/sparqler/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/CarbonLDP/sparqler/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/CarbonLDP/sparqler/compare/v0.4.0...v0.5.0
