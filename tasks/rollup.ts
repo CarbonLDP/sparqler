@@ -1,10 +1,8 @@
+import replace from "@rollup/plugin-replace";
 import gulp from "gulp";
 import path from "path";
 import { rollup } from "rollup";
 import resolve from "rollup-plugin-node-resolve";
-// @ts-ignore
-import replace from "rollup-plugin-replace";
-import sourcemaps from "rollup-plugin-sourcemaps";
 
 import { CONFIG } from "./common";
 import { cleanESM5, cleanESM5UMD, generateESM5 } from "./typescript";
@@ -20,11 +18,8 @@ export async function bundleUMD() {
 				"process.env.NODE_ENV": JSON.stringify( "production" ),
 			} ),
 			resolve( {
-				browser: true,
-				module: true,
-				main: true,
+				mainFields: [ "browser", "module", "main" ],
 			} ),
-			sourcemaps(),
 		],
 	} );
 

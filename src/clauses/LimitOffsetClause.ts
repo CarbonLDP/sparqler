@@ -13,6 +13,7 @@ import { ValuesClause } from "./ValuesClause";
 
 /**
  * Interface that specify union of the LIMIT and OFFSET statements.
+ *
  * Its specified in a form one can use `limit` and `offset` in
  * this order or viceversa, but not be able to repeat the `limit`
  * or `offset` methods.

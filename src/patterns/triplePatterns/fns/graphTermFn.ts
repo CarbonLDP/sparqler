@@ -38,10 +38,8 @@ export function getLiteralFn( container:Container<undefined> ) {
 
 		const newContainer = cloneElement( container, { targetToken } );
 
-		const factory = targetToken instanceof RDFLiteralToken
-			? RDFLiteral.createFrom
-			: Literal.createFrom;
-
-		return factory( newContainer, {} ) as RDFLiteral;
+		return targetToken instanceof RDFLiteralToken
+			? RDFLiteral.createFrom( newContainer, {} )
+			: Literal.createFrom( newContainer, {} ) as RDFLiteral;
 	}
 }

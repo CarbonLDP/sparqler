@@ -139,12 +139,13 @@ export const PropertyBuilder:{
  * Constant with the utils for {@link PropertyBuilderMore} objects.
  */
 export const PropertyBuilderMore:{
+	// TODO: Fix link syntax
 	/**
 	 * Factory function that allows to crete a {@link PropertyBuilderMore}
 	 * from the {@param object} provided.
 	 *
 	 * @param genericFactory The factory of the generic expected to
-	 * be returned by the {@link PropertyBuilderMore.and} method.
+	 * be returned by the {@link PropertyBuilderMore#and `PropertyBuilderMore.and`} method.
 	 * @param container The related container with the data for the
 	 * {@link PropertyBuilderMore} statement.
 	 * @param object The base base from where to create the
